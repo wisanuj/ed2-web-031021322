@@ -1,0 +1,148 @@
+/* ed2.css — styles of the Electrical Drawing II site on top of ee.css (shared with the IE_Web and EE_Web sites) */
+
+/* screenshot still to come from the instructor: a dashed box naming the picture and its file */
+.shot{border:2px dashed var(--warn);border-radius:12px;background:color-mix(in srgb,var(--warn) 8%,var(--panel));padding:18px 16px;margin:8px 0;
+  display:flex;flex-direction:column;gap:6px;justify-content:center;min-height:150px;font-size:15px}
+.shot .sh-t{font-weight:700;color:var(--warn)}
+.shot .sh-f{font-family:"IBM Plex Mono",monospace;font-size:13.5px;color:var(--muted)}
+.shot .sh-d{color:var(--ink)}
+
+/* nameplate */
+.plate{background:linear-gradient(160deg,#dfe3e8,#b9c0c9);color:#1d232b;border-radius:10px;padding:10px 12px 12px;border:2px solid #8f98a3;
+  box-shadow:inset 0 0 0 3px rgba(255,255,255,.35),var(--shadow);font-family:"IBM Plex Mono",monospace;max-width:560px}
+.plate-h{font-weight:700;letter-spacing:.08em;font-size:15px;display:flex;justify-content:space-between;border-bottom:2px solid #6c7580;padding-bottom:4px;margin-bottom:6px}
+.plate-h span{font-weight:500;font-size:13px}
+.plate-g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+.plate .pf{font:inherit;font-size:14px;color:#1d232b;background:rgba(255,255,255,.45);border:1px solid #7d8691;border-radius:4px;padding:5px 6px;text-align:left;cursor:pointer;min-height:34px}
+.plate .pf i{font-style:normal;font-size:11.5px;color:#4b5561;margin-right:4px}
+.plate .pf:hover{background:rgba(255,255,255,.8)}
+.plate .pf.on{background:#fff6c9;border-color:#b58a00;box-shadow:0 0 0 2px #e0b300}
+@media (max-width:520px){ .plate-g{grid-template-columns:repeat(2,minmax(0,1fr))} .plate .pf{grid-column:span 1 !important} }
+
+/* photos of the lab motor: same lightbox as slide pictures (figure.slide) */
+figure.photo img{border-radius:10px}
+
+/* lab sheet: printable on its own */
+.labsheet{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-top:14px}
+.labsheet h2{margin-top:0}
+.labsheet .lhead{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px 18px;border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:8px 0 12px;font-size:15px}
+.labsheet .lhead span{border-bottom:1px dotted var(--muted);padding-bottom:2px}
+.labsheet ol li{margin:4px 0}
+.labsheet table{border-collapse:collapse;width:100%;font-size:15px;margin:8px 0}
+.labsheet th,.labsheet td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+.labsheet .box{display:inline-block;width:15px;height:15px;border:1.5px solid var(--ink);border-radius:3px;vertical-align:-2px;margin-right:6px}
+.labsheet .tbdraw{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:8px 0}
+.labsheet .tbdraw figure{margin:0;border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--panel2)}
+.labsheet .tbdraw figcaption{font-size:14px;color:var(--muted);margin-top:4px}
+.printbar{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+svg.dwg{width:100%;height:auto;display:block}
+svg.dwg text{font-family:"IBM Plex Mono","IBM Plex Sans Thai",system-ui,sans-serif}
+@media print{
+  body.print-lab .wrap > *:not(.labwrap){display:none !important}
+  body.print-lab .labwrap > *:not(.labsheet){display:none !important}
+  body.print-lab .labsheet{border:0;padding:0;background:#fff;color:#000}
+  body.print-lab{background:#fff}
+  body.print-lab .printbar{display:none}
+}
+a.btn{text-decoration:none;display:inline-block}
+.type.lab{color:var(--good)}
+.story-f figure.slide.sm{max-width:440px;justify-self:center;width:100%}
+.story-f figure.slide.md{max-width:760px;justify-self:center;width:100%}
+
+/* YouTube video shown as a thumbnail first; the player (youtube-nocookie.com) loads only when the viewer presses play */
+.yt{position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000;cursor:pointer;border:1px solid var(--line)}
+.yt img{width:100%;height:100%;object-fit:cover;display:block;opacity:.85}
+.yt .yt-play{position:absolute;inset:0;margin:auto;width:72px;height:50px;border-radius:12px;background:rgba(220,0,0,.9);display:flex;align-items:center;justify-content:center}
+.yt .yt-play::before{content:"";border-style:solid;border-width:11px 0 11px 19px;border-color:transparent transparent transparent #fff;margin-left:4px}
+.yt:hover .yt-play{background:#e00}
+.yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+figure.video{margin:0}
+figure.video figcaption{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.5}
+.yt-alt{display:inline-block;font-size:13.5px;margin-top:4px}
+
+/* results log and summary under the simulations */
+.rlog,.summ-wrap{margin-top:12px}
+.rlog-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.rlog-n{font-size:13.5px;color:var(--muted)}
+.rlog-clear{margin-left:auto}
+.rlog-wrap{overflow-x:auto}
+.rlog-t td,.summ td{font-size:14.5px;font-variant-numeric:tabular-nums}
+td.rk-ok{color:var(--good);font-weight:600} td.rk-warn{color:var(--warn);font-weight:600} td.rk-bad{color:var(--bad);font-weight:600}
+.summ{margin-top:10px;border:1px solid color-mix(in srgb,var(--good) 45%,var(--line));border-radius:12px;padding:12px 14px;background:color-mix(in srgb,var(--good) 6%,var(--panel))}
+.summ h3{margin:0 0 6px}
+.summ-p{margin-top:10px} .summ-p ol{margin:4px 0 0;padding-left:22px} .summ-p li{margin:3px 0}
+
+/* relay simulator */
+.rlwrap{overflow-x:auto}
+svg.rl{max-width:100%;touch-action:none;user-select:none}
+svg.rl text{font-family:"IBM Plex Mono",monospace}
+svg.rl .rl-cur polyline, svg.rl g.rl-cur > line, svg.rl .rl-cur line{stroke-dasharray:7 5;animation:rlflow .7s linear infinite}
+@keyframes rlflow{to{stroke-dashoffset:-12}}
+svg.rl .rl-spin{animation:rlspin 1.2s linear infinite}
+@keyframes rlspin{to{transform:rotate(360deg)}}
+.rl-msg{margin-top:6px}
+@media (prefers-reduced-motion:reduce){ svg.rl .rl-cur polyline, svg.rl .rl-cur line, svg.rl .rl-spin{animation:none} }
+
+/* chapter 2: symbol gallery and device labels */
+.symgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px}
+.symcard{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 6px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);cursor:pointer;font:inherit;font-size:13px;line-height:1.3;text-align:center}
+.symcard svg{width:88px;height:88px}
+.symcard:hover{border-color:var(--accent)} .symcard.on{border-color:var(--accent2);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent2) 40%,transparent)}
+.symhelp .symbig{display:flex;justify-content:center} .symhelp .symbig svg{width:140px;height:140px}
+.symhelp table th{width:46%;text-align:left}
+.devsvg{overflow-x:auto;margin-top:8px} .devsvg svg{min-width:300px}
+.codes td.course,.codes th.course{background:color-mix(in srgb,var(--accent) 12%,transparent);font-weight:700}
+.codes td.new,.codes th.new{background:color-mix(in srgb,var(--good) 10%,transparent)}
+
+/* chapter 3: push button, knob, contact table, drum switch */
+.pbgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;align-items:center;justify-items:center}
+.pbgrid svg{width:100%}
+.drumgrid{display:grid;grid-template-columns:minmax(200px,230px) minmax(0,1fr);gap:12px;align-items:center}
+.drumgrid .dt{grid-column:1/-1}
+@media (max-width:640px){ .drumgrid{grid-template-columns:1fr} .drumgrid .dk{max-width:230px;margin:0 auto} }
+table.tchart{width:auto;min-width:240px} table.tchart td,table.tchart th{text-align:center;padding:5px 12px}
+table.tchart td:first-child{text-align:left}
+table.tchart .now{background:color-mix(in srgb,var(--accent) 16%,transparent);font-weight:700}
+table.tchart tr.live td:first-child{color:var(--good)}
+.capsel .btn i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:-1px;border:1px solid #59607e}
+
+/* real-device photo cards (dev.js) */
+.devgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+.devcard{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.devhead{display:flex;gap:10px;align-items:center}
+.devhead h3{margin:0;font-size:17px;line-height:1.3}
+.devcode{flex:none;min-width:44px;height:44px;padding:0 6px;border-radius:10px;background:var(--accent);color:var(--panel);font-weight:800;font-size:20px;display:flex;align-items:center;justify-content:center}
+.deviec{font-size:13px;color:var(--muted)}
+.devtabs{margin:0}
+.devfig{margin:0}
+.devpic{position:relative;line-height:0}
+.devpic img{width:100%;height:auto;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:zoom-in}
+.devpic .mk{position:absolute;transform:translate(-50%,-50%);width:24px;height:24px;border-radius:50%;background:#ffd600;color:#141414;border:2px solid #141414;
+  font:700 13px/20px system-ui,sans-serif;text-align:center;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.45);transition:transform .12s}
+.devpic .mk.hl{transform:translate(-50%,-50%) scale(1.35);background:#ff7a00;color:#fff;z-index:2}
+.devfig figcaption{font-size:12px;color:var(--muted);line-height:1.4;margin-top:4px;word-break:break-word}
+.devwhat{margin:0;font-size:15px;line-height:1.55}
+.devleg{list-style:none;margin:0;padding:0;display:grid;gap:3px}
+.devleg li{display:flex;gap:8px;align-items:flex-start;font-size:14px;line-height:1.45;padding:2px 4px;border-radius:6px;cursor:pointer}
+.devleg li b{flex:none;width:21px;height:21px;border-radius:50%;background:#ffd600;color:#141414;border:1.5px solid #141414;font:700 12px/18px system-ui,sans-serif;text-align:center}
+.devleg li.hl{background:var(--accent-soft,rgba(255,170,0,.18))}
+.devleg li.hl b{background:#ff7a00;color:#fff}
+.devsym{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:flex-end;border-top:1px dashed var(--line);padding-top:8px;margin-top:auto}
+.devsym .ds{display:flex;flex-direction:column;align-items:center;width:92px;text-align:center}
+.devsym .ds i{font-style:normal;font-size:11px;line-height:1.25;color:var(--muted)}
+.devsym p{flex:1 1 100%;margin:0;font-size:14px}
+@media (max-width:420px){.devgrid{grid-template-columns:1fr}}
+.devcard [hidden]{display:none!important}
+.selgrid{display:grid;grid-template-columns:minmax(180px,230px) minmax(220px,1fr) minmax(200px,280px);gap:12px;align-items:center}
+@media (max-width:760px){.selgrid{grid-template-columns:1fr}.selgrid>div{max-width:420px;margin:0 auto;width:100%}}
+.hoagrid{display:grid;grid-template-columns:minmax(180px,230px) minmax(260px,1fr) minmax(200px,260px);gap:12px;align-items:center}
+@media (max-width:820px){.hoagrid{grid-template-columns:1fr}.hoagrid>div{max-width:520px;margin:0 auto;width:100%}}
+
+/* chapter 4 */
+.kmgrid{display:grid;grid-template-columns:minmax(280px,470px) minmax(240px,1fr);grid-template-rows:auto auto;gap:6px 14px;align-items:center}
+.kmgrid .kmsec{grid-row:1 / span 2}
+@media (max-width:760px){.kmgrid{grid-template-columns:1fr}.kmgrid .kmsec{grid-row:auto}.kmgrid>div{max-width:420px;margin:0 auto;width:100%}}
+.olgrid{display:grid;grid-template-columns:minmax(260px,1fr) minmax(260px,1fr);gap:12px;align-items:start}
+@media (max-width:820px){.olgrid{grid-template-columns:1fr}}
+.tmrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.cdown{font:700 15px/1.2 "IBM Plex Mono",monospace;color:var(--accent)}

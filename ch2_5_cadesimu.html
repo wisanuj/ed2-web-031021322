@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="2.5 — Drawing to the standard in CADe SIMU">2.5 — เขียนแบบตามมาตรฐานใน CADe SIMU</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=9"><link rel="stylesheet" href="assets/ed2.css?v=9">
+<script src="assets/stops.js?v=9"></script><script src="assets/shell.js?v=9"></script>
+<script src="assets/lesson.js?v=9"></script><script src="assets/draw.js?v=9"></script><script src="assets/ed.js?v=9"></script><script src="assets/sym.js?v=9"></script><script src="assets/iec.js?v=9"></script><script src="assets/relay.js?v=9"></script><script src="assets/ch2.js?v=9"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">เขียนแบบตามมาตรฐานใน CADe SIMU และใบงานที่ 2 <span class="en">Drawing to the standard in CADe SIMU, and lab sheet 2</span></h1>
+<h1 data-l="en">Drawing to the standard in CADe SIMU <span class="en">And lab sheet 2</span></h1>
+
+<p class="sub" data-l="th">CADe SIMU ใช้ชื่ออุปกรณ์ผูกคอยล์เข้ากับหน้าสัมผัส ถ้าตั้งชื่อผิดเพียงตัวเดียว วงจรจะจำลองผิดทันที โปรแกรมจึงช่วยฝึกการตั้งชื่อตามมาตรฐานไปในตัว หน้านี้สรุปสิ่งที่แบบตามมาตรฐานต้องมี วิธีทำแต่ละอย่างใน CADe SIMU และใบงานที่ 2 ที่ให้เขียนวงจรเริ่มเดินโดยตรงครบทุกองค์ประกอบ แล้วจำลองวงจร 2 สายกับ 3 สายเทียบกัน</p>
+<p class="sub" data-l="en">CADe SIMU links coils to contacts by device name: get one name wrong and the simulation goes wrong at once, so the program trains standard naming as a side effect. This page lists what a drawing to the standard must carry, how to do each item in CADe SIMU, and lab sheet 2, which draws a complete direct-on-line starter and then compares two-wire and three-wire control in simulation.</p>
+
+<section class="keypoints" data-l="th"><h2>รายการตรวจแบบตามมาตรฐาน (ใช้กับทุกใบงานต่อจากนี้)</h2><ul>
+  <li><b>สัญลักษณ์</b> IEC 60617 วาดในสภาวะปกติ ทางเดินกระแสแนวตั้ง L1 ด้านบน N ด้านล่าง วงจรกำลังแยกจากวงจรควบคุม</li>
+  <li><b>ชื่ออุปกรณ์</b> ตามรหัสของวิชา (Q F KM KA KT S H M X) คอยล์และหน้าสัมผัสทุกตัวของอุปกรณ์เดียวกันชื่อเดียวกัน ชื่อต่างอุปกรณ์ห้ามซ้ำ</li>
+  <li><b>เลขขั้ว</b> ทุกจุดตาม IEC 60947 (1–2…, 13–14, 21–22, 95–96, A1–A2, X1–X2)</li>
+  <li><b>เลขทางเดินกระแส</b> ใต้วงจรควบคุม และ <b>ตารางอ้างอิงหน้าสัมผัส</b> ใต้คอยล์ทุกตัว</li>
+  <li><b>กรอบชื่อแบบ</b> ครบ (ชื่อแบบ ผู้เขียน วันที่ แผ่นที่) และบันทึกไฟล์ .cad พร้อม PDF</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Drawing checklist (for every lab sheet from now on)</h2><ul>
+  <li><b>Symbols</b> to IEC 60617 in the normal state; vertical current paths, L1 at the top and N at the bottom; power and control circuits drawn apart.</li>
+  <li><b>Device names</b> with the course codes (Q F KM KA KT S H M X): all parts of one device share its name, and no two devices share a name.</li>
+  <li><b>Terminal numbers</b> everywhere, to IEC 60947 (1–2…, 13–14, 21–22, 95–96, A1–A2, X1–X2).</li>
+  <li><b>Current-path numbers</b> under the control circuit and a <b>contact cross-reference</b> under every coil.</li>
+  <li>A complete <b>title block</b> (title, drawn by, date, sheet), saved as .cad with a PDF.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#tA"><b>A</b>ทำใน CADe SIMU อย่างไร</a><a href="#tN"><b>N</b>ทดลองตั้งชื่อผิด</a><a href="#tL"><b>L</b>ใบงานที่ 2</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#tA"><b>A</b>How to in CADe SIMU</a><a href="#tN"><b>N</b>A wrong name on purpose</a><a href="#tL"><b>L</b>Lab sheet 2</a></nav>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">ทำแต่ละองค์ประกอบใน CADe SIMU อย่างไร</h2><h2 data-l="en">How to do each item in CADe SIMU</h2>
+    <div class="src" data-l="th">คู่มือ CADe SIMU · ภาพหน้าจอจะเพิ่มเมื่อได้จากครู</div><div class="src" data-l="en">CADe SIMU manual · screenshots will be added when the instructor sends them</div></div></div>
+  <div class="duo">
+    <div class="card solve" style="overflow-x:auto"><table class="tbl" id="howto"></table></div>
+    <div class="card solve">
+      <div class="shot"><span class="sh-t" data-l="th">รอภาพหน้าจอจากครู</span><span class="sh-t" data-l="en">Screenshot to come</span><span class="sh-d" data-l="th">หน้าต่างคุณสมบัติที่ขึ้นเมื่อดับเบิลคลิกอุปกรณ์ (ช่องชื่อและเลขขั้ว)</span><span class="sh-d" data-l="en">The properties window that opens on double-clicking a device (name and terminal fields)</span><span class="sh-f">img/cadesimu/c2_properties.png</span></div>
+      <div class="shot"><span class="sh-t" data-l="th">รอภาพหน้าจอจากครู</span><span class="sh-t" data-l="en">Screenshot to come</span><span class="sh-d" data-l="th">ผลการลองแก้เลขขั้วหน้าสัมผัสปกติปิดเป็น 21–22</span><span class="sh-d" data-l="en">The result of renumbering a normally closed contact to 21–22</span><span class="sh-f">img/cadesimu/c2_contact_numbers.png</span></div>
+    </div></div>
+</section>
+
+<section class="prob" id="tN">
+  <div class="prob-head"><span class="prob-no">N</span><div><h2 data-l="th">ทดลองตั้งชื่อผิด: หน้าสัมผัสค้างชื่อ KM2</h2><h2 data-l="en">A wrong name on purpose: the holding contact named KM2</h2>
+    <div class="src" data-l="th">จำลองสิ่งที่จะเกิดใน CADe SIMU (ใบงานที่ 2 ข้อ 3.2)</div><div class="src" data-l="en">What happens in CADe SIMU (lab sheet 2, step 3.2)</div></div></div>
+  <p class="lead" data-l="th">วงจรนี้เหมือนวงจรในหน้า 2.3 ทุกอย่าง ต่างกันที่หน้าสัมผัสค้างตัวเองถูกตั้งชื่อว่า <b>KM2</b> แทน KM1 กด S2 แล้วปล่อย: มอเตอร์หมุนเฉพาะตอนกด เพราะไม่มีคอยล์ KM2 หน้าสัมผัสนี้จึงไม่เคยต่อ ดูตารางอ้างอิงใต้คอยล์ KM1 ด้วย: หน้าสัมผัส 13–14 หายไปจากรายการ นี่คือวิธีตรวจชื่อผิดจากแบบโดยไม่ต้องจำลอง</p>
+  <p class="lead" data-l="en">This circuit is the one of page 2.3 except that the holding contact is named <b>KM2</b> instead of KM1. Press S2 and release it: the motor runs only while you press, because there is no coil KM2, so that contact never closes. Look at the cross-reference under coil KM1 too: contact 13–14 is missing from its list. That is how to catch a wrong name from the drawing without simulating.</p>
+  <div class="card sim rlwrap" id="simN" style="padding:8px"></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pN" style="position:static;max-height:none"></div></div>
+</section>
+
+<section class="prob" id="tL">
+  <div class="prob-head"><span class="prob-no">L</span><div><h2 data-l="th">ใบงานที่ 2</h2><h2 data-l="en">Lab sheet 2</h2>
+    <div class="src" data-l="th">เวลา 2 ชั่วโมง · 100 คะแนน</div><div class="src" data-l="en">2 hours · 100 points</div></div></div>
+  <div class="card solve">
+    <p data-l="th"><b>การเขียนแบบวงจรกำลังและวงจรควบคุมตามมาตรฐาน IEC</b> มี 4 ตอน: (1) เขียนสัญลักษณ์และรหัสอุปกรณ์ 10 รายการ ทั้งรหัสของวิชาและรหัสตามมาตรฐานใหม่ (2) เติมชื่ออุปกรณ์ เลขขั้ว เลขทางเดินกระแส ตารางอ้างอิง และเลขสายลงในแบบวงจรเริ่มเดินโดยตรง (3) เขียนวงจรใน CADe SIMU ทดลองตั้งชื่อผิด แล้วจำลองวงจร 2 สายกับ 3 สายเมื่อไฟดับแล้วกลับมา (4) คำถามท้ายใบงาน ทบทวนหน้า 2.1–2.4 ก่อนทำ</p>
+    <p data-l="en"><b>Drawing power and control circuits to the IEC standard</b>, in four parts: (1) draw ten symbols with their course codes and new-standard codes; (2) add device names, terminal numbers, current-path numbers, the cross-reference and wire numbers to a direct-on-line starter drawing; (3) draw the circuit in CADe SIMU, try a wrong name, and simulate two-wire and three-wire control through a power failure; (4) questions. Review pages 2.1–2.4 first.</p>
+    <p class="simnote" data-l="th"><b>ใบงานที่ 2 ครูแจกเป็นกระดาษในคาบปฏิบัติ</b> ไม่มีให้ดาวน์โหลด เตรียมตัวโดยอ่านหน้า 2.1–2.4 และลองภาพจำลองทุกหน้าให้ครบก่อนมาเรียน</p>
+    <p class="simnote" data-l="en"><b>Lab sheet 2 is handed out on paper in the practical session</b>; it is not available for download. Prepare by reading pages 2.1–2.4 and trying every simulation before class.</p>
+  </div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui;
+  $('howto').innerHTML = `<tr><th>${t('องค์ประกอบ', 'item')}</th><th>${t('ทำใน CADe SIMU', 'in CADe SIMU')}</th></tr>` +
+    [[t('ชื่ออุปกรณ์', 'device name'), t('ดับเบิลคลิกอุปกรณ์ในโหมดแก้ไข แล้วพิมพ์ชื่อ เช่น KM1 ให้คอยล์และหน้าสัมผัสทุกตัวของอุปกรณ์นั้นชื่อเดียวกัน', 'double-click the device in edit mode and type its name, e.g. KM1, the same on the coil and every contact of that device')],
+     [t('เลขขั้ว', 'terminal numbers'), t('แก้ในหน้าต่างคุณสมบัติเดียวกัน (โปรแกรมตั้ง NC เป็น 11–12 ให้เอง ถ้าเป็นชุดที่สองให้แก้เป็น 21–22)', 'edit them in the same properties window (the program sets an NC contact to 11–12; make the second one 21–22)')],
+     [t('เลขทางเดินกระแส', 'current-path numbers'), t('ใช้เครื่องมือข้อความ (ตัว A ที่แถบซ้าย) พิมพ์ 1, 2, 3 … ใต้เส้น N ตรงทุกแนวตั้ง', 'use the text tool (the A on the left bar) to type 1, 2, 3 … under the N line at each vertical')],
+     [t('ตารางอ้างอิงหน้าสัมผัส', 'contact cross-reference'), t('ใช้เครื่องมือข้อความใต้คอยล์ เช่น "13–14 ▸ 2" ทุกหน้าสัมผัสของคอยล์นั้น', 'use the text tool under the coil, e.g. "13–14 ▸ 2", for every contact of that coil')],
+     [t('เลขสาย', 'wire numbers'), t('เปิดตัวเลือกแสดงหมายเลขสายในการตั้งค่า (ตรวจกับเลขที่ได้จากหลักในหน้า 2.3)', 'turn on wire numbers in the settings (check them against the rule of page 2.3)')],
+     [t('กรอบชื่อแบบ', 'title block'), t('ดับเบิลคลิกช่องในกรอบด้านล่าง (Título, Dibujado, Fecha, Núm.)', 'double-click the fields of the frame at the bottom (Título, Dibujado, Fecha, Núm.)')]].map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td></tr>`).join('');
+  /* wrong name demonstration */
+  const spec = C2.DOL(); spec.els = spec.els.map(e => (e.d === 'KM1' && e.k === 'NO' && e.t && e.t[0] === '13' ? { ...e, d: 'KM2' } : e)); spec.devices.KM2 = { type: 'coil' };
+  const sim = new RL.Sim($('simN'), spec, { max: 900 }), pN = $('pN'); ui.h2(pN, t('สั่งงาน', 'Control'));
+  const row = document.createElement('div'); row.className = 'toggles'; pN.appendChild(row);
+  [['S2', t('S2 เริ่ม (กดค้าง)', 'S2 start (hold)')], ['S1', t('S1 หยุด (กดค้าง)', 'S1 stop (hold)')]].forEach(([id, lab]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = lab;
+    b.addEventListener('pointerdown', e => { e.preventDefault(); sim.press(id, true); }); ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, () => sim.press(id, false))); row.appendChild(b); });
+  const st = ui.status(pN); const show = () => { const run = sim.running(); ui.setStatus(st, run ? t('หมุนเฉพาะตอนกด', 'runs only while pressed') : t('หยุด', 'stopped'), t('หน้าสัมผัส "KM2" ไม่มีคอยล์สั่ง จึงค้างวงจรไม่ได้', 'contact "KM2" has no coil to drive it, so nothing holds the circuit'), run ? 'warn' : 'wait'); };
+  sim.on(show); show();
+});
+</script>
+</body>
+</html>

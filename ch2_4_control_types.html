@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="2.4 — Types of control">2.4 — ชนิดของวงจรควบคุม</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=9"><link rel="stylesheet" href="assets/ed2.css?v=9">
+<script src="assets/stops.js?v=9"></script><script src="assets/shell.js?v=9"></script>
+<script src="assets/lesson.js?v=9"></script><script src="assets/draw.js?v=9"></script><script src="assets/ed.js?v=9"></script><script src="assets/sym.js?v=9"></script><script src="assets/iec.js?v=9"></script><script src="assets/relay.js?v=9"></script><script src="assets/ch2.js?v=9"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">ชนิดของวงจรควบคุม: มือ กึ่งอัตโนมัติ อัตโนมัติ และวงจร 2 สาย 3 สาย <span class="en">Types of control: manual, semi-automatic, automatic; two-wire and three-wire</span></h1>
+<h1 data-l="en">Types of control <span class="en">Manual, semi-automatic, automatic; two-wire and three-wire</span></h1>
+
+<p class="sub" data-l="th">การสั่งมอเตอร์มีสามระดับ: <b>ด้วยมือ</b> คนสับสวิตช์ในวงจรกำลังเอง, <b>กึ่งอัตโนมัติ</b> คนกดปุ่มสั่งคอนแทกเตอร์ และ <b>อัตโนมัติ</b> อุปกรณ์ตรวจจับอย่างสวิตช์ลูกลอยหรือตัวตั้งเวลาสั่งแทนคน ส่วนการต่อวงจรควบคุมมีสองแบบหลักคือ <b>วงจร 2 สาย</b> กับ <b>วงจร 3 สาย</b> ซึ่งต่างกันมากตอนไฟดับแล้วไฟกลับมา: แบบหนึ่งมอเตอร์กลับมาหมุนเอง อีกแบบรอให้คนกดใหม่ หน้านี้ให้ลองตัดไฟแล้วจ่ายไฟใหม่เองทั้งสามวงจร</p>
+<p class="sub" data-l="en">Motors are commanded at three levels: <b>manual</b>, where a person operates a switch in the power circuit; <b>semi-automatic</b>, where a person presses buttons that drive a contactor; and <b>automatic</b>, where a sensing device such as a float switch or a timer gives the command. The control circuit itself is wired in two main ways, <b>two-wire</b> and <b>three-wire</b>, which behave very differently when the power fails and returns: one motor starts again by itself, the other waits for someone to press start. On this page you cut and restore the supply yourself in three circuits.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>ควบคุมด้วยมือ</b>: สวิตช์อยู่ในวงจรกำลัง ผ่านกระแสมอเตอร์เต็ม ๆ ใช้กับมอเตอร์เล็กและงานง่าย ไม่มีคอนแทกเตอร์ จึงสั่งจากที่ไกลหรือทำงานร่วมกับอุปกรณ์อื่นไม่ได้</li>
+  <li><b>วงจร 2 สาย</b> ใช้สวิตช์ที่ค้างตำแหน่ง (สวิตช์เลือก สวิตช์ลูกลอย เทอร์โมสตัท) สองสายไปที่สวิตช์ เมื่อไฟดับแล้วกลับมา มอเตอร์ <b>หมุนเองทันที</b> ถ้าสวิตช์ยังต่ออยู่ เหมาะกับงานอัตโนมัติ เช่น ปั๊มน้ำ แต่ <b>อันตราย</b> กับเครื่องจักรที่คนทำงานอยู่ใกล้</li>
+  <li><b>วงจร 3 สาย</b> ใช้ปุ่มหยุดปกติปิด ปุ่มเริ่มปกติเปิด และหน้าสัมผัสค้างตัวเอง (สามสายไปที่ชุดปุ่ม) ไฟดับแล้วคอยล์หลุด หน้าสัมผัสค้างเปิด เมื่อไฟกลับมา มอเตอร์ <b>ไม่หมุนเอง</b> ต้องกดเริ่มใหม่ เรียกว่าการป้องกันแรงดันหาย (no-volt protection) ตามที่ IEC 60204-1 กำหนดสำหรับเครื่องจักร</li>
+  <li><b>อัตโนมัติ</b> ส่วนใหญ่เป็นวงจร 2 สาย เพราะต้องการให้กลับมาทำงานเอง ส่วน <b>กึ่งอัตโนมัติ</b> ด้วยปุ่มกดเป็นวงจร 3 สาย</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>Manual control</b>: the switch sits in the power circuit and carries the full motor current. It suits small motors and simple jobs; with no contactor it cannot be operated from afar or work together with other devices.</li>
+  <li><b>Two-wire control</b> uses a maintained switch (selector, float switch, thermostat), with two wires running to it. When the power fails and returns, the motor <b>starts again at once</b> if the switch is still closed. That suits automatic duty such as a water pump but is <b>dangerous</b> on machines with people near them.</li>
+  <li><b>Three-wire control</b> uses a normally closed stop button, a normally open start button and a holding contact (three wires to the button station). A power failure drops the coil and opens the holding contact, so when the power returns the motor <b>does not start by itself</b>; someone must press start again. This no-volt protection is what IEC 60204-1 requires on machinery.</li>
+  <li><b>Automatic</b> control is mostly two-wire, because it should resume by itself; <b>semi-automatic</b> push-button control is three-wire.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#tM"><b>M</b>ควบคุมด้วยมือ</a><a href="#tA"><b>A</b>ทดลองไฟดับ</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#tM"><b>M</b>Manual control</a><a href="#tA"><b>A</b>Power-failure trial</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="tM">
+  <div class="prob-head"><span class="prob-no">M</span><div><h2 data-l="th">ควบคุมด้วยมือ: สวิตช์อยู่ในวงจรกำลัง</h2><h2 data-l="en">Manual control: the switch is in the power circuit</h2>
+    <div class="src" data-l="th">ตำราไทย บทที่ 1 หัวข้อ 2 · EMC9 หน่วยที่ 2 · UMC5 บทที่ 3</div><div class="src" data-l="en">Thai textbook ch. 1 §2 · EMC9 unit 2 · UMC5 ch. 3</div></div></div>
+  <div class="duo"><div class="card" style="padding:12px;display:flex;justify-content:center"><div id="man" style="width:100%;max-width:260px"></div></div>
+    <div class="card solve"><p data-l="th">เบรกเกอร์ป้องกันมอเตอร์ Q1 (ตัวสั่งงานแบบหมุน) ต่อมอเตอร์ตรง ๆ คนหมุนเปิดปิดเอง และ Q1 ตัดเองเมื่อมอเตอร์กินกระแสเกิน แบบนี้คือการควบคุมด้วยมือ ใช้ได้กับมอเตอร์เล็ก เช่น สว่านตั้งโต๊ะหรือพัดลมระบายอากาศ</p>
+      <p data-l="th">ข้อจำกัด: สั่งได้จากจุดเดียว (ตรงตัวสวิตช์) ทำงานร่วมกับเซนเซอร์หรือมอเตอร์ตัวอื่นไม่ได้ และถ้าเบรกเกอร์ไม่มีตัวตัดแรงดันต่ำ มอเตอร์จะหมุนเองเมื่อไฟกลับมา</p>
+      <p data-l="en">Motor protection circuit breaker Q1, with a rotary operator, feeds the motor directly. A person turns it on and off, and Q1 trips by itself if the motor draws too much current. That is manual control, fine for small motors such as a bench drill or an extract fan.</p>
+      <p data-l="en">Its limits: it is operated from one place only (at the switch), it cannot work with sensors or other motors, and unless the breaker has an undervoltage release the motor restarts by itself when the power returns.</p></div></div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">ทดลอง: ไฟดับแล้วกลับมา มอเตอร์ตัวไหนหมุนเอง</h2><h2 data-l="en">Trial: the power fails and returns — which motor restarts by itself?</h2>
+    <div class="src" data-l="th">EMC9 หน่วยที่ 17–18 (วงจร 2 สายและ 3 สาย) และ 24 (low-voltage release) · UMC5 บทที่ 1, 7</div><div class="src" data-l="en">EMC9 units 17–18 (two-wire and three-wire) and 24 (low-voltage release) · UMC5 ch. 1, 7</div></div></div>
+  <p class="lead" data-l="th">เลือกวงจร ทำให้มอเตอร์หมุน แล้วกด <b>ไฟดับแล้วกลับมา</b> (ระบบจะปลด Q1 แล้วสับกลับให้เอง) ดูว่ามอเตอร์หมุนต่อเองหรือไม่ ผลแต่ละวงจรบันทึกลงตารางด้านล่าง</p>
+  <p class="lead" data-l="en">Choose a circuit, get the motor running, then press <b>Power fails and returns</b> (Q1 is opened and closed again for you). See whether the motor runs on by itself. Each result is recorded in the table below.</p>
+  <div class="card solve"><div id="mode" class="toggles"></div></div>
+  <div class="card sim rlwrap" id="simA" style="padding:8px;margin-top:12px"></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
+  <div class="card rlog" id="logA"></div><div class="summ-wrap" id="sumA"></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">ชนิดของการควบคุม</div><div class="src" data-l="en">Types of control</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>วงจร 2 สาย: เปิด S3 ค้างไว้ แล้วกด "ไฟดับแล้วกลับมา": มอเตอร์หมุนเองทันที ลองนึกถึงเครื่องเจียที่คนกำลังเปลี่ยนใบอยู่ตอนไฟกลับมา</li>
+    <li>วงจร 3 สาย: กด S2 ให้มอเตอร์หมุน แล้วกด "ไฟดับแล้วกลับมา": มอเตอร์หยุดและไม่หมุนเอง เพราะหน้าสัมผัสค้าง 13–14 เปิดไปแล้วตอนคอยล์หลุด</li>
+    <li>อัตโนมัติ (สวิตช์ลูกลอย): ปั๊มกลับมาเติมน้ำเองเมื่อไฟกลับ ซึ่งเป็นสิ่งที่ต้องการ เพราะไม่มีคนเฝ้า</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 1 หัวข้อ 2 · Herman, <i>Electric Motor Control</i> 9th ed. หน่วยที่ 1, 17, 18, 24 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 1, 7 · IEC 60204-1</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Two-wire: leave S3 on and press "Power fails and returns": the motor starts at once. Imagine a grinder whose disc is being changed when the power comes back.</li>
+    <li>Three-wire: press S2 to run, then "Power fails and returns": the motor stops and does not restart, because holding contact 13–14 opened when the coil dropped out.</li>
+    <li>Automatic (float switch): the pump resumes filling by itself when the power returns, which is what you want with nobody watching.</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 1 §2 · Herman, <i>Electric Motor Control</i>, 9th ed., units 1, 17, 18, 24 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 1, 7 · IEC 60204-1</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui, IE = IEC;
+  /* manual control drawing */
+  let m = IE.T('L1', 50, 14, { size: 10, anchor: 'middle', weight: 700 }) + IE.T('L2', 72, 14, { size: 10, anchor: 'middle', weight: 700 }) + IE.T('L3', 94, 14, { size: 10, anchor: 'middle', weight: 700 });
+  [50, 72, 94].forEach(x => { m += IE.L(x, 20, x, 40) + IE.cb(x, 40, 110) + IE.therm(x, 110, 150) + IE.L(x, 150, x, 180 + (x === 72 ? -3 : 0)); });
+  m += IE.L(36, 75, 116, 75, { dash: '3 2' }) + `<path d="M 116 69 L 122 69 L 122 81 L 128 81" fill="none"/>` + IE.T('Q1', 30, 100, { anchor: 'end', size: 12, weight: 700 }) + IE.motor(72, 204, 22) + IE.T('M1', 40, 208, { anchor: 'end', size: 12, weight: 700 });
+  $('man').innerHTML = IE.svg(170, 236, m, { max: 260, label: 'manual control' });
+  /* trial */
+  const MODES = { two: { name: ['วงจร 2 สาย (สวิตช์เลือก S3)', 'two-wire (selector S3)'], spec: () => C2.TWO(false), kind: ['กึ่งอัตโนมัติ 2 สาย', 'semi-automatic, two-wire'] },
+    three: { name: ['วงจร 3 สาย (ปุ่ม S1 S2)', 'three-wire (buttons S1 S2)'], spec: () => C2.THREE(), kind: ['กึ่งอัตโนมัติ 3 สาย', 'semi-automatic, three-wire'] },
+    auto: { name: ['อัตโนมัติ (สวิตช์ลูกลอย S5)', 'automatic (float switch S5)'], spec: () => C2.TWO(true), kind: ['อัตโนมัติ 2 สาย', 'automatic, two-wire'] } };
+  let mode = 'three', sim, busy = false;
+  const pA = $('pA'), log = new ED.Log($('logA'), [['วงจร', 'circuit'], ['ก่อนไฟดับ', 'before the failure'], ['หลังไฟกลับมา', 'after the power returns'], ['ความหมาย', 'what it means']]);
+  ui.radio($('mode'), Object.entries(MODES).map(([k, v]) => ({ id: k, label: ED.tt(v.name), on: k === mode })), id => { mode = id; build(); });
+  function build() {
+    sim = new RL.Sim($('simA'), MODES[mode].spec(), { max: 820 }); pA.innerHTML = ''; ui.h2(pA, t('สั่งงาน', 'Control'));
+    const row = document.createElement('div'); row.className = 'toggles'; pA.appendChild(row);
+    const hold = (id, lab) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = lab;
+      b.addEventListener('pointerdown', e => { e.preventDefault(); sim.press(id, true); }); ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, () => sim.press(id, false))); row.appendChild(b); };
+    const tog = (id, lab) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = lab; b.addEventListener('click', () => sim.toggle(id)); row.appendChild(b); };
+    if (mode === 'three') { hold('S2', t('S2 เริ่ม (กดค้าง)', 'S2 start (hold)')); hold('S1', t('S1 หยุด (กดค้าง)', 'S1 stop (hold)')); }
+    else if (mode === 'two') tog('S3', t('S3 สวิตช์เลือก เปิด / ปิด', 'S3 selector on / off'));
+    else tog('S5', t('S5 ลูกลอย: น้ำต่ำ / น้ำเต็ม', 'S5 float: low / full'));
+    const cut = document.createElement('button'); cut.type = 'button'; cut.className = 'btn on'; cut.textContent = t('⚡ ไฟดับแล้วกลับมา', '⚡ Power fails and returns'); row.appendChild(cut);
+    const st = ui.status(pA);
+    const show = () => { const run = sim.running(); ui.setStatus(st, run ? t('มอเตอร์หมุน', 'motor running') : sim.dev.Q1.on ? t('มอเตอร์หยุด', 'motor stopped') : t('ไฟดับ', 'power off'), run ? '' : sim.dev.Q1.on ? (mode === 'three' ? t('กด S2 เพื่อเริ่ม', 'press S2 to start') : mode === 'two' ? t('เปิด S3', 'turn S3 on') : t('ทำให้น้ำต่ำ (S5 ต่อ)', 'make the level low (S5 closes)')) : t('รอไฟกลับ…', 'waiting for the power…'), run ? 'ok' : sim.dev.Q1.on ? 'wait' : 'bad'); };
+    sim.on(show); show();
+    cut.addEventListener('click', () => { if (busy) return; busy = true; const before = sim.running(); sim.toggle('Q1');
+      setTimeout(() => { sim.toggle('Q1'); busy = false; const after = sim.running();
+        log.add(mode + before, [ED.tt(MODES[mode].name), before ? t('หมุน', 'running') : t('หยุด', 'stopped'), after ? t('หมุนเอง', 'runs by itself') : t('หยุด รอคนกดเริ่ม', 'stopped, waits for start'),
+          !before ? t('ไม่ได้หมุนก่อนไฟดับ ลองใหม่ขณะมอเตอร์หมุน', 'it was not running; try again while it runs') : after ? (mode === 'auto' ? t('ต้องการแบบนี้: ปั๊มกลับมาทำงานเอง', 'wanted: the pump resumes by itself') : t('อันตรายกับเครื่องจักรที่มีคน', 'dangerous on machines with people')) : t('ปลอดภัย: ป้องกันแรงดันหาย', 'safe: no-volt protection')],
+          !before ? 'warn' : after ? (mode === 'auto' ? 'ok' : 'bad') : 'ok'); }, 1500); });
+  }
+  build();
+  ED.summary($('sumA'), { head: [['การควบคุม', 'control'], ['สั่งงานโดย', 'commanded by'], ['การต่อ', 'wiring'], ['ไฟดับแล้วกลับมา', 'after a power failure'], ['ใช้กับ', 'used for']],
+    rows: () => [[t('ด้วยมือ', 'manual'), t('คนสับสวิตช์ในวงจรกำลัง', 'a person, switch in the power circuit'), '—', t('หมุนเอง ถ้าสวิตช์ยังเปิดอยู่และไม่มีตัวตัดแรงดันต่ำ', 'restarts if the switch is still on and has no undervoltage release'), t('มอเตอร์เล็ก งานง่าย', 'small motors, simple jobs')],
+      [t('กึ่งอัตโนมัติ', 'semi-automatic'), t('คนสั่งด้วยสวิตช์เลือก', 'a person, selector switch'), t('2 สาย', 'two-wire'), `<span class="rk-bad">${t('หมุนเอง', 'restarts by itself')}</span>`, t('ระวัง: ไม่ควรใช้กับเครื่องจักรที่มีคนทำงาน', 'care: not for machines people work at')],
+      [t('กึ่งอัตโนมัติ', 'semi-automatic'), t('คนกดปุ่มเริ่ม/หยุด', 'a person, start/stop buttons'), t('3 สาย', 'three-wire'), `<span class="rk-ok">${t('ไม่หมุนเอง ต้องกดใหม่', 'stays off until start is pressed')}</span>`, t('เครื่องจักรทั่วไป (IEC 60204-1)', 'machinery in general (IEC 60204-1)')],
+      [t('อัตโนมัติ', 'automatic'), t('สวิตช์ลูกลอย ความดัน อุณหภูมิ ตัวตั้งเวลา', 'float, pressure or temperature switch, timer'), t('2 สาย', 'two-wire'), `<span class="rk-ok">${t('หมุนเองเมื่อเงื่อนไขครบ (ตั้งใจให้เป็นแบบนี้)', 'restarts when the condition calls (intended)')}</span>`, t('ปั๊มน้ำ ปั๊มลม พัดลมระบายความร้อน', 'water pumps, compressors, cooling fans')]],
+    points: [['สิ่งที่ทำให้วงจร 3 สายไม่หมุนเองคือหน้าสัมผัสค้างตัวเอง: ไฟดับ คอยล์หลุด หน้าสัมผัสค้างเปิด วงจรจึงจำไม่ได้ว่าเคยสั่งเดิน', 'What keeps a three-wire circuit from restarting is its holding contact: the power fails, the coil drops out, the holding contact opens, so the circuit forgets it was told to run.'],
+      ['วงจร 2 สายไม่มีหน้าสัมผัสค้าง สวิตช์ที่ค้างตำแหน่งจึงสั่งต่อทันทีเมื่อไฟกลับ เหมาะกับงานอัตโนมัติที่ไม่มีคนเฝ้า', 'A two-wire circuit has no holding contact; its maintained switch commands again as soon as the power returns, which suits unattended automatic duty.'],
+      ['IEC 60204-1 กำหนดว่าเครื่องจักรต้องไม่เริ่มทำงานเองเมื่อไฟกลับมา ถ้าเป็นอันตราย จึงใช้วงจร 3 สายกับเครื่องจักรที่คนควบคุม', 'IEC 60204-1 requires that a machine must not start by itself when the power returns if that would be dangerous; hence three-wire control on operator-run machines.']] });
+  ED.mcq('mcq', [
+    { q: t('1) ปั๊มน้ำที่ใช้สวิตช์ลูกลอยสั่งเป็นการควบคุมแบบใด', '1) A water pump commanded by a float switch is which kind of control?'), options: [t('ด้วยมือ', 'manual'), t('กึ่งอัตโนมัติ', 'semi-automatic'), t('อัตโนมัติ', 'automatic')], answer: 2 },
+    { q: t('2) วงจรใดที่มอเตอร์ไม่หมุนเองเมื่อไฟกลับมา', '2) In which circuit does the motor not restart by itself when the power returns?'), options: [t('วงจร 2 สาย', 'two-wire'), t('วงจร 3 สาย', 'three-wire'), t('ทั้งสองแบบ', 'both')], answer: 1, why: t('หน้าสัมผัสค้างเปิดตอนคอยล์หลุด', 'the holding contact opened when the coil dropped out') },
+    { q: t('3) "3 สาย" ในวงจร 3 สายหมายถึงอะไร', '3) What are the "three wires" of three-wire control?'), options: [t('สาย 3 เฟส', 'the three phases'), t('สามสายที่เดินไปยังชุดปุ่มหยุด–เริ่ม', 'three wires running to the stop–start station'), t('สายดิน นิวทรัล และเฟส', 'earth, neutral and line')], answer: 1 },
+    { q: t('4) เครื่องเจียที่คนใช้งาน ควรใช้วงจรแบบใด', '4) Which circuit should a grinder used by a person have?'), options: [t('วงจร 2 สายด้วยสวิตช์เลือก', 'two-wire with a selector'), t('วงจร 3 สายด้วยปุ่มกด', 'three-wire with push buttons')], answer: 1, why: t('ไม่ให้หมุนเองเมื่อไฟกลับมา', 'so that it does not restart when the power returns') }]);
+});
+</script>
+</body>
+</html>

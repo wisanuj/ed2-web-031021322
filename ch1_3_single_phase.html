@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="1.3 — Single-phase motors">1.3 — มอเตอร์ 1 เฟส</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=9"><link rel="stylesheet" href="assets/ed2.css?v=9">
+<script src="assets/stops.js?v=9"></script><script src="assets/shell.js?v=9"></script>
+<script src="assets/lesson.js?v=9"></script><script src="assets/draw.js?v=9"></script><script src="assets/ed.js?v=9"></script><script src="assets/sym.js?v=9"></script><script src="assets/ed1.js?v=9"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">มอเตอร์ 1 เฟส: ขดสตาร์ต ตัวเก็บประจุ และสวิตช์แรงเหวี่ยง <span class="en">Single-phase motors: start winding, capacitor and centrifugal switch</span></h1>
+<h1 data-l="en">Single-phase motors <span class="en">Start winding, capacitor and centrifugal switch</span></h1>
+
+<p class="sub" data-l="th">ปั๊มน้ำ พัดลม และเครื่องอัดลมขนาดเล็กใช้มอเตอร์ 1 เฟสเพราะต่อกับไฟบ้าน 230 V ได้ แต่ขดลวดชุดเดียวที่ป้อนไฟ 1 เฟสสร้างได้แค่สนามที่พองยุบอยู่กับที่ มอเตอร์จึงหมุนเองไม่ได้ ต้องมี <b>ขดสตาร์ต</b> อีกชุดที่วางห่าง 90° และมีกระแสเหลื่อมเฟส เพื่อทำให้สนามหมุน เมื่อมอเตอร์หมุนเร็วพอ <b>สวิตช์แรงเหวี่ยง</b> จะตัดขดสตาร์ตออก ในแบบไฟฟ้า ขั้วของขดรันคือ U1-U2 และขั้วของขดสตาร์ตคือ Z1-Z2 ตาม IEC 60034-8</p>
+<p class="sub" data-l="en">Small pumps, fans and compressors use single-phase motors because they run from a 230 V household supply. But one winding fed with single-phase current only makes a field that pulses in place, so the motor cannot start by itself. A second, <b>auxiliary (start) winding</b> set 90° away and carrying a current shifted in phase makes the field rotate. Once the motor is fast enough a <b>centrifugal switch</b> cuts the start winding out. In drawings the main winding is U1-U2 and the auxiliary winding Z1-Z2 (IEC 60034-8).</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>ขดลวดชุดเดียว = สนามพองยุบ</b> ซึ่งเท่ากับสนามหมุนสองสนามขนาดครึ่งหนึ่งที่หมุนสวนกัน แรงบิดหักล้างกันตอนหยุดนิ่ง แต่ถ้ามีอะไรผลักให้หมุนก่อน มอเตอร์จะหมุนต่อไปทางนั้นได้</li>
+  <li><b>ขดสตาร์ตวางห่าง 90°</b> และมีกระแสนำหน้ากระแสขดรัน ชนิดแยกเฟส (split-phase) ใช้ขดสตาร์ตที่ความต้านทานสูง กระแสเหลื่อมกันราว 30° แรงบิดเริ่มเดินพอใช้ ชนิดตัวเก็บประจุเริ่มเดิน (capacitor-start) ต่อตัวเก็บประจุอนุกรม กระแสเหลื่อมเกือบ 90° แรงบิดเริ่มเดินสูง</li>
+  <li><b>สวิตช์แรงเหวี่ยง</b> ปิดอยู่ขณะหยุดนิ่ง และตัดขดสตาร์ตออกที่ราว 75 % ของความเร็ว ส่วนมอเตอร์ตัวเก็บประจุถาวร (permanent-split capacitor, PSC) ไม่มีสวิตช์ ขดสตาร์ตต่ออยู่ตลอดผ่านตัวเก็บประจุรัน</li>
+  <li><b>กลับทางหมุน</b> โดยสลับขั้ว Z1 กับ Z2 ของขดสตาร์ต (หรือสลับ U1 กับ U2 อย่างใดอย่างหนึ่ง) การสลับสาย L กับ N ที่ปลั๊กไม่ทำให้กลับทาง เพราะกระแสในขดลวดทั้งสองกลับพร้อมกัน</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>One winding = a pulsating field</b>, which equals two half-size fields turning opposite ways. Their torques cancel at standstill, but once something pushes the rotor round it keeps turning that way.</li>
+  <li><b>The start winding sits 90° away</b> and its current leads the main current. A split-phase motor uses a high-resistance start winding (about 30° shift, fair starting torque); a capacitor-start motor adds a series capacitor (almost 90°, high starting torque).</li>
+  <li><b>The centrifugal switch</b> is closed at standstill and cuts the start winding out at about 75 % of speed. A permanent-split capacitor (PSC) motor has no switch: its auxiliary winding stays in through the run capacitor.</li>
+  <li><b>To reverse</b>, swap Z1 and Z2 of the start winding (or swap U1 and U2, not both). Swapping L and N at the plug does not reverse it, because the currents in both windings reverse together.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>แบบการต่อในตำรา</a><a href="#tA"><b>A</b>สนามของมอเตอร์ 1 เฟส</a><a href="#tB"><b>B</b>การเริ่มเดิน</a><a href="#ex1"><b>1</b>กลับทางหมุน</a><a href="#ex2"><b>2</b>ความเร็วที่สวิตช์ตัด</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>The textbook connection</a><a href="#tA"><b>A</b>The single-phase field</a><a href="#tB"><b>B</b>Starting</a><a href="#ex1"><b>1</b>Reversing</a><a href="#ex2"><b>2</b>Switch-out speed</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">แบบการต่อมอเตอร์ 1 เฟสในตำรา</h2><h2 data-l="en">The single-phase motor connection in the textbook</h2>
+    <div class="src" data-l="th">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 5 รูปที่ 5.1 หน้า 72</div><div class="src" data-l="en">Thai textbook <i>Motor Control</i>, ch. 5, Fig. 5.1, p. 72</div></div></div>
+  <div class="story n2">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>รูป 5.1 ในตำราวาดขดรัน (RW, running winding) ระหว่าง U1-U2 และขดสตาร์ต (SW, starting winding) ระหว่าง Z1-Z2 ต่อขนานกันคร่อม L1 กับ N โดยมีสวิตช์แรงเหวี่ยง (CS, centrifugal switch) อนุกรมกับขดสตาร์ต ด้านขวาคือแผงขั้วในมอเตอร์: สะพาน U1–Z1 และ U2–Z2 แล้วต่อสาย L1 และ N เข้า</p>
+        <p>เมื่อนำไปเขียนแบบ: มอเตอร์แบบตัวเก็บประจุต้องวาดตัวเก็บประจุอนุกรมกับขดสตาร์ตด้วย และสวิตช์แรงเหวี่ยงปิดอยู่ขณะหยุดนิ่ง จึงวาดเป็นหน้าสัมผัสปกติปิด ภาพจำลองในส่วน B ด้านล่างวาดครบทั้งสองอย่าง</p></div>
+      <div class="story-p" data-l="en"><p>Fig. 5.1 of the textbook draws the main winding (RW, running winding) between U1-U2 and the start winding (SW, starting winding) between Z1-Z2, in parallel across L1 and N, with the centrifugal switch (CS) in series with the start winding. On the right is the terminal board inside the motor: links U1–Z1 and U2–Z2, then the L1 and N leads.</p>
+        <p>When drawing it: a capacitor motor also needs its capacitor drawn in series with the start winding, and the centrifugal switch is closed at standstill, so it is drawn normally closed. The simulation in section B below draws both.</p></div></div>
+    <div class="story-f"><figure class="slide md"><img src="img/book/book1_fig5_1.jpg?v=9" width="860" height="305" loading="lazy" decoding="async" alt="Textbook Fig. 5.1: single-phase motor with running winding RW between U1 and U2 and starting winding SW between Z1 and Z2 in parallel across L1 and N, centrifugal switch CS in series with SW; terminal board with links U1–Z1 and U2–Z2.">
+      <figcaption data-l="th">รูปที่ 5.1 การต่อใช้งานมอเตอร์ไฟฟ้า 1 เฟส · ที่มา: ธนภัทร ไพคำนาม, การควบคุมมอเตอร์ไฟฟ้า (2104-2009), บทที่ 5 หน้า 72 · แตะรูปเพื่อขยาย</figcaption>
+      <figcaption data-l="en">Fig. 5.1, single-phase motor connection · source: Thanaphat Phaikhamnam, <i>Motor Control</i> (2104-2009), ch. 5, p. 72 · tap to enlarge</figcaption></figure></div>
+  </div>
+</section>
+
+<div class="story n4">
+  <div class="story-t"><div class="story-k" data-l="th">ของจริงในตำรา</div><div class="story-k" data-l="en">The real parts</div>
+    <h2 data-l="th">สวิตช์แรงเหวี่ยงอยู่ตรงไหน และทำงานอย่างไร</h2><h2 data-l="en">Where the centrifugal switch is, and how it works</h2>
+    <div class="story-p" data-l="th"><p>ภาพแยกชิ้น (รูป 29.6) ของมอเตอร์ตัวเก็บประจุเริ่มเดินและรัน แสดงว่าตัวเก็บประจุติดอยู่ในกล่องบนตัวมอเตอร์ (capacitor housing) ส่วนสวิตช์แรงเหวี่ยงมีสองส่วน: <b>ส่วนที่หมุน</b> (rotating switch) ติดบนเพลาโรเตอร์ และ <b>ส่วนที่อยู่กับที่</b> (stationary switch) ซึ่งมีหน้าสัมผัส ติดที่ฝาครอบด้านหน้า</p>
+      <p>รูป 29.4 และรูป 4-4/4-5 แสดงหลักการ: ขณะหยุดนิ่ง สปริงดึงตุ้มน้ำหนักเข้า บ่า (shoulder) ถูกดันออกไปกดหน้าสัมผัสให้ <b>ต่อ</b> ขดสตาร์ตจึงได้รับไฟ เมื่อมอเตอร์หมุนเร็วขึ้น แรงเหวี่ยงเหวี่ยงตุ้มออก บ่าจึงหดกลับ หน้าสัมผัสจึง <b>ตัด</b> ขดสตาร์ตออก ในแบบไฟฟ้าจึงต้องวาดสวิตช์นี้เป็นหน้าสัมผัสปกติปิด วิดีโอท้ายภาพแสดงกลไกนี้ขณะมอเตอร์ทำงานจริง</p></div>
+    <div class="story-p" data-l="en"><p>The exploded view (Fig. 29.6) of a capacitor-start capacitor-run motor shows the capacitors in a housing on top of the frame, and the centrifugal switch in two parts: the <b>rotating switch</b> on the rotor shaft and the <b>stationary switch</b>, with the contacts, on the front end plate.</p>
+      <p>Figs. 29.4 and 4-4/4-5 show how it works. At standstill a spring pulls the weights in, the shoulder is pushed out against the contacts and holds them <b>closed</b>, so the start winding is energised. As the motor speeds up, the weights fly out, the shoulder pulls back and the contacts <b>open</b>, cutting the start winding out. That is why the switch is drawn as a normally closed contact. The video after the pictures shows the mechanism on a running motor.</p></div></div>
+  <div class="story-f">
+    <figure class="slide md"><img src="img/book/umc5_fig29_6_exploded.jpg" width="1200" height="746" loading="lazy" decoding="async" alt="Exploded view of a capacitor-start capacitor-run motor: fan cover, fan, front end plate, stationary switch, gasket, conduit box, frame with stator, rotating switch, rotor, shaft, bearing, pulley end plate, through bolts, capacitors and capacitor housing, thermal protector parts.">
+      <figcaption data-l="th">รูป 29.6 ภาพแยกชิ้นมอเตอร์ตัวเก็บประจุเริ่มเดินและรัน · ที่มา: Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. (Cengage, 2025) บทที่ 29 หน้า 274 (ภาพจาก Baldor Electric Co.) · แตะรูปเพื่อขยาย</figcaption>
+      <figcaption data-l="en">Fig. 29.6, exploded view of a capacitor-start capacitor-run motor · source: Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed. (Cengage, 2025), ch. 29, p. 274 (photo courtesy of Baldor Electric Co.) · tap to enlarge</figcaption></figure>
+    <figure class="slide sm"><img src="img/book/umc5_fig29_4_switch.jpg" width="674" height="456" loading="lazy" decoding="async" alt="Photograph of a centrifugal switch on a motor shaft: the counterweight and the switch contacts.">
+      <figcaption data-l="th">รูป 29.4 สวิตช์แรงเหวี่ยง: ตุ้มถ่วงและหน้าสัมผัส · ที่มา: Herman &amp; Seiler (2025) บทที่ 29 หน้า 273</figcaption>
+      <figcaption data-l="en">Fig. 29.4, centrifugal switch: counterweight and contacts · source: Herman &amp; Seiler (2025), ch. 29, p. 273</figcaption></figure>
+    <figure class="slide md"><img src="img/book/senty_fig4_4_5_centrifugal.jpg" width="1416" height="516" loading="lazy" decoding="async" alt="Two photographs of a centrifugal weight assembly beside a ruler: left, weights pulled in by the spring and the shoulder pushed out; right, weights thrown out and the shoulder pulled in.">
+      <figcaption data-l="th">รูป 4-4 และ 4-5 ตุ้มน้ำหนักขณะหยุดนิ่ง (ซ้าย บ่าดันออก หน้าสัมผัสต่อ) และขณะหมุนเร็ว (ขวา บ่าหดกลับ หน้าสัมผัสตัด) · ที่มา: Senty (2013) บทที่ 4 หน้า 42</figcaption>
+      <figcaption data-l="en">Figs. 4-4 and 4-5, the weights at standstill (left: shoulder out, contacts closed) and at speed (right: shoulder in, contacts open) · source: Senty (2013), ch. 4, p. 42</figcaption></figure>
+    <figure class="video"><div class="yt" data-id="-2P0vOyVB2A" data-title="Centrifugal Switch Demo on a Single-Phase AC Induction Motor"></div>
+      <figcaption data-l="th">วิดีโอ: สาธิตสวิตช์แรงเหวี่ยงของมอเตอร์เหนี่ยวนำ 1 เฟส (ภาษาอังกฤษ) · ที่มา: ช่อง <a href="https://www.youtube.com/watch?v=-2P0vOyVB2A" target="_blank" rel="noopener">BYU-Idaho ME305 บน YouTube</a> · กดเพื่อเล่น</figcaption>
+      <figcaption data-l="en">Video: centrifugal switch demonstration on a single-phase AC induction motor · source: <a href="https://www.youtube.com/watch?v=-2P0vOyVB2A" target="_blank" rel="noopener">BYU-Idaho ME305 on YouTube</a> · press to play</figcaption></figure>
+  </div>
+</div>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">สนามพองยุบ สนามวงรี และสนามหมุน</h2><h2 data-l="en">Pulsating, elliptical and rotating fields</h2>
+    <div class="src" data-l="th">UMC5 บทที่ 29 · Hughes หัวข้อ 6.10 · Senty บทที่ 4</div><div class="src" data-l="en">UMC5 ch. 29 · Hughes §6.10 · Senty ch. 4</div></div></div>
+  <p class="lead" data-l="th">ลูกศรสีแดงคือสนามของขดรัน (แกนแนวตั้ง) ลูกศรสีฟ้าคือสนามของขดสตาร์ต (แกนแนวนอน) ลูกศรสีขาวคือผลรวม และเส้นจาง ๆ คือรอยที่ปลายลูกศรสีขาววาดไว้ในหนึ่งคาบ เริ่มจาก "ไม่มีขดสตาร์ต": ลูกศรสีขาวยืดหดอยู่บนเส้นตรง ไม่หมุน กด "แยกเป็นสองสนาม" เพื่อดูสนามสองสนามที่หมุนสวนกัน แล้วเลือกชนิดแยกเฟสและชนิดตัวเก็บประจุ ดูรอยเปลี่ยนจากเส้นตรงเป็นวงรีและเกือบเป็นวงกลม</p>
+  <p class="lead" data-l="en">The red arrow is the main winding's field (vertical axis), the blue one the start winding's (horizontal axis), the white one their sum, and the faint line the path the white arrow's tip traces over one cycle. Start with "No start winding": the white arrow grows and shrinks along a straight line and does not turn. Press "Split into two fields" to see two fields turning opposite ways. Then choose split-phase and capacitor-start and watch the path change from a line to an ellipse to almost a circle.</p>
+  <div class="duo"><div class="card sim"><canvas id="cvA"></canvas></div><div class="card solve"><div class="panel" id="pA"></div></div></div>
+  <div class="card rlog" id="logA"></div><div class="summ-wrap" id="sumA"></div>
+  <div class="duo" style="margin-top:12px"><figure class="video"><div class="yt" data-id="FDerrQw99KU" data-title="Single Phase Induction Motor (Capacitor Induction Motor or AC Motor) explained"></div>
+    <figcaption data-l="th">วิดีโอประกอบ: มอเตอร์เหนี่ยวนำ 1 เฟสแบบตัวเก็บประจุทำงานอย่างไร (ภาษาอังกฤษ) · ที่มา: ช่อง <a href="https://www.youtube.com/watch?v=FDerrQw99KU" target="_blank" rel="noopener">learnchannel บน YouTube</a> · กดเพื่อเล่น</figcaption>
+    <figcaption data-l="en">Further viewing: how a single-phase capacitor induction motor works · source: <a href="https://www.youtube.com/watch?v=FDerrQw99KU" target="_blank" rel="noopener">learnchannel on YouTube</a> · press to play</figcaption></figure><div></div></div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">เริ่มเดินมอเตอร์ 1 เฟส: สวิตช์แรงเหวี่ยงตัดเมื่อไร</h2><h2 data-l="en">Starting a single-phase motor: when does the centrifugal switch open?</h2>
+    <div class="src" data-l="th">แบบจำลองแสดงรูปร่างของกราฟ ไม่ใช่มอเตอร์รุ่นใดรุ่นหนึ่ง · ตำราไทย บทที่ 5 หัวข้อ 1</div><div class="src" data-l="en">A shape-only model, not a particular motor · Thai textbook ch. 5 §1</div></div></div>
+  <p class="lead" data-l="th">กด <b>จ่ายไฟ</b> แล้วดูความเร็วและกระแส: เมื่อความเร็วถึง 75 % สวิตช์แรงเหวี่ยงตัด ขดสตาร์ตหยุดมีกระแส จากนั้นลอง <b>สลับ Z1–Z2</b> ก่อนจ่ายไฟ (มอเตอร์หมุนกลับทาง) และลองสลับขณะมอเตอร์หมุนอยู่ (ไม่มีผล เพราะขดสตาร์ตถูกตัดไปแล้ว) สุดท้ายลองความเสียหายสองแบบ: สวิตช์ค้างเปิด และสวิตช์ค้างปิด</p>
+  <p class="lead" data-l="en">Press <b>Switch on</b> and watch speed and current: at 75 % speed the centrifugal switch opens and the start winding stops carrying current. Then <b>swap Z1–Z2</b> before switching on (the motor reverses), and try swapping while it runs (no effect, because the start winding is already out). Finally try the two faults: the switch stuck open, and stuck closed.</p>
+  <div class="duo"><div class="card sim"><canvas id="cvB"></canvas></div><div class="card solve"><div class="panel" id="pB"></div></div></div>
+  <div class="card rlog" id="logB"></div><div class="summ-wrap" id="sumB"></div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">กลับทางหมุนมอเตอร์ตัวเก็บประจุเริ่มเดิน</h2><h2 data-l="en">Reversing a capacitor-start motor</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · ตำราไทย บทที่ 5 หัวข้อ 2 (รูป 5.5)</div><div class="src" data-l="en">Worked example · Thai textbook ch. 5 §2 (Fig. 5.5)</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>มอเตอร์ตัวเก็บประจุเริ่มเดินต่อ U1 กับ Z1 เข้าสาย L และต่อ U2 กับ Z2 เข้าสาย N หมุนตามเข็มนาฬิกา ต้องการให้หมุนทวนเข็มนาฬิกา ควรเปลี่ยนการต่ออย่างไร และถ้าสลับสาย L กับ N ที่ต้นทางแทนจะได้ผลหรือไม่</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>A capacitor-start motor has U1 and Z1 on L and U2 and Z2 on N, and turns clockwise. It must turn anticlockwise. How should the connection change, and would swapping L and N at the supply work instead?</p></div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="ex2">
+  <div class="prob-head"><span class="prob-no">2</span><div><h2 data-l="th">ความเร็วที่สวิตช์แรงเหวี่ยงตัด</h2><h2 data-l="en">The speed at which the centrifugal switch opens</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง</div><div class="src" data-l="en">Worked example</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>มอเตอร์ 1 เฟส 4 ขั้ว 50 Hz ความเร็วพิกัด 1420 rpm สวิตช์แรงเหวี่ยงตัดที่ 75 % ของความเร็วซิงโครนัส จงหา (ก) ความเร็วที่สวิตช์ตัด (ข) สลิปที่พิกัด</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>A 4-pole, 50 Hz single-phase motor has a rated speed of 1420 rpm, and its centrifugal switch opens at 75 % of synchronous speed. Find (a) the switch-out speed, (b) the rated slip.</p></div>
+  <div class="card solve"><div id="ask2"></div><div id="st2"></div></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">ความถี่ 50 Hz</div><div class="src" data-l="en">50 Hz</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+  <div class="card" style="margin-top:12px"><div id="quiz"></div></div>
+  <div class="warnbox" data-l="th" style="margin-top:12px"><b>ข้อควรระวัง:</b> ฟิวส์และอุปกรณ์ตัดวงจรต้องอยู่ที่สายเฟส (L) ไม่วางไว้ที่สายนิวทรัล ห้ามตัดสายนิวทรัลเพียงเส้นเดียว ถ้าจะตัดทั้งสองเส้นให้ใช้เบรกเกอร์ 2 ขั้วที่ตัด L และ N พร้อมกัน เหมือนวงจรในใบงานที่ 1</div>
+  <div class="warnbox" data-l="en" style="margin-top:12px"><b>Caution:</b> fuses and protective devices go in the line (L), not in the neutral; never break the neutral alone. To break both, use a two-pole breaker that opens L and N together, as in the circuit of lab sheet 1.</div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู 1 — สนาม</h3>
+    <ol><li>ส่วน A เลือก "ไม่มีขดสตาร์ต" แล้วกด "แยกเป็นสองสนาม": ลูกศรสีชมพูและสีเขียวยาวเท่ากันและหมุนสวนกัน ผลรวมจึงอยู่บนเส้นตรงเสมอ</li>
+    <li>เลือกชนิดตัวเก็บประจุ แล้วกด "สลับ Z1–Z2": รอยยังเป็นวงกลม แต่ลูกศรสีขาวหมุนกลับทาง</li></ol></div>
+  <div class="card"><h3>ลองทำดู 2 — ความเสียหาย</h3>
+    <ol><li>ส่วน B เลือก "สวิตช์ค้างเปิด" แล้วจ่ายไฟ: มอเตอร์ไม่หมุน กระแสค้างราว 5 เท่า อาการจริงคือเสียงหึ่ง ถ้าเอามือหมุนเพลาช่วย มอเตอร์จะหมุนต่อไปทางนั้น</li>
+    <li>เลือก "สวิตช์ค้างปิด": มอเตอร์หมุนได้ แต่ขดสตาร์ตและตัวเก็บประจุสตาร์ตยังมีกระแส ซึ่งออกแบบให้ใช้ไม่กี่วินาที จึงร้อนจนเสียหาย</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 5 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 29 (รูป 29.4, 29.6) · Senty, <i>Motor Control Fundamentals</i> บทที่ 4 (รูป 4-4, 4-5) · Hughes, <i>Electric Motors and Drives</i> หัวข้อ 6.10</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this 1 — the field</h3>
+    <ol><li>In section A choose "No start winding" and press "Split into two fields": the pink and green arrows are equal and turn opposite ways, so their sum always stays on one line.</li>
+    <li>Choose capacitor-start and press "Swap Z1–Z2": the path is still a circle but the white arrow turns the other way.</li></ol></div>
+  <div class="card"><h3>Try this 2 — faults</h3>
+    <ol><li>In section B choose "switch stuck open" and switch on: the motor does not turn and draws about 5 times rated current. In real life it hums; spin the shaft by hand and it runs on in that direction.</li>
+    <li>Choose "switch stuck closed": the motor runs, but the start winding and start capacitor keep carrying current. They are made for a few seconds only, so they overheat and fail.</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 5 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 29 (Figs. 29.4, 29.6) · Senty, <i>Motor Control Fundamentals</i>, ch. 4 (Figs. 4-4, 4-5) · Hughes, <i>Electric Motors and Drives</i>, §6.10</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const ui = MC.ui, t = MC.t, $ = id => document.getElementById(id), fd = ED.fd, R = String.raw;
+
+  /* ---------------- A: single-phase field */
+  const FA = new ED1.Field2($('cvA')), pA = $('pA');
+  FA.type = 'off';
+  ui.h2(pA, t('ขดสตาร์ต', 'Start winding'));
+  ui.radio(pA, [{ id: 'off', label: t('ไม่มีขดสตาร์ต', 'No start winding'), on: true }, { id: 'split', label: t('แยกเฟส (≈30°)', 'split-phase (≈30°)') }, { id: 'cap', label: t('ตัวเก็บประจุ (≈85°)', 'capacitor (≈85°)') }], id => { FA.type = id; showA(); });
+  ui.h2(pA, t('การต่อและภาพ', 'Connection and picture'));
+  const bA = ui.buttons(pA, [{ id: 'bz', label: t('สลับ Z1–Z2', 'Swap Z1–Z2'), onclick: el => { FA.swapZ = !FA.swapZ; el.classList.toggle('on', FA.swapZ); showA(); } },
+    { id: 'b2', label: t('แยกเป็นสองสนาม', 'Split into two fields'), onclick: el => { FA.split2 = !FA.split2; el.classList.toggle('on', FA.split2); } },
+    { id: 'bp', label: t('หยุดภาพ', 'Pause'), onclick: el => { FA.run = !FA.run; el.textContent = FA.run ? t('หยุดภาพ', 'Pause') : t('เล่นต่อ', 'Resume'); } }]);
+  const mA = ui.metrics(pA);
+  let showA = function () { const q = FA.quality(), ds = FA.dirSign();
+    mA.innerHTML = ui.kv([[t('ความกลมของสนาม (เล็กสุด/ใหญ่สุด)', 'field roundness (min/max)'), FA.type === 'off' ? '0' : fd(q, 2)], [t('ทิศ', 'direction'), ds > 0 ? t('ตามเข็มนาฬิกา', 'clockwise') : ds < 0 ? t('ทวนเข็มนาฬิกา', 'anticlockwise') : t('ไม่หมุน (พองยุบ)', 'none (pulsating)')]]);
+    bA.b2.style.display = FA.type === 'off' ? '' : 'none'; }
+  const TYPE2 = { off: ['ไม่มีขดสตาร์ต', 'no start winding'], split: ['แยกเฟส (≈30°)', 'split-phase (≈30°)'], cap: ['ตัวเก็บประจุ (≈85°)', 'capacitor (≈85°)'] };
+  const fieldRow = (type, swap) => { const f = Object.create(ED1.Field2.prototype); Object.assign(f, { type, swapZ: swap }); const q = f.quality(), ds = f.dirSign();
+    return [ED.tt(TYPE2[type]), swap ? t('สลับ Z1–Z2', 'Z1–Z2 swapped') : t('ปกติ', 'normal'), type === 'off' ? '0' : fd(q, 2), ds > 0 ? t('ตามเข็มนาฬิกา', 'clockwise') : ds < 0 ? t('ทวนเข็มนาฬิกา', 'anticlockwise') : t('ไม่หมุน', 'none'),
+      type === 'off' ? t('ไม่มี', 'none') : q > 0.85 ? t('สูง', 'high') : t('พอใช้', 'fair')]; };
+  const logA = new ED.Log($('logA'), [['ขดสตาร์ต', 'start winding'], ['การต่อ', 'connection'], ['ความกลมของสนาม', 'field roundness'], ['ทิศของสนาม', 'field direction'], ['แรงบิดเริ่มเดิน', 'starting torque']]);
+  const _showA = showA; showA = () => { _showA(); const r = fieldRow(FA.type, FA.swapZ); logA.add(FA.type + FA.swapZ, r, FA.type === 'off' ? 'bad' : 'ok'); };
+  ED.summary($('sumA'), { head: [['ขดสตาร์ต', 'start winding'], ['การต่อ', 'connection'], ['ความกลมของสนาม', 'field roundness'], ['ทิศของสนาม', 'field direction'], ['แรงบิดเริ่มเดิน', 'starting torque']],
+    rows: () => [['off', false], ['split', false], ['cap', false], ['cap', true]].map(([ty, sw]) => fieldRow(ty, sw)),
+    points: [['ไม่มีขดสตาร์ต สนามพองยุบอยู่บนเส้นตรง (ความกลม 0) ไม่มีแรงบิดเริ่มเดิน', 'Without the start winding the field pulses along a line (roundness 0): no starting torque.'],
+      ['ขดสตาร์ตที่กระแสเหลื่อมราว 30° ให้สนามวงรี ออกตัวได้แต่แรงบิดน้อย ตัวเก็บประจุทำให้เหลื่อมเกือบ 90° สนามเกือบกลม แรงบิดเริ่มเดินสูง', 'A start winding with about 30° shift gives an elliptical field and a fair start; a capacitor brings the shift near 90°, an almost circular field and a high starting torque.'],
+      ['สลับ Z1–Z2 สนามหมุนกลับทาง ความกลมเท่าเดิม', 'Swapping Z1–Z2 reverses the field with the same roundness.']] });
+  showA(); LS.anim($('cvA'), dt => { FA.step(dt); FA.draw(); });
+
+  /* ---------------- B: start-up */
+  const SB = new ED1.Start1($('cvB')), pB = $('pB');
+  ui.h2(pB, t('ชนิดมอเตอร์', 'Motor type'));
+  ui.radio(pB, [{ id: 'split', label: t('แยกเฟส', 'split-phase') }, { id: 'cap', label: t('ตัวเก็บประจุเริ่มเดิน', 'capacitor-start'), on: true }, { id: 'psc', label: t('ตัวเก็บประจุถาวร (PSC)', 'permanent-split capacitor (PSC)') }], id => { SB.type = id; SB.stop(); SB.n = 0; SB.rec = []; });
+  ui.h2(pB, t('สั่งงาน', 'Control'));
+  ui.buttons(pB, [{ label: t('▶ จ่ายไฟ', '▶ Switch on'), onclick: () => SB.start() }, { label: t('■ ตัดไฟ', '■ Switch off'), onclick: () => SB.stop() },
+    { label: t('สลับ Z1–Z2', 'Swap Z1–Z2'), onclick: el => { SB.swapZ = !SB.swapZ; el.classList.toggle('on', SB.swapZ); } }]);
+  ui.h2(pB, t('จำลองความเสียหาย', 'Simulate a fault'));
+  ui.radio(pB, [{ id: 'f0', label: t('ปกติ', 'none'), on: true }, { id: 'fo', label: t('สวิตช์ค้างเปิด', 'switch stuck open') }, { id: 'fc', label: t('สวิตช์ค้างปิด', 'switch stuck closed') }], id => { SB.fault = { f0: '', fo: 'open', fc: 'closed' }[id]; });
+  const sB = ui.status(pB), mB = ui.metrics(pB);
+  const TYPE1 = { split: ['แยกเฟส', 'split-phase'], cap: ['ตัวเก็บประจุเริ่มเดิน', 'capacitor-start'], psc: ['ตัวเก็บประจุถาวร (PSC)', 'PSC'] };
+  const FAULT = { '': ['ปกติ', 'none'], open: ['สวิตช์ค้างเปิด', 'switch stuck open'], closed: ['สวิตช์ค้างปิด', 'switch stuck closed'] };
+  const verdict1 = r => (r.warn === 'stall' ? t('ไม่หมุน หึ่ง กระแส 5 เท่า: โอเวอร์โหลดต้องตัด', 'hums, does not turn, 5 × current: overload must trip') : r.warn === 'hot' ? t('หมุนได้ แต่ขดสตาร์ตร้อนจนเสียหาย', 'runs, but the start winding overheats') : t('เริ่มเดินปกติ', 'starts normally'));
+  const row1 = r => [ED.tt(TYPE1[r.type]), r.swap ? t('สลับ', 'swapped') : t('ปกติ', 'normal'), ED.tt(FAULT[r.fault]), r.tOpen !== null && r.tOpen !== undefined ? `${fd(r.tOpen, 2)} s` : ED1.START_TYPES[r.type].sw ? t('ไม่ตัด', 'never') : t('ไม่มีสวิตช์', 'no switch'),
+    `${r.rpm}`, r.dir > 0 ? t('ตามเข็ม', 'clockwise') : r.dir < 0 ? t('ทวนเข็ม', 'anticlockwise') : '—', `${fd(r.ia, 2)} ×`, verdict1(r)];
+  const head1 = [['ชนิด', 'type'], ['Z1–Z2', 'Z1–Z2'], ['ความเสียหาย', 'fault'], ['สวิตช์ตัดที่', 'switch opens at'], ['ความเร็ว (rpm)', 'speed (rpm)'], ['ทิศ', 'direction'], ['กระแสขดสตาร์ต', 'start-winding current'], ['ผล', 'result']];
+  const logB = new ED.Log($('logB'), head1, { empty: ['ยังไม่มีผล กด "จ่ายไฟ" แล้วรอจนมอเตอร์หมุนนิ่ง ผลจะมาเรียงในตารางนี้ ลองเปลี่ยนชนิด สลับ Z1–Z2 และความเสียหาย', 'No results yet: press "Switch on" and wait until the motor is steady; try other types, swapping Z1–Z2 and the faults'] });
+  ED.summary($('sumB'), { head: head1, rows: () => [['split', '', false], ['cap', '', false], ['psc', '', false], ['cap', '', true], ['cap', 'open', false], ['cap', 'closed', false]].map(([ty, f, sw]) => row1(ED1.Start1.simulate(ty, f, sw))),
+    points: [['ชนิดตัวเก็บประจุเริ่มเดินมีแรงบิดเริ่มเดินสูงกว่า จึงเร่งถึงจุดที่สวิตช์ตัด (75 %) เร็วกว่าชนิดแยกเฟส', 'The capacitor-start motor has more starting torque, so it reaches the switch-out speed (75 %) sooner than the split-phase motor.'],
+      ['ชนิดตัวเก็บประจุถาวรไม่มีสวิตช์ ขดสตาร์ตต่ออยู่ตลอดโดยมีกระแสน้อย', 'The PSC motor has no switch: its auxiliary winding stays in, carrying a small current.'],
+      ['สลับ Z1–Z2 ก่อนจ่ายไฟ มอเตอร์หมุนกลับทาง แต่ถ้าสลับขณะหมุนอยู่จะไม่มีผล เพราะขดสตาร์ตถูกตัดออกไปแล้ว', 'Swapping Z1–Z2 before switching on reverses the motor; swapping it while running does nothing, because the start winding is already out.'],
+      ['สวิตช์ค้างเปิด: มอเตอร์ไม่ออกตัว หึ่ง กระแสราว 5 เท่า สวิตช์ค้างปิด: หมุนได้แต่ขดสตาร์ตและตัวเก็บประจุสตาร์ตร้อนจนเสียหาย ทั้งสองกรณีต้องตรวจซ่อมสวิตช์', 'Switch stuck open: the motor will not start, hums, about 5 times current. Stuck closed: it runs but the start winding and start capacitor overheat. Either way the switch must be repaired.']] });
+  LS.anim($('cvB'), dt => { SB.step(dt); SB.draw(); if (SB.finished() && !SB.logged) { SB.logged = true; const r = SB.result(); logB.add([r.type, r.swap, r.fault].join('|'), row1(r), r.warn ? 'bad' : 'ok'); } const st = SB.status(), cu = SB.currents();
+    ui.setStatus(sB, st[1] === 'ok' ? t('ทำงาน', 'running') : st[1] === 'bad' ? t('ผิดปกติ', 'fault') : t('สถานะ', 'state'), st[0], st[1]);
+    mB.innerHTML = ui.kv([[t('ความเร็ว', 'speed'), `${Math.round(Math.abs(SB.n) * 1500)} rpm`], [t('กระแสขดรัน', 'main current'), `${fd(cu.m, 2)} × ${t('พิกัด', 'rated')}`], [t('กระแสขดสตาร์ต', 'start-winding current'), `${fd(cu.a, 2)} × ${t('พิกัด', 'rated')}`]]); });
+
+  /* ---------------- 1: reversing */
+  LS.choose($('ask1'), { options: [t('สลับ Z1 กับ Z2', 'swap Z1 and Z2'), t('สลับ L กับ N ที่ต้นทาง', 'swap L and N at the supply'), t('สลับทั้ง U1–U2 และ Z1–Z2', 'swap both U1–U2 and Z1–Z2')], answer: 0 });
+  LS.stepper($('st1'), { steps: [
+    { why: t('ทิศหมุนกำหนดจากว่ากระแสขดสตาร์ตนำหน้าหรือตามหลังกระแสขดรัน', 'The direction is set by whether the start-winding current leads or lags the main current'),
+      body: `<p>${t('สลับปลาย Z1 กับ Z2 ทำให้กระแสในขดสตาร์ตกลับขั้วเมื่อเทียบกับขดรัน สนามจึงหมุนกลับทาง: ต่อ U1 และ Z2 เข้า L, U2 และ Z1 เข้า N', 'Swapping Z1 and Z2 reverses the start-winding current relative to the main winding, so the field turns the other way: U1 and Z2 to L, U2 and Z1 to N.')}</p>` },
+    { why: t('ถ้าสลับ L กับ N ที่ต้นทาง กระแสในขดลวดทั้งสองกลับพร้อมกัน', 'Swapping L and N at the supply reverses both winding currents together'),
+      body: `<p>${t('ความสัมพันธ์ระหว่างสองขดเท่าเดิม ทิศจึงไม่เปลี่ยน ในทำนองเดียวกัน สลับทั้ง U1–U2 และ Z1–Z2 พร้อมกันก็ไม่เปลี่ยนทิศ', 'The relation between the two windings is unchanged, so the direction stays. Likewise, swapping both U1–U2 and Z1–Z2 changes nothing.')}</p>` },
+    { why: t('ลองในส่วน B', 'Try it in section B'), body: `<p>${t('กด "สลับ Z1–Z2" ก่อนจ่ายไฟ: เพลาหมุนทวนเข็มนาฬิกา', 'Press "Swap Z1–Z2" before switching on: the shaft turns anticlockwise.')}</p>` }],
+    answer: t('สลับ Z1 กับ Z2 (U1, Z2 เข้า L และ U2, Z1 เข้า N) การสลับ L กับ N ที่ต้นทางไม่ได้ผล', 'Swap Z1 and Z2 (U1, Z2 to L; U2, Z1 to N). Swapping L and N at the supply does not work.') });
+
+  /* ---------------- 2: switch-out speed */
+  LS.ask($('ask2'), { fields: [{ label: t('ความเร็วที่ตัด (rpm) =', 'switch-out speed (rpm) ='), ok: x => Math.abs(x - 1125) < 2, w: 5 }, { label: t('สลิป (%) =', 'slip (%) ='), ok: x => Math.abs(x - 5.33) < 0.06, w: 5 }] });
+  LS.stepper($('st2'), { steps: [
+    { why: t('ความเร็วซิงโครนัสของมอเตอร์ 4 ขั้ว 50 Hz', 'Synchronous speed of a 4-pole, 50 Hz motor'), tex: R`n_s = \frac{120 \times 50}{4} = 1500\ \text{rpm}` },
+    { why: t('สวิตช์ตัดที่ 75 % ของความเร็วซิงโครนัส', 'The switch opens at 75 % of synchronous speed'), tex: R`n_{\text{switch}} = 0.75 \times 1500 = 1125\ \text{rpm}` },
+    { why: t('สลิปที่พิกัด', 'Rated slip'), tex: R`s = \frac{1500 - 1420}{1500} = 0.0533 = 5.33\ \%` }],
+    answer: t('(ก) 1125 rpm (ข) 5.33 %', '(a) 1125 rpm; (b) 5.33 %') });
+
+  /* ---------------- C */
+  const wk = s => MC.tex(s, true);
+  ED.mcq('mcq', [
+    { q: t('1) ทำไมมอเตอร์ 1 เฟสที่มีแต่ขดรันจึงหมุนเองไม่ได้', '1) Why can a single-phase motor with only its main winding not start by itself?'), options: [t('แรงดันไม่พอ', 'the voltage is too low'), t('สนามพองยุบอยู่กับที่ ไม่หมุน', 'its field pulses in place and does not rotate'), t('โรเตอร์หนักเกินไป', 'the rotor is too heavy')], answer: 1, why: t('แรงบิดของสนามสองสนามที่หมุนสวนกันหักล้างกันตอนหยุดนิ่ง', 'the torques of the two opposite fields cancel at standstill') },
+    { q: t('2) มอเตอร์ชนิดใดไม่มีสวิตช์แรงเหวี่ยง', '2) Which motor has no centrifugal switch?'), options: [t('แยกเฟส', 'split-phase'), t('ตัวเก็บประจุเริ่มเดิน', 'capacitor-start'), t('ตัวเก็บประจุถาวร (PSC)', 'permanent-split capacitor (PSC)')], answer: 2, why: t('ขดสตาร์ตต่ออยู่ตลอดผ่านตัวเก็บประจุรัน', 'its auxiliary winding stays in through the run capacitor') },
+    { q: t('3) มอเตอร์ส่งเสียงหึ่ง ไม่หมุน แต่ถ้าหมุนเพลาช่วยจะหมุนต่อได้ สาเหตุที่น่าจะเป็นที่สุดคือข้อใด', '3) A motor hums and does not turn, but runs if the shaft is spun by hand. The most likely cause?'), options: [t('สวิตช์แรงเหวี่ยงค้างเปิดหรือขดสตาร์ตขาด', 'centrifugal switch stuck open or start winding open'), t('สลับ L กับ N', 'L and N swapped'), t('ความถี่ผิด', 'wrong frequency')], answer: 0, why: t('ขาดขดสตาร์ตจึงไม่มีแรงบิดเริ่มเดิน', 'without the start winding there is no starting torque') }]);
+  ED.quiz('quiz', [{ q: t('4) มอเตอร์ 1 เฟส 2 ขั้ว 50 Hz สวิตช์แรงเหวี่ยงตัดที่ 75 % ของความเร็วซิงโครนัส ตัดที่กี่รอบต่อนาที', '4) A 2-pole, 50 Hz single-phase motor\'s switch opens at 75 % of synchronous speed. At what speed?'),
+    fields: [{ key: 'x', lab: 'n =', ans: 2250, unit: 'rpm' }], work: wk(R`n = 0.75 \times 3000 = 2250\ \text{rpm}`) }]);
+
+  window.addEventListener('resize', () => { FA.resize(); SB.resize(); });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="1.2 — Nameplate and terminal box">1.2 — ป้ายพิกัดและกล่องขั้ว</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=9"><link rel="stylesheet" href="assets/ed2.css?v=9">
+<script src="assets/stops.js?v=9"></script><script src="assets/shell.js?v=9"></script>
+<script src="assets/lesson.js?v=9"></script><script src="assets/draw.js?v=9"></script><script src="assets/ed.js?v=9"></script><script src="assets/sym.js?v=9"></script><script src="assets/ed1.js?v=9"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">ป้ายพิกัดและกล่องขั้ว: ต่อสตาร์หรือเดลตา <span class="en">Nameplate and terminal box: star or delta</span></h1>
+<h1 data-l="en">Nameplate and terminal box <span class="en">Star or delta</span></h1>
+
+<p class="sub" data-l="th">ก่อนเขียนวงจรกำลังของมอเตอร์ตัวไหน ต้องอ่านป้ายพิกัดของมันก่อน ป้ายพิกัดบอกว่าขดลวดทนแรงดันเท่าไร จึงบอกได้ว่าต้องต่อสะพานในกล่องขั้วเป็นสตาร์หรือเดลตา บอกกระแสพิกัดที่ใช้ตั้งโอเวอร์โหลดและเลือกขนาดสาย และบอกว่ามอเตอร์ตัวนั้นเริ่มเดินแบบสตาร์-เดลตาได้หรือไม่ หน้านี้ฝึกอ่านป้ายพิกัดสองแบบ แล้วให้วางสะพานในกล่องขั้วเอง ถ้าต่อผิดจะเห็นทันทีว่าขดลวดได้แรงดันเกินหรือขาด</p>
+<p class="sub" data-l="en">Before drawing the power circuit of a motor, read its nameplate. It tells you the voltage a winding is built for, and so whether the links in the terminal box go in star or delta; it gives the rated current used to set the overload relay and size the cable; and it tells you whether the motor can be started star-delta. This page reads two nameplates and then lets you place the links in the terminal box yourself. Connect it wrongly and you see at once that the windings get too much or too little voltage.</p>
+<div class="equation-box eqwrap">$$ \text{star (Y)}:\ \ V_{\text{winding}} = \frac{V_L}{\sqrt3},\ \ I_L = I_{\text{winding}} $$ $$ \text{delta }(\Delta):\ \ V_{\text{winding}} = V_L,\ \ I_L = \sqrt3\, I_{\text{winding}} $$</div>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>ตัวเลขแรงดันที่ต่ำกว่าบนป้ายพิกัด</b> เช่น 230 ใน 230/400 V คือแรงดันที่ขดลวดหนึ่งชุดทนได้ ต่อเดลตาที่แรงดันนี้ หรือต่อสตาร์ที่แรงดันสูงกว่า √3 เท่า ระบบ 3 เฟสในไทยมีแรงดันสาย 400 V</li>
+  <li><b>กล่องขั้วตาม IEC 60034-8</b> วางแถวบนเป็น W2 U2 V2 แถวล่างเป็น U1 V1 W1 การเหลื่อมนี้ทำให้ใช้สะพานตรงชุดเดียวกันได้ทั้งสองแบบ: สะพานแนวนอนแถวบนสองอัน = <b>สตาร์</b>, สะพานแนวตั้งสามอัน = <b>เดลตา</b></li>
+  <li><b>ต่อผิดแล้วเสียหาย</b>: มอเตอร์ 230/400 V ต่อเดลตาบนระบบ 400 V ขดลวดได้แรงดันเกิน 1.73 เท่า ร้อนจนไหม้ ส่วนมอเตอร์ 400/690 V ต่อสตาร์บน 400 V ขดลวดได้แรงดันเหลือ 58 % แรงบิดเหลือราวหนึ่งในสาม</li>
+  <li><b>สตาร์-เดลตา (บทที่ 8)</b> ใช้ได้กับมอเตอร์ที่ทำงานแบบเดลตาที่แรงดันระบบเท่านั้น บนระบบ 400 V คือมอเตอร์ป้าย 400/690 V Δ/Y</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>The lower voltage on the nameplate</b>, such as 230 in 230/400 V, is what one winding is built for: delta at that voltage, or star at √3 times it. A Thai three-phase supply has a line voltage of 400 V.</li>
+  <li><b>An IEC 60034-8 terminal box</b> has W2 U2 V2 on the top row and U1 V1 W1 on the bottom row. The offset lets the same straight links make both connections: two horizontal links on the top row = <b>star</b>, three vertical links = <b>delta</b>.</li>
+  <li><b>A wrong connection does damage</b>: a 230/400 V motor in delta on 400 V gives its windings 1.73 times their voltage and burns out; a 400/690 V motor in star on 400 V gives them only 58 %, so the torque falls to about a third.</li>
+  <li><b>Star-delta starting (chapter 8)</b> only suits motors that run in delta at the supply voltage; on 400 V that means a 400/690 V Δ/Y nameplate.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#tA"><b>A</b>อ่านป้ายพิกัด</a><a href="#tB"><b>B</b>กล่องขั้ว</a><a href="#tL"><b>L</b>มอเตอร์ในห้องปฏิบัติการ</a><a href="#ex1"><b>1</b>มอเตอร์ 1.5 kW</a><a href="#ex2"><b>2</b>มอเตอร์ 7.5 kW</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#tA"><b>A</b>Reading a nameplate</a><a href="#tB"><b>B</b>The terminal box</a><a href="#tL"><b>L</b>The lab motor</a><a href="#ex1"><b>1</b>The 1.5 kW motor</a><a href="#ex2"><b>2</b>The 7.5 kW motor</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">อ่านป้ายพิกัดทีละช่อง</h2><h2 data-l="en">Reading a nameplate field by field</h2>
+    <div class="src" data-l="th">ป้ายพิกัดตัวอย่างตาม IEC 60034-1 · Senty บทที่ 6 · ตำราไทย บทที่ 6</div><div class="src" data-l="en">Sample nameplates after IEC 60034-1 · Senty ch. 6 · Thai textbook ch. 6</div></div></div>
+  <p class="lead" data-l="th">เลือกมอเตอร์ แล้วแตะช่องบนป้ายพิกัดเพื่ออ่านความหมาย ช่องที่ต้องดูก่อนเขียนแบบคือ <b>แรงดัน</b> (บอกการต่อ) และ <b>กระแส</b> (บอกขนาดอุปกรณ์)</p>
+  <p class="lead" data-l="en">Pick a motor and tap a field of its nameplate to read what it means. The fields to check before drawing are the <b>voltage</b> (it sets the connection) and the <b>current</b> (it sets the device sizes).</p>
+  <div class="duo"><div class="card solve"><div id="plSel" class="toggles"></div><div id="plate" style="margin-top:10px"></div></div><div class="card solve"><div id="plHelp"></div></div></div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">วางสะพานในกล่องขั้วเอง</h2><h2 data-l="en">Place the links in the terminal box</h2>
+    <div class="src" data-l="th">เลขขั้ว IEC 60034-8 · ตำราไทย บทที่ 6 หัวข้อ 2 · UMC5 หน้า 293</div><div class="src" data-l="en">IEC 60034-8 terminal markings · Thai textbook ch. 6 §2 · UMC5 p. 293</div></div></div>
+  <p class="lead" data-l="th">แตะจุดระหว่างขั้วเพื่อวางหรือเอาสะพานทองแดงออก เส้นประสีคือขดลวดที่อยู่ใต้แผงขั้ว (ขดลวด U ต่อจาก U1 ไป U2 เป็นต้น) กราฟแท่งด้านขวาคือแรงดันที่ขดลวดแต่ละชุดได้รับ เทียบกับเส้นพิกัดสีเขียว ลองต่อให้ถูกก่อน แล้วลองต่อผิดแบบต่าง ๆ ดูว่าเกิดอะไรขึ้น รวมทั้งสะพานแถวล่างที่ไม่ควรมี</p>
+  <p class="lead" data-l="en">Tap the spot between two terminals to fit or remove a copper link. The coloured dashed lines are the windings under the terminal board (winding U runs from U1 to U2, and so on). The bars on the right are the voltage each winding gets, against the green rating line. Connect it correctly first, then try wrong connections, including bottom-row links that should never be there.</p>
+  <div class="card sim"><canvas id="cvB"></canvas></div><div class="card solve" style="margin-top:12px"><div class="panel" id="pB" style="position:static;max-height:none"></div></div>
+  <div class="card rlog" id="logB"></div><div class="summ-wrap" id="sumB"></div>
+</section>
+
+<section class="prob" id="tL">
+  <div class="prob-head"><span class="prob-no">L</span><div><h2 data-l="th">มอเตอร์ในห้องปฏิบัติการ</h2><h2 data-l="en">The lab motor</h2>
+    <div class="src" data-l="th">ภาพถ่ายมอเตอร์ในห้องปฏิบัติการของสาขา</div><div class="src" data-l="en">Photographs of the department's lab motor</div></div></div>
+  <div class="story n2">
+    <div class="story-t"><div class="story-k" data-l="th">ของจริง</div><div class="story-k" data-l="en">The real thing</div>
+      <h2 data-l="th">ป้ายพิกัดที่ไม่ได้เขียน Δ/Y ให้</h2><h2 data-l="en">A nameplate without Δ/Y on it</h2>
+      <div class="story-p" data-l="th"><p>มอเตอร์ 0.4 kW 4 ขั้วในห้องปฏิบัติการมีป้ายพิกัดสามคอลัมน์: 220 V, 380 V และ 415 V ที่ 50 Hz ป้ายนี้ไม่ได้เขียนสัญลักษณ์ Δ/Y แต่ใช้หลักเดียวกันได้: ตัวเลขต่ำสุด 220 V คือแรงดันของขดลวดหนึ่งชุด (ต่อเดลตา) ส่วน 380 และ 415 V คือการต่อสตาร์</p>
+        <p>ระบบ 400 V ของไทยอยู่ระหว่าง 380 กับ 415 V จึงต้อง <b>ต่อสตาร์</b> ขดลวดได้ 400 ÷ √3 ≈ 231 V และกระแสพิกัดอยู่ราว 1.14–1.18 A ภาพกล่องขั้วด้านล่างคือมอเตอร์ตัวเดียวกัน สังเกตสะพานทองแดงสองอันที่เชื่อมขั้วแถวบนทั้งสาม: นี่คือการต่อสตาร์</p></div>
+      <div class="story-p" data-l="en"><p>The 0.4 kW, 4-pole lab motor has a nameplate with three columns: 220 V, 380 V and 415 V at 50 Hz. It does not print Δ/Y, but the same rule works: the lowest value, 220 V, is the voltage of one winding (delta), and 380 and 415 V are star.</p>
+        <p>The Thai 400 V supply lies between 380 and 415 V, so the motor is <b>connected in star</b>: each winding gets 400 ÷ √3 ≈ 231 V and the rated current is about 1.14–1.18 A. The terminal box below belongs to the same motor. Note the two copper links joining all three top-row terminals: that is the star connection.</p></div></div>
+    <div class="story-f">
+      <figure class="slide photo"><img src="img/motor/lab_nameplate.jpg" width="1300" height="520" loading="lazy" decoding="async" alt="Nameplate of the lab motor: three-phase induction motor, 0.4 kW, 4 poles, 50 Hz; 220, 380 and 415 V; 2.00, 1.14 and 1.18 A; 1400, 1400 and 1420 per minute; frame 71M, duty S1, thermal class 155 (F), IP55, IEC 60034-1.">
+        <figcaption data-l="th">ป้ายพิกัดมอเตอร์ในห้องปฏิบัติการ · ภาพถ่ายของสาขา · แตะรูปเพื่อขยาย</figcaption><figcaption data-l="en">Nameplate of the lab motor · department photograph · tap to enlarge</figcaption></figure>
+      <figure class="slide photo"><img src="img/motor/lab_terminal_box.jpg" width="1300" height="615" loading="lazy" decoding="async" alt="Open terminal box of the lab motor: six terminals in two rows, two copper links joining the three top-row terminals (star connection), three supply cables entering the bottom-row terminals.">
+        <figcaption data-l="th">กล่องขั้วของมอเตอร์ตัวเดียวกัน ต่อสตาร์อยู่ · ภาพถ่ายของสาขา · แตะรูปเพื่อขยาย</figcaption><figcaption data-l="en">Terminal box of the same motor, connected in star · department photograph · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">มอเตอร์ 1.5 kW 230/400 V บนระบบ 400 V</h2><h2 data-l="en">A 1.5 kW, 230/400 V motor on a 400 V supply</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · ป้ายพิกัดในส่วน A</div><div class="src" data-l="en">Worked example · the nameplate of section A</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>มอเตอร์ป้ายพิกัด 1.5 kW 230/400 V Δ/Y 5.80/3.35 A ใช้กับระบบไฟ 3 เฟส 400 V จงหา (ก) การต่อขดลวด (ข) แรงดันที่ขดลวดแต่ละชุดได้รับ (ค) กระแสสาย (ง) ถ้าเผลอต่อเดลตา ขดลวดจะได้แรงดันกี่เท่าของพิกัด</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>A motor rated 1.5 kW, 230/400 V Δ/Y, 5.80/3.35 A is used on a 400 V three-phase supply. Find (a) the connection, (b) the voltage across each winding, (c) the line current, (d) how many times its rating a winding gets if it is connected in delta by mistake.</p></div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="ex2">
+  <div class="prob-head"><span class="prob-no">2</span><div><h2 data-l="th">มอเตอร์ 7.5 kW 400/690 V: ต่อเดลตา และสตาร์-เดลตาได้</h2><h2 data-l="en">A 7.5 kW, 400/690 V motor: delta, and star-delta starting is possible</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · ใช้ต่อในบทที่ 8</div><div class="src" data-l="en">Worked example · used again in chapter 8</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>มอเตอร์ป้ายพิกัด 7.5 kW 400/690 V Δ/Y 14.7/8.50 A ใช้กับระบบไฟ 400 V จงหา (ก) การต่อขดลวด (ข) กระแสสายและกระแสในขดลวด (ค) ถ้าเริ่มเดินแบบสตาร์ ขดลวดได้แรงดันเท่าไร และมอเตอร์นี้เริ่มเดินแบบสตาร์-เดลตาได้หรือไม่</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>A motor rated 7.5 kW, 400/690 V Δ/Y, 14.7/8.50 A is used on a 400 V supply. Find (a) the connection, (b) the line current and the winding current, (c) the winding voltage while it is started in star, and whether this motor can be started star-delta.</p></div>
+  <div class="card solve"><div id="ask2"></div><div id="st2"></div></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">ระบบไฟ 400 V ถ้าโจทย์ไม่บอก</div><div class="src" data-l="en">400 V supply unless stated</div></div></div>
+  <div class="card"><div id="quiz"></div></div>
+  <div class="card" style="margin-top:12px"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู 1 — ต่อผิดแบบต่าง ๆ</h3>
+    <ol><li>เลือกมอเตอร์ 1.5 kW แล้วกด "เดลตา": แท่งแรงดันสูงเกินเส้นพิกัด 1.73 เท่า เปลี่ยนเป็น "สตาร์": พอดีเส้นพิกัด</li>
+    <li>วางสะพานแถวบนเพียงอันเดียว: ขดลวดสองชุดต่ออนุกรมกันคร่อมสองสาย อีกชุดไม่มีไฟ มอเตอร์ทำงานเหมือนขาดเฟส</li>
+    <li>วางสะพานแถวล่าง: สายสองเฟสชนกันตรง ๆ คือลัดวงจร เบรกเกอร์ตัดทันที</li></ol></div>
+  <div class="card"><h3>ลองทำดู 2 — ระบบไฟอื่น</h3>
+    <ol><li>เลือกระบบ 230 V แล้วต่อมอเตอร์ 1.5 kW เป็นเดลตา: ถูกต้อง นี่คือเหตุที่ป้ายพิกัดมีสองแรงดัน มอเตอร์ตัวเดียวใช้ได้สองระบบ</li>
+    <li>กด "สลับ L1 กับ L2": แรงดันขดลวดไม่เปลี่ยน แต่เพลาหมุนกลับทาง การต่อสตาร์หรือเดลตาไม่เกี่ยวกับทิศการหมุน</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 6 หัวข้อ 2 · Senty, <i>Motor Control Fundamentals</i> บทที่ 5–6 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. หน้า 293</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this 1 — wrong connections</h3>
+    <ol><li>Choose the 1.5 kW motor and press "Delta": the voltage bars rise 1.73 times above the rating line. Change to "Star": they sit on the line.</li>
+    <li>Fit only one top-row link: two windings end up in series across two lines and the third has no voltage, so the motor behaves as if a phase were lost.</li>
+    <li>Fit a bottom-row link: two lines meet directly, a short circuit that trips the breaker at once.</li></ol></div>
+  <div class="card"><h3>Try this 2 — other supplies</h3>
+    <ol><li>Choose a 230 V supply and connect the 1.5 kW motor in delta: correct. That is why the nameplate gives two voltages: one motor suits two supplies.</li>
+    <li>Press "Swap L1 and L2": the winding voltages stay the same but the shaft turns the other way. Star or delta has nothing to do with the direction.</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 6 §2 · Senty, <i>Motor Control Fundamentals</i>, ch. 5–6 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., p. 293</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const ui = MC.ui, t = MC.t, $ = id => document.getElementById(id), fd = ED.fd, R = String.raw;
+
+  /* ---------------- A: nameplates */
+  let plKey = 'm1';
+  ui.radio($('plSel'), [{ id: 'm1', label: t('มอเตอร์ 1.5 kW', '1.5 kW motor'), on: true }, { id: 'm2', label: t('มอเตอร์ 7.5 kW', '7.5 kW motor') }], id => { plKey = id; ED1.plate($('plate'), plKey, $('plHelp')); });
+  ED1.plate($('plate'), plKey, $('plHelp'));
+
+  /* ---------------- B: terminal box */
+  const pB = $('pB'), sB = document.createElement('div'), mB = document.createElement('div');
+  const TB = new ED1.TBox($('cvB'), { onChange: r => showB(r) });
+  ui.h2(pB, t('มอเตอร์', 'Motor'));
+  ui.radio(pB, Object.entries(ED1.TBOX_MOTORS).map(([k, m]) => ({ id: 'tm_' + k, label: ED.tt(m.name), on: k === 'm1' })), id => { TB.motor = id.slice(3); TB.changed(); });
+  ui.h2(pB, t('ระบบไฟ (แรงดันสาย)', 'Supply (line voltage)'));
+  ui.radio(pB, [230, 400, 690].map(v => ({ id: 'tv' + v, label: v === 400 ? t('400 V (ไทย)', '400 V (Thailand)') : v + ' V', on: v === 400 })), id => { TB.Vs = +id.slice(2); TB.changed(); });
+  ui.h2(pB, t('สะพาน', 'Links'));
+  ui.buttons(pB, [{ label: t('สตาร์', 'Star'), onclick: () => TB.setPreset('star') }, { label: t('เดลตา', 'Delta'), onclick: () => TB.setPreset('delta') }, { label: t('เอาออกหมด', 'Remove all'), onclick: () => TB.setPreset('') },
+    { label: t('สลับ L1 กับ L2', 'Swap L1 and L2'), onclick: el => { TB.swap = !TB.swap; el.classList.toggle('on', TB.swap); TB.changed(); } }]);
+  sB.className = 'status'; mB.className = 'metrics'; pB.appendChild(sB); pB.appendChild(mB);
+  let showB = function (r) {
+    const K = { short: ['ลัดวงจร', 'short circuit', 'bad', t('สะพานแถวล่างต่อสายสองเฟสเข้าหากันโดยตรง เบรกเกอร์ต้องตัดทันที', 'a bottom-row link joins two lines directly; the breaker must trip at once')],
+      none: ['ยังไม่ครบวงจร', 'not complete', 'wait', t('ขดลวดยังไม่ครบวงจร ไม่มีกระแส มอเตอร์ไม่หมุน', 'the windings are not in a closed circuit; no current, no rotation')],
+      unbal: ['ต่อไม่ถูก', 'wrong', 'bad', t('ขดลวดได้แรงดันไม่เท่ากัน บางชุดไม่มีไฟ มอเตอร์ทำงานเหมือนขาดเฟส ร้อนและหมุนไม่ขึ้น', 'unequal winding voltages, some none at all: like a lost phase, the motor overheats and may not start')],
+      over: ['แรงดันเกิน', 'overvoltage', 'bad', t(`ขดลวดได้ ${Math.round(r.wv[0])} V เกินพิกัด ${r.Vr} V ถึง ${fd(r.ratio, 2)} เท่า: กระแสแม่เหล็กสูงมาก มอเตอร์ร้อนจนไหม้`, `the windings get ${Math.round(r.wv[0])} V, ${fd(r.ratio, 2)} times their ${r.Vr} V rating: the magnetising current soars and the motor burns out`)],
+      under: ['แรงดันต่ำ', 'undervoltage', 'warn', t(`ขดลวดได้แค่ ${Math.round(r.wv[0])} V จากพิกัด ${r.Vr} V แรงบิดเหลือ ${Math.round(r.ratio * r.ratio * 100)} % มอเตอร์อาจเริ่มเดินไม่ขึ้นและกินกระแสเกินเมื่อมีภาระ`, `the windings get only ${Math.round(r.wv[0])} V of their ${r.Vr} V rating; torque falls to ${Math.round(r.ratio * r.ratio * 100)} %, the motor may not start and overheats under load`)],
+      ok: ['ถูกต้อง', 'correct', 'ok', t(`ต่อ${r.conn === 'star' ? 'สตาร์' : 'เดลตา'}ถูกต้อง ขดลวดได้ ${Math.round(r.wv[0])} V ใกล้พิกัด ${r.Vr} V`, `correct ${r.conn} connection; the windings get ${Math.round(r.wv[0])} V, close to their ${r.Vr} V rating`)] }[r.kind];
+    ui.setStatus(sB, t(K[0], K[1]), K[3], K[2]);
+    mB.innerHTML = ui.kv([[t('การต่อ', 'connection'), r.conn === 'star' ? t('สตาร์ (Y)', 'star (Y)') : r.conn === 'delta' ? t('เดลตา (Δ)', 'delta (Δ)') : '—'],
+      [t('แรงดันขดลวด U / V / W', 'winding voltage U / V / W'), r.wv.map(v => Math.round(v)).join(' / ') + ' V'],
+      [t('กระแสในขดลวด', 'winding current'), r.iPh ? `${fd(r.iPh, 2)} A` : '—'], [t('กระแสสาย', 'line current'), r.iL ? `${fd(r.iL, 2)} A` : '—']]); }
+  const LNK = { tW2U2: 'W2–U2', tU2V2: 'U2–V2', vU1W2: 'U1–W2', vV1U2: 'V1–U2', vW1V2: 'W1–V2', bU1V1: 'U1–V1', bV1W1: 'V1–W1' };
+  const connTxt = (r, links) => (r.conn === 'star' ? t('สตาร์', 'star') : r.conn === 'delta' ? t('เดลตา', 'delta') : links.length ? links.map(k => LNK[k]).join(', ') : t('ไม่มีสะพาน', 'no links'));
+  const verdict = r => ({ ok: () => t('ถูกต้อง', 'correct'), over: () => t(`แรงดันเกิน ${fd(r.ratio, 2)} เท่า: ไหม้`, `overvoltage ${fd(r.ratio, 2)} ×: burns out`), under: () => t(`แรงดันต่ำ: แรงบิดเหลือ ${Math.round(r.ratio * r.ratio * 100)} %`, `undervoltage: torque ${Math.round(r.ratio * r.ratio * 100)} %`),
+    unbal: () => t('ไม่สมดุล: เหมือนขาดเฟส', 'unbalanced: like a lost phase'), short: () => t('ลัดวงจร', 'short circuit'), none: () => t('ไม่มีกระแส', 'no current') }[r.kind])();
+  const kindOf = r => (r.kind === 'ok' ? 'ok' : r.kind === 'under' ? 'warn' : 'bad');
+  const motorTxt = k => ED.tt(ED1.TBOX_MOTORS[k].name).replace(/^(มอเตอร์ |motor, )/, '');
+  const logB = new ED.Log($('logB'), [['มอเตอร์', 'motor'], ['ระบบไฟ', 'supply'], ['การต่อ', 'connection'], ['แรงดันขดลวด U / V / W', 'winding voltage U / V / W'], ['ผล', 'result']]);
+  const _showB = showB; showB = r => { _showB(r); const links = [...TB.links].sort(); if (r.kind === 'none' && !links.length) return;
+    logB.add([TB.motor, TB.Vs, links.join('+'), TB.swap].join('|'), [motorTxt(TB.motor), `${TB.Vs} V`, connTxt(r, links) + (TB.swap ? t(' (สลับ L1–L2)', ' (L1–L2 swapped)') : ''), r.kind === 'short' ? '—' : r.wv.map(v => Math.round(v)).join(' / ') + ' V', verdict(r)], kindOf(r)); };
+  const solveCase = (motor, Vs, links, swap = false) => { const b = Object.create(ED1.TBox.prototype); Object.assign(b, { motor, Vs, swap, links: new Set(links) }); return b.solve(); };
+  const STAR = ['tW2U2', 'tU2V2'], DELTA = ['vU1W2', 'vV1U2', 'vW1V2'];
+  ED.summary($('sumB'), { head: [['มอเตอร์', 'motor'], ['ระบบไฟ', 'supply'], ['การต่อ', 'connection'], ['แรงดันขดลวด', 'winding voltage'], ['เทียบพิกัดขดลวด', 'against the winding rating'], ['ผล', 'result']],
+    rows: () => [['m1', 400, STAR], ['m1', 400, DELTA], ['m1', 230, DELTA], ['m2', 400, DELTA], ['m2', 400, STAR], ['m2', 690, STAR], ['lab', 400, STAR], ['lab', 400, DELTA], ['m1', 400, ['tW2U2']], ['m1', 400, ['bU1V1']]].map(([m, V, L]) => {
+      const r = solveCase(m, V, L); return [motorTxt(m), `${V} V`, connTxt(r, L), r.kind === 'short' ? '—' : `${Math.round(r.wv[0])}${r.kind === 'unbal' ? ' / ' + r.wv.slice(1).map(v => Math.round(v)).join(' / ') : ''} V`, r.kind === 'short' || r.kind === 'unbal' ? '—' : `${fd(r.ratio, 2)} ×`, `<span class="rk-${kindOf(r)}">${verdict(r)}</span>`]; }),
+    points: [['ตัวเลขแรงดันที่ต่ำกว่าบนป้ายพิกัดคือแรงดันของขดลวดหนึ่งชุด ถ้าระบบไฟเท่ากับตัวเลขนี้ให้ต่อเดลตา ถ้าระบบไฟเท่ากับตัวเลขที่สูงกว่า (√3 เท่า) ให้ต่อสตาร์', 'The lower nameplate voltage is one winding\'s voltage: if the supply equals it, connect delta; if the supply equals the higher value (√3 times), connect star.'],
+      ['ต่อเดลตาบนระบบที่สูงเกินไป ขดลวดได้แรงดันเกิน 1.73 เท่า ไหม้ ต่อสตาร์บนระบบที่ต่ำเกินไป ขดลวดได้แรงดัน 58 % แรงบิดเหลือหนึ่งในสาม', 'Delta on too high a supply gives the windings 1.73 times their voltage and burns them out; star on too low a supply gives them 58 %, and a third of the torque.'],
+      ['สะพานไม่ครบทำให้ขดลวดบางชุดไม่มีไฟเหมือนขาดเฟส และสะพานแถวล่างทำให้สองเฟสชนกันเป็นการลัดวงจร', 'Incomplete links leave a winding without voltage, like a lost phase, and a bottom-row link joins two lines in a short circuit.'],
+      ['สลับ L1 กับ L2 แรงดันขดลวดไม่เปลี่ยน แต่ทิศการหมุนกลับ', 'Swapping L1 and L2 leaves the winding voltages unchanged but reverses the direction.']] });
+  TB.setPreset(''); LS.anim($('cvB'), dt => { TB.step(dt); TB.draw(); });
+
+  /* ---------------- 1 */
+  LS.ask($('ask1'), { fields: [{ label: t('V ขดลวด (V) =', 'winding V (V) ='), ok: x => Math.abs(x - 231) < 1.5, w: 5 }, { label: t('I สาย (A) =', 'line I (A) ='), ok: x => Math.abs(x - 3.35) < 0.03, w: 5 }, { label: t('เดลตา: กี่เท่า =', 'delta: times ='), ok: x => Math.abs(x - 1.74) < 0.03, w: 5 }] });
+  LS.stepper($('st1'), { steps: [
+    { why: t('ตัวเลขต่ำบนป้าย 230 V คือแรงดันของขดลวดหนึ่งชุด ระบบ 400 V สูงกว่า 230 V อยู่ √3 เท่า จึงต้องต่อสตาร์', 'The lower value, 230 V, is one winding\'s voltage. 400 V is √3 times higher, so the motor goes in star.'),
+      tex: R`V_{\text{winding}} = \frac{V_L}{\sqrt3} = \frac{400}{\sqrt3} = 231\ \text{V} \approx 230\ \text{V}` },
+    { why: t('ต่อสตาร์ กระแสสายเท่ากับกระแสในขดลวด และป้ายพิกัดให้ค่าที่ 400 V ไว้แล้ว', 'In star the line current equals the winding current, and the nameplate already gives it at 400 V'), tex: R`I_L = 3.35\ \text{A}` },
+    { why: t('ถ้าต่อเดลตา ขดลวดแต่ละชุดคร่อมแรงดันสายเต็ม ๆ', 'In delta each winding sits across the full line voltage'), tex: R`\frac{400\ \text{V}}{230\ \text{V}} = 1.74\ \text{times the rating}`,
+      body: `<p>${t('ลองในส่วน B: เลือกมอเตอร์ 1.5 kW แล้วกด "เดลตา"', 'Try it in section B: choose the 1.5 kW motor and press "Delta".')}</p>` }],
+    answer: t('(ก) สตาร์ (ข) 231 V (ค) 3.35 A (ง) 1.74 เท่า ขดลวดไหม้', '(a) star; (b) 231 V; (c) 3.35 A; (d) 1.74 times: the windings burn out') });
+
+  /* ---------------- 2 */
+  LS.ask($('ask2'), { fields: [{ label: t('I สาย (A) =', 'line I (A) ='), ok: x => Math.abs(x - 14.7) < 0.1, w: 5 }, { label: t('I ขดลวด (A) =', 'winding I (A) ='), ok: x => Math.abs(x - 8.49) < 0.06, w: 5 }, { label: t('V ขดลวดตอนสตาร์ (V) =', 'winding V in star (V) ='), ok: x => Math.abs(x - 231) < 1.5, w: 5 }] });
+  LS.stepper($('st2'), { steps: [
+    { why: t('ตัวเลขต่ำ 400 V คือแรงดันของขดลวด เท่ากับแรงดันระบบพอดี จึงต่อเดลตา', 'The lower value, 400 V, equals the supply voltage, so the motor goes in delta'), tex: R`V_{\text{winding}} = V_L = 400\ \text{V}` },
+    { why: t('ต่อเดลตา กระแสสายคือค่าแรกบนป้าย และกระแสในขดลวดน้อยกว่า √3 เท่า', 'In delta the line current is the first value on the plate and the winding current is √3 times smaller'),
+      tex: R`I_L = 14.7\ \text{A},\qquad I_{\text{winding}} = \frac{14.7}{\sqrt3} = 8.49\ \text{A}` },
+    { why: t('ตอนเริ่มเดินต่อสตาร์ ขดลวดได้แรงดันลดลง √3 เท่า ไม่เกินพิกัด แล้วจึงเปลี่ยนเป็นเดลตาเมื่อความเร็วขึ้น', 'Started in star, each winding gets √3 times less, below its rating; the motor then changes to delta once up to speed'),
+      tex: R`V_{\text{winding,star}} = \frac{400}{\sqrt3} = 231\ \text{V} < 400\ \text{V}`, body: `<p>${t('จึงเริ่มเดินแบบสตาร์-เดลตาได้ (บทที่ 8)', 'So star-delta starting is possible (chapter 8).')}</p>` }],
+    answer: t('(ก) เดลตา (ข) 14.7 A และ 8.49 A (ค) 231 V และเริ่มเดินแบบสตาร์-เดลตาได้', '(a) delta; (b) 14.7 A and 8.49 A; (c) 231 V, and star-delta starting is possible') });
+
+  /* ---------------- C */
+  const wk = s => MC.tex(s, true);
+  ED.quiz('quiz', [
+    { q: t('1) ต่อสตาร์บนระบบ 400 V ขดลวดแต่ละชุดได้แรงดันเท่าไร', '1) In star on a 400 V supply, what voltage does each winding get?'), fields: [{ key: 'x', lab: 'V =', ans: 230.9, unit: 'V', tol: 1 }], work: wk(R`\frac{400}{\sqrt3} = 230.9\ \text{V}`) },
+    { q: t('2) มอเตอร์ต่อเดลตา กระแสในขดลวด 5 A กระแสสายเท่าไร', '2) A delta-connected motor has 5 A in each winding. Line current?'), fields: [{ key: 'x', lab: 'I_L =', ans: 8.66, unit: 'A' }], work: wk(R`I_L = \sqrt3 \times 5 = 8.66\ \text{A}`) },
+    { q: t('3) มอเตอร์ 400/690 V ถูกต่อสตาร์บนระบบ 400 V โดยไม่ตั้งใจ แรงบิดเหลือกี่เปอร์เซ็นต์ของปกติ (แรงบิดแปรตามแรงดันยกกำลังสอง)', '3) A 400/690 V motor is connected in star on 400 V by mistake. Torque as a percentage of normal (torque ∝ voltage squared)?'), fields: [{ key: 'x', lab: 'T =', ans: 33.3, unit: '%', tol: 0.5 }], work: wk(R`\left(\frac{231}{400}\right)^2 = \frac13 = 33.3\ \%`) }]);
+  ED.mcq('mcq', [
+    { q: t('4) มอเตอร์ป้าย 230/400 V Δ/Y ใช้กับระบบ 400 V ต้องวางสะพานแบบใด', '4) A 230/400 V Δ/Y motor on a 400 V supply: which links?'), options: [t('แนวตั้งสามอัน', 'three vertical'), t('แนวนอนแถวบนสองอัน', 'two horizontal on the top row'), t('แนวนอนแถวล่าง', 'horizontal on the bottom row')], answer: 1, why: t('สตาร์: เชื่อม W2 U2 V2 เข้าด้วยกัน', 'star: join W2, U2 and V2') },
+    { q: t('5) มอเตอร์ข้อใดเริ่มเดินแบบสตาร์-เดลตาบนระบบ 400 V ได้', '5) Which motor can be started star-delta on 400 V?'), options: ['230/400 V Δ/Y', '400/690 V Δ/Y', '220/380 V Δ/Y'], answer: 1, why: t('ต้องทำงานแบบเดลตาที่ 400 V', 'it must run in delta at 400 V') },
+    { q: t('6) เปลี่ยนจากสตาร์เป็นเดลตา ทิศการหมุนจะเป็นอย่างไร', '6) Changing from star to delta, what happens to the direction?'), options: [t('กลับทาง', 'reverses'), t('ทิศเดิม', 'unchanged'), t('ขึ้นกับจำนวนขั้ว', 'depends on the poles')], answer: 1, why: t('ทิศขึ้นกับลำดับเฟสที่ U1 V1 W1 เท่านั้น', 'the direction depends only on the phase order at U1 V1 W1') }]);
+
+  window.addEventListener('resize', () => TB.resize());
+});
+</script>
+</body>
+</html>

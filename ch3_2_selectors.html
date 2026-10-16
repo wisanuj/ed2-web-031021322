@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="3.2 — Selector switches">3.2 — สวิตช์เลือกตำแหน่ง</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=9"><link rel="stylesheet" href="assets/ed2.css?v=9">
+<script src="assets/stops.js?v=9"></script><script src="assets/shell.js?v=9"></script>
+<script src="assets/lesson.js?v=9"></script><script src="assets/draw.js?v=9"></script><script src="assets/ed.js?v=9"></script><script src="assets/sym.js?v=9"></script><script src="assets/iec.js?v=9"></script><script src="assets/relay.js?v=9"></script><script src="assets/ch2.js?v=9"></script><script src="assets/ch3.js?v=9"></script><script src="assets/devdata.js?v=9"></script><script src="assets/dev.js?v=9"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">สวิตช์เลือกตำแหน่ง ตารางหน้าสัมผัส และสวิตช์ดรัม <span class="en">Selector switches, contact charts and the drum switch</span></h1>
+<h1 data-l="en">Selector switches <span class="en">Contact charts and the drum switch</span></h1>
+
+<p class="sub" data-l="th">สวิตช์เลือกตำแหน่ง (selector switch) ใช้บิดเลือกการทำงาน เช่น มือ/หยุด/อัตโนมัติ หรือเลือกหลอดที่จะติด ข้างในมีลูกเบี้ยวบนแกนเดียวกันกดหน้าสัมผัสแต่ละชุดให้ต่อหรือเปิดตามตำแหน่ง ในแบบจึงต้องบอกให้ได้ว่าหน้าสัมผัสไหนต่อในตำแหน่งไหน ด้วยตารางหน้าสัมผัส (contact chart) สวิตช์ดรัม (drum switch) ใช้หลักเดียวกันแต่ตัดต่อไฟเข้ามอเตอร์โดยตรง และใช้กลับทางหมุนได้</p>
+<p class="sub" data-l="en">A selector switch is turned to choose an operation, such as hand/off/auto, or which lamp is lit. Inside, cams on one shaft press each contact closed or let it open according to the position, so a drawing must say which contact is closed in which position, with a contact chart. The drum switch works the same way but switches the motor supply directly, and can reverse the motor.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>ค้างตำแหน่งหรือสปริงคืน</b>: สวิตช์เลือกแบบค้างตำแหน่ง (maintained) อยู่ที่ตำแหน่งที่บิดไว้ ส่วนแบบสปริงคืนกลาง (spring return) กลับมาตำแหน่งกลางเองเมื่อปล่อยมือ จึงทำงานเหมือนปุ่มกด</li>
+  <li><b>ตารางหน้าสัมผัส</b>: แถวคือหน้าสัมผัส คอลัมน์คือตำแหน่ง เครื่องหมาย X (หรือ 1) แปลว่าหน้าสัมผัสนั้นต่อในตำแหน่งนั้น ช่องว่างแปลว่าเปิด แบบที่ใช้สวิตช์หลายตำแหน่งต้องมีตารางนี้เสมอ</li>
+  <li><b>ในวงจรแบบ IEC</b>: หน้าสัมผัสแต่ละตัวของสวิตช์เลือกวาดด้วยตัวสั่งงานแบบบิด ใช้ชื่อเดียวกัน (S1) และเขียนตำแหน่งที่ทำให้ต่อไว้ข้าง ๆ เช่น "I" หรือ "II"</li>
+  <li><b>สวิตช์ดรัม</b> กลับทางหมุนมอเตอร์ 3 เฟสด้วยการ <b>สลับสาย 2 เส้น</b> อีกเส้นคงเดิม และต้องผ่านตำแหน่งหยุดก่อนเสมอ ควรรอให้มอเตอร์หยุดก่อนบิดไปอีกทาง</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>Maintained or spring return</b>: a maintained selector stays where it is turned; a spring-return selector goes back to the centre by itself when let go, so it acts like a push button.</li>
+  <li><b>The contact chart</b>: rows are contacts, columns are positions, and an X (or 1) means that contact is closed in that position; a blank means open. A drawing with a multi-position switch always needs this chart.</li>
+  <li><b>In an IEC circuit</b>: each contact of the selector is drawn with a turn operator, carries the same name (S1), and has the position that closes it written beside it, such as "I" or "II".</li>
+  <li><b>The drum switch</b> reverses a three-phase motor by <b>swapping two lines</b> while the third stays put, and always passes through off; let the motor stop before turning it the other way.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>ข้างในสวิตช์เลือก</a><a href="#tA"><b>A</b>สวิตช์ 3 ตำแหน่ง</a><a href="#ex1"><b>1</b>อ่านตารางหน้าสัมผัส</a><a href="#tB"><b>B</b>สวิตช์ดรัม</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>Inside a selector</a><a href="#tA"><b>A</b>Three positions</a><a href="#ex1"><b>1</b>Reading a contact chart</a><a href="#tB"><b>B</b>Drum switch</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">ข้างในสวิตช์เลือก</h2><h2 data-l="en">Inside a selector switch</h2>
+    <div class="src" data-l="th">ตำราไทย บทที่ 3 หัวข้อ 2.1 และ 2.3 · EMC9 หน่วยที่ 6 รูป 6-5</div><div class="src" data-l="en">Thai textbook ch. 3 §2.1 and §2.3 · EMC9 unit 6, Fig. 6-5</div></div></div>
+  <div class="story n2">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>รูป 6-5 ของ EMC9 คือสวิตช์เลือกสองแบบ: ซ้ายเป็นแบบงานหนัก ขวาเป็นแบบ 22 mm ที่ยึดบนหน้าตู้ ด้านหลังมีชุดหน้าสัมผัสซ้อนกันหลายชุด เหมือนปุ่มกดในหน้า 3.1 ต่างกันที่หัวบิดหมุนแกนลูกเบี้ยว แทนแกนกดที่เลื่อนขึ้นลง</p>
+        <p>การ์ดด้านล่างเป็นสวิตช์ลูกเบี้ยวขนาดใหญ่ที่เห็นชั้นของหน้าสัมผัสชัด ส่วนรูป 3.10 ของตำราไทยคือสวิตช์ดรัม หน้านี้เพิ่มสัญลักษณ์ IEC และตารางหน้าสัมผัสของสวิตช์ทั้งสองแบบ</p></div>
+      <div class="story-p" data-l="en"><p>EMC9 Fig. 6-5 shows two selector switches: a heavy-duty one on the left and a 22 mm panel-mounted one on the right, with several contact blocks stacked behind it, like the push button of page 3.1. The difference is that the head turns a cam shaft instead of pushing a plunger.</p>
+        <p>The card below is a large cam switch whose contact decks are easy to see, and Thai textbook Fig. 3.10 shows drum switches. This page adds the IEC symbols and contact charts of both kinds of switch.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/emc9_fig6_5_selectors.jpg" width="605" height="365" loading="lazy" decoding="async" alt="Two selector switches: a heavy-duty selector and a 22 mm panel selector with its contact blocks.">
+        <figcaption data-l="th">รูป 6-5 สวิตช์เลือกแบบงานหนักและแบบ 22 mm พร้อมชุดหน้าสัมผัส · ที่มา: Herman, <i>Electric Motor Control</i> 9th ed. (Delmar Cengage, 2010) หน่วยที่ 6 หน้า 83 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 6-5, heavy-duty and 22 mm selector switches with contact blocks · source: Herman, <i>Electric Motor Control</i>, 9th ed. (Delmar Cengage, 2010), unit 6, p. 83 · tap to enlarge</figcaption></figure>
+      <figure class="slide md"><img src="img/book/book1_fig3_10.jpg" width="788" height="315" loading="lazy" decoding="async" alt="Thai textbook Fig. 3.10: two drum switches with side handles.">
+        <figcaption data-l="th">รูป 3.10 ดรัมสวิตช์ · ที่มา: ธนภัทร ไพคำนาม, การควบคุมมอเตอร์ไฟฟ้า (2104-2009), บทที่ 3 หน้า 43</figcaption>
+        <figcaption data-l="en">Fig. 3.10, drum switches · source: Thanaphat Phaikhamnam, <i>Motor Control</i> (2104-2009), ch. 3, p. 43</figcaption></figure>
+    </div>
+  </div>
+  <div id="devs" style="margin-top:12px"></div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">สวิตช์เลือก 3 ตำแหน่ง เลือกหลอด 2 ดวง</h2><h2 data-l="en">A three-position selector choosing two lamps</h2>
+    <div class="src" data-l="th">EMC9 หน่วยที่ 6 รูป 6-7 (แบบ NEMA) วาดใหม่แบบ IEC</div><div class="src" data-l="en">EMC9 unit 6, Fig. 6-7 (NEMA), redrawn to IEC</div></div></div>
+  <p class="lead" data-l="th">บิดหัวสวิตช์ (แตะวงกลม I, 0, II) หรือแตะสวิตช์ S1 ในวงจร แล้วดูว่าหน้าสัมผัสไหนต่อ หลอดไหนติด และแถวไหนของตารางหน้าสัมผัสสว่าง ทุกตำแหน่งที่ลองจะบันทึกลงตาราง จากนั้นเปลี่ยนเป็นแบบสปริงคืนกลาง แล้วกดค้างที่ I: ปล่อยมือเมื่อไร หลอดดับทันที</p>
+  <p class="lead" data-l="en">Turn the head (tap the circles I, 0, II) or tap S1 in the circuit, and see which contact closes, which lamp lights and which row of the contact chart lights up. Every position you try is recorded below. Then switch to spring return and hold it at I: the lamp goes out as soon as you let go.</p>
+  <div class="card sim" style="padding:10px"><div class="selgrid"><div id="knA"></div><div id="simA"></div><div id="chA"></div></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logA"></div><div id="sumA" style="margin-top:8px"></div></div>
+  <div class="story n2" style="margin-top:12px">
+    <div class="story-t"><div class="story-p" data-l="th"><p>รูป 6-7 ของ EMC9 คือวงจรเดียวกันในแบบ NEMA ของอเมริกา: (A) บิดไปที่ R หลอดแดงติด (B) ตำแหน่ง OFF ไม่มีหลอดติด ในแบบ IEC ด้านบน หน้าสัมผัสสองตัวของ S1 วาดแยกกันคนละแนว แต่ชื่อเดียวกัน และบอกตำแหน่งที่ต่อด้วยตัวอักษรข้างหน้าสัมผัส</p></div>
+      <div class="story-p" data-l="en"><p>EMC9 Fig. 6-7 is the same circuit in the American NEMA style: (A) turned to R, the red lamp lights; (B) at OFF no lamp is lit. In the IEC drawing above, the two contacts of S1 are drawn apart on separate paths but share one name, and the letters beside each contact say in which position it closes.</p></div></div>
+    <div class="story-f"><figure class="slide sm"><img src="img/book/emc9_fig6_7_selector_lamps.jpg" width="612" height="556" loading="lazy" decoding="async" alt="NEMA drawing of a selector switch choosing a red or a green pilot light: (A) red lit, (B) off position.">
+      <figcaption data-l="th">รูป 6-7 สวิตช์เลือกกับหลอดสัญญาณ (แบบ NEMA) · ที่มา: Herman (2010) หน่วยที่ 6 หน้า 84</figcaption>
+      <figcaption data-l="en">Fig. 6-7, selector switch with pilot lights (NEMA) · source: Herman (2010), unit 6, p. 84</figcaption></figure></div>
+  </div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">อ่านตารางหน้าสัมผัส แล้วเขียนเป็นแบบ IEC</h2><h2 data-l="en">Read a contact chart and draw it to IEC</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · EMC9 หน่วยที่ 5 รูป 5-6</div><div class="src" data-l="en">Worked example · EMC9 unit 5, Fig. 5-6</div></div></div>
+  <div class="story in">
+    <div class="story-t">
+      <div class="given" data-l="th"><div class="gl">โจทย์</div><p>สวิตช์เลือก 3 ตำแหน่ง J, K, L มีหน้าสัมผัส A1 และ A2 ตามตารางในรูป 5-6 (ตัวเลข 1 = ต่อ) ต่อหลอด H1 ผ่าน A1 และหลอด H2 ผ่าน A2 (ก) ตำแหน่ง K หลอดใดติด (ข) ตำแหน่ง L หลอดใดติด (ค) ในแบบ IEC ต้องเขียนอะไรไว้ข้างหน้าสัมผัสแต่ละตัว</p></div>
+      <div class="given" data-l="en"><div class="gl">Problem</div><p>A three-position selector (J, K, L) has contacts A1 and A2 as in the chart of Fig. 5-6 (1 = closed). Lamp H1 is fed through A1 and lamp H2 through A2. (a) Which lamp is lit at K? (b) Which at L? (c) What must an IEC drawing show beside each contact?</p></div>
+    </div>
+    <div class="story-f"><figure class="slide sm"><img src="img/book/emc9_fig5_6_target.jpg" width="687" height="519" loading="lazy" decoding="async" alt="Three-position selector switch with its target table: A1 closed in position J, A2 closed in position L, and the NEMA symbol.">
+      <figcaption data-l="th">รูป 5-6 สวิตช์เลือก 3 ตำแหน่งและตารางหน้าสัมผัส · ที่มา: Herman (2010) หน่วยที่ 5 หน้า 80 · แตะรูปเพื่อขยาย</figcaption>
+      <figcaption data-l="en">Fig. 5-6, three-position selector and its target table · source: Herman (2010), unit 5, p. 80 · tap to enlarge</figcaption></figure></div>
+  </div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">สวิตช์ดรัม: กลับทางหมุนด้วยการสลับสาย</h2><h2 data-l="en">The drum switch: reversing by swapping lines</h2>
+    <div class="src" data-l="th">EMC9 หน่วยที่ 5 รูป 5-8 · IEC 60034-8 (ทิศการหมุนกับลำดับเฟส)</div><div class="src" data-l="en">EMC9 unit 5, Fig. 5-8 · IEC 60034-8 (direction of rotation and phase sequence)</div></div></div>
+  <p class="lead" data-l="th">บิดคันโยกไป F, 0 และ R แล้วดูว่าหน้าสัมผัสคู่ไหนต่อ (แถบสีตามสายที่ผ่าน) ขั้วมอเตอร์ T1 T2 T3 ได้ไฟจากสายไหน และมอเตอร์หมุนทางไหน ทุกตำแหน่งที่ลองจะบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">Turn the handle to F, 0 and R and see which contact pairs close (coloured by the line they carry), which line reaches each motor terminal T1 T2 T3, and which way the motor turns. Every position you try is recorded below.</p>
+  <div class="card sim" style="padding:10px"><div id="drum"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logB"></div><div id="sumB" style="margin-top:8px"></div></div>
+  <div class="story n2" style="margin-top:12px">
+    <div class="story-t"><div class="story-p" data-l="th"><p>รูป 5-8 คือแบบต้นฉบับ: ขั้วหน้าสัมผัสเลข 1–6 อยู่ในกรอบประ L1 L2 L3 เข้าที่ 2, 3, 6 มอเตอร์ T1 T2 T3 ต่อที่ 4, 1, 5 และตารางบอกว่า Forward ต่อ 1–2, 3–4, 5–6 ส่วน Reverse ต่อ 5–6, 1–3, 2–4 ชื่อ Forward/Reverse เป็นเพียงชื่อ ทิศจริงขึ้นกับการต่อสายที่มอเตอร์</p></div>
+      <div class="story-p" data-l="en"><p>Fig. 5-8 is the original drawing: contact terminals 1–6 in the dashed box, L1 L2 L3 entering at 2, 3, 6, motor leads T1 T2 T3 at 4, 1, 5, and a chart saying Forward closes 1–2, 3–4, 5–6 while Reverse closes 5–6, 1–3, 2–4. Forward and Reverse are only names; the real direction depends on how the motor is connected.</p></div></div>
+    <div class="story-f"><figure class="slide md"><img src="img/book/emc9_fig5_8_drum.jpg" width="1210" height="322" loading="lazy" decoding="async" alt="Drum switch connections for a three-phase motor and its contact chart for forward, off and reverse.">
+      <figcaption data-l="th">รูป 5-8 การต่อสวิตช์ดรัมกับมอเตอร์ 3 เฟสและตารางหน้าสัมผัส · ที่มา: Herman (2010) หน่วยที่ 5 หน้า 81 · แตะรูปเพื่อขยาย</figcaption>
+      <figcaption data-l="en">Fig. 5-8, drum switch connections for a three-phase motor and its contact chart · source: Herman (2010), unit 5, p. 81 · tap to enlarge</figcaption></figure></div>
+  </div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">สวิตช์เลือกและสวิตช์ดรัม</div><div class="src" data-l="en">Selector and drum switches</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>บิดจาก I ไป II ผ่าน 0: สังเกตว่าไม่มีจังหวะที่หลอดสองดวงติดพร้อมกัน เพราะหน้าสัมผัสของตำแหน่งเก่าเปิดก่อนหน้าสัมผัสของตำแหน่งใหม่ต่อ</li>
+    <li>เปลี่ยนเป็นแบบสปริงคืนกลาง กดค้างที่ II แล้วปล่อย: ใช้แบบนี้กับงานที่ต้องให้คนจับไว้ตลอด เช่น เดินเครื่องทีละน้อย</li>
+    <li>สวิตช์ดรัม: จด T1 T2 T3 ของตำแหน่ง F และ R เทียบกัน สายเส้นไหนไม่เปลี่ยน</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 3 หัวข้อ 2 · Herman, <i>Electric Motor Control</i> 9th ed. หน่วยที่ 5–6 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 2 · IEC 60617 · IEC 60034-8</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Turn from I to II through 0: the two lamps are never lit together, because the old position's contact opens before the new one's closes.</li>
+    <li>Switch to spring return, hold it at II and let go: this type is used where someone must keep holding, such as jogging.</li>
+    <li>Drum switch: write down T1 T2 T3 for F and for R and compare. Which line stays the same?</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 3 §2 · Herman, <i>Electric Motor Control</i>, 9th ed., units 5–6 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 2 · IEC 60617 · IEC 60034-8</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui;
+  DEV.mount($('devs'), ['sel']);
+  /* A: selector with two lamps */
+  const CONTACTS = [{ name: 'S1 13–14', closed: ['I'], note: ['→ H1', '→ H1'] }, { name: 'S1 23–24', closed: ['II'], note: ['→ H2', '→ H2'] }];
+  const sim = new RL.Sim($('simA'), C3.SELLAMPS(), { max: 360 }), pA = $('pA');
+  const log = new ED.Log($('logA'), [['ตำแหน่ง', 'position'], ['แบบสวิตช์', 'type'], ['13–14', '13–14'], ['23–24', '23–24'], ['หลอด', 'lamps']]);
+  let spring = false, knob;
+  const onoff = c => c ? t('ต่อ', 'closed') : t('เปิด', 'open');
+  const show = () => { const p = sim.dev.S1.at; C3.chart($('chA'), { positions: ['I', '0', 'II'], contacts: CONTACTS, at: p });
+    const h1 = sim.dev.H1.energized, h2 = sim.dev.H2.energized, lamps = [h1 && 'H1', h2 && 'H2'].filter(Boolean).join(', ') || t('ไม่มีหลอดติด', 'none lit');
+    ui.setStatus(stA, t(`ตำแหน่ง ${p}`, `position ${p}`), `13–14 ${onoff(p === 'I')} · 23–24 ${onoff(p === 'II')} · ${lamps}`, h1 || h2 ? 'ok' : 'warn');
+    log.add(p + spring, [p, spring ? t('สปริงคืนกลาง', 'spring return') : t('ค้างตำแหน่ง', 'maintained'), onoff(p === 'I'), onoff(p === 'II'), lamps], h1 || h2 ? 'ok' : 'warn');
+    if (knob && knob.at !== p) knob.set(p); };
+  const mkKnob = () => { knob = new C3.Knob($('knA'), { positions: ['I', '0', 'II'], at: sim.dev.S1.at, spring, onChange: p => sim.setPos('S1', p) }); };
+  ui.h2(pA, t('ชนิดของสวิตช์', 'Kind of switch'));
+  ui.radio(pA, [{ id: 'm', label: t('ค้างตำแหน่ง', 'maintained'), on: true }, { id: 's', label: t('สปริงคืนกลาง (กดค้างที่ I หรือ II)', 'spring return (hold at I or II)') }], id => { spring = id === 's'; sim.setPos('S1', '0'); mkKnob(); show(); });
+  const stA = ui.status(pA);
+  sim.on(show); mkKnob(); show();
+  ED.summary($('sumA'), { head: [['ตำแหน่ง', 'position'], ['13–14', '13–14'], ['23–24', '23–24'], ['H1', 'H1'], ['H2', 'H2']],
+    rows: () => [['I', 'X', '', `<span class="rk-ok">${t('ติด', 'lit')}</span>`, t('ดับ', 'off')], ['0', '', '', t('ดับ', 'off'), t('ดับ', 'off')], ['II', '', 'X', t('ดับ', 'off'), `<span class="rk-ok">${t('ติด', 'lit')}</span>`]],
+    points: [['ตารางหน้าสัมผัสบอกทุกอย่างของสวิตช์เลือก: ดูคอลัมน์ของตำแหน่ง แล้วหาแถวที่มี X คือหน้าสัมผัสที่ต่อ', 'The contact chart tells everything about a selector: look down the column of a position, and the rows with an X are the closed contacts.'],
+      ['ไม่มีตำแหน่งใดที่ 13–14 และ 23–24 ต่อพร้อมกัน หลอดสองดวงจึงไม่ติดพร้อมกัน', 'No position closes 13–14 and 23–24 together, so the two lamps are never lit at once.'],
+      ['แบบสปริงคืนกลาง: ตำแหน่ง I และ II อยู่ได้เฉพาะตอนมือจับไว้ ปล่อยแล้วกลับ 0 หลอดดับ', 'Spring return: positions I and II last only while held; let go and it returns to 0 and the lamp goes out.']] });
+  /* worked example */
+  LS.choose($('ask1'), { options: [t('(ก) ไม่มีหลอดติด (ข) H2', '(a) none lit; (b) H2'), t('(ก) H1 (ข) H2', '(a) H1; (b) H2'), t('(ก) ติดทั้งคู่ (ข) H1', '(a) both; (b) H1')], answer: 0 });
+  LS.stepper($('st1'), { steps: [
+    { why: t('ดูคอลัมน์ K: ทั้ง A1 และ A2 ไม่มีเลข 1', 'Column K: neither A1 nor A2 has a 1'), body: `<p>${t('หน้าสัมผัสทั้งสองเปิด ไม่มีหลอดติด', 'both contacts open, no lamp lit')}</p>` },
+    { why: t('ดูคอลัมน์ L: A2 มีเลข 1', 'Column L: A2 has a 1'), body: `<p>${t('A2 ต่อ หลอด H2 ติด (ส่วนคอลัมน์ J: A1 ต่อ H1 ติด)', 'A2 closed, H2 lit (and in column J, A1 closed, H1 lit)')}</p>` },
+    { why: t('แบบ IEC: หน้าสัมผัสแยกกันคนละแนว แต่ชื่อเดียวกัน', 'IEC: the contacts sit on separate paths with one name'), body: `<p>${t('เขียน "J" ข้างหน้าสัมผัส A1 และ "L" ข้างหน้าสัมผัส A2 ตั้งชื่อทั้งสองว่า S1 และแนบตารางหน้าสัมผัสไว้ในแบบ', 'write "J" beside contact A1 and "L" beside contact A2, name both S1, and include the contact chart on the drawing')}</p>` }],
+    answer: t('(ก) ไม่มีหลอดติด (ข) H2 (ค) ตำแหน่งที่ทำให้ต่อ และตารางหน้าสัมผัส', '(a) none; (b) H2; (c) the position that closes it, plus the contact chart') });
+  /* B: drum switch */
+  const logB = new ED.Log($('logB'), [['ตำแหน่ง', 'position'], ['หน้าสัมผัสที่ต่อ', 'closed contacts'], ['T1', 'T1'], ['T2', 'T2'], ['T3', 'T3'], ['มอเตอร์', 'motor']]);
+  const rec = p => { const st = C3.drumState(p), closed = C3.DRUM.contacts.filter(c => c.closed.includes(p)).map(c => c.name).join(', ') || '—';
+    logB.add(p, [`${p} · ${ED.tt(C3.DRUM.names[p])}`, closed, st.map.T1 || '—', st.map.T2 || '—', st.map.T3 || '—', st.dir ? (st.dir > 0 ? t('หมุนตามเข็มนาฬิกา', 'clockwise') : t('หมุนทวนเข็มนาฬิกา', 'anticlockwise')) : t('หยุด', 'stopped')], st.dir ? 'ok' : 'warn'); };
+  const drum = new C3.Drum($('drum'), { onChange: rec });
+  LS.anim($('drum'), dt => drum.step(dt));
+  ED.summary($('sumB'), { head: [['ตำแหน่ง', 'position'], ['หน้าสัมผัสที่ต่อ', 'closed contacts'], ['T1 T2 T3 ได้ไฟจาก', 'T1 T2 T3 fed from'], ['มอเตอร์', 'motor']],
+    rows: () => [['F', '1–2, 3–4, 5–6', 'L2, L1, L3', t('หมุนทวนเข็มนาฬิกา', 'anticlockwise')], ['0', '—', '—', t('หยุด', 'stopped')], ['R', '5–6, 1–3, 2–4', 'L1, L2, L3', t('หมุนตามเข็มนาฬิกา', 'clockwise')]],
+    points: [['เทียบ F กับ R: L3 ต่อเข้า T3 เหมือนเดิม ส่วน L1 กับ L2 สลับกันที่ T1 และ T2 การสลับสาย 2 เส้นทำให้ลำดับเฟสกลับ สนามแม่เหล็กหมุนกลับทาง มอเตอร์จึงหมุนกลับทาง', 'Compare F and R: L3 stays on T3 while L1 and L2 change places on T1 and T2. Swapping two lines reverses the phase sequence, the rotating field turns the other way, and so does the motor.'],
+      ['ตาม IEC 60034-8 ถ้าต่อ L1 L2 L3 เข้าขั้ว U1 V1 W1 (T1 T2 T3) ตามลำดับ มอเตอร์หมุนตามเข็มนาฬิกาเมื่อมองจากด้านปลายเพลา ตำแหน่ง R ของรูป 5-8 จึงเป็นทางตามเข็ม ชื่อ Forward/Reverse ในตำราเป็นแค่ชื่อ', 'By IEC 60034-8, L1 L2 L3 on U1 V1 W1 (T1 T2 T3) in order turns the motor clockwise seen from the shaft end, so position R of Fig. 5-8 is the clockwise one; Forward and Reverse in the book are just names.'],
+      ['จาก F ไป R ต้องผ่าน 0 เสมอ ควรรอให้มอเตอร์หยุดก่อน ถ้ากลับทางขณะหมุนเร็ว กระแสจะสูงมากและเพลากระชาก', 'From F to R it always passes 0; wait for the motor to stop, because reversing at speed draws a very large current and jolts the shaft.']] });
+  ED.mcq('mcq', [
+    { q: t('1) ในตารางหน้าสัมผัส เครื่องหมาย X หมายถึงอะไร', '1) What does an X mean in a contact chart?'), options: [t('หน้าสัมผัสต่อในตำแหน่งนั้น', 'the contact is closed in that position'), t('หน้าสัมผัสเสีย', 'the contact is faulty'), t('ห้ามใช้ตำแหน่งนั้น', 'that position must not be used')], answer: 0 },
+    { q: t('2) สวิตช์เลือกแบบสปริงคืนกลางทำงานคล้ายอุปกรณ์ใด', '2) A spring-return selector behaves like which device?'), options: [t('ปุ่มกดแบบชั่วขณะ', 'a momentary push button'), t('สวิตช์ลูกลอย', 'a float switch'), t('ฟิวส์', 'a fuse')], answer: 0 },
+    { q: t('3) สวิตช์ดรัมกลับทางหมุนมอเตอร์ 3 เฟสได้อย่างไร', '3) How does a drum switch reverse a three-phase motor?'), options: [t('สลับสาย 2 ใน 3 เส้น', 'by swapping two of the three lines'), t('ลดแรงดันลงครึ่งหนึ่ง', 'by halving the voltage'), t('สลับทั้ง 3 เส้น', 'by swapping all three lines')], answer: 0 },
+    { q: t('4) ในรูป 5-8 ตำแหน่ง Reverse หน้าสัมผัสคู่ใดต่อ', '4) In Fig. 5-8, which contacts are closed in Reverse?'), options: ['1–2, 3–4, 5–6', '5–6, 1–3, 2–4', '1–3, 2–4'], answer: 1 },
+    { q: t('5) ในแบบ IEC จะบอกได้อย่างไรว่าหน้าสัมผัสของสวิตช์เลือกต่อในตำแหน่งใด', '5) In an IEC drawing, how do you show which position closes a selector contact?'), options: [t('เขียนตำแหน่งไว้ข้างหน้าสัมผัสและแนบตารางหน้าสัมผัส', 'write the position beside the contact and include the contact chart'), t('ใช้สีสาย', 'by wire colour'), t('ไม่ต้องบอก', 'it need not be shown')], answer: 0 },
+    { q: t('6) ทำไมควรให้มอเตอร์หยุดก่อนบิดสวิตช์ดรัมไปอีกทาง', '6) Why should the motor stop before the drum switch is turned the other way?'), options: [t('กระแสสูงมากและเพลากระชากถ้ากลับทางขณะหมุน', 'reversing while turning draws a huge current and jolts the shaft'), t('ไม่มีเหตุผล', 'no reason'), t('ฟิวส์จะเย็นลง', 'so the fuses cool down')], answer: 0 }]);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="3.3 — Several stations and HOA">3.3 — ควบคุมจากหลายจุด</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=9"><link rel="stylesheet" href="assets/ed2.css?v=9">
+<script src="assets/stops.js?v=9"></script><script src="assets/shell.js?v=9"></script>
+<script src="assets/lesson.js?v=9"></script><script src="assets/draw.js?v=9"></script><script src="assets/ed.js?v=9"></script><script src="assets/sym.js?v=9"></script><script src="assets/iec.js?v=9"></script><script src="assets/relay.js?v=9"></script><script src="assets/ch2.js?v=9"></script><script src="assets/ch3.js?v=9"></script><script src="assets/devdata.js?v=9"></script><script src="assets/dev.js?v=9"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">ควบคุมจากหลายจุด และสวิตช์มือ-หยุด-อัตโนมัติ <span class="en">Control from several stations, and hand-off-auto</span></h1>
+<h1 data-l="en">Several stations and hand-off-auto <span class="en">Stops in series, starts in parallel</span></h1>
+
+<p class="sub" data-l="th">เครื่องจักรยาว ๆ เช่น สายพานลำเลียง ต้องสั่งเริ่มและหยุดได้จากหลายจุด กฎมีข้อเดียว: <b>ปุ่มหยุดต่ออนุกรม ปุ่มเริ่มต่อขนาน</b> หน้านี้ให้ลองต่อถูกและต่อผิดแล้วกดดูเองว่าต่างกันอย่างไร ปิดท้ายด้วยสวิตช์มือ-หยุด-อัตโนมัติ (hand-off-auto) ของปั๊มน้ำ ที่เลือกได้ว่าจะสั่งด้วยมือหรือให้สวิตช์ลูกลอยสั่ง</p>
+<p class="sub" data-l="en">A long machine, such as a conveyor, must be started and stopped from several places. There is one rule: <b>stops in series, starts in parallel</b>. This page lets you wire it right and wrong and press the buttons to see the difference, and ends with the hand-off-auto switch of a pump, which is run by hand or left to its float switch.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>ปุ่มหยุดอนุกรม</b>: ปุ่มหยุดทุกตัวเป็นหน้าสัมผัสปกติปิดต่อเรียงกัน กดตัวไหนก็ตัดวงจร มอเตอร์หยุด</li>
+  <li><b>ปุ่มเริ่มขนาน</b>: ปุ่มเริ่มทุกตัวเป็นหน้าสัมผัสปกติเปิดต่อคร่อมกัน และคร่อมหน้าสัมผัสค้างตัวเอง KM1 13–14 กดตัวไหนก็สั่งเริ่มได้</li>
+  <li><b>ต่อผิดมีผลจริง</b>: ปุ่มเริ่มอนุกรมต้องกดทุกจุดพร้อมกันจึงเริ่มได้ ส่วนปุ่มหยุดขนาน <b>กดหยุดจุดเดียวมอเตอร์ไม่หยุด</b> ซึ่งอันตราย</li>
+  <li><b>มือ-หยุด-อัตโนมัติ</b>: ตำแหน่ง H สั่งคอนแทกเตอร์ตรง ไม่สนลูกลอย ตำแหน่ง 0 หยุด ตำแหน่ง A ให้สวิตช์ลูกลอยสั่งแบบวงจร 2 สาย ทุกตำแหน่งยังมีโอเวอร์โหลดป้องกัน</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>Stops in series</b>: every stop is a normally closed contact in one chain; pressing any one breaks the circuit and the motor stops.</li>
+  <li><b>Starts in parallel</b>: every start is a normally open contact across the others and across the holding contact KM1 13–14; any one of them starts the motor.</li>
+  <li><b>Wrong wiring matters</b>: starts in series need every station pressed at once to start, and stops in parallel mean <b>one stop button does not stop the motor</b>, which is dangerous.</li>
+  <li><b>Hand-off-auto</b>: H drives the contactor directly and ignores the float; 0 is off; A lets the float switch run it as two-wire control. The overload protects in every position.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#tA"><b>A</b>สองจุด ต่อถูกและต่อผิด</a><a href="#ex1"><b>1</b>เพิ่มจุดที่สาม</a><a href="#tB"><b>B</b>มือ-หยุด-อัตโนมัติ</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#tA"><b>A</b>Two stations, right and wrong</a><a href="#ex1"><b>1</b>Adding a third station</a><a href="#tB"><b>B</b>Hand-off-auto</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">สั่งมอเตอร์จากสองจุด: ต่อถูกและต่อผิด</h2><h2 data-l="en">A motor from two stations: right and wrong</h2>
+    <div class="src" data-l="th">UMC5 บทที่ 8 รูป 8.6–8.7 · EMC9 หน่วยที่ 20 · Senty บทที่ 14 วงจรที่ 4</div><div class="src" data-l="en">UMC5 ch. 8, Figs 8.6–8.7 · EMC9 unit 20 · Senty ch. 14, circuit 4</div></div></div>
+  <p class="lead" data-l="th">จุดที่ 1 มีปุ่มหยุด S1 และปุ่มเริ่ม S2 จุดที่ 2 มีปุ่มหยุด S3 และปุ่มเริ่ม S4 เลือกแบบการต่อ แล้วกดปุ่มค้างในวงจรหรือในแผงด้านล่าง ลองเริ่มจากจุดหนึ่งแล้วหยุดจากอีกจุด จากนั้นกด "ทดลองครบ 5 แบบ" ให้เครื่องทดลองแทนแล้วบันทึกผลลงตาราง ทำให้ครบทั้งสามแบบการต่อแล้วเปิดสรุป</p>
+  <p class="lead" data-l="en">Station 1 has stop S1 and start S2, station 2 has stop S3 and start S4. Choose a wiring, then hold buttons in the circuit or in the panel below; start from one station and stop from the other. Then press "Run all 5 trials" to have the trials done for you and recorded in the table. Do all three wirings, then open the summary.</p>
+  <div class="card solve" style="margin-bottom:12px"><div id="mode"></div></div>
+  <div class="card sim" style="padding:10px"><div id="simA"></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logA"></div><div id="sumA" style="margin-top:8px"></div></div>
+  <div class="story n2" style="margin-top:12px">
+    <div class="story-t"><div class="story-p" data-l="th"><p>UMC5 ใช้สองรูปนี้อธิบายการต่อผิด (ส่วนที่แรเงาคือจุดที่ผิด): รูป 8.6 ปุ่มหยุดต่อขนานกัน กดตัวเดียวกระแสยังไหลผ่านอีกตัว มอเตอร์ไม่หยุด รูป 8.7 ปุ่มเริ่มต่ออนุกรม ต้องกดทั้งสองปุ่มพร้อมกันจึงเริ่มได้ ทั้งสองรูปเป็นแบบ NEMA ที่วาดแนวนอน หน้านี้วาดใหม่เป็นแบบ IEC แนวตั้ง</p></div>
+      <div class="story-p" data-l="en"><p>UMC5 uses these two figures to explain wrong wiring (the shaded part is the mistake): in Fig. 8.6 the stops are in parallel, so pressing one still leaves a path through the other and the motor keeps running; in Fig. 8.7 the starts are in series, so both must be pressed together to start. Both are horizontal NEMA drawings; this page redraws them as vertical IEC circuits.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/umc5_fig8_6_stops_parallel.jpg" width="1344" height="907" loading="lazy" decoding="async" alt="NEMA schematic with two stop buttons wired in parallel, highlighted as the error.">
+        <figcaption data-l="th">รูป 8.6 ปุ่มหยุดต่อขนาน (ผิด) · ที่มา: Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. (Cengage, 2025) บทที่ 8 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 8.6, stop buttons in parallel (wrong) · source: Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed. (Cengage, 2025), ch. 8 · tap to enlarge</figcaption></figure>
+      <figure class="slide md"><img src="img/book/umc5_fig8_7_starts_series.jpg" width="1344" height="801" loading="lazy" decoding="async" alt="NEMA schematic with two start buttons wired in series, highlighted as the error.">
+        <figcaption data-l="th">รูป 8.7 ปุ่มเริ่มต่ออนุกรม (ผิด) · ที่มา: Herman &amp; Seiler (2025) บทที่ 8</figcaption>
+        <figcaption data-l="en">Fig. 8.7, start buttons in series (wrong) · source: Herman &amp; Seiler (2025), ch. 8</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">เพิ่มจุดสั่งงานที่สาม</h2><h2 data-l="en">Adding a third station</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง</div><div class="src" data-l="en">Worked example</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>สายพานยาวต้องมีจุดสั่งงานจุดที่ 3 คือปุ่มหยุด S5 และปุ่มเริ่ม S6 จากวงจรสองจุดที่ต่อถูกในหัวข้อ A (ก) S5 ต่อไว้ตรงไหน (ข) S6 ต่อไว้ตรงไหน (ค) ถ้าจุดที่ 3 อยู่นอกตู้ ต้องเดินสายจากตู้ไปกี่เส้น</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>A long conveyor needs a third station: stop S5 and start S6. Starting from the correct two-station circuit of section A, (a) where does S5 go? (b) Where does S6 go? (c) If station 3 is outside the panel, how many wires run from the panel to it?</p></div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">สวิตช์มือ-หยุด-อัตโนมัติ (HOA) ของปั๊มน้ำ</h2><h2 data-l="en">The hand-off-auto switch of a pump</h2>
+    <div class="src" data-l="th">EMC9 หน่วยที่ 19 รูป 19-1 · UMC5 บทที่ 3 รูป 3.10 · Senty บทที่ 14 วงจรที่ 26</div><div class="src" data-l="en">EMC9 unit 19, Fig. 19-1 · UMC5 ch. 3, Fig. 3.10 · Senty ch. 14, circuit 26</div></div></div>
+  <p class="lead" data-l="th">S5 คือสวิตช์เลือก 3 ตำแหน่ง H, 0, A ส่วน S6 คือสวิตช์ลูกลอยในถังน้ำ (ต่อเมื่อน้ำต่ำ ให้ปั๊มเติมน้ำ) บิด S5 แล้วสลับระดับน้ำด้วยปุ่ม S6 ให้ครบทุกคู่ ตารางจะบันทึกให้ สังเกตว่าตำแหน่งไหนที่ลูกลอยไม่มีผลเลย</p>
+  <p class="lead" data-l="en">S5 is a three-position selector (H, 0, A) and S6 is the float switch in the tank (closed when the water is low, so the pump refills it). Turn S5 and change the water level with the S6 button until every combination is recorded. Notice in which position the float has no effect at all.</p>
+  <div class="card sim" style="padding:10px"><div class="hoagrid"><div id="knB"></div><div id="simB"></div><div id="chB"></div></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pB" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logB"></div><div id="sumB" style="margin-top:8px"></div></div>
+  <div class="story n2" style="margin-top:12px">
+    <div class="story-t"><div class="story-p" data-l="th"><p>รูป 19-1 ของ EMC9 คือวงจร HOA แบบง่ายที่สุด: HAND ป้อนไฟเข้าคอยล์ตรง AUTO ป้อนผ่านอุปกรณ์ควบคุมแบบ 2 สาย (เช่น ลูกลอย) ส่วนรูป 3.10 ของ UMC5 เป็นปั๊ม 1 เฟสที่ใช้สตาร์ทเตอร์มือกับสวิตช์ MAN/AUTO และลูกลอย หลักการเดียวกัน</p></div>
+      <div class="story-p" data-l="en"><p>EMC9 Fig. 19-1 is the simplest HOA circuit: HAND feeds the coil directly, AUTO feeds it through a two-wire control device such as a float. UMC5 Fig. 3.10 is a single-phase pump with a manual starter, a MAN/AUTO switch and a float: the same idea.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/emc9_fig19_1_hoa.jpg" width="743" height="267" loading="lazy" decoding="async" alt="NEMA hand-off-auto circuit: HAND feeds the starter coil M directly, AUTO feeds it through a two-wire control device.">
+        <figcaption data-l="th">รูป 19-1 วงจรมือ-หยุด-อัตโนมัติ (แบบ NEMA) · ที่มา: Herman (2010) หน่วยที่ 19 หน้า 159</figcaption>
+        <figcaption data-l="en">Fig. 19-1, hand-off-auto circuit (NEMA) · source: Herman (2010), unit 19, p. 159</figcaption></figure>
+      <figure class="slide md"><img src="img/book/umc5_fig3_10_pump.jpg" width="1344" height="512" loading="lazy" decoding="async" alt="Pump circuit with a manual starter, a float switch and a MAN/AUTO selector.">
+        <figcaption data-l="th">รูป 3.10 ปั๊มที่สั่งด้วยมือหรือด้วยลูกลอย · ที่มา: Herman &amp; Seiler (2025) บทที่ 3 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 3.10, pump switched by hand or by a float · source: Herman &amp; Seiler (2025), ch. 3 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">หลายจุดและ HOA</div><div class="src" data-l="en">Several stations and HOA</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>แบบต่อถูก: เริ่มด้วย S4 แล้วหยุดด้วย S1 (คนละจุด) ได้ไหม</li>
+    <li>แบบปุ่มหยุดขนาน: ให้มอเตอร์หมุน แล้วกด S1 ค้าง มอเตอร์หยุดไหม ต้องทำอย่างไรจึงหยุด</li>
+    <li>HOA: บิดไป H แล้วสลับลูกลอยเป็นน้ำเต็ม ปั๊มยังหมุนอยู่ไหม ถ้าไม่มีคนเฝ้าจะเกิดอะไรขึ้น</li></ol>
+    <div class="book">Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 3, 8 · Herman, <i>Electric Motor Control</i> 9th ed. หน่วยที่ 19–20 · Senty, <i>Motor Control Fundamentals</i> บทที่ 14 · IEC 60204-1</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Correct wiring: can you start with S4 and stop with S1 (different stations)?</li>
+    <li>Stops in parallel: run the motor, then hold S1. Does it stop? What does it take to stop it?</li>
+    <li>HOA: turn to H, then set the float to full. Does the pump keep running? What happens if nobody is watching?</li></ol>
+    <div class="book">Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 3, 8 · Herman, <i>Electric Motor Control</i>, 9th ed., units 19–20 · Senty, <i>Motor Control Fundamentals</i>, ch. 14 · IEC 60204-1</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui;
+  const ok = v => v ? `<span class="rk-ok">✓</span>` : `<span class="rk-bad">✗</span>`;
+  /* A: two stations */
+  const MODES = { ok: { name: ['ต่อถูก: หยุดอนุกรม เริ่มขนาน', 'correct: stops in series, starts in parallel'] },
+    startSeries: { name: ['ผิด: ปุ่มเริ่มต่ออนุกรม', 'wrong: starts in series'] }, stopParallel: { name: ['ผิด: ปุ่มหยุดต่อขนาน', 'wrong: stops in parallel'] } };
+  const VERDICT = { ok: ['ใช้ได้: เริ่มหรือหยุดจากจุดไหนก็ได้', 'works: start or stop from either station'],
+    startSeries: ['เริ่มจากจุดเดียวไม่ได้ ต้องกดปุ่มเริ่มทุกจุดพร้อมกัน', 'cannot start from one station; every start must be pressed together'],
+    stopParallel: ['อันตราย: กดหยุดจุดเดียว มอเตอร์ไม่หยุด', 'dangerous: one stop button does not stop the motor'] };
+  let mode = 'ok', sim;
+  const log = new ED.Log($('logA'), [['แบบการต่อ', 'wiring'], ['เริ่มจาก S2', 'start by S2'], ['เริ่มจาก S4', 'start by S4'], ['กด S2+S4 พร้อมกัน', 'S2+S4 together'], ['หยุดด้วย S1', 'stop by S1'], ['หยุดด้วย S3', 'stop by S3'], ['ผล', 'result']]);
+  const trialRow = v => { const r = C3.stationTrials(v); return [ED.tt(MODES[v].name), ok(r.s2), ok(r.s4), ok(r.both), ok(r.st1), ok(r.st3), ED.tt(VERDICT[v])]; };
+  ui.radio($('mode'), Object.entries(MODES).map(([k, v]) => ({ id: k, label: ED.tt(v.name), on: k === mode })), id => { mode = id; build(); });
+  function build() {
+    sim = new RL.Sim($('simA'), C3.STATION(mode), { max: 760 }); const pA = $('pA'); pA.innerHTML = '';
+    ui.h2(pA, t('สั่งงาน (กดค้าง)', 'Control (hold)'));
+    const row = document.createElement('div'); row.className = 'toggles'; pA.appendChild(row);
+    const hold = (id, lab) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = lab;
+      b.addEventListener('pointerdown', e => { e.preventDefault(); sim.press(id, true); }); ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, () => sim.press(id, false))); row.appendChild(b); };
+    hold('S2', t('จุด 1: S2 เริ่ม', 'station 1: S2 start')); hold('S1', t('จุด 1: S1 หยุด', 'station 1: S1 stop')); hold('S4', t('จุด 2: S4 เริ่ม', 'station 2: S4 start')); hold('S3', t('จุด 2: S3 หยุด', 'station 2: S3 stop'));
+    const both = document.createElement('button'); both.type = 'button'; both.className = 'btn'; both.textContent = t('กด S2 + S4 พร้อมกัน', 'S2 + S4 together');
+    both.addEventListener('pointerdown', e => { e.preventDefault(); sim.press('S2', true); sim.press('S4', true); }); ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => both.addEventListener(ev, () => { sim.press('S2', false); sim.press('S4', false); })); row.appendChild(both);
+    const auto = document.createElement('button'); auto.type = 'button'; auto.className = 'btn on'; auto.textContent = t('▶ ทดลองครบ 5 แบบ', '▶ Run all 5 trials');
+    auto.addEventListener('click', () => log.add(mode, trialRow(mode), mode === 'ok' ? 'ok' : 'bad')); row.appendChild(auto);
+    const st = ui.status(pA), show = () => { const run = sim.running(); ui.setStatus(st, run ? t('มอเตอร์หมุน', 'motor running') : t('มอเตอร์หยุด', 'motor stopped'), ED.tt(VERDICT[mode]), run ? 'ok' : 'warn'); };
+    sim.on(show); show();
+  }
+  build();
+  ED.summary($('sumA'), { head: [['แบบการต่อ', 'wiring'], ['เริ่มจาก S2', 'start by S2'], ['เริ่มจาก S4', 'start by S4'], ['กด S2+S4 พร้อมกัน', 'S2+S4 together'], ['หยุดด้วย S1', 'stop by S1'], ['หยุดด้วย S3', 'stop by S3'], ['ผล', 'result']],
+    rows: () => Object.keys(MODES).map(trialRow),
+    points: [['ปุ่มหยุดเป็นหน้าสัมผัสปกติปิด ต้องต่ออนุกรม เพื่อให้ตัวไหนเปิดก็ตัดวงจรได้ ถ้าต่อขนาน กระแสไหลอ้อมผ่านตัวที่ไม่ได้กด', 'Stops are normally closed and must be in series, so that any one opening breaks the circuit; in parallel the current goes round through the one not pressed.'],
+      ['ปุ่มเริ่มเป็นหน้าสัมผัสปกติเปิด ต้องต่อขนาน (และขนานกับหน้าสัมผัสค้าง KM1 13–14) เพื่อให้ตัวไหนต่อก็สั่งได้', 'Starts are normally open and must be in parallel (and in parallel with the holding contact KM1 13–14), so that any one closing starts it.'],
+      ['ปุ่มเริ่มต่ออนุกรมไม่อันตรายแต่ใช้งานไม่ได้ตามที่ต้องการ ส่วนปุ่มหยุดต่อขนานอันตราย เพราะคนที่กดหยุดเข้าใจว่าเครื่องหยุดแล้ว', 'Starts in series are not dangerous, just useless for the purpose; stops in parallel are dangerous, because the person pressing stop believes the machine has stopped.']] });
+  /* worked example */
+  LS.choose($('ask1'), { options: [t('S5 อนุกรมกับ S1 S3 · S6 ขนานกับ S2 S4', 'S5 in series with S1 S3 · S6 in parallel with S2 S4'), t('S5 ขนานกับ S1 S3 · S6 อนุกรมกับ S2 S4', 'S5 in parallel with S1 S3 · S6 in series with S2 S4'), t('ต่อทั้งสองขนานกับคอยล์', 'both across the coil')], answer: 0 });
+  LS.stepper($('st1'), { steps: [
+    { why: t('S5 เป็นปุ่มหยุด (ปกติปิด)', 'S5 is a stop (normally closed)'), body: `<p>${t('ต่ออนุกรมต่อจาก S1 และ S3: เส้นทางคือ F2 95–96 → S1 → S3 → S5 → กลุ่มปุ่มเริ่ม', 'in series after S1 and S3: the path is F2 95–96 → S1 → S3 → S5 → the group of starts')}</p>` },
+    { why: t('S6 เป็นปุ่มเริ่ม (ปกติเปิด)', 'S6 is a start (normally open)'), body: `<p>${t('ต่อขนานกับ S2, S4 และหน้าสัมผัสค้าง KM1 13–14 ระหว่างจุดหลัง S5 กับขั้ว A1 ของคอยล์', 'in parallel with S2, S4 and the holding contact KM1 13–14, between the point after S5 and coil terminal A1')}</p>` },
+    { why: t('นับสายไปจุดที่ 3', 'Count the wires to station 3'), body: `<p>${t('ปุ่มหยุดต้องมีสายเข้าและออก 2 เส้น ปุ่มเริ่มต้องการอีก 1 เส้นไปยังจุดร่วมของกลุ่มปุ่มเริ่ม เพราะด้านบนของ S6 ต่อร่วมกับด้านล่างของ S5 ได้ในกล่องปุ่ม รวม <b>3 เส้น</b> ผ่านแผงขั้วต่อ X1 (จึงเรียกวงจร 3 สาย)', 'the stop needs a wire in and out, 2 wires; the start needs 1 more to the common point of the starts, because the top of S6 joins the bottom of S5 inside the station box: <b>3 wires</b> in all, through terminal strip X1 (hence "three-wire control")')}</p>` }],
+    answer: t('(ก) อนุกรมกับปุ่มหยุดเดิม (ข) ขนานกับปุ่มเริ่มเดิมและ KM1 13–14 (ค) 3 เส้น', '(a) in series with the other stops; (b) in parallel with the other starts and KM1 13–14; (c) 3 wires') });
+  /* B: hand-off-auto */
+  const HCH = [{ name: 'S5 13–14', closed: ['H'], note: ['มือ', 'hand'] }, { name: 'S5 23–24', closed: ['A'], note: ['อัตโนมัติ', 'auto'] }];
+  const simB = new RL.Sim($('simB'), C3.HOA(), { max: 560 }), pB = $('pB');
+  const logB = new ED.Log($('logB'), [['ตำแหน่ง S5', 'S5 position'], ['ลูกลอย S6', 'float S6'], ['คอยล์ KM1', 'coil KM1'], ['ปั๊ม', 'pump']]);
+  const lvl = () => simB.dev.S6.on ? t('น้ำต่ำ (ต่อ)', 'water low (closed)') : t('น้ำเต็ม (เปิด)', 'tank full (open)');
+  let knB;
+  const showB = () => { const p = simB.dev.S5.at, run = simB.running();
+    C3.chart($('chB'), { positions: ['H', '0', 'A'], contacts: HCH, at: p });
+    ui.setStatus(stB, run ? t('ปั๊มทำงาน', 'pump running') : t('ปั๊มหยุด', 'pump stopped'), `S5 = ${p} · S6: ${lvl()}`, run ? 'ok' : 'warn');
+    logB.add(p + simB.dev.S6.on, [p, lvl(), simB.dev.KM1.energized ? t('มีไฟ', 'on') : t('ไม่มีไฟ', 'off'), run ? t('ทำงาน', 'running') : t('หยุด', 'stopped')], p === 'H' && !simB.dev.S6.on ? 'bad' : run ? 'ok' : 'warn');
+    if (knB && knB.at !== p) knB.set(p); };
+  knB = new C3.Knob($('knB'), { positions: ['H', '0', 'A'], at: '0', onChange: p => simB.setPos('S5', p) });
+  ui.h2(pB, t('ระดับน้ำ', 'Water level'));
+  const rowB = document.createElement('div'); rowB.className = 'toggles'; pB.appendChild(rowB);
+  const fb = document.createElement('button'); fb.type = 'button'; fb.className = 'btn on'; fb.textContent = t('S6 ลูกลอย: สลับ น้ำต่ำ / น้ำเต็ม', 'S6 float: toggle low / full'); fb.addEventListener('click', () => simB.toggle('S6')); rowB.appendChild(fb);
+  const stB = ui.status(pB); simB.on(showB); showB();
+  ED.summary($('sumB'), { head: [['S5', 'S5'], ['น้ำต่ำ (S6 ต่อ)', 'water low (S6 closed)'], ['น้ำเต็ม (S6 เปิด)', 'tank full (S6 open)'], ['ใครสั่ง', 'who decides']],
+    rows: () => [['H', t('ปั๊มทำงาน', 'runs'), `<span class="rk-bad">${t('ปั๊มทำงาน (น้ำล้น)', 'runs (overflows)')}</span>`, t('คน: ต้องเฝ้าและบิดกลับเอง', 'a person, who must watch and turn it back')],
+      ['0', t('หยุด', 'stopped'), t('หยุด', 'stopped'), t('ไม่มี (หยุดซ่อม)', 'nobody (off for service)')],
+      ['A', `<span class="rk-ok">${t('ปั๊มทำงาน', 'runs')}</span>`, `<span class="rk-ok">${t('หยุด', 'stopped')}</span>`, t('สวิตช์ลูกลอย', 'the float switch')]],
+    points: [['ตำแหน่ง H ข้ามลูกลอย ใช้ตอนทดสอบหรือตอนลูกลอยเสีย คนที่บิดต้องเฝ้าเอง เพราะปั๊มไม่หยุดเองเมื่อน้ำเต็ม', 'H bypasses the float; it is for testing or when the float has failed, and whoever turns it must keep watch, because the pump will not stop by itself when the tank is full.'],
+      ['ตำแหน่ง A เป็นวงจร 2 สาย: ไฟดับแล้วกลับมา ปั๊มทำงานต่อเองถ้าน้ำยังต่ำ ซึ่งเป็นสิ่งที่ต้องการสำหรับปั๊ม (หน้า 2.4)', 'A is two-wire control: after a power failure the pump restarts by itself if the water is still low, which is what a pump needs (page 2.4).'],
+      ['โอเวอร์โหลด F2 95–96 อยู่ก่อนสวิตช์ S5 จึงป้องกันมอเตอร์ได้ทุกตำแหน่ง ในแบบต้องเขียน H และ A ข้างหน้าสัมผัสของ S5 และแนบตารางหน้าสัมผัส', 'Overload F2 95–96 comes before S5, so it protects the motor in every position. The drawing must show H and A beside the contacts of S5 and include the contact chart.']] });
+  ED.mcq('mcq', [
+    { q: t('1) ควบคุมมอเตอร์จากหลายจุด ปุ่มหยุดต้องต่ออย่างไร', '1) For control from several stations, how are the stops connected?'), options: [t('อนุกรม', 'in series'), t('ขนาน', 'in parallel'), t('ขนานกับคอยล์', 'across the coil')], answer: 0 },
+    { q: t('2) ปุ่มเริ่มจากหลายจุดต่ออย่างไร', '2) How are the starts of several stations connected?'), options: [t('อนุกรมกับปุ่มหยุด', 'in series with the stops'), t('ขนานกันและขนานกับหน้าสัมผัสค้างตัวเอง', 'in parallel with each other and with the holding contact'), t('อนุกรมกันเอง', 'in series with each other')], answer: 1 },
+    { q: t('3) ถ้าปุ่มหยุดสองจุดต่อขนานกัน จะเกิดอะไรขึ้น', '3) What happens if the stops of two stations are in parallel?'), options: [t('กดหยุดจุดเดียว มอเตอร์ไม่หยุด', 'one stop does not stop the motor'), t('มอเตอร์เริ่มไม่ได้', 'the motor cannot start'), t('ฟิวส์ขาด', 'the fuse blows')], answer: 0 },
+    { q: t('4) ถ้าปุ่มเริ่มสองจุดต่ออนุกรมกัน จะเกิดอะไรขึ้น', '4) What happens if the starts of two stations are in series?'), options: [t('ต้องกดทั้งสองปุ่มพร้อมกันจึงเริ่มได้', 'both must be pressed together to start'), t('กดหยุดไม่ได้', 'it cannot be stopped'), t('มอเตอร์หมุนกลับทาง', 'the motor reverses')], answer: 0 },
+    { q: t('5) สวิตช์ HOA ตำแหน่ง H ปั๊มทำงานแม้น้ำเต็ม เพราะอะไร', '5) In position H of an HOA switch the pump runs even with a full tank. Why?'), options: [t('ตำแหน่ง H ป้อนไฟเข้าคอยล์ตรง ไม่ผ่านลูกลอย', 'H feeds the coil directly, not through the float'), t('ลูกลอยเสีย', 'the float is broken'), t('โอเวอร์โหลดตัด', 'the overload has tripped')], answer: 0 },
+    { q: t('6) จุดสั่งงานนอกตู้ที่มีปุ่มหยุดและปุ่มเริ่มอย่างละหนึ่ง ต้องเดินสายจากตู้กี่เส้น', '6) A station outside the panel with one stop and one start needs how many wires from the panel?'), options: ['2', '3', '4'], answer: 1 }]);
+});
+</script>
+</body>
+</html>

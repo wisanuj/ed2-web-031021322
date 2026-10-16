@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="3.4 — CADe SIMU and lab sheet 3">3.4 — CADe SIMU และใบงานที่ 3</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=9"><link rel="stylesheet" href="assets/ed2.css?v=9">
+<script src="assets/stops.js?v=9"></script><script src="assets/shell.js?v=9"></script>
+<script src="assets/lesson.js?v=9"></script><script src="assets/draw.js?v=9"></script><script src="assets/ed.js?v=9"></script><script src="assets/sym.js?v=9"></script><script src="assets/iec.js?v=9"></script><script src="assets/relay.js?v=9"></script><script src="assets/ch2.js?v=9"></script><script src="assets/ch3.js?v=9"></script><script src="assets/devdata.js?v=9"></script><script src="assets/dev.js?v=9"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">สวิตช์และปุ่มกดใน CADe SIMU และใบงานที่ 3 <span class="en">Switches and push buttons in CADe SIMU, and lab sheet 3</span></h1>
+<h1 data-l="en">Switches and push buttons in CADe SIMU <span class="en">And lab sheet 3</span></h1>
+
+<p class="sub" data-l="th">ใน CADe SIMU ปุ่มกดที่มีสองหน้าสัมผัสไม่ได้เป็นสัญลักษณ์ชิ้นเดียว แต่เป็นสัญลักษณ์สองชิ้นที่ <b>ตั้งชื่อเดียวกัน</b> เหมือนคอยล์กับหน้าสัมผัสในหน้า 2.5 สวิตช์เลือกก็เช่นกัน หน้านี้สรุปวิธีวางปุ่มสองหน้าสัมผัส ปุ่มหยุดฉุกเฉิน สวิตช์เลือก 3 ตำแหน่ง และสวิตช์ลูกลอย (ซึ่ง CADe SIMU ไม่มี) แล้วให้ลองตั้งชื่อผิดดูผล ใบงานที่ 3 ครูแจกในคาบปฏิบัติ</p>
+<p class="sub" data-l="en">In CADe SIMU a two-contact push button is not one symbol but two symbols <b>given the same name</b>, just like the coil and contacts of page 2.5, and so is a selector switch. This page sums up how to place a two-contact button, an emergency stop, a three-position selector and a float switch (which CADe SIMU lacks), lets you try a wrong name, and ends with lab sheet 3.</p>
+
+<section class="keypoints" data-l="th"><h2>สิ่งที่ต้องทำให้ถูกในใบงานที่ 3</h2><ul>
+  <li><b>ปุ่มสองหน้าสัมผัส</b>: วางหน้าสัมผัสปกติปิดและปกติเปิดของปุ่มกดแยกกัน ตั้งชื่อ <b>S1 ทั้งสองตัว</b> แล้วแก้เลขขั้วเป็น 11–12 และ 23–24</li>
+  <li><b>สวิตช์เลือก</b>: ใช้สัญลักษณ์สวิตช์เลือก I-0-II ตั้งชื่อเดียวกันทุกหน้าสัมผัส เขียนตำแหน่งข้างหน้าสัมผัสและพิมพ์ตารางหน้าสัมผัสด้วยเครื่องมือข้อความ</li>
+  <li><b>แต่ละจุดสั่งงานชื่อไม่ซ้ำ</b>: จุดที่ 1 S1 S2 จุดที่ 2 S3 S4 ถ้าตั้งชื่อซ้ำ ปุ่มสองจุดจะกลายเป็นปุ่มเดียวกันในการจำลอง</li>
+  <li><b>สวิตช์ลูกลอย</b>: CADe SIMU ไม่มีสัญลักษณ์นี้ ใช้ลิมิตสวิตช์หรือเซนเซอร์แทน ตั้งชื่อ S6 และพิมพ์คำว่า "ลูกลอย" กำกับ</li></ul></section>
+<section class="keypoints" data-l="en"><h2>What lab sheet 3 needs right</h2><ul>
+  <li><b>Two-contact button</b>: place the push button's NC and NO contacts separately, name <b>both S1</b>, and renumber them 11–12 and 23–24.</li>
+  <li><b>Selector</b>: use the I-0-II selector symbol with one name on every contact, write the positions beside the contacts and type the contact chart with the text tool.</li>
+  <li><b>Unique names per station</b>: S1 S2 at station 1, S3 S4 at station 2; with a repeated name the two stations become one button in the simulation.</li>
+  <li><b>Float switch</b>: CADe SIMU has no such symbol; use a limit switch or sensor instead, name it S6 and label it "float".</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#tA"><b>A</b>ทำใน CADe SIMU อย่างไร</a><a href="#tN"><b>N</b>ทดลองตั้งชื่อผิด</a><a href="#tL"><b>L</b>ใบงานที่ 3</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#tA"><b>A</b>How to in CADe SIMU</a><a href="#tN"><b>N</b>A wrong name on purpose</a><a href="#tL"><b>L</b>Lab sheet 3</a></nav>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">ทำแต่ละอย่างใน CADe SIMU อย่างไร</h2><h2 data-l="en">How to do each item in CADe SIMU</h2>
+    <div class="src" data-l="th">คู่มือ CADe SIMU · ภาพหน้าจอจะเพิ่มเมื่อได้จากครู</div><div class="src" data-l="en">CADe SIMU manual · screenshots will be added when the instructor sends them</div></div></div>
+  <div class="duo">
+    <div class="card solve" style="overflow-x:auto"><table class="tbl" id="howto"></table></div>
+    <div class="card solve">
+      <div class="shot"><span class="sh-t" data-l="th">รอภาพหน้าจอจากครู</span><span class="sh-t" data-l="en">Screenshot to come</span><span class="sh-d" data-l="th">ปุ่มกดสองหน้าสัมผัส: สัญลักษณ์ปกติปิดและปกติเปิดที่ตั้งชื่อ S1 ทั้งคู่ ขณะจำลอง</span><span class="sh-d" data-l="en">A two-contact button: the NC and NO symbols both named S1, while simulating</span><span class="sh-f">img/cadesimu/c3_double_button.png</span></div>
+      <div class="shot"><span class="sh-t" data-l="th">รอภาพหน้าจอจากครู</span><span class="sh-t" data-l="en">Screenshot to come</span><span class="sh-d" data-l="th">สวิตช์เลือก I-0-II ในแถบสัญลักษณ์ และวงจรเลือกหลอดสองดวงขณะอยู่ตำแหน่ง II</span><span class="sh-d" data-l="en">The I-0-II selector in the symbol bar, and the two-lamp circuit in position II</span><span class="sh-f">img/cadesimu/c3_selector.png</span></div>
+      <div class="shot"><span class="sh-t" data-l="th">รอภาพหน้าจอจากครู</span><span class="sh-t" data-l="en">Screenshot to come</span><span class="sh-d" data-l="th">ลิมิตสวิตช์ที่ใช้แทนสวิตช์ลูกลอย ตั้งชื่อ S6 พร้อมข้อความ "ลูกลอย"</span><span class="sh-d" data-l="en">The limit switch standing in for a float switch, named S6 and labelled "float"</span><span class="sh-f">img/cadesimu/c3_float.png</span></div>
+    </div></div>
+</section>
+
+<section class="prob" id="tN">
+  <div class="prob-head"><span class="prob-no">N</span><div><h2 data-l="th">ทดลองตั้งชื่อผิด: ปุ่มเดียวกันแต่ตั้งชื่อต่างกัน</h2><h2 data-l="en">A wrong name on purpose: one button, two names</h2>
+    <div class="src" data-l="th">จำลองสิ่งที่จะเกิดใน CADe SIMU (ใบงานที่ 3 ข้อ 3.1)</div><div class="src" data-l="en">What happens in CADe SIMU (lab sheet 3, step 3.1)</div></div></div>
+  <p class="lead" data-l="th">วงจรนี้คือรูปที่ 1 ของใบงาน แต่หน้าสัมผัสปกติเปิดถูกตั้งชื่อว่า <b>S2</b> แทน S1 กด S1 ค้าง: H1 ดับ แต่ H2 ไม่ติด เพราะโปรแกรมถือว่า S2 เป็นปุ่มอีกตัวหนึ่ง กด S2 อย่างเดียว H2 ติดพร้อม H1 ซึ่งปุ่มจริงทำไม่ได้ ถ้าจำลองแล้วเห็นหลอดสองดวงติดพร้อมกัน ให้ตรวจชื่อก่อน</p>
+  <p class="lead" data-l="en">This is Figure 1 of the lab sheet, but the NO contact has been named <b>S2</b> instead of S1. Hold S1: H1 goes out but H2 does not light, because the program treats S2 as another button. Press S2 alone and H2 lights together with H1, which the real button cannot do. If both lamps light together in a simulation, check the names first.</p>
+  <div class="card sim" style="padding:8px"><div id="simN"></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pN" style="position:static;max-height:none"></div></div>
+</section>
+
+<section class="prob" id="tL">
+  <div class="prob-head"><span class="prob-no">L</span><div><h2 data-l="th">ใบงานที่ 3</h2><h2 data-l="en">Lab sheet 3</h2>
+    <div class="src" data-l="th">เวลา 2 ชั่วโมง · 100 คะแนน</div><div class="src" data-l="en">2 hours · 100 points</div></div></div>
+  <div class="card solve">
+    <p data-l="th"><b>การเขียนแบบวงจรควบคุมด้วยสวิตช์และสวิตช์ปุ่มกด</b> มี 4 ตอน: (1) เขียนชื่อชิ้นส่วนบนภาพถ่ายอุปกรณ์จริง และ (ถ้ามีชุดฝึก) วัดหน้าสัมผัสด้วยโอห์มมิเตอร์ (2) วาดวงจรจากตารางหน้าสัมผัสของสวิตช์เลือก (3) เขียนและจำลองใน CADe SIMU: ปุ่มสองหน้าสัมผัส สวิตช์เลือก 3 ตำแหน่ง มอเตอร์จากสองจุดพร้อมลองต่อผิด และวงจรมือ-หยุด-อัตโนมัติ (4) คำถามท้ายใบงาน ทบทวนหน้า 3.1–3.3 ก่อนทำ</p>
+    <p data-l="en"><b>Control circuits with switches and push buttons</b>, in four parts: (1) name the parts on photographs of real devices and, if a kit is available, check the contacts with an ohmmeter; (2) draw a circuit from a selector's contact chart; (3) draw and simulate in CADe SIMU a two-contact button, a three-position selector, a motor from two stations including the wrong wirings, and hand-off-auto control; (4) questions. Review pages 3.1–3.3 first.</p>
+    <p class="simnote" data-l="th"><b>ใบงานที่ 3 ครูแจกเป็นกระดาษในคาบปฏิบัติ</b> ไม่มีให้ดาวน์โหลด เตรียมตัวโดยอ่านหน้า 3.1–3.3 และลองภาพจำลองทุกหน้าให้ครบก่อนมาเรียน</p>
+    <p class="simnote" data-l="en"><b>Lab sheet 3 is handed out on paper in the practical session</b>; it is not available for download. Prepare by reading pages 3.1–3.3 and trying every simulation before class.</p>
+  </div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui;
+  $('howto').innerHTML = `<tr><th>${t('อุปกรณ์', 'item')}</th><th>${t('ทำใน CADe SIMU', 'in CADe SIMU')}</th></tr>` +
+    [[t('ปุ่มสองหน้าสัมผัส', 'two-contact button'), t('วางหน้าสัมผัสปกติปิดของปุ่มกดหนึ่งตัวและปกติเปิดหนึ่งตัว ดับเบิลคลิกตั้งชื่อ S1 ทั้งคู่ แก้เลขขั้วเป็น 11–12 และ 23–24 ขณะจำลอง คลิกค้างที่ปุ่มตัวใดตัวหนึ่ง หน้าสัมผัสทั้งสองเปลี่ยนพร้อมกัน', 'place one NC and one NO push-button contact, double-click to name both S1 and renumber them 11–12 and 23–24; while simulating, hold either one and both change together')],
+     [t('ปุ่มหยุดฉุกเฉิน', 'emergency stop'), t('ใช้สัญลักษณ์ปุ่มหัวเห็ด (ปกติปิด) ตั้งชื่อ S0 ตรวจว่าโปรแกรมให้ค้างเมื่อกดหรือไม่ ถ้าไม่ค้าง ให้เขียนหมายเหตุในแบบ', 'use the mushroom-head (NC) symbol, name it S0, and check whether the program latches it; if not, add a note on the drawing')],
+     [t('สวิตช์เลือก 3 ตำแหน่ง', 'three-position selector'), t('ใช้สัญลักษณ์ I-0-II ตั้งชื่อเดียวกันทุกหน้าสัมผัส ขณะจำลองคลิกซ้าย/ขวาเพื่อเลื่อนตำแหน่ง แล้วพิมพ์ตารางหน้าสัมผัสไว้ข้างวงจร', 'use the I-0-II symbol with one name on every contact; while simulating, left/right click to change position; type the contact chart beside the circuit')],
+     [t('หลายจุดสั่งงาน', 'several stations'), t('ตั้งชื่อปุ่มไม่ซ้ำ (S1–S4) และใช้เครื่องมือข้อความเขียน "จุดที่ 1" "จุดที่ 2" กำกับ', 'give every button its own name (S1–S4) and label "station 1", "station 2" with the text tool')],
+     [t('สวิตช์ลูกลอย', 'float switch'), t('ไม่มีในโปรแกรม: ใช้ลิมิตสวิตช์หรือเซนเซอร์ ตั้งชื่อ S6 พิมพ์ "ลูกลอย" แล้วคลิกเพื่อจำลองระดับน้ำต่ำ/เต็ม', 'not in the program: use a limit switch or sensor, name it S6, type "float", and click it to simulate low/full')]].map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td></tr>`).join('');
+  /* wrong name: the NO contact named S2 */
+  const spec = C3.PBLAMPS(); spec.els = spec.els.map(e => (e.d === 'S1' && e.k === 'NO' ? { ...e, d: 'S2' } : e)); spec.devices.S2 = { type: 'pb' };
+  const sim = new RL.Sim($('simN'), spec, { max: 420 }), pN = $('pN'); ui.h2(pN, t('สั่งงาน (กดค้าง)', 'Control (hold)'));
+  const row = document.createElement('div'); row.className = 'toggles'; pN.appendChild(row);
+  [['S1', t('S1 (ปกติปิด)', 'S1 (NC)')], ['S2', t('"S2" (ปกติเปิดที่ตั้งชื่อผิด)', '"S2" (the misnamed NO)')]].forEach(([id, lab]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = lab;
+    b.addEventListener('pointerdown', e => { e.preventDefault(); sim.press(id, true); }); ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, () => sim.press(id, false))); row.appendChild(b); });
+  const st = ui.status(pN); const show = () => { const h1 = sim.dev.H1.energized, h2 = sim.dev.H2.energized;
+    ui.setStatus(st, `H1 ${h1 ? t('ติด', 'lit') : t('ดับ', 'off')} · H2 ${h2 ? t('ติด', 'lit') : t('ดับ', 'off')}`, h1 && h2 ? t('ติดพร้อมกัน: ปุ่มจริงทำไม่ได้ แสดงว่าชื่อผิด', 'both lit: the real button cannot do this, so a name is wrong') : sim.dev.S1.pressed && !h2 ? t('กด S1 แล้ว H2 ไม่ติด เพราะหน้าสัมผัสปกติเปิดไม่ได้ชื่อ S1', 'S1 pressed but H2 stays off, because the NO contact is not named S1') : t('ลองกดทีละปุ่ม', 'try each button'), h1 && h2 ? 'bad' : 'warn'); };
+  sim.on(show); show();
+});
+</script>
+</body>
+</html>

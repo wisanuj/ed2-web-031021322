@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="4.4 — Overload relays">4.4 — โอเวอร์โหลดรีเลย์</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=9"><link rel="stylesheet" href="assets/ed2.css?v=9">
+<script src="assets/stops.js?v=9"></script><script src="assets/shell.js?v=9"></script>
+<script src="assets/lesson.js?v=9"></script><script src="assets/draw.js?v=9"></script><script src="assets/ed.js?v=9"></script><script src="assets/sym.js?v=9"></script><script src="assets/iec.js?v=9"></script><script src="assets/relay.js?v=9"></script><script src="assets/ch2.js?v=9"></script><script src="assets/ch3.js?v=9"></script><script src="assets/ch4.js?v=9"></script><script src="assets/devdata.js?v=9"></script><script src="assets/dev.js?v=9"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">โอเวอร์โหลดรีเลย์: การตั้งค่า คลาสการตัด หน้าสัมผัส 95–96/97–98 และหลอดเตือน <span class="en">Overload relays: setting, trip class, contacts 95–96/97–98 and the warning lamp</span></h1>
+<h1 data-l="en">Overload relays <span class="en">Setting, trip class, contacts 95–96/97–98 and the warning lamp</span></h1>
+
+<p class="sub" data-l="th">โอเวอร์โหลดรีเลย์ (overload relay) ป้องกันมอเตอร์จากกระแสเกินที่นานพอจะทำให้ขดลวดร้อนจนฉนวนเสื่อม เช่น โหลดหนักเกิน เพลาฝืด หรือไฟขาดเฟส มันยอมให้กระแสเริ่มเดินที่สูง 6–8 เท่าไหลผ่านได้ช่วงสั้น ๆ แต่ถ้ากระแสเกินค่าที่ตั้งนานพอ แผ่นโลหะคู่จะงอจนหน้าสัมผัส 95–96 เปิด ตัดคอยล์คอนแทกเตอร์ มอเตอร์หยุด หน้านี้จำลองความร้อนในโอเวอร์โหลด ให้ลองตั้งค่า เลือกคลาส ให้มอเตอร์โหลดเกิน แล้วจับเวลาจนตัด และต่อหลอดเตือนด้วยหน้าสัมผัส 97–98</p>
+<p class="sub" data-l="en">An overload relay protects a motor against an overcurrent that lasts long enough to overheat its winding insulation: too heavy a load, a stiff shaft, a lost phase. It lets the 6–8 times starting current through for a short while, but if the current stays above the setting long enough, the bimetals bend until contact 95–96 opens, the contactor coil drops out and the motor stops. This page simulates the heat inside an overload: set it, choose the class, overload the motor and time the trip, and wire a warning lamp to contact 97–98.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>หลักการ</b>: กระแสมอเตอร์ทุกเฟสไหลผ่านขดความร้อนรอบแผ่นโลหะคู่ (bimetal) กระแสยิ่งเกินมากยิ่งตัดเร็ว (ลักษณะเวลาผกผัน) ป้องกันโหลดเกินเท่านั้น <b>ไม่ป้องกันลัดวงจร</b> ซึ่งเป็นหน้าที่ของฟิวส์หรือเบรกเกอร์</li>
+  <li><b>การตั้งค่า</b>: หมุนปุ่มให้เท่ากับ <b>กระแสพิกัดบนป้ายมอเตอร์</b> (แบบ IEC) โอเวอร์โหลดตาม IEC 60947-4-1 (แบบชดเชยอุณหภูมิ ซึ่งใช้ทั่วไป) ต้องไม่ตัดที่ 1.05 เท่าของค่าที่ตั้งภายใน 2 ชั่วโมง และต้องตัดที่ 1.2 เท่าภายใน 2 ชั่วโมง จึงไม่ต้องตั้งเผื่อ</li>
+  <li><b>คลาสการตัด</b> บอกเวลาตัดสูงสุดที่ 7.2 เท่าของค่าที่ตั้ง (เริ่มจากเย็น): คลาส 10A 2–10 วินาที คลาส 10 4–10 วินาที คลาส 20 6–20 วินาที คลาส 30 9–30 วินาที เครื่องที่เริ่มเดินนาน (พัดลมใหญ่ เครื่องบด) ใช้คลาส 20 หรือ 30</li>
+  <li><b>หน้าสัมผัส</b>: 95–96 ปกติปิด ต่ออนุกรมกับคอยล์ในวงจรควบคุม 97–98 ปกติเปิด ใช้จุดหลอดเตือน ขั้วกำลัง 2/T1 4/T2 6/T3 ไปมอเตอร์ รีเซ็ตได้แบบมือ (H) หรืออัตโนมัติ (A) ห้ามใช้รีเซ็ตอัตโนมัติกับวงจร 2 สาย เพราะมอเตอร์จะเริ่มเดินเองเมื่อแผ่นโลหะคู่เย็น</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>Principle</b>: the motor current of every phase flows through a heater around a bimetal; the larger the overcurrent, the faster it trips (inverse time). It protects against overload only, <b>not against short circuits</b>, which is the job of fuses or circuit breakers.</li>
+  <li><b>Setting</b>: turn the dial to the <b>full-load current on the motor nameplate</b> (IEC practice). An IEC 60947-4-1 overload (ambient-compensated, the usual kind) must not trip at 1.05 × the setting within 2 h and must trip at 1.2 × within 2 h, so no extra margin is added.</li>
+  <li><b>Trip class</b> gives the longest trip time at 7.2 × the setting from cold: class 10A 2–10 s, class 10 4–10 s, class 20 6–20 s, class 30 9–30 s. Machines with long starts (big fans, crushers) use class 20 or 30.</li>
+  <li><b>Contacts</b>: 95–96 NC, in series with the coil in the control circuit; 97–98 NO, for a warning lamp; power terminals 2/T1 4/T2 6/T3 to the motor. Reset is manual (H) or automatic (A); never use automatic reset with two-wire control, because the motor would restart by itself once the bimetals cool.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>ข้างในโอเวอร์โหลด</a><a href="#tA"><b>A</b>ให้มอเตอร์โหลดเกิน</a><a href="#tN"><b>N</b>เส้นโค้งการตัด</a><a href="#tB"><b>B</b>หลอดเตือนโอเวอร์โหลด</a><a href="#ex1"><b>1</b>ตั้งค่าโอเวอร์โหลด</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>Inside an overload</a><a href="#tA"><b>A</b>Overload the motor</a><a href="#tN"><b>N</b>Trip curves</a><a href="#tB"><b>B</b>Overload warning lamp</a><a href="#ex1"><b>1</b>Setting an overload</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">ข้างในโอเวอร์โหลดรีเลย์</h2><h2 data-l="en">Inside an overload relay</h2>
+    <div class="src" data-l="th">ตำราไทย บทที่ 3 หัวข้อ 1.4 รูป 3.5 · EMC9 หน่วยที่ 3 รูป 3-19</div><div class="src" data-l="en">Thai textbook ch. 3 §1.4, Fig. 3.5 · EMC9 unit 3, Fig. 3-19</div></div></div>
+  <div class="story n2">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>รูป 3-19 ของ EMC9 เปิดฝาโอเวอร์โหลดแบบแผ่นโลหะคู่ให้เห็นข้างใน: ขดความร้อน (heater) ที่กระแสมอเตอร์ไหลผ่าน แผ่นโลหะคู่ (bimetal strip) ที่งอเมื่อร้อน ก้านดัน (push rod) ที่ดันหน้าสัมผัสให้เปิด และปุ่มปรับ (adjustment knob) ที่เลื่อนจุดตัด แผ่นโลหะคู่คือโลหะสองชนิดที่ขยายตัวไม่เท่ากันเชื่อมติดกัน เมื่อร้อนจึงโค้งไปทางโลหะที่ขยายตัวน้อย</p>
+        <p>รูป 3.5 ของตำราไทยคือโอเวอร์โหลดสองแบบที่ใช้ในไทย: (ก) แบบความร้อนที่เสียบใต้คอนแทกเตอร์ด้วยขาทองแดง 3 ขา และ (ข) แบบอิเล็กทรอนิกส์ที่วัดกระแสด้วยหม้อแปลงกระแสในตัว มีปุ่มตั้งค่าและหลอด LED การ์ดด้านล่างเป็นภาพถ่ายโอเวอร์โหลดจริงที่เห็นเลข 95 96 97 98 ปุ่ม TEST และ RESET ชัดเจน และเบรกเกอร์ป้องกันมอเตอร์ (MPCB) ซึ่งรวมตัวตัดความร้อนแบบเดียวกันไว้ในเบรกเกอร์</p></div>
+      <div class="story-p" data-l="en"><p>EMC9 Fig. 3-19 opens a bimetal overload: the heater that carries the motor current, the bimetal strip that bends when hot, the push rod that pushes the contact open, and the adjustment knob that moves the trip point. A bimetal is two metals with different expansion bonded together, so heat bends it towards the metal that expands less.</p>
+        <p>Thai textbook Fig. 3.5 shows the two kinds used in Thailand: (a) a thermal relay that plugs in under the contactor on three copper pins, and (b) an electronic relay that measures the current with built-in current transformers, with a setting dial and LEDs. The cards below show a real overload with 95 96 97 98, TEST and RESET clearly visible, and a motor protective circuit breaker (MPCB), which builds the same thermal release into a breaker.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/emc9_fig3_19_bimetal_relay.jpg" width="734" height="489" loading="lazy" decoding="async" alt="Bimetal overload relay opened, labelled: adjustment knob, bimetal strip, push rod, heater, contacts.">
+        <figcaption data-l="th">รูป 3-19 โอเวอร์โหลดแบบแผ่นโลหะคู่ · ที่มา: Herman, <i>Electric Motor Control</i> 9th ed. (Delmar Cengage, 2010) หน่วยที่ 3 หน้า 33 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 3-19, bimetal-strip overload relay · source: Herman, <i>Electric Motor Control</i>, 9th ed. (Delmar Cengage, 2010), unit 3, p. 33 · tap to enlarge</figcaption></figure>
+      <figure class="slide md"><img src="img/book/book1_fig3_5_overload.jpg" width="855" height="288" loading="lazy" decoding="async" alt="Thai textbook Fig. 3.5: (a) a thermal overload relay, (b) an electronic overload relay.">
+        <figcaption data-l="th">รูป 3.5 โอเวอร์โหลดรีเลย์ (ก) แบบความร้อน (ข) แบบอิเล็กทรอนิกส์ · ที่มา: ธนภัทร ไพคำนาม, การควบคุมมอเตอร์ไฟฟ้า (2104-2009), บทที่ 3 หน้า 40</figcaption>
+        <figcaption data-l="en">Fig. 3.5, overload relays: (a) thermal, (b) electronic · source: Thanaphat Phaikhamnam, <i>Motor Control</i> (2104-2009), ch. 3, p. 40</figcaption></figure>
+    </div>
+  </div>
+  <div id="devs" style="margin-top:12px"></div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">ให้มอเตอร์โหลดเกิน แล้วจับเวลาจนโอเวอร์โหลดตัด</h2><h2 data-l="en">Overload the motor and time the trip</h2>
+    <div class="src" data-l="th">IEC 60947-4-1 (คลาสการตัดและขีดจำกัดเวลา) · แบบจำลองความร้อนอันดับหนึ่งของหน้านี้</div><div class="src" data-l="en">IEC 60947-4-1 (trip classes and time limits) · this page's first-order heat model</div></div></div>
+  <p class="lead" data-l="th">มอเตอร์ตัวอย่างมีกระแสพิกัด 10 A ตั้งค่าโอเวอร์โหลดและคลาส เลือกภาระของมอเตอร์ แล้วดูเส้นสีส้ม (ความร้อนสะสมในแผ่นโลหะคู่) ไต่ขึ้นหาเส้นประสีแดง ถึงเมื่อไรหน้าสัมผัส 95–96 เปิด มอเตอร์หยุด และ 97–98 ต่อ หลอดเตือนติด เร่งเวลาได้ถึง 60 เท่าเพราะโหลดเกินเล็กน้อยต้องใช้หลายนาที จุดสีส้มบนเส้นโค้งด้านขวาคือเวลาตัดที่คาดไว้ ทุกครั้งที่ตัดหรือรีเซ็ตจะบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">The sample motor has a full-load current of 10 A. Set the overload and its class, choose the motor's load, and watch the orange line (heat stored in the bimetals) climb towards the red dashed line. When it gets there, 95–96 opens, the motor stops, 97–98 closes and the warning lamp lights. Time can run up to 60 times faster, because a small overload takes minutes. The orange dot on the curve at the right is the expected trip time. Every trip and reset is recorded below.</p>
+  <div class="card sim" style="padding:10px"><div class="olgrid"><div id="olT"></div><div id="olC"></div></div><div id="olL" style="margin-top:6px"></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logA"></div><div id="sumA" style="margin-top:8px"></div></div>
+</section>
+
+<section class="prob" id="tN">
+  <div class="prob-head"><span class="prob-no">N</span><div><h2 data-l="th">เส้นโค้งการตัดและคลาสการตัด</h2><h2 data-l="en">Trip curves and trip classes</h2>
+    <div class="src" data-l="th">IEC 60947-4-1 · UMC5 บทที่ 4 · Senty บทที่ 8</div><div class="src" data-l="en">IEC 60947-4-1 · UMC5 ch. 4 · Senty ch. 8</div></div></div>
+  <div class="duo">
+    <div class="card solve" data-l="th"><p>เส้นโค้งการตัดบอกว่ากระแสกี่เท่าของค่าที่ตั้งจะตัดภายในเวลาเท่าไร (เริ่มจากเย็น) แกนทั้งสองเป็นสเกลลอการิทึม กระแส 1.05 เท่าต้องไม่ตัด เส้นโค้งจึงชันขึ้นไปทางซ้าย ส่วนแถบสีที่ 7.2 เท่าคือช่วงเวลาที่มาตรฐานยอมให้แต่ละคลาส</p>
+      <p>ทำไมต้องเป็น 7.2 เท่า: เป็นระดับประมาณกระแสเริ่มเดินของมอเตอร์ (6–8 เท่า) คลาสจึงบอกว่าโอเวอร์โหลดยอมให้มอเตอร์เริ่มเดินนานแค่ไหนก่อนตัด มอเตอร์ทั่วไปเริ่มเดินไม่ถึง 10 วินาทีใช้คลาส 10 เครื่องที่มีความเฉื่อยมากใช้คลาส 20 หรือ 30</p>
+      <p class="simnote">เส้นโค้งในหน้านี้คำนวณจากแบบจำลองความร้อนอันดับหนึ่งที่เลือกค่าให้ผ่านทุกขีดจำกัดของมาตรฐาน เส้นโค้งของรุ่นจริงดูจากแผ่นข้อมูลของผู้ผลิต</p></div>
+    <div class="card solve" data-l="en"><p>A trip curve says how many times the setting trips within what time (from cold). Both axes are logarithmic. 1.05 × must not trip, so the curves rise steeply to the left; the coloured bars at 7.2 × are the time bands the standard allows each class.</p>
+      <p>Why 7.2 ×? It is about the starting current of a motor (6–8 ×), so the class says how long the overload lets a motor start before it trips. Ordinary motors that start in under 10 s use class 10; high-inertia machines use class 20 or 30.</p>
+      <p class="simnote">The curves on this page come from a first-order heat model tuned to pass every limit of the standard; for a real relay, use the maker's data sheet.</p></div>
+    <div class="card solve"><div id="curve"></div><table class="tbl" id="classT" style="margin-top:8px"></table></div>
+  </div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">หลอดเตือนโอเวอร์โหลดด้วยหน้าสัมผัส 97–98</h2><h2 data-l="en">An overload warning lamp on contact 97–98</h2>
+    <div class="src" data-l="th">วงจรเดียวกับหน้า 2.3 · EMC9 หน่วยที่ 3 รูป 3-31 · ใบงานที่ 4 ข้อ 3.5</div><div class="src" data-l="en">The circuit of page 2.3 · EMC9 unit 3, Fig. 3-31 · lab sheet 4, step 3.5</div></div></div>
+  <p class="lead" data-l="th">กด S2 ให้มอเตอร์เดิน (หลอดเขียว H1 ติด) แล้วแตะ F2 เพื่อจำลองว่าโอเวอร์โหลดตัด: 95–96 เปิด คอยล์ KM1 หลุด มอเตอร์หยุด 97–98 ต่อ หลอดสีเหลืองอำพัน H2 ติด แตะ F2 อีกครั้งเพื่อรีเซ็ต สังเกตว่ารีเซ็ตแล้วมอเตอร์ไม่เดินเอง ต้องกด S2 ใหม่ เพราะวงจรเป็นแบบ 3 สาย</p>
+  <p class="lead" data-l="en">Press S2 to run the motor (green H1 lit), then tap F2 to simulate an overload trip: 95–96 opens, coil KM1 drops out, the motor stops, 97–98 closes and amber H2 lights. Tap F2 again to reset. Note that the motor does not restart after the reset: S2 must be pressed again, because this is three-wire control.</p>
+  <div class="card sim" style="padding:8px"><div id="simB"></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pB" style="position:static;max-height:none"></div></div>
+  <div class="story n2" style="margin-top:12px">
+    <div class="story-t"><div class="story-p" data-l="th"><p>รูป 3-31 ของ EMC9 คือหลักเดียวกันในแบบ NEMA: โอเวอร์โหลดมีหน้าสัมผัสเปลี่ยนทาง ขาร่วม C ปกติปิด NC ต่ออนุกรมกับคอยล์สตาร์ทเตอร์ ส่วนปกติเปิด NO ต่อหลอดเตือน A ในแบบ IEC ข้างบน หน้าสัมผัสทั้งสองแยกเป็น 95–96 และ 97–98</p></div>
+      <div class="story-p" data-l="en"><p>EMC9 Fig. 3-31 is the same idea in NEMA style: the overload has a changeover contact whose common C feeds the starter coil through NC and alarm lamp A through NO. In the IEC drawing above, the two contacts are separate: 95–96 and 97–98.</p></div></div>
+    <div class="story-f"><figure class="slide sm"><img src="img/book/emc9_fig3_31_ol_alarm.jpg" width="975" height="1104" loading="lazy" decoding="async" alt="NEMA starter circuit with an overload changeover contact: NC in series with the starter coil, NO lighting alarm lamp A.">
+      <figcaption data-l="th">รูป 3-31 โอเวอร์โหลดที่มีขาร่วม ปกติปิด และปกติเปิด · ที่มา: Herman (2010) หน่วยที่ 3 หน้า 38 · แตะรูปเพื่อขยาย</figcaption>
+      <figcaption data-l="en">Fig. 3-31, overload relay with common, NC and NO terminals · source: Herman (2010), unit 3, p. 38 · tap to enlarge</figcaption></figure></div>
+  </div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">ตั้งค่าโอเวอร์โหลดให้มอเตอร์</h2><h2 data-l="en">Setting an overload for a motor</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง</div><div class="src" data-l="en">Worked example</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>ป้ายมอเตอร์ 5.5 kW 400 V บอกกระแสพิกัด 11 A ใช้โอเวอร์โหลดคลาส 10 ช่วงปรับ 9–13 A (ก) ต้องตั้งปุ่มที่เท่าไร (ข) ถ้าช่างตั้งไว้ 13 A "เผื่อไว้" แล้วมอเตอร์ทำงานที่ 12.5 A ตลอด โอเวอร์โหลดจะตัดไหม มอเตอร์จะเป็นอย่างไร (ค) มอเตอร์ติดขัดกินกระแส 7.2 เท่าของค่าที่ตั้งในข้อ (ก) โอเวอร์โหลดต้องตัดภายในกี่วินาที</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>A 5.5 kW 400 V motor has a nameplate full-load current of 11 A. The overload is class 10 with a 9–13 A range. (a) Where must the dial be set? (b) If an electrician sets it to 13 A "to be safe" and the motor runs at 12.5 A all day, will the overload trip, and what happens to the motor? (c) If the motor jams and draws 7.2 times the setting of (a), within how many seconds must the overload trip?</p></div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">โอเวอร์โหลดรีเลย์</div><div class="src" data-l="en">Overload relays</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>ตั้ง 10 A คลาส 10 เลือกโหลดเกิน 50 % (15 A) เริ่มจากเย็น จดเวลาตัด แล้วรีเซ็ตทันทีและเดินซ้ำ (เริ่มจากร้อน) ครั้งที่สองตัดเร็วกว่าเท่าไร</li>
+    <li>เลือกมอเตอร์ติดขัด (7.2 เท่า) แล้วเปลี่ยนคลาส 10A, 10, 20, 30 จดเวลาตัดแต่ละคลาส อยู่ในแถบของมาตรฐานไหม</li>
+    <li>ตั้งค่า 125 % ของกระแสพิกัดแล้วให้มอเตอร์ทำงาน 120 % ตลอด โอเวอร์โหลดตัดไหม นี่คือเหตุผลที่ต้องตั้งเท่ากระแสบนป้าย</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 2 หัวข้อ 5 และบทที่ 3 หัวข้อ 1.4 · Herman, <i>Electric Motor Control</i> 9th ed. หน่วยที่ 3 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 4 · Senty, <i>Motor Control Fundamentals</i> บทที่ 8 · IEC 60947-4-1</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Set 10 A, class 10, choose a 50 % overload (15 A) from cold and note the trip time; then reset at once and run again (from hot). How much faster is the second trip?</li>
+    <li>Choose a jammed motor (7.2 ×) and switch between classes 10A, 10, 20 and 30, noting each trip time. Are they inside the standard's bands?</li>
+    <li>Set 125 % of the full-load current and run the motor at 120 % all the time. Does it trip? That is why the dial is set to the nameplate current.</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 2 §5 and ch. 3 §1.4 · Herman, <i>Electric Motor Control</i>, 9th ed., unit 3 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 4 · Senty, <i>Motor Control Fundamentals</i>, ch. 8 · IEC 60947-4-1</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui;
+  DEV.mount($('devs'), ['ol', 'mpcb']);
+  /* A: overload simulator; the motor's rated current is 10 A, the dial setting and the load are in amperes */
+  const IN = 10, pA = $('pA');
+  let setA = 10, loadA = 0, speed = 10, run = false, tripAt = null, n = 0, startT = 0;
+  const ol = new C4.Overload({ cls: '10', setting: 1 });
+  const log = new ED.Log($('logA'), [['เหตุการณ์', 'event'], ['ค่าที่ตั้ง', 'setting'], ['คลาส', 'class'], ['กระแสมอเตอร์', 'motor current'], ['เวลา', 'time']]);
+  const LOADS = [['stop', ['มอเตอร์หยุด', 'motor stopped'], 0], ['rated', ['โหลดปกติ (100 %)', 'rated load (100 %)'], 1], ['o12', ['โหลดเกิน 20 %', '20 % overload'], 1.2], ['o15', ['โหลดเกิน 50 %', '50 % overload'], 1.5],
+    ['jam', ['มอเตอร์ติดขัด (7.2 เท่าของค่าที่ตั้ง)', 'jammed motor (7.2 × the setting)'], 'jam'], ['phase', ['ไฟขาดเฟส (สองเฟสที่เหลือ 1.73 เท่า)', 'lost phase (the two others at 1.73 ×)'], 1.73]];
+  const sync = () => { ol.setting = setA / IN; ol.load = run ? loadA / IN : 0; };
+  ui.h2(pA, t('คลาสการตัด', 'Trip class'));
+  ui.radio(pA, ['10A', '10', '20', '30'].map(c => ({ id: 'c' + c, label: `class ${c}`, on: c === '10' })), id => { ol.cls = id.slice(1); drawCurve(); });
+  ui.slider(pA, { id: 'set', label: t('ค่าที่ตั้ง (กระแสพิกัดมอเตอร์ 10 A)', 'setting (motor rated current 10 A)'), min: 8, max: 13, step: 0.5, value: 10, fmt: v => `${v} A (${Math.round(v / IN * 100)} %)`, oninput: v => { setA = v; sync(); drawCurve(); } });
+  ui.h2(pA, t('ภาระของมอเตอร์', 'Motor load'));
+  ui.radio(pA, LOADS.map(([id, nm]) => ({ id, label: ED.tt(nm), on: id === 'stop' })), id => { const L = LOADS.find(x => x[0] === id); loadA = L[2] === 'jam' ? 7.2 * setA : L[2] * IN; run = loadA > 0; startT = ol.time; tripAt = null; sync(); drawCurve(); });
+  ui.h2(pA, t('ความเร็วเวลา', 'Time speed'));
+  ui.radio(pA, [1, 10, 60].map(v => ({ id: 'x' + v, label: `×${v}`, on: v === 10 })), id => { speed = +id.slice(1); });
+  const row = document.createElement('div'); row.className = 'toggles'; pA.appendChild(row);
+  const tb = document.createElement('button'); tb.type = 'button'; tb.className = 'btn'; tb.textContent = 'TEST'; row.appendChild(tb);
+  const rb = document.createElement('button'); rb.type = 'button'; rb.className = 'btn'; rb.textContent = 'RESET'; row.appendChild(rb);
+  const ab = document.createElement('button'); ab.type = 'button'; ab.className = 'btn'; ab.textContent = t('รีเซ็ตอัตโนมัติ (A)', 'automatic reset (A)'); row.appendChild(ab);
+  tb.addEventListener('click', () => { ol.test(); log.add('e' + (n++), [t('กด TEST', 'TEST pressed'), `${setA} A`, ol.cls, '—', '—'], 'warn'); });
+  rb.addEventListener('click', () => { const was = ol.tripped, ok = ol.reset(); if (was) log.add('e' + (n++), [ok ? t('รีเซ็ตแล้ว', 'reset') : t('รีเซ็ตไม่ได้: แผ่นโลหะคู่ยังร้อน', 'cannot reset: bimetals still hot'), `${setA} A`, ol.cls, '—', C4.fmtT(ol.time)], ok ? 'ok' : 'bad'); startT = ol.time; });
+  ab.addEventListener('click', () => { ol.auto = !ol.auto; ab.classList.toggle('on', ol.auto); });
+  ol.onTrip = () => { tripAt = ol.time; if (run) log.add('e' + (n++), [t('โอเวอร์โหลดตัด', 'overload tripped'), `${setA} A`, ol.cls, `${loadA.toFixed(1)} A (${(loadA / setA).toFixed(2)}×)`, C4.fmtT(ol.time - startT)], 'bad'); };
+  const stA = ui.status(pA);
+  const drawCurve = () => { $('olC').innerHTML = C4.tripCurve({ cls: ol.cls, k: run ? loadA / setA : 0, max: 520 }); };
+  const lampsSVG = () => { const tr = ol.tripped, mot = run && !tr, I = IEC;
+    let s = IEC.T('95–96', 56, 16, { size: 10, weight: 700, anchor: 'middle' }) + `<g${!tr ? ' stroke="#ff4d4d"' : ''}>${I.contact(true, 56, 22, 82, { act: tr, op: 'thr' })}</g>`;
+    s += IEC.T('97–98', 132, 16, { size: 10, weight: 700, anchor: 'middle' }) + `<g${tr ? ' stroke="#ff4d4d"' : ''}>${I.contact(false, 132, 22, 82, { act: tr, op: 'thr' })}</g>`;
+    s += I.lamp(206, 22, 82, { live: mot, lamp: '#7ee787' }) + IEC.T(t('H1 มอเตอร์เดิน', 'H1 running'), 206, 100, { size: 10, anchor: 'middle' });
+    s += I.lamp(290, 22, 82, { live: tr, lamp: '#ffb020' }) + IEC.T(t('H2 โอเวอร์โหลด', 'H2 overload'), 290, 100, { size: 10, anchor: 'middle' });
+    s += I.motor(380, 52, 24) + (mot ? `<circle cx="380" cy="52" r="30" fill="none" stroke="#1d8a4a" stroke-width="2" stroke-dasharray="6 6"/>` : '') + IEC.T(mot ? t('หมุน', 'running') : t('หยุด', 'stopped'), 380, 100, { size: 10, anchor: 'middle', weight: 700 });
+    return IEC.svg(420, 110, s, { max: 520, label: 'overload contacts and lamps' }); };
+  sync(); drawCurve();
+  let acc = 0;
+  LS.anim($('olT'), dt => { const steps = Math.ceil(speed * dt / 0.2); for (let i = 0; i < steps; i++) { sync(); ol.step(speed * dt / steps); } acc += dt;
+    if (acc > 0.12) { acc = 0; $('olT').innerHTML = C4.thermalSVG(ol, { span: speed > 10 ? 900 : speed > 1 ? 300 : 60 }); $('olL').innerHTML = lampsSVG(); }
+    const k = run ? loadA / setA : 0, exp = run && !ol.tripped ? C4.tripTime(ol.cls, k, ol.theta) : Infinity;
+    ui.setStatus(stA, ol.tripped ? t('ตัดแล้ว', 'tripped') : run ? t('มอเตอร์เดิน', 'running') : t('หยุด', 'stopped'),
+      `${t('กระแส', 'current')} ${run && !ol.tripped ? loadA.toFixed(1) : 0} A = ${run ? k.toFixed(2) : 0}× ${t('ของค่าที่ตั้ง', 'the setting')} · ${t('ความร้อน', 'heat')} ${Math.round(ol.theta / C4.KT ** 2 * 100)} % · ${ol.tripped ? (ol.canReset() ? t('รีเซ็ตได้', 'can be reset') : t('รอให้เย็นก่อนรีเซ็ต', 'wait to cool before reset')) : isFinite(exp) ? t(`คาดว่าจะตัดในอีก ${C4.fmtT(exp)}`, `expected to trip in ${C4.fmtT(exp)}`) : t('ไม่ตัด', 'will not trip')}`, ol.tripped ? 'bad' : run ? (k > C4.KT ? 'warn' : 'ok') : 'wait'); });
+  ED.summary($('sumA'), { head: [['ภาระ (ตั้ง 10 A)', 'load (set at 10 A)'], ['คลาส 10', 'class 10'], ['คลาส 20', 'class 20'], ['ความหมาย', 'what it means']],
+    rows: () => [[t('100 % (10 A)', '100 % (10 A)'), t('ไม่ตัด', 'no trip'), t('ไม่ตัด', 'no trip'), t('ทำงานต่อเนื่องได้', 'may run continuously')],
+      [t('120 % (12 A) จากเย็น', '120 % (12 A) from cold'), C4.fmtT(C4.tripTime('10', 1.2)), C4.fmtT(C4.tripTime('20', 1.2)), t('ตัดภายใน 2 ชั่วโมงตามมาตรฐาน', 'trips within 2 h as the standard requires')],
+      [t('150 % (15 A) จากร้อน', '150 % (15 A) from hot'), C4.fmtT(C4.tripTime('10', 1.5, 1)), C4.fmtT(C4.tripTime('20', 1.5, 1)), t('มาตรฐานกำหนดไม่เกิน 4 นาที (คลาส 10) และ 8 นาที (คลาส 20)', 'the standard allows at most 4 min (class 10) and 8 min (class 20)')],
+      [t('720 % (72 A) จากเย็น', '720 % (72 A) from cold'), C4.fmtT(C4.tripTime('10', 7.2)), C4.fmtT(C4.tripTime('20', 7.2)), t('อยู่ในแถบ 4–10 s และ 6–20 s', 'inside the 4–10 s and 6–20 s bands')]],
+    points: [['กระแสยิ่งเกินมาก โอเวอร์โหลดยิ่งตัดเร็ว (เวลาผกผัน) และตัดเร็วขึ้นอีกถ้าแผ่นโลหะคู่ยังร้อนจากการทำงานก่อนหน้า', 'The larger the overcurrent, the faster the trip (inverse time), and faster still if the bimetals are already warm from running.'],
+      ['ตั้งค่าสูงเกินกระแสพิกัด มอเตอร์ที่โหลดเกินเล็กน้อยจะไม่ถูกตัด ขดลวดร้อนเกินเรื่อย ๆ จนฉนวนเสื่อมและไหม้ ตั้งต่ำเกิน มอเตอร์ที่ทำงานปกติจะถูกตัดบ่อยโดยไม่จำเป็น', 'Set too high, a slightly overloaded motor is never tripped and its winding overheats until the insulation fails; set too low, a healthy motor trips for nothing.'],
+      ['หลังตัดต้องรอให้แผ่นโลหะคู่เย็นก่อนจึงรีเซ็ตได้ และควรหาสาเหตุของการโหลดเกินก่อนเริ่มเดินใหม่', 'After a trip the bimetals must cool before reset, and the cause of the overload should be found before restarting.']] });
+  /* N: curve and class table */
+  $('curve').innerHTML = C4.tripCurve({ max: 560 });
+  $('classT').innerHTML = `<tr><th>${t('คลาส', 'class')}</th><th>${t('เวลาตัดที่ 7.2 เท่า (จากเย็น)', 'trip time at 7.2 × (from cold)')}</th><th>${t('ที่ 1.5 เท่า (จากร้อน)', 'at 1.5 × (from hot)')}</th><th>${t('ใช้กับ', 'used for')}</th></tr>` +
+    [['10A', '2–10 s', t('ไม่เกิน 2 นาที', '≤ 2 min'), t('มอเตอร์เริ่มเดินเร็ว', 'quick-starting motors')], ['10', '4–10 s', t('ไม่เกิน 4 นาที', '≤ 4 min'), t('มอเตอร์ทั่วไป', 'ordinary motors')], ['20', '6–20 s', t('ไม่เกิน 8 นาที', '≤ 8 min'), t('เริ่มเดินนาน เช่น พัดลมใหญ่', 'long starts, e.g. big fans')], ['30', '9–30 s', t('ไม่เกิน 12 นาที', '≤ 12 min'), t('เริ่มเดินนานมาก เช่น เครื่องบด', 'very long starts, e.g. crushers')]].map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('');
+  /* B: DOL with the overload lamp */
+  const sim = new RL.Sim($('simB'), C2.DOL(), { max: 900 }), pB = $('pB');
+  ui.h2(pB, t('สั่งงาน', 'Control')); const rowB = document.createElement('div'); rowB.className = 'toggles'; pB.appendChild(rowB);
+  const holdB = (id, lab) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = lab; b.addEventListener('pointerdown', e => { e.preventDefault(); sim.press(id, true); }); ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, () => sim.press(id, false))); rowB.appendChild(b); };
+  holdB('S2', t('S2 เริ่ม', 'S2 start')); holdB('S1', t('S1 หยุด', 'S1 stop'));
+  const fb = document.createElement('button'); fb.type = 'button'; fb.className = 'btn on'; fb.textContent = t('F2 ตัด / รีเซ็ต', 'F2 trip / reset'); fb.addEventListener('click', () => sim.toggle('F2')); rowB.appendChild(fb);
+  const stB = ui.status(pB), showB = () => { const tr = sim.dev.F2.tripped; ui.setStatus(stB, tr ? t('โอเวอร์โหลดตัด', 'overload tripped') : sim.running() ? t('มอเตอร์เดิน', 'motor running') : t('มอเตอร์หยุด', 'motor stopped'), `H1 ${sim.dev.H1.energized ? t('ติด', 'lit') : t('ดับ', 'off')} · H2 ${sim.dev.H2.energized ? t('ติด', 'lit') : t('ดับ', 'off')}`, tr ? 'bad' : sim.running() ? 'ok' : 'warn'); };
+  sim.on(showB); showB();
+  /* worked example */
+  LS.choose($('ask1'), { options: [t('(ก) 11 A (ข) ไม่ตัด มอเตอร์ร้อนเกิน (ค) 4–10 s', '(a) 11 A; (b) no trip, the motor overheats; (c) 4–10 s'), t('(ก) 13 A (ข) ตัด (ค) 2 นาที', '(a) 13 A; (b) it trips; (c) 2 min'), t('(ก) 14.3 A (130 %) (ข) ไม่ตัด (ค) 20 s', '(a) 14.3 A (130 %); (b) no trip; (c) 20 s')], answer: 0 });
+  LS.stepper($('st1'), { steps: [
+    { why: t('ตั้งเท่ากระแสบนป้าย', 'Set to the nameplate current'), body: `<p>${t('ตั้ง <b>11 A</b> (อยู่ในช่วง 9–13 A) ไม่ต้องบวกเผื่อ เพราะโอเวอร์โหลดตาม IEC 60947-4-1 ไม่ตัดที่ 1.05 เท่าอยู่แล้ว', 'set <b>11 A</b> (within 9–13 A), with no margin added, because an IEC 60947-4-1 overload already does not trip at 1.05 ×')}</p>` },
+    { why: t('ตั้ง 13 A แต่มอเตอร์กิน 12.5 A', 'Set at 13 A, the motor draws 12.5 A'), body: `<p>${t('12.5 ÷ 13 = 0.96 เท่าของค่าที่ตั้ง น้อยกว่า 1.05 จึง <b>ไม่ตัดเลย</b> แต่ 12.5 ÷ 11 = 1.14 เท่าของกระแสพิกัด มอเตอร์ร้อนเกินตลอดเวลา อายุฉนวนสั้นลงมาก', '12.5 ÷ 13 = 0.96 × the setting, below 1.05, so it <b>never trips</b>; yet 12.5 ÷ 11 = 1.14 × the rated current, so the motor runs too hot all day and its insulation ages fast')}</p>` },
+    { why: t('มอเตอร์ติดขัด 7.2 เท่า', 'Jammed motor at 7.2 ×'), body: `<p>${t('7.2 × 11 = 79 A คลาส 10 ต้องตัดภายใน <b>4–10 วินาที</b> (เริ่มจากเย็น)', '7.2 × 11 = 79 A; class 10 must trip within <b>4–10 s</b> (from cold)')}</p>` }],
+    answer: t('(ก) 11 A (ข) ไม่ตัด มอเตอร์ร้อนเกิน (ค) 4–10 s', '(a) 11 A; (b) no trip, the motor overheats; (c) 4–10 s') });
+  ED.mcq('mcq', [
+    { q: t('1) โอเวอร์โหลดรีเลย์ป้องกันอะไร', '1) What does an overload relay protect against?'), options: [t('กระแสเกินที่นานจนมอเตอร์ร้อนเกิน', 'overcurrent lasting long enough to overheat the motor'), t('ลัดวงจร', 'short circuits'), t('ไฟรั่วลงดิน', 'earth leakage')], answer: 0 },
+    { q: t('2) ต้องตั้งค่าโอเวอร์โหลดเท่าไร (แบบ IEC)', '2) What should an overload be set to (IEC practice)?'), options: [t('กระแสพิกัดบนป้ายมอเตอร์', 'the nameplate full-load current'), t('130 % ของกระแสพิกัด', '130 % of the rated current'), t('กระแสเริ่มเดิน', 'the starting current')], answer: 0 },
+    { q: t('3) หน้าสัมผัสใดของโอเวอร์โหลดต่ออนุกรมกับคอยล์คอนแทกเตอร์', '3) Which overload contact is in series with the contactor coil?'), options: ['95–96', '97–98', '13–14'], answer: 0 },
+    { q: t('4) โอเวอร์โหลดคลาส 10 ที่ 7.2 เท่าของค่าที่ตั้ง (จากเย็น) ต้องตัดภายในเท่าไร', '4) At 7.2 × its setting (from cold), a class 10 overload must trip within what time?'), options: ['2–10 s', '4–10 s', '6–20 s'], answer: 1 },
+    { q: t('5) ทำไมจึงไม่ควรใช้รีเซ็ตอัตโนมัติกับวงจร 2 สาย', '5) Why should automatic reset not be used with two-wire control?'), options: [t('มอเตอร์จะเริ่มเดินเองเมื่อแผ่นโลหะคู่เย็น', 'the motor would restart by itself once the bimetals cool'), t('โอเวอร์โหลดจะไม่ตัด', 'the overload would not trip'), t('ฟิวส์จะขาด', 'the fuse would blow')], answer: 0 },
+    { q: t('6) เครื่องบดที่เริ่มเดินนาน 15 วินาที ควรใช้โอเวอร์โหลดคลาสใด', '6) A crusher takes 15 s to start. Which overload class suits it?'), options: [t('คลาส 10A', 'class 10A'), t('คลาส 10', 'class 10'), t('คลาส 20 หรือ 30', 'class 20 or 30')], answer: 2 }]);
+});
+</script>
+</body>
+</html>

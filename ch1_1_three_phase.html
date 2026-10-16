@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="1.1 — The three-phase induction motor">1.1 — มอเตอร์เหนี่ยวนำ 3 เฟส</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=9"><link rel="stylesheet" href="assets/ed2.css?v=9">
+<script src="assets/stops.js?v=9"></script><script src="assets/shell.js?v=9"></script>
+<script src="assets/lesson.js?v=9"></script><script src="assets/draw.js?v=9"></script><script src="assets/ed.js?v=9"></script><script src="assets/sym.js?v=9"></script><script src="assets/ed1.js?v=9"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">มอเตอร์เหนี่ยวนำ 3 เฟส: สนามแม่เหล็กหมุนและสลิป <span class="en">The three-phase induction motor: rotating field and slip</span></h1>
+<h1 data-l="en">The three-phase induction motor <span class="en">Rotating field and slip</span></h1>
+
+<p class="sub" data-l="th">ทุกวงจรที่จะเขียนในวิชานี้ไปจบที่ขั้วของมอเตอร์ ก่อนเขียนวงจรควบคุมจึงต้องรู้จักสิ่งที่อยู่ปลายทาง มอเตอร์เหนี่ยวนำ 3 เฟสแบบกรงกระรอก (squirrel-cage induction motor) พบมากที่สุดในโรงงาน: ไม่มีแปรงถ่าน ไม่มีสายไฟต่อเข้าโรเตอร์ หมุนได้เพราะกระแส 3 เฟสในขดลวดสร้าง <b>สนามแม่เหล็กหมุน</b> หน้านี้ดูว่าสนามหมุนเกิดอย่างไร ความเร็วขึ้นกับอะไร และทำไมกระแสตอนเริ่มเดินสูงจนต้องมีบทที่ 8–9 ทั้งสองบท</p>
+<p class="sub" data-l="en">Every circuit drawn in this course ends at the terminals of a motor, so before drawing control circuits we look at what sits at the end. The three-phase squirrel-cage induction motor is the most common motor in a factory: no brushes and no wires into the rotor. It turns because three-phase currents in its windings make a <b>rotating magnetic field</b>. This page shows how the field rotates, what sets the speed, and why the starting current is so high that chapters 8 and 9 are needed.</p>
+<div class="equation-box eqwrap">$$ n_s = \frac{120\,f}{P}\ \ \text{rpm} \qquad\qquad s = \frac{n_s - n}{n_s} $$</div>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>ขดลวดสามชุดวางห่างกัน 120°</b> รอบสเตเตอร์ เมื่อป้อนกระแส 3 เฟส สนามแม่เหล็กรวมมีขนาดคงที่และหมุนด้วย <b>ความเร็วซิงโครนัส</b> \(n_s = 120f/P\) รอบต่อนาที (revolutions per minute, rpm) โดย \(f\) คือความถี่ของระบบ (ไทยใช้ 50 Hz) และ \(P\) คือจำนวนขั้ว</li>
+  <li><b>สลับสายคู่ใดคู่หนึ่ง</b> เช่น L1 กับ L2 ลำดับเฟสกลับ สนามจึงหมุนกลับทาง นี่คือหลักของวงจรกลับทางหมุนในบทที่ 7 แต่ถ้าวนสายทั้งสามเส้นไปหนึ่งตำแหน่ง ทิศยังเท่าเดิม</li>
+  <li><b>โรเตอร์หมุนช้ากว่าสนามเล็กน้อยเสมอ</b> ถ้าเร็วเท่ากัน ตัวนำในโรเตอร์จะไม่ตัดเส้นแรงแม่เหล็ก ไม่มีกระแสเหนี่ยวนำและไม่มีแรงบิด ส่วนต่างนี้เรียกว่า <b>สลิป</b> (slip) ที่พิกัดปกติอยู่ราว 2–6 %</li>
+  <li><b>ตอนเริ่มเดิน</b> โรเตอร์ยังหยุด (สลิป 100 %) กระแสสูงราว 6–8 เท่าของกระแสพิกัด อุปกรณ์ป้องกันต้องทนกระแสช่วงสั้นนี้ได้ (บทที่ 13) และมอเตอร์ใหญ่ต้องใช้วิธีเริ่มเดินที่ลดกระแส (บทที่ 8–9)</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>Three windings set 120° apart</b> round the stator. Fed with three-phase currents, their total field has a constant size and turns at the <b>synchronous speed</b> \(n_s = 120f/P\) revolutions per minute (rpm), where \(f\) is the supply frequency (50 Hz in Thailand) and \(P\) the number of poles.</li>
+  <li><b>Swap any two lines</b>, for example L1 and L2, and the phase sequence reverses, so the field turns the other way. This is how the reversing circuits of chapter 7 work. Moving all three lines round by one place keeps the direction.</li>
+  <li><b>The rotor always turns a little slower than the field.</b> At the same speed its bars would cut no flux, so there would be no induced current and no torque. The difference is the <b>slip</b>, usually about 2–6 % at rated load.</li>
+  <li><b>At start</b> the rotor stands still (100 % slip) and the current is about 6–8 times the rated current. The protection must ride through this short current (chapter 13), and large motors need starting methods that reduce it (chapters 8–9).</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>มอเตอร์ในแบบไฟฟ้า</a><a href="#tA"><b>A</b>สนามแม่เหล็กหมุน</a><a href="#ex1"><b>1</b>อ่านความเร็วจากป้ายพิกัด</a><a href="#tB"><b>B</b>แรงบิดและกระแส</a><a href="#ex2"><b>2</b>กระแสเริ่มเดิน</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>The motor in a drawing</a><a href="#tA"><b>A</b>The rotating field</a><a href="#ex1"><b>1</b>Speed from the nameplate</a><a href="#tB"><b>B</b>Torque and current</a><a href="#ex2"><b>2</b>Starting current</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">มอเตอร์ในแบบไฟฟ้า: วงกลม M 3~ กับขั้ว U1 V1 W1</h2><h2 data-l="en">The motor in a drawing: a circle marked M 3~ with terminals U1 V1 W1</h2>
+    <div class="src" data-l="th">สัญลักษณ์ IEC 60617 · เลขขั้ว IEC 60034-8 · ตำราไทย บทที่ 6 หัวข้อ 1</div><div class="src" data-l="en">IEC 60617 symbol · IEC 60034-8 terminal markings · Thai textbook ch. 6 §1</div></div></div>
+  <div class="duo"><div class="card" style="padding:14px;display:flex;align-items:center;justify-content:center"><div id="fig0" style="width:100%;max-width:260px"></div></div>
+  <div class="card solve">
+    <div data-l="th"><p>ในแบบวงจรกำลัง มอเตอร์ทั้งตัวเหลือแค่วงกลมที่เขียนว่า <b>M</b> (motor) กับ <b>3~</b> (ไฟฟ้ากระแสสลับ 3 เฟส) ขั้ว <b>U1 V1 W1</b> คือต้นของขดลวดสามชุด ส่วนปลาย U2 V2 W2 อยู่ในกล่องขั้ว (หน้า 1.2) เส้นประสีเขียว <b>PE</b> (protective earth) คือสายดินที่ต่อโครงมอเตอร์ ต้องมีทุกครั้ง</p>
+      <p>มาตรฐาน IEC 60034-8 กำหนดว่าถ้าต่อ <b>L1 → U1, L2 → V1, L3 → W1</b> มอเตอร์จะหมุน <b>ตามเข็มนาฬิกาเมื่อมองจากด้านปลายเพลา</b> ภาพจำลองทุกภาพในบทนี้จึงมองจากด้านปลายเพลา</p>
+      <p>ใน CADe SIMU สัญลักษณ์มอเตอร์มีชื่อ -M และขั้ว U1 V1 W1 PE แบบเดียวกัน (ใบงานที่ 1 หน้า 1.4)</p></div>
+    <div data-l="en"><p>In a power circuit the whole motor shrinks to a circle marked <b>M</b> (motor) and <b>3~</b> (three-phase AC). Terminals <b>U1 V1 W1</b> are the starts of the three windings; their ends U2 V2 W2 sit in the terminal box (page 1.2). The green dashed line <b>PE</b> (protective earth) bonds the motor frame and is always drawn.</p>
+      <p>IEC 60034-8 says that with <b>L1 → U1, L2 → V1, L3 → W1</b> the motor turns <b>clockwise seen from the drive end</b> (the shaft end), so every picture in this chapter is seen from the drive end.</p>
+      <p>In CADe SIMU the motor symbol is named -M with the same terminals U1 V1 W1 PE (lab sheet 1, page 1.4).</p></div>
+  </div></div>
+</section>
+
+<div class="story n2">
+  <div class="story-t"><div class="story-k" data-l="th">ตอนที่ 1 · ข้างในมอเตอร์</div><div class="story-k" data-l="en">Part 1 · Inside the motor</div>
+    <h2 data-l="th">สเตเตอร์ที่อยู่กับที่ กับโรเตอร์กรงกระรอกที่หมุน</h2><h2 data-l="en">A stator that stays put and a squirrel-cage rotor that turns</h2>
+    <div class="story-p" data-l="th"><p>ภาพผ่าครึ่งมอเตอร์ (รูป 2-1) แสดงส่วนสำคัญสองส่วน <b>สเตเตอร์</b> (stator) คือแกนเหล็กแผ่นบางซ้อนกัน (laminated iron core) ที่มีร่องสำหรับวางขดลวดทองแดงสามชุด ปลายขดลวดทั้งหกเส้นออกไปที่กล่องขั้ว (conduit box ในภาพ) ซึ่งเป็นจุดที่ต่อสายไฟเข้ามอเตอร์</p>
+      <p><b>โรเตอร์</b> (rotor) ไม่มีสายไฟต่อเข้าเลย ข้างในเป็นแท่งอะลูมิเนียมหล่อ (rotor bars) ฝังในแกนเหล็ก และปลายทั้งสองข้างลัดวงจรด้วยวงแหวน (shorting rings) ถ้าถอดแกนเหล็กออก ตัวนำที่เหลือจะหน้าตาเหมือนกรงให้กระรอกวิ่ง (รูป 2-7) จึงเรียกว่า <b>โรเตอร์กรงกระรอก</b> สนามหมุนของสเตเตอร์เหนี่ยวนำกระแสในแท่งตัวนำเหล่านี้ กระแสกับสนามจึงสร้างแรงบิด ส่วนประกอบอื่นคือเพลา ตลับลูกปืนด้านขับ (drive end) และด้านตรงข้าม พัดลมระบายความร้อน และฝาครอบหัวท้าย</p></div>
+    <div class="story-p" data-l="en"><p>The cutaway (Fig. 2-1) shows the two main parts. The <b>stator</b> is a laminated iron core with slots that hold the three copper windings; their six ends come out to the terminal box (the "conduit box" in the picture), where the supply is connected.</p>
+      <p>The <b>rotor</b> has no wires connected to it. Inside are cast aluminium bars set in an iron core, shorted at both ends by rings. Without the iron, the bars and rings look like a squirrel's running wheel (Fig. 2-7), hence the <b>squirrel-cage rotor</b>. The stator's rotating field induces currents in these bars, and current and field together make the torque. The other parts are the shaft, the drive-end and non-drive-end bearings, the cooling fan and the end bells.</p></div></div>
+  <div class="story-f">
+    <figure class="slide"><img src="img/book/senty_fig2_1_cutaway.jpg" width="1318" height="865" loading="lazy" decoding="async" alt="Cutaway photograph of an induction motor with labels: end bell, cooling fan, shaft, key, drive-end bearing, laminated iron stator core, stator winding slots, magnet-wire stator winding, rotor shorting rings, poured aluminium rotor bars, laminated iron rotor, rotor cooling fins, non-drive-end bearing, conduit box, air vent holes, through bolts, motor housing, mounting base.">
+      <figcaption data-l="th">รูป 2-1 ภาพผ่าครึ่งมอเตอร์เหนี่ยวนำ · ที่มา: Senty, <i>Motor Control Fundamentals</i> (Delmar Cengage, 2013) บทที่ 2 หน้า 12 · แตะรูปเพื่อขยาย</figcaption>
+      <figcaption data-l="en">Fig. 2-1, induction motor cutaway · source: Senty, <i>Motor Control Fundamentals</i> (Delmar Cengage, 2013), ch. 2, p. 12 · tap to enlarge</figcaption></figure>
+    <figure class="slide"><img src="img/book/senty_fig2_6_rotor.jpg" width="1177" height="467" loading="lazy" decoding="async" alt="Photograph of a cage rotor on its shaft showing the shorting rings, the iron laminations and the rotor bars.">
+      <figcaption data-l="th">รูป 2-6 โรเตอร์: แท่งตัวนำ แกนเหล็กแผ่นบาง และวงแหวนลัดวงจร · ที่มา: Senty (2013) บทที่ 2 หน้า 15</figcaption>
+      <figcaption data-l="en">Fig. 2-6, rotor bars, laminations and shorting rings · source: Senty (2013), ch. 2, p. 15</figcaption></figure>
+    <figure class="slide sm"><img src="img/book/senty_fig2_7_cage.jpg" width="592" height="430" loading="lazy" decoding="async" alt="Drawing of a squirrel cage without iron laminations: parallel poured bars joined by a shorting ring at each end.">
+      <figcaption data-l="th">รูป 2-7 กรงกระรอกเมื่อไม่มีแกนเหล็ก · ที่มา: Senty (2013) บทที่ 2 หน้า 15</figcaption>
+      <figcaption data-l="en">Fig. 2-7, the squirrel cage without its laminations · source: Senty (2013), ch. 2, p. 15</figcaption></figure>
+  </div>
+  <p class="story-next" data-l="th">↓ ตอนที่ 2: ขดลวดสามชุดวางรอบสเตเตอร์อย่างไร และจำนวนขั้วมาจากไหน</p><p class="story-next" data-l="en">↓ Part 2: how the three windings sit round the stator, and where the number of poles comes from</p>
+</div>
+
+<div class="story n4">
+  <div class="story-t"><div class="story-k" data-l="th">ตอนที่ 2 · จำนวนขั้ว</div><div class="story-k" data-l="en">Part 2 · Number of poles</div>
+    <h2 data-l="th">สเตเตอร์ 2 ขั้ว 4 ขั้ว และ 6 ขั้ว</h2><h2 data-l="en">Two-, four- and six-pole stators</h2>
+    <div class="story-p" data-l="th"><p>รูป 3-16 วาดขดลวดของสเตเตอร์สามแบบ ตำราอเมริกันเรียกเฟสว่า A B C ซึ่งตรงกับ U V W ในมาตรฐาน IEC นับเฉพาะขดลวดของเฟสเดียว (A): ภาพซ้ายมี A1 กับ A2 เป็นขั้ว N หนึ่งขั้วและ S หนึ่งขั้ว จึงเป็น <b>มอเตอร์ 2 ขั้ว</b> ภาพกลางมีขดลวดเฟส A สี่ชุด จึงเป็น <b>4 ขั้ว</b> และภาพขวาเป็น <b>6 ขั้ว</b></p>
+      <p>ยิ่งมีขั้วมาก สนามยิ่งหมุนช้า เพราะในหนึ่งคาบของกระแส สนามขยับได้แค่ระยะของขั้วหนึ่งคู่ ที่ 50 Hz มอเตอร์ 2 ขั้วหมุน 3000 rpm, 4 ขั้ว 1500 rpm, 6 ขั้ว 1000 rpm ลองเลือกจำนวนขั้วในภาพจำลองส่วน A ด้านล่าง แล้วนับขั้ว N กับ S ดู</p></div>
+    <div class="story-p" data-l="en"><p>Fig. 3-16 draws three stators. American books call the phases A, B and C, the same as U, V and W in IEC. Count the coils of one phase (A) only: the left stator has A1 and A2, one N pole and one S pole, so it is a <b>2-pole</b> motor; the middle one has four phase-A coils, so it is <b>4-pole</b>; the right one is <b>6-pole</b>.</p>
+      <p>The more poles, the slower the field turns, because in one cycle of the current the field moves on by only one pair of poles. At 50 Hz a 2-pole motor runs at 3000 rpm, a 4-pole at 1500 rpm and a 6-pole at 1000 rpm. Choose the number of poles in the simulation of section A below and count the N and S poles.</p></div></div>
+  <div class="story-f">
+    <figure class="slide md"><img src="img/book/senty_fig3_16_poles.jpg" width="1183" height="485" loading="lazy" decoding="async" alt="Drawings of three-phase two-pole, four-pole and six-pole stators, with coils labelled A1, A2, B1, B2, C1, C2 round a rotor.">
+      <figcaption data-l="th">รูป 3-16 สเตเตอร์ 2 ขั้ว 4 ขั้ว และ 6 ขั้ว · ที่มา: Senty (2013) บทที่ 3 หน้า 33 · แตะรูปเพื่อขยาย</figcaption>
+      <figcaption data-l="en">Fig. 3-16, two-, four- and six-pole stators · source: Senty (2013), ch. 3, p. 33 · tap to enlarge</figcaption></figure>
+  </div>
+  <p class="story-next" data-l="th">↓ ส่วน A: ป้อนกระแส 3 เฟสแล้วดูสนามหมุน</p><p class="story-next" data-l="en">↓ Section A: feed three-phase currents and watch the field rotate</p>
+</div>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">กระแส 3 เฟสสร้างสนามแม่เหล็กหมุน</h2><h2 data-l="en">Three-phase currents make a rotating field</h2>
+    <div class="src" data-l="th">ตำราไทย บทที่ 6 หัวข้อ 1 · Senty บทที่ 1–3 · Hughes บทที่ 5</div><div class="src" data-l="en">Thai textbook ch. 6 §1 · Senty ch. 1–3 · Hughes ch. 5</div></div></div>
+  <p class="lead" data-l="th">วงแหวนคือสเตเตอร์ สีแดงคือขั้วเหนือ (N) สีฟ้าคือขั้วใต้ (S) ในภาพแบบ 2 ขั้ว ลูกศรสีแดง เหลือง ฟ้า คือสนามของขดลวด U V W แต่ละชุดตามแนวแกนของมัน ยาวสั้นและกลับทิศตามกระแสในกราฟด้านขวา ส่วน <b>ลูกศรสีขาวคือผลรวม</b>: ยาวเท่าเดิมตลอดและหมุนไปเรื่อย ๆ โดยชี้ไปทางขั้ว S ของสเตเตอร์ (เส้นแรงออกจากขั้ว N ข้ามช่องอากาศผ่านโรเตอร์ไปเข้าขั้ว S) จุดและกากบาทบนขดลวดบอกทิศกระแส (จุด = ไหลออกจากจอ) แถบสีส้มบนโรเตอร์ช่วยให้เห็นว่าโรเตอร์ช้ากว่าสนามเล็กน้อย ลองกด "สลับ L1 กับ L2" และเปลี่ยนจำนวนขั้ว</p>
+  <p class="lead" data-l="en">The ring is the stator: red is a north pole (N), blue a south pole (S). In the 2-pole picture the red, yellow and blue arrows are the fields of windings U, V and W along their own axes; they grow, shrink and reverse with the currents on the right. <b>The white arrow is their sum</b>: it keeps the same length and keeps turning, pointing at the stator's S pole (the flux leaves the N pole, crosses the air gap and the rotor, and enters the S pole). Dots and crosses on the coil sides show the current direction (dot = out of the screen). The orange bar on the rotor shows it running a little slower than the field. Press "Swap L1 and L2" and change the number of poles.</p>
+  <div class="duo"><div class="card sim"><canvas id="cvA"></canvas></div><div class="card solve"><div class="panel" id="pA"></div></div></div>
+  <div class="card rlog" id="logA"></div><div class="summ-wrap" id="sumA"></div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">อ่านจำนวนขั้วและสลิปจากป้ายพิกัด</h2><h2 data-l="en">Poles and slip from the nameplate</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · ป้ายพิกัดของมอเตอร์ 1.5 kW ในหน้า 1.2</div><div class="src" data-l="en">Worked example · the 1.5 kW motor nameplate of page 1.2</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>ป้ายพิกัดของมอเตอร์ 3 เฟสเขียนว่า 50 Hz และ 1430 min⁻¹ (รอบต่อนาที) จงหา (ก) จำนวนขั้ว \(P\) และความเร็วซิงโครนัส \(n_s\) (ข) สลิปที่พิกัดเป็นเปอร์เซ็นต์</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>A three-phase motor nameplate reads 50 Hz and 1430 min⁻¹ (rpm). Find (a) the number of poles \(P\) and the synchronous speed \(n_s\), (b) the rated slip in per cent.</p></div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">แรงบิดและกระแสเทียบกับความเร็ว</h2><h2 data-l="en">Torque and current against speed</h2>
+    <div class="src" data-l="th">มอเตอร์ตัวอย่าง 4 ขั้ว 50 Hz รูปร่างกราฟตามมอเตอร์กรงกระรอกทั่วไป · Hughes บทที่ 6</div><div class="src" data-l="en">A sample 4-pole 50 Hz motor with the curve shapes of a typical cage motor · Hughes ch. 6</div></div></div>
+  <p class="lead" data-l="th">กราฟซ้ายคือแรงบิด (สีชมพู) และกระแส (สีเหลือง) ของมอเตอร์ที่ความเร็วต่าง ๆ เป็นจำนวนเท่าของค่าพิกัด เส้นประสีเขียวคือแรงบิดที่งานต้องการ มอเตอร์จะหมุนนิ่งที่จุดที่สองเส้นตัดกัน เลื่อนภาระแล้วดูสลิปกับกระแสเปลี่ยน จากนั้นกด <b>เริ่มเดิน</b>: กราฟขวาแสดงกระแสระหว่างเร่งความเร็ว กระแสสูงหลายเท่าตลอดช่วงเร่ง แล้วค่อยลดลงเมื่อใกล้ความเร็วพิกัด</p>
+  <p class="lead" data-l="en">On the left are the motor's torque (pink) and current (yellow) at each speed, as multiples of their rated values. The green dashed line is the torque the load needs; the motor settles where the two cross. Move the load and watch the slip and current change, then press <b>Start</b>: the right-hand plot shows the current while the motor speeds up. It stays several times the rated value for the whole run-up and only drops near rated speed.</p>
+  <div class="duo"><div class="card sim"><canvas id="cvB"></canvas></div><div class="card solve"><div class="panel" id="pB"></div></div></div>
+  <div class="card rlog" id="logB"></div><div class="summ-wrap" id="sumB"></div>
+</section>
+
+<section class="prob" id="ex2">
+  <div class="prob-head"><span class="prob-no">2</span><div><h2 data-l="th">กระแสและแรงบิดเริ่มเดินของมอเตอร์ 1.5 kW</h2><h2 data-l="en">Starting current and torque of the 1.5 kW motor</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · ใช้ต่อในบทที่ 8 และ 13</div><div class="src" data-l="en">Worked example · used again in chapters 8 and 13</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>มอเตอร์ 1.5 kW 400 V ต่อสตาร์ ความเร็วพิกัด 1430 rpm กระแสพิกัด 3.35 A ผู้ผลิตบอกว่ากระแสเริ่มเดินเป็น 6.5 เท่า และแรงบิดเริ่มเดินเป็น 2.2 เท่าของค่าพิกัด จงหา (ก) แรงบิดพิกัด (ข) กระแสเริ่มเดิน (ค) แรงบิดเริ่มเดิน</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>A 1.5 kW, 400 V motor connected in star has a rated speed of 1430 rpm and a rated current of 3.35 A. The maker gives a starting current of 6.5 times and a starting torque of 2.2 times the rated values. Find (a) the rated torque, (b) the starting current, (c) the starting torque.</p></div>
+  <div class="card solve"><div id="ask2"></div><div id="st2"></div></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">ความถี่ 50 Hz ถ้าโจทย์ไม่บอก · ตอบทศนิยมอย่างน้อย 1 ตำแหน่ง</div><div class="src" data-l="en">50 Hz unless stated · give at least 1 decimal place</div></div></div>
+  <div class="card"><div id="quiz"></div></div>
+  <div class="card" style="margin-top:12px"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู 1 — ขั้วแม่เหล็ก</h3>
+    <ol><li>ส่วน A เลือก 4 ขั้ว แล้วกดหยุดภาพ นับขั้ว N และ S รอบวง: มีอย่างละ 2 ขั้ว สนามจึงหมุนครึ่งรอบต่อหนึ่งคาบของกระแส ความเร็วซิงโครนัสจึงเหลือ 1500 rpm</li>
+    <li>เปลี่ยนเป็น 60 Hz: ความเร็วซิงโครนัสเพิ่มขึ้น 20 % มอเตอร์จากต่างประเทศที่ป้ายเขียน 60 Hz จึงหมุนช้าลงเมื่อใช้ในไทย</li></ol></div>
+  <div class="card"><h3>ลองทำดู 2 — ทิศการหมุนและภาระ</h3>
+    <ol><li>กด "สลับ L1 กับ L2": ลำดับยอดของกราฟกระแสเปลี่ยนจาก U→V→W เป็น U→W→V สนามและโรเตอร์หมุนกลับทาง</li>
+    <li>ส่วน B เลื่อนภาระขึ้นถึง 150 %: สลิปและกระแสเพิ่ม ถ้าภาระเกินแรงบิดสูงสุด มอเตอร์จะหยุดหมุนและกินกระแสเริ่มเดินค้างไว้ โอเวอร์โหลดรีเลย์มีไว้ตัดกรณีนี้</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 6 หัวข้อ 1 · Senty, <i>Motor Control Fundamentals</i> บทที่ 1–3 (รูป 2-1, 2-6, 2-7, 3-16) · Hughes, <i>Electric Motors and Drives</i> บทที่ 5–6</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this 1 — magnetic poles</h3>
+    <ol><li>In section A choose 4 poles and pause. Count the N and S poles round the ring: two of each, so the field turns half a revolution per cycle of the current and the synchronous speed falls to 1500 rpm.</li>
+    <li>Change to 60 Hz: the synchronous speed rises by 20 %. A motor whose nameplate says 60 Hz therefore runs slower on a 50 Hz supply.</li></ol></div>
+  <div class="card"><h3>Try this 2 — direction and load</h3>
+    <ol><li>Press "Swap L1 and L2": the order of the current peaks changes from U→V→W to U→W→V, and the field and rotor turn the other way.</li>
+    <li>In section B raise the load to 150 %: slip and current grow. A load above the breakdown torque stalls the motor, which then keeps drawing its starting current; the overload relay is there to trip it.</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 6 §1 · Senty, <i>Motor Control Fundamentals</i>, ch. 1–3 (Figs. 2-1, 2-6, 2-7, 3-16) · Hughes, <i>Electric Motors and Drives</i>, ch. 5–6</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const ui = MC.ui, t = MC.t, $ = id => document.getElementById(id), fd = ED.fd, R = String.raw;
+  $('fig0').innerHTML = SY.motorAlone();
+
+  /* ---------------- A: rotating field */
+  const FA = new ED1.Field($('cvA')), pA = $('pA');
+  ui.h2(pA, t('ความถี่ของระบบ', 'Supply frequency'));
+  ui.radio(pA, [{ id: 'f50', label: '50 Hz', on: true }, { id: 'f60', label: '60 Hz' }], id => { FA.st.f = +id.slice(1); showA(); });
+  ui.h2(pA, t('จำนวนขั้ว P', 'Number of poles P'));
+  ui.radio(pA, [2, 4, 6, 8].map(p => ({ id: 'p' + p, label: String(p), on: p === 2 })), id => { FA.st.P = +id.slice(1); showA(); });
+  ui.h2(pA, t('การต่อสายและภาพ', 'Connection and picture'));
+  ui.buttons(pA, [{ label: t('สลับ L1 กับ L2', 'Swap L1 and L2'), onclick: el => { FA.st.swap = !FA.st.swap; el.classList.toggle('on', FA.st.swap); showA(); } },
+    { label: t('หยุดภาพ', 'Pause'), onclick: el => { FA.st.run = !FA.st.run; el.textContent = FA.st.run ? t('หยุดภาพ', 'Pause') : t('เล่นต่อ', 'Resume'); } }]);
+  const mA = ui.metrics(pA), nA = ui.html(pA, '', 'hint');
+  let showA = function () { const P = FA.st.P, f = FA.st.f, p = P / 2, ns = 120 * f / P, slow = (f / p) / (FA.st.rate * Math.min(1, 2 / p));
+    mA.innerHTML = ui.kv([['n_s', `${ns} rpm`], [t('ทิศของสนาม', 'field turns'), FA.st.swap ? t('ทวนเข็มนาฬิกา', 'anticlockwise') : t('ตามเข็มนาฬิกา', 'clockwise')], [t('ภาพช้ากว่าจริง', 'slowed down'), `${Math.round(slow)} ×`]]);
+    nA.innerHTML = P === 2 ? t('ลูกศรของขดลวดแต่ละชุดแสดงเฉพาะภาพ 2 ขั้ว', 'The per-winding arrows are shown for the 2-pole picture only')
+      : t(`${P} ขั้ว: ขดลวดแต่ละเฟสแบ่งเป็น ${p} ชุดรอบสเตเตอร์ สนามหมุนช้าลง ${p} เท่า`, `${P} poles: each phase is split into ${p} coil groups round the stator, so the field turns ${p} times slower`); }
+  const logA = new ED.Log($('logA'), [['จำนวนขั้ว', 'poles'], ['ความถี่', 'frequency'], ['การต่อสาย', 'connection'], ['ความเร็วซิงโครนัส', 'synchronous speed'], ['ทิศของสนาม', 'field direction']]);
+  const _showA = showA; showA = () => { _showA(); const P = FA.st.P, f = FA.st.f;
+    logA.add(`${P}_${f}_${FA.st.swap}`, [P, `${f} Hz`, FA.st.swap ? t('สลับ L1 กับ L2', 'L1 and L2 swapped') : t('L1→U1, L2→V1, L3→W1', 'L1→U1, L2→V1, L3→W1'), `${120 * f / P} rpm`, FA.st.swap ? t('ทวนเข็มนาฬิกา', 'anticlockwise') : t('ตามเข็มนาฬิกา', 'clockwise')]); };
+  ED.summary($('sumA'), { head: [['จำนวนขั้ว P', 'poles P'], ['nₛ ที่ 50 Hz (rpm)', 'nₛ at 50 Hz (rpm)'], ['nₛ ที่ 60 Hz (rpm)', 'nₛ at 60 Hz (rpm)'], ['ความเร็วพิกัดโดยประมาณที่ 50 Hz (สลิป 3–5 %)', 'typical rated speed at 50 Hz (3–5 % slip)']],
+    rows: () => [2, 4, 6, 8].map(P => [P, 6000 / P, 7200 / P, `${Math.round(6000 / P * 0.95)}–${Math.round(6000 / P * 0.97)}`]),
+    points: [['\\(n_s = 120f/P\\): ขั้วเพิ่มเป็นสองเท่า ความเร็วลดลงครึ่งหนึ่ง และความถี่ 60 Hz ทำให้เร็วขึ้น 20 %', '\\(n_s = 120f/P\\): doubling the poles halves the speed, and 60 Hz makes it 20 % faster.'],
+      ['สลับสายคู่ใดคู่หนึ่ง ลำดับเฟสกลับ สนามและโรเตอร์หมุนกลับทาง แต่ความเร็วเท่าเดิม', 'Swapping any two lines reverses the phase order, so the field and rotor turn the other way at the same speed.'],
+      ['สนามรวมของขดลวดสามชุดมีขนาดคงที่และหมุนเรียบ มอเตอร์ 3 เฟสจึงออกตัวได้เอง ต่างจากมอเตอร์ 1 เฟสในหน้า 1.3', 'The total field of the three windings has a constant size and turns smoothly, so a three-phase motor starts by itself, unlike the single-phase motor of page 1.3.']] });
+  showA(); LS.anim($('cvA'), dt => { FA.step(dt); FA.draw(); });
+
+  /* ---------------- 1: poles and slip */
+  LS.ask($('ask1'), { fields: [{ label: 'P =', ok: x => x === 4, w: 4 }, { label: t('สลิป (%) =', 'slip (%) ='), ok: x => Math.abs(x - 4.67) < 0.06, w: 5 }],
+    check: v => (v[0] === 2 ? t('ถ้า P = 2 ความเร็วซิงโครนัสคือ 3000 rpm ห่างจาก 1430 มากเกินไป', 'With P = 2 the synchronous speed is 3000 rpm, far too far from 1430') : '') });
+  LS.stepper($('st1'), { steps: [
+    { why: t('ความเร็วพิกัดต่ำกว่าความเร็วซิงโครนัสเพียงเล็กน้อย จึงลองหาความเร็วซิงโครนัสของแต่ละจำนวนขั้วที่ 50 Hz', 'The rated speed is only a little below the synchronous speed, so list the synchronous speeds at 50 Hz'),
+      tex: R`n_s = \frac{120 \times 50}{P}:\quad P = 2 \to 3000,\quad P = 4 \to 1500,\quad P = 6 \to 1000\ \text{rpm}`,
+      body: `<p>${t('ค่าที่สูงกว่า 1430 rpm และใกล้ที่สุดคือ 1500 rpm มอเตอร์ตัวนี้จึงมี 4 ขั้ว', 'The nearest value above 1430 rpm is 1500 rpm, so this is a 4-pole motor.')}</p>` },
+    { why: t('สลิปคือส่วนที่โรเตอร์ช้ากว่าสนาม เทียบกับความเร็วซิงโครนัส', 'Slip is how much slower the rotor turns than the field, as a fraction of the synchronous speed'),
+      tex: R`s = \frac{n_s - n}{n_s} = \frac{1500 - 1430}{1500} = 0.0467 = 4.67\ \%` }],
+    answer: t('(ก) \\(P = 4\\), \\(n_s = 1500\\) rpm (ข) สลิป 4.67 %', '(a) \\(P = 4\\), \\(n_s = 1500\\) rpm; (b) slip 4.67 %') });
+
+  /* ---------------- B: torque and current against speed */
+  const TS = new ED1.TorqueSpeed($('cvB')), pB = $('pB');
+  ui.h2(pB, t('ภาระ', 'Load'));
+  ui.slider(pB, { id: 'bL', label: t('แรงบิดของงาน', 'load torque'), min: 0, max: 3.6, step: 0.05, value: TS.TL, fmt: v => `${Math.round(v * 100)} % ${t('ของพิกัด', 'of rated')}`, oninput: v => { TS.TL = v; TS.sim = null; showB(); } });
+  ui.buttons(pB, [{ label: t('▶ เริ่มเดิน', '▶ Start'), cls: '', onclick: () => { TS.start(); } }, { label: t('ล้างกราฟ', 'Clear'), onclick: () => { TS.sim = null; showB(); } }]);
+  const sB = ui.status(pB), mB = ui.metrics(pB);
+  function showB() { const S = TS.sim; let s, m;
+    if (S && S.noStart) { s = 1; m = ED.motor(1); ui.setStatus(sB, t('เริ่มเดินไม่ขึ้น', 'cannot start'), S.stall ? t('ภาระเกินแรงบิดสูงสุด (3.4 เท่า) มอเตอร์หมุนไม่ได้เลย และกินกระแสเริ่มเดินค้างไว้', 'the load is above the breakdown torque (3.4 ×): the motor cannot turn at all and keeps drawing starting current')
+        : t('แรงบิดเริ่มเดิน (2.2 เท่า) น้อยกว่าภาระ มอเตอร์จึงออกตัวไม่ได้ ทั้งที่ถ้าหมุนอยู่แล้วจะหมุนต่อได้', 'the starting torque (2.2 ×) is below the load, so the motor cannot get going, although it could keep running if already turning'), 'bad'); }
+    else if (S && !S.done) { s = Math.max(1 - S.w, 1e-4); m = ED.motor(s); ui.setStatus(sB, t('กำลังเร่ง', 'speeding up'), t('กระแสยังสูงหลายเท่าของพิกัด', 'the current is still several times rated'), 'warn'); }
+    else { const o = TS.op(); if (!o) { s = 1; m = ED.motor(1); ui.setStatus(sB, t('มอเตอร์หยุด', 'stalled'), t('ภาระเกินแรงบิดสูงสุด มอเตอร์หมุนไม่ได้และกินกระแสเริ่มเดินค้างไว้', 'the load is above the breakdown torque: the motor cannot turn and keeps drawing starting current'), 'bad'); }
+      else { s = o.s; m = o; ui.setStatus(sB, t('หมุนนิ่ง', 'steady'), t('แรงบิดของมอเตอร์เท่ากับแรงบิดของงาน', 'motor torque equals load torque'), 'ok'); } }
+    mB.innerHTML = ui.kv([[t('ความเร็ว', 'speed'), `${Math.round((1 - s) * 1500)} rpm`], [t('สลิป', 'slip'), `${fd(s * 100, 1)} %`], [t('กระแส', 'current'), `${fd(m.i, 2)} × ${t('พิกัด', 'rated')}`], [t('แรงบิดมอเตอร์', 'motor torque'), `${fd(m.T, 2)} × ${t('พิกัด', 'rated')}`]]);
+    if (S && S.done && !S.logged) { S.logged = true; const r = ED1.TorqueSpeed.simulate(S.TL); logB.add(fd(S.TL, 2), rowB(S.TL, r), r.noStart || r.stall ? 'bad' : 'ok'); } }
+  const resB = r => (r.stall ? t('หยุด: เกินแรงบิดสูงสุด', 'stalls: above breakdown torque') : r.noStart ? t('เริ่มเดินไม่ขึ้น', 'cannot start') : t('เริ่มเดินได้', 'starts'));
+  const rowB = (TL, r) => [`${Math.round(TL * 100)} %`, r.noStart ? '—' : `${fd(r.tRun, 2)} s`, r.noStart ? '0' : `${Math.round((1 - r.s) * 1500)}`, r.noStart ? '100' : fd(r.s * 100, 1), r.noStart ? `${fd(ED.motor(1).i, 1)} ×` : `${fd(r.i, 2)} ×`,
+    resB(r) + (r.noStart && !r.stall ? t(` (ถ้าหมุนอยู่แล้วจะหมุนต่อได้ที่ ${Math.round((1 - r.s) * 1500)} rpm)`, ` (if already turning it runs on at ${Math.round((1 - r.s) * 1500)} rpm)`) : '')];
+  const logB = new ED.Log($('logB'), [['ภาระ', 'load'], ['เวลาเร่งถึงความเร็ว', 'run-up time'], ['ความเร็วนิ่ง (rpm)', 'steady speed (rpm)'], ['สลิป (%)', 'slip (%)'], ['กระแสนิ่ง', 'steady current'], ['ผล', 'result']],
+    { empty: ['ยังไม่มีผล เลื่อนภาระแล้วกด "เริ่มเดิน" ผลแต่ละภาระจะมาเรียงในตารางนี้', 'No results yet: set a load and press "Start"; each load is listed here'] });
+  ED.summary($('sumB'), { head: [['ภาระ', 'load'], ['เวลาเร่งถึงความเร็ว', 'run-up time'], ['ความเร็วนิ่ง (rpm)', 'steady speed (rpm)'], ['สลิป (%)', 'slip (%)'], ['กระแสนิ่ง', 'steady current'], ['ผล', 'result']],
+    intro: ['คำนวณจากแบบจำลองเดียวกับภาพด้านบน (มอเตอร์ 4 ขั้ว 50 Hz กระแสเริ่มเดิน 6.5 เท่า แรงบิดเริ่มเดิน 2.2 เท่า แรงบิดสูงสุด 3.4 เท่า)', 'From the same model as the simulation (4-pole, 50 Hz; starting current 6.5 ×, starting torque 2.2 ×, breakdown torque 3.4 ×)'],
+    rows: () => [0, 0.5, 1, 1.5, 2, 2.5, 3.6].map(TL => rowB(TL, ED1.TorqueSpeed.simulate(TL))),
+    points: [['ภาระมากขึ้น สลิปและกระแสมากขึ้น ที่ภาระพิกัด (100 %) สลิปราว 3.3 % และกระแสเท่ากระแสพิกัดพอดี', 'More load means more slip and more current; at rated load (100 %) the slip is about 3.3 % and the current exactly rated.'],
+      ['ตอนออกตัว กระแสสูงราว 6.5 เท่าเสมอไม่ว่าภาระเท่าไร แต่ภาระยิ่งมาก ช่วงเร่งยิ่งนาน มอเตอร์จึงร้อนนานขึ้น โอเวอร์โหลดรีเลย์ต้องทนช่วงนี้ได้ (บทที่ 13)', 'At start the current is about 6.5 times rated whatever the load, but a heavier load makes the run-up longer, so the motor heats up for longer; the overload relay must ride through it (chapter 13).'],
+      ['ภาระเกินแรงบิดเริ่มเดิน (2.2 เท่า) มอเตอร์ออกตัวไม่ได้ ทั้งที่ถ้าหมุนอยู่แล้วจะหมุนต่อได้ และถ้าเกินแรงบิดสูงสุด (3.4 เท่า) มอเตอร์หยุดแม้กำลังหมุน ทั้งสองกรณีกระแสค้างที่ 6.5 เท่า โอเวอร์โหลดรีเลย์ต้องตัด', 'A load above the starting torque (2.2 ×) cannot be started, although it could be kept running; above the breakdown torque (3.4 ×) the motor stalls even while running. In both cases 6.5 times rated current flows and the overload relay must trip.']] });
+  showB(); LS.anim($('cvB'), dt => { TS.step(dt); TS.draw(); if (TS.sim) showB(); });
+
+  /* ---------------- 2: starting current and torque */
+  LS.ask($('ask2'), { fields: [{ label: 'T<sub>r</sub> (N·m) =', ok: x => Math.abs(x - 10.0) < 0.1, w: 5 }, { label: 'I<sub>st</sub> (A) =', ok: x => Math.abs(x - 21.8) < 0.15, w: 5 }, { label: 'T<sub>st</sub> (N·m) =', ok: x => Math.abs(x - 22.0) < 0.25, w: 5 }] });
+  LS.stepper($('st2'), { steps: [
+    { why: t('แรงบิดพิกัดหาจากกำลังและความเร็ว: กำลัง = แรงบิด × ความเร็วเชิงมุม', 'Rated torque from power and speed: power = torque × angular speed'),
+      tex: R`T_r = \frac{P}{\omega} = \frac{60\,P}{2\pi\,n} = \frac{9550 \times 1.5\ \text{kW}}{1430\ \text{rpm}} = 10.0\ \text{N·m}` },
+    { why: t('กระแสเริ่มเดินคือ 6.5 เท่าของกระแสพิกัด', 'The starting current is 6.5 times the rated current'), tex: R`I_{st} = 6.5 \times 3.35\ \text{A} = 21.8\ \text{A}`,
+      body: `<p>${t('เบรกเกอร์และฟิวส์ของมอเตอร์ตัวนี้ต้องไม่ตัดที่ 21.8 A ในช่วงไม่กี่วินาทีแรก (บทที่ 13)', 'The breaker and fuses of this motor must not trip on 21.8 A for the first few seconds (chapter 13).')}</p>` },
+    { why: t('แรงบิดเริ่มเดินคือ 2.2 เท่าของแรงบิดพิกัด', 'The starting torque is 2.2 times the rated torque'), tex: R`T_{st} = 2.2 \times 10.0 = 22.0\ \text{N·m}` }],
+    answer: t('(ก) 10.0 N·m (ข) 21.8 A (ค) 22.0 N·m', '(a) 10.0 N·m; (b) 21.8 A; (c) 22.0 N·m') });
+
+  /* ---------------- C: more practice */
+  const wk = s => MC.tex(s, true);
+  ED.quiz('quiz', [
+    { q: t('1) มอเตอร์ 2 ขั้ว 50 Hz มีความเร็วซิงโครนัสเท่าไร', '1) Synchronous speed of a 2-pole, 50 Hz motor?'), fields: [{ key: 'x', lab: 'n_s =', ans: 3000, unit: 'rpm' }], work: wk(R`n_s = \frac{120 \times 50}{2} = 3000\ \text{rpm}`) },
+    { q: t('2) มอเตอร์ 6 ขั้ว 50 Hz มีความเร็วซิงโครนัสเท่าไร', '2) Synchronous speed of a 6-pole, 50 Hz motor?'), fields: [{ key: 'x', lab: 'n_s =', ans: 1000, unit: 'rpm' }], work: wk(R`n_s = \frac{6000}{6} = 1000\ \text{rpm}`) },
+    { q: t('3) มอเตอร์ 2 ขั้วหมุน 2880 rpm ที่ 50 Hz สลิปกี่เปอร์เซ็นต์', '3) A 2-pole motor runs at 2880 rpm on 50 Hz. Slip in per cent?'), fields: [{ key: 'x', lab: 's =', ans: 4, unit: '%' }], work: wk(R`s = \frac{3000 - 2880}{3000} = 0.04 = 4\ \%`) },
+    { q: t('4) ป้ายพิกัดเขียน 960 rpm ที่ 50 Hz มอเตอร์มีกี่ขั้ว', '4) A nameplate reads 960 rpm at 50 Hz. How many poles?'), fields: [{ key: 'x', lab: 'P =', ans: 6, tol: 0 }], work: wk(R`n_s = 1000\ \text{rpm (nearest above 960)} \Rightarrow P = 6`) },
+    { q: t('5) มอเตอร์ 4 ขั้วใช้กับระบบ 60 Hz สลิป 3 % หมุนกี่รอบต่อนาที', '5) A 4-pole motor on a 60 Hz supply runs with 3 % slip. Speed?'), fields: [{ key: 'x', lab: 'n =', ans: 1746, unit: 'rpm' }], work: wk(R`n_s = \frac{120 \times 60}{4} = 1800,\quad n = 1800\,(1 - 0.03) = 1746\ \text{rpm}`) },
+    { q: t('6) กระแสพิกัด 8.5 A กระแสเริ่มเดิน 7 เท่า กระแสเริ่มเดินเท่าไร', '6) Rated current 8.5 A, starting current 7 times. Starting current?'), fields: [{ key: 'x', lab: 'I_st =', ans: 59.5, unit: 'A' }], work: wk(R`I_{st} = 7 \times 8.5 = 59.5\ \text{A}`) }]);
+  ED.mcq('mcq', [
+    { q: t('7) สลับสาย L1 กับ L3 ที่ขั้วมอเตอร์ จะเกิดอะไร', '7) L1 and L3 are swapped at the motor terminals. What happens?'), options: [t('หมุนกลับทาง', 'it reverses'), t('หมุนทิศเดิม', 'same direction'), t('ไม่หมุน', 'it does not turn')], answer: 0,
+      why: t('สลับคู่ใดคู่หนึ่ง ลำดับเฟสกลับ', 'swapping any one pair reverses the phase sequence') },
+    { q: t('8) ต่อ L1 → V1, L2 → W1, L3 → U1 (วนไปหนึ่งตำแหน่ง) จะเกิดอะไร', '8) L1 → V1, L2 → W1, L3 → U1 (moved round one place). What happens?'), options: [t('หมุนกลับทาง', 'it reverses'), t('หมุนทิศเดิม', 'same direction'), t('ลัดวงจร', 'short circuit')], answer: 1,
+      why: t('ลำดับ U→V→W ยังเหมือนเดิม แค่เริ่มนับต่างกัน', 'the order U→V→W is unchanged; only the starting point moved') },
+    { q: t('9) ถ้าโรเตอร์หมุนเร็วเท่าความเร็วซิงโครนัสพอดี แรงบิดเป็นเท่าไร', '9) If the rotor turned at exactly synchronous speed, what would the torque be?'), options: [t('สูงสุด', 'maximum'), t('เท่าพิกัด', 'rated'), t('ศูนย์', 'zero')], answer: 2,
+      why: t('ตัวนำโรเตอร์ไม่ตัดเส้นแรง ไม่มีกระแสเหนี่ยวนำ', 'the rotor bars cut no flux, so no current is induced') }]);
+
+  window.addEventListener('resize', () => { FA.resize(); TS.resize(); });
+});
+</script>
+</body>
+</html>

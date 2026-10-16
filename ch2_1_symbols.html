@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="2.1 — IEC symbols and device codes">2.1 — สัญลักษณ์และรหัสอุปกรณ์</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=9"><link rel="stylesheet" href="assets/ed2.css?v=9">
+<script src="assets/stops.js?v=9"></script><script src="assets/shell.js?v=9"></script>
+<script src="assets/lesson.js?v=9"></script><script src="assets/draw.js?v=9"></script><script src="assets/ed.js?v=9"></script><script src="assets/sym.js?v=9"></script><script src="assets/iec.js?v=9"></script><script src="assets/relay.js?v=9"></script><script src="assets/ch2.js?v=9"></script><script src="assets/devdata.js?v=9"></script><script src="assets/dev.js?v=9"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">สัญลักษณ์ IEC 60617 และรหัสชื่ออุปกรณ์ <span class="en">IEC 60617 symbols and device designations</span></h1>
+<h1 data-l="en">IEC 60617 symbols and device designations <span class="en">The language of electrical drawings</span></h1>
+
+<p class="sub" data-l="th">แบบไฟฟ้าคือภาษากลางของช่าง ถ้าทุกคนวาดสัญลักษณ์และตั้งชื่ออุปกรณ์ตามมาตรฐานเดียวกัน คนที่ไม่เคยเห็นเครื่องจักรเครื่องนั้นก็อ่านแบบแล้วต่อสายหรือซ่อมได้ หน้านี้ให้รู้จักสัญลักษณ์ตามมาตรฐาน IEC 60617 ที่ใช้บ่อยในวงจรควบคุมมอเตอร์ และรหัสชื่ออุปกรณ์ 4 ระบบที่จะพบในตำราและแบบจริง รวมถึง <b>มาตรฐานใหม่ IEC 81346-2</b> ที่ผู้ผลิตยุโรปเริ่มใช้</p>
+<p class="sub" data-l="en">An electrical drawing is the common language of the trade. If everyone draws symbols and names devices to the same standard, someone who has never seen a machine can read its drawing and wire or repair it. This page introduces the IEC 60617 symbols used most in motor control circuits, and the four systems of device codes found in books and real drawings, including the <b>new standard IEC 81346-2</b> that European makers are adopting.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>สัญลักษณ์วาดในสภาวะปกติ</b>: ไม่มีไฟ ไม่มีใครกด และอุปกรณ์ป้องกันยังไม่ทำงาน หน้าสัมผัสปกติเปิด (normally open, NO) จึงวาดเปิด และหน้าสัมผัสปกติปิด (normally closed, NC) วาดปิด ทางเดินกระแสวางในแนวตั้ง แหล่งจ่ายอยู่ด้านบน นิวทรัลอยู่ด้านล่าง</li>
+  <li><b>ชื่ออุปกรณ์ = ตัวอักษรบอกชนิด + ตัวเลขบอกลำดับ</b> เช่น KM1 คือคอนแทกเตอร์ตัวที่ 1 คอยล์ หน้าสัมผัสหลัก และหน้าสัมผัสช่วยของอุปกรณ์เดียวกันใช้ชื่อเดียวกัน แม้จะวาดอยู่คนละที่ในแบบ</li>
+  <li><b>วิชานี้ใช้รหัส Q F KM KA KT S H M X</b> ซึ่งพบมากในตู้ควบคุมในไทยและแคตตาล็อกของผู้ผลิต และใกล้กับไฟล์ใบงาน CADe SIMU ของรายวิชา</li>
+  <li><b>มาตรฐานใหม่ IEC 81346-2</b> ใช้รหัสสองตัวอักษรตาม <b>หน้าที่</b> ของอุปกรณ์ ไม่ใช่ตามชนิด เช่น QA = ตัดต่อพลังงาน (ทั้งเบรกเกอร์และคอนแทกเตอร์), FC = ป้องกันกระแสเกิน, KF = ประมวลสัญญาณ (รีเลย์ ตัวตั้งเวลา), SF = สั่งงานด้วยมือ (ปุ่มกด), PF = แสดงสถานะ (หลอด), MA = มอเตอร์ แบบจากผู้ผลิตยุโรปรุ่นใหม่และโปรแกรมเขียนแบบอย่าง EPLAN ใช้ระบบนี้ จึงต้องอ่านเป็นด้วย</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>Symbols are drawn in the normal state</b>: no power, nothing pressed and no protective device tripped. A normally open (NO) contact is therefore drawn open and a normally closed (NC) contact closed. Current paths run vertically, the supply at the top and the neutral at the bottom.</li>
+  <li><b>A device name = a letter code for the kind + a number for which one</b>: KM1 is contactor number 1. The coil, main contacts and auxiliary contacts of one device share its name, even when they are drawn in different places.</li>
+  <li><b>This course uses Q F KM KA KT S H M X</b>, the codes most common in Thai control panels and in makers' catalogues, and close to the course's CADe SIMU lab files.</li>
+  <li><b>The new standard IEC 81346-2</b> uses two-letter codes by a device's <b>function</b>, not its kind: QA = switching energy (both breakers and contactors), FC = overcurrent protection, KF = processing signals (relays, timers), SF = manual operation (push buttons), PF = indicating a state (lamps), MA = motor. Newer drawings from European makers and drawing programs such as EPLAN use it, so you must be able to read it too.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>อุปกรณ์จริง</a><a href="#tA"><b>A</b>สัญลักษณ์ที่ใช้บ่อย</a><a href="#tB"><b>B</b>รหัสชื่ออุปกรณ์ 4 ระบบ</a><a href="#tN"><b>N</b>มาตรฐานใหม่ IEC 81346-2</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>Real devices</a><a href="#tA"><b>A</b>Common symbols</a><a href="#tB"><b>B</b>Four code systems</a><a href="#tN"><b>N</b>The new IEC 81346-2</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">อุปกรณ์จริงในตู้ควบคุม</h2><h2 data-l="en">The real devices in a control panel</h2>
+    <div class="src" data-l="th">ภาพจาก Wikimedia Commons (ผู้ถ่ายและสัญญาอนุญาตใต้ทุกรูป) · ตำราไทย บทที่ 3 · Senty บทที่ 7–9</div><div class="src" data-l="en">Photos from Wikimedia Commons (author and licence under each) · Thai textbook ch. 3 · Senty ch. 7–9</div></div></div>
+  <p class="lead" data-l="th">ก่อนเรียนสัญลักษณ์ ดูอุปกรณ์จริงที่สัญลักษณ์แต่ละตัวแทนก่อน แตะหมายเลขบนรูปหรือในรายการเพื่อดูว่าชี้ส่วนไหน การ์ดที่มีปุ่มด้านบนมีรูปที่สอง (ข้างในหรือถอดชิ้นส่วน) แตะรูปเพื่อขยาย สังเกตว่า<b>เลขขั้วที่พิมพ์บนตัวอุปกรณ์</b> (A1 A2, 1/L1 2/T1, 13 14, 95 96) คือเลขเดียวกับที่เขียนในแบบ (หน้า 2.2) และอักษรในกรอบสีคือรหัสที่ใช้ตั้งชื่ออุปกรณ์ในแบบ</p>
+  <p class="lead" data-l="en">Before the symbols, look at the real devices they stand for. Tap a number on a photo or in a list to see what it points at. Cards with buttons on top have a second photo (inside or taken apart); tap a photo to enlarge it. Note that the <b>terminal numbers printed on the devices</b> (A1 A2, 1/L1 2/T1, 13 14, 95 96) are the same numbers written on the drawings (page 2.2), and the letters in the coloured box are the code used to name the device on a drawing.</p>
+  <div id="devs"></div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">สัญลักษณ์ที่ใช้บ่อยในวงจรควบคุมมอเตอร์</h2><h2 data-l="en">Symbols used most in motor control circuits</h2>
+    <div class="src" data-l="th">IEC 60617 · ตำราไทย บทที่ 1 หัวข้อ 1 · UMC5 บทที่ 2 · EMC9 หน่วยที่ 4</div><div class="src" data-l="en">IEC 60617 · Thai textbook ch. 1 §1 · UMC5 ch. 2 · EMC9 unit 4</div></div></div>
+  <p class="lead" data-l="th">แตะสัญลักษณ์เพื่อดูชื่อ รหัสในวิชานี้ รหัสตามมาตรฐานใหม่ รหัสในตำราไทยและตำราอเมริกัน และเลขขั้ว สังเกตส่วนประกอบของสัญลักษณ์: <b>เส้นประ</b> คือการเชื่อมทางกลไปยังตัวสั่งงานทางซ้าย (ปุ่มกด หัวเห็ด สวิตช์หมุน ลูกเบี้ยว ลูกลอย) และ <b>ร่ม</b> บนใบหน้าสัมผัสคือการหน่วงเวลา</p>
+  <p class="lead" data-l="en">Tap a symbol to see its name, the course code, the new-standard code, the codes of the Thai and US books, and its terminal numbers. Note the parts of a symbol: the <b>dashed line</b> is the mechanical link to the operator on the left (push button, mushroom head, turn switch, cam, float), and the <b>parachute</b> on a blade marks a time delay.</p>
+  <div class="duo"><div class="card solve"><div id="gal"></div></div><div class="card solve"><div id="galHelp"></div></div></div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">รหัสชื่ออุปกรณ์ 4 ระบบ</h2><h2 data-l="en">Four systems of device codes</h2>
+    <div class="src" data-l="th">IEC 81346-2 (ตาราง 2) · DIN 40719 ตอนที่ 2 (เลิกใช้แล้ว) · ตำราไทย บทที่ 1 · UMC5 ตาราง 2.1</div><div class="src" data-l="en">IEC 81346-2 (Table 2) · DIN 40719 part 2 (withdrawn) · Thai textbook ch. 1 · UMC5 Table 2.1</div></div></div>
+  <p class="lead" data-l="th">อุปกรณ์ตัวเดียวกันมีชื่อต่างกันตามระบบที่ผู้เขียนแบบใช้ คอลัมน์สีฟ้าคือรหัสที่ใช้ในวิชานี้ คอลัมน์สีเขียวคือมาตรฐานใหม่ ตัวเลขต่อท้ายบอกลำดับ เช่น S1 S2 คือสวิตช์ตัวที่ 1 และ 2</p>
+  <p class="lead" data-l="en">The same device has different names in different systems. The blue column is the code used in this course, the green column the new standard. The number after the letters says which one: S1 and S2 are switches 1 and 2.</p>
+  <div class="card solve" style="overflow-x:auto"><table class="tbl codes" id="codes"></table></div>
+</section>
+
+<section class="prob" id="tN">
+  <div class="prob-head"><span class="prob-no">N</span><div><h2 data-l="th">มาตรฐานใหม่ IEC 81346-2: จัดกลุ่มตามหน้าที่</h2><h2 data-l="en">The new standard IEC 81346-2: grouped by function</h2>
+    <div class="src" data-l="th">IEC 81346-2 ตาราง 2 (รหัสตามฉบับ 2009 ฉบับปรับปรุง 2019 ใช้หลักเดียวกัน แต่บางรหัสย่อยเปลี่ยน)</div><div class="src" data-l="en">IEC 81346-2 Table 2 (codes of the 2009 edition; the 2019 revision keeps the same idea but changes some subclasses)</div></div></div>
+  <div class="duo">
+    <div class="card solve" data-l="th"><p>รหัสแบบเดิมบอก <b>ชนิดของอุปกรณ์</b> (K = รีเลย์หรือคอนแทกเตอร์ ไม่ว่าจะใช้ทำอะไร) ส่วน IEC 81346-2 บอก <b>หน้าที่</b>: อักษรตัวแรกคือกลุ่มหน้าที่ อักษรตัวที่สองคือหน้าที่ย่อย</p>
+      <ul><li><b>Q</b> = ควบคุมการไหลของพลังงาน: <b>QA</b> ตัดต่อวงจรพลังงาน (เบรกเกอร์ คอนแทกเตอร์ มอเตอร์สตาร์ทเตอร์), QB แยกวงจร (สวิตช์ตัดตอน)</li>
+        <li><b>F</b> = ป้องกัน: <b>FC</b> ป้องกันกระแสเกิน (ฟิวส์ เบรกเกอร์ลูกย่อย ตัวตัดความร้อนของโอเวอร์โหลด), FB ป้องกันไฟรั่ว</li>
+        <li><b>K</b> = ประมวลสัญญาณ: <b>KF</b> รีเลย์ช่วย คอนแทกเตอร์รีเลย์ ตัวหน่วงเวลา</li>
+        <li><b>S</b> = เปลี่ยนการสั่งงานของคนเป็นสัญญาณ: <b>SF</b> ปุ่มกด สวิตช์เลือก</li>
+        <li><b>B</b> = ตรวจวัด: <b>BG</b> ตำแหน่ง (ลิมิตสวิตช์ พร็อกซิมิตี), BL ระดับ, BP ความดัน, BT อุณหภูมิ</li>
+        <li><b>P</b> = แสดงข้อมูล: <b>PF</b> หลอดสัญญาณ, PG มิเตอร์ &nbsp;·&nbsp; <b>M</b> = ขับเคลื่อน: <b>MA</b> มอเตอร์ &nbsp;·&nbsp; <b>X</b> = เชื่อมต่อ: <b>XD</b> แผงขั้วต่อ</li></ul>
+      <p>ข้อที่ต้องระวัง: ในระบบใหม่ <b>ไม่มีรหัส KM</b> คอนแทกเตอร์กลายเป็น QA เหมือนเบรกเกอร์ เพราะทั้งคู่มีหน้าที่ตัดต่อพลังงาน ส่วนรีเลย์ช่วยและตัวตั้งเวลาที่เป็นอุปกรณ์คนละชนิดกลับใช้ KF เหมือนกัน แบบจริงมักเขียนเครื่องหมายลบนำหน้า เช่น <b>-QA1</b> (เครื่องหมาย = บอกหน้าที่ของระบบ และ + บอกตำแหน่ง เช่น ตู้ไหน)</p></div>
+    <div class="card solve" data-l="en"><p>The old codes name the <b>kind of device</b> (K = relay or contactor, whatever it is used for). IEC 81346-2 names its <b>function</b>: the first letter is the main class, the second the subclass.</p>
+      <ul><li><b>Q</b> = controlling a flow of energy: <b>QA</b> switching power circuits (breaker, contactor, motor starter), QB isolating (disconnector).</li>
+        <li><b>F</b> = protecting: <b>FC</b> against overcurrent (fuse, miniature circuit breaker, thermal overload release), FB against residual current.</li>
+        <li><b>K</b> = processing signals: <b>KF</b> auxiliary relay, contactor relay, delay element.</li>
+        <li><b>S</b> = turning a manual action into a signal: <b>SF</b> push button, selector switch.</li>
+        <li><b>B</b> = sensing: <b>BG</b> position (limit switch, proximity), BL level, BP pressure, BT temperature.</li>
+        <li><b>P</b> = presenting information: <b>PF</b> signal lamp, PG meter · <b>M</b> = driving: <b>MA</b> motor · <b>X</b> = connecting: <b>XD</b> terminal strip.</li></ul>
+      <p>Watch out: the new system has <b>no KM</b>. A contactor becomes QA like a breaker, because both switch power, while an auxiliary relay and a timer, two different kinds of device, are both KF. Real drawings usually put a minus sign in front, e.g. <b>-QA1</b> (= marks the system function and + the location, such as which cabinet).</p></div>
+    <div class="card solve"><table class="tbl" id="newcodes"></table><p class="simnote" data-l="th">ตัวอย่าง: วงจรเริ่มเดินมอเตอร์โดยตรงในหน้า 2.3 ถ้าเขียนตามมาตรฐานใหม่</p><p class="simnote" data-l="en">Example: the direct-on-line starter of page 2.3 written to the new standard</p></div>
+  </div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">สัญลักษณ์และรหัส</div><div class="src" data-l="en">Symbols and codes</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>เทียบปุ่มหยุด (S1) กับปุ่มเริ่ม (S2) ในส่วน A: ต่างกันแค่ใบหน้าสัมผัสกับบ่ารองด้านบน ส่วนตัวสั่งงานเหมือนกัน</li>
+    <li>เทียบคอยล์คอนแทกเตอร์กับคอยล์ตัวตั้งเวลา: ตัวตั้งเวลามีกล่องกากบาทเพิ่มทางซ้าย</li>
+    <li>ในตาราง B หาว่าอุปกรณ์ใดบ้างที่มาตรฐานใหม่ใช้ QA และอุปกรณ์ใดบ้างที่ใช้ KF</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 1 (ตาราง 1.1–1.2) · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. ตาราง 2.1 · Herman, <i>Electric Motor Control</i> 9th ed. หน่วยที่ 4 · IEC 60617 · IEC 81346-2</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Compare the stop button (S1) with the start button (S2) in section A: only the blade and the seat at the top differ; the operator is the same.</li>
+    <li>Compare a contactor coil with a timer coil: the timer has an extra box with a cross on the left.</li>
+    <li>In table B, find which devices the new standard calls QA and which it calls KF.</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 1 (Tables 1.1–1.2) · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., Table 2.1 · Herman, <i>Electric Motor Control</i>, 9th ed., unit 4 · IEC 60617 · IEC 81346-2</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id);
+  DEV.mount($('devs'), ['mcb', 'mpcb', 'fuse', 'ol', 'km', 'ka', 'kt', 'pb', 'sel', 'lamp', 'motor', 'term']);
+  C2.gallery($('gal'), $('galHelp'));
+  /* four code systems */
+  const ROWS = [[['เบรกเกอร์', 'circuit breaker'], 'Q1', 'QA1', 'Q1', 'CB', 'CB'], [['ฟิวส์', 'fuse'], 'F1', 'FC1', 'F1, F2', 'FU', 'F'], [['โอเวอร์โหลดรีเลย์', 'overload relay'], 'F2', 'FC2 (BC)', 'F3', 'OL', 'OVER'],
+    [['คอนแทกเตอร์', 'contactor'], 'KM1', 'QA2', 'K1', 'M', 'KM1'], [['รีเลย์ช่วย', 'auxiliary relay'], 'KA1', 'KF1', 'K1A', 'CR', '—'], [['ตัวตั้งเวลา', 'timer'], 'KT1', 'KF2', 'K1T', 'TR', '—'],
+    [['ปุ่มกด, สวิตช์เลือก', 'push button, selector'], 'S1, S2', 'SF1, SF2', 'S1, S2', 'PB, SS', 'STOP, START'], [['ลิมิตสวิตช์, พร็อกซิมิตี', 'limit switch, proximity'], 'S4', 'BG1', 'S', 'LS, PRS', '—'],
+    [['หลอดสัญญาณ', 'signal lamp'], 'H1', 'PF1', 'H1', 'PL', 'RUN, OVER'], [['มอเตอร์', 'motor'], 'M1', 'MA1', 'M1', 'MTR', 'M'], [['แผงขั้วต่อ', 'terminal strip'], 'X1', 'XD1', 'X1', 'TB', '-X'], [['หม้อแปลงควบคุม', 'control transformer'], 'T1', 'TA1', 'T1', 'CPT', '—']];
+  const H = [t('อุปกรณ์', 'device'), t('วิชานี้', 'this course'), t('IEC 81346-2 (ใหม่)', 'IEC 81346-2 (new)'), t('ตำราไทย (DIN เดิม)', 'Thai textbook (old DIN)'), t('ตำราอเมริกัน (NEMA)', 'US books (NEMA)'), t('ไฟล์ใบงาน CADe SIMU', 'CADe SIMU lab files')];
+  $('codes').innerHTML = `<tr>${H.map((h, i) => `<th${i === 1 ? ' class="course"' : i === 2 ? ' class="new"' : ''}>${h}</th>`).join('')}</tr>` + ROWS.map(r => `<tr><td>${ED.tt(r[0])}</td>${r.slice(1).map((c, i) => `<td${i === 0 ? ' class="course"' : i === 1 ? ' class="new"' : ''}>${c}</td>`).join('')}</tr>`).join('');
+  $('newcodes').innerHTML = `<tr><th>${t('อุปกรณ์ในวงจร', 'device in the circuit')}</th><th class="course">${t('วิชานี้', 'course')}</th><th class="new">IEC 81346-2</th></tr>` +
+    [[['เบรกเกอร์หลัก', 'main breaker'], 'Q1', '-QA1'], [['ฟิวส์วงจรควบคุม', 'control fuse'], 'F1', '-FC1'], [['โอเวอร์โหลดรีเลย์', 'overload relay'], 'F2', '-FC2'], [['คอนแทกเตอร์', 'contactor'], 'KM1', '-QA2'],
+     [['ปุ่มหยุด / ปุ่มเริ่ม', 'stop / start button'], 'S1 / S2', '-SF1 / -SF2'], [['หลอดเดิน / หลอดโอเวอร์โหลด', 'run / overload lamp'], 'H1 / H2', '-PF1 / -PF2'], [['มอเตอร์', 'motor'], 'M1', '-MA1']]
+      .map(r => `<tr><td>${ED.tt(r[0])}</td><td class="course">${r[1]}</td><td class="new">${r[2]}</td></tr>`).join('');
+  /* practice */
+  const sv = id => `<span style="display:inline-block;vertical-align:middle;width:64px">${C2.symSVG(C2.SYMS.find(s => s.id === id), 0.7)}</span>`;
+  ED.mcq('mcq', [
+    { q: t(`1) สัญลักษณ์นี้คืออะไร ${sv('pbnc')}`, `1) What is this symbol? ${sv('pbnc')}`), options: [t('ปุ่มเริ่ม (ปกติเปิด)', 'start button (NO)'), t('ปุ่มหยุด (ปกติปิด)', 'stop button (NC)'), t('ลิมิตสวิตช์', 'limit switch')], answer: 1, why: t('ตัวสั่งงานรูปปุ่มกด และใบหน้าสัมผัสพาดบ่าด้านบน = ปกติปิด', 'push-button operator and a blade resting on the seat = normally closed') },
+    { q: t(`2) สัญลักษณ์นี้คืออะไร ${sv('ol')}`, `2) What is this symbol? ${sv('ol')}`), options: [t('หน้าสัมผัสโอเวอร์โหลด 95–96', 'overload contact 95–96'), t('สวิตช์อุณหภูมิ', 'temperature switch'), t('ฟิวส์', 'fuse')], answer: 0, why: t('ตัวสั่งงานรูปขั้นบันได = การทำงานด้วยความร้อนของโอเวอร์โหลด', 'the step-shaped operator = thermal operation of an overload relay') },
+    { q: t(`3) สัญลักษณ์นี้คืออะไร ${sv('kton')}`, `3) What is this symbol? ${sv('kton')}`), options: [t('คอยล์คอนแทกเตอร์', 'contactor coil'), t('คอยล์ตัวตั้งเวลาหน่วงเมื่อป้อนไฟ', 'on-delay timer coil'), t('หลอดสัญญาณ', 'signal lamp')], answer: 1, why: t('กล่องกากบาทข้างคอยล์ = หน่วงเมื่อป้อนไฟ', 'the crossed box beside the coil = on-delay') },
+    { q: t('4) ในมาตรฐานใหม่ IEC 81346-2 คอนแทกเตอร์ใช้รหัสใด', '4) In the new standard IEC 81346-2, which code does a contactor get?'), options: ['KM', 'QA', 'KF'], answer: 1, why: t('จัดตามหน้าที่: ตัดต่อพลังงาน เหมือนเบรกเกอร์', 'by function: it switches power, like a breaker') },
+    { q: t('5) ชื่อ KA2 ในวิชานี้หมายถึงอะไร', '5) In this course, what is KA2?'), options: [t('คอนแทกเตอร์ตัวที่ 2', 'contactor 2'), t('รีเลย์ช่วยตัวที่ 2', 'auxiliary relay 2'), t('ตัวตั้งเวลาตัวที่ 2', 'timer 2')], answer: 1, why: t('KA = รีเลย์ช่วย เลข 2 = ตัวที่ 2', 'KA = auxiliary relay, 2 = the second one') },
+    { q: t('6) ตำราไทยเขียนตัวตั้งเวลาว่าอะไร', '6) How does the Thai textbook name a timer?'), options: ['KT1', 'K1T', 'TR1'], answer: 1, why: t('รหัส DIN เดิม: K = รีเลย์/คอนแทกเตอร์, T ต่อท้าย = ตัวตั้งเวลา', 'old DIN code: K = relay/contactor, trailing T = timer') },
+    { q: t('7) ทำไมหน้าสัมผัสปกติเปิดจึงวาดเปิดอยู่ แม้ในเครื่องที่กำลังเดิน', '7) Why is a normally open contact drawn open even when the machine is running?'), options: [t('เพราะมาตรฐานให้วาดในสภาวะไม่มีไฟและไม่มีใครกด', 'the standard draws everything de-energised and unoperated'), t('เพราะหน้าสัมผัสเสีย', 'the contact is faulty'), t('เพราะใช้ในวงจรกำลังเท่านั้น', 'it is used only in power circuits')], answer: 0 }]);
+});
+</script>
+</body>
+</html>

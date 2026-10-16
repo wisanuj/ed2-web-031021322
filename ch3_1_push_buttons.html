@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="3.1 — Push buttons">3.1 — สวิตช์ปุ่มกด</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=9"><link rel="stylesheet" href="assets/ed2.css?v=9">
+<script src="assets/stops.js?v=9"></script><script src="assets/shell.js?v=9"></script>
+<script src="assets/lesson.js?v=9"></script><script src="assets/draw.js?v=9"></script><script src="assets/ed.js?v=9"></script><script src="assets/sym.js?v=9"></script><script src="assets/iec.js?v=9"></script><script src="assets/relay.js?v=9"></script><script src="assets/ch2.js?v=9"></script><script src="assets/ch3.js?v=9"></script><script src="assets/devdata.js?v=9"></script><script src="assets/dev.js?v=9"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">สวิตช์ปุ่มกด: ชนิด สี หน้าสัมผัส และปุ่มหยุดฉุกเฉิน <span class="en">Push buttons: types, colours, contacts and the emergency stop</span></h1>
+<h1 data-l="en">Push buttons <span class="en">Types, colours, contacts and the emergency stop</span></h1>
+
+<p class="sub" data-l="th">สวิตช์ปุ่มกด (push button) คืออุปกรณ์สั่งงานที่ใช้มากที่สุดในวงจรควบคุม ส่วนใหญ่เป็นแบบชั่วขณะ: กดแล้วหน้าสัมผัสเปลี่ยน ปล่อยแล้วสปริงดันกลับ ข้างใต้ปุ่มคือชุดหน้าสัมผัส (contact block) ที่ซ้อนได้หลายชุด ทั้งปกติเปิดและปกติปิด หน้านี้ผ่าปุ่มกดให้ดูข้างใน กดช้า ๆ แล้วดูว่าหน้าสัมผัสคู่ไหนเปลี่ยนก่อน รู้จักสีของปุ่มตามมาตรฐาน และปุ่มหยุดฉุกเฉินที่ทำงานต่างจากปุ่มอื่น</p>
+<p class="sub" data-l="en">The push button is the command device used most in control circuits. Most are momentary: press and the contacts change, release and a spring pushes them back. Under the button sit contact blocks, several of them stackable, normally open or normally closed. This page cuts a push button open, lets you press it slowly to see which contact changes first, introduces the standard colours, and the emergency stop, which works differently from the others.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>ส่วนประกอบ</b>: ปุ่ม (ตัวสั่งงาน) แกนกด สปริงดันกลับ และชุดหน้าสัมผัส ชุดหน้าสัมผัสแต่ละชุดเป็นปกติปิด (NC) หรือปกติเปิด (NO) ปุ่มหนึ่งปุ่มซ้อนได้หลายชุด เลขขั้วจึงเป็น 11–12, 23–24, 31–32 … ตามลำดับ</li>
+  <li><b>ปุ่มสองหน้าสัมผัส</b> (NC + NO บนปุ่มเดียว): เมื่อกด หน้าสัมผัสปกติปิด <b>เปิดก่อน</b> แล้วหน้าสัมผัสปกติเปิดจึง <b>ต่อทีหลัง</b> (break before make) จึงไม่มีช่วงที่ทั้งสองต่อพร้อมกัน คุณสมบัตินี้ใช้ทำอินเตอร์ล็อกด้วยปุ่มกดในบทที่ 7</li>
+  <li><b>สีตาม IEC 60204-1:2016</b>: ปุ่มเริ่มแนะนำ <b>สีขาว</b> (เขียวใช้ได้ ห้ามแดง) ปุ่มหยุดแนะนำ <b>สีดำ</b> (แดงใช้ได้แต่ไม่ควรวางใกล้ปุ่มฉุกเฉิน ห้ามเขียว) <b>แดงบนพื้นเหลือง</b> สงวนให้ปุ่มหยุดฉุกเฉิน ในไทยยังพบปุ่มเริ่มสีเขียวและปุ่มหยุดสีแดงมาก ซึ่งไม่ผิดมาตรฐาน</li>
+  <li><b>ปุ่มหยุดฉุกเฉิน</b>: หัวเห็ดสีแดงบนพื้นเหลือง กดแล้ว <b>ค้าง</b> ต้องหมุนหรือดึงจึงปลด หน้าสัมผัสเป็นปกติปิดชนิด <b>เปิดตัดแน่นอน</b> (direct opening) ที่กลไกบังคับให้แยกออกแม้หน้าสัมผัสจะติดกัน ปุ่มนี้หยุดเครื่อง แต่ไม่ได้ตัดไฟเพื่อซ่อมบำรุง</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>Parts</b>: the button (operator), plunger, return spring and contact blocks. Each block is normally closed (NC) or normally open (NO); one button can carry several, so the terminals read 11–12, 23–24, 31–32 … in order.</li>
+  <li><b>A two-contact button</b> (NC + NO on one button): when pressed, the normally closed contact <b>opens first</b> and the normally open contact <b>closes afterwards</b> (break before make), so the two are never closed together. Chapter 7 uses this for push-button interlocking.</li>
+  <li><b>Colours after IEC 60204-1:2016</b>: start is preferably <b>white</b> (green allowed, never red); stop is preferably <b>black</b> (red allowed but not near an emergency stop, never green); <b>red on yellow</b> is reserved for the emergency stop. Green start and red stop buttons remain common in Thailand and do not break the standard.</li>
+  <li><b>The emergency stop</b>: a red mushroom head on a yellow background that <b>latches</b> when pressed and is released by turning or pulling. Its normally closed contacts have <b>direct opening action</b>: the mechanism forces them apart even if they have welded. It stops the machine but does not isolate it for maintenance.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>ข้างในปุ่มกด</a><a href="#tA"><b>A</b>กดช้า ๆ</a><a href="#ex1"><b>1</b>ปุ่มเดียว หลอดสองดวง</a><a href="#tB"><b>B</b>สีของปุ่ม</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>Inside a push button</a><a href="#tA"><b>A</b>Press slowly</a><a href="#ex1"><b>1</b>One button, two lamps</a><a href="#tB"><b>B</b>Button colours</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">ข้างในปุ่มกด</h2><h2 data-l="en">Inside a push button</h2>
+    <div class="src" data-l="th">ตำราไทย บทที่ 3 หัวข้อ 1.1 รูป 3.1 · EMC9 หน่วยที่ 6</div><div class="src" data-l="en">Thai textbook ch. 3 §1.1, Fig. 3.1 · EMC9 unit 6</div></div></div>
+  <div class="story n2">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>รูป 3.1 ในตำราผ่าปุ่มกดที่มีหน้าสัมผัสสองชุด: ปุ่ม (1) ตัวเรือน (2) หน้าสัมผัสที่เคลื่อนที่ไปกับแกนกด สปริงดันกลับด้านล่าง และหน้าสัมผัสที่อยู่กับที่ (5) ชุดบนเป็นปกติปิด (สะพานแนบหน้าสัมผัสอยู่) ชุดล่างเป็นปกติเปิด ด้านขวาคือสัญลักษณ์ในสภาวะปกติและขณะกด ซึ่งเส้นประเชื่อมหน้าสัมผัสทั้งสองไว้กับตัวสั่งงานเดียวกัน</p> <p>ส่วนรูปของ EMC9 คือชุดปุ่มกดจริงและปุ่มหัวเห็ดที่มีชุดหน้าสัมผัสติดด้านหลัง</p></div>
+      <div class="story-p" data-l="en"><p>Textbook Fig. 3.1 cuts open a push button with two contact elements: the button (1), the body (2), the moving contacts carried by the plunger, the return spring underneath and the fixed contacts (5). The upper element is normally closed (its bridge rests on the contacts), the lower one normally open. On the right are the symbols at rest and when pressed; the dashed line ties both contacts to one operator.</p> <p>The EMC9 pictures show a real push-button station and a mushroom-head button with its contact blocks behind it.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/book1_fig3_1.jpg" width="956" height="574" loading="lazy" decoding="async" alt="Textbook Fig. 3.1: cut-away of a push button with parts numbered 1 to 5, and its symbol at rest and when operated: a normally closed and a normally open contact joined by a dashed line to one push operator.">
+        <figcaption data-l="th">รูป 3.1 โครงสร้างและสัญลักษณ์ของสวิตช์ปุ่มกด · ที่มา: ธนภัทร ไพคำนาม, การควบคุมมอเตอร์ไฟฟ้า (2104-2009), บทที่ 3 หน้า 37 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 3.1, structure and symbol of a push button · source: Thanaphat Phaikhamnam, <i>Motor Control</i> (2104-2009), ch. 3, p. 37 · tap to enlarge</figcaption></figure>
+      <figure class="slide sm"><img src="img/book/emc9_fig6_1_station.jpg" width="468" height="525" loading="lazy" decoding="async" alt="Push-button control station with three buttons, UP, DOWN and STOP, and their symbols: two normally open and one normally closed.">
+        <figcaption data-l="th">รูป 6-1 ชุดปุ่มกด 3 ปุ่ม · ที่มา: Herman, <i>Electric Motor Control</i> 9th ed. (Delmar Cengage, 2010) หน่วยที่ 6 หน้า 82</figcaption>
+        <figcaption data-l="en">Fig. 6-1, a three-button station · source: Herman, <i>Electric Motor Control</i>, 9th ed. (Delmar Cengage, 2010), unit 6, p. 82</figcaption></figure>
+      <figure class="slide sm"><img src="img/book/emc9_fig6_3_mushroom.jpg" width="610" height="499" loading="lazy" decoding="async" alt="Open push-button unit with a mushroom head and contact blocks mounted behind it.">
+        <figcaption data-l="th">รูป 6-3 ปุ่มหัวเห็ดพร้อมชุดหน้าสัมผัส · ที่มา: Herman (2010) หน่วยที่ 6 หน้า 82 (ภาพจาก Rockwell Automation)</figcaption>
+        <figcaption data-l="en">Fig. 6-3, mushroom-head unit with contact blocks · source: Herman (2010), unit 6, p. 82 (courtesy of Rockwell Automation)</figcaption></figure>
+    </div>
+  </div>
+  <p class="lead" data-l="th" style="margin-top:12px">ภาพถ่ายจริงด้านล่าง: กล่องปุ่มกดที่มีปุ่มหยุดฉุกเฉิน ปุ่มกดที่ถอดจากหน้าตู้ให้เห็นชุดหน้าสัมผัสด้านหลัง และหลอดสัญญาณแยกชิ้น แตะหมายเลขเพื่อดูว่าชี้ส่วนไหน</p>
+  <p class="lead" data-l="en" style="margin-top:12px">Real photographs below: a control box with an emergency stop, a push button taken off a panel to show the contact block behind it, and a pilot light in pieces. Tap a number to see what it points at.</p>
+  <div id="devs"></div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">กดปุ่มช้า ๆ: หน้าสัมผัสไหนเปลี่ยนก่อน</h2><h2 data-l="en">Press slowly: which contact changes first?</h2>
+    <div class="src" data-l="th">IEC 60947-5-1 (ชุดหน้าสัมผัส) · EMC9 หน่วยที่ 6 รูป 6-2</div><div class="src" data-l="en">IEC 60947-5-1 (contact elements) · EMC9 unit 6, Fig. 6-2</div></div></div>
+  <p class="lead" data-l="th">กดค้างที่ภาพปุ่ม (หรือปุ่มในแผงด้านล่าง) แล้วดูสะพานหน้าสัมผัสทั้งสองชุดขยับลง เปิด "แสดงช้า" เพื่อให้เห็นช่วงสีเหลืองในกราฟ ซึ่งหน้าสัมผัสทั้งสองเปิดอยู่พร้อมกัน ภาพกลางคือปุ่มเดียวกันในแบบ IEC ต่อหลอด H1 ผ่าน 11–12 และ H2 ผ่าน 23–24 แล้วลองเปลี่ยนเป็นปุ่มหยุดฉุกเฉิน: กดแล้วค้างจนกว่าจะหมุนปลด</p>
+  <p class="lead" data-l="en">Press and hold the button in the picture (or the one in the panel below) and watch both contact bridges move down. Turn on "Slow motion" to see the yellow band in the diagram, where both contacts are open together. The middle picture is the same button in an IEC drawing, lighting H1 through 11–12 and H2 through 23–24. Then switch to the emergency stop: it stays pressed until you turn it to release.</p>
+  <div class="card sim" style="padding:10px"><div id="pb"></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">ปุ่มเดียว หลอดสองดวง</h2><h2 data-l="en">One button, two lamps</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · EMC9 รูป 6-2</div><div class="src" data-l="en">Worked example · EMC9 Fig. 6-2</div></div></div>
+  <div class="story in">
+    <div class="story-t">
+      <div class="given" data-l="th"><div class="gl">โจทย์</div><p>ปุ่ม S1 มีหน้าสัมผัสสองชุด ชุดแรกปกติปิด ต่อกับหลอดแดง H1 ชุดที่สองปกติเปิด ต่อกับหลอดเขียว H2 (ตามรูป 6-2 ของ EMC9) (ก) ขณะไม่กด หลอดใดติด (ข) ขณะกดค้าง หลอดใดติด (ค) เขียนเลขขั้วของหน้าสัมผัสทั้งสองชุด</p></div>
+      <div class="given" data-l="en"><div class="gl">Problem</div><p>Button S1 has two contact elements: the first, normally closed, feeds red lamp H1; the second, normally open, feeds green lamp H2 (as in EMC9 Fig. 6-2). (a) Which lamp is lit when the button is not pressed? (b) Which when it is held down? (c) Write the terminal numbers of both contacts.</p></div>
+    </div>
+    <div class="story-f"><figure class="slide md"><img src="img/book/emc9_fig6_2_combination.jpg" width="932" height="640" loading="lazy" decoding="async" alt="Combination push button: (A) the red pilot light is lit through the normally closed contact; (B) the green pilot light is lit when the button is pushed. Symbols for normally open and normally closed push buttons in NEMA style.">
+      <figcaption data-l="th">รูป 6-2 ปุ่มกดแบบผสม (สัญลักษณ์แบบ NEMA) · ที่มา: Herman (2010) หน่วยที่ 6 หน้า 82 · แตะรูปเพื่อขยาย</figcaption>
+      <figcaption data-l="en">Fig. 6-2, combination push button (NEMA symbols) · source: Herman (2010), unit 6, p. 82 · tap to enlarge</figcaption></figure></div>
+  </div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">สีของปุ่มกดตาม IEC 60204-1:2016</h2><h2 data-l="en">Push-button colours after IEC 60204-1:2016</h2>
+    <div class="src" data-l="th">IEC 60204-1:2016 หัวข้อ 10.2 ตาราง 3 (สรุปจากเอกสารของผู้ผลิต IDEC)</div><div class="src" data-l="en">IEC 60204-1:2016 clause 10.2, Table 3 (as summarised by the maker IDEC)</div></div></div>
+  <div class="card solve" style="overflow-x:auto"><table class="tbl" id="colours"></table>
+    <p class="simnote" data-l="th">สีของหลอดสัญญาณ (ตาราง 4): แดง = ฉุกเฉิน/อันตราย, เหลือง = ผิดปกติ, น้ำเงิน = ต้องทำ, เขียว = ปกติ, ขาว = ทั่วไป</p>
+    <p class="simnote" data-l="en">Indicator-light colours (Table 4): red = emergency/hazard, yellow = abnormal, blue = mandatory action, green = normal, white = neutral.</p></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">ปุ่มกด</div><div class="src" data-l="en">Push buttons</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>เปิด "แสดงช้า" แล้วกดค้าง: ที่ระยะกด 30 % หลอด H1 ดับ และกว่าหลอด H2 จะติดต้องกดถึง 70 % ระหว่างนั้นทั้งสองหลอดดับ</li>
+    <li>ปล่อยปุ่มขณะอยู่ช่วงสีเหลือง: สปริงดันกลับ H1 ติดใหม่โดยที่ H2 ไม่เคยติดเลย</li>
+    <li>เลือกปุ่มหยุดฉุกเฉิน กดแล้วปล่อย: หัวเห็ดค้างอยู่ หลอดทั้งสองดับจนกว่าจะกด "หมุนปลด"</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 3 หัวข้อ 1.1 · Herman, <i>Electric Motor Control</i> 9th ed. หน่วยที่ 6 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 2 · IEC 60204-1:2016 · IEC 60947-5-1 · ISO 13850</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Turn on "Slow motion" and hold the button: at 30 % travel H1 goes out, and H2 does not light until 70 %; in between both are dark.</li>
+    <li>Let go while in the yellow band: the spring returns the button and H1 lights again without H2 ever lighting.</li>
+    <li>Choose the emergency stop, press and let go: the mushroom stays down and both lamps stay off until you press "Turn to release".</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 3 §1.1 · Herman, <i>Electric Motor Control</i>, 9th ed., unit 6 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 2 · IEC 60204-1:2016 · IEC 60947-5-1 · ISO 13850</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui;
+  DEV.mount($('devs'), ['pb', 'lamp']);
+  const pb = new C3.PB($('pb')), pA = $('pA');
+  ui.h2(pA, t('ชนิดของปุ่ม', 'Kind of button'));
+  ui.radio(pA, [{ id: 'std', label: t('ปุ่มกด NC + NO', 'push button NC + NO'), on: true }, { id: 'estop', label: t('ปุ่มหยุดฉุกเฉิน (2 NC)', 'emergency stop (2 NC)') }], id => { pb.variant = id; pb.latched = false; capRow.style.display = id === 'std' ? '' : 'none'; rel.style.display = id === 'estop' ? '' : 'none'; pb.draw(); showCap(); });
+  ui.h2(pA, t('สีของปุ่ม', 'Button colour'));
+  const capRow = document.createElement('div'); capRow.className = 'toggles capsel'; pA.appendChild(capRow);
+  Object.entries(C3.CAPS).forEach(([k, [c]]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn' + (k === pb.cap ? ' on' : ''); b.innerHTML = `<i style="background:${c}"></i>${{ white: t('ขาว', 'white'), green: t('เขียว', 'green'), black: t('ดำ', 'black'), red: t('แดง', 'red'), yellow: t('เหลือง', 'yellow'), blue: t('น้ำเงิน', 'blue') }[k]}`;
+    b.addEventListener('click', () => { pb.cap = k; capRow.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); pb.draw(); showCap(); }); capRow.appendChild(b); });
+  const capNote = ui.html(pA, '', 'hint');
+  const showCap = () => { capNote.innerHTML = pb.variant === 'std' ? ED.tt(C3.CAPS[pb.cap][1]) : t('แดงบนพื้นเหลือง: สงวนไว้ให้ปุ่มหยุดฉุกเฉินเท่านั้น', 'red on yellow: for the emergency stop only'); };
+  ui.h2(pA, t('สั่งงาน', 'Control')); const row = document.createElement('div'); row.className = 'toggles'; pA.appendChild(row);
+  const hb = document.createElement('button'); hb.type = 'button'; hb.className = 'btn on'; hb.textContent = t('กดค้าง', 'Hold to press'); row.appendChild(hb);
+  hb.addEventListener('pointerdown', e => { e.preventDefault(); pb.down = true; if (pb.variant === 'estop') pb.latched = true; }); ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => hb.addEventListener(ev, () => { pb.down = false; }));
+  const sl = document.createElement('button'); sl.type = 'button'; sl.className = 'btn'; sl.textContent = t('แสดงช้า', 'Slow motion'); sl.addEventListener('click', () => { pb.slow = !pb.slow; sl.classList.toggle('on', pb.slow); }); row.appendChild(sl);
+  const rel = document.createElement('button'); rel.type = 'button'; rel.className = 'btn'; rel.textContent = t('หมุนปลด', 'Turn to release'); rel.style.display = 'none'; rel.addEventListener('click', () => pb.release()); row.appendChild(rel);
+  const stA = ui.status(pA), show = () => { const s = pb.states(), es = pb.variant === 'estop';
+    ui.setStatus(stA, es ? (pb.latched ? t('ค้าง', 'latched') : t('ปกติ', 'released')) : t(`ระยะกด ${Math.round(pb.t * 100)} %`, `travel ${Math.round(pb.t * 100)} %`),
+      `11–12 ${s.c1 ? t('ต่อ', 'closed') : t('เปิด', 'open')} · ${s.t2.join('–')} ${s.c2 ? t('ต่อ', 'closed') : t('เปิด', 'open')}` + (!s.c1 && !s.c2 && !es ? t(' · ทั้งสองเปิดอยู่พร้อมกัน', ' · both open together') : ''), !s.c1 && !s.c2 ? 'warn' : 'ok'); };
+  showCap(); show(); LS.anim($('pb'), dt => { pb.step(dt); show(); });
+  /* worked example */
+  LS.choose($('ask1'), { options: [t('ไม่กด: H1 ติด · กด: H2 ติด', 'released: H1 lit · pressed: H2 lit'), t('ไม่กด: H2 ติด · กด: H1 ติด', 'released: H2 lit · pressed: H1 lit'), t('ติดทั้งคู่ตลอด', 'both always lit')], answer: 0 });
+  LS.stepper($('st1'), { steps: [
+    { why: t('ไม่กด: หน้าสัมผัสปกติปิดต่ออยู่ หน้าสัมผัสปกติเปิดเปิดอยู่', 'Released: the normally closed contact is closed, the normally open one open'), body: `<p>${t('H1 (แดง) ติด H2 (เขียว) ดับ', 'H1 (red) lit, H2 (green) dark')}</p>` },
+    { why: t('กดค้าง: ปกติปิดเปิดก่อน แล้วปกติเปิดต่อ', 'Held down: the NC contact opens first, then the NO contact closes'), body: `<p>${t('H1 ดับ H2 ติด ไม่มีจังหวะที่ทั้งสองติดพร้อมกัน', 'H1 dark, H2 lit; there is no moment with both lit')}</p>` },
+    { why: t('เลขขั้ว: หลักแรก = ลำดับของชุด หลักหลัง = หน้าที่', 'Terminal numbers: first digit = element position, second = function'), body: `<p>${t('ชุดแรก NC = <b>11–12</b> · ชุดที่สอง NO = <b>23–24</b>', 'first element NC = <b>11–12</b> · second element NO = <b>23–24</b>')}</p>` }],
+    answer: t('(ก) H1 (ข) H2 (ค) 11–12 และ 23–24', '(a) H1; (b) H2; (c) 11–12 and 23–24') });
+  /* colours table */
+  const sw = c => `<i style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${c};border:1px solid #59607e;margin-right:4px;vertical-align:-1px"></i>`;
+  $('colours').innerHTML = `<tr><th>${t('หน้าที่', 'function')}</th><th>${t('สีที่แนะนำ', 'recommended')}</th><th>${t('ห้ามใช้', 'not to be used')}</th></tr>` +
+    [[t('เริ่ม / เปิด', 'start / on'), `${sw('#f4f6f8')}<b>${t('ขาว', 'white')}</b> (${t('แนะนำที่สุด', 'first choice')}), ${sw('#9aa3b5')}${t('เทา', 'grey')}, ${sw('#2a2f36')}${t('ดำ', 'black')}, ${sw('#2fa84f')}${t('เขียว', 'green')}`, `${sw('#d83a34')}${t('แดง', 'red')}`],
+     [t('หยุด / ปิด', 'stop / off'), `${sw('#2a2f36')}<b>${t('ดำ', 'black')}</b> (${t('แนะนำที่สุด', 'first choice')}), ${sw('#9aa3b5')}${t('เทา', 'grey')}, ${sw('#f4f6f8')}${t('ขาว', 'white')}; ${sw('#d83a34')}${t('แดงใช้ได้ แต่ไม่ควรอยู่ใกล้ปุ่มฉุกเฉิน', 'red allowed but not near an emergency stop')}`, `${sw('#2fa84f')}${t('เขียว', 'green')}`],
+     [t('หยุดฉุกเฉิน', 'emergency stop'), `${sw('#d83a34')}<b>${t('แดง บนพื้นเหลือง', 'red on a yellow background')}</b>`, t('สีอื่นทุกสี', 'any other colour')],
+     [t('ปุ่มเดียวทั้งเริ่มและหยุด', 'one button for start and stop'), `${t('ขาว เทา ดำ', 'white, grey, black')}`, t('แดง เหลือง เขียว', 'red, yellow, green')],
+     [t('รีเซ็ต', 'reset'), `${sw('#2f6fd6')}${t('น้ำเงิน', 'blue')}, ${t('ขาว เทา ดำ', 'white, grey, black')}`, `${sw('#2fa84f')}${t('เขียว', 'green')}`],
+     [t('แก้ไขสภาวะผิดปกติ', 'act on an abnormal condition'), `${sw('#f2c230')}${t('เหลือง', 'yellow')}`, '—']].map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
+  ED.mcq('mcq', [
+    { q: t('1) ปุ่มกดสองหน้าสัมผัส เมื่อกดลง หน้าสัมผัสใดเปลี่ยนก่อน', '1) On a two-contact button, which contact changes first when pressed?'), options: [t('ปกติปิดเปิดก่อน แล้วปกติเปิดจึงต่อ', 'the NC opens first, then the NO closes'), t('ปกติเปิดต่อก่อน', 'the NO closes first'), t('เปลี่ยนพร้อมกันทุกครั้ง', 'both at the same instant')], answer: 0 },
+    { q: t('2) หน้าสัมผัสชุดที่สองของปุ่มกดเป็นปกติเปิด ใช้เลขขั้วใด', '2) The second element of a button is normally open. Its terminal numbers?'), options: ['13–14', '23–24', '21–22'], answer: 1 },
+    { q: t('3) ปุ่มหยุดฉุกเฉินต่างจากปุ่มหยุดธรรมดาอย่างไร', '3) How does an emergency stop differ from an ordinary stop button?'), options: [t('กดแล้วค้าง ต้องหมุนหรือดึงจึงปลด', 'it latches and is released by turning or pulling'), t('ใช้หน้าสัมผัสปกติเปิด', 'it uses a normally open contact'), t('สีเขียว', 'it is green')], answer: 0 },
+    { q: t('4) ตาม IEC 60204-1:2016 ห้ามใช้สีใดกับปุ่มหยุด', '4) Under IEC 60204-1:2016, which colour must a stop button not have?'), options: [t('ดำ', 'black'), t('แดง', 'red'), t('เขียว', 'green')], answer: 2 },
+    { q: t('5) หน้าสัมผัส "เปิดตัดแน่นอน" ของปุ่มหยุดฉุกเฉินหมายถึงอะไร', '5) What does "direct opening" mean for emergency-stop contacts?'), options: [t('กลไกบังคับให้หน้าสัมผัสแยกออกแม้จะติดกัน', 'the mechanism forces the contacts apart even if welded'), t('เปิดช้า', 'they open slowly'), t('ต่อเมื่อกด', 'they close when pressed')], answer: 0 },
+    { q: t('6) กดปุ่มหยุดฉุกเฉินแล้วเครื่องหยุด ช่างจะเข้าไปซ่อมได้ทันทีหรือไม่', '6) The emergency stop has stopped the machine. May the electrician start repairs straight away?'), options: [t('ได้ เพราะเครื่องหยุดแล้ว', 'yes, it has stopped'), t('ไม่ได้ ต้องตัดแยกแหล่งจ่ายและล็อกก่อน', 'no, the supply must be isolated and locked off first')], answer: 1, why: t('ปุ่มฉุกเฉินหยุดเครื่อง แต่ไม่ได้แยกวงจรเพื่อซ่อมบำรุง', 'an emergency stop stops the machine; it does not isolate it for maintenance') }]);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="4.3 — Timers">4.3 — ตัวตั้งเวลา</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=9"><link rel="stylesheet" href="assets/ed2.css?v=9">
+<script src="assets/stops.js?v=9"></script><script src="assets/shell.js?v=9"></script>
+<script src="assets/lesson.js?v=9"></script><script src="assets/draw.js?v=9"></script><script src="assets/ed.js?v=9"></script><script src="assets/sym.js?v=9"></script><script src="assets/iec.js?v=9"></script><script src="assets/relay.js?v=9"></script><script src="assets/ch2.js?v=9"></script><script src="assets/ch3.js?v=9"></script><script src="assets/ch4.js?v=9"></script><script src="assets/devdata.js?v=9"></script><script src="assets/dev.js?v=9"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">ตัวตั้งเวลา: หน่วงเวลาเมื่อป้อนไฟและหน่วงเวลาเมื่อตัดไฟ <span class="en">Timers: on-delay and off-delay</span></h1>
+<h1 data-l="en">Timers <span class="en">On-delay and off-delay</span></h1>
+
+<p class="sub" data-l="th">ตัวตั้งเวลา (timer relay) คือรีเลย์ที่หน้าสัมผัสไม่เปลี่ยนทันที แต่รอเวลาที่ตั้งไว้ก่อน ใช้ในวงจรที่ต้องทำงานตามลำดับเวลา เช่น เริ่มมอเตอร์ตัวที่สองหลังตัวแรก 5 วินาที หรือสลับจากสตาร์เป็นเดลตา ตัวตั้งเวลามีสองแบบหลัก: แบบหน่วงเวลาเมื่อป้อนไฟ (on-delay) และแบบหน่วงเวลาเมื่อตัดไฟ (off-delay) หน้านี้ให้กดสัญญาณเข้าเองแล้วดูแผนภาพเวลาเคลื่อนไปจริง ต่อวงจรหลอดกับตัวตั้งเวลาทั้งสองแบบ และอ่านสัญลักษณ์กับเลขขั้วแบบ IEC</p>
+<p class="sub" data-l="en">A timer relay is a relay whose contacts do not change at once but wait for a set time. It is used wherever things must happen in a timed order, such as starting a second motor 5 s after the first or changing from star to delta. There are two main kinds: on-delay and off-delay. On this page you hold the input yourself and watch the timing diagram run, wire lamps to both kinds of timer, and read their IEC symbols and terminal numbers.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>หน่วงเวลาเมื่อป้อนไฟ (on-delay)</b>: ป้อนไฟเข้าคอยล์แล้ว หน้าสัมผัสหน่วงเวลาเปลี่ยนเมื่อครบเวลาที่ตั้ง ตัดไฟเมื่อไรกลับทันที ถ้าป้อนไฟสั้นกว่าเวลาที่ตั้ง หน้าสัมผัสไม่เปลี่ยนเลย</li>
+  <li><b>หน่วงเวลาเมื่อตัดไฟ (off-delay)</b>: เมื่อสั่ง หน้าสัมผัสเปลี่ยนทันที เมื่อเลิกสั่ง หน้าสัมผัสค้างอยู่อีกจนครบเวลาที่ตั้งแล้วจึงกลับ ตัวตั้งเวลาอิเล็กทรอนิกส์แบบนี้ส่วนมากต้องมีไฟเลี้ยงที่ A1–A2 ตลอด และสั่งด้วยขั้วสัญญาณควบคุม (เช่น B1)</li>
+  <li><b>สัญลักษณ์ IEC</b>: คอยล์มีกล่องเล็กข้างซ้าย กล่องที่มีกากบาท = หน่วงเมื่อป้อนไฟ กล่องทึบ = หน่วงเมื่อตัดไฟ หน้าสัมผัสหน่วงเวลามีรูปร่ม (parachute) บนใบหน้าสัมผัส แสดงทางที่เคลื่อนช้า</li>
+  <li><b>เลขขั้ว</b>: ไฟเลี้ยง A1–A2 หน้าสัมผัสหน่วงเวลาแบบเปลี่ยนทางใช้ 15 (ร่วม) 16 (ปกติปิด) 18 (ปกติเปิด) ชุดที่สอง 25–26–28 บางแหล่งและ CADe SIMU ใช้ 55–56 (ปกติปิด) และ 67–68 (ปกติเปิด)</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>On-delay</b>: when the coil is energised, the timed contacts change once the set time has passed; when it is de-energised they return at once. A pulse shorter than the set time changes nothing.</li>
+  <li><b>Off-delay</b>: the timed contacts change at once when commanded and stay changed for the set time after the command ends. Most electronic off-delay timers need a permanent supply on A1–A2 and are commanded through a control input (such as B1).</li>
+  <li><b>IEC symbols</b>: the coil carries a small box on its left, crossed for on-delay and filled for off-delay; a timed contact carries a "parachute" on its blade showing the direction that moves slowly.</li>
+  <li><b>Terminal numbers</b>: supply A1–A2; a timed changeover contact uses 15 (common), 16 (NC) and 18 (NO), the second one 25–26–28. Some sources and CADe SIMU use 55–56 (NC) and 67–68 (NO).</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>ตัวตั้งเวลาจริง</a><a href="#tA"><b>A</b>แผนภาพเวลา</a><a href="#tB"><b>B</b>วงจรหลอด</a><a href="#tN"><b>N</b>สัญลักษณ์และเลขขั้ว</a><a href="#ex1"><b>1</b>อ่านแผนภาพเวลา</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>Real timers</a><a href="#tA"><b>A</b>Timing diagram</a><a href="#tB"><b>B</b>Lamp circuits</a><a href="#tN"><b>N</b>Symbols and terminals</a><a href="#ex1"><b>1</b>Reading a timing diagram</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">ตัวตั้งเวลาที่ใช้จริง</h2><h2 data-l="en">Timers in use</h2>
+    <div class="src" data-l="th">ตำราไทย บทที่ 3 หัวข้อ 1.5 รูป 3.6 · EMC9 หน่วยที่ 9</div><div class="src" data-l="en">Thai textbook ch. 3 §1.5, Fig. 3.6 · EMC9 unit 9</div></div></div>
+  <div class="story n2">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>รูป 3.6 ของตำราไทยคือตัวตั้งเวลาแบบหน้าปัดที่พบมากในชุดฝึกและตู้ควบคุมในไทย เสียบลงบนฐาน 8 ขาหรือ 11 ขา หมุนหน้าปัดเลือกเวลา บางรุ่นเลือกช่วงเวลาและหน้าที่ได้หลายแบบ การ์ดด้านล่างเป็นตัวตั้งเวลาแบบติดราง DIN ที่ใช้งานจริงในตู้ มีปุ่มปรับเวลา 0.5–10 วินาที หลอด LED และขั้ว A1 A2 15 16 18 พิมพ์ไว้บนตัว</p>
+        <p>รูป 9-2 ของ EMC9 เป็นตัวตั้งเวลาแบบนิวแมติกรุ่นเก่า: ถุงลมยุบตัวช้า ๆ เพราะอากาศรั่วออกทางลิ้นปรับได้ทีละน้อย เป็นที่มาของรูป "ร่ม" บนสัญลักษณ์หน้าสัมผัสหน่วงเวลา ซึ่งหมายถึงสิ่งที่ตกลงมาช้า ส่วนตารางของ EMC9 คือสัญลักษณ์แบบ NEMA ที่ต่างจาก IEC (ดูหัวข้อ N)</p></div>
+      <div class="story-p" data-l="en"><p>Thai textbook Fig. 3.6 shows dial timers of the kind found on Thai training boards and panels: they plug into an 8- or 11-pin socket and the dial sets the time; some models also select the range and the function. The card below is a DIN-rail timer in a real panel, with a 0.5–10 s dial, LEDs and terminals A1 A2 15 16 18 printed on it.</p>
+        <p>EMC9 Fig. 9-2 is an old pneumatic timer: a bellows collapses slowly because air escapes through an adjustable valve. That is where the "parachute" on a timed-contact symbol comes from: something that comes down slowly. The EMC9 table shows the NEMA symbols, which differ from IEC (see section N).</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/book1_fig3_6_timers.jpg" width="788" height="295" loading="lazy" decoding="async" alt="Thai textbook Fig. 3.6: two plug-in dial timers.">
+        <figcaption data-l="th">รูป 3.6 รีเลย์หน่วงเวลา · ที่มา: ธนภัทร ไพคำนาม, การควบคุมมอเตอร์ไฟฟ้า (2104-2009), บทที่ 3 หน้า 41</figcaption>
+        <figcaption data-l="en">Fig. 3.6, timer relays · source: Thanaphat Phaikhamnam, <i>Motor Control</i> (2104-2009), ch. 3, p. 41</figcaption></figure>
+      <figure class="slide md"><img src="img/book/emc9_fig9_2_bellows.jpg" width="1267" height="783" loading="lazy" decoding="async" alt="Bellows-type pneumatic timing unit: rod, bellows, spring, air inlet, adjustment screw, check valve and timed contacts.">
+        <figcaption data-l="th">รูป 9-2 ตัวตั้งเวลาแบบถุงลม · ที่มา: Herman, <i>Electric Motor Control</i> 9th ed. (Delmar Cengage, 2010) หน่วยที่ 9 หน้า 104 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 9-2, bellows-type timing unit · source: Herman, <i>Electric Motor Control</i>, 9th ed. (Delmar Cengage, 2010), unit 9, p. 104 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+  <div id="devs" style="margin-top:12px"></div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">กดสัญญาณเข้าเอง แล้วดูแผนภาพเวลา</h2><h2 data-l="en">Hold the input and watch the timing diagram</h2>
+    <div class="src" data-l="th">IEC 61812-1 (หน้าที่ของตัวตั้งเวลา) · EMC9 หน่วยที่ 9 · UMC5 บทที่ 11</div><div class="src" data-l="en">IEC 61812-1 (timer functions) · EMC9 unit 9 · UMC5 ch. 11</div></div></div>
+  <p class="lead" data-l="th">เลือกแบบตัวตั้งเวลาและเวลาที่ตั้ง แล้วกดปุ่ม "สัญญาณเข้า" ค้างไว้ แผนภาพเลื่อนไปตามเวลาจริง: เส้นดำคือคอยล์หรือสัญญาณควบคุม เส้นเขียวคือหน้าสัมผัสปกติเปิด 15–18 เส้นแดงคือหน้าสัมผัสปกติปิด 15–16 ลองกดนานกว่าเวลาที่ตั้ง กดสั้นกว่า และกดหลายครั้งติดกัน ทุกครั้งที่ปล่อยปุ่มจะบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">Choose the kind of timer and the set time, then hold the "Input" button. The diagram scrolls in real time: black is the coil or control input, green the NO contact 15–18, red the NC contact 15–16. Try holding longer than the set time, shorter, and several times in a row. Each release is recorded below.</p>
+  <div class="card sim" style="padding:10px"><div id="tm"></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logA"></div><div id="sumA" style="margin-top:8px"></div></div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">วงจรหลอดกับตัวตั้งเวลาทั้งสองแบบ</h2><h2 data-l="en">Lamp circuits with both kinds of timer</h2>
+    <div class="src" data-l="th">ใบงานที่ 4 ข้อ 3.2–3.3 · EMC9 หน่วยที่ 9 รูป 9-11 และ 9-12</div><div class="src" data-l="en">Lab sheet 4, steps 3.2–3.3 · EMC9 unit 9, Figs 9-11 and 9-12</div></div></div>
+  <p class="lead" data-l="th">วงจรบน: สวิตช์ S1 ป้อนไฟตัวตั้งเวลาหน่วงเมื่อป้อนไฟ KT1 (ตั้ง 3 วินาที) หน้าสัมผัส 15–18 ต่อหลอดเขียว H1 และ 15–16 ต่อหลอดแดง H2 วงจรล่าง: กดปุ่ม S1 แล้วปล่อย ตัวตั้งเวลาหน่วงเมื่อตัดไฟ KT2 (ตั้ง 5 วินาที) ให้หลอดเหลือง H1 ติดต่ออีก 5 วินาทีหลังปล่อย เหมือนไฟบันไดหรือพัดลมระบายความร้อนที่หมุนต่ออีกพักหนึ่งหลังเครื่องหยุด ทุกครั้งที่หลอดเปลี่ยนจะบันทึกเวลาที่วัดได้</p>
+  <p class="lead" data-l="en">Top circuit: switch S1 energises on-delay timer KT1 (set to 3 s); contact 15–18 lights green H1 and 15–16 lights red H2. Bottom circuit: press push button S1 and let go; off-delay timer KT2 (set to 5 s) keeps yellow H1 lit for 5 s after the release, like a stairway light or a cooling fan that runs on after the machine stops. Each lamp change is recorded with the measured time.</p>
+  <div class="duo"><div class="card sim" style="padding:8px"><div id="simOn"></div></div><div class="card sim" style="padding:8px"><div id="simOff"></div></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pB" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logB"></div><div id="sumB" style="margin-top:8px"></div></div>
+</section>
+
+<section class="prob" id="tN">
+  <div class="prob-head"><span class="prob-no">N</span><div><h2 data-l="th">สัญลักษณ์และเลขขั้วของตัวตั้งเวลา</h2><h2 data-l="en">Timer symbols and terminal numbers</h2>
+    <div class="src" data-l="th">IEC 60617 · IEC 60947-1 ภาคผนวก L · EMC9 ตาราง 9-1 (แบบ NEMA)</div><div class="src" data-l="en">IEC 60617 · IEC 60947-1 Annex L · EMC9 Table 9-1 (NEMA)</div></div></div>
+  <div class="card solve" style="overflow-x:auto"><table class="tbl" id="syms"></table></div>
+  <div class="story n2" style="margin-top:12px">
+    <div class="story-t"><div class="story-p" data-l="th"><p>ตาราง 9-1 ของ EMC9 ใช้ชื่อแบบอเมริกัน: NOTC (ปกติเปิด ปิดหลังหน่วงเวลา) และ NCTO (ปกติปิด เปิดหลังหน่วงเวลา) สำหรับหน่วงเมื่อป้อนไฟ ส่วน NOTO และ NCTC สำหรับหน่วงเมื่อตัดไฟ สัญลักษณ์ NEMA วาดใบหน้าสัมผัสแนวนอนและใช้ลูกศรรูปร่มต่างจาก IEC ในแบบของวิชานี้ใช้สัญลักษณ์ IEC ในตารางด้านบนเท่านั้น</p></div>
+      <div class="story-p" data-l="en"><p>EMC9 Table 9-1 uses the American names: NOTC (normally open, timed closed) and NCTO (normally closed, timed open) for on-delay, NOTO and NCTC for off-delay. NEMA symbols draw the blade horizontally and place the parachute differently from IEC; drawings in this course use only the IEC symbols in the table above.</p></div></div>
+    <div class="story-f"><figure class="slide sm"><img src="img/book/emc9_tab9_1_timed_contacts.jpg" width="746" height="478" loading="lazy" decoding="async" alt="NEMA table of timed contacts: NOTC and NCTO for on-delay, NOTO and NCTC for off-delay.">
+      <figcaption data-l="th">ตาราง 9-1 หน้าสัมผัสหน่วงเวลา (แบบ NEMA) · ที่มา: Herman (2010) หน่วยที่ 9 หน้า 105</figcaption>
+      <figcaption data-l="en">Table 9-1, timed contacts (NEMA) · source: Herman (2010), unit 9, p. 105</figcaption></figure></div>
+  </div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">อ่านแผนภาพเวลา</h2><h2 data-l="en">Reading a timing diagram</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง (ใบงานที่ 4 ตอนที่ 2 ใช้แบบเดียวกัน)</div><div class="src" data-l="en">Worked example (lab sheet 4, part 2 uses the same kind)</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>ตัวตั้งเวลาหน่วงเมื่อป้อนไฟตั้งไว้ 3 วินาที ป้อนไฟเข้าคอยล์ตามเส้นดำ: ช่วงแรก 1–6 วินาที ช่วงที่สอง 7.5–9.5 วินาที (ก) หน้าสัมผัส 15–18 ต่อช่วงไหน (ข) ช่วงที่สองทำไมหน้าสัมผัสไม่เปลี่ยน (ค) ถ้าเปลี่ยนเป็นตัวตั้งเวลาหน่วงเมื่อตัดไฟ 3 วินาที หน้าสัมผัส 15–18 ต่อช่วงไหน</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>An on-delay timer is set to 3 s. Its coil is energised as the black line shows: first from 1 to 6 s, then from 7.5 to 9.5 s. (a) When is contact 15–18 closed? (b) Why does nothing happen during the second pulse? (c) With a 3 s off-delay timer instead, when would 15–18 be closed?</p></div>
+  <div class="card sim" style="padding:8px"><div id="exD"></div></div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">ตัวตั้งเวลา</div><div class="src" data-l="en">Timers</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>หน่วงเมื่อป้อนไฟ 3 วินาที: กดค้าง 2 วินาทีแล้วปล่อย จากนั้นกดค้าง 5 วินาที หน้าสัมผัสต่อนานเท่าไรในแต่ละครั้ง</li>
+    <li>หน่วงเมื่อตัดไฟ 3 วินาที: กดสั้น ๆ สองครั้งห่างกัน 2 วินาที หน้าสัมผัสเปิดระหว่างสองครั้งนั้นไหม เพราะอะไร</li>
+    <li>วงจร B: จับเวลาด้วยนาฬิกาจับเวลาของโทรศัพท์ เทียบกับเวลาที่ตาราง ใน CADe SIMU ต้องทำแบบเดียวกัน เพราะความเร็วการจำลองตั้งได้</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 3 หัวข้อ 1.5 · Herman, <i>Electric Motor Control</i> 9th ed. หน่วยที่ 9 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 11 · IEC 60617 · IEC 61812-1 · IEC 60947-1</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>On-delay 3 s: hold for 2 s and let go, then hold for 5 s. How long is the contact closed each time?</li>
+    <li>Off-delay 3 s: give two short presses 2 s apart. Does the contact open between them? Why?</li>
+    <li>Circuit B: time it with your phone's stopwatch and compare with the table. You must do the same in CADe SIMU, because its simulation speed is adjustable.</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 3 §1.5 · Herman, <i>Electric Motor Control</i>, 9th ed., unit 9 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 11 · IEC 60617 · IEC 61812-1 · IEC 60947-1</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui;
+  DEV.mount($('devs'), ['kt']);
+  /* A: live timing diagram */
+  const tm = new C4.Timing($('tm'), { fn: 'on', T: 3 }), pA = $('pA');
+  const log = new ED.Log($('logA'), [['แบบ', 'kind'], ['เวลาที่ตั้ง', 'set time'], ['กดค้างนาน', 'held for'], ['หน้าสัมผัส 15–18', 'contact 15–18']]);
+  let n = 0;
+  ui.h2(pA, t('แบบตัวตั้งเวลา', 'Kind of timer'));
+  ui.radio(pA, [{ id: 'on', label: ED.tt(C4.FN.on.name), on: true }, { id: 'off', label: ED.tt(C4.FN.off.name) }], id => { tm.fn = id; tm.reset(); });
+  ui.slider(pA, { id: 'tset', label: t('เวลาที่ตั้ง', 'set time'), min: 1, max: 6, step: 0.5, value: 3, fmt: v => `${v} s`, oninput: v => { tm.T = v; tm.reset(); } });
+  const row = document.createElement('div'); row.className = 'toggles tmrow'; pA.appendChild(row);
+  const hb = document.createElement('button'); hb.type = 'button'; hb.className = 'btn on'; hb.textContent = t('สัญญาณเข้า (กดค้าง)', 'Input (hold)'); row.appendChild(hb);
+  const cd = document.createElement('span'); cd.className = 'cdown'; row.appendChild(cd);
+  let held0 = 0;
+  hb.addEventListener('pointerdown', e => { e.preventDefault(); tm.set(true); held0 = tm.clock; });
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => hb.addEventListener(ev, () => { if (!tm.input) return; tm.set(false); const h = tm.clock - held0;
+    const res = tm.fn === 'on' ? (h >= tm.T ? t(`ต่อ ${(h - tm.T).toFixed(1)} s (หลังกด ${tm.T} s)`, `closed for ${(h - tm.T).toFixed(1)} s (from ${tm.T} s after the press)`) : t('ไม่ต่อเลย (กดสั้นกว่าเวลาที่ตั้ง)', 'never closed (shorter than the set time)'))
+      : t(`ต่อทันที รวม ${(h + tm.T).toFixed(1)} s (ค้างหลังปล่อย ${tm.T} s)`, `closed at once, ${(h + tm.T).toFixed(1)} s in all (${tm.T} s after the release)`);
+    log.add('r' + (n++), [ED.tt(C4.FN[tm.fn].name), `${tm.T} s`, `${h.toFixed(1)} s`, res], tm.fn === 'on' && h < tm.T ? 'warn' : 'ok'); }));
+  const stA = ui.status(pA);
+  LS.anim($('tm'), dt => { tm.step(dt); const r = tm.remaining(); cd.textContent = r ? t(`นับถอยหลัง ${r.toFixed(1)} s`, `counting ${r.toFixed(1)} s`) : '';
+    ui.setStatus(stA, tm.out() ? t('15–18 ต่อ', '15–18 closed') : t('15–18 เปิด', '15–18 open'), `${tm.input ? t('มีสัญญาณเข้า', 'input on') : t('ไม่มีสัญญาณเข้า', 'input off')} · 15–16 ${tm.out() ? t('เปิด', 'open') : t('ต่อ', 'closed')}`, tm.out() ? 'ok' : 'warn'); });
+  ED.summary($('sumA'), { head: [['แบบ', 'kind'], ['เมื่อเริ่มสั่ง', 'when the command starts'], ['เมื่อเลิกสั่ง', 'when the command ends'], ['สั่งสั้นกว่าเวลาที่ตั้ง', 'command shorter than the set time']],
+    rows: () => [[ED.tt(C4.FN.on.name), t('รอครบเวลาที่ตั้งแล้วจึงเปลี่ยน', 'waits for the set time, then changes'), t('กลับทันที', 'returns at once'), `<span class="rk-warn">${t('ไม่เปลี่ยนเลย', 'nothing changes')}</span>`],
+      [ED.tt(C4.FN.off.name), t('เปลี่ยนทันที', 'changes at once'), t('ค้างอีกเท่าเวลาที่ตั้งแล้วจึงกลับ', 'stays changed for the set time, then returns'), t('เปลี่ยน และค้างหลังเลิกสั่งเต็มเวลาที่ตั้ง', 'changes, and stays the full set time after the command ends')]],
+    points: [['เวลาที่ตั้งนับจากขอบของสัญญาณ: หน่วงเมื่อป้อนไฟนับจากตอนเริ่มป้อนไฟ หน่วงเมื่อตัดไฟนับจากตอนเลิกสั่ง', 'The set time is counted from an edge of the command: on-delay from the moment it starts, off-delay from the moment it ends.'],
+      ['หน่วงเมื่อป้อนไฟที่ถูกตัดไฟก่อนครบเวลาจะเริ่มนับใหม่จากศูนย์ทุกครั้ง หน่วงเมื่อตัดไฟที่ถูกสั่งซ้ำก่อนครบเวลาก็เริ่มนับใหม่หลังเลิกสั่งครั้งล่าสุด', 'An on-delay timer switched off before the time is up starts again from zero; an off-delay timer commanded again before its time is up starts counting again after the latest command ends.'],
+      ['หน้าสัมผัสปกติปิด 15–16 ทำตรงข้ามกับ 15–18 เสมอ เพราะเป็นหน้าสัมผัสเปลี่ยนทางชุดเดียวกัน', 'The NC contact 15–16 always does the opposite of 15–18, because both belong to one changeover contact.']] });
+  /* B: lamp circuits */
+  const sOn = new RL.Sim($('simOn'), C4.ONDELAY(3), { max: 420 }), sOff = new RL.Sim($('simOff'), C4.OFFDELAY(5), { max: 420 }), pB = $('pB');
+  const logB = new ED.Log($('logB'), [['วงจร', 'circuit'], ['เหตุการณ์', 'event'], ['เวลาที่วัดได้', 'measured time']]);
+  let clk = 0, tOn = null, tOff = null, nb = 0, prevOn = { H1: false, H2: true }, prevOff = false;
+  ui.h2(pB, t('สั่งงาน', 'Control')); const rowB = document.createElement('div'); rowB.className = 'toggles'; pB.appendChild(rowB);
+  const b1 = document.createElement('button'); b1.type = 'button'; b1.className = 'btn on'; b1.textContent = t('วงจรบน: S1 เปิด / ปิด', 'top: S1 on / off'); rowB.appendChild(b1);
+  const b2 = document.createElement('button'); b2.type = 'button'; b2.className = 'btn on'; b2.textContent = t('วงจรล่าง: กด S1', 'bottom: press S1'); rowB.appendChild(b2);
+  b1.addEventListener('click', () => { sOn.toggle('S1'); tOn = clk; });
+  b2.addEventListener('pointerdown', e => { e.preventDefault(); sOff.press('S1', true); }); ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b2.addEventListener(ev, () => { if (sOff.dev.S1.pressed) { sOff.press('S1', false); tOff = clk; } }));
+  sOn.el.addEventListener('click', () => { tOn = clk; });
+  sOff.el.addEventListener('pointerup', () => { tOff = clk; });
+  const stB = ui.status(pB);
+  LS.anim($('simOn'), dt => { clk += dt; sOn.step(dt); sOff.step(dt);
+    const h1 = sOn.dev.H1.energized, h2 = sOn.dev.H2.energized;
+    if (h1 !== prevOn.H1 && tOn !== null) logB.add('b' + (nb++), [t('หน่วงเมื่อป้อนไฟ KT1 (3 s)', 'on-delay KT1 (3 s)'), h1 ? t('H1 ติด H2 ดับ', 'H1 on, H2 off') : t('H1 ดับ H2 ติด', 'H1 off, H2 on'), `${(clk - tOn).toFixed(1)} s ${sOn.dev.S1.on ? t('หลังเปิด S1', 'after S1 on') : t('หลังปิด S1', 'after S1 off')}`], h1 ? 'ok' : 'warn');
+    prevOn = { H1: h1, H2: h2 };
+    const y = sOff.dev.H1.energized; if (y !== prevOff) { logB.add('b' + (nb++), [t('หน่วงเมื่อตัดไฟ KT2 (5 s)', 'off-delay KT2 (5 s)'), y ? t('H1 ติด', 'H1 on') : t('H1 ดับ', 'H1 off'), y ? t('ทันทีที่กด S1', 'as soon as S1 is pressed') : `${tOff !== null ? (clk - tOff).toFixed(1) : '—'} s ${t('หลังปล่อย S1', 'after S1 released')}`], y ? 'ok' : 'warn'); prevOff = y; }
+    const k1 = sOn.dev.KT1, k2 = sOff.dev.KT2, r1 = k1.energized && k1.tOn < k1.T ? k1.T - k1.tOn : 0, r2 = !k2.energized && k2.hold > 0 ? k2.hold : 0;
+    ui.setStatus(stB, t('นับเวลา', 'timing'), `KT1 ${r1 ? t(`เหลือ ${r1.toFixed(1)} s`, `${r1.toFixed(1)} s left`) : '—'} · KT2 ${r2 ? t(`เหลือ ${r2.toFixed(1)} s`, `${r2.toFixed(1)} s left`) : '—'}`, r1 || r2 ? '' : 'wait'); });
+  ED.summary($('sumB'), { head: [['วงจร', 'circuit'], ['สั่ง', 'command'], ['H1', 'H1'], ['H2', 'H2']],
+    rows: () => [[t('บน: หน่วงเมื่อป้อนไฟ 3 s', 'top: on-delay 3 s'), t('เปิด S1', 'S1 on'), t('ติดหลัง 3 s', 'on after 3 s'), t('ดับหลัง 3 s', 'off after 3 s')], [t('บน', 'top'), t('ปิด S1', 'S1 off'), t('ดับทันที', 'off at once'), t('ติดทันที', 'on at once')],
+      [t('ล่าง: หน่วงเมื่อตัดไฟ 5 s', 'bottom: off-delay 5 s'), t('กด S1', 'press S1'), t('ติดทันที', 'on at once'), t('ดับทันที', 'off at once')], [t('ล่าง', 'bottom'), t('ปล่อย S1', 'release S1'), t('ดับหลัง 5 s', 'off after 5 s'), t('ติดหลัง 5 s', 'on after 5 s')]],
+    points: [['วงจรบนเป็นต้นแบบของการเริ่มมอเตอร์ตามลำดับเวลา (บทที่ 6) และการสลับสตาร์-เดลตา (บทที่ 8): หน้าสัมผัส 15–18 สั่งงานขั้นถัดไปเมื่อครบเวลา', 'The top circuit is the model of timed sequence starting (chapter 6) and star-delta changeover (chapter 8): contact 15–18 commands the next step when the time is up.'],
+      ['วงจรล่างเป็นต้นแบบของงานที่ต้องทำต่ออีกพักหนึ่งหลังเลิกสั่ง เช่น ไฟบันได พัดลมระบายความร้อน ปั๊มหล่อลื่นหลังเครื่องหยุด', 'The bottom circuit is the model of anything that must run on after the command ends: stairway lights, cooling fans, lubrication pumps after a machine stops.']] });
+  /* N: symbols and terminals */
+  const sv = (body, w = 70) => IEC.svg(w, 80, body, { max: w, label: 'symbol' });
+  $('syms').innerHTML = `<tr><th>${t('ส่วน', 'part')}</th><th>${t('หน่วงเมื่อป้อนไฟ', 'on-delay')}</th><th>${t('หน่วงเมื่อตัดไฟ', 'off-delay')}</th><th>${t('เลขขั้ว', 'terminals')}</th></tr>` +
+    `<tr><td><b>${t('คอยล์', 'coil')}</b></td><td>${sv(IEC.coil(44, 8, 72, { td: 'on' }))}</td><td>${sv(IEC.coil(44, 8, 72, { td: 'off' }))}</td><td>A1–A2 ${t('(ไฟเลี้ยง)', '(supply)')}</td></tr>` +
+    `<tr><td><b>${t('หน้าสัมผัสปกติเปิด', 'NO contact')}</b></td><td>${sv(IEC.contact(false, 40, 8, 72, { td: 'on' }))}<br><span class="simnote">${t('ต่อช้า (หลังครบเวลา)', 'closes late (after the time)')}</span></td><td>${sv(IEC.contact(false, 40, 8, 72, { td: 'off' }))}<br><span class="simnote">${t('เปิดช้า (หลังเลิกสั่ง)', 'opens late (after the command ends)')}</span></td><td>15–18 ${t('หรือ', 'or')} 67–68</td></tr>` +
+    `<tr><td><b>${t('หน้าสัมผัสปกติปิด', 'NC contact')}</b></td><td>${sv(IEC.contact(true, 40, 8, 72, { td: 'on' }))}<br><span class="simnote">${t('เปิดช้า (หลังครบเวลา)', 'opens late (after the time)')}</span></td><td>${sv(IEC.contact(true, 40, 8, 72, { td: 'off' }))}<br><span class="simnote">${t('ต่อช้า (หลังเลิกสั่ง)', 'closes late (after the command ends)')}</span></td><td>15–16 ${t('หรือ', 'or')} 55–56</td></tr>`;
+  /* worked example */
+  const P = [[1, 6], [7.5, 9.5]];
+  $('exD').innerHTML = C4.timingSVG('on', 3, P, { blank: true });
+  LS.choose($('ask1'), { options: [t('(ก) 4–6 s (ค) 1–9 s และ 7.5–12.5 s รวมเป็น 1–12.5 s', '(a) 4–6 s; (c) 1–9 s and 7.5–12.5 s, i.e. 1–12.5 s'), t('(ก) 1–6 s (ค) 4–6 s', '(a) 1–6 s; (c) 4–6 s'), t('(ก) 4–9 s (ค) 1–6 s', '(a) 4–9 s; (c) 1–6 s')], answer: 0 });
+  LS.stepper($('st1'), { steps: [
+    { why: t('ช่วงแรก: ป้อนไฟที่ 1 s', 'First pulse: energised at 1 s'), body: `<p>${t('หน่วง 3 s จึงต่อที่ 1 + 3 = <b>4 s</b> และกลับทันทีที่ตัดไฟ <b>6 s</b>', 'after 3 s it closes at 1 + 3 = <b>4 s</b> and opens at once when switched off at <b>6 s</b>')}</p>` + C4.timingSVG('on', 3, P) },
+    { why: t('ช่วงที่สองยาวแค่ 2 s', 'The second pulse lasts only 2 s'), body: `<p>${t('ตัดไฟก่อนครบ 3 s ตัวตั้งเวลาเริ่มนับใหม่ หน้าสัมผัสจึงไม่ต่อเลย', 'it is switched off before 3 s, the timer resets, so the contact never closes')}</p>` },
+    { why: t('ถ้าเป็นหน่วงเมื่อตัดไฟ 3 s', 'With a 3 s off-delay instead'), body: `<p>${t('ต่อทันทีที่ 1 s ค้างหลังเลิกสั่งถึง 6 + 3 = 9 s แต่สั่งใหม่ที่ 7.5 s ก่อนหมดเวลา จึงต่อต่อเนื่องจนถึง 9.5 + 3 = <b>12.5 s</b>', 'it closes at once at 1 s and would stay until 6 + 3 = 9 s, but the new command at 7.5 s comes first, so it stays closed until 9.5 + 3 = <b>12.5 s</b>')}</p>` + C4.timingSVG('off', 3, P, { W: 14 }) }],
+    answer: t('(ก) 4–6 s (ข) สั้นกว่าเวลาที่ตั้ง ตัวตั้งเวลาเริ่มนับใหม่ (ค) 1–12.5 s ต่อเนื่อง', '(a) 4–6 s; (b) shorter than the set time, so the timer resets; (c) 1–12.5 s without a break') });
+  ED.mcq('mcq', [
+    { q: t('1) ตัวตั้งเวลาหน่วงเมื่อป้อนไฟ ตั้ง 5 s ป้อนไฟ 3 s แล้วตัด หน้าสัมผัส 15–18 เป็นอย่างไร', '1) An on-delay timer set to 5 s is energised for 3 s. What does contact 15–18 do?'), options: [t('ไม่ต่อเลย', 'never closes'), t('ต่อ 3 s', 'closes for 3 s'), t('ต่อ 2 s', 'closes for 2 s')], answer: 0 },
+    { q: t('2) ตัวตั้งเวลาหน่วงเมื่อตัดไฟ ตั้ง 5 s สั่ง 2 s แล้วเลิกสั่ง หน้าสัมผัส 15–18 ต่อนานเท่าไร', '2) An off-delay timer set to 5 s is commanded for 2 s. How long is 15–18 closed?'), options: ['2 s', '5 s', '7 s'], answer: 2 },
+    { q: t('3) สัญลักษณ์คอยล์ที่มีกล่องเล็กทึบด้านข้างคือคอยล์ของอะไร', '3) A coil with a small filled box beside it belongs to what?'), options: [t('ตัวตั้งเวลาหน่วงเมื่อตัดไฟ', 'an off-delay timer'), t('ตัวตั้งเวลาหน่วงเมื่อป้อนไฟ', 'an on-delay timer'), t('คอนแทกเตอร์ธรรมดา', 'an ordinary contactor')], answer: 0 },
+    { q: t('4) หน้าสัมผัสหน่วงเวลาแบบเปลี่ยนทางของตัวตั้งเวลาใช้เลขขั้วใดตามที่พิมพ์บนตัวจริงในหน้านี้', '4) Which numbers does the timed changeover contact of the real timer on this page carry?'), options: ['13–14', '15–16–18', '95–96–98'], answer: 1 },
+    { q: t('5) งานใดเหมาะกับตัวตั้งเวลาหน่วงเมื่อตัดไฟ', '5) Which job suits an off-delay timer?'), options: [t('พัดลมระบายความร้อนหมุนต่ออีกพักหลังเครื่องหยุด', 'a cooling fan running on after the machine stops'), t('เริ่มมอเตอร์ตัวที่สองหลังตัวแรก 5 s', 'starting a second motor 5 s after the first'), t('ป้องกันมอเตอร์โหลดเกิน', 'protecting a motor against overload')], answer: 0 },
+    { q: t('6) ใน CADe SIMU ทำไมต้องจับเวลาตัวตั้งเวลาด้วยนาฬิกาจับเวลาจริง', '6) Why time a CADe SIMU timer with a real stopwatch?'), options: [t('ความเร็วการจำลองตั้งได้ เวลาในโปรแกรมอาจไม่เท่าเวลาจริง', 'the simulation speed is adjustable, so program time may differ from real time'), t('โปรแกรมไม่มีตัวตั้งเวลา', 'the program has no timers'), t('เพื่อวัดกระแส', 'to measure current')], answer: 0 }]);
+});
+</script>
+</body>
+</html>

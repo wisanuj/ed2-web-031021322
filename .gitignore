@@ -1,0 +1,5 @@
+.DS_Store
+*.swp
+__pycache__/
+_head*.txt
+img/book/_ch4_candidates/

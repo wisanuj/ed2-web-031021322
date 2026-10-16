@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="Electrical Drawing II — Roadmap">เขียนแบบไฟฟ้า 2 — แผนที่การเรียน</title>
+<meta name="description" content="แผนที่การเรียนวิชา 031021322 เขียนแบบไฟฟ้า 2 (Electrical Drawing II) ภาพจำลองแบบโต้ตอบ ใบงาน CADe SIMU และแบบฝึกหัด">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=9"><link rel="stylesheet" href="assets/ed2.css?v=9">
+<script src="assets/stops.js?v=9"></script><script src="assets/shell.js?v=9"></script>
+<script src="assets/lesson.js?v=9"></script><script src="assets/draw.js?v=9"></script><script src="assets/ed.js?v=9"></script><script src="assets/sym.js?v=9"></script><script src="assets/ed1.js?v=9"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="topbar" id="mc-top"></header>
+  <div class="kicker"><span data-l="th">031021322 เขียนแบบไฟฟ้า 2 · Electrical Drawing II</span><span data-l="en">031021322 Electrical Drawing II</span></div>
+  <h1 data-l="th">แผนที่การเรียนเขียนแบบไฟฟ้า 2 <span class="en">Electrical Drawing II Roadmap — from the motor terminal box to a complete drawing set</span></h1>
+  <h1 data-l="en">Electrical Drawing II Roadmap <span class="en">From the motor terminal box to a complete drawing set</span></h1>
+
+  <div class="hero">
+    <div>
+      <p class="lede" data-l="th">สื่อการเรียนวิชาเขียนแบบวงจรควบคุมมอเตอร์ ทุกบทมีภาพจำลองแบบโต้ตอบที่แสดงสิ่งที่โปรแกรมเขียนแบบแสดงไม่ได้ เช่น สนามแม่เหล็กหมุน กระแสเริ่มเดิน และแรงดันที่ขดลวดได้รับ มีโจทย์ที่เปิดเฉลยได้ทีละขั้น และใบงานสำหรับเขียนและจำลองวงจรในโปรแกรม CADe SIMU ตามมาตรฐานสัญลักษณ์ IEC</p>
+      <p class="lede" data-l="en">Interactive lessons for drawing motor control circuits. Every chapter has simulations that show what a drawing program cannot, such as the rotating field, the starting current and the voltage a winding gets; worked problems that open one step at a time; and lab sheets for drawing and simulating the circuits in CADe SIMU with IEC symbols.</p>
+      <div class="meta"><span><b id="mLive">4</b> <span data-l="th">หน้าพร้อมใช้</span><span data-l="en">pages ready</span></span><span><b>13</b> <span data-l="th">บท + โครงงาน</span><span data-l="en">chapters + project</span></span><span><span data-l="th">หน่วยกิต</span><span data-l="en">credits</span> <b>2(1-2-3)</b></span></div>
+    </div>
+    <div class="card"><canvas id="hero"></canvas>
+      <div class="cap" data-l="th">สนามแม่เหล็กหมุนของมอเตอร์ 3 เฟส (หน้า 1.1)</div><div class="cap" data-l="en">The rotating field of a three-phase motor (page 1.1)</div></div>
+  </div>
+
+  <div class="progress">
+    <div class="prow"><span><span data-l="th">ความคืบหน้า:</span><span data-l="en">Progress:</span> <b id="pCount">0 / 4</b> &nbsp;·&nbsp; <a id="pNext" href="#"></a></span><button id="pReset" type="button"><span data-l="th">ล้างความคืบหน้า</span><span data-l="en">Reset progress</span></button></div>
+    <div class="bar"><div class="fill" id="pFill"></div></div>
+  </div>
+
+  <div class="howto" data-l="th"><b>วิธีใช้:</b> อ่านหน้าเว็บของแต่ละบทก่อนคาบ ลองภาพจำลองและโจทย์ แล้วทำใบงานใน CADe SIMU ในคาบปฏิบัติ (ครูแจกใบงานเป็นกระดาษในห้องเรียน) หน้าที่เปิดแล้วจะมีเครื่องหมายถูก (บันทึกในเบราว์เซอร์นี้)</div>
+  <div class="howto" data-l="en"><b>How to use it:</b> read a chapter's pages before class, try the simulations and problems, then do the lab sheet in CADe SIMU in the practical session (lab sheets are handed out on paper in class). Visited pages are ticked (saved in this browser).</div>
+
+  <div class="road" id="road"></div>
+
+  <footer data-l="th">วิชา 031021322 เขียนแบบไฟฟ้า 2 (Electrical Drawing II) · หลักสูตร ปวช. เตรียมวิศวกรรมศาสตร์ไทย-เยอรมัน · ผศ.ดร.วิษณุ จิตวิริยะ · ตำรา: ธนภัทร ไพคำนาม, การควบคุมมอเตอร์ไฟฟ้า; Herman &amp; Seiler, <i>Understanding Motor Controls</i>; Herman, <i>Electric Motor Control</i> · โปรแกรม CADe SIMU (canalPLC)</footer>
+  <footer data-l="en">Course 031021322 Electrical Drawing II · Thai-German pre-engineering programme · Asst. Prof. Dr. Wisanu Jitviriya · Textbooks: Thanaphat Phaikhamnam, <i>Motor Control</i> (in Thai); Herman &amp; Seiler, <i>Understanding Motor Controls</i>; Herman, <i>Electric Motor Control</i> · Drawing program: CADe SIMU (canalPLC)</footer>
+</div>
+<script>
+document.addEventListener('mc:ready', () => {
+  const road = document.getElementById('road'), stops = window.STOPS, stages = window.STAGES, L = MC.lang, pick = (th, en) => MC.t(th, en);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const typeName = { read: pick('หน้าอ่าน', 'Reading'), sim: pick('หน้าโต้ตอบ', 'Interactive'), lab: pick('CADe SIMU และใบงาน', 'CADe SIMU and lab sheet'), soon: pick('กำลังสร้าง', 'In preparation') };
+  const pins = { 1: '1–4', 2: '5–7', 3: '8–10', 4: '11–13', 5: 'P' };
+  let html = '', last = null;
+  for (const s of stops) {
+    if (s.stage !== last) { last = s.stage; const st = stages[s.stage], live = stops.some(x => x.stage === s.stage && !x.soon), pin = pins[s.stage] || '·';
+      html += `<div class="milestone s${s.stage}${live ? '' : ' soon'}"><div class="pin"${pin.length > 2 ? ' style="font-size:13px"' : ''}>${pin}</div><h2>${esc(pick(st.title, st.title_en))}</h2><p>${esc(pick(st.blurb, st.blurb_en))}</p></div>`; }
+    const main = L === 'en' ? s.en : s.title, sub = L === 'en' ? '' : s.en;
+    if (s.soon) { html += `<div class="node soon"><div class="dot"><span>${s.ch}</span></div><div class="stop"><div class="head"><span class="step">${s.ch === 'P' ? pick('โครงงาน', 'Project') : pick('บทที่', 'Chapter') + ' ' + s.ch}</span><span class="type soon">${typeName.soon}</span></div>
+        <h3>${esc(main)}<span class="en">${esc(sub)}</span></h3><p>${esc(pick(s.blurb, s.blurb_en))}</p></div></div>`; continue; }
+    const tags = pick(s.tags, s.tags_en) || s.tags;
+    html += `<div class="node s${s.stage} ${s.type}" data-page="${s.file}"><div class="dot"><span>${s.step}</span></div>
+      <a class="stop" href="${s.file}"><span class="arrow">→</span><div class="head"><span class="step">${pick('หน้า', 'Page')} ${s.step}</span><span class="type ${s.type}">${typeName[s.type]}</span></div>
+      <h3>${esc(main)}<span class="en">${esc(sub)}</span></h3><p>${esc(pick(s.blurb, s.blurb_en))}</p>
+      <div class="goal"><b>${pick('จะทำได้:', 'You will be able to:')}</b> ${esc(pick(s.outcome, s.outcome_en))}</div>
+      <div class="topics">${esc(pick(s.book, s.book_en))}</div><div class="tags">${tags.map(x => `<span class="tag">${esc(x)}</span>`).join('')}</div></a></div>`;
+  }
+  road.innerHTML = html; MC.renderMath(road);
+  const nodes = [...road.querySelectorAll('.node[data-page]')]; document.getElementById('mLive').textContent = nodes.length;
+  function paint() { const v = MC.visited(); let n = 0; nodes.forEach(el => { const d = !!v[el.dataset.page]; el.classList.toggle('visited', d); if (d) n++; });
+    document.getElementById('pCount').textContent = `${n} / ${nodes.length}`; document.getElementById('pFill').style.width = Math.round(100 * n / nodes.length) + '%';
+    const next = nodes.find(el => !v[el.dataset.page]), nx = document.getElementById('pNext');
+    if (next) { nx.innerHTML = pick('หน้าต่อไป: ', 'Next up: ') + '<b>' + next.querySelector('h3').childNodes[0].textContent + '</b>'; nx.href = next.querySelector('a.stop').getAttribute('href'); }
+    else { nx.innerHTML = '<b>' + pick('ทำครบทุกหน้าที่พร้อมแล้ว', 'All ready pages done') + '</b>'; nx.removeAttribute('href'); } }
+  nodes.forEach(el => el.querySelector('a.stop').addEventListener('click', () => MC.markVisited(el.dataset.page)));
+  document.getElementById('pReset').addEventListener('click', () => { MC.resetVisited(); paint(); }); paint();
+  /* hero: the rotating field of page 1.1 */
+  const F = new ED1.Field(document.getElementById('hero'), { motorOnly: true }); F.st.rate = 0.2; LS.anim(document.getElementById('hero'), dt => { F.step(dt); F.draw(); });
+  window.addEventListener('resize', () => F.resize());
+});
+</script>
+</body>
+</html>

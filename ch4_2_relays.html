@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="4.2 — Auxiliary relays">4.2 — รีเลย์ช่วย</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=9"><link rel="stylesheet" href="assets/ed2.css?v=9">
+<script src="assets/stops.js?v=9"></script><script src="assets/shell.js?v=9"></script>
+<script src="assets/lesson.js?v=9"></script><script src="assets/draw.js?v=9"></script><script src="assets/ed.js?v=9"></script><script src="assets/sym.js?v=9"></script><script src="assets/iec.js?v=9"></script><script src="assets/relay.js?v=9"></script><script src="assets/ch2.js?v=9"></script><script src="assets/ch3.js?v=9"></script><script src="assets/ch4.js?v=9"></script><script src="assets/devdata.js?v=9"></script><script src="assets/dev.js?v=9"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">รีเลย์ช่วย: เพิ่มหน้าสัมผัส ค้างวงจร และขาของรีเลย์แบบเสียบ <span class="en">Auxiliary relays: more contacts, latching, and the pins of plug-in relays</span></h1>
+<h1 data-l="en">Auxiliary relays <span class="en">More contacts, latching, and plug-in relay pins</span></h1>
+
+<p class="sub" data-l="th">รีเลย์ช่วย (auxiliary relay หรือ control relay) ทำงานแบบเดียวกับคอนแทกเตอร์ คือป้อนไฟคอยล์แล้วหน้าสัมผัสเปลี่ยน แต่ตัวเล็กกว่าและมีแต่หน้าสัมผัสขนาดเล็กสำหรับวงจรควบคุม ใช้เมื่อหน้าสัมผัสของอุปกรณ์ที่มีอยู่ไม่พอ เมื่อสัญญาณมีกำลังน้อยเกินกว่าจะสั่งคอยล์คอนแทกเตอร์โดยตรง หรือเมื่อต้องการให้สัญญาณหนึ่งสั่งหลายอย่างพร้อมกัน หน้านี้ให้ลองรีเลย์ตัวเดียวสั่งคอนแทกเตอร์สองตัวกับหลอด และอ่านเลขขั้วกับขาของรีเลย์แบบเสียบ</p>
+<p class="sub" data-l="en">An auxiliary (control) relay works like a contactor: energise the coil and the contacts change. But it is smaller and has only small contacts for control circuits. It is used when a device has too few contacts, when a signal is too weak to drive a contactor coil directly, or when one command must do several things at once. This page lets one relay drive two contactors and a lamp, and reads the terminal numbers and pins of plug-in relays.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>หน้าที่</b>: เพิ่มจำนวนหน้าสัมผัส ขยายสัญญาณเล็ก (เช่น เซนเซอร์หรือเอาต์พุตพีแอลซี) ให้สั่งคอยล์คอนแทกเตอร์ได้ แยกวงจรต่างแรงดัน และค้างวงจรด้วยหน้าสัมผัสของตัวเอง</li>
+  <li><b>ชื่อในแบบ</b>: วิชานี้ใช้ KA1, KA2 … (ตำราไทยใช้ K1A แบบ DIN เดิม มาตรฐานใหม่ IEC 81346-2 ใช้ KF) คอยล์ A1–A2 หน้าสัมผัสใช้เลขแบบหน้าสัมผัสช่วย 13–14, 21–22 …</li>
+  <li><b>รีเลย์แบบคอนแทกเตอร์</b> (contactor relay) มี 4 หน้าสัมผัส เช่น 4 NO = 13–14, 23–24, 33–34, 43–44 หรือ 2 NO + 2 NC = 13–14, 21–22, 31–32, 43–44</li>
+  <li><b>รีเลย์แบบเสียบ</b>: ฐาน 8 ขา คอยล์ 2–7 หน้าสัมผัสเปลี่ยนทาง 1 (ร่วม) 4 (ปกติปิด) 3 (ปกติเปิด) และ 8–5–6 ฐาน 11 ขา คอยล์ 2–10 และ 1–4–3, 6–5–7, 11–8–9 รีเลย์รุ่นใหม่พิมพ์เลขแบบ IEC: 11 (ร่วม) 12 (ปกติปิด) 14 (ปกติเปิด) A1–A2</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>Jobs</b>: add contacts, let a weak signal (a sensor or a PLC output) drive a contactor coil, separate circuits at different voltages, and hold a circuit with its own contact.</li>
+  <li><b>Name on drawings</b>: this course uses KA1, KA2 … (the Thai textbook uses the old DIN K1A; the new IEC 81346-2 uses KF). Coil A1–A2; contacts are numbered like auxiliary contacts, 13–14, 21–22 …</li>
+  <li><b>Contactor relays</b> have four contacts, e.g. 4 NO = 13–14, 23–24, 33–34, 43–44, or 2 NO + 2 NC = 13–14, 21–22, 31–32, 43–44.</li>
+  <li><b>Plug-in relays</b>: on an 8-pin base the coil is 2–7 and the changeovers are 1 (common), 4 (NC), 3 (NO) and 8–5–6; on an 11-pin base the coil is 2–10 with 1–4–3, 6–5–7, 11–8–9. Newer relays print IEC numbers: 11 (common), 12 (NC), 14 (NO), A1–A2.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>รีเลย์ช่วยจริง</a><a href="#tA"><b>A</b>รีเลย์ตัวเดียวสั่งหลายอย่าง</a><a href="#tN"><b>N</b>เลขขั้วและขา</a><a href="#ex1"><b>1</b>เลือกรีเลย์</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>Real relays</a><a href="#tA"><b>A</b>One relay, many jobs</a><a href="#tN"><b>N</b>Terminals and pins</a><a href="#ex1"><b>1</b>Choosing a relay</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">รีเลย์ช่วยที่ใช้จริง</h2><h2 data-l="en">Auxiliary relays in use</h2>
+    <div class="src" data-l="th">ตำราไทย บทที่ 3 หัวข้อ 1.3 รูป 3.4 · UMC5 บทที่ 5 รูป 5.1</div><div class="src" data-l="en">Thai textbook ch. 3 §1.3, Fig. 3.4 · UMC5 ch. 5, Fig. 5.1</div></div></div>
+  <div class="story n2">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>รูป 5.1 ของ UMC5 แสดงหลักของรีเลย์: คอยล์พันรอบแกนเหล็ก เมื่อมีไฟ แกนเหล็กดูดอาร์เมเจอร์ที่ยึดหน้าสัมผัสเคลื่อนที่ไว้ หน้าสัมผัสจึงย้ายจากด้านปกติปิดไปด้านปกติเปิด ตัดไฟแล้วสปริงดึงกลับ เป็นหลักเดียวกับคอนแทกเตอร์ในหน้า 4.1 แต่หน้าสัมผัสเล็กกว่ามาก</p>
+        <p>รูป 3.4 ของตำราไทยคือรีเลย์ช่วยแบบคอนแทกเตอร์ซึ่งพบมากในชุดฝึก หน้าตาเหมือนคอนแทกเตอร์แต่มีแต่หน้าสัมผัสช่วย การ์ดด้านล่างเป็นรีเลย์แบบเสียบบนฐานติดราง DIN ซึ่งถอดเปลี่ยนตัวรีเลย์ได้โดยไม่ต้องถอดสาย</p></div>
+      <div class="story-p" data-l="en"><p>UMC5 Fig. 5.1 shows the principle of a relay: the coil sits on an iron core; when energised, the core pulls the armature that carries the moving contact, so the contact moves from the NC side to the NO side, and a spring pulls it back when the coil is switched off. It is the contactor of page 4.1 again, with much smaller contacts.</p>
+        <p>Thai textbook Fig. 3.4 shows contactor-type auxiliary relays, common on training boards: they look like contactors but carry only auxiliary contacts. The card below is a plug-in relay on a DIN-rail socket; the relay can be changed without touching the wiring.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/umc5_fig5_1_relay.jpg" width="1112" height="773" loading="lazy" decoding="async" alt="Relay principle: coil on an iron core, armature with spring, movable contact between NC and NO fixed contacts, shading coil.">
+        <figcaption data-l="th">รูป 5.1 รีเลย์คือโซลินอยด์ที่มีหน้าสัมผัสเคลื่อนที่ติดอยู่ · ที่มา: Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. (Cengage, 2025) บทที่ 5 หน้า 51 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 5.1, a relay is a solenoid with movable contacts attached · source: Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed. (Cengage, 2025), ch. 5, p. 51 · tap to enlarge</figcaption></figure>
+      <figure class="slide md"><img src="img/book/book1_fig3_4_auxrelay.jpg" width="790" height="326" loading="lazy" decoding="async" alt="Thai textbook Fig. 3.4: two contactor-type auxiliary relays.">
+        <figcaption data-l="th">รูป 3.4 รีเลย์ช่วย · ที่มา: ธนภัทร ไพคำนาม, การควบคุมมอเตอร์ไฟฟ้า (2104-2009), บทที่ 3 หน้า 40</figcaption>
+        <figcaption data-l="en">Fig. 3.4, auxiliary relays · source: Thanaphat Phaikhamnam, <i>Motor Control</i> (2104-2009), ch. 3, p. 40</figcaption></figure>
+    </div>
+  </div>
+  <div id="devs" style="margin-top:12px"></div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">รีเลย์ตัวเดียวสั่งคอนแทกเตอร์สองตัวกับหลอด</h2><h2 data-l="en">One relay driving two contactors and a lamp</h2>
+    <div class="src" data-l="th">ใบงานที่ 4 ข้อ 3.4 · UMC5 บทที่ 5 (รีเลย์เพิ่มจำนวนหน้าสัมผัส)</div><div class="src" data-l="en">Lab sheet 4, step 3.4 · UMC5 ch. 5 (relays that multiply contacts)</div></div></div>
+  <p class="lead" data-l="th">กดปุ่มเริ่ม S1 แล้วปล่อย: คอยล์ KA1 มีไฟ หน้าสัมผัส 13–14 ของ KA1 ค้างวงจรไว้ หน้าสัมผัสอีกสามตัว 23–24, 33–34 และ 43–44 สั่งคอนแทกเตอร์ KM1, KM2 และหลอด H1 พร้อมกัน กดปุ่มหยุด S0 ทุกอย่างหยุด สังเกตตารางอ้างอิงใต้คอยล์ KA1 ซึ่งมีหน้าสัมผัสครบ 4 ตัว ทุกการกดจะบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">Press start S1 and let go: coil KA1 is energised, KA1's contact 13–14 holds the circuit, and its other three contacts 23–24, 33–34 and 43–44 drive contactors KM1, KM2 and lamp H1 together. Press stop S0 and everything stops. Note the cross-reference under coil KA1, listing all four contacts. Every press is recorded below.</p>
+  <div class="card sim" style="padding:8px"><div id="simA"></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logA"></div><div id="sumA" style="margin-top:8px"></div></div>
+</section>
+
+<section class="prob" id="tN">
+  <div class="prob-head"><span class="prob-no">N</span><div><h2 data-l="th">เลขขั้วของรีเลย์ช่วยและขาของรีเลย์แบบเสียบ</h2><h2 data-l="en">Relay terminal numbers and plug-in pins</h2>
+    <div class="src" data-l="th">IEC 60947-1 ภาคผนวก L (รหัส 40E/31E/22E ของ EN 50011 เดิมที่ผู้ผลิตยังพิมพ์) · IEC 60947-5-1 · EMC9 หน่วยที่ 7 รูป 7-7 และ 7-8 · UMC5 บทที่ 5</div><div class="src" data-l="en">IEC 60947-1 Annex L (makers still print the 40E/31E/22E codes of the withdrawn EN 50011) · IEC 60947-5-1 · EMC9 unit 7, Figs 7-7 and 7-8 · UMC5 ch. 5</div></div></div>
+  <div class="card solve" style="overflow-x:auto"><table class="tbl" id="relt"></table></div>
+  <div class="story n2" style="margin-top:12px">
+    <div class="story-t"><div class="story-p" data-l="th"><p>รูป 7-7 และ 7-8 ของ EMC9 คือแผนผังขาของรีเลย์ฐานกลม 8 ขาและ 11 ขา มองจากด้านล่างโดยให้บ่าล็อกอยู่ด้านล่าง ขาคอยล์คือ 2–7 และ 2–10 หน้าสัมผัสเปลี่ยนทางแต่ละชุดมีขาร่วมหนึ่งขา ขาปกติปิดหนึ่งขา และขาปกติเปิดหนึ่งขา เวลาเขียนแบบให้เขียนเลขขาจริงของรีเลย์ไว้ที่ปลายหน้าสัมผัส และอ่านจากแผ่นข้อมูลของรุ่นที่ใช้ทุกครั้ง เพราะผู้ผลิตบางรายจัดขาต่างกัน</p></div>
+      <div class="story-p" data-l="en"><p>EMC9 Figs 7-7 and 7-8 are the pin diagrams of 8- and 11-pin round-base relays, seen from below with the key at the bottom. The coil pins are 2–7 and 2–10; each changeover contact has a common pin, an NC pin and an NO pin. On a drawing, write the relay's real pin numbers at the contact ends, and always check them on the data sheet of the model used, because some makers arrange the pins differently.</p></div></div>
+    <div class="story-f">
+      <figure class="slide sm"><img src="img/book/emc9_fig7_7_8pin.jpg" width="689" height="538" loading="lazy" decoding="async" alt="Pin diagram of an 8-pin control relay: coil between pins 2 and 7, changeover contacts 1-3-4 and 8-5-6.">
+        <figcaption data-l="th">รูป 7-7 แผนผังขาของรีเลย์ 8 ขา · ที่มา: Herman, <i>Electric Motor Control</i> 9th ed. (Delmar Cengage, 2010) หน่วยที่ 7 หน้า 89</figcaption>
+        <figcaption data-l="en">Fig. 7-7, 8-pin relay connection diagram · source: Herman, <i>Electric Motor Control</i>, 9th ed. (Delmar Cengage, 2010), unit 7, p. 89</figcaption></figure>
+      <figure class="slide sm"><img src="img/book/emc9_fig7_8_11pin.jpg" width="683" height="668" loading="lazy" decoding="async" alt="Pin diagram of an 11-pin control relay: coil between pins 2 and 10, changeover contacts 1-3-4, 6-5-7 and 11-8-9.">
+        <figcaption data-l="th">รูป 7-8 แผนผังขาของรีเลย์ 11 ขา · ที่มา: Herman (2010) หน่วยที่ 7 หน้า 90</figcaption>
+        <figcaption data-l="en">Fig. 7-8, 11-pin relay connection diagram · source: Herman (2010), unit 7, p. 90</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">เลือกรีเลย์และเขียนเลขขั้ว</h2><h2 data-l="en">Choosing a relay and writing its numbers</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง</div><div class="src" data-l="en">Worked example</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>เซนเซอร์ตรวจชิ้นงานให้หน้าสัมผัสเล็กมาก (ทนกระแสได้น้อย) แต่ต้องสั่งงาน 3 อย่าง: คอนแทกเตอร์สายพาน KM1 หลอดเขียว H1 และต้องตัดหลอดแดง H2 ขณะมีชิ้นงาน (ก) ทำไมจึงไม่ต่อหน้าสัมผัสของเซนเซอร์เข้าคอยล์ KM1 โดยตรง (ข) ใช้รีเลย์ KA1 แบบคอนแทกเตอร์ 4 หน้าสัมผัส ต้องมีกี่ปกติเปิดกี่ปกติปิด (ค) เขียนเลขขั้วของหน้าสัมผัสที่ใช้</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>A part-detection sensor has a very small contact (it can carry little current), but it must do three things: drive conveyor contactor KM1, light green lamp H1, and switch red lamp H2 off while a part is present. (a) Why not wire the sensor contact straight to coil KM1? (b) With a four-contact contactor relay KA1, how many NO and NC contacts are needed? (c) Write the terminal numbers of the contacts used.</p></div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">รีเลย์ช่วย</div><div class="src" data-l="en">Auxiliary relays</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>กด S1 ค้างแล้วกด S0 พร้อมกัน อะไรชนะ เพราะอะไร</li>
+    <li>ในวงจร A ถ้าหน้าสัมผัสค้าง 13–14 หลุด (สายขาด) จะเกิดอะไรขึ้นเมื่อปล่อย S1</li>
+    <li>รีเลย์ 11 ขาในห้องปฏิบัติการของคุณ: ใช้มัลติมิเตอร์หาขาคอยล์และขาร่วม แล้วเทียบกับรูป 7-8</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 3 หัวข้อ 1.3 · Herman, <i>Electric Motor Control</i> 9th ed. หน่วยที่ 7 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 5 · Senty, <i>Motor Control Fundamentals</i> บทที่ 7 · IEC 60947-1 · IEC 60947-5-1</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Hold S1 and press S0 at the same time. Which one wins, and why?</li>
+    <li>In circuit A, if the holding contact 13–14 comes loose (a broken wire), what happens when S1 is released?</li>
+    <li>With the 11-pin relay of your lab, find the coil pins and the common pins with a multimeter and compare them with Fig. 7-8.</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 3 §1.3 · Herman, <i>Electric Motor Control</i>, 9th ed., unit 7 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 5 · Senty, <i>Motor Control Fundamentals</i>, ch. 7 · IEC 60947-1 · IEC 60947-5-1</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui;
+  DEV.mount($('devs'), ['ka']);
+  /* A: one relay, many jobs */
+  const sim = new RL.Sim($('simA'), C4.RELAY(), { max: 760 }), pA = $('pA');
+  const log = new ED.Log($('logA'), [['การกด', 'action'], ['KA1', 'KA1'], ['KM1', 'KM1'], ['KM2', 'KM2'], ['H1', 'H1']]);
+  let n = 0;
+  const on = v => v ? `<span class="rk-ok">${t('มีไฟ', 'on')}</span>` : t('ไม่มีไฟ', 'off');
+  ui.h2(pA, t('สั่งงาน (กดค้าง)', 'Control (hold)'));
+  const row = document.createElement('div'); row.className = 'toggles'; pA.appendChild(row);
+  const hold = (id, lab) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = lab;
+    b.addEventListener('pointerdown', e => { e.preventDefault(); sim.press(id, true); rec(t(`กด ${id}`, `${id} pressed`)); }); ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, () => { if (sim.dev[id].pressed) { sim.press(id, false); rec(t(`ปล่อย ${id}`, `${id} released`)); } })); row.appendChild(b); };
+  const rec = what => { const d = sim.dev; log.add('r' + (n++), [what, on(d.KA1.energized), on(d.KM1.energized), on(d.KM2.energized), on(d.H1.energized)], d.KA1.energized ? 'ok' : 'warn'); };
+  hold('S1', t('S1 เริ่ม', 'S1 start')); hold('S0', t('S0 หยุด', 'S0 stop'));
+  const st = ui.status(pA), show = () => { const e = sim.dev.KA1.energized; ui.setStatus(st, e ? t('KA1 ดูด', 'KA1 closed') : t('KA1 ปล่อย', 'KA1 open'), e ? t('13–14 ค้างวงจร · 23–24 → KM1 · 33–34 → KM2 · 43–44 → H1', '13–14 holds · 23–24 → KM1 · 33–34 → KM2 · 43–44 → H1') : t('กด S1 เพื่อเริ่ม', 'press S1 to start'), e ? 'ok' : 'warn'); };
+  sim.on(show); show();
+  ED.summary($('sumA'), { head: [['การกด', 'action'], ['KA1', 'KA1'], ['KM1, KM2, H1', 'KM1, KM2, H1'], ['เพราะ', 'because']],
+    rows: () => [[t('กด S1 แล้วปล่อย', 'press and release S1'), t('มีไฟค้าง', 'stays on'), t('มีไฟทั้งหมด', 'all on'), t('13–14 ค้างวงจรแทน S1', '13–14 holds the circuit in place of S1')],
+      [t('กด S0', 'press S0'), t('ไม่มีไฟ', 'off'), t('ไม่มีไฟทั้งหมด', 'all off'), t('S0 ตัดทางเดินกระแสของคอยล์ หน้าสัมผัสทุกตัวของ KA1 กลับสภาวะปกติ', 'S0 breaks the coil path, so every KA1 contact returns to normal')],
+      [t('กด S1 กับ S0 พร้อมกัน', 'S1 and S0 together'), t('ไม่มีไฟ', 'off'), t('ไม่มีไฟทั้งหมด', 'all off'), t('S0 อยู่ก่อนกลุ่มปุ่มเริ่ม ปุ่มหยุดจึงชนะเสมอ', 'S0 comes before the start group, so stop always wins')]],
+    points: [['หน้าสัมผัสค้างตัวเองของรีเลย์ทำงานแบบเดียวกับของคอนแทกเตอร์ในวงจร 3 สาย (หน้า 2.4)', 'The relay\'s holding contact works just like a contactor\'s in three-wire control (page 2.4).'],
+      ['รีเลย์ 4 หน้าสัมผัสตัวเดียวทำได้ 4 อย่างพร้อมกัน ถ้าต้องการมากกว่านั้นใช้รีเลย์ตัวที่สองที่สั่งจากรีเลย์ตัวแรก หรือเสียบชุดหน้าสัมผัสเสริม', 'One four-contact relay does four jobs at once; for more, add a second relay driven by the first, or an add-on contact block.'],
+      ['ปุ่มกดเพียงสองตัวกับรีเลย์ตัวเดียวสั่งคอนแทกเตอร์สองตัว เพราะหน้าสัมผัสของรีเลย์เป็นผู้ส่งไฟเข้าคอยล์ ไม่ใช่ปุ่มกด', 'Two push buttons and one relay control two contactors, because the relay contacts, not the buttons, feed the coils.']] });
+  /* N: numbers */
+  $('relt').innerHTML = `<tr><th>${t('ชนิด', 'kind')}</th><th>${t('คอยล์', 'coil')}</th><th>${t('หน้าสัมผัส', 'contacts')}</th></tr>` +
+    [[t('รีเลย์แบบคอนแทกเตอร์ 4 NO', 'contactor relay, 4 NO'), 'A1–A2', '13–14, 23–24, 33–34, 43–44'],
+     [t('รีเลย์แบบคอนแทกเตอร์ 3 NO + 1 NC', 'contactor relay, 3 NO + 1 NC'), 'A1–A2', '13–14, 21–22, 33–34, 43–44'],
+     [t('รีเลย์แบบคอนแทกเตอร์ 2 NO + 2 NC', 'contactor relay, 2 NO + 2 NC'), 'A1–A2', '13–14, 21–22, 31–32, 43–44'],
+     [t('รีเลย์แบบเสียบ 8 ขา (2 ชุดเปลี่ยนทาง)', 'plug-in, 8 pins (2 changeovers)'), '2–7', t('ร่วม 1: ปกติปิด 4 ปกติเปิด 3 · ร่วม 8: ปกติปิด 5 ปกติเปิด 6', 'common 1: NC 4, NO 3 · common 8: NC 5, NO 6')],
+     [t('รีเลย์แบบเสียบ 11 ขา (3 ชุดเปลี่ยนทาง)', 'plug-in, 11 pins (3 changeovers)'), '2–10', t('ร่วม 1: 4/3 · ร่วม 6: 5/7 · ร่วม 11: 8/9 (ปกติปิด/ปกติเปิด)', 'common 1: 4/3 · common 6: 5/7 · common 11: 8/9 (NC/NO)')],
+     [t('รีเลย์ที่พิมพ์เลขแบบ IEC', 'relay printed with IEC numbers'), 'A1–A2', t('11 ร่วม 12 ปกติปิด 14 ปกติเปิด · ชุดถัดไป 21–22–24, 31–32–34 …', '11 common, 12 NC, 14 NO · next sets 21–22–24, 31–32–34 …')]].map(r => `<tr><td><b>${r[0]}</b></td><td><code>${r[1]}</code></td><td>${r[2]}</td></tr>`).join('');
+  /* worked example */
+  LS.choose($('ask1'), { options: [t('(ข) 2 NO + 1 NC (ค) 13–14, 23–24, 31–32', '(b) 2 NO + 1 NC; (c) 13–14, 23–24, 31–32'), t('(ข) 3 NC (ค) 11–12, 21–22, 31–32', '(b) 3 NC; (c) 11–12, 21–22, 31–32'), t('(ข) 1 NO (ค) 13–14', '(b) 1 NO; (c) 13–14')], answer: 0 });
+  LS.stepper($('st1'), { steps: [
+    { why: t('หน้าสัมผัสของเซนเซอร์ทนกระแสน้อย', 'The sensor contact carries little current'), body: `<p>${t('คอยล์คอนแทกเตอร์ไฟสลับกินกระแสเริ่มดูดสูงหลายเท่า (หน้า 4.1) หน้าสัมผัสเล็กจะไหม้หรือติดกัน จึงให้เซนเซอร์สั่งคอยล์รีเลย์ KA1 ซึ่งกินกระแสน้อย แล้วให้หน้าสัมผัสของรีเลย์สั่งงานแทน', 'an AC contactor coil draws a high inrush current (page 4.1) that would burn or weld the small contact, so the sensor drives the low-current coil of relay KA1, and the relay contacts do the work')}</p>` },
+    { why: t('นับงานที่ต้องสั่ง', 'Count the jobs'), body: `<p>${t('KM1 ต้องมีไฟเมื่อมีชิ้นงาน = ปกติเปิด · H1 ติดเมื่อมีชิ้นงาน = ปกติเปิด · H2 ดับเมื่อมีชิ้นงาน = <b>ปกติปิด</b> รวม 2 NO + 1 NC (เหลือหน้าสัมผัสว่าง 1 ตัว)', 'KM1 on with a part = NO · H1 lit with a part = NO · H2 off with a part = <b>NC</b>: 2 NO + 1 NC in all (one contact spare)')}</p>` },
+    { why: t('เลขขั้ว', 'Terminal numbers'), body: `<p>${t('ใช้ลำดับของรีเลย์: <b>13–14</b> → KM1, <b>23–24</b> → H1, <b>31–32</b> → H2 (เลขจริงขึ้นกับรุ่นของรีเลย์ ดูที่พิมพ์บนตัว)', 'in the relay\'s order: <b>13–14</b> → KM1, <b>23–24</b> → H1, <b>31–32</b> → H2 (the real numbers depend on the relay model; read them on the case)')}</p>` }],
+    answer: t('(ก) กระแสคอยล์สูงเกินหน้าสัมผัสเซนเซอร์ (ข) 2 NO + 1 NC (ค) 13–14, 23–24, 31–32', '(a) the coil current is too high for the sensor contact; (b) 2 NO + 1 NC; (c) 13–14, 23–24, 31–32') });
+  ED.mcq('mcq', [
+    { q: t('1) รีเลย์ช่วยต่างจากคอนแทกเตอร์อย่างไร', '1) How does an auxiliary relay differ from a contactor?'), options: [t('มีแต่หน้าสัมผัสขนาดเล็กสำหรับวงจรควบคุม', 'it has only small contacts for control circuits'), t('ไม่มีคอยล์', 'it has no coil'), t('ใช้ตัดไฟเข้ามอเตอร์โดยตรง', 'it switches the motor supply directly')], answer: 0 },
+    { q: t('2) วิชานี้ตั้งชื่อรีเลย์ช่วยตัวที่ 2 ว่าอะไร', '2) In this course, what is the second auxiliary relay called?'), options: ['KM2', 'KA2', 'K2A'], answer: 1 },
+    { q: t('3) รีเลย์แบบเสียบ 8 ขา ขาคอยล์คือขาใด', '3) Which are the coil pins of an 8-pin plug-in relay?'), options: ['1–8', '2–7', '3–6'], answer: 1 },
+    { q: t('4) รีเลย์ที่พิมพ์เลขแบบ IEC ขา 11, 12, 14 คืออะไร', '4) On a relay with IEC numbers, what are pins 11, 12 and 14?'), options: [t('ร่วม ปกติปิด ปกติเปิด', 'common, NC, NO'), t('ปกติเปิด ปกติปิด ร่วม', 'NO, NC, common'), t('คอยล์ทั้งหมด', 'all coil')], answer: 0 },
+    { q: t('5) ทำไมจึงใช้รีเลย์ระหว่างเซนเซอร์หน้าสัมผัสเล็กกับคอยล์คอนแทกเตอร์', '5) Why put a relay between a small sensor contact and a contactor coil?'), options: [t('หน้าสัมผัสเล็กทนกระแสคอยล์คอนแทกเตอร์ไม่ได้', 'the small contact cannot handle the contactor coil current'), t('เพื่อหน่วงเวลา', 'to add a delay'), t('เพื่อป้องกันลัดวงจร', 'for short-circuit protection')], answer: 0 },
+    { q: t('6) ในวงจร A กด S1 กับ S0 พร้อมกัน ผลคืออะไร', '6) In circuit A, S1 and S0 are pressed together. What happens?'), options: [t('KA1 ไม่มีไฟ ปุ่มหยุดชนะ', 'KA1 stays off: stop wins'), t('KA1 มีไฟ ปุ่มเริ่มชนะ', 'KA1 comes on: start wins'), t('ฟิวส์ขาด', 'the fuse blows')], answer: 0 }]);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="2.2 — Terminal numbers">2.2 — เลขขั้วอุปกรณ์</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=9"><link rel="stylesheet" href="assets/ed2.css?v=9">
+<script src="assets/stops.js?v=9"></script><script src="assets/shell.js?v=9"></script>
+<script src="assets/lesson.js?v=9"></script><script src="assets/draw.js?v=9"></script><script src="assets/ed.js?v=9"></script><script src="assets/sym.js?v=9"></script><script src="assets/iec.js?v=9"></script><script src="assets/relay.js?v=9"></script><script src="assets/ch2.js?v=9"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">เลขขั้วอุปกรณ์: 13–14, 21–22, 95–96, A1–A2 <span class="en">Terminal numbers: 13–14, 21–22, 95–96, A1–A2</span></h1>
+<h1 data-l="en">Terminal numbers <span class="en">13–14, 21–22, 95–96, A1–A2</span></h1>
+
+<p class="sub" data-l="th">บนตัวคอนแทกเตอร์ โอเวอร์โหลด ปุ่มกด และตัวตั้งเวลาทุกตัว มีเลขพิมพ์กำกับไว้ที่ขั้วต่อสาย เลขเหล่านี้ไม่ได้ตั้งขึ้นตามใจผู้ผลิต แต่เป็นไปตามมาตรฐาน IEC 60947 จึงบอกได้ทันทีว่าหน้าสัมผัสคู่ไหนเป็นปกติเปิดหรือปกติปิด อยู่ลำดับที่เท่าไร และเป็นของอุปกรณ์ป้องกันหรือไม่ แบบที่ดีต้องเขียนเลขขั้วกำกับทุกจุด เพื่อให้คนต่อสายต่อได้ถูกโดยไม่ต้องเปิดอุปกรณ์ดู</p>
+<p class="sub" data-l="en">Every contactor, overload relay, push button and timer has numbers printed at its terminals. They are not the maker's whim but follow IEC 60947, so they tell at once whether a contact is normally open or closed, which position it has, and whether it belongs to a protective device. A good drawing writes the terminal numbers everywhere, so that whoever wires it gets it right without opening the device.</p>
+<div class="equation-box eqwrap"><table class="tbl" style="max-width:720px;margin:0 auto" id="rules"></table></div>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>หน้าสัมผัสหลัก</b> (วงจรกำลัง) ใช้เลขหลักเดียว 1–2, 3–4, 5–6 เลขคี่อยู่ด้านแหล่งจ่าย (L1 L2 L3) เลขคู่อยู่ด้านมอเตอร์ (T1 T2 T3)</li>
+  <li><b>หน้าสัมผัสช่วย</b> ใช้เลขสองหลัก: <b>หลักแรก = ลำดับ</b> ของหน้าสัมผัสบนอุปกรณ์ (1, 2, 3, …) <b>หลักหลัง = หน้าที่</b>: 1–2 ปกติปิด, 3–4 ปกติเปิด, 5–6 และ 7–8 หน้าที่พิเศษ เช่น หน่วงเวลา</li>
+  <li><b>เลขหลักแรก 9</b> สงวนไว้ให้อุปกรณ์ป้องกัน: โอเวอร์โหลด 95–96 (ปกติปิด ตัดวงจรควบคุม) และ 97–98 (ปกติเปิด ใช้ต่อหลอดเตือน)</li>
+  <li><b>คอยล์</b> ใช้ A1–A2 เสมอ และหลอดสัญญาณใช้ X1–X2 ใน CADe SIMU เลขเริ่มต้นของหน้าสัมผัสช่วยปกติปิดคือ 11–12 ซึ่งถูกเมื่อเป็นหน้าสัมผัสชุดแรก แต่ถ้าเป็นชุดที่สองต้องแก้เป็น 21–22</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>Main contacts</b> (power circuit) use one-digit numbers 1–2, 3–4, 5–6: odd numbers on the supply side (L1 L2 L3), even numbers on the motor side (T1 T2 T3).</li>
+  <li><b>Auxiliary contacts</b> use two digits: the <b>first digit = position</b> of the contact on the device (1, 2, 3, …), the <b>second digit = function</b>: 1–2 normally closed, 3–4 normally open, 5–6 and 7–8 special functions such as timing.</li>
+  <li><b>A first digit 9</b> is reserved for protective devices: overload 95–96 (normally closed, breaks the control circuit) and 97–98 (normally open, for a warning lamp).</li>
+  <li><b>Coils</b> are always A1–A2 and signal lamps X1–X2. CADe SIMU numbers a new normally closed auxiliary contact 11–12, which is right for the first contact element; for the second one change it to 21–22.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#tA"><b>A</b>ป้ายข้างอุปกรณ์จริง</a><a href="#ex1"><b>1</b>ชุดหน้าสัมผัสเสริม</a><a href="#ex2"><b>2</b>ปุ่มกดสองชุด</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#tA"><b>A</b>Labels on real devices</a><a href="#ex1"><b>1</b>An add-on contact block</a><a href="#ex2"><b>2</b>A two-element push button</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">อ่านป้ายเลขขั้วข้างอุปกรณ์</h2><h2 data-l="en">Reading the terminal label on a device</h2>
+    <div class="src" data-l="th">IEC 60947-4-1 และ 60947-5-1 · ตำราไทย บทที่ 3 หน้า 39 · Senty บทที่ 11 และหน้า 162</div><div class="src" data-l="en">IEC 60947-4-1 and 60947-5-1 · Thai textbook ch. 3, p. 39 · Senty ch. 11 and p. 162</div></div></div>
+  <p class="lead" data-l="th">ผู้ผลิตพิมพ์แบบวงจรย่อของอุปกรณ์ไว้ข้างตัวอุปกรณ์ หน้าตาเหมือนภาพด้านล่าง เลือกอุปกรณ์ แล้วแตะหน้าสัมผัสหรือคอยล์เพื่ออ่านว่าเลขขั้วแต่ละคู่บอกอะไร</p>
+  <p class="lead" data-l="en">Makers print a small circuit of the device on its side, much like the picture below. Pick a device, then tap a contact or the coil to read what each pair of numbers says.</p>
+  <div class="duo"><div class="card solve"><div id="dev"></div></div><div class="card solve"><div id="devHelp"></div></div></div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">ชุดหน้าสัมผัสเสริมด้านหน้าคอนแทกเตอร์</h2><h2 data-l="en">A front add-on contact block</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · ตามชุดหน้าสัมผัสเสริมแบบ 2 NO + 2 NC ที่ขายทั่วไป</div><div class="src" data-l="en">Worked example · a common 2 NO + 2 NC add-on block</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>คอนแทกเตอร์ KM1 มีหน้าสัมผัสช่วยในตัว 1 ชุด (ปกติเปิด 13–14) ติดชุดหน้าสัมผัสเสริมด้านหน้า 4 ชุด เรียงจากซ้าย: ปกติเปิด ปกติปิด ปกติปิด ปกติเปิด ผู้ผลิตเริ่มนับลำดับของชุดเสริมที่ 5 เพื่อไม่ให้ชนกับเลขในตัว จงเขียนเลขขั้วของหน้าสัมผัสเสริมทั้ง 4 ชุด</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>Contactor KM1 has one built-in auxiliary contact (normally open, 13–14). A front block adds four contacts, from the left: NO, NC, NC, NO. The maker starts the position digits of the block at 5 so that they do not clash with the built-in contacts. Write the terminal numbers of the four block contacts.</p></div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="ex2">
+  <div class="prob-head"><span class="prob-no">2</span><div><h2 data-l="th">ปุ่มกดที่มีหน้าสัมผัสสองชุด</h2><h2 data-l="en">A push button with two contact elements</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · ใช้ในบทที่ 7 (อินเตอร์ล็อกด้วยปุ่มกด)</div><div class="src" data-l="en">Worked example · used in chapter 7 (push-button interlock)</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>ปุ่มกด S2 มีหน้าสัมผัสสองชุดซ้อนกัน ชุดแรกเป็นปกติเปิด ชุดที่สองเป็นปกติปิด จงเขียนเลขขั้วของทั้งสองชุด</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>Push button S2 carries two stacked contact elements: the first normally open, the second normally closed. Write the terminal numbers of both.</p></div>
+  <div class="card solve"><div id="ask2"></div><div id="st2"></div></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">ใส่เลขขั้วตัวแรกและตัวหลัง</div><div class="src" data-l="en">Enter the first and second terminal numbers</div></div></div>
+  <div class="card"><div id="quiz"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>เลือกโอเวอร์โหลดรีเลย์ในส่วน A แล้วแตะ 95–96 และ 97–98: ทั้งคู่ขึ้นต้นด้วย 9 แต่หน้าที่ตรงข้ามกัน</li>
+    <li>เลือกตัวตั้งเวลา: หน้าสัมผัสหน่วงเวลาใช้เลขหลังเป็น 5–6 และ 7–8 ไม่ใช่ 1–2 และ 3–4</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 3 หน้า 39 · Senty, <i>Motor Control Fundamentals</i> บทที่ 11 และหน้า 162, 169–170 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 5 · IEC 60947-4-1, IEC 60947-5-1</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Choose the overload relay in section A and tap 95–96 and 97–98: both start with 9 but do opposite jobs.</li>
+    <li>Choose the timer: its timed contacts end in 5–6 and 7–8, not 1–2 and 3–4.</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 3, p. 39 · Senty, <i>Motor Control Fundamentals</i>, ch. 11 and pp. 162, 169–170 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 5 · IEC 60947-4-1, IEC 60947-5-1</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id);
+  $('rules').innerHTML = `<tr><th>${t('เลขหลักหลัง', 'second digit')}</th><th>${t('หน้าที่', 'function')}</th><th>${t('ตัวอย่าง', 'example')}</th></tr>` +
+    [['1–2', t('ปกติปิด (NC)', 'normally closed (NC)'), '11–12, 21–22'], ['3–4', t('ปกติเปิด (NO)', 'normally open (NO)'), '13–14, 23–24'], ['5–6', t('ปกติปิด หน้าที่พิเศษ (หน่วงเวลา)', 'NC, special (timed)'), '55–56'],
+     ['7–8', t('ปกติเปิด หน้าที่พิเศษ (หน่วงเวลา)', 'NO, special (timed)'), '67–68'], ['95–96 / 97–98', t('หน้าสัมผัสโอเวอร์โหลด NC / NO', 'overload contacts NC / NO'), '95–96, 97–98'], ['A1–A2', t('คอยล์', 'coil'), 'A1–A2'], ['1–2, 3–4, 5–6', t('หน้าสัมผัสหลัก (เลขหลักเดียว)', 'main contacts (one digit)'), '1/L1–2/T1']]
+      .map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
+  C2.deviceWidget($('dev'), $('devHelp'));
+  LS.ask($('ask1'), { fields: [{ label: t('ชุดที่ 1 (NO):', 'contact 1 (NO):'), ok: x => x === 53, w: 3 }, { label: '–', ok: x => x === 54, w: 3 }, { label: t('ชุดที่ 2 (NC):', 'contact 2 (NC):'), ok: x => x === 61, w: 3 }, { label: '–', ok: x => x === 62, w: 3 }],
+    check: v => (v[0] === 13 || v[0] === 23 ? t('ชุดเสริมเริ่มนับลำดับที่ 5 ตามโจทย์', 'the block starts its position digits at 5') : '') });
+  LS.stepper($('st1'), { steps: [
+    { why: t('หลักแรก = ลำดับ: ชุดเสริม 4 ชุดได้ลำดับ 5, 6, 7, 8', 'First digit = position: the four block contacts are positions 5, 6, 7, 8'), body: '' },
+    { why: t('หลักหลัง = หน้าที่: ปกติเปิด 3–4 ปกติปิด 1–2', 'Second digit = function: NO 3–4, NC 1–2'), body: `<table class="tbl"><tr><th>${t('ชุด', 'contact')}</th><th>${t('ชนิด', 'type')}</th><th>${t('เลขขั้ว', 'numbers')}</th></tr><tr><td>5</td><td>NO</td><td><b>53–54</b></td></tr><tr><td>6</td><td>NC</td><td><b>61–62</b></td></tr><tr><td>7</td><td>NC</td><td><b>71–72</b></td></tr><tr><td>8</td><td>NO</td><td><b>83–84</b></td></tr></table>` },
+    { why: t('ตรวจกับของจริง', 'Check against the real device'), body: `<p>${t('เลือก "คอนแทกเตอร์ KM1 + ชุดหน้าสัมผัสช่วยด้านหน้า" ในส่วน A: เลขตรงกันทุกคู่', 'Choose "contactor KM1 + front auxiliary block" in section A: every pair matches.')}</p>` }],
+    answer: t('53–54, 61–62, 71–72, 83–84', '53–54, 61–62, 71–72, 83–84') });
+  LS.ask($('ask2'), { fields: [{ label: t('ชุดแรก (NO):', 'first (NO):'), ok: x => x === 13, w: 3 }, { label: '–', ok: x => x === 14, w: 3 }, { label: t('ชุดที่สอง (NC):', 'second (NC):'), ok: x => x === 21, w: 3 }, { label: '–', ok: x => x === 22, w: 3 }],
+    check: v => (v[2] === 11 ? t('11–12 คือ NC ชุดแรก แต่ชุดนี้เป็นชุดที่สอง', '11–12 is a first-position NC; this is the second element') : '') });
+  LS.stepper($('st2'), { steps: [
+    { why: t('ชุดแรก (ลำดับ 1) เป็นปกติเปิด', 'First element (position 1), normally open'), body: '<p><b>13–14</b></p>' },
+    { why: t('ชุดที่สอง (ลำดับ 2) เป็นปกติปิด', 'Second element (position 2), normally closed'), body: '<p><b>21–22</b></p>' }],
+    answer: t('13–14 และ 21–22', '13–14 and 21–22') });
+  ED.quiz('quiz', [
+    { q: t('1) หน้าสัมผัสปกติเปิดลำดับที่ 3 ของรีเลย์ช่วย KA1', '1) The normally open contact in position 3 of relay KA1'), fields: [{ key: 'a', lab: '', ans: 33, tol: 0 }, { key: 'b', lab: '–', ans: 34, tol: 0 }] },
+    { q: t('2) หน้าสัมผัสปกติปิดลำดับที่ 4', '2) The normally closed contact in position 4'), fields: [{ key: 'a', lab: '', ans: 41, tol: 0 }, { key: 'b', lab: '–', ans: 42, tol: 0 }] },
+    { q: t('3) หน้าสัมผัสปกติเปิดของโอเวอร์โหลดรีเลย์ (ต่อหลอดเตือน)', '3) The normally open contact of an overload relay (for the warning lamp)'), fields: [{ key: 'a', lab: '', ans: 97, tol: 0 }, { key: 'b', lab: '–', ans: 98, tol: 0 }] },
+    { q: t('4) หน้าสัมผัสหน่วงเวลาปกติเปิดของชุดตัวตั้งเวลา (ลำดับที่ 6)', '4) The timed normally open contact of a timer block (position 6)'), fields: [{ key: 'a', lab: '', ans: 67, tol: 0 }, { key: 'b', lab: '–', ans: 68, tol: 0 }] },
+    { q: t('5) ขั้วด้านมอเตอร์ของหน้าสัมผัสหลักเฟส L2', '5) The motor-side terminal of the main contact in phase L2'), fields: [{ key: 'a', lab: '', ans: 4, tol: 0 }], work: `<p>${t('4/T2 (เลขคู่ด้านมอเตอร์)', '4/T2 (even number, motor side)')}</p>` }]);
+});
+</script>
+</body>
+</html>

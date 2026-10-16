@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="1.4 — Getting started with CADe SIMU">1.4 — เริ่มใช้ CADe SIMU</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=9"><link rel="stylesheet" href="assets/ed2.css?v=9">
+<script src="assets/stops.js?v=9"></script><script src="assets/shell.js?v=9"></script>
+<script src="assets/lesson.js?v=9"></script><script src="assets/draw.js?v=9"></script><script src="assets/ed.js?v=9"></script><script src="assets/sym.js?v=9"></script><script src="assets/ed1.js?v=9"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">เริ่มใช้ CADe SIMU และใบงานที่ 1 <span class="en">Getting started with CADe SIMU, and lab sheet 1</span></h1>
+<h1 data-l="en">Getting started with CADe SIMU <span class="en">And lab sheet 1</span></h1>
+
+<p class="sub" data-l="th">CADe SIMU เป็นโปรแกรมฟรีสำหรับเขียนแบบและจำลองวงจรควบคุมไฟฟ้าด้วยสัญลักษณ์แบบ IEC พัฒนาโดยผู้เขียนบล็อก canalPLC จากสเปน วิชานี้ใช้ CADe SIMU เขียนแบบทุกบท เพราะเมื่อวาดเสร็จ กดจำลองแล้วจะรู้ทันทีว่าวงจรทำงานตามที่ตั้งใจหรือไม่ หน้านี้แนะนำหน้าต่างของโปรแกรม การตั้งค่าครั้งแรก และวงจรแรก: แหล่งจ่าย 3 เฟส ฟิวส์ เบรกเกอร์ และมอเตอร์ ใบงานที่ 1 ครูแจกในคาบปฏิบัติ</p>
+<p class="sub" data-l="en">CADe SIMU is a free program for drawing and simulating electrical control circuits with IEC-style symbols, written by the author of the Spanish canalPLC blog. This course uses it for every drawing, because once a circuit is drawn a press of the simulate button shows at once whether it works as intended. This page tours the program window, the first-time settings and a first circuit: a three-phase supply, fuses, a circuit breaker and a motor. Lab sheet 1 is handed out in class.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>ใช้รุ่นเดียวกันทั้งห้อง</b>: ใช้ไฟล์โปรแกรมที่ครูแจก (ผู้พัฒนาส่งลิงก์ดาวน์โหลดให้ทางอีเมลจากบล็อก canalPLC) เว็บดาวน์โหลดอื่นส่วนใหญ่ไม่ใช่ของผู้พัฒนา CADe SIMU ใช้ได้เฉพาะ Windows และไม่ต้องติดตั้ง: แตกไฟล์แล้วเปิดได้เลย</li>
+  <li><b>อุปกรณ์ผูกกันด้วยชื่อ</b>: คอยล์ชื่อ KM1 สั่งหน้าสัมผัสทุกตัวที่ชื่อ KM1 ชื่ออุปกรณ์จึงห้ามซ้ำกัน เช่น มีเบรกเกอร์ CB แล้ว ตัวที่สองต้องชื่อ CB1</li>
+  <li><b>จำลองได้แค่เปิด–ปิด</b>: สายที่มีไฟเปลี่ยนสี มอเตอร์แสดงทิศหมุน และโปรแกรมหยุดพร้อมเตือนเมื่อลัดวงจร แต่ไม่คำนวณแรงดันหรือกระแส ตัวเลขเหล่านั้นดูได้จากหน้าเว็บของวิชา</li>
+  <li><b>บันทึกเป็น .cad</b> โดยพิมพ์นามสกุลเองเมื่อบันทึกครั้งแรก และกรอกกรอบชื่อแบบ (title block) ทุกแผ่น ซึ่งโปรแกรมใช้คำภาษาสเปน</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>Everyone uses the same version</b>: the copy the instructor hands out (the author sends download links by e-mail from the canalPLC blog); most other download sites are not the author's. CADe SIMU runs on Windows only and needs no installer: unzip and run.</li>
+  <li><b>Devices are linked by name</b>: a coil named KM1 drives every contact named KM1, so names must not repeat. With one breaker named CB, a second one must be CB1.</li>
+  <li><b>It simulates on/off only</b>: live wires change colour, the motor shows its direction, and the program stops with a warning on a short circuit, but it calculates no voltages or currents. Those numbers are on the course web pages.</li>
+  <li><b>Save as .cad</b>, typing the extension yourself the first time, and fill in the title block of every sheet; the program labels it in Spanish.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>หน้าต่างโปรแกรม</a><a href="#tA"><b>A</b>ตั้งค่าครั้งแรก</a><a href="#tB"><b>B</b>วงจรแรก</a><a href="#tT"><b>T</b>กรอบชื่อแบบ</a><a href="#tL"><b>L</b>ใบงานที่ 1</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>The program window</a><a href="#tA"><b>A</b>First-time settings</a><a href="#tB"><b>B</b>A first circuit</a><a href="#tT"><b>T</b>The title block</a><a href="#tL"><b>L</b>Lab sheet 1</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">หน้าต่างของ CADe SIMU</h2><h2 data-l="en">The CADe SIMU window</h2>
+    <div class="src" data-l="th">ภาพหน้าจอจากเอกสารอบรม "การเขียนแบบและต่อตู้คอนโทรล" 2568 ของสาขา</div><div class="src" data-l="en">Screenshot from the department's 2025 training notes on drawing and wiring control panels</div></div></div>
+  <div class="story n2">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>เมื่อเปิดโปรแกรม จะเห็นแผ่นเขียนแบบที่มีกรอบ ตารางพิกัด A–H กับ 1–5 และกรอบชื่อแบบที่มุมล่าง ส่วนประกอบของหน้าต่าง:</p>
+        <ul><li><b>แถบเมนู</b> File, Edit, Draw, Mode, View, Bars, Window, Help</li>
+          <li><b>แถวเครื่องมือแถวแรก</b>: เปิด บันทึก พิมพ์ คัดลอก และปุ่มจำลอง: <b>สามเหลี่ยมสีเขียว = เริ่มจำลอง</b>, สี่เหลี่ยมสีแดง = หยุด, ปุ่มคู่ = หยุดชั่วคราว</li>
+          <li><b>แถวที่สองและสาม</b>: คลังสัญลักษณ์แยกเป็นกลุ่ม (แหล่งจ่าย อุปกรณ์ป้องกัน มอเตอร์ คอนแทกเตอร์ ปุ่มกด หลอด เซนเซอร์ และสายไฟ) กดปุ่มกลุ่มแล้วเลือกสัญลักษณ์มาวาง</li>
+          <li><b>แถบซ้าย</b>: เครื่องมือวาดเส้น กรอบ วงกลม และข้อความ <b>แถบขวา</b>: สีและความหนาของเส้น</li>
+          <li><b>แถบสถานะด้านล่าง</b>: พิกัดของเมาส์ และโหมด "Edición" (กำลังแก้ไข) หรือ "Stop/Simulación"</li></ul></div>
+      <div class="story-p" data-l="en"><p>When the program opens you see a drawing sheet with a border, grid references A–H and 1–5, and a title block in the bottom corner. The parts of the window:</p>
+        <ul><li><b>Menu bar</b>: File, Edit, Draw, Mode, View, Bars, Window, Help.</li>
+          <li><b>First toolbar row</b>: open, save, print, copy, and the simulation buttons: <b>green triangle = start</b>, red square = stop, double bar = pause.</li>
+          <li><b>Second and third rows</b>: the symbol libraries in groups (supplies, protection, motors, contactors, push buttons, lamps, sensors and wires). Press a group and pick a symbol to place.</li>
+          <li><b>Left bar</b>: tools for lines, rectangles, circles and text. <b>Right bar</b>: line colour and width.</li>
+          <li><b>Status bar</b>: the mouse position and the mode, "Edición" (editing) or "Stop/Simulación".</li></ul></div></div>
+    <div class="story-f"><figure class="slide"><img src="img/cadesimu/main_window.jpg" width="876" height="635" loading="lazy" decoding="async" alt="CADe SIMU main window: menu bar File Edit Draw Mode View Bars Window Help; toolbar rows with file buttons, green start and red stop simulation buttons and symbol library groups; drawing tools on the left; colour palette on the right; an empty A4 sheet with grid references and a title block; status bar showing Edición and Stop.">
+      <figcaption data-l="th">หน้าต่างหลักของ CADe SIMU · จากเอกสารอบรมของสาขา · แตะรูปเพื่อขยาย</figcaption><figcaption data-l="en">CADe SIMU main window · from the department's training notes · tap to enlarge</figcaption></figure></div>
+  </div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">ตั้งค่าครั้งแรก</h2><h2 data-l="en">First-time settings</h2>
+    <div class="src" data-l="th">คู่มือ CADe SIMU · ทำครั้งเดียวต่อเครื่อง</div><div class="src" data-l="en">CADe SIMU manual · once per computer</div></div></div>
+  <div class="duo">
+    <div class="card solve">
+      <ol data-l="th"><li><b>แตกไฟล์</b>ที่ครูแจกลงโฟลเดอร์ที่เขียนไฟล์ได้ (เช่น เดสก์ท็อป) แล้วเปิดไฟล์ .exe ถ้าโปรแกรมถามรหัส รหัสอยู่ในไฟล์ข้อความในโฟลเดอร์เดียวกัน</li>
+        <li><b>ความเร็วจำลอง</b>: เมนู File → Configuration ตั้งความเร็วให้ตัวตั้งเวลานับตรงกับวินาทีจริง (ใช้ในบทที่ 4 เป็นต้นไป) แล้วจับเวลาเทียบ</li>
+        <li><b>แสดงเลขสาย</b>: เปิดตัวเลือกแสดงหมายเลขสาย (Visualizar número de cable) ใช้ในบทที่ 5 ตอนเขียนแบบสายไฟ</li>
+        <li><b>บันทึกครั้งแรก</b>: พิมพ์ชื่อไฟล์พร้อมนามสกุล <code>.cad</code> เอง เช่น <code>65xxxx_ใบงาน1.cad</code></li>
+        <li><b>พิมพ์เป็น PDF</b>: เมนู File → Print แล้วเลือกเครื่องพิมพ์ PDF ของ Windows (Microsoft Print to PDF)</li></ol>
+      <ol data-l="en"><li><b>Unzip</b> the instructor's file into a folder you can write to (the desktop, say) and open the .exe. If it asks for a key, the key is in a text file in the same folder.</li>
+        <li><b>Simulation speed</b>: File → Configuration; set the speed so that timers count real seconds (needed from chapter 4 on), and check it with a stopwatch.</li>
+        <li><b>Show wire numbers</b>: turn on the wire-number option (Visualizar número de cable), needed for wiring diagrams in chapter 5.</li>
+        <li><b>First save</b>: type the file name with the <code>.cad</code> extension yourself, e.g. <code>65xxxx_lab1.cad</code>.</li>
+        <li><b>Print to PDF</b>: File → Print and pick the Windows PDF printer (Microsoft Print to PDF).</li></ol>
+    </div>
+    <div class="card solve">
+      <div class="shot"><span class="sh-t" data-l="th">รอภาพหน้าจอจากครู</span><span class="sh-t" data-l="en">Screenshot to come</span><span class="sh-d" data-l="th">หน้าต่าง File → Configuration ที่ตั้งความเร็วจำลอง</span><span class="sh-d" data-l="en">The File → Configuration window with the simulation speed</span><span class="sh-f">img/cadesimu/c1_settings.png</span></div>
+      <div class="shot"><span class="sh-t" data-l="th">รอภาพหน้าจอจากครู</span><span class="sh-t" data-l="en">Screenshot to come</span><span class="sh-d" data-l="th">ตัวเลือกแสดงหมายเลขสาย และกล่องบันทึกไฟล์ที่พิมพ์ .cad</span><span class="sh-d" data-l="en">The wire-number option and the save dialog with .cad typed</span><span class="sh-f">img/cadesimu/c1_save.png</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">วงจรแรก: แหล่งจ่าย ฟิวส์ เบรกเกอร์ มอเตอร์</h2><h2 data-l="en">A first circuit: supply, fuses, breaker, motor</h2>
+    <div class="src" data-l="th">ใบงานที่ 1 ตอนที่ 3 · ชื่ออุปกรณ์ตามไฟล์ใบงานของรายวิชา</div><div class="src" data-l="en">Lab sheet 1, part 3 · device names as in the course's lab files</div></div></div>
+  <div class="story n4">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>ไฟล์ใบงานแผ่นที่ 2 ที่ครูแจกวางอุปกรณ์ไว้ให้แล้ว: เส้นเมน -X (L1 L2 L3 N PE) ฟิวส์ 3 ขั้ว F เบรกเกอร์ 3 ขั้ว CB และมอเตอร์ -M โดยแต่ละอุปกรณ์มีทั้งสัญลักษณ์ (ซ้าย) และภาพเสมือนจริง (ขวา) งานของนักศึกษาคือ <b>ต่อสาย</b>:</p>
+        <ol><li>ลากสายจากเส้นเมน L1 L2 L3 ลงไปที่ขั้ว 1, 3, 5 ของฟิวส์ F</li>
+          <li>ต่อขั้ว 2, 4, 6 ของฟิวส์ไปขั้ว 1, 3, 5 ของเบรกเกอร์ CB</li>
+          <li>ต่อขั้ว 2, 4, 6 ของเบรกเกอร์ไปขั้ว U1, V1, W1 ของมอเตอร์ และต่อ PE เข้าขั้ว PE</li>
+          <li>กดเริ่มจำลอง แล้วคลิกเบรกเกอร์ให้สับ (ON) ดูสายที่มีไฟเปลี่ยนสีและมอเตอร์หมุน</li>
+          <li>หยุดจำลอง สลับสาย L1 กับ L2 ที่ขั้วมอเตอร์ แล้วจำลองใหม่: มอเตอร์ต้องหมุนกลับทาง (หน้า 1.1)</li></ol>
+        <p>แบบที่อยู่ถัดจากภาพใบงานคือคำตอบที่เขียนตามสัญลักษณ์ IEC: ลำดับจากบนลงล่าง เส้นเมน → ฟิวส์ → เบรกเกอร์ → มอเตอร์ เลขขั้วเขียนกำกับทุกจุด และสายดินเป็นเส้นประสีเขียว</p></div>
+      <div class="story-p" data-l="en"><p>Sheet 2 of the instructor's lab file has the devices already placed: supply rails -X (L1 L2 L3 N PE), a three-pole fuse F, a three-pole breaker CB and a motor -M, each as a symbol (left) and as a picture (right). The student's job is <b>the wiring</b>:</p>
+        <ol><li>Draw wires from rails L1 L2 L3 down to terminals 1, 3, 5 of fuse F.</li>
+          <li>Wire fuse terminals 2, 4, 6 to breaker terminals 1, 3, 5.</li>
+          <li>Wire breaker terminals 2, 4, 6 to motor terminals U1, V1, W1, and PE to the motor's PE terminal.</li>
+          <li>Start the simulation and click the breaker on; watch the live wires change colour and the motor turn.</li>
+          <li>Stop, swap L1 and L2 at the motor terminals and simulate again: the motor must reverse (page 1.1).</li></ol>
+        <p>The drawing next to the lab-file picture is the answer in IEC symbols: from top to bottom, rails → fuses → breaker → motor, every terminal numbered, and the earth as a green dashed line.</p></div></div>
+    <div class="story-f">
+      <figure class="slide"><img src="img/lab/lab1_sheet2.jpg" width="1345" height="857" loading="lazy" decoding="async" alt="Lab sheet 2 in CADe SIMU: supply rails L1 L2 L3 N PE at the top, a three-pole fuse F and a three-pole breaker CB as symbols and as pictures, and a three-phase motor M as a symbol and as a picture, not yet wired; title block at the bottom.">
+        <figcaption data-l="th">ไฟล์ใบงานแผ่นที่ 2 ก่อนต่อสาย · ที่มา: ใบงาน 1 (ไฟล์ CADe SIMU) ของรายวิชา · แตะรูปเพื่อขยาย</figcaption><figcaption data-l="en">Lab sheet 2 before wiring · source: the course's lab sheet 1 (CADe SIMU file) · tap to enlarge</figcaption></figure>
+      <div class="card" style="padding:12px"><div id="dwg" style="max-width:420px;margin:0 auto"></div>
+        <p class="simnote" data-l="th">คำตอบ: วงจรกำลังมอเตอร์ 3 เฟส ผ่านฟิวส์ F และเบรกเกอร์ CB</p><p class="simnote" data-l="en">Answer: three-phase motor power circuit through fuses F and breaker CB</p></div>
+      <div class="shot"><span class="sh-t" data-l="th">รอภาพหน้าจอจากครู</span><span class="sh-t" data-l="en">Screenshot to come</span><span class="sh-d" data-l="th">วงจรนี้ใน CADe SIMU ขณะจำลอง (สายที่มีไฟเปลี่ยนสี มอเตอร์หมุน)</span><span class="sh-d" data-l="en">This circuit in CADe SIMU while simulating (live wires coloured, motor turning)</span><span class="sh-f">img/cadesimu/c1_simulating.png</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="tT">
+  <div class="prob-head"><span class="prob-no">T</span><div><h2 data-l="th">กรอบชื่อแบบ: คำภาษาสเปนแปลว่าอะไร</h2><h2 data-l="en">The title block: what the Spanish words mean</h2>
+    <div class="src" data-l="th">กรอบชื่อแบบมาตรฐานของ CADe SIMU</div><div class="src" data-l="en">CADe SIMU's standard title block</div></div></div>
+  <div class="card solve">
+    <table class="tbl" data-l="th"><tr><th>ช่อง</th><th>ความหมาย</th><th>กรอกอะไร</th></tr>
+      <tr><td>Título</td><td>ชื่อแบบ</td><td>เช่น วงจรกำลังมอเตอร์ 3 เฟส ต่อผ่านฟิวส์และเบรกเกอร์</td></tr>
+      <tr><td>Dibujado · Nombre · Fecha</td><td>ผู้เขียนแบบ · ชื่อ · วันที่</td><td>ชื่อนักศึกษาและวันที่เขียน</td></tr>
+      <tr><td>Comprobado</td><td>ผู้ตรวจแบบ</td><td>เว้นไว้ให้ครูลงชื่อ</td></tr>
+      <tr><td>Firmas</td><td>ลายมือชื่อ</td><td>ลงชื่อเมื่อพิมพ์</td></tr>
+      <tr><td>Entidad</td><td>หน่วยงาน</td><td>ชื่อสถานศึกษาและห้อง</td></tr>
+      <tr><td>Archivo · Núm.</td><td>ชื่อไฟล์ · แผ่นที่</td><td>ชื่อไฟล์ .cad และเลขแผ่น เช่น 1 de 2 (แผ่นที่ 1 จาก 2)</td></tr></table>
+    <table class="tbl" data-l="en"><tr><th>Field</th><th>Meaning</th><th>Fill in</th></tr>
+      <tr><td>Título</td><td>title</td><td>e.g. three-phase motor power circuit through fuses and a breaker</td></tr>
+      <tr><td>Dibujado · Nombre · Fecha</td><td>drawn by · name · date</td><td>the student's name and the date</td></tr>
+      <tr><td>Comprobado</td><td>checked by</td><td>left for the instructor</td></tr>
+      <tr><td>Firmas</td><td>signatures</td><td>signed on the printout</td></tr>
+      <tr><td>Entidad</td><td>organisation</td><td>school name and class</td></tr>
+      <tr><td>Archivo · Núm.</td><td>file · sheet number</td><td>the .cad file name and the sheet number, e.g. 1 de 2 (sheet 1 of 2)</td></tr></table>
+  </div>
+</section>
+
+<section class="prob" id="tL">
+  <div class="prob-head"><span class="prob-no">L</span><div><h2 data-l="th">ใบงานที่ 1</h2><h2 data-l="en">Lab sheet 1</h2>
+    <div class="src" data-l="th">เวลา 2 ชั่วโมง · 100 คะแนน</div><div class="src" data-l="en">2 hours · 100 points</div></div></div>
+  <div class="card solve">
+    <p data-l="th"><b>การอ่านป้ายพิกัด การต่อขั้วมอเตอร์ และการเขียนวงจรกำลังมอเตอร์ด้วย CADe SIMU</b> มี 4 ตอน: (1) อ่านป้ายพิกัดมอเตอร์ในห้องปฏิบัติการและมอเตอร์ 7.5 kW (2) เขียนการต่อสะพานในกล่องขั้ว 4 แบบ (3) ต่อสายและจำลองวงจรกำลังใน CADe SIMU ทั้ง 3 เฟสและ 1 เฟส พร้อมกรอกกรอบชื่อแบบ (4) คำถามท้ายใบงาน ทบทวนหน้า 1.1–1.3 ก่อนทำ</p>
+    <p data-l="en"><b>Reading nameplates, connecting motor terminals and drawing motor power circuits in CADe SIMU</b>, in four parts: (1) read the nameplates of the lab motor and of a 7.5 kW motor; (2) draw the links in the terminal box for four cases; (3) wire and simulate the three-phase and single-phase power circuits in CADe SIMU and fill in the title block; (4) questions. Review pages 1.1–1.3 first.</p>
+    <p class="simnote" data-l="th"><b>ใบงานที่ 1 ครูแจกเป็นกระดาษในคาบปฏิบัติ</b> ไม่มีให้ดาวน์โหลด เตรียมตัวโดยอ่านหน้า 1.1–1.3 และลองภาพจำลองทุกหน้าให้ครบก่อนมาเรียน</p>
+    <p class="simnote" data-l="en"><b>Lab sheet 1 is handed out on paper in the practical session</b>; it is not available for download. Prepare by reading pages 1.1–1.3 and trying every simulation before class.</p>
+  </div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => { document.getElementById('dwg').innerHTML = SY.lab1Power(); });
+</script>
+</body>
+</html>
