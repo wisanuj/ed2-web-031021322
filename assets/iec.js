@@ -28,16 +28,19 @@ function operator(op, x, ym, o) {
   else if (op === 'thr') s += `<path d="M ${xl - 3} ${ym + 6} L ${xl - 3} ${ym} L ${xl + 3} ${ym} L ${xl + 3} ${ym - 6}" fill="none"${c}/>`;
   return s;
 }
-/* contact: NO (make) or NC (break); o.act draws the actuated position */
+/* contact: NO (make) or NC (break); o.act draws the actuated position. Both kinds swing to the RIGHT when actuated (pushed by the operator
+   drawn on the left), so all contacts of one device move the same way, as IEC drawings assume */
 IE.contact = (nc, x, y0, y1, o = {}) => {
   const ym = (y0 + y1) / 2, yt = ym - G, yb = ym + G, col = o.col; let s = L(x, y0, x, yt, { col, cls: o.clsT }) + L(x, yb, x, y1, { col, cls: o.clsB });
   const closed = nc ? !o.act : !!o.act;
   if (nc) s += L(x, yt, x + 9, yt, { col });   // the seat of a break contact
-  if (o.td) {   // timed contact: the "parachute" arc on the blade, opening towards the delayed direction
-    const up = (o.td === 'on') !== nc; s += `<path d="M ${x - 9} ${ym + (up ? 2 : -2)} A 6 6 0 0 ${up ? 1 : 0} ${x + 3} ${ym + (up ? 2 : -2)}" fill="none"${col ? ` stroke="${col}"` : ''}/>`;
-    s += L(x - 3, ym + (up ? 2 : -2), x - 3, ym + (up ? 7 : -7), { col }); }
-  // blade from the lower terminal
-  const tx = closed ? (nc ? x + 9 : x + 1) : (nc ? x - 9 : x - 11), ty = closed ? yt - (nc ? 2 : 0) : yt + 1;
+  // blade from the lower terminal to (tx, ty): NO open leans left, closed stands up; NC closed rests on the seat, open is swung on to the right
+  const tx = nc ? (closed ? x + 9 : x + 15) : (closed ? x + 1 : x - 11), ty = nc ? (closed ? yt - 2 : yt + 3) : (closed ? yt : yt + 1);
+  if (o.td) {   // timed contact: the "parachute" beside the blade on a double stem, the same for NO and NC of one timer function;
+    // movement towards the centre of the arc is delayed (IEC 60617 A00070): on-delay "(" (concave towards the blade), off-delay ")"
+    const xb = x + (tx - x) * (yb - ym) / (yb - ty), xa = Math.min(x, xb) - 12, c = col ? ` stroke="${col}"` : '';
+    s += L(xa, ym - 1.5, xb, ym - 1.5, { col }) + L(xa, ym + 1.5, xb, ym + 1.5, { col });
+    s += o.td === 'on' ? `<path d="M ${f(xa + 5)} ${f(ym - 5)} A 5 5 0 0 0 ${f(xa + 5)} ${f(ym + 5)}" fill="none"${c}/>` : `<path d="M ${f(xa - 5)} ${f(ym - 5)} A 5 5 0 0 1 ${f(xa - 5)} ${f(ym + 5)}" fill="none"${c}/>`; }
   s += L(x, yb, tx, ty, { col, w: 1.6 });
   if (o.op) s += operator(o.op, x - 4, ym, o);
   return s;

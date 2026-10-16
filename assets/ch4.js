@@ -43,7 +43,7 @@ C4.Contactor = class {
       s += `<rect x="${x - w / 2 - 4}" y="${yF}" width="12" height="7" fill="#b9762b" stroke="none"/><rect x="${x + w / 2 - 8}" y="${yF}" width="12" height="7" fill="#b9762b" stroke="none"/>`;
       const yB = (k === 'NO' ? 82 : 84) + dy;
       s += `<line x1="${x}" y1="${yB + 6}" x2="${x}" y2="${108 + dy}" stroke="#59607e" stroke-width="3"/><rect x="${x - w / 2 - 4}" y="${yB}" width="${w + 8}" height="6" rx="2" fill="${col}" stroke="none"/>`;
-      s += IE.T(lab, x, 56, { size: 10, anchor: 'middle', weight: 700 }) + IE.T(i < 3 ? T('หลัก', 'main') : k, x, 68, { size: 9, anchor: 'middle', col: 'var(--muted)' });
+      s += IE.T(lab, x, 56, { size: 10, anchor: 'middle', weight: 700 }) + IE.T(i < 3 ? T('หลัก', 'main') : k === 'NO' ? T('ปกติเปิด', 'NO') : T('ปกติปิด', 'NC'), x, 68, { size: 9, anchor: 'middle', col: 'var(--muted)' });
     });
     s += tag(T('หน้าสัมผัสอยู่กับที่', 'fixed contacts'), 92, 103, 274) + tag(T('ชุดหน้าสัมผัสเคลื่อนที่', 'contact carrier'), 122, 114 + dy, 292);
     /* armature (moving E-core) on the carrier, return springs, fixed E-core with the coil and shading rings */
@@ -55,7 +55,8 @@ C4.Contactor = class {
     [cx - 62, cx + 54].forEach(x => { s += `<rect x="${x}" y="${ycc - 2}" width="8" height="5" fill="#d9a441" stroke="none"/>`; });
     [cx - 92, cx + 92].forEach(x => { const y0 = ya + 4, y1 = ycc + 30, n = 7; let p = `M ${x} ${y0}`; for (let i = 1; i <= n; i++) p += ` L ${x + (i % 2 ? -6 : 6)} ${y0 + (y1 - y0) * (i - 0.5) / n}`; p += ` L ${x} ${y1}`;
       s += `<path d="${p}" fill="none" stroke="#6b7399" stroke-width="2"/>`; });
-    s += IE.T(T(`ช่องอากาศ ${f1(gap * 0.2)} mm`, `air gap ${f1(gap * 0.2)} mm`), cx, ya + 26 + gap / 2 + 4, { size: 9, anchor: 'middle', weight: 700, col: gap > 1 ? 'var(--accent)' : 'var(--muted)' });
+    s += `<rect x="${cx - 44}" y="${f1(ya + 26 + gap / 2 - 5)}" width="88" height="12" rx="3" fill="var(--panel2)" opacity=".92" stroke="none"/>` +   // a backing tag, so the label stays legible on the core when the gap closes
+      IE.T(T(`ช่องอากาศ ${f1(gap * 0.2)} mm`, `air gap ${f1(gap * 0.2)} mm`), cx, ya + 26 + gap / 2 + 4, { size: 9, anchor: 'middle', weight: 700, col: gap > 1 ? 'var(--accent)' : 'var(--muted)' });
     s += tag(T('แกนเหล็กเคลื่อนที่', 'armature'), 158, ya + 13, cx + 70) + tag(T('สปริงดันกลับ', 'return spring'), 196, (ya + ycc + 30) / 2, cx + 98) +
       tag(T('ห่วงบังแม่เหล็ก', 'shading ring'), 226, ycc, cx + 62) + tag(T('คอยล์', 'coil'), 256, ycc + 31, cx + 52) + tag(T('แกนเหล็กอยู่กับที่', 'fixed core'), 290, ycc + 54, cx + 70);
     /* coil terminals */
@@ -82,7 +83,7 @@ C4.Contactor = class {
     [1, C4.RATIO].forEach(v => { g += IE.L(40, Y(v), 270, Y(v), { dash: '2 3', col: 'var(--line)' }) + IE.T(`${v}×`, 36, Y(v) + 3, { size: 9, anchor: 'end', col: 'var(--muted)' }); });
     if (this.hist.length > 1) { const t0 = this.clock - 4; g += `<polyline points="${this.hist.map(([tt2, i]) => `${f1(X((tt2 - t0) / 4))},${f1(Y(i))}`).join(' ')}" fill="none" stroke="#e08a2e" stroke-width="2"/>`; }
     g += IE.T(T('4 วินาทีล่าสุด', 'last 4 s'), 155, 126, { size: 9, anchor: 'middle', col: 'var(--muted)' });
-    const R = [['13–14', 'NO', 0.8, 1], ['21–22', 'NC', 0, 0.25], ['1–2 …', T('หลัก', 'main'), 0.8, 1]], Xt = v => 70 + 200 * v;
+    const R = [['13–14', T('ปกติเปิด', 'NO'), 0.8, 1], ['21–22', T('ปกติปิด', 'NC'), 0, 0.25], ['1–2 …', T('หลัก', 'main'), 0.8, 1]], Xt = v => 70 + 200 * v;
     g += IE.T(T('ระยะเคลื่อนของชุดหน้าสัมผัส', 'carrier travel'), 170, 146, { size: 10, anchor: 'middle', weight: 700 });
     [0, 0.25, 0.8, 1].forEach(v => { g += IE.L(Xt(v), 152, Xt(v), 230, { dash: '2 3', col: 'var(--line)' }) + IE.T(`${Math.round(v * 100)}%`, Xt(v), 242, { size: 9, anchor: 'middle', col: 'var(--muted)' }); });
     R.forEach(([lab, kind, a, b], i) => { const y = 166 + i * 24; g += IE.T(lab, 62, y + 4, { size: 10, anchor: 'end', weight: 700 }) + IE.T(kind, 62, y + 14, { size: 8, anchor: 'end', col: 'var(--muted)' }) +
@@ -100,9 +101,11 @@ C4.timerOut = (fn, T0, pulses, t) => { // pulses: [[t_on, t_off], ...] sorted; t
 };
 C4.FN = { on: { name: ['หน่วงเวลาเมื่อป้อนไฟ (on-delay)', 'on-delay'], coil: ['คอยล์ (A1–A2)', 'coil (A1–A2)'] },
   off: { name: ['หน่วงเวลาเมื่อตัดไฟ (off-delay)', 'off-delay'], coil: ['สัญญาณควบคุม (B1)', 'control input (B1)'] } };
-/* static diagram: rows input, NO timed 15–18, NC timed 15–16; o.blank leaves the contact rows empty for students; o.W window seconds */
+/* static diagram: rows input, NO timed 15–18, NC timed 15–16; o.blank leaves the contact rows empty for students; o.W window seconds;
+   o.until draws the traces only up to that time (the live diagram: nothing is drawn right of 'now') */
 C4.timingSVG = (fn, T0, pulses, o = {}) => {
-  const W = o.W || 12, x0 = 118, x1 = 540, X = t => x0 + (x1 - x0) * t / W, rowH = 46, rows = [[tt(C4.FN[fn].coil), 'in'], ['15–18 (NO)', 'no'], ['15–16 (NC)', 'nc']];
+  const W = o.W || 12, tEnd = Math.min(W, o.until ?? W), x0 = 118, x1 = 540, X = t => x0 + (x1 - x0) * t / W, rowH = 46,
+    rows = [[tt(C4.FN[fn].coil), 'in'], [T('15–18 (ปกติเปิด)', '15–18 (NO)'), 'no'], [T('15–16 (ปกติปิด)', '15–16 (NC)'), 'nc']];
   let s = '';
   for (let k = 0; k <= W; k++) s += IE.L(X(k), 18, X(k), 18 + rowH * rows.length, { col: 'var(--line)', dash: '1 3' }) + (k % 2 === 0 ? IE.T(`${k}`, X(k), 30 + rowH * rows.length, { size: 9, anchor: 'middle', col: 'var(--muted)' }) : '');
   s += IE.T(T('เวลา (วินาที)', 'time (s)'), x1, 44 + rowH * rows.length, { size: 9, anchor: 'end', col: 'var(--muted)' });
@@ -110,11 +113,12 @@ C4.timingSVG = (fn, T0, pulses, o = {}) => {
     s += IE.T(lab, x0 - 8, yb - 8, { size: 10, anchor: 'end', weight: 700 }) + IE.L(x0, yb, x1, yb, { col: 'var(--line)' });
     if (o.blank && key !== 'in') return;
     const val = t => key === 'in' ? pulses.some(([a, b]) => t >= a && t < b) : key === 'no' ? C4.timerOut(fn, T0, pulses, t) : !C4.timerOut(fn, T0, pulses, t);
-    const edges = new Set([0, W]); pulses.forEach(([a, b]) => [a, b, a + T0, b + T0].forEach(v => { if (v > 0 && v < W) edges.add(v); }));
+    const edges = new Set([0, tEnd]); pulses.forEach(([a, b]) => [a, b, a + T0, b + T0].forEach(v => { if (v > 0 && v < tEnd) edges.add(v); }));
     const pts = [...edges].sort((p, q) => p - q); let d = '';
     pts.forEach((p, j) => { if (j === pts.length - 1) return; const v = val((p + pts[j + 1]) / 2), y = v ? yt : yb; d += `${j ? 'L' : 'M'} ${f1(X(p))} ${y} L ${f1(X(pts[j + 1]))} ${y} `; });
-    s += `<path d="${d}" fill="none" stroke="${key === 'in' ? 'var(--ink)' : key === 'no' ? GOOD : '#c0392b'}" stroke-width="2.2"/>`;
-    if (key === 'no') pulses.forEach(([a, b]) => { const s0 = fn === 'on' ? a : b; if (s0 + T0 <= W && (fn === 'off' || b - a > T0)) {
+    if (d) s += `<path d="${d}" fill="none" stroke="${key === 'in' ? 'var(--ink)' : key === 'no' ? GOOD : '#c0392b'}" stroke-width="2.2"/>`;
+    if (key === 'no') pulses.forEach(([a, b]) => { const s0 = fn === 'on' ? a : b, retrig = fn === 'off' && pulses.some(([a2]) => a2 > b && a2 < b + T0);   // no 't = T' bar for a release cut short by a new command
+      if (s0 >= 0 && s0 + T0 <= tEnd && !retrig && (fn === 'off' || b - a > T0)) {
       s += IE.L(X(s0), yt - 6, X(s0 + T0), yt - 6, { col: 'var(--accent)' }) + IE.L(X(s0), yt - 10, X(s0), yt - 2, { col: 'var(--accent)' }) + IE.L(X(s0 + T0), yt - 10, X(s0 + T0), yt - 2, { col: 'var(--accent)' }) +
         IE.T(`t = ${T0} s`, X(s0 + T0 / 2), yt - 10, { size: 9, anchor: 'middle', col: 'var(--accent)', weight: 700 }); } });
   });
@@ -131,9 +135,9 @@ C4.Timing = class {
     if (this.fn === 'on' && this.input) { const r = p[0] + this.T - this.clock; return r > 0 ? r : null; }
     if (this.fn === 'off' && !this.input) { const r = p[1] + this.T - this.clock; return r > 0 ? r : null; } return null; }
   step(dt) { const before = this.out(); this.clock += dt; this.draw(); if (this.out() !== before && this.o.onChange) this.o.onChange(this.out()); }
-  draw() { const t0 = Math.max(0, this.clock - this.W + 1), shift = this.pulses.map(([a, b]) => [a - t0, Math.min(b, this.clock) - t0]).filter(([, b]) => b > -this.T - 1);
-    let svg = C4.timingSVG(this.fn, this.T, shift, { W: this.W, max: 680 });
-    const xNow = 118 + (540 - 118) * (this.clock - t0) / this.W;
+  draw() { const t0 = Math.max(0, this.clock - this.W + 1), now = this.clock - t0, shift = this.pulses.map(([a, b]) => [a - t0, b - t0]).filter(([, b]) => b > -this.T - 1);   // a held pulse keeps b = Infinity
+    let svg = C4.timingSVG(this.fn, this.T, shift, { W: this.W, until: now, max: 680 });
+    const xNow = 118 + (540 - 118) * now / this.W;
     svg = svg.replace('</svg>', `<line x1="${f1(xNow)}" y1="14" x2="${f1(xNow)}" y2="160" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4 3"/></svg>`);
     this.el.innerHTML = svg; }
 };
@@ -148,15 +152,17 @@ C4.BAND = { '10A': [2, 10], '10': [4, 10], '20': [6, 20], '30': [9, 30] };
 C4.tau = cls => C4.CLASSES[cls] / Math.log(7.2 ** 2 / (7.2 ** 2 - C4.KT ** 2));
 C4.tripTime = (cls, k, theta0 = 0) => { const a = k * k, b = C4.KT ** 2; if (a <= b || theta0 >= b) return theta0 >= b ? 0 : Infinity; return C4.tau(cls) * Math.log((a - theta0) / (a - b)); };
 C4.Overload = class {
-  constructor(o = {}) { this.cls = o.cls || '10'; this.setting = o.setting || 1; this.load = 0; this.theta = 0; this.tripped = false; this.auto = false; this.time = 0; this.trace = []; this.onTrip = o.onTrip; }
+  constructor(o = {}) { this.cls = o.cls || '10'; this.setting = o.setting || 1; this.load = 0; this.theta = 0; this.tripped = false; this.auto = false; this.time = 0; this.trace = []; this.onTrip = o.onTrip; this.onReset = o.onReset; this.holdTrip = false; }
   get k() { return this.load / this.setting; }   // current as a multiple of the dial setting (load is a multiple of the motor's rated current)
   step(dt) { const tau = C4.tau(this.cls), I = this.tripped ? 0 : this.load, k2 = (I / this.setting) ** 2; this.theta += (k2 - this.theta) * (1 - Math.exp(-dt / tau)); this.time += dt;
-    if (!this.tripped && this.theta >= C4.KT ** 2) { this.tripped = true; if (this.onTrip) this.onTrip(); }
-    if (this.tripped && this.auto && this.theta < 0.7 * C4.KT ** 2) this.tripped = false;
-    this.trace.push([this.time, this.theta / C4.KT ** 2]); if (this.trace.length > 900) this.trace.splice(0, this.trace.length - 900); }
+    if (!this.tripped && this.theta >= C4.KT ** 2) { this.tripped = true; if (this.onTrip) this.onTrip('heat'); }
+    else if (this.tripped && this.auto && !this.holdTrip && this.canReset()) { this.tripped = false; if (this.onReset) this.onReset(); }
+    const last = this.trace[this.trace.length - 1];   // one point per 0.5 s of simulated time, whatever the frame rate (2000 × 0.5 s covers the 900 s window)
+    if (!last || this.time - last[0] >= 0.5) { this.trace.push([this.time, this.theta / C4.KT ** 2]); if (this.trace.length > 2000) this.trace.splice(0, this.trace.length - 2000); } }
   canReset() { return this.theta < 0.7 * C4.KT ** 2; }
   reset() { if (this.tripped && this.canReset()) { this.tripped = false; return true; } return !this.tripped; }
-  test() { this.tripped = true; if (this.onTrip) this.onTrip(); }
+  /* TEST trips a relay that is not tripped yet (returns false otherwise); onTrip gets the reason 'heat' or 'test' */
+  test() { if (this.tripped) return false; this.tripped = true; if (this.onTrip) this.onTrip('test'); return true; }
 };
 /* thermal state against time: 100 % = trip */
 C4.thermalSVG = (ol, o = {}) => { const W = o.W || 600, x0 = 46, x1 = 470, y0 = 20, y1 = 170, tr = ol.trace, tEnd = Math.max(o.span || 120, ol.time), tStart = Math.max(0, tEnd - (o.span || 120));
@@ -164,11 +170,11 @@ C4.thermalSVG = (ol, o = {}) => { const W = o.W || 600, x0 = 46, x1 = 470, y0 = 
   let s = IE.L(x0, y1, x1, y1, { col: 'var(--line)' }) + IE.L(x0, y0, x0, y1, { col: 'var(--line)' });
   [0.5, 1, 1.5].forEach(v => { s += IE.L(x0, Y(v), x1, Y(v), { col: v === 1 ? '#c0392b' : 'var(--line)', dash: v === 1 ? '6 3' : '2 3' }) + IE.T(`${Math.round(v * 100)}%`, x0 - 4, Y(v) + 3, { size: 9, anchor: 'end', col: v === 1 ? '#c0392b' : 'var(--muted)' }); });
   s += IE.T(T('จุดตัด', 'trip level'), x1 - 2, Y(1) - 4, { size: 9, anchor: 'end', col: '#c0392b', weight: 700 });
-  const pts = tr.filter(([t]) => t >= tStart).map(([t, v]) => `${f1(X(t))},${f1(Y(v))}`); if (pts.length > 1) s += `<polyline points="${pts.join(' ')}" fill="none" stroke="#e08a2e" stroke-width="2.2"/>`;
+  const pts = [...tr.filter(([t]) => t >= tStart), [ol.time, ol.theta / C4.KT ** 2]].map(([t, v]) => `${f1(X(t))},${f1(Y(v))}`); if (pts.length > 1) s += `<polyline points="${pts.join(' ')}" fill="none" stroke="#e08a2e" stroke-width="2.2"/>`;
   s += IE.T(T('ความร้อนสะสมในแผ่นโลหะคู่', 'heat stored in the bimetals'), (x0 + x1) / 2, 12, { size: 10, anchor: 'middle', weight: 700 });
   s += IE.T(T(`เวลาจำลอง ${fmtT(ol.time)}`, `simulated time ${fmtT(ol.time)}`), x1, y1 + 16, { size: 9, anchor: 'end', col: 'var(--muted)' });
   return IE.svg(480, 190, s, { max: W, label: 'overload thermal state' }); };
-const fmtT = s => s < 60 ? `${Math.round(s)} s` : s < 3600 ? `${Math.floor(s / 60)} min ${Math.round(s % 60)} s` : `${(s / 3600).toFixed(1)} h`;
+const fmtT = s => { const r = Math.round(s); return r < 60 ? `${r} s` : r < 3600 ? `${Math.floor(r / 60)} min ${r % 60} s` : `${(s / 3600).toFixed(1)} h`; };   // round once, then split
 C4.fmtT = fmtT;
 /* trip curves from cold, log-log: time against multiple of the setting, with the class bands at 7.2 × and an optional operating point */
 C4.tripCurve = (o = {}) => { const x0 = 56, x1 = 500, y0 = 30, y1 = 260, lx = v => Math.log10(v), X = k => x0 + (x1 - x0) * (lx(k) - lx(1)) / (lx(10) - lx(1)), tMin = 1, tMax = 7200;
@@ -179,8 +185,12 @@ C4.tripCurve = (o = {}) => { const x0 = 56, x1 = 500, y0 = 30, y1 = 260, lx = v 
   s += IE.L(x0, y0, x0, y1, { col: 'var(--line)' }) + IE.L(x0, y1, x1, y1, { col: 'var(--line)' });
   (o.classes || Object.keys(C4.CLASSES)).forEach(c => { const [a, b] = C4.BAND[c]; s += `<line x1="${f1(X(7.2) + 4)}" y1="${f1(Y(a))}" x2="${f1(X(7.2) + 4)}" y2="${f1(Y(b))}" stroke="${COL[c]}" stroke-width="5" opacity=".35"/>`;
     const pts = []; for (let k = 1.13; k <= 10; k *= 1.03) { const tt2 = C4.tripTime(c, k); if (tt2 < tMax * 1.5) pts.push(`${f1(X(k))},${f1(Y(tt2))}`); }
-    const left = c === '10' || c === '30', kl = left ? 1.45 : 9.6;
-    s += `<polyline points="${pts.join(' ')}" fill="none" stroke="${COL[c]}" stroke-width="${o.cls === c ? 3 : 1.6}"/>` + IE.T(`class ${c}`, X(kl) + (left ? 4 : 0), Y(C4.tripTime(c, kl)) + (left ? -6 : 12), { size: 9, anchor: left ? 'start' : 'end', col: COL[c], weight: 700 }); });
+    /* label along its own curve (rotated to the local slope): 30 above its curve, 10 above its curve and 20 below its curve share the
+       wide 20–10 gap at different x, 10A below the lowest curve; all clear of the usual operating points (1.2–1.9×, 7.2×) and the 7.2× bands */
+    const [kl, off, anc] = { '30': [2.2, -5, 'start'], '10': [2.2, -5, 'start'], '20': [4, 12, 'start'], '10A': [4, 12, 'start'] }[c] || [4, 12, 'start'];
+    const xa = X(kl), ya = Y(C4.tripTime(c, kl)), ang = Math.atan2(Y(C4.tripTime(c, kl * 1.2)) - ya, X(kl * 1.2) - xa) * 180 / Math.PI;
+    s += `<polyline points="${pts.join(' ')}" fill="none" stroke="${COL[c]}" stroke-width="${o.cls === c ? 3 : 1.6}"/>` +
+      `<g transform="rotate(${f1(ang)} ${f1(xa)} ${f1(ya)})">${IE.T(T(`คลาส ${c}`, `class ${c}`), xa + (anc === 'start' ? 4 : -4), ya + off, { size: 9, anchor: anc, col: COL[c], weight: 700 })}</g>`; });
   s += IE.L(X(1.05), y0, X(1.05), y1, { col: '#c0392b', dash: '3 3' }) + IE.T(T('1.05× ไม่ตัด', '1.05× no trip'), X(1.05) + 3, y0 + 10, { size: 8, col: '#c0392b' });
   if (o.k && o.k > 1) { const tk = C4.tripTime(o.cls || '10', o.k); if (isFinite(tk) && tk < tMax) s += `<circle cx="${f1(X(o.k))}" cy="${f1(Y(tk))}" r="5" fill="#ff7a00" stroke="#141414"/>`; }
   s += IE.T(T('กระแส ÷ ค่าที่ตั้ง', 'current ÷ setting'), (x0 + x1) / 2, y1 + 28, { size: 10, anchor: 'middle', weight: 700 }) + IE.T(T('เวลาตัด (เริ่มจากเย็น)', 'trip time (from cold)'), 12, 14, { size: 10, weight: 700 });
@@ -188,16 +198,16 @@ C4.tripCurve = (o = {}) => { const x0 = 56, x1 = 500, y0 = 30, y1 = 260, lx = v 
 
 /* ---------------- 4) circuits ---------------- */
 const POWER = { stages: [{ k: 'cb', d: 'Q1' }, { k: 'mainNO', d: 'KM1' }, { k: 'therm', d: 'F2' }], motor: 'M1' };
-/* coil test: switch S1 energises KM1; auxiliary NO 13–14 lights H1, auxiliary NC 21–22 lights H2 */
-C4.COILTEST = () => ({ supply: 'Q1', rows: 3, power: POWER,
+/* coil test: switch S1 energises KM1 through overload contact F2 95–96; auxiliary NO 13–14 lights H1, auxiliary NC 21–22 lights H2 (lamps fed ahead of 95–96) */
+C4.COILTEST = () => ({ supply: 'Q1', rows: 4, power: POWER,
   devices: { Q1: { type: 'cb', on: true }, F1: { type: 'fuse' }, F2: { type: 'ol' }, S1: { type: 'sel' }, KM1: { type: 'coil' }, H1: { type: 'lamp', color: '#7ee787' }, H2: { type: 'lamp', color: '#ff6b6b' } },
-  els: [ { k: 'fuse', d: 'F1', x: 0, y: 0, t: ['1', '2'] }, { k: 'NO', d: 'S1', x: 0, y: 1, t: ['13', '14'], op: 'sel' }, { k: 'coil', d: 'KM1', x: 0, y: 2, t: ['A1', 'A2'] },
-    { k: 'w', pts: [[0, 1], [1, 1], [2, 1]], dots: [0, 1] }, { k: 'NO', d: 'KM1', x: 1, y: 1, t: ['13', '14'] }, { k: 'lamp', d: 'H1', x: 1, y: 2, t: ['X1', 'X2'] },
-    { k: 'NC', d: 'KM1', x: 2, y: 1, t: ['21', '22'] }, { k: 'lamp', d: 'H2', x: 2, y: 2, t: ['X1', 'X2'] } ] });
-/* auxiliary relay KA1 latched by S1/S0 (holding contact 13–14); its other contacts drive KM1 (23–24), KM2 (33–34) and lamp H1 (43–44) */
+  els: [ { k: 'fuse', d: 'F1', x: 0, y: 0, t: ['1', '2'] }, { k: 'NC', d: 'F2', x: 0, y: 1, t: ['95', '96'], op: 'thr' }, { k: 'NO', d: 'S1', x: 0, y: 2, t: ['13', '14'], op: 'sel' }, { k: 'coil', d: 'KM1', x: 0, y: 3, t: ['A1', 'A2'] },
+    { k: 'w', pts: [[0, 1], [1, 1], [2, 1]], dots: [0, 1] }, { k: 'w', x: 1, y: 1 }, { k: 'NO', d: 'KM1', x: 1, y: 2, t: ['13', '14'] }, { k: 'lamp', d: 'H1', x: 1, y: 3, t: ['X1', 'X2'] },
+    { k: 'w', x: 2, y: 1 }, { k: 'NC', d: 'KM1', x: 2, y: 2, t: ['21', '22'] }, { k: 'lamp', d: 'H2', x: 2, y: 3, t: ['X1', 'X2'] } ] });
+/* auxiliary relay KA1 latched by start S2 and stop S1 (holding contact 13–14); its other contacts drive KM1 (23–24), KM2 (33–34) and lamp H1 (43–44) */
 C4.RELAY = () => ({ rows: 4,
-  devices: { F1: { type: 'fuse' }, S0: { type: 'pb' }, S1: { type: 'pb' }, KA1: { type: 'coil' }, KM1: { type: 'coil' }, KM2: { type: 'coil' }, H1: { type: 'lamp', color: '#7ee787' } },
-  els: [ { k: 'fuse', d: 'F1', x: 0, y: 0, t: ['1', '2'] }, { k: 'NC', d: 'S0', x: 0, y: 1, t: ['11', '12'], op: 'pb' }, { k: 'NO', d: 'S1', x: 0, y: 2, t: ['13', '14'], op: 'pb' },
+  devices: { F1: { type: 'fuse' }, S1: { type: 'pb' }, S2: { type: 'pb' }, KA1: { type: 'coil' }, KM1: { type: 'coil' }, KM2: { type: 'coil' }, H1: { type: 'lamp', color: '#7ee787' } },
+  els: [ { k: 'fuse', d: 'F1', x: 0, y: 0, t: ['1', '2'] }, { k: 'NC', d: 'S1', x: 0, y: 1, t: ['11', '12'], op: 'pb' }, { k: 'NO', d: 'S2', x: 0, y: 2, t: ['13', '14'], op: 'pb' },
     { k: 'coil', d: 'KA1', x: 0, y: 3, t: ['A1', 'A2'] }, { k: 'NO', d: 'KA1', x: 1, y: 2, t: ['13', '14'] }, { k: 'w', pts: [[0, 2], [1, 2]], dots: [0] }, { k: 'w', pts: [[0, 3], [1, 3]], dots: [0] },
     { k: 'w', pts: [[0, 1], [2, 1], [3, 1], [4, 1]], dots: [0, 1, 2] }, { k: 'w', x: 2, y: 1 }, { k: 'w', x: 3, y: 1 }, { k: 'w', x: 4, y: 1 },
     { k: 'NO', d: 'KA1', x: 2, y: 2, t: ['23', '24'] }, { k: 'coil', d: 'KM1', x: 2, y: 3, t: ['A1', 'A2'] },

@@ -24,7 +24,7 @@ Bilingual (Thai / English) interactive pages in the style of IE_Web. Live site: 
 - Device names in chapter 1 follow the instructor's CADe SIMU lab files (F, CB, M); the course-wide letter convention is still to be decided (chapter 2).
 - Images: textbook and web figures carry a source line; no watermarked images.
 - Course device letters from chapter 2: Q F KM KA KT S H M X; the new IEC 81346-2 codes (QA FC KF SF BG PF MA XD) are taught alongside (codes checked against the standard's Table 2, 2009 edition).
-- Cache tag `?v=9`; pages of chapter 2 use the head snippet `_head2.txt` (adds iec.js, relay.js, ch2.js); chapter 3 uses `_head3.txt` (adds ch3.js, devdata.js, dev.js) and chapter 4 `_head4.txt` (adds ch4.js). Page 2.1 also loads devdata.js and dev.js.
+- Cache tag `?v=10`; pages of chapter 2 use the head snippet `_head2.txt` (adds iec.js, relay.js, ch2.js); chapter 3 uses `_head3.txt` (adds ch3.js, devdata.js, dev.js) and chapter 4 `_head4.txt` (adds ch4.js). Page 2.1 also loads devdata.js and dev.js.
 - Push-button colours follow IEC 60204-1:2016 (start white preferred, never red; stop black preferred, never green; red on yellow only for the E-stop).
 
 ## Still to come from the instructor

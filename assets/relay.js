@@ -63,7 +63,8 @@ RL.Sim = class {
         this.msg = 'short'; continue; }
       let changed = false; const en = {};
       r.loads.forEach(({ ed, live }) => { const d = this.dev[ed.e.d]; if (d) en[d.id] = (en[d.id] || false) || live; });
-      Object.entries(en).forEach(([id, v]) => { const d = this.dev[id]; if (d.energized !== v) { d.energized = v; changed = true; if (!v && d.type === 'timer') d.tOn = 0; } });
+      Object.entries(en).forEach(([id, v]) => { const d = this.dev[id]; if (d.type === 'timer' && v) d.hold = d.T;   // an off-delay holds even if no step() ran while energised
+        if (d.energized !== v) { d.energized = v; changed = true; if (!v && d.type === 'timer') d.tOn = 0; } });
       if (!changed) break; }
     this.r = r; this.current(); }
   /* edges that carry current: inside the live (or neutral) side, prune dead-end branches that lead to no energised load */
@@ -82,7 +83,7 @@ RL.Sim = class {
     if (ch) { this.solve(); this.render(); this.emit(); } }
   /* ---------------- interaction */
   devAt(e) { const g = e.target.closest('[data-dev]'); return g ? g.dataset.dev : null; }
-  press(id, v) { const d = this.dev[id]; if (!d || d.type !== 'pb') return; d.pressed = v; this.update(); }
+  press(id, v) { const d = this.dev[id]; if (!d || d.type !== 'pb' || d.pressed === v) return; d.pressed = v; this.update(); }
   toggle(id) { const d = this.dev[id]; if (!d) return;
     if (d.type === 'sel' || d.type === 'sen' || d.type === 'cb') d.on = !d.on; else if (d.type === 'ol') d.tripped = !d.tripped; else if (d.type === 'fuse') d.blown = false;
     else if (d.type === 'msel') { const k = d.positions.indexOf(d.at); d.at = d.positions[(k + 1) % d.positions.length]; } else return;
@@ -120,7 +121,7 @@ RL.Sim = class {
       const body = IE.draw(e.k, x, y0, y1, { act: (e.k === 'NO' || e.k === 'NC') ? this.actE(e) : this.act(e.d), op: e.op, td: e.td || (d.type === 'timer' && e.k === 'coil' ? d.mode : undefined), live, lamp: d.color, blown: d.blown });
       const hit = ['pb', 'sel', 'sen', 'ol', 'cb', 'fuse', 'msel'].includes(d.type) ? ` data-dev="${e.d}" style="cursor:pointer"` : '';
       s += `<g${col ? ` stroke="${col}"` : ''}${cls}${hit}>${hit ? `<rect x="${x - 40}" y="${y0 + 6}" width="56" height="${y1 - y0 - 12}" fill="transparent" stroke="none"/>` : ''}${body}</g>`;
-      const nameX = e.op ? x - 36 : e.k === 'coil' && e.td !== undefined ? x - 30 : (e.k === 'coil' && d.type === 'timer') ? x - 30 : x - 16;
+      const nameX = e.op ? x - 36 : (e.k === 'NO' || e.k === 'NC') && e.td ? x - 34 : e.k === 'coil' && e.td !== undefined ? x - 30 : (e.k === 'coil' && d.type === 'timer') ? x - 30 : x - 16;
       if (!this.o.noNames) s += IE.T(d.label || e.d, nameX, (y0 + y1) / 2 + 4, { anchor: 'end', size: 11, weight: 700 });
       else s += `<rect x="${nameX - 34}" y="${(y0 + y1) / 2 - 9}" width="34" height="15" fill="none" stroke="var(--muted)" stroke-dasharray="2 2"/>`;
       if (e.t && !this.o.noTerms) { s += IE.T(e.t[0], x + 5, y0 + 12, { size: 9 }) + IE.T(e.t[1], x + 5, y1 - 4, { size: 9 }); }

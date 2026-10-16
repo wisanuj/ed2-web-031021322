@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=9"><link rel="stylesheet" href="assets/ed2.css?v=9">
-<script src="assets/stops.js?v=9"></script><script src="assets/shell.js?v=9"></script>
-<script src="assets/lesson.js?v=9"></script><script src="assets/draw.js?v=9"></script><script src="assets/ed.js?v=9"></script><script src="assets/sym.js?v=9"></script><script src="assets/iec.js?v=9"></script><script src="assets/relay.js?v=9"></script><script src="assets/ch2.js?v=9"></script><script src="assets/ch3.js?v=9"></script><script src="assets/ch4.js?v=9"></script><script src="assets/devdata.js?v=9"></script><script src="assets/dev.js?v=9"></script>
+<link rel="stylesheet" href="assets/ee.css?v=10"><link rel="stylesheet" href="assets/ed2.css?v=10">
+<script src="assets/stops.js?v=10"></script><script src="assets/shell.js?v=10"></script>
+<script src="assets/lesson.js?v=10"></script><script src="assets/draw.js?v=10"></script><script src="assets/ed.js?v=10"></script><script src="assets/sym.js?v=10"></script><script src="assets/iec.js?v=10"></script><script src="assets/relay.js?v=10"></script><script src="assets/ch2.js?v=10"></script><script src="assets/ch3.js?v=10"></script><script src="assets/ch4.js?v=10"></script><script src="assets/devdata.js?v=10"></script><script src="assets/dev.js?v=10"></script>
 </head>
 <body>
 <div class="wrap">
@@ -22,15 +22,15 @@
 <p class="sub" data-l="en">A contactor is an electrically operated switch. When its coil is energised, the electromagnet pulls the armature in, and every contact fixed to the same carrier changes together: the main contacts switch the motor supply, the auxiliary contacts work in the control circuit. This page cuts a contactor open, lets you energise the coil and watch it move, lower the coil voltage, and read the terminal numbers used on drawings.</p>
 
 <section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
-  <li><b>ส่วนประกอบ</b>: คอยล์ (A1–A2) พันรอบแกนเหล็กอยู่กับที่ แกนเหล็กเคลื่อนที่ยึดกับชุดหน้าสัมผัส สปริงดันกลับ หน้าสัมผัสหลัก 3 ชุด และหน้าสัมผัสช่วย คอนแทกเตอร์ไฟสลับมีห่วงบังแม่เหล็ก (shading ring) ที่ผิวแกนเหล็กกันการสั่นและเสียงคราง</li>
-  <li><b>หน้าสัมผัสหลัก</b> 1/L1–2/T1, 3/L2–4/T2, 5/L3–6/T3 ทนกระแสมอเตอร์และมีห้องดับอาร์ก (เลขคี่ฝั่งไฟเข้า เลขคู่ฝั่งไปมอเตอร์) <b>หน้าสัมผัสช่วย</b> ทนกระแสน้อย ใช้ในวงจรควบคุม เลขหลักหลัง 3–4 = ปกติเปิด, 1–2 = ปกติปิด หลักแรก = ลำดับ</li>
-  <li><b>ชุดหน้าสัมผัสเสริม</b> (auxiliary contact block) เสียบด้านหน้าหรือด้านข้างเพื่อเพิ่มจำนวนหน้าสัมผัสช่วย เลขขั้วต่อลำดับจากที่มีอยู่ เช่น 53–54, 61–62, 71–72, 83–84</li>
-  <li><b>แรงดันคอยล์</b>: คอนแทกเตอร์ต้องดูดได้แน่นอนตั้งแต่ 85 % ถึง 110 % ของแรงดันพิกัดคอยล์ ถ้าแรงดันตกมาก แกนเหล็กจะปล่อย ตอนเริ่มดูด คอยล์ไฟสลับกินกระแสสูงหลายเท่าของตอนดูดค้าง เพราะช่องอากาศยังกว้าง</li></ul></section>
+  <li><b>ส่วนประกอบ</b>: คอยล์ (A1–A2) พันรอบแกนเหล็กอยู่กับที่ แกนเหล็กเคลื่อนที่ยึดกับชุดหน้าสัมผัส สปริงดันกลับ หน้าสัมผัสหลัก 3 ชุด และหน้าสัมผัสช่วย คอนแทกเตอร์ไฟฟ้ากระแสสลับ (alternating current, AC) มีห่วงบังแม่เหล็ก (shading ring) ที่ผิวแกนเหล็กกันการสั่นและเสียงคราง</li>
+  <li><b>หน้าสัมผัสหลัก</b> 1/L1–2/T1, 3/L2–4/T2, 5/L3–6/T3 ทนกระแสมอเตอร์และมีห้องดับอาร์ก (เลขคี่ฝั่งไฟเข้า เลขคู่ฝั่งไปมอเตอร์) <b>หน้าสัมผัสช่วย</b> ทนกระแสน้อย ใช้ในวงจรควบคุม เลขหลักหลัง 3–4 = ปกติเปิด (normally open, NO), 1–2 = ปกติปิด (normally closed, NC) หลักแรก = ลำดับ</li>
+  <li><b>ชุดหน้าสัมผัสเสริม</b> (auxiliary contact block) เสียบด้านหน้าหรือด้านข้างเพื่อเพิ่มจำนวนหน้าสัมผัสช่วย เลขขั้วพิมพ์อยู่บนชุดเสริมและใช้เลขลำดับ 5–8 (เลข 1–4 เว้นไว้ให้หน้าสัมผัสในตัวของคอนแทกเตอร์) เช่น 53–54, 61–62, 71–72, 83–84</li>
+  <li><b>แรงดันคอยล์</b>: มาตรฐาน IEC 60947-4-1 (IEC = International Electrotechnical Commission คณะกรรมาธิการไฟฟ้าระหว่างประเทศ) กำหนดให้คอนแทกเตอร์ดูดได้แน่นอนตั้งแต่ 85 % ถึง 110 % ของแรงดันพิกัดคอยล์ ถ้าแรงดันตกมาก แกนเหล็กจะปล่อย ตอนเริ่มดูด คอยล์ไฟสลับกินกระแสสูงหลายเท่าของตอนดูดค้าง เพราะช่องอากาศยังกว้าง</li></ul></section>
 <section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
-  <li><b>Parts</b>: the coil (A1–A2) on the fixed core, the armature on the contact carrier, return springs, three main contacts and auxiliary contacts. An AC contactor has shading rings in the pole faces to stop chatter and hum.</li>
-  <li><b>Main contacts</b> 1/L1–2/T1, 3/L2–4/T2, 5/L3–6/T3 carry the motor current and have arc chutes (odd numbers on the supply side, even towards the motor). <b>Auxiliary contacts</b> carry small currents for the control circuit; second digit 3–4 = NO, 1–2 = NC, first digit = sequence number.</li>
-  <li><b>Auxiliary contact blocks</b> clip on the front or the side to add contacts; their numbers continue the sequence, e.g. 53–54, 61–62, 71–72, 83–84.</li>
-  <li><b>Coil voltage</b>: a contactor must close for any coil voltage from 85 % to 110 % of its rating; if the voltage sags far enough the armature drops out. An AC coil draws several times its holding current while pulling in, because the air gap is still wide.</li></ul></section>
+  <li><b>Parts</b>: the coil (A1–A2) on the fixed core, the armature on the contact carrier, return springs, three main contacts and auxiliary contacts. An alternating current (AC) contactor has shading rings in the pole faces to stop chatter and hum.</li>
+  <li><b>Main contacts</b> 1/L1–2/T1, 3/L2–4/T2, 5/L3–6/T3 carry the motor current and have arc chutes (odd numbers on the supply side, even towards the motor). <b>Auxiliary contacts</b> carry small currents for the control circuit; second digit 3–4 = normally open (NO), 1–2 = normally closed (NC), first digit = sequence number.</li>
+  <li><b>Auxiliary contact blocks</b> clip on the front or the side to add contacts; their numbers are printed on the block and use sequence digits 5–8 (digits 1–4 are left for the contactor's own contacts), e.g. 53–54, 61–62, 71–72, 83–84.</li>
+  <li><b>Coil voltage</b>: the International Electrotechnical Commission (IEC) standard IEC 60947-4-1 says a contactor must close for any coil voltage from 85 % to 110 % of its rating; if the voltage sags far enough the armature drops out. An AC coil draws several times its holding current while pulling in, because the air gap is still wide.</li></ul></section>
 
 <nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>ข้างในคอนแทกเตอร์</a><a href="#tA"><b>A</b>ป้อนไฟคอยล์</a><a href="#tB"><b>B</b>ห่วงบังแม่เหล็ก</a><a href="#tN"><b>N</b>เลขขั้ว</a><a href="#ex1"><b>1</b>ชุดหน้าสัมผัสเสริม</a><a href="#tD"><b>D</b>ทดสอบคอยล์กับหน้าสัมผัส</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
 <nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>Inside a contactor</a><a href="#tA"><b>A</b>Energise the coil</a><a href="#tB"><b>B</b>Shading ring</a><a href="#tN"><b>N</b>Terminal numbers</a><a href="#ex1"><b>1</b>Add-on contact block</a><a href="#tD"><b>D</b>Coil and contact test</a><a href="#tC"><b>C</b>More practice</a></nav>
@@ -74,11 +74,11 @@
       <div class="story-p" data-l="th"><p>ไฟสลับ 50 Hz ผ่านศูนย์ 100 ครั้งต่อวินาที ทุกครั้งที่กระแสคอยล์เป็นศูนย์ แรงดูดของแม่เหล็กก็เป็นศูนย์ด้วย ถ้าไม่มีอะไรช่วย สปริงจะดันแกนเหล็กเคลื่อนที่ให้ขยับออกนิดหนึ่งทุกครั้ง เกิดเสียงครางและหน้าสัมผัสสั่น</p>
         <p>ห่วงบังแม่เหล็กคือห่วงทองแดงที่ฝังอยู่ในส่วนหนึ่งของผิวแกนเหล็ก ฟลักซ์ที่เปลี่ยนแปลงเหนี่ยวนำกระแสในห่วง ทำให้ฟลักซ์ส่วนที่ผ่านห่วงช้ากว่าฟลักซ์หลัก กราฟแสดงว่าแรงดูดจากฟลักซ์หลักกับฟลักซ์ที่ถูกบังเป็นศูนย์คนละเวลา แรงรวมจึงไม่เป็นศูนย์เลย แกนเหล็กถูกดูดค้างนิ่ง ห่วงที่แตกหรือหลุดเป็นสาเหตุที่พบบ่อยของคอนแทกเตอร์ที่ครางดัง คอนแทกเตอร์คอยล์ไฟตรงไม่ต้องมีห่วงนี้ เพราะฟลักซ์ไม่ผ่านศูนย์</p></div>
       <div class="story-p" data-l="en"><p>50 Hz AC passes through zero 100 times a second, and each time the coil current is zero the magnetic pull is zero too. Left alone, the spring would push the armature out a little every time, so the contactor would hum and its contacts chatter.</p>
-        <p>The shading ring is a copper loop set into part of the pole face. The changing flux induces a current in the loop, so the flux through it lags the main flux. The graph shows the pull of the main flux and of the shaded flux reaching zero at different moments, so the total pull never falls to zero and the armature stays put. A cracked or missing shading ring is a common cause of a loudly humming contactor. A DC coil needs none, because its flux never passes through zero.</p></div></div>
+        <p>The shading ring is a copper loop set into part of the pole face. The changing flux induces a current in the loop, so the flux through it lags the main flux. The graph shows the pull of the main flux and of the shaded flux reaching zero at different moments, so the total pull never falls to zero and the armature stays put. A cracked or missing shading ring is a common cause of a loudly humming contactor. A direct current (DC) coil needs none, because its flux never passes through zero.</p></div></div>
     <div class="story-f">
       <figure class="slide md"><img src="img/book/emc9_fig3_shading.jpg" width="746" height="425" loading="lazy" decoding="async" alt="Graph of the pull of the main flux and of the shaded flux: their zeros occur at different times.">
-        <figcaption data-l="th">แรงดูดของฟลักซ์หลักและฟลักซ์ที่ผ่านห่วงบังแม่เหล็ก (รูปไม่มีเลข) · ที่มา: Herman, <i>Electric Motor Control</i> 9th ed. (Delmar Cengage, 2010) หน่วยที่ 3 หน้า 26</figcaption>
-        <figcaption data-l="en">Pull of the main flux and of the shaded flux (unnumbered figure) · source: Herman, <i>Electric Motor Control</i>, 9th ed. (Delmar Cengage, 2010), unit 3, p. 26</figcaption></figure>
+        <figcaption data-l="th">แรงดูดของฟลักซ์หลักและฟลักซ์ที่ผ่านห่วงบังแม่เหล็ก (รูปไม่มีเลข) · ที่มา: Herman (2010) หน่วยที่ 3 หน้า 26 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Pull of the main flux and of the shaded flux (unnumbered figure) · source: Herman (2010), unit 3, p. 26 · tap to enlarge</figcaption></figure>
     </div>
   </div>
 </section>
@@ -92,7 +92,7 @@
 <section class="prob" id="ex1">
   <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">เพิ่มชุดหน้าสัมผัสเสริม</h2><h2 data-l="en">Adding an auxiliary contact block</h2>
     <div class="src" data-l="th">โจทย์ตัวอย่าง</div><div class="src" data-l="en">Worked example</div></div></div>
-  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>คอนแทกเตอร์ KM1 มีหน้าสัมผัสช่วยในตัว 1 ชุดคือปกติเปิด 13–14 วงจรต้องการหน้าสัมผัสช่วยเพิ่มอีก 2 ปกติเปิดและ 2 ปกติปิด จึงเสียบชุดหน้าสัมผัสเสริม 4 ชุดด้านหน้า (2 NO + 2 NC) (ก) หน้าสัมผัสทั้งหมดของ KM1 ใช้เลขขั้วอะไรบ้าง (ข) ในแบบต้องตั้งชื่อหน้าสัมผัสเสริมว่าอะไร (ค) ทำไมจึงใช้หน้าสัมผัสหลักแทนหน้าสัมผัสช่วยในวงจรควบคุมไม่ได้</p></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>คอนแทกเตอร์ KM1 มีหน้าสัมผัสช่วยในตัว 1 ชุดคือปกติเปิด 13–14 วงจรต้องการหน้าสัมผัสช่วยเพิ่มอีก 2 ปกติเปิดและ 2 ปกติปิด จึงเสียบชุดหน้าสัมผัสเสริมด้านหน้า 1 ชุดที่มี 4 หน้าสัมผัส (2 NO + 2 NC) (ก) หน้าสัมผัสทั้งหมดของ KM1 ใช้เลขขั้วอะไรบ้าง (ข) ในแบบต้องตั้งชื่อหน้าสัมผัสเสริมว่าอะไร (ค) ทำไมจึงไม่ควรใช้หน้าสัมผัสหลักแทนหน้าสัมผัสช่วยในวงจรควบคุม</p></div>
   <div class="given" data-l="en"><div class="gl">Problem</div><p>Contactor KM1 has one built-in auxiliary contact, NO 13–14. The circuit needs two more NO and two NC auxiliary contacts, so a four-pole front-mounted block (2 NO + 2 NC) is added. (a) What are the terminal numbers of all KM1's contacts? (b) What name do the block's contacts get on the drawing? (c) Why should a main contact not be used instead of an auxiliary one in the control circuit?</p></div>
   <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
 </section>
@@ -100,8 +100,8 @@
 <section class="prob" id="tD">
   <div class="prob-head"><span class="prob-no">D</span><div><h2 data-l="th">ทดสอบคอยล์กับหน้าสัมผัสช่วย</h2><h2 data-l="en">Testing the coil and the auxiliary contacts</h2>
     <div class="src" data-l="th">ใบงานที่ 4 ข้อ 3.1 · ตำราไทย ใบงาน "การตรวจสอบอุปกรณ์ควบคุม"</div><div class="src" data-l="en">Lab sheet 4, step 3.1 · Thai textbook lab sheet "testing control devices"</div></div></div>
-  <p class="lead" data-l="th">สวิตช์ S1 ป้อนไฟเข้าคอยล์ KM1 หน้าสัมผัสช่วยปกติเปิด 13–14 ต่อหลอดเขียว H1 และหน้าสัมผัสช่วยปกติปิด 21–22 ต่อหลอดแดง H2 ด้านซ้ายคือวงจรกำลัง: หน้าสัมผัสหลักของ KM1 ตัวเดียวกันสั่งมอเตอร์ แตะ S1 ในวงจรหรือปุ่มด้านล่าง แล้วดูตารางอ้างอิงใต้คอยล์ ซึ่งบอกว่าหน้าสัมผัสแต่ละตัวของ KM1 อยู่ทางเดินกระแสไหน</p>
-  <p class="lead" data-l="en">Switch S1 energises coil KM1; auxiliary NO 13–14 lights green lamp H1 and auxiliary NC 21–22 lights red lamp H2. On the left is the power circuit: the main contacts of the same KM1 run the motor. Tap S1 in the circuit or the button below, and read the cross-reference under the coil, which says in which current path each KM1 contact sits.</p>
+  <p class="lead" data-l="th">สวิตช์ S1 ป้อนไฟเข้าคอยล์ KM1 ผ่านหน้าสัมผัสโอเวอร์โหลด F2 95–96 (ปกติปิด) หน้าสัมผัสช่วยปกติเปิด 13–14 ต่อหลอดเขียว H1 และหน้าสัมผัสช่วยปกติปิด 21–22 ต่อหลอดแดง H2 ด้านซ้ายคือวงจรกำลัง: หน้าสัมผัสหลักของ KM1 ตัวเดียวกันสั่งมอเตอร์ และ F2 ตัวเดียวกันป้องกันมอเตอร์ แตะ S1 ในวงจรหรือปุ่มด้านล่าง แตะ F2 เพื่อจำลองว่าโอเวอร์โหลดตัด (95–96 เปิด KM1 หลุด) แตะอีกครั้งเพื่อรีเซ็ต แล้วดูตารางอ้างอิงใต้คอยล์ ซึ่งบอกว่าหน้าสัมผัสแต่ละตัวของ KM1 อยู่ทางเดินกระแสไหน</p>
+  <p class="lead" data-l="en">Switch S1 energises coil KM1 through overload contact F2 95–96 (NC); auxiliary NO 13–14 lights green lamp H1 and auxiliary NC 21–22 lights red lamp H2. On the left is the power circuit: the main contacts of the same KM1 run the motor, and the same F2 protects it. Tap S1 in the circuit or the button below; tap F2 to simulate an overload trip (95–96 opens, KM1 drops out) and tap it again to reset. Read the cross-reference under the coil, which says in which current path each KM1 contact sits.</p>
   <div class="card sim" style="padding:8px"><div id="simD"></div></div>
   <div class="card solve" style="margin-top:12px"><div class="panel" id="pD" style="position:static;max-height:none"></div></div>
 </section>
@@ -138,7 +138,6 @@ document.addEventListener('mc:ready', () => {
   /* A: contactor cut open */
   const pA = $('pA');
   const log = new ED.Log($('logA'), [['แรงดันคอยล์', 'coil voltage'], ['ก่อนหน้า', 'before'], ['ผล', 'result']]);
-  let n = 0;
   const stateTxt = c => c.t > 0.95 ? t('ดูดค้าง', 'closed') : c.t < 0.05 ? t('ปล่อย', 'open') : t('กำลังเคลื่อน', 'moving');
   const km = new C4.Contactor($('km'), { onChange: s => { } });
   ui.h2(pA, t('สั่งงาน', 'Control'));
@@ -149,20 +148,20 @@ document.addEventListener('mc:ready', () => {
   slB.addEventListener('click', () => { km.slow = !km.slow; slB.classList.toggle('on', km.slow); });
   const sl = ui.slider(pA, { id: 'uc', label: t('แรงดันคอยล์ (% ของพิกัด)', 'coil voltage (% of rating)'), min: 0, max: 120, step: 5, value: 100, fmt: v => `${v} %`, oninput: v => { km.u = v / 100; } });
   const stA = ui.status(pA);
-  /* log every pull-in and drop-out, and a failed pull-in (coil on, armature still open after 0.6 s) */
-  let wasClosed = false, waitOpen = 0, failKey = '';
-  const add = (res, kind) => log.add('r' + (n++), [km.on ? `${Math.round(km.u * 100)} %` : t('ตัดไฟ', 'off'), wasClosed ? t('ดูดค้างอยู่', 'was closed') : t('ปล่อยอยู่', 'was open'), res], kind);
+  /* log every pull-in and drop-out, and a failed pull-in (coil on, armature still open after 0.6 s at the same voltage); one row per case */
+  let wasClosed = false, waitOpen = 0, lastU = -1;
+  const add = (key, res, kind) => log.add(key, [km.on ? `${Math.round(km.u * 100)} %` : t('ตัดไฟ', 'off'), wasClosed ? t('ดูดค้างอยู่', 'was closed') : t('ปล่อยอยู่', 'was open'), res], kind);
   const show = dt => { const closed = km.t > 0.95, open = km.t < 0.05, u = Math.round(km.u * 100), I = km.current(), st = km.states();
     ui.setStatus(stA, stateTxt(km), `${t('แรงดันคอยล์', 'coil voltage')} ${km.on ? u : 0} % · ${t('กระแสคอยล์', 'coil current')} ${I.toFixed(1)}× · 13–14 ${st.no ? t('ต่อ', 'closed') : t('เปิด', 'open')} · 21–22 ${st.nc ? t('ต่อ', 'closed') : t('เปิด', 'open')}`, closed ? 'ok' : open ? 'warn' : '');
-    if (closed && !wasClosed) { add(t('ดูด', 'pulls in'), 'ok'); wasClosed = true; failKey = ''; }
-    else if (open && wasClosed) { add(km.on ? t('ปล่อย: แรงดันต่ำเกินไป', 'drops out: voltage too low') : t('ปล่อย: ตัดไฟคอยล์', 'drops out: coil switched off'), km.on ? 'bad' : 'warn'); wasClosed = false; }
-    if (km.on && open) { waitOpen += dt; if (waitOpen > 0.6 && failKey !== String(u)) { add(t('ไม่ดูด: แรงดันไม่พอ (กินกระแสเริ่มดูดค้าง)', 'does not pull in: voltage too low (inrush current keeps flowing)'), 'bad'); failKey = String(u); } } else waitOpen = 0; };
-  LS.anim($('km'), dt => { km.step(dt); show(dt); });
+    if (closed && !wasClosed) { add('in' + u, t('ดูด', 'pulls in'), 'ok'); wasClosed = true; }
+    else if (open && wasClosed) { if (km.on) { lastU = u; waitOpen = -1e9; } add(km.on ? 'lo' + u : 'off', km.on ? t('ปล่อย: แรงดันต่ำเกินไป', 'drops out: voltage too low') : t('ปล่อย: ตัดไฟคอยล์', 'drops out: coil switched off'), km.on ? 'bad' : 'warn'); wasClosed = false; }
+    if (km.on && open && u > 0) { if (u !== lastU) { lastU = u; waitOpen = 0; } waitOpen += dt; if (waitOpen > 0.6 && waitOpen - dt <= 0.6) add('no' + u, t('ไม่ดูด: แรงดันไม่พอ (กินกระแสเริ่มดูดค้าง)', 'does not pull in: voltage too low (inrush current keeps flowing)'), 'bad'); } else { waitOpen = 0; lastU = -1; } };
+  LS.anim($('tA'), dt => { km.step(dt); show(dt); });
   ED.summary($('sumA'), { head: [['ขณะนั้น', 'situation'], ['แรงดันคอยล์', 'coil voltage'], ['ผล (คอนแทกเตอร์ในหน้านี้)', 'result (this page\'s contactor)']],
     rows: () => [[t('ปล่อยอยู่ ป้อนไฟ', 'open, switched on'), '≥ 80 %', `<span class="rk-ok">${t('ดูด', 'pulls in')}</span>`], [t('ปล่อยอยู่ ป้อนไฟ', 'open, switched on'), '< 80 %', `<span class="rk-bad">${t('ไม่ดูด (กินกระแสเริ่มดูดค้างไว้ คอยล์ร้อน)', 'does not pull in (draws inrush current, the coil overheats)')}</span>`],
       [t('ดูดค้างอยู่ ลดแรงดัน', 'closed, voltage lowered'), '≥ 55 %', `<span class="rk-ok">${t('ยังดูดค้าง', 'stays closed')}</span>`], [t('ดูดค้างอยู่ ลดแรงดัน', 'closed, voltage lowered'), '< 55 %', `<span class="rk-bad">${t('ปล่อย', 'drops out')}</span>`]],
     points: [['แม่เหล็กดูดแกนเหล็กที่อยู่ใกล้ได้แรงกว่าแกนที่อยู่ไกล คอนแทกเตอร์ที่ดูดค้างอยู่แล้ว (ช่องอากาศแคบ) จึงค้างได้ที่แรงดันต่ำกว่าแรงดันที่ต้องใช้ดูดจากตำแหน่งปล่อย', 'A magnet pulls a near armature harder than a far one, so a closed contactor (narrow gap) holds at a lower voltage than it needs to pull in from open.'],
-      ['มาตรฐาน IEC 60947-4-1 กำหนดให้คอนแทกเตอร์ไฟสลับดูดได้แน่นอนที่ 85–110 % ของแรงดันพิกัดคอยล์ และปล่อยที่ไหนก็ได้ระหว่าง 75 % ถึง 20 % ค่า 80 % และ 55 % ในหน้านี้เป็นค่าของอุปกรณ์ตัวอย่างตัวหนึ่ง', 'IEC 60947-4-1 requires an AC contactor to close at any voltage from 85 % to 110 % of its coil rating, and to drop out somewhere between 75 % and 20 %. The 80 % and 55 % on this page belong to one sample device.'],
+      ['มาตรฐาน IEC 60947-4-1 กำหนดให้คอนแทกเตอร์ไฟสลับดูดได้แน่นอนที่ 85–110 % ของแรงดันพิกัดคอยล์ และต้องปล่อยเมื่อแรงดันลดลงถึงค่าใดค่าหนึ่งในช่วง 75 % ถึง 20 % ค่า 80 % และ 55 % ในหน้านี้เป็นค่าของอุปกรณ์ตัวอย่างตัวหนึ่ง', 'IEC 60947-4-1 requires an AC contactor to close at any voltage from 85 % to 110 % of its coil rating, and to drop out somewhere between 75 % and 20 %. The 80 % and 55 % on this page belong to one sample device.'],
       ['ตอนเริ่มดูด ช่องอากาศกว้าง ความเหนี่ยวนำของคอยล์ต่ำ คอยล์ไฟสลับจึงกินกระแสสูงหลายเท่าของตอนดูดค้าง ถ้าแกนเหล็กติดค้างไม่ลงมา กระแสสูงนี้ไหลต่อเนื่องจนคอยล์ไหม้', 'While pulling in, the gap is wide and the coil inductance low, so an AC coil draws several times its holding current; if the armature is blocked, that current flows on until the coil burns out.']] });
   /* terminal numbers */
   $('terms').innerHTML = `<tr><th>${t('ส่วน', 'part')}</th><th>${t('เลขขั้ว', 'terminals')}</th><th>${t('ความหมาย', 'meaning')}</th></tr>` +
@@ -170,22 +169,21 @@ document.addEventListener('mc:ready', () => {
      [t('หน้าสัมผัสหลัก', 'main contacts'), '1/L1–2/T1, 3/L2–4/T2, 5/L3–6/T3', t('เลขคี่ฝั่งไฟเข้า (L) เลขคู่ฝั่งไปมอเตอร์ (T) ทนกระแสมอเตอร์', 'odd numbers on the supply side (L), even towards the motor (T); carry the motor current')],
      [t('หน้าสัมผัสช่วยปกติเปิด', 'auxiliary NO'), '13–14, 23–24, 33–34 …', t('หลักหลัง 3–4 = ปกติเปิด หลักแรก = ลำดับของหน้าสัมผัส', 'second digit 3–4 = NO, first digit = sequence number')],
      [t('หน้าสัมผัสช่วยปกติปิด', 'auxiliary NC'), '21–22, 31–32 …', t('หลักหลัง 1–2 = ปกติปิด', 'second digit 1–2 = NC')],
-     [t('ชุดหน้าสัมผัสเสริม (ด้านหน้า)', 'add-on block (front)'), '53–54, 61–62, 71–72, 83–84', t('ลำดับต่อจากหน้าสัมผัสในตัว (เลขที่พิมพ์บนชุดนั้นเอง)', 'sequence numbers continue those of the built-in contacts (printed on the block)')]].map(r => `<tr><td><b>${r[0]}</b></td><td><code>${r[1]}</code></td><td>${r[2]}</td></tr>`).join('');
+     [t('ชุดหน้าสัมผัสเสริม (ด้านหน้า)', 'add-on block (front)'), '53–54, 61–62, 71–72, 83–84', t('เลขพิมพ์อยู่บนชุดเสริม ใช้เลขลำดับ 5–8 (เลข 1–4 เว้นไว้ให้หน้าสัมผัสในตัวของคอนแทกเตอร์)', 'printed on the block; sequence digits 5–8 (digits 1–4 are left for the contactor\'s own contacts)')]].map(r => `<tr><td><b>${r[0]}</b></td><td><code>${r[1]}</code></td><td>${r[2]}</td></tr>`).join('');
   /* worked example */
   LS.choose($('ask1'), { options: [t('13–14 · 53–54, 61–62, 71–72, 83–84', '13–14 · 53–54, 61–62, 71–72, 83–84'), t('13–14 · 13–14, 21–22, 13–14, 21–22', '13–14 · 13–14, 21–22, 13–14, 21–22'), t('13–14 · 1–2, 3–4, 5–6, 7–8', '13–14 · 1–2, 3–4, 5–6, 7–8')], answer: 0 });
   LS.stepper($('st1'), { steps: [
     { why: t('หน้าสัมผัสในตัว', 'Built-in contacts'), body: `<p>${t('หน้าสัมผัสหลัก 1/L1–2/T1, 3/L2–4/T2, 5/L3–6/T3 และหน้าสัมผัสช่วย 13–14 (ลำดับที่ 1 ปกติเปิด)', 'main contacts 1/L1–2/T1, 3/L2–4/T2, 5/L3–6/T3 and auxiliary 13–14 (sequence 1, NO)')}</p>` },
-    { why: t('ชุดเสริม 2 NO + 2 NC ด้านหน้า', 'Front block, 2 NO + 2 NC'), body: `<p>${t('ลำดับต่อเป็น 5, 6, 7, 8: <b>53–54</b> (NO) <b>61–62</b> (NC) <b>71–72</b> (NC) <b>83–84</b> (NO) ตรวจกับเลขที่พิมพ์บนชุดเสริมรุ่นที่ใช้จริงเสมอ', 'the sequence continues 5, 6, 7, 8: <b>53–54</b> (NO), <b>61–62</b> (NC), <b>71–72</b> (NC), <b>83–84</b> (NO); always check the numbers printed on the actual block')}</p>` },
+    { why: t('ชุดเสริม 2 NO + 2 NC ด้านหน้า', 'Front block, 2 NO + 2 NC'), body: `<p>${t('ชุดเสริมใช้เลขลำดับ 5, 6, 7, 8 (เลข 2–4 ไม่ได้ใช้บนคอนแทกเตอร์ตัวนี้): <b>53–54</b> (NO) <b>61–62</b> (NC) <b>71–72</b> (NC) <b>83–84</b> (NO) ตรวจกับเลขที่พิมพ์บนชุดเสริมรุ่นที่ใช้จริงเสมอ', 'the block uses sequence digits 5, 6, 7, 8 (2–4 are not used on this contactor): <b>53–54</b> (NO), <b>61–62</b> (NC), <b>71–72</b> (NC), <b>83–84</b> (NO); always check the numbers printed on the actual block')}</p>` },
     { why: t('ชื่อในแบบ', 'Name on the drawing'), body: `<p>${t('หน้าสัมผัสเสริมเป็นส่วนหนึ่งของ KM1 ขยับไปพร้อมกับคอยล์ KM1 จึงตั้งชื่อ <b>KM1</b> ทุกตัว และเพิ่มในตารางอ้างอิงใต้คอยล์', 'the block is part of KM1 and moves with coil KM1, so every contact is named <b>KM1</b> and added to the cross-reference under the coil')}</p>` },
-    { why: t('หน้าสัมผัสหลักกับหน้าสัมผัสช่วยต่างกัน', 'Main and auxiliary contacts differ'), body: `<p>${t('หน้าสัมผัสหลักออกแบบให้ตัดกระแสมอเตอร์และมีห้องดับอาร์ก แต่มีแค่ 3 ชุดและอยู่ในวงจรกำลัง หน้าสัมผัสช่วยออกแบบให้ต่อกระแสน้อยของคอยล์และหลอดได้เชื่อถือ ในแบบจึงแยกหน้าที่กันชัดเจน', 'main contacts are built to break motor current with arc chutes, there are only three and they belong to the power circuit; auxiliary contacts are built to switch the small currents of coils and lamps reliably, so a drawing keeps the two roles apart')}</p>` }],
+    { why: t('หน้าสัมผัสหลักกับหน้าสัมผัสช่วยต่างกัน', 'Main and auxiliary contacts differ'), body: `<p>${t('หน้าสัมผัสหลักออกแบบให้ตัดกระแสมอเตอร์และมีห้องดับอาร์ก แต่มีแค่ 3 ชุดและอยู่ในวงจรกำลัง หน้าสัมผัสช่วยออกแบบให้ตัดต่อกระแสเล็ก ๆ ของคอยล์และหลอดได้อย่างแน่นอน ในแบบจึงแยกหน้าที่กันชัดเจน', 'main contacts are built to break motor current with arc chutes, there are only three and they belong to the power circuit; auxiliary contacts are built to switch the small currents of coils and lamps reliably, so a drawing keeps the two roles apart')}</p>` }],
     answer: t('(ก) 1/L1–2/T1, 3/L2–4/T2, 5/L3–6/T3, 13–14, 53–54, 61–62, 71–72, 83–84 (ข) KM1 (ค) หน้าที่และพิกัดต่างกัน', '(a) 1/L1–2/T1, 3/L2–4/T2, 5/L3–6/T3, 13–14, 53–54, 61–62, 71–72, 83–84; (b) KM1; (c) different jobs and ratings') });
   /* D: coil test */
   const sim = new RL.Sim($('simD'), C4.COILTEST(), { max: 760 }), pD = $('pD');
   ui.h2(pD, t('สั่งงาน', 'Control')); const rowD = document.createElement('div'); rowD.className = 'toggles'; pD.appendChild(rowD);
   const sB = document.createElement('button'); sB.type = 'button'; sB.className = 'btn on'; sB.textContent = t('S1 เปิด / ปิด', 'S1 on / off'); sB.addEventListener('click', () => sim.toggle('S1')); rowD.appendChild(sB);
-  const stD = ui.status(pD), showD = () => { const e = sim.dev.KM1.energized; ui.setStatus(stD, e ? t('KM1 ดูด', 'KM1 closed') : t('KM1 ปล่อย', 'KM1 open'), `H1 ${sim.dev.H1.energized ? t('ติด', 'lit') : t('ดับ', 'off')} · H2 ${sim.dev.H2.energized ? t('ติด', 'lit') : t('ดับ', 'off')} · ${sim.running() ? t('มอเตอร์หมุน', 'motor runs') : t('มอเตอร์หยุด', 'motor stopped')}`, e ? 'ok' : 'warn'); };
+  const stD = ui.status(pD), showD = () => { const e = sim.dev.KM1.energized; ui.setStatus(stD, e ? t('KM1 ดูด', 'KM1 closed') : t('KM1 ปล่อย', 'KM1 open'), `${sim.dev.F2.tripped ? `${t('F2 ตัด (95–96 เปิด)', 'F2 tripped (95–96 open)')} · ` : ''}H1 ${sim.dev.H1.energized ? t('ติด', 'lit') : t('ดับ', 'off')} · H2 ${sim.dev.H2.energized ? t('ติด', 'lit') : t('ดับ', 'off')} · ${sim.running() ? t('มอเตอร์หมุน', 'motor runs') : t('มอเตอร์หยุด', 'motor stopped')}`, e ? 'ok' : 'warn'); };
   sim.on(showD); showD();
-  /* textbook notes (filled after the research) */
   ED.mcq('mcq', [
     { q: t('1) เมื่อป้อนไฟเข้าคอยล์คอนแทกเตอร์ อะไรเกิดขึ้น', '1) What happens when a contactor coil is energised?'), options: [t('แกนเหล็กเคลื่อนที่ถูกดูด หน้าสัมผัสทุกชุดเปลี่ยนพร้อมกัน', 'the armature is pulled in and all contacts change together'), t('เฉพาะหน้าสัมผัสหลักเปลี่ยน', 'only the main contacts change'), t('สปริงดันกลับดันแกนเหล็กออก', 'the return spring pushes the armature out')], answer: 0 },
     { q: t('2) ขั้วคอยล์ของคอนแทกเตอร์ใช้เลขใด', '2) Which numbers mark a contactor coil?'), options: ['1–2', 'A1–A2', '95–96'], answer: 1 },

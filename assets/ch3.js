@@ -52,8 +52,8 @@ C3.PB = class {
     let k = IE.L(20, 16, 220, 16, { w: 2 }) + IE.T('L1', 14, 20, { anchor: 'end', size: 11, weight: 700 }) + IE.L(20, 214, 220, 214, { w: 2 }) + IE.T('N', 14, 218, { anchor: 'end', size: 11, weight: 700 });
     const x1 = 80, x2 = 180, o1 = st.c1 ? '#ff4d4d' : null, o2 = st.c2 ? '#ff4d4d' : null;
     k += `<g${o1 ? ` stroke="${o1}"` : ''}>${IE.contact(true, x1, 16, 100, { act: !st.c1, op: es ? 'mush' : 'pb' })}</g>` + IE.T('S1', x1 - 40, 62, { anchor: 'end', size: 11, weight: 700 }) + IE.T('11', x1 + 5, 30, { size: 9 }) + IE.T('12', x1 + 5, 96, { size: 9 });
-    k += `<g${o2 ? ` stroke="${o2}"` : ''}>${IE.contact(st.k2 === 'NC', x2, 16, 100, { act: st.k2 === 'NC' ? !st.c2 : st.c2, op: es ? 'mush' : 'pb' })}</g>` + IE.T('S1', x2 - 40, 62, { anchor: 'end', size: 11, weight: 700 }) + IE.T(st.t2[0], x2 + 5, 30, { size: 9 }) + IE.T(st.t2[1], x2 + 5, 96, { size: 9 });
-    k += IE.L(x1 - 26, 58, x2 - 26, 58, { dash: '3 2' });
+    k += `<g${o2 ? ` stroke="${o2}"` : ''}>${IE.contact(st.k2 === 'NC', x2, 16, 100, { act: st.k2 === 'NC' ? !st.c2 : st.c2, op: es ? 'mush' : 'pb' })}</g>` + IE.T('S1', x2 - 40, 49, { anchor: 'end', size: 11, weight: 700 }) + IE.T(st.t2[0], x2 + 5, 30, { size: 9 }) + IE.T(st.t2[1], x2 + 5, 96, { size: 9 });
+    k += IE.L(x1 - 26, 58, x2 - 26, 58, { dash: '3 2' });   // the second 'S1' sits above this link (y 49), not on it
     k += `<g${o1 ? ` stroke="${o1}"` : ''}>${IE.lamp(x1, 100, 214, { live: st.c1, lamp: '#ff6b6b' })}</g>` + IE.T('H1', x1 - 16, 161, { anchor: 'end', size: 11, weight: 700 });
     k += `<g${o2 ? ` stroke="${o2}"` : ''}>${IE.lamp(x2, 100, 214, { live: st.c2, lamp: es ? '#ff6b6b' : '#7ee787' })}</g>` + IE.T('H2', x2 - 16, 161, { anchor: 'end', size: 11, weight: 700 });
     this.cktEl.innerHTML = IE.svg(240, 230, k, { max: 260, label: 'button and lamps' });

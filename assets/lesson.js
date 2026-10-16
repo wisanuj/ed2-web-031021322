@@ -70,7 +70,10 @@ LS.zoom = img => {
     box.innerHTML = `<img alt=""><button type="button" class="lbx" aria-label="close">✕</button><div class="lbcap"></div>`; document.body.appendChild(box);
     box.addEventListener('click', () => { box.classList.remove('on'); }); document.addEventListener('keydown', e => { if (e.key === 'Escape') box.classList.remove('on'); }); }
   box.querySelector('img').src = img.currentSrc || img.src; box.querySelector('img').alt = img.alt || '';
-  const cap = img.closest('figure') && img.closest('figure').querySelector('figcaption'); box.querySelector('.lbcap').textContent = cap ? cap.textContent.replace(/·[^·]*$/, '').trim() : '';
+  // the caption in the page language (device cards have one caption without data-l); drop only the "tap to enlarge" tail, never the source
+  const fig = img.closest('figure'), caps = fig ? [...fig.querySelectorAll('figcaption')] : [], lang = (window.MC && MC.lang) || document.documentElement.dataset.lang;
+  const cap = caps.find(c => c.dataset.l === lang) || caps.find(c => !c.dataset.l) || caps[0];
+  box.querySelector('.lbcap').textContent = cap ? cap.textContent.replace(/\s*·\s*(แตะรูปเพื่อขยาย|tap to enlarge)\s*$/, '').trim() : '';
   box.classList.add('on');
 };
 document.addEventListener('click', e => { const img = e.target.closest && e.target.closest('figure.slide img'); if (img) LS.zoom(img); });
