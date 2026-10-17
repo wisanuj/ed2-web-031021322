@@ -4,7 +4,11 @@
    unactuated state, as the standard requires. Strokes use currentColor unless o.col is given.
    Kinds: NO, NC (contacts), op = 'pb' push button, 'mush' emergency stop, 'sel' selector (maintained), 'lim' position switch,
    'flt' float, 'prs' pressure, 'tmp' temperature, 'thr' thermal (overload contact), 'td' timed contact (o.td = 'on' | 'off');
-   coil (o.td on/off for timers), lamp, fuse, mainNO (contactor main contact), cb (circuit breaker), therm (thermal element), motor. */
+   coil (o.td on/off for timers), lamp, fuse, mainNO (contactor main contact), cb (circuit breaker), therm (thermal element), motor.
+   Chapter 5 (17 Oct 2026): op 'spd' (speed-operated, the centrifugal switch of a single-phase motor), wind (winding), cap (capacitor),
+   efault (an earth fault from a node: off = dashed "possible fault", on = flash to earth), earth (earth symbol), meter (V or A in a
+   circle), ct (current transformer ring on a vertical conductor); therm o.trip marks a tripped element; a near-white lamp gets an
+   outlined halo so that it shows on a white page. */
 (function (global) {
 'use strict';
 const IE = {};
@@ -26,6 +30,7 @@ function operator(op, x, ym, o) {
   else if (op === 'prs') s += `<path d="M ${xl - 5} ${ym - 5} L ${xl + 5} ${ym - 5} L ${xl + 5} ${ym + 5} L ${xl - 5} ${ym + 5} Z" fill="none"${c}/>` + T('p', xl, ym + 4, { size: 10, anchor: 'middle', col: o.col });
   else if (op === 'tmp') s += `<path d="M ${xl - 5} ${ym - 5} L ${xl + 5} ${ym - 5} L ${xl + 5} ${ym + 5} L ${xl - 5} ${ym + 5} Z" fill="none"${c}/>` + T('θ', xl, ym + 4, { size: 10, anchor: 'middle', col: o.col });
   else if (op === 'thr') s += `<path d="M ${xl - 3} ${ym + 6} L ${xl - 3} ${ym} L ${xl + 3} ${ym} L ${xl + 3} ${ym - 6}" fill="none"${c}/>`;
+  else if (op === 'spd') s += `<circle cx="${xl}" cy="${ym}" r="6" fill="none"${c}/>` + T('n', xl, ym + 3.5, { size: 9, anchor: 'middle', col: o.col });   // speed (centrifugal) operator
   return s;
 }
 /* contact: NO (make) or NC (break); o.act draws the actuated position. Both kinds swing to the RIGHT when actuated (pushed by the operator
@@ -58,16 +63,36 @@ IE.coil = (x, y0, y1, o = {}) => { const ym = (y0 + y1) / 2, w = 24, h = 14, col
     if (o.td === 'on') s += L(bx, ym - h / 2, bx + 12, ym + h / 2, { col }) + L(bx + 12, ym - h / 2, bx, ym + h / 2, { col }); }
   return s; };
 /* signal lamp: circle with a cross; o.live lights it in o.lamp colour */
+const pale = c => { const m = /^#([0-9a-f]{6})$/i.exec(c || ''); if (!m) return false; const v = parseInt(m[1], 16); return Math.min(v >> 16, (v >> 8) & 255, v & 255) > 0xd8; };
 IE.lamp = (x, y0, y1, o = {}) => { const ym = (y0 + y1) / 2, r = 9, col = o.col, d = r * 0.7;
-  return L(x, y0, x, ym - r, { col }) + L(x, ym + r, x, y1, { col }) + (o.live ? `<circle cx="${x}" cy="${ym}" r="${r + 5}" fill="${o.lamp || '#7ee787'}" opacity=".35" stroke="none"/>` : '') +
+  return L(x, y0, x, ym - r, { col }) + L(x, ym + r, x, y1, { col }) + (o.live ? `<circle cx="${x}" cy="${ym}" r="${r + 5}" fill="${o.lamp || '#7ee787'}" opacity="${pale(o.lamp) ? '.9' : '.35'}" stroke="${pale(o.lamp) ? '#8a93a6' : 'none'}"${pale(o.lamp) ? ' stroke-width="1" stroke-dasharray="2 2"' : ''}/>` : '') +
     `<circle cx="${x}" cy="${ym}" r="${r}" fill="${o.live ? (o.lamp || '#7ee787') : 'none'}"${col ? ` stroke="${col}"` : ''}/>` + L(x - d, ym - d, x + d, ym + d, { col }) + L(x + d, ym - d, x - d, ym + d, { col }); };
 IE.fuse = (x, y0, y1, o = {}) => { const ym = (y0 + y1) / 2, col = o.col;
   return L(x, y0, x, ym - 11, { col }) + L(x, ym + 11, x, y1, { col }) + `<rect x="${x - 4}" y="${ym - 11}" width="8" height="22" fill="${o.blown ? '#ff6b6b' : 'none'}"${col ? ` stroke="${col}"` : ''}/>` + (o.blown ? '' : L(x, ym - 11, x, ym + 11, { col })); };
 /* thermal overload element in a power line */
 IE.therm = (x, y0, y1, o = {}) => { const ym = (y0 + y1) / 2, col = o.col;
-  return L(x, y0, x, ym - 9, { col }) + L(x, ym + 9, x, y1, { col }) + `<rect x="${x - 6}" y="${ym - 9}" width="12" height="18" fill="none"${col ? ` stroke="${col}"` : ''}/>` +
+  return L(x, y0, x, ym - 9, { col }) + L(x, ym + 9, x, y1, { col }) + `<rect x="${x - 6}" y="${ym - 9}" width="12" height="18" fill="${o.trip ? 'rgba(255,107,107,.35)' : 'none'}"${col ? ` stroke="${col}"` : ''}/>` +
     `<path d="M ${x} ${ym - 9} L ${x} ${ym - 3} L ${x - 3} ${ym - 3} L ${x - 3} ${ym + 3} L ${x} ${ym + 3} L ${x} ${ym + 9}" fill="none"${col ? ` stroke="${col}"` : ''}/>`; };
 IE.motor = (x, cy, r, o = {}) => `<circle cx="${x}" cy="${cy}" r="${r}" fill="none"${o.col ? ` stroke="${o.col}"` : ''}/>` + T('M', x, cy - 1, { size: 13, anchor: 'middle', weight: 700, col: o.col }) + T(o.one ? '1~' : '3~', x, cy + 13, { size: 10, anchor: 'middle', col: o.col });
+
+/* winding (a row of half loops on a vertical conductor), e.g. the run winding U1–U2 or the start winding Z1–Z2 */
+IE.wind = (x, y0, y1, o = {}) => { const n = 4, h = Math.min(9, (y1 - y0 - 8) / n), ya = (y0 + y1) / 2 - n * h / 2, col = o.col; let d = `M ${f(x)} ${f(ya)}`;
+  for (let i = 0; i < n; i++) d += ` A ${f(h / 2)} ${f(h / 2)} 0 0 1 ${f(x)} ${f(ya + (i + 1) * h)}`;
+  return L(x, y0, x, ya, { col }) + `<path d="${d}" fill="none"${col ? ` stroke="${col}"` : ''}/>` + L(x, ya + n * h, x, y1, { col }); };
+/* capacitor: two plates across the conductor */
+IE.cap = (x, y0, y1, o = {}) => { const ym = (y0 + y1) / 2, col = o.col;
+  return L(x, y0, x, ym - 3, { col }) + L(x - 8, ym - 3, x + 8, ym - 3, { col, w: 2 }) + L(x - 8, ym + 3, x + 8, ym + 3, { col, w: 2 }) + L(x, ym + 3, x, y1, { col }); };
+/* earth symbol hanging below (x, y) */
+IE.earth = (x, y, o = {}) => { const col = o.col; return L(x, y, x, y + 5, { col }) + L(x - 7, y + 5, x + 7, y + 5, { col }) + L(x - 4.5, y + 8, x + 4.5, y + 8, { col }) + L(x - 2, y + 11, x + 2, y + 11, { col }); };
+/* earth fault from a node: o.act = the fault exists (a flash to earth, then the protective conductor back to the earthed neutral, dashed) */
+IE.efault = (x, y0, y1, o = {}) => { const ym = (y0 + y1) / 2, col = o.col;
+  if (!o.act) return L(x, y0, x, y1, { col: 'var(--muted)', dash: '2 4' }) + `<path d="M ${x + 5} ${ym - 9} L ${x - 3} ${ym} L ${x + 3} ${ym} L ${x - 5} ${ym + 9}" fill="none" stroke="var(--muted)"/>`;
+  return L(x, y0, x, ym - 12, { col }) + `<path d="M ${x} ${ym - 12} L ${x + 6} ${ym - 3} L ${x - 6} ${ym + 1} L ${x} ${ym + 8}" fill="none"${col ? ` stroke="${col}"` : ''} stroke-width="2"/>` +
+    IE.earth(x, ym + 8, { col }) + L(x, ym + 20, x, y1, { col, dash: '4 3' }); };
+/* measuring instrument: a circle with its letter (V voltmeter, A ammeter) */
+IE.meter = (x, cy, r, letter, o = {}) => `<circle cx="${x}" cy="${cy}" r="${r}" fill="${o.fill || 'none'}"${o.col ? ` stroke="${o.col}"` : ''}/>` + T(letter, x, cy + 4.5, { size: 13, anchor: 'middle', weight: 700, col: o.col });
+/* current transformer on a vertical conductor at (x, y): a ring around it with its secondary lead to the right */
+IE.ct = (x, y, o = {}) => { const col = o.col; return `<circle cx="${x}" cy="${y}" r="6" fill="none"${col ? ` stroke="${col}"` : ''}/>` + L(x + 6, y, x + 16, y, { col }); };
 
 /* one element by kind (used by the simulator and by the symbol gallery) */
 IE.draw = (k, x, y0, y1, o = {}) => {
@@ -78,6 +103,9 @@ IE.draw = (k, x, y0, y1, o = {}) => {
   if (k === 'mainNO') return IE.mainNO(x, y0, y1, o);
   if (k === 'cb') return IE.cb(x, y0, y1, o);
   if (k === 'therm') return IE.therm(x, y0, y1, o);
+  if (k === 'earth') return IE.efault(x, y0, y1, o);
+  if (k === 'cap') return IE.cap(x, y0, y1, o);
+  if (k === 'wind') return IE.wind(x, y0, y1, o);
   if (k === 'w') return L(x, y0, x, y1, { col: o.col });
   return '';
 };

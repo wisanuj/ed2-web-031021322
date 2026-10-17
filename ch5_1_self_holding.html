@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="5.1 — From a switch to a self-holding circuit">5.1 — จากสวิตช์สู่วงจรค้างตัวเอง</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=11"><link rel="stylesheet" href="assets/ed2.css?v=11">
+<link rel="stylesheet" href="assets/wiring.css?v=11">
+<script src="assets/stops.js?v=11"></script><script src="assets/shell.js?v=11"></script>
+<script src="assets/lesson.js?v=11"></script><script src="assets/draw.js?v=11"></script><script src="assets/ed.js?v=11"></script><script src="assets/sym.js?v=11"></script><script src="assets/iec.js?v=11"></script><script src="assets/relay.js?v=11"></script><script src="assets/ch2.js?v=11"></script><script src="assets/ch3.js?v=11"></script><script src="assets/ch4.js?v=11"></script>
+<script src="assets/ch5.js?v=11"></script>
+<script src="assets/wiring.js?v=11"></script><script src="assets/devdata.js?v=11"></script><script src="assets/dev.js?v=11"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">จากสวิตช์สู่วงจรค้างตัวเอง: การเริ่มเดินมอเตอร์โดยตรงทีละขั้น <span class="en">From a switch to a self-holding circuit: direct-on-line starting step by step</span></h1>
+<h1 data-l="en">From a switch to a self-holding circuit <span class="en">Direct-on-line starting step by step</span></h1>
+
+<p class="sub" data-l="th">การเริ่มเดินมอเตอร์โดยตรง (direct-on-line, DOL) คือการต่อมอเตอร์เข้ากับแรงดันเต็มของแหล่งจ่ายในครั้งเดียว เป็นวิธีที่ง่ายและถูกที่สุด และเป็นฐานของวงจรควบคุมมอเตอร์ในบทต่อ ๆ ไปทั้งหมด หน้านี้เดินตามไฟล์ใบงาน CADe SIMU ของรายวิชาแผ่นที่ 1–5 จากมอเตอร์ที่ต่อตรงกับสายเมน เพิ่มเบรกเกอร์ คอนแทกเตอร์ สวิตช์ และปุ่มกด จนได้วงจรค้างตัวเอง (self-holding) ทุกขั้นมีปุ่ม "ไฟดับแล้วกลับมา" ให้ลองว่ามอเตอร์หมุนเองหรือไม่ จากนั้นดูหน้าสัมผัสค้างตัวเองทำงานทีละจังหวะ และดูว่าทำไมกระแสเริ่มเดินที่สูงหลายเท่าของกระแสพิกัดจึงไม่ทำให้โอเวอร์โหลดตัด</p>
+<p class="sub" data-l="en">Direct-on-line (DOL) starting connects a motor to the full supply voltage in one step. It is the simplest and cheapest way to start a motor, and every later control circuit in this course builds on it. This page follows sheets 1–5 of the course's CADe SIMU lab file: from a motor wired straight to the supply, through a breaker, a contactor, a switch and a push button, to a self-holding circuit. Every step has a "power fails and returns" button, so you can see whether the motor starts again by itself. Then you walk through the holding contact one step at a time, and see why the starting current, several times the rated current, does not trip the overload relay.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>แต่ละขั้นมีเหตุผล</b>: มอเตอร์ที่ต่อตรงไม่มีอะไรตัดหรือป้องกัน → เบรกเกอร์ Q1 ปลดไฟด้วยมือและตัดเองเมื่อลัดวงจร → คอนแทกเตอร์ KM1 ให้กระแสเล็ก ๆ ในวงจรควบคุมสั่งกระแสมอเตอร์ได้จากที่ไกล → ปุ่มกด S2 อย่างเดียวหมุนเฉพาะขณะกดค้าง (เดินกระตุก) → ปุ่มหยุด S1 ปุ่มเริ่ม S2 และหน้าสัมผัสค้างตัวเอง KM1 13–14 คือวงจรเริ่มเดินโดยตรงที่ใช้งานจริง</li>
+  <li><b>หน้าสัมผัสค้างตัวเอง</b> (holding contact) KM1 13–14 เป็นหน้าสัมผัสปกติเปิด (normally open, NO) ต่อคร่อม S2: กด S2 → คอยล์ KM1 มีไฟ → 13–14 ต่อ → ปล่อย S2 กระแสไหลผ่าน 13–14 แทน → กด S1 ซึ่งเป็นหน้าสัมผัสปกติปิด (normally closed, NC) 11–12 ตัดทางเดินกระแสทุกทาง → KM1 หลุด 13–14 เปิด</li>
+  <li><b>ไฟดับแล้วกลับมา</b>: วงจร 2 สาย (สวิตช์ค้างตำแหน่ง) หมุนเองทันที วงจร 3 สาย (ค้างตัวเอง) ไม่หมุนเอง ต้องกดเริ่มใหม่ ตามหลักของ IEC 60204-1 ข้อ 7.5 (IEC = International Electrotechnical Commission คณะกรรมาธิการไฟฟ้าระหว่างประเทศ) ที่ไม่ให้เครื่องจักรเริ่มทำงานเองโดยไม่คาดคิดเมื่อไฟกลับมา ในกรณีที่การเริ่มเองนั้นเป็นอันตราย วงจรควบคุมรับไฟ 230 V ระหว่าง L1 กับนิวทรัล (N) หลัง Q1 การปลด Q1 จึงเป็นไฟดับของวงจรควบคุมด้วย</li>
+  <li><b>กระแสเริ่มเดิน</b> ของมอเตอร์ที่เริ่มเดินโดยตรงสูงราว 6–8 เท่าของกระแสพิกัด จนกว่ามอเตอร์จะเร่งถึงความเร็วใกล้พิกัด โอเวอร์โหลด F2 ต้องปล่อยให้ช่วงนี้ผ่านไปโดยไม่ตัด โหลดที่มีความเฉื่อยมากเร่งนานจนโอเวอร์โหลดคลาส 10 อาจตัด จึงใช้คลาส 20</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>Each step has a reason</b>: a motor wired straight to the supply has nothing to switch or protect it → breaker Q1 switches it by hand and trips on a short circuit → contactor KM1 lets a small control current switch the motor current from a distance → push button S2 alone runs the motor only while held (inching) → stop button S1, start button S2 and the holding contact KM1 13–14 make the DOL starter used in practice.</li>
+  <li><b>The holding contact</b> KM1 13–14 is a normally open (NO) contact across S2: press S2 → coil KM1 is energised → 13–14 closes → release S2 and the current flows through 13–14 instead → press S1, a normally closed (NC) contact 11–12, and every path is broken → KM1 drops out and 13–14 opens.</li>
+  <li><b>Power fails and returns</b>: two-wire control (a maintained switch) starts again at once; three-wire control (self-holding) stays off until start is pressed. That is the principle of IEC 60204-1 clause 7.5 (International Electrotechnical Commission, IEC): no automatic or unexpected restart when the power returns where that could be hazardous. The control circuit takes 230 V between L1 and neutral (N) after Q1, so switching Q1 off is a power failure for the control circuit too.</li>
+  <li><b>The starting current</b> of a DOL-started motor is about 6–8 times its rated current until the motor is close to its rated speed. Overload relay F2 must let this pass without tripping; a high-inertia load accelerates so slowly that a class 10 overload may trip, so it gets class 20.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>ทีละขั้น</a><a href="#tA"><b>A</b>ค้างตัวเองทีละจังหวะ</a><a href="#tB"><b>B</b>กระแสเริ่มเดิน</a><a href="#ex1"><b>1</b>เลขขั้วและตารางอ้างอิง</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>Step by step</a><a href="#tA"><b>A</b>Self-holding, one step at a time</a><a href="#tB"><b>B</b>Starting current</a><a href="#ex1"><b>1</b>Terminal numbers and cross-reference</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">ทีละขั้น: จากมอเตอร์ต่อตรงสู่วงจรค้างตัวเอง</h2><h2 data-l="en">Step by step: from a motor on the supply to a self-holding circuit</h2>
+    <div class="src" data-l="th">ไฟล์ใบงาน CADe SIMU ของรายวิชา แผ่นที่ 1–5 · EMC9 หน่วยที่ 5 รูป 5-5 และหน่วยที่ 17–18 · IEC 60204-1 ข้อ 7.5</div><div class="src" data-l="en">The course's CADe SIMU lab file, sheets 1–5 · EMC9 unit 5, Fig. 5-5, and units 17–18 · IEC 60204-1, 7.5</div></div></div>
+  <p class="lead" data-l="th">เลือกขั้นที่ 1 ถึง 5 (ตรงกับแผ่นที่ 1–5 ของไฟล์ใบงาน แต่ใช้ชื่ออุปกรณ์ตามแบบของวิชา) อ่านว่าขั้นนั้นเพิ่มอะไรและเพราะอะไร แล้วสั่งมอเตอร์ด้วยปุ่มในแผงด้านล่างหรือแตะอุปกรณ์ในวงจรเอง ทุกขั้นให้กด <b>⚡ ไฟดับแล้วกลับมา</b> ขณะมอเตอร์หมุน (ระบบจะปลด Q1 แล้วสับกลับให้เอง แบบเดียวกับการทดลองไฟดับใน CADe SIMU) แล้วดูว่ามอเตอร์หมุนต่อเองหรือไม่ สิ่งที่ทำและผลที่ได้จะบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">Choose step 1 to 5 (sheets 1–5 of the lab file, with the device names of the course drawings), read what the step adds and why, then run the motor with the buttons in the panel below or by tapping the devices in the circuit. In every step press <b>⚡ Power fails and returns</b> while the motor runs (Q1 is opened and closed again for you, the way you test a power failure in CADe SIMU) and see whether the motor starts again by itself. What you do and what happens is recorded in the table.</p>
+  <div class="card solve"><div id="steps0"></div><div id="info0"></div><div id="names0"></div></div>
+  <div class="card sim rlwrap" id="sim0" style="padding:8px;margin-top:12px"></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="p0" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="log0"></div><div id="sum0" style="margin-top:8px"></div></div>
+  <div class="callout" data-l="th"><b>วงจรควบคุมรับไฟจากไหน</b>: ในหน้านี้และทั้งบทที่ 5 วงจรควบคุมรับไฟ 230 V ระหว่าง L1 กับ N ที่แยกออกมา<b>หลัง Q1</b> (สองเส้นที่แยกจาก L1 และ N ทางซ้ายของวงจรกำลัง) การปลด Q1 หรือไฟดับจึงตัดไฟของวงจรควบคุมด้วย KM1 หลุดและต้องสั่งเริ่มใหม่ หน้าสัมผัสทุกตัวอยู่ฝั่ง L ส่วนคอยล์ (ขั้ว A2) ต่อตรงไป N โดยไม่มีฟิวส์หรือสวิตช์ใน N ตามหลักของ IEC 60204-1 ข้อ 9.4.3.1 ที่ไม่ให้การลัดลงดินทำให้เครื่องเริ่มเองหรือหยุดไม่ได้ ส่วน IEC 60204-1 ข้อ 9.1.1 ปกติให้ป้อนวงจรควบคุมผ่านหม้อแปลงควบคุม การต่อตรงจาก L1 กับ N ยอมรับได้กับเครื่องที่มีชุดเริ่มเดินมอเตอร์ชุดเดียว และ/หรืออุปกรณ์ควบคุมไม่เกินสองตัว ชุดฝึกในห้องปฏิบัติการต่อแบบนี้ หน้านี้จึงต่อแบบเดียวกัน</div>
+  <div class="callout" data-l="en"><b>Where the control circuit gets its supply</b>: on this page and in all of chapter 5 the control circuit takes 230 V between L1 and N tapped <b>after Q1</b> (the two lines that branch off L1 and N on the left of the power circuit). Switching Q1 off, or a power failure, therefore also removes the control supply: KM1 drops out and must be started again. Every contact sits on the L side and the coil (terminal A2) goes straight to N, with no fuse or switch in N: the principle of IEC 60204-1, 9.4.3.1, that an earth fault must not start the machine or stop it from stopping. IEC 60204-1, 9.1.1 normally wants the control circuit fed through a control transformer; feeding it straight from L1 and N is accepted for a machine with a single motor starter and/or at most two control devices. The lab rigs are wired this way, and so is this page.</div>
+  <div class="story">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>ชื่อ "วงจร 3 สาย" มาจากจำนวนสายระหว่างชุดปุ่มกดกับชุดเริ่มเดิน รูป 5-5 ของ EMC9 วาดวงจรเดียวกันสองแบบ ด้านบนเป็นแผนภาพวงจร (หนังสืออเมริกันเรียกว่า elementary diagram) ด้านล่างเป็นแบบการเดินสาย (wiring diagram) ที่เห็นสายสามเส้นหมายเลข 1, 2, 3 วิ่งจากชุดปุ่ม START–STOP ไปที่ชุดเริ่มเดิน และหน้าสัมผัสค้าง M ต่อคร่อมระหว่างสาย 2 กับสาย 3 ส่วนวงจร 2 สายใช้สวิตช์ค้างตำแหน่งที่มีสายเพียงสองเส้น</p>
+        <p>รูปนี้เป็นแบบอเมริกัน (National Electrical Manufacturers Association, NEMA) ที่วาดทางเดินกระแสตามแนวนอน เมื่อวาดใหม่เป็นแบบ IEC ก็คือขั้นที่ 5 ด้านบน: สาย 1 ของหนังสือคือจุดที่ต่อจาก F1 ขั้ว 2 ไป S1 ขั้ว 11, สาย 2 คือจุดที่ S1 ขั้ว 12 ต่อกับ S2 ขั้ว 13 และ KM1 ขั้ว 13, สาย 3 คือจุดที่ S2 ขั้ว 14 ต่อกับ KM1 ขั้ว 14 และขั้วคอยล์ A1 วิชานี้ใช้หลักเดียวกัน คือหนึ่งเลขต่อหนึ่งจุดต่อร่วม แต่ให้รางบนหลัง Q1 เป็นสาย 1 จุดทั้งสามนี้ในแบบของวิชาจึงเป็นสาย 2, 3 และ 4 การให้เลขสายแบบนี้จะได้ทำเองในหน้า 5.6</p>
+        <p>หนังสือแต่ละเล่มใช้คำต่างกัน: EMC9 เรียกวงจร 2 สายว่า no-voltage (low-voltage) release คือคอยล์หลุดเมื่อไฟดับแล้วดูดกลับเองเมื่อไฟมา และเรียกวงจร 3 สายว่า no-voltage protection คือไม่เริ่มเองจนกว่าจะกดปุ่ม แต่ UMC5 บทที่ 3 ใช้คำว่า low-voltage release กับอุปกรณ์ที่ไม่ให้เริ่มเองหลังไฟดับ วิชานี้จึงใช้แนวคิดของ IEC 60204-1 ข้อ 7.5 ตรง ๆ คือป้องกันไม่ให้เครื่องเริ่มทำงานเองโดยไม่คาดคิดเมื่อไฟกลับมา</p></div>
+      <div class="story-p" data-l="en"><p>The name "three-wire" comes from the number of wires between the push-button station and the starter. EMC9 Fig. 5-5 draws one circuit twice: an elementary diagram on top and a wiring diagram below, where three wires numbered 1, 2 and 3 run from the START–STOP station to the starter, with the holding contact M connected between wires 2 and 3. Two-wire control uses a maintained switch with only two wires.</p>
+        <p>The figure is a US (National Electrical Manufacturers Association, NEMA) drawing with horizontal rungs. Redrawn to IEC it is step 5 above: the book's wire 1 is the point from F1 terminal 2 to S1 terminal 11; its wire 2 is the point where S1 terminal 12 meets S2 terminal 13 and KM1 terminal 13; its wire 3 is the point where S2 terminal 14 meets KM1 terminal 14 and coil terminal A1. The course uses the same rule, one number per junction, but makes the top rail after Q1 wire 1, so in the course drawing these three points are wires 2, 3 and 4. You will number wires like this yourself on page 5.6.</p>
+        <p>The books use different words. EMC9 calls two-wire control "no-voltage (low-voltage) release": the coil drops out when the power fails and picks up again when it returns. It calls three-wire control "no-voltage protection": no restart until a button is pressed. UMC5 ch. 3, however, uses "low-voltage release" for a device that does not restart after a power failure. This course therefore uses the IEC 60204-1 clause 7.5 idea directly: prevent an automatic or unexpected restart when the power returns.</p></div></div>
+    <div class="story-f">
+      <figure class="slide sm"><img src="img/book/emc9_fig5_5_three_wire.jpg?v=11" width="740" height="1131" loading="lazy" decoding="async" alt="US textbook figure: elementary diagram of a three-wire start-stop circuit above, and below the wiring diagram of the same starter, with three wires numbered 1, 2 and 3 running from the start-stop push-button station to the starter.">
+        <figcaption data-l="th">รูป 5-5 แผนภาพวงจรและแบบการเดินสายของวงจร 3 สาย (แบบ NEMA) · ที่มา: Herman, <i>Electric Motor Control</i> 9th ed. (Delmar Cengage, 2010) หน่วยที่ 5 หน้า 67 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 5-5, elementary and wiring diagram of three-wire control (NEMA) · source: Herman, <i>Electric Motor Control</i>, 9th ed. (Delmar Cengage, 2010), unit 5, p. 67 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">วงจรค้างตัวเองทีละจังหวะ</h2><h2 data-l="en">The self-holding circuit, one step at a time</h2>
+    <div class="src" data-l="th">UMC5 บทที่ 7 รูป 7.1–7.2 · ตำราไทย บทที่ 1 รูป 1.2 · Senty บทที่ 14 วงจรที่ 3</div><div class="src" data-l="en">UMC5 ch. 7, Figs 7.1–7.2 · Thai textbook ch. 1, Fig. 1.2 · Senty ch. 14, circuit 3</div></div></div>
+  <p class="lead" data-l="th">กด <b>▶ เริ่มเฉลย</b> แล้วกด <b>▶ ขั้นถัดไป</b> ทีละครั้ง วงจรด้านซ้ายจะกดและปล่อยปุ่มให้ตามขั้น ดูเส้นสีแดงที่มีไฟและเส้นประวิ่งที่บอกทางเดินกระแส แล้วอ่านคำอธิบายของแต่ละขั้น จะกดปุ่มในวงจรหรือในแผงใต้วงจรเองก็ได้ วงจรนี้แสดงเลขขั้วของทุกอุปกรณ์ เลขทางเดินกระแส (1 และ 2 ใต้เส้น N) และตารางอ้างอิงหน้าสัมผัสใต้คอยล์ KM1 ไว้ครบ การกดและปล่อยแต่ละครั้งบันทึกลงตารางใต้วงจร</p>
+  <p class="lead" data-l="en">Press <b>▶ Start</b>, then <b>▶ Next step</b> one at a time. The circuit on the left presses and releases the buttons for you, step by step: watch the red live parts and the moving dashes that show where the current flows, and read the explanation of each step. You can also press the buttons in the circuit or in the panel under it. The circuit shows every terminal number, the current-path numbers (1 and 2 under the N line) and the contact cross-reference under coil KM1. Every press and release is recorded in the table under the circuit.</p>
+  <div class="duo wide-sim">
+    <div class="card sim" style="padding:8px"><div class="rlwrap" id="boxA"><div id="simA"></div></div><div id="pA" style="margin-top:8px"></div></div>
+    <div class="card solve"><div id="stepA"></div></div>
+  </div>
+  <div class="card" style="margin-top:12px"><div id="logA"></div><div id="sumA" style="margin-top:8px"></div></div>
+  <div class="story">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>รูป 1.2 ของตำราไทยคือวงจรเริ่มเดินโดยตรงวงจรเดียวกัน ด้านซ้ายเป็นวงจรกำลัง ด้านขวาเป็นวงจรควบคุมที่มีทางเดินกระแส 1–3 ตำราใช้อักษรแบบมาตรฐานเยอรมัน (Deutsches Institut für Normung, DIN) ซึ่งเทียบกับชื่อในแบบของวิชาได้ตามตาราง ลำดับในวงจรควบคุมเหมือนกัน: ฟิวส์ หน้าสัมผัสของโอเวอร์โหลด ปุ่มหยุด S1 แล้วปุ่มเริ่ม S2 ที่มีหน้าสัมผัสค้าง K1 ต่อคร่อม ก่อนถึงคอยล์ K1</p>
+        <table class="tbl stack"><tr><th>ตำราไทย (DIN)</th><th>แบบของวิชา</th><th>อุปกรณ์</th></tr>
+          <tr><td data-h="ตำราไทย">F1</td><td data-h="แบบของวิชา"><b>Q1</b></td><td data-h="อุปกรณ์">ป้องกันวงจรกำลัง (ในตำราเป็นฟิวส์ 3 ตัว ในวิชานี้เป็นเบรกเกอร์หลัก)</td></tr>
+          <tr><td data-h="ตำราไทย">F2</td><td data-h="แบบของวิชา"><b>F1</b></td><td data-h="อุปกรณ์">ฟิวส์วงจรควบคุม</td></tr>
+          <tr><td data-h="ตำราไทย">F3</td><td data-h="แบบของวิชา"><b>F2</b></td><td data-h="อุปกรณ์">โอเวอร์โหลดรีเลย์</td></tr>
+          <tr><td data-h="ตำราไทย">K1</td><td data-h="แบบของวิชา"><b>KM1</b></td><td data-h="อุปกรณ์">คอนแทกเตอร์</td></tr>
+          <tr><td data-h="ตำราไทย">S1, S2, H1, H2</td><td data-h="แบบของวิชา"><b>S1, S2, H1, H2</b></td><td data-h="อุปกรณ์">ปุ่มหยุด ปุ่มเริ่ม หลอดเดิน หลอดโอเวอร์โหลด (ชื่อเดียวกัน)</td></tr>
+          <tr><td data-h="ตำราไทย">M</td><td data-h="แบบของวิชา"><b>M1</b></td><td data-h="อุปกรณ์">มอเตอร์</td></tr></table>
+        <p>หน้าสัมผัสของ F3 ในรูปเป็นแบบเปลี่ยนทาง ด้านปกติปิดป้อนไฟให้ S1 ด้านปกติเปิดป้อนไฟให้หลอด H2 ที่ติดเมื่อโอเวอร์โหลดตัด ส่วนหลอด H1 ต่อขนานกับคอยล์ ในแบบของวิชาเขียนเป็น F2 95–96 และ 97–98 ซึ่งหน้า 5.2 จะต่อทีละขั้น แบบของวิชาเขียนเลขขั้วของทุกอุปกรณ์ เลขทางเดินกระแส และตารางอ้างอิงหน้าสัมผัสใต้คอยล์ ซึ่งจะได้เขียนเองในโจทย์ตัวอย่างที่ 1</p></div>
+      <div class="story-p" data-l="en"><p>Thai textbook Fig. 1.2 is the same DOL circuit: the power circuit on the left and the control circuit on the right, with current paths 1–3. The book uses German (Deutsches Institut für Normung, DIN) letters, which map onto the course names as in the table. The order in the control circuit is the same: fuse, overload contact, stop button S1, then start button S2 with holding contact K1 across it, and coil K1.</p>
+        <table class="tbl stack"><tr><th>Thai textbook (DIN)</th><th>Course drawing</th><th>Device</th></tr>
+          <tr><td data-h="Thai textbook">F1</td><td data-h="Course drawing"><b>Q1</b></td><td data-h="Device">power-circuit protection (three fuses in the book, a main breaker in this course)</td></tr>
+          <tr><td data-h="Thai textbook">F2</td><td data-h="Course drawing"><b>F1</b></td><td data-h="Device">control fuse</td></tr>
+          <tr><td data-h="Thai textbook">F3</td><td data-h="Course drawing"><b>F2</b></td><td data-h="Device">overload relay</td></tr>
+          <tr><td data-h="Thai textbook">K1</td><td data-h="Course drawing"><b>KM1</b></td><td data-h="Device">contactor</td></tr>
+          <tr><td data-h="Thai textbook">S1, S2, H1, H2</td><td data-h="Course drawing"><b>S1, S2, H1, H2</b></td><td data-h="Device">stop and start buttons, run and overload lamps (same names)</td></tr>
+          <tr><td data-h="Thai textbook">M</td><td data-h="Course drawing"><b>M1</b></td><td data-h="Device">motor</td></tr></table>
+        <p>The F3 contact in the figure is a changeover: its NC side feeds S1, its NO side feeds lamp H2, which lights when the overload trips; lamp H1 is in parallel with the coil. In the course drawing these become F2 95–96 and 97–98, wired step by step on page 5.2. The course drawing carries every terminal number, the current-path numbers and the contact cross-reference under the coil, which you will write yourself in worked example 1.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/book1_fig1_2_dol.jpg?v=11" width="925" height="630" loading="lazy" decoding="async" alt="Thai textbook Fig. 1.2: direct-on-line starter in DIN letters. Power circuit: L1 L2 L3, fuses F1, contactor K1, thermal overload F3, motor M 3~ with U1 V1 W1. Control circuit: fuse F2, overload changeover contact F3, stop S1, start S2 with holding contact K1, coil K1 with run lamp H1 in parallel, trip lamp H2, neutral N, current paths 1 to 3.">
+        <figcaption data-l="th">รูป 1.2 วงจรเริ่มเดินโดยตรงในตำราไทย (อักษรแบบ DIN) · ที่มา: ธนภัทร ไพคำนาม, <i>การควบคุมมอเตอร์ไฟฟ้า</i> (2104-2009), บทที่ 1 หน้า 9 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 1.2, DOL circuit in the Thai textbook (DIN letters) · source: Thanaphat Phaikhamnam, <i>Motor Control</i> (2104-2009), ch. 1, p. 9 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+  <div class="story n2">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>รูป 7.1 ของ UMC5 คือวงจรปุ่มเริ่ม–หยุดแบบอเมริกัน ทางเดินกระแสวาดตามแนวนอนระหว่างสายควบคุมสองเส้น คอยล์ M อยู่ใกล้ปลายทางเดินกระแส ตามด้วยหน้าสัมผัสโอเวอร์โหลด OL และมีหม้อแปลงควบคุม (control transformer) ลดแรงดันลงก่อนเข้าวงจรควบคุม รูป 7.2 แสดงกระแสเมื่อกด START หนังสือวาดหน้าสัมผัส M ที่ต่อแล้วเป็นหน้าสัมผัสปิด และใช้ลูกศรสีแดงบอกทางเดินกระแส ตรงกับขั้นที่ 2 ของการเดินทีละจังหวะด้านบน</p>
+        <p>เมื่อวาดใหม่เป็นแบบ IEC ก็คือวงจรด้านบน: ทางเดินกระแสตั้งจาก L1 (บน) ลง N (ล่าง) คอยล์อยู่ล่างสุด สัญลักษณ์ทุกตัววาดในสภาพไม่มีไฟเสมอ แล้วใช้สีและเส้นประวิ่งบอกว่าตอนนี้ส่วนไหนมีไฟและกระแสไหลทางไหน แบบเดียวกับ CADe SIMU ส่วนหน้าสัมผัส OL ในแบบของวิชาคือ F2 95–96 ที่วางไว้บนสุดของวงจรควบคุม (หน้า 5.2)</p></div>
+      <div class="story-p" data-l="en"><p>UMC5 Fig. 7.1 is the US start–stop push-button circuit: horizontal rungs between two control lines, coil M near the end of the rung followed by the overload contact OL, and a control transformer that lowers the voltage for the control circuit. Fig. 7.2 shows the current when START is pressed: the book redraws the M contacts that have closed as closed contacts and marks the current path with red arrows, which matches step 2 of the walk-through above.</p>
+        <p>Redrawn to IEC it is the circuit above: current paths run vertically from L1 (top) to N (bottom) with the coil at the bottom, every symbol is always drawn de-energised, and colour and moving dashes show which parts are live and where the current flows, as CADe SIMU does. The OL contact becomes F2 95–96 at the top of the control circuit (page 5.2).</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/umc5_fig7_1_start_stop.jpg?v=11" width="1200" height="688" loading="lazy" decoding="async" alt="US textbook figure: three-phase motor with contacts M and overload heaters OL, a control transformer, and a horizontal control rung with STOP, START with holding contact M in parallel, coil M and overload contact OL.">
+        <figcaption data-l="th">รูป 7.1 วงจรปุ่มเริ่ม–หยุดพื้นฐาน (แบบ NEMA) · ที่มา: Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. (Cengage, 2025) บทที่ 7 หน้า 85 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 7.1, basic start–stop push-button circuit (NEMA) · source: Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed. (Cengage, 2025), ch. 7, p. 85 · tap to enlarge</figcaption></figure>
+      <figure class="slide md"><img src="img/book/umc5_fig7_2_start_pressed.jpg?v=11" width="1200" height="691" loading="lazy" decoding="async" alt="The same US circuit with START pressed: red arrows trace the current from the transformer through STOP, START, coil M and the overload contact; the closed M contacts are redrawn.">
+        <figcaption data-l="th">รูป 7.2 กด START แล้วกระแสไหลเข้าคอยล์ M (แบบ NEMA) · ที่มา: Herman &amp; Seiler (2025) บทที่ 7 หน้า 85 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 7.2, START pressed: current flows through coil M (NEMA) · source: Herman &amp; Seiler (2025), ch. 7, p. 85 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">กระแสเริ่มเดิน: โอเวอร์โหลดต้องปล่อยให้มอเตอร์เริ่มเดินได้</h2><h2 data-l="en">Starting current: the overload relay must let the motor start</h2>
+    <div class="src" data-l="th">UMC5 บทที่ 23 · IEC 60947-4-1 (คลาสการตัด) · แบบจำลองมอเตอร์ของบทที่ 1 และแบบจำลองโอเวอร์โหลดของหน้า 4.4</div><div class="src" data-l="en">UMC5 ch. 23 · IEC 60947-4-1 (trip classes) · the motor model of chapter 1 and the overload model of page 4.4</div></div></div>
+  <p class="lead" data-l="th">เมื่อ KM1 ต่อ มอเตอร์ที่ยังหยุดนิ่งกินกระแสราว 6–8 เท่าของกระแสพิกัด (มอเตอร์ตัวอย่างในหน้านี้ 6.5 เท่า) และกระแสยังสูงอยู่จนมอเตอร์เร่งถึงความเร็วใกล้พิกัด โหลดที่หนักหรือมีความเฉื่อยมาก เช่น มู่เล่หรือพัดลมใหญ่ เร่งนาน ความร้อนในโอเวอร์โหลด F2 จึงสะสมมาก ตั้งความเฉื่อยของโหลด แรงบิดโหลด ชนิดของโหลด และคลาสของ F2 แล้วกด "เริ่มเดิน" กราฟบนคือกระแสและแรงบิด กราฟล่างคือความเร็วและความร้อนใน F2 เทียบกับจุดตัด ผลแต่ละครั้งบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">When KM1 closes, the motor at standstill draws about 6–8 times its rated current (6.5 times for this page's example motor), and the current stays high until the motor is close to its rated speed. A heavy or high-inertia load, such as a flywheel or a big fan, takes long to accelerate, so a lot of heat builds up in overload relay F2. Set the load inertia, the load torque, the kind of load and the class of F2, then press "Start". The upper chart shows current and torque, the lower one speed and the heat in F2 against its trip level. Each run is recorded in the table.</p>
+  <div class="duo wide-sim">
+    <div class="card sim" style="padding:10px"><div id="stB"></div></div>
+    <div class="card solve"><div class="panel" id="pB" style="position:static;max-height:none"></div></div>
+  </div>
+  <div class="card" style="margin-top:12px"><div id="logB"></div><div id="sumB" style="margin-top:8px"></div></div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">เขียนเลขขั้วและตารางอ้างอิงใต้คอยล์ KM1</h2><h2 data-l="en">Writing the terminal numbers and the cross-reference under KM1</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · วงจรเริ่มเดินโดยตรงแบบเต็มของหน้า 5.2</div><div class="src" data-l="en">Worked example · the complete DOL circuit of page 5.2</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>วงจรด้านล่างคือวงจรเริ่มเดินโดยตรงแบบเต็มที่หน้า 5.2 จะต่อทีละขั้น: หลอดเดิน H1 ผ่าน KM1 53–54 (ชุดหน้าสัมผัสเสริมด้านหน้า) หลอดโอเวอร์โหลด H2 ผ่าน F2 97–98 และหลอดหยุด H3 ผ่านหน้าสัมผัสปกติปิด KM1 21–22 ที่มีในตัวคอนแทกเตอร์ (ตัวอักษรข้างหลอดคือรหัสสีตาม IEC 60757: GN เขียว YE เหลือง WH ขาว ดูหน้า 5.2) แต่วงจรควบคุมยังไม่มีเลขขั้ว เลขทางเดินกระแส และตารางอ้างอิง (ก) เขียนเลขขั้วของทุกหน้าสัมผัส คอยล์ หลอด และฟิวส์ในวงจรควบคุม (ข) เขียนเลขทางเดินกระแสใต้เส้น N (ค) เขียนตารางอ้างอิงหน้าสัมผัสใต้คอยล์ KM1</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>The circuit below is the complete DOL circuit that page 5.2 builds step by step: run lamp H1 through KM1 53–54 (the front-mounted contact block), overload lamp H2 through F2 97–98 and stopped lamp H3 through KM1's built-in NC contact 21–22 (the letters next to the lamps are colour codes after IEC 60757: GN green, YE yellow, WH white; see page 5.2). Its control circuit has no terminal numbers, current-path numbers or cross-reference yet. (a) Write the terminal numbers of every contact, coil, lamp and fuse in the control circuit. (b) Number the current paths under the N line. (c) Write the contact cross-reference under coil KM1.</p></div>
+  <div class="card sim rlwrap" id="boxE" style="padding:8px"><div id="simE"></div></div>
+  <div class="card solve" style="margin-top:12px"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">วงจรค้างตัวเองและการเริ่มเดินโดยตรง</div><div class="src" data-l="en">Self-holding and DOL starting</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>ขั้นที่ 3 กับขั้นที่ 5: ให้มอเตอร์หมุน แล้วกด "ไฟดับแล้วกลับมา" ทั้งสองขั้น เทียบผลกัน แล้วนึกถึงเครื่องกลึงที่คนกำลังวัดชิ้นงานอยู่ตอนไฟกลับมา</li>
+    <li>หัวข้อ A: เปิดถึงขั้นที่ 3 (ปล่อย S2 แล้ว) จากนั้นกด S1 ในวงจรเอง สังเกตว่ากระแสทั้งสองทาง (ผ่าน S2 และผ่าน 13–14) ต้องผ่าน S1 ก่อนเสมอ</li>
+    <li>หัวข้อ B: ตั้งความเฉื่อย 200 เท่า แรงบิดโหลด 100 % แล้วเริ่มเดินด้วยคลาส 10 และคลาส 20 คลาสไหนเริ่มเดินผ่าน ทำไมจึงไม่ควรแก้ด้วยการตั้งกระแสของโอเวอร์โหลดให้สูงขึ้นแทน</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 1 รูป 1.2 และบทที่ 6 หัวข้อ 3 รูป 6.9–6.10 · Herman, <i>Electric Motor Control</i> 9th ed. หน่วยที่ 5, 17–18 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 7, 23 · Senty, <i>Motor Control Fundamentals</i> บทที่ 14 วงจรที่ 3 · IEC 60204-1 ข้อ 7.5, 9.1.1, 9.4.3.1, 10.2.1 · IEC 60947-4-1</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Steps 3 and 5: run the motor, then press "Power fails and returns" in both steps and compare. Imagine a lathe whose operator is measuring the workpiece when the power comes back.</li>
+    <li>Section A: open up to step 3 (S2 released), then press S1 in the circuit yourself. Notice that both current paths, through S2 and through 13–14, always pass S1 first.</li>
+    <li>Section B: set the inertia to 200 times and the load torque to 100 %, then start with class 10 and with class 20. Which class gets through the start? Why should you not fix it by setting the overload current higher instead?</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 1, Fig. 1.2, and ch. 6 §3, Figs 6.9–6.10 · Herman, <i>Electric Motor Control</i>, 9th ed., units 5, 17–18 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 7, 23 · Senty, <i>Motor Control Fundamentals</i>, ch. 14, circuit 3 · IEC 60204-1, 7.5, 9.1.1, 9.4.3.1, 10.2.1 · IEC 60947-4-1</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui, tt = ED.tt;
+  const run = v => (v ? t('หมุน', 'running') : t('หยุด', 'stopped'));
+  /* drawing size: k × the natural width; a wide circuit keeps its natural width on a phone and scrolls sideways (.rlscroll) */
+  const fit = (sim, box, k = 1.3) => { const svg = sim.el.querySelector('svg'), W = svg ? svg.viewBox.baseVal.width : 600; sim.o.max = Math.round(W * k); sim.render();
+    sim.el.style.maxWidth = `${Math.round(W * k)}px`; sim.el.style.margin = '0 auto';
+    if (box) { box.classList.toggle('rlscroll', W >= 360); box.style.setProperty('--rlmin', `${Math.round(W)}px`); } return W; };
+
+  /* 0: sheets 1–5 of the lab file, one simulator per step (C5.SHEET), log of every action, summary from hidden simulators */
+  const SHORT = { 1: ['ต่อตรง', 'direct'], 2: ['+ Q1', '+ Q1'], 3: ['+ KM1 สวิตช์ค้าง', '+ KM1, switch'], 4: ['ปุ่มกด S2', 'push button S2'], 5: ['ค้างตัวเอง', 'self-holding'] };
+  const WHY = {
+    1: ['มอเตอร์ต่อกับ L1 L2 L3 ตรง ๆ จึงหมุนทันทีที่มีไฟ ไม่มีอะไรหยุดมอเตอร์ได้นอกจากตัดไฟที่ต้นทาง และไม่มีอะไรตัดเมื่อลัดวงจรหรือโหลดเกิน ขั้นนี้มีไว้ให้เห็นว่าอุปกรณ์แต่ละตัวในขั้นต่อไปเพิ่มอะไรให้ สายดินป้องกัน (protective earth, PE) ต่อที่โครงมอเตอร์ทุกขั้น',
+      'The motor is wired straight to L1 L2 L3, so it runs as soon as there is supply. Nothing can stop it except cutting the supply upstream, and nothing trips on a short circuit or an overload. This step shows what each device of the next steps adds. The protective earth (PE) goes to the motor frame in every step.'],
+    2: ['เบรกเกอร์ Q1 (เบรกเกอร์หลัก) ทำสองหน้าที่: ปลดหรือสับไฟด้วยมือ และตัดเองเมื่อลัดวงจร เบรกเกอร์ป้องกันมอเตอร์บางรุ่นป้องกันโหลดเกินได้ด้วย แต่การสั่งมอเตอร์ยังต้องใช้มือที่ตัว Q1 เท่านั้น และเมื่อไฟดับแล้วกลับมา Q1 ยังสับค้างอยู่ มอเตอร์จึงหมุนเองทันที',
+      'Breaker Q1 (main breaker) does two jobs: it switches the supply by hand, and it trips by itself on a short circuit. A motor-protective breaker can also protect against overload. But the motor can still be switched only by hand at Q1, and when the power fails and returns, Q1 is still on, so the motor starts again at once.'],
+    3: ['คอนแทกเตอร์ KM1 ทำให้กระแสเล็ก ๆ ในวงจรควบคุมสั่งตัดต่อกระแสมอเตอร์ได้ สวิตช์จึงอยู่ที่ประตูตู้หรือที่ไกลได้ และเพิ่มอุปกรณ์ป้องกันหรืออุปกรณ์อัตโนมัติได้ วงจรควบคุมรับไฟ 230 V จาก L1 หลัง Q1 ผ่านฟิวส์วงจรควบคุม F1 แล้วกลับทาง N ในขั้นนี้ S2 เป็นสวิตช์ค้างตำแหน่ง (maintained switch) จากสวิตช์ไปยังตู้มีสายเพียงสองเส้น จึงเรียกว่าวงจร 2 สาย (two-wire control) สวิตช์จำตำแหน่งไว้เอง เมื่อไฟกลับมามอเตอร์จึงหมุนต่อทันที เหมาะกับปั๊มที่ไม่มีคนเฝ้า (หน้า 2.4) แต่อันตรายกับเครื่องจักรที่มีคนทำงานอยู่ใกล้',
+      'Contactor KM1 lets a small current in the control circuit switch the motor current, so the switch can sit on the panel door or far away, and protective or automatic devices can be added. The control circuit takes 230 V from L1 after Q1, through control fuse F1, and returns through N. Here S2 is a maintained switch: only two wires run from it to the starter, hence two-wire control. The switch remembers its position, so when the power returns the motor starts again at once. That suits an unattended pump (page 2.4) but is dangerous on a machine with people near it.'],
+    4: ['เปลี่ยน S2 เป็นปุ่มกดปกติเปิด 13–14 ปุ่มกดดีดกลับเองเมื่อปล่อย และไม่มีอะไรจำคำสั่งไว้ มอเตอร์จึงหมุนเฉพาะขณะกดค้าง แบบนี้เรียกว่าการเดินกระตุก (inching หรือ jogging) ใช้ขยับเครื่องจักรทีละนิดเพื่อตั้งตำแหน่ง (หน้า 5.3) แต่ใช้เดินเครื่องตามปกติไม่ได้',
+      'S2 becomes a normally open push button 13–14. A push button springs back when released and nothing remembers the command, so the motor runs only while the button is held. This is inching (jogging), used to move a machine a little at a time for setting up (page 5.3), but not for normal running.'],
+    5: ['เพิ่มปุ่มหยุด S1 (ปกติปิด 11–12) ไว้ก่อน S2 และต่อหน้าสัมผัสช่วยปกติเปิด KM1 13–14 คร่อม S2 เมื่อ KM1 ดูด 13–14 ต่อและป้อนไฟให้คอยล์ของตัวเองต่อไปหลังปล่อย S2 จึงเรียกว่าวงจรค้างตัวเอง (self-holding) จากชุดปุ่มไปยังตู้มีสามสาย จึงเรียกว่าวงจร 3 สาย (three-wire control) เมื่อไฟดับ KM1 หลุด 13–14 เปิด เมื่อไฟกลับมามอเตอร์จึงไม่หมุนเอง ต้องกด S2 ใหม่ ปุ่มเริ่มใช้สีขาว (สีเขียวก็ได้ ห้ามสีแดง) ปุ่มหยุดใช้สีดำ (สีแดงก็ได้ ห้ามสีเขียว) ตาม IEC 60204-1 ข้อ 10.2.1',
+      'Stop button S1 (NC 11–12) goes ahead of S2, and auxiliary NO contact KM1 13–14 goes across S2. When KM1 pulls in, 13–14 closes and keeps feeding its own coil after S2 is released: a self-holding circuit. Three wires run from the button station to the starter, hence three-wire control. When the power fails, KM1 drops out and 13–14 opens, so when the power returns the motor stays off until S2 is pressed again. Start buttons are white (green allowed, never red) and stop buttons black (red allowed, never green), IEC 60204-1, 10.2.1.'] };
+  const TRY = {
+    1: ['ขั้นนี้ไม่มี Q1 ปุ่ม "ไฟดับแล้วกลับมา" จึงตัดไฟที่ต้นทางแทน กดแล้วดูว่ามอเตอร์เป็นอย่างไรเมื่อไฟกลับมา', 'There is no Q1 here, so "Power fails and returns" cuts the supply upstream instead. Press it and watch the motor when the power comes back.'],
+    2: ['แตะ Q1 ในวงจรหรือปุ่ม Q1 ในแผงเพื่อปลดและสับ แล้วลอง "ไฟดับแล้วกลับมา" ขณะ Q1 สับอยู่', 'Tap Q1 in the circuit or its panel button to switch it off and on, then try "Power fails and returns" while Q1 is on.'],
+    3: ['เปิด S2 (แตะในวงจรหรือปุ่มในแผง) ให้มอเตอร์หมุน แล้วกด "ไฟดับแล้วกลับมา"', 'Turn S2 on (tap it in the circuit or use the panel) so the motor runs, then press "Power fails and returns".'],
+    4: ['กด S2 ค้างไว้แล้วปล่อย สังเกตว่ามอเตอร์หยุดทันทีที่ปล่อย', 'Hold S2, then let go: the motor stops the moment you release it.'],
+    5: ['กด S2 แล้วปล่อย (มอเตอร์หมุนค้าง) แล้วกด "ไฟดับแล้วกลับมา" จากนั้นเริ่มใหม่แล้วกด S1 เพื่อหยุด', 'Press and release S2 (the motor keeps running), then press "Power fails and returns"; start again and press S1 to stop.'] };
+  const START = { 1: ['มีไฟก็หมุน', 'runs whenever there is supply'], 2: ['สับ Q1', 'Q1 on'], 3: ['เปิด S2', 'S2 on'], 4: ['กด S2 ค้างไว้', 'hold S2'], 5: ['กด S2 แล้วปล่อยได้', 'press S2, then let go'] };
+  const STOP = { 1: ['ตัดไฟที่ต้นทางเท่านั้น', 'only by cutting the supply upstream'], 2: ['ปลด Q1', 'Q1 off'], 3: ['ปิด S2 (หรือปลด Q1)', 'S2 off (or Q1 off)'], 4: ['ปล่อย S2', 'release S2'], 5: ['กด S1 (หรือปลด Q1)', 'press S1 (or Q1 off)'] };
+  const KIND = { 1: ['ไม่มีการควบคุม', 'no control'], 2: ['ด้วยมือ', 'manual'], 3: ['วงจร 2 สาย', 'two-wire'], 4: ['เดินกระตุก', 'inching'], 5: ['วงจร 3 สาย (ค้างตัวเอง)', 'three-wire (self-holding)'] };
+  const box0 = $('sim0'), p0 = $('p0'), info0 = $('info0'), lab0 = n => `${n} · ${tt(SHORT[n])}`;
+  const log0 = new ED.Log($('log0'), [['ขั้น', 'step'], ['สิ่งที่ทำ', 'what you did'], ['มอเตอร์', 'motor'], ['ความหมาย', 'what it means']]);
+  let n0 = 1, sim0 = null, snap0 = null;
+  const rad0 = ui.radio($('steps0'), [1, 2, 3, 4, 5].map(n => ({ id: `stp${n}`, label: lab0(n), on: n === 1 })), id => build0(+id.slice(3)));
+  const nav0 = ui.buttons($('steps0'), [{ id: 'stpPrev', label: t('◀ ขั้นก่อน', '◀ Previous step'), onclick: () => build0(Math.max(1, n0 - 1)) },
+    { id: 'stpNext', label: t('ขั้นถัดไป ▶', 'Next step ▶'), cls: 'on', onclick: () => build0(Math.min(5, n0 + 1)) }]);
+  $('names0').innerHTML = `<p class="simnote">${t('ชื่อในไฟล์ใบงาน → ชื่อในแบบของวิชา', 'Names in the lab file → names in the course drawings')}: ` +
+    C5.NAMEMAP.filter(r => ['Q1', 'F1', 'S1', 'S2', 'M1'].includes(r[1])).map(r => `<code>${r[0]}</code> → <b>${r[1]}</b>`).join(' · ') +
+    ` ${t('(KM1 ใช้ชื่อเดียวกัน ตารางเต็มอยู่ใน<a href="ch5_7_cadesimu.html">หน้า 5.7</a>)', '(KM1 keeps its name; the full table is on <a href="ch5_7_cadesimu.html">page 5.7</a>)')}</p>`;
+  /* device states that a user action can change; a change between two emits = one action */
+  const snap = s => { const o = { run: s.running() }; Object.values(s.dev).forEach(d => { o[d.id] = `${d.pressed}|${d.on}|${d.tripped}|${d.blown}`; }); return o; };
+  const actTxt = (d, act) => act === 'press' ? t(`กด ${d.id}`, `press ${d.id}`) : act === 'release' ? t(`ปล่อย ${d.id}`, `release ${d.id}`) :
+    d.type === 'cb' ? (d.on ? t(`สับ ${d.id}`, `${d.id} on`) : t(`ปลด ${d.id}`, `${d.id} off`)) : d.type === 'sel' ? (d.on ? t(`เปิด ${d.id}`, `${d.id} on`) : t(`ปิด ${d.id}`, `${d.id} off`)) :
+    d.type === 'fuse' ? t(`เปลี่ยนฟิวส์ ${d.id}`, `replace fuse ${d.id}`) : d.id;
+  /* what one action means in step n: [text, kind], or null when it is not worth a row */
+  const dead = s => (s.dev.Q1 && !s.dev.Q1.on ? [t('ไม่มีอะไรเปลี่ยน: Q1 ปลดอยู่ วงจรควบคุมไม่มีไฟ', 'nothing changes: Q1 is off, so the control circuit is dead'), 'warn'] : s.dev.F1 && s.dev.F1.blown ? [t('ไม่มีอะไรเปลี่ยน: F1 ขาด', 'nothing changes: F1 has blown'), 'warn'] : null);
+  const mean0 = (s, n, d, act, b, a) => {
+    if (act === 'release') { if (d.id !== 'S2' || !b) return null;
+      return a ? [t('ปล่อยแล้วยังหมุน: กระแสไหลผ่าน KM1 13–14 แทน S2 (ค้างตัวเอง)', 'still running after the release: the current flows through KM1 13–14 instead of S2 (self-holding)'), 'ok']
+        : [t('ปล่อยแล้วหยุด: ไม่มีอะไรจำคำสั่งไว้ (เดินกระตุก)', 'stops on release: nothing remembers the command (inching)'), 'warn']; }
+    if (act === 'press') {
+      if (d.id === 'S2') return !b && a ? (n === 4 ? [t('หมุนเฉพาะขณะกดค้าง', 'runs only while it is held'), 'ok'] : [t('KM1 ดูด หน้าสัมผัสค้าง 13–14 ต่อ มอเตอร์หมุน', 'KM1 pulls in, holding contact 13–14 closes and the motor runs'), 'ok'])
+        : (!a && dead(s)) || [b ? t('หมุนอยู่แล้ว กดซ้ำไม่มีผล', 'already running; pressing again changes nothing') : t('ไม่มีอะไรเปลี่ยน', 'nothing changes'), ''];
+      if (d.id === 'S1') return b && !a ? [t('S1 (11–12) ตัดทางเดินกระแสทุกทาง KM1 หลุด 13–14 เปิด มอเตอร์หยุด', 'S1 (11–12) breaks every path: KM1 drops out, 13–14 opens and the motor stops'), 'ok'] : [t('มอเตอร์หยุดอยู่แล้ว', 'the motor was already stopped'), ''];
+      return null; }
+    if (d.type === 'cb') return d.on ? (a ? [t('สับ Q1 แล้วมอเตอร์หมุนทันที', 'Q1 on: the motor runs at once'), n === 2 ? 'ok' : 'warn'] : [t('สับ Q1 แล้วมอเตอร์ยังหยุด: ต้องสั่งเริ่มใหม่', 'Q1 on: the motor stays off until it is started again'), 'ok'])
+      : [t('ปลด Q1: ทั้งวงจรกำลังและวงจรควบคุมไม่มีไฟ', 'Q1 off: the power and the control circuit are both dead'), ''];
+    if (d.type === 'sel') return d.on ? (a ? [t('มอเตอร์หมุนตราบที่ S2 ค้างตำแหน่งเปิด', 'the motor runs as long as S2 stays on'), 'ok'] : dead(s) || [t('ไม่มีอะไรเปลี่ยน', 'nothing changes'), '']) : [b ? t('มอเตอร์หยุด', 'the motor stops') : t('มอเตอร์หยุดอยู่แล้ว', 'the motor was already stopped'), ''];
+    if (d.type === 'fuse') return [t('เปลี่ยนฟิวส์แล้ว', 'fuse replaced'), ''];
+    return null; };
+  const cut0 = (n, b, a) => (!b ? [t('มอเตอร์ไม่ได้หมุนก่อนไฟดับ ลองใหม่ขณะมอเตอร์หมุน', 'it was not running before the failure; try again while it runs'), 'warn']
+    : !a ? [t('วงจร 3 สาย: KM1 หลุด 13–14 เปิด มอเตอร์ไม่หมุนเอง รอคนกด S2 (IEC 60204-1 ข้อ 7.5)', 'three-wire control: KM1 dropped out and 13–14 opened, so the motor stays off until S2 is pressed (IEC 60204-1, 7.5)'), 'ok']
+    : n === 1 ? [t('หมุนเองเมื่อไฟกลับ: ไม่มีอะไรหยุดหรือป้องกันมอเตอร์', 'restarts when the power returns: nothing stops or protects the motor'), 'bad']
+    : n === 2 ? [t('Q1 ยังสับอยู่ มอเตอร์หมุนเองทันทีที่ไฟกลับ', 'Q1 is still on, so the motor restarts as soon as the power returns'), 'bad']
+    : n === 3 ? [t('วงจร 2 สาย: S2 ยังค้างตำแหน่งเปิด มอเตอร์หมุนเอง อันตรายกับเครื่องจักรที่มีคนอยู่ใกล้', 'two-wire control: S2 is still on, so the motor restarts by itself, which is dangerous on a machine with people near it'), 'bad']
+    : [t('ยังกด S2 ค้างอยู่ มอเตอร์จึงหมุนต่อเมื่อไฟกลับ', 'S2 is still held, so the motor runs again when the power returns'), 'warn']);
+  /* status of the power-only steps 1–2 (no control circuit) */
+  const st12 = s => (s.mains === false ? [t('ไฟดับ', 'power off'), t('รอไฟกลับมา…', 'waiting for the power…'), 'bad'] : s.dev.Q1 && !s.dev.Q1.on ? [t('Q1 ปลด', 'Q1 off'), t('มอเตอร์ไม่มีไฟ', 'the motor has no supply'), 'warn']
+    : [t('มอเตอร์หมุน', 'motor running'), s.dev.Q1 ? t('Q1 สับอยู่', 'Q1 is on') : t('ต่อตรงกับแหล่งจ่าย', 'wired straight to the supply'), 'good']);
+  function build0(n) {
+    n0 = n; rad0.set(`stp${n}`); nav0.stpPrev.disabled = n === 1; nav0.stpNext.disabled = n === 5;
+    const I = C5.SHEETINFO[n];
+    info0.innerHTML = `<h3>${t(`ขั้นที่ ${n} (แผ่นที่ ${n} ของไฟล์ใบงาน): `, `Step ${n} (sheet ${n} of the lab file): `)}${tt(I.title)}</h3><p><b>${t('สิ่งที่เพิ่ม', 'What is new')}:</b> ${tt(I.adds)}</p><p>${tt(WHY[n])}</p>` +
+      `<p class="simnote"><b>${t('ลองทำ', 'Try')}:</b> ${tt(TRY[n])}</p>`;
+    box0.innerHTML = ''; const el = document.createElement('div'); box0.appendChild(el);   // a fresh element: the old simulator's listeners go with the old one
+    sim0 = new RL.Sim(el, C5.SHEET(n), { label: `DOL step ${n}` }); fit(sim0, box0);
+    p0.innerHTML = ''; ui.h2(p0, t('สั่งงาน', 'Control'));
+    /* the panel's buttons, plus our own power-cut button: Q1 off and on while Q1 is on (as in CADe SIMU); a supply cut when Q1 is already off, so Q1 stays as it was */
+    const pan = C5.panel(p0, sim0, { cut: false, status: n <= 2 ? st12 : undefined }), sim = sim0;
+    const cb = document.createElement('button'); cb.type = 'button'; cb.className = 'btn on'; cb.textContent = t('⚡ ไฟดับแล้วกลับมา', '⚡ Power fails and returns'); pan.row.appendChild(cb);
+    cb.addEventListener('click', () => { C5.powerCut(sim, { via: sim.dev.Q1 && sim.dev.Q1.on ? 'Q1' : undefined, done: e => { pan.refresh(); const m = cut0(n, e.before, e.after);
+      log0.add(`${n}|cut|${e.before}|${e.after}`, [lab0(n), t('⚡ ไฟดับแล้วกลับมา', '⚡ power fails and returns'), `${run(e.before)} → ${run(e.after)}`, m[0]], m[1]); } }); pan.refresh(); });
+    snap0 = snap(sim0);
+    sim0.on(s => { const now = snap(s), was = snap0; if (s !== sim0) return; snap0 = now; if (s._cut) return;   // the power-cut button logs itself
+      Object.values(s.dev).forEach(d => { if (now[d.id] === was[d.id]) return; const act = d.type === 'pb' ? (d.pressed ? 'press' : 'release') : 'toggle', m = mean0(s, n, d, act, was.run, now.run);
+        if (m) log0.add(`${n}|${d.id}|${act}|${act === 'toggle' ? now[d.id] : ''}|${was.run}|${now.run}`, [lab0(n), actTxt(d, act), `${run(was.run)} → ${run(now.run)}`, m[0]], m[1]); }); }); }
+  build0(1);
+  /* summary: the same trials on hidden simulators (run the sequence up to the power cut, then read the motor) */
+  const SEQ0 = { 1: [], 2: [], 3: [['start', 'S2']], 4: [['hold', 'S2']], 5: [['tap', 'S2']] };
+  const after0 = n => { const s = new RL.Sim(document.createElement('div'), C5.SHEET(n)); C5.runSeq(s, [...SEQ0[n], ['cut']]); return s.running(); };
+  ED.summary($('sum0'), { head: [['ขั้น', 'step'], ['สั่งเดิน', 'start'], ['สั่งหยุด', 'stop'], ['ไฟดับแล้วกลับมา', 'after a power failure'], ['ชนิดการควบคุม', 'kind of control']],
+    rows: () => [1, 2, 3, 4, 5].map(n => { const a = after0(n), rel4 = n === 4 && C5.runSeq(new RL.Sim(document.createElement('div'), C5.SHEET(4)), [['hold', 'S2'], ['release', 'S2'], ['run', false]]);
+      const cell = n === 4 ? `<span class="rk-ok">${rel4 ? t('หยุดเมื่อปล่อยปุ่ม', 'stops when the button is released') : '?'}</span> ${a ? t('(ถ้ายังกดค้างอยู่ตอนไฟกลับ มอเตอร์หมุนต่อ)', '(if it is still held when the power returns, it runs on)') : ''}`
+        : a ? `<span class="rk-bad">${t('หมุนเองทันที', 'restarts by itself')}</span>` : `<span class="rk-ok">${t('ไม่หมุนเอง ต้องกด S2 ใหม่', 'stays off until S2 is pressed')}</span>`;
+      return [lab0(n), tt(START[n]), tt(STOP[n]), cell, tt(KIND[n])]; }),
+    points: [['สิ่งที่ทำให้วงจร 3 สายไม่หมุนเองคือหน้าสัมผัสค้างตัวเอง KM1 13–14: ไฟดับ คอยล์หลุด 13–14 เปิด วงจรจึงลืมว่าเคยสั่งเดิน ต้องมีคนกด S2 ใหม่', 'What keeps three-wire control from restarting is the holding contact KM1 13–14: the power fails, the coil drops out, 13–14 opens, so the circuit forgets it was told to run; someone must press S2 again.'],
+      ['ขั้นที่ 1–3 หมุนเองเมื่อไฟกลับ เพราะไม่มีอะไรจำว่าไฟเคยดับ สวิตช์ยังอยู่ตำแหน่งเดิม วงจร 2 สายจึงใช้กับงานอัตโนมัติที่ไม่มีคนเฝ้า เช่น ปั๊มน้ำ ส่วนเครื่องจักรที่คนทำงานด้วยใช้วงจร 3 สาย (IEC 60204-1 ข้อ 7.5)', 'Steps 1–3 restart when the power returns, because nothing records the failure and the switch is still in its position. Two-wire control therefore suits unattended automatic duty such as a water pump; machines that people work at use three-wire control (IEC 60204-1, 7.5).'],
+      ['วงจรควบคุมรับไฟหลัง Q1 การปลด Q1 จึงทดสอบไฟดับได้ทั้งในหน้านี้และใน CADe SIMU ถ้าวงจรควบคุมรับไฟก่อน Q1 การปลด Q1 จะไม่ทำให้ KM1 หลุด และการทดสอบนี้จะไม่ผ่าน', 'The control circuit is fed after Q1, so switching Q1 off tests a power failure, on this page and in CADe SIMU. If the control circuit were fed ahead of Q1, switching Q1 off would not drop KM1 and this test would fail.']] });
+
+  /* A: the self-holding circuit (sheet 5) walked through with a stepper; each step replays the button sequence from rest */
+  const simA = new RL.Sim($('simA'), C5.SHEET(5), { label: 'self-holding circuit' }); fit(simA, $('boxA'));
+  C5.panel($('pA'), simA, { cut: false, skip: ['Q1'], status: s => { const k = s.dev.KM1.energized, d = s.dev;
+    return [k ? t('KM1 ดูด', 'KM1 in') : t('KM1 ปล่อย', 'KM1 out'), `S2 ${d.S2.pressed ? t('กดอยู่', 'held') : t('ปล่อย', 'released')} · S1 ${d.S1.pressed ? t('กดอยู่ 11–12 เปิด', 'held, 11–12 open') : t('ปล่อย 11–12 ต่อ', 'released, 11–12 closed')} · 13–14 ${k ? t('ต่อ', 'closed') : t('เปิด', 'open')} · ${s.running() ? t('มอเตอร์หมุน', 'motor running') : t('มอเตอร์หยุด', 'motor stopped')}`, k ? 'good' : 'wait']; } });
+  const restA = () => { if (!simA.dev.Q1.on) simA.toggle('Q1'); if (simA.dev.F1.blown) simA.toggle('F1'); simA.press('S2', false); if (simA.dev.KM1.energized) { simA.press('S1', true); simA.press('S1', false); } simA.press('S1', false); };
+  const goA = k => { restA(); if (k >= 2) simA.press('S2', true); if (k >= 3) simA.press('S2', false); if (k >= 4) simA.press('S1', true); if (k >= 5) simA.press('S1', false); };
+  LS.stepper($('stepA'), { steps: [
+    { why: t('ขณะหยุด: S1 ต่ออยู่ S2 และ 13–14 เปิด', 'At rest: S1 closed, S2 and 13–14 open'),
+      body: `<p>${t('ไฟจาก L1 ผ่าน Q1 ฟิวส์ F1 และปุ่มหยุด S1 (หน้าสัมผัสปกติปิด 11–12) มารอที่ขั้ว 13 ของ S2 และขั้ว 13 ของ KM1 (เส้นสีแดง = มีไฟ) ทั้งสองยังเปิดอยู่ คอยล์ A1–A2 จึงไม่มีไฟ หน้าสัมผัสหลักเปิด มอเตอร์หยุด', 'The supply from L1 passes Q1, fuse F1 and stop button S1 (NC 11–12) and waits at terminal 13 of S2 and terminal 13 of KM1 (red = live). Both are open, so coil A1–A2 has no voltage, the main contacts are open and the motor is stopped.')}</p>` },
+    { why: t('กด S2: คอยล์ KM1 มีไฟ KM1 ดูด', 'Press S2: coil KM1 is energised and KM1 pulls in'),
+      body: `<p>${t('S2 13–14 ต่อ กระแสไหลผ่าน S2 เข้าคอยล์ที่ขั้ว A1 แล้วออกขั้ว A2 ไป N (เส้นประวิ่ง = กระแส) แกนเหล็กดูด หน้าสัมผัสทุกชุดของ KM1 เปลี่ยนพร้อมกัน: หน้าสัมผัสหลัก 1–2, 3–4, 5–6 ต่อ มอเตอร์หมุน และหน้าสัมผัสช่วย 13–14 ที่คร่อม S2 ก็ต่อด้วย ตารางใต้คอยล์บอกว่า 13–14 อยู่ทางเดินกระแสที่ 2', 'S2 13–14 closes; current flows through S2 into the coil at A1 and out of A2 to N (moving dashes = current). The armature pulls in and every KM1 contact changes together: main contacts 1–2, 3–4, 5–6 close and the motor runs, and auxiliary contact 13–14 across S2 closes too. The table under the coil says that 13–14 sits in current path 2.')}</p>` },
+    { why: t('ปล่อย S2: กระแสเปลี่ยนไปไหลผ่าน KM1 13–14', 'Release S2: the current now flows through KM1 13–14'),
+      body: `<p>${t('S2 ดีดกลับและเปิด แต่ 13–14 ต่ออยู่แล้ว กระแสจึงไหลผ่านทางเดินกระแสที่ 2 เข้าคอยล์ต่อไป KM1 ป้อนไฟให้คอยล์ของตัวเอง จึงเรียกว่าวงจรค้างตัวเอง (self-holding หรือ seal-in) มอเตอร์หมุนต่อโดยไม่ต้องมีใครกดปุ่มค้างไว้', 'S2 springs back and opens, but 13–14 is already closed, so the current flows through current path 2 and keeps the coil energised. KM1 feeds its own coil: a self-holding (seal-in) circuit. The motor runs on without anyone holding a button.')}</p>` },
+    { why: t('กด S1: 11–12 เปิด ตัดทางเดินกระแสทั้งสองทาง', 'Press S1: 11–12 opens and breaks both paths'),
+      body: `<p>${t('S1 อยู่ก่อนจุดที่ S2 กับ 13–14 แยกกัน กระแสทุกทางที่เข้าคอยล์จึงต้องผ่าน S1 เมื่อ 11–12 เปิด คอยล์ไม่มีไฟ KM1 หลุด หน้าสัมผัสหลักเปิด มอเตอร์หยุด และ 13–14 เปิดด้วย ถ้าหน้าสัมผัสค้างไปคร่อมทั้ง S1 และ S2 ปุ่มหยุดจะหยุดมอเตอร์ไม่ได้ (หน้า 5.5)', 'S1 sits ahead of the point where S2 and 13–14 branch, so every path to the coil runs through S1. When 11–12 opens, the coil loses its voltage, KM1 drops out, the main contacts open and the motor stops; 13–14 opens too. If the holding contact bridged both S1 and S2, the stop button could not stop the motor (page 5.5).')}</p>` },
+    { why: t('ปล่อย S1: KM1 ไม่ดูดกลับ', 'Release S1: KM1 does not pull in again'),
+      body: `<p>${t('S1 ต่อกลับ แต่ S2 และ 13–14 เปิดอยู่ทั้งคู่ คอยล์จึงไม่มีไฟ วงจรรอคำสั่งใหม่จาก S2 ไฟดับขณะมอเตอร์หมุนก็ให้ผลแบบเดียวกับการกด S1: KM1 หลุด 13–14 เปิด เมื่อไฟกลับมามอเตอร์จึงไม่หมุนเอง', 'S1 closes again, but S2 and 13–14 are both open, so the coil stays without voltage and the circuit waits for a new command from S2. A power failure while the motor runs has the same effect as pressing S1: KM1 drops out and 13–14 opens, so the motor does not start again when the power returns.')}</p>` }],
+    answer: t('S2 สั่งเริ่ม · KM1 13–14 จำคำสั่งไว้ (ค้างตัวเอง) · S1 ที่อยู่ก่อนจุดแยกตัดได้ทุกทาง · ไฟดับทำให้วงจรลืมคำสั่ง', 'S2 gives the start command · KM1 13–14 remembers it (self-holding) · S1, ahead of the branch, breaks every path · a power failure makes the circuit forget the command'),
+    onStep: k => goA(k) });
+  /* A: every press and release of S1/S2 (panel, drawing or stepper) gives one log row; the summary replays the walk-through on a hidden simulator */
+  const clA = v => (v ? t('ต่อ', 'closed') : t('เปิด', 'open')), inA = v => (v ? t('ดูด', 'in') : t('ปล่อย', 'out'));
+  const logA = new ED.Log($('logA'), [['สิ่งที่ทำ', 'what you did'], ['คอยล์ KM1', 'coil KM1'], ['KM1 13–14', 'KM1 13–14'], ['มอเตอร์', 'motor'], ['ความหมาย', 'what it means']]);
+  const meanA = (id, p, b, a, s) => {
+    if (id === 'S2' && p) return !b && a ? [t('กระแสไหลผ่าน S2 เข้าคอยล์ KM1 ดูด 13–14 ต่อ มอเตอร์หมุน', 'current flows through S2 into the coil; KM1 pulls in, 13–14 closes and the motor runs'), 'ok']
+      : b ? [t('หมุนอยู่แล้ว กดซ้ำไม่มีผล', 'already running; pressing again changes nothing'), ''] : s.dev.S1.pressed ? [t('S1 กดอยู่ 11–12 เปิด กระแสจึงไปไม่ถึงคอยล์: คำสั่งหยุดชนะคำสั่งเริ่ม', 'S1 is held and 11–12 is open, so no current reaches the coil: stop wins over start'), 'ok'] : null;
+    if (id === 'S2') return b && a ? [t('ปล่อยแล้วยังหมุน: กระแสไหลผ่าน KM1 13–14 แทน S2 (ค้างตัวเอง)', 'still running after the release: the current flows through KM1 13–14 instead of S2 (self-holding)'), 'ok'] : null;
+    if (p) return b && !a ? [t('S1 11–12 เปิด ตัดทั้งทางผ่าน S2 และทางผ่าน 13–14 KM1 หลุด 13–14 เปิด มอเตอร์หยุด', 'S1 11–12 opens and breaks both the path through S2 and the path through 13–14; KM1 drops out, 13–14 opens and the motor stops'), 'ok'] : !b ? [t('มอเตอร์หยุดอยู่แล้ว', 'the motor was already stopped'), ''] : null;
+    return !a ? [t('ปล่อย S1 แล้ว KM1 ไม่ดูดกลับ: S2 และ 13–14 เปิดทั้งคู่', 'S1 released and KM1 does not pull in again: S2 and 13–14 are both open'), 'ok'] : [t('S2 ยังกดอยู่ ปล่อย S1 แล้ว KM1 จึงดูด', 'S2 is still held, so KM1 pulls in when S1 is released'), 'ok']; };
+  let a0 = { S1: false, S2: false, run: false };
+  simA.on(s => { const d = s.dev, now = s.running();
+    ['S1', 'S2'].forEach(id => { const p = !!d[id].pressed; if (p === a0[id]) return; const m = meanA(id, p, a0.run, now, s);
+      if (m) logA.add(`${id}|${p}|${a0.run}|${now}`, [p ? t(`กด ${id}`, `press ${id}`) : t(`ปล่อย ${id}`, `release ${id}`), inA(d.KM1.energized), clA(d.KM1.energized), run(now), m[0]], m[1]); });
+    a0 = { S1: !!d.S1.pressed, S2: !!d.S2.pressed, run: now }; });
+  const SEQA = [[['ขณะหยุด', 'at rest'], []], [['กด S2 ค้าง', 'S2 held'], [['hold', 'S2']]], [['ปล่อย S2', 'S2 released'], [['release', 'S2']]],
+    [['กด S1 ค้าง', 'S1 held'], [['hold', 'S1']]], [['ปล่อย S1', 'S1 released'], [['release', 'S1']]], [['กด S1 ค้างไว้แล้วกด S2', 'S2 pressed while S1 is held'], [['hold', 'S1'], ['hold', 'S2']]]];
+  ED.summary($('sumA'), { head: [['จังหวะ', 'step'], ['S1 11–12', 'S1 11–12'], ['S2 13–14', 'S2 13–14'], ['KM1 13–14', 'KM1 13–14'], ['มอเตอร์', 'motor']],
+    rows: () => { const s = new RL.Sim(document.createElement('div'), C5.SHEET(5));
+      return SEQA.map(([lab, seq]) => { C5.runSeq(s, seq); const d = s.dev; return [tt(lab), clA(!d.S1.pressed), clA(!!d.S2.pressed), clA(!!d.KM1.energized), run(s.running())]; }); },
+    points: [['กระแสไปถึงคอยล์ได้สองทาง: ผ่าน S2 (ทางเดินกระแสที่ 1) หรือผ่าน KM1 13–14 (ทางเดินกระแสที่ 2) ทั้งสองทางผ่าน S1 ก่อนเสมอ S1 จึงหยุดได้ทุกครั้ง', 'The coil can be reached two ways, through S2 (path 1) or through KM1 13–14 (path 2); both pass S1 first, so S1 stops the motor every time.'],
+      ['KM1 13–14 ต่อเฉพาะเมื่อคอยล์ KM1 มีไฟ จึงจำคำสั่งเริ่มไว้หลังปล่อย S2 และลืมทันทีที่คอยล์หลุด ไม่ว่าจะเพราะกด S1 หรือไฟดับ', 'KM1 13–14 is closed only while coil KM1 is energised, so it remembers the start command after S2 is released and forgets it the moment the coil drops out, whether S1 was pressed or the power failed.'],
+      ['กด S1 ค้างไว้แล้วกด S2 มอเตอร์ไม่หมุน: S1 อยู่ก่อนจุดแยก คำสั่งหยุดจึงชนะคำสั่งเริ่ม', 'With S1 held, pressing S2 does not start the motor: S1 sits ahead of the branch, so stop wins over start.']] });
+
+  /* B: DOL start-up (C5.Start) with its own controls; each finished run goes into the log, the summary comes from C5.startRun */
+  const logB = new ED.Log($('logB'), [['ความเฉื่อยของโหลด', 'load inertia'], ['แรงบิดโหลด', 'load torque'], ['ชนิดโหลด', 'load'], ['คลาส F2', 'F2 class'], ['เริ่มเดินเสร็จใน', 'start time'], ['ความร้อนใน F2', 'heat in F2'], ['ผล', 'result']]);
+  const typeB = p => (p.type === 'fan' ? t('พัดลม / ปั๊ม', 'fan / pump') : t('แรงบิดคงที่', 'constant torque'));
+  const resB = r => (r.tripped ? [t(`F2 ตัดที่ ${ED.fd(r.tTrip, 1)} s`, `F2 trips at ${ED.fd(r.tTrip, 1)} s`), 'bad'] : r.thEnd > 0.7 ? [t('ไม่ตัด แต่เกือบตัด', 'no trip, but close'), 'warn'] : [t('ไม่ตัด', 'no trip'), 'ok']);
+  const rowB = r => [`${r.p.J} ×`, `${Math.round(r.p.TL * 100)} %`, typeB(r.p), t(`คลาส ${r.p.cls}`, `class ${r.p.cls}`), r.tripped ? '—' : `${ED.fd(r.tStart, 2)} s`, `${Math.round(r.thEnd * 100)} %`, resB(r)[0]];
+  ui.h2($('pB'), t('โหลดและโอเวอร์โหลด', 'Load and overload relay'));
+  const wB = new C5.Start($('stB'), { panel: $('pB'), id: 'sb', p: { J: 10, TL: 0.6 }, onResult: r => logB.add(JSON.stringify(r.p), rowB(r), resB(r)[1]) });
+  ui.html($('pB'), t('ความเฉื่อยบอกเป็นกี่เท่าของความเฉื่อยของโรเตอร์ ค่าในหน้านี้เป็นของมอเตอร์ตัวอย่าง', 'Inertia is given as a multiple of the rotor inertia; the values belong to an example motor.'), 'hint');
+  LS.anim($('stB'), dt => wB.step(dt));
+  const CASES = [{ name: ['งานเบา', 'light load'], p: { J: 10, TL: 0.6, type: 'const', cls: '10' } }, { name: ['สายพาน', 'conveyor'], p: { J: 50, TL: 1, type: 'const', cls: '10' } },
+    { name: ['มู่เล่หนัก', 'heavy flywheel'], p: { J: 150, TL: 1, type: 'const', cls: '10' } }, { name: ['มู่เล่หนักมาก', 'very heavy flywheel'], p: { J: 200, TL: 1, type: 'const', cls: '10' } },
+    { name: ['มู่เล่หนักมาก', 'very heavy flywheel'], p: { J: 200, TL: 1, type: 'const', cls: '20' } }, { name: ['พัดลมใหญ่', 'big fan'], p: { J: 200, TL: 1, type: 'fan', cls: '10' } }];
+  ED.summary($('sumB'), { head: [['โหลด', 'load'], ['ความเฉื่อย · แรงบิด', 'inertia · torque'], ['คลาส F2', 'F2 class'], ['เริ่มเดินเสร็จใน', 'start time'], ['ความร้อนใน F2', 'heat in F2'], ['ผล', 'result']],
+    rows: () => CASES.map(c => { const r = C5.startRun(c.p), k = resB(r); return [tt(c.name), `${c.p.J} × · ${Math.round(c.p.TL * 100)} % (${typeB(c.p)})`, t(`คลาส ${c.p.cls}`, `class ${c.p.cls}`), r.tripped ? '—' : `${ED.fd(r.tStart, 2)} s`, `${Math.round(r.thEnd * 100)} %`, `<span class="rk-${k[1]}">${k[0]}</span>`]; }),
+    points: [['กระแสเริ่มเดินแทบไม่ขึ้นกับโหลด (ราว 6.5 เท่าของกระแสพิกัดเมื่อมอเตอร์ยังหยุดนิ่ง) โหลดเปลี่ยนแค่ว่ากระแสสูงนี้อยู่นานเท่าไร', 'The starting current hardly depends on the load (about 6.5 times the rated current at standstill); the load decides how long it lasts.'],
+      ['คลาส 10 ต้องตัดภายใน 4–10 วินาทีที่ 7.2 เท่าของค่าที่ตั้ง (หน้า 4.4) มอเตอร์ทั่วไปเริ่มเดินเสร็จเร็วกว่านั้นมาก เครื่องที่เริ่มเดินนานใช้คลาส 20 หรือวิธีเริ่มเดินแบบลดกระแส (บทที่ 8–9) ไม่ใช่ตั้งกระแสของโอเวอร์โหลดให้สูงขึ้น เพราะจะไม่ป้องกันโหลดเกินขณะเดินปกติ', 'Class 10 must trip within 4–10 s at 7.2 times its setting (page 4.4); ordinary motors finish starting long before that. Machines with long starts get class 20 or a reduced-current starting method (chapters 8–9), not a higher overload setting, which would leave the motor unprotected while it runs.'],
+      ['กระแสเริ่มเดินที่สูงยังทำให้แรงดันของแหล่งจ่ายตกชั่วขณะ มอเตอร์ใหญ่จึงใช้การเริ่มเดินแบบลดแรงดันในบทที่ 8–9', 'The high starting current also makes the supply voltage dip for a moment, so large motors use the reduced-voltage starting of chapters 8–9.'],
+      ['ตัวเลขในหน้านี้มาจากแบบจำลองของมอเตอร์ตัวอย่าง (ค่าคงที่เวลาทางกลของโรเตอร์ 0.12 s) ค่าจริงขึ้นกับมอเตอร์และเครื่องจักร', 'The numbers come from an example motor model (rotor mechanical time constant 0.12 s); real values depend on the motor and the machine.']] });
+
+  /* worked example 1: the complete DOL circuit without terminal numbers, path numbers and cross-reference; the stepper turns them on */
+  const simE = new RL.Sim($('simE'), C5.DOL5(), { noTerms: true, noPaths: true, noXref: true, label: 'DOL circuit to number' }); fit(simE, $('boxE'), 1.15);
+  LS.choose($('ask1'), { labels: ['①', '②', '③'], options: [t('NO: 13–14 ▸ 1; 53–54 ▸ 3 · NC: 21–22 ▸ 4', 'NO: 13–14 ▸ 1; 53–54 ▸ 3 · NC: 21–22 ▸ 4'),
+    t('NO: 1–2, 3–4, 5–6 ▸ กำลัง; 13–14 ▸ 2; 53–54 ▸ 3 · NC: 21–22 ▸ 5', 'NO: 1–2, 3–4, 5–6 ▸ power; 13–14 ▸ 2; 53–54 ▸ 3 · NC: 21–22 ▸ 5'), t('NO: 13–14 ▸ 2; 21–22 ▸ 5 · NC: 53–54 ▸ 3', 'NO: 13–14 ▸ 2; 21–22 ▸ 5 · NC: 53–54 ▸ 3')], answer: 1 });
+  LS.stepper($('st1'), { steps: [
+    { why: t('(ก) เลขขั้วบอกหน้าที่ของหน้าสัมผัส', '(a) Terminal numbers tell what a contact does'),
+      body: `<p>${t('F1 ขั้ว 1–2 · F2 95–96 (ปกติปิด เปิดเมื่อโหลดเกิน) และ 97–98 (ปกติเปิด ต่อเมื่อโหลดเกิน) · S1 11–12 (ปกติปิด) · S2 13–14 (ปกติเปิด) · คอยล์ KM1 A1–A2 · หน้าสัมผัสค้าง KM1 13–14 · ชุดเสริมด้านหน้า KM1 53–54 (ปกติเปิด) · หน้าสัมผัสปกติปิดในตัว KM1 21–22 · หลอด X1–X2 หลักหลังของเลขบอกชนิด (1–2 ปกติปิด 3–4 ปกติเปิด) หลักแรกบอกลำดับ (บทที่ 2 และ 4)', 'F1 terminals 1–2 · F2 95–96 (NC, opens on overload) and 97–98 (NO, closes on overload) · S1 11–12 (NC) · S2 13–14 (NO) · coil KM1 A1–A2 · holding contact KM1 13–14 · front block KM1 53–54 (NO) · built-in NC contact KM1 21–22 · lamps X1–X2. The second digit gives the kind (1–2 NC, 3–4 NO), the first the sequence number (chapters 2 and 4).')}</p>` },
+    { why: t('(ข) เลขทางเดินกระแส', '(b) Current-path numbers'),
+      body: `<p>${t('นับจากซ้ายไปขวา ทางเดินกระแสละหนึ่งเลข: 1 คอยล์ KM1 · 2 หน้าสัมผัสค้าง 13–14 · 3 หลอดเดิน H1 · 4 หลอดโอเวอร์โหลด H2 · 5 หลอดหยุด H3', 'Count from left to right, one number per current path: 1 coil KM1 · 2 holding contact 13–14 · 3 run lamp H1 · 4 overload lamp H2 · 5 stopped lamp H3.')}</p>` },
+    { why: t('(ค) ตารางอ้างอิงใต้คอยล์ KM1', '(c) The cross-reference under coil KM1'),
+      body: `<p>${t('ใต้คอยล์เขียนว่าหน้าสัมผัสของ KM1 อยู่ทางเดินกระแสไหน แยกเป็นปกติเปิดและปกติปิด: NO: 1–2, 3–4, 5–6 ▸ วงจรกำลัง; 13–14 ▸ 2; 53–54 ▸ 3 · NC: 21–22 ▸ 5', 'Under the coil you write where KM1\'s contacts are, split into NO and NC: NO: 1–2, 3–4, 5–6 ▸ power circuit; 13–14 ▸ 2; 53–54 ▸ 3 · NC: 21–22 ▸ 5.')}</p>` },
+    { why: t('ใช้ตารางอ้างอิงทำอะไร', 'What the cross-reference is for'),
+      body: `<p>${t('ตารางนี้บอกทันทีว่าเมื่อ KM1 ดูด อะไรเปลี่ยนบ้าง: มอเตอร์ได้ไฟ 13–14 ค้างตัวเอง H1 ติด และ H3 ดับ เวลาหาจุดเสียในแบบที่มีหลายหน้า ช่างใช้ตารางนี้ตามไปหาหน้าสัมผัสแต่ละตัว กด S2 ในวงจรด้านบนแล้วตรวจกับตาราง', 'It tells at a glance what changes when KM1 pulls in: the motor gets its supply, 13–14 holds, H1 lights and H3 goes out. When fault-finding on a drawing of many pages, an electrician follows this table to each contact. Press S2 in the circuit above and check it against the table.')}</p>` }],
+    answer: t('(ก) ตามขั้นที่ 1 (ข) 1 KM1, 2 13–14, 3 H1, 4 H2, 5 H3 (ค) NO: 1–2, 3–4, 5–6 ▸ กำลัง; 13–14 ▸ 2; 53–54 ▸ 3 · NC: 21–22 ▸ 5', '(a) as in step 1; (b) 1 KM1, 2 13–14, 3 H1, 4 H2, 5 H3; (c) NO: 1–2, 3–4, 5–6 ▸ power; 13–14 ▸ 2; 53–54 ▸ 3 · NC: 21–22 ▸ 5'),
+    onStep: k => { simE.o.noTerms = k < 1; simE.o.noPaths = k < 2; simE.o.noXref = k < 3; simE.render(); } });
+
+  /* C: practice */
+  ED.mcq('mcq', [
+    { q: t('1) หลังปล่อยปุ่มเริ่ม S2 อะไรทำให้คอยล์ KM1 ยังมีไฟอยู่', '1) After start button S2 is released, what keeps coil KM1 energised?'), options: [t('หน้าสัมผัสค้าง KM1 13–14 ที่ต่อคร่อม S2', 'holding contact KM1 13–14 across S2'), t('ปุ่มหยุด S1', 'stop button S1'), t('ฟิวส์ F1', 'fuse F1'), t('หน้าสัมผัสหลักของ KM1', 'the main contacts of KM1')], answer: 0, why: t('13–14 ต่อเมื่อ KM1 ดูด และป้อนไฟให้คอยล์ของตัวเองต่อ', '13–14 closes when KM1 pulls in and keeps feeding its own coil') },
+    { q: t('2) หน้าสัมผัสค้าง KM1 13–14 ต้องต่อคร่อมอะไร', '2) What must holding contact KM1 13–14 be connected across?'), options: [t('ทั้ง S1 และ S2', 'both S1 and S2'), t('S1 อย่างเดียว', 'S1 only'), t('S2 อย่างเดียว', 'S2 only'), t('คอยล์ KM1', 'coil KM1')], answer: 2, why: t('ถ้าคร่อม S1 ด้วย ปุ่มหยุดจะหยุดมอเตอร์ไม่ได้', 'across S1 as well, the stop button could not stop the motor') },
+    { q: t('3) วงจร 3 สาย: ไฟดับขณะมอเตอร์หมุน เมื่อไฟกลับมาเกิดอะไรขึ้น', '3) Three-wire control: the power fails while the motor runs. What happens when it returns?'), options: [t('มอเตอร์หมุนเองทันที', 'the motor starts at once'), t('มอเตอร์หยุดรอจนกด S2 ใหม่', 'the motor stays off until S2 is pressed'), t('ฟิวส์ F1 ขาด', 'fuse F1 blows'), t('KM1 ดูดค้างตลอด', 'KM1 stays in all the time')], answer: 1, why: t('KM1 หลุดตอนไฟดับ 13–14 จึงเปิด', 'KM1 dropped out during the failure, so 13–14 is open') },
+    { q: t('4) วงจรใดหมุนเองเมื่อไฟกลับมา', '4) Which circuit starts again by itself when the power returns?'), options: [t('วงจร 3 สายที่มีหน้าสัมผัสค้างตัวเอง', 'three-wire control with a holding contact'), t('วงจร 2 สายที่ใช้สวิตช์ค้างตำแหน่ง', 'two-wire control with a maintained switch'), t('วงจรปุ่มกดอย่างเดียวที่ไม่มีใครกด', 'a push button only, with nobody pressing it'), t('ไม่มีวงจรใดหมุนเอง', 'none of them')], answer: 1 },
+    { q: t('5) ทำไมวงจรควบคุมจึงรับไฟหลัง Q1', '5) Why is the control circuit fed after Q1?'), options: [t('เพื่อให้คอยล์ได้แรงดันสูงขึ้น', 'to give the coil a higher voltage'), t('เพื่อไม่ต้องใช้ฟิวส์ F1', 'so that no fuse F1 is needed'), t('เพื่อให้มอเตอร์หมุนเองหลังไฟดับ', 'so that the motor restarts after a power failure'), t('เพื่อให้ปลด Q1 หรือไฟดับแล้ว KM1 หลุดด้วย', 'so that Q1 off, or a power failure, also drops KM1')], answer: 3 },
+    { q: t('6) มอเตอร์ที่เริ่มเดินโดยตรงกินกระแสเริ่มเดินราวกี่เท่าของกระแสพิกัด', '6) About how many times its rated current does a DOL-started motor draw while starting?'), options: [t('1–2 เท่า', '1–2 times'), t('3–4 เท่า', '3–4 times'), t('6–8 เท่า', '6–8 times'), t('20–30 เท่า', '20–30 times')], answer: 2 }]);
+});
+</script>
+</body>
+</html>

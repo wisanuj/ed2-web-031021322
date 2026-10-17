@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="5.3 — Jogging (inching)">5.3 — การเดินกระตุก</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=11"><link rel="stylesheet" href="assets/ed2.css?v=11">
+<link rel="stylesheet" href="assets/wiring.css?v=11">
+<script src="assets/stops.js?v=11"></script><script src="assets/shell.js?v=11"></script>
+<script src="assets/lesson.js?v=11"></script><script src="assets/draw.js?v=11"></script><script src="assets/ed.js?v=11"></script><script src="assets/sym.js?v=11"></script><script src="assets/iec.js?v=11"></script><script src="assets/relay.js?v=11"></script><script src="assets/ch2.js?v=11"></script><script src="assets/ch3.js?v=11"></script><script src="assets/ch4.js?v=11"></script>
+<script src="assets/ch5.js?v=11"></script>
+<script src="assets/wiring.js?v=11"></script><script src="assets/devdata.js?v=11"></script><script src="assets/dev.js?v=11"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">การเดินกระตุก: สวิตช์เลือก รีเลย์ช่วย และกับดักของปุ่มกดสองหน้าสัมผัส <span class="en">Jogging (inching): selector, auxiliary relay and the double-contact push-button trap</span></h1>
+<h1 data-l="en">Jogging (inching) <span class="en">Selector, auxiliary relay and the double-contact push-button trap</span></h1>
+
+<p class="sub" data-l="th">การเดินกระตุก (jogging หรือ inching) คือการป้อนไฟเข้ามอเตอร์เป็นช่วงสั้น ๆ ซ้ำ ๆ เพื่อให้เครื่องจักรขยับทีละน้อย เช่น จัดตำแหน่งชิ้นงาน ตั้งแนวสายพาน หรือหมุนใบมีดไปยังตำแหน่งที่จะเปลี่ยน มอเตอร์ต้องหมุนเฉพาะขณะกดปุ่มค้างไว้และหยุดทันทีที่ปล่อย แต่เครื่องเดียวกันก็ยังต้องเดินต่อเนื่องด้วยปุ่มเริ่มตามปกติได้ด้วย หน้านี้ต่อยอดจากวงจรค้างตัวเองของหน้า 5.1 ให้ลองวงจรเดินกระตุกสามแบบ: สวิตช์เลือกโหมด RUN/JOG รีเลย์ช่วย KA1 (แบบที่แนะนำ) และปุ่มกดสองหน้าสัมผัส ซึ่งดูง่ายแต่ซ่อนการแข่งกันของเวลาที่ทำให้มอเตอร์หมุนค้างได้</p>
+<p class="sub" data-l="en">Jogging (inching) means energising a motor repeatedly for short moments so that a machine moves a little at a time: to position a workpiece, line up a belt or turn a blade to where it is changed. The motor must turn only while the button is held and stop as soon as it is released, yet the same machine must still run continuously from its normal start button. Building on the self-holding circuit of page 5.1, this page lets you try three jog circuits: a RUN/JOG mode selector, an auxiliary relay KA1 (the recommended one) and a double-contact push button, which looks simple but hides a timing race that can leave the motor running.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>หลักข้อเดียว</b>: ทางเดินกระแสของการเดินกระตุกต้องไม่ผ่านหน้าสัมผัสค้างตัวเอง (holding contact) เลย ถ้าผ่านได้ มอเตอร์ก็ค้างตัวเองได้ คณะกรรมาธิการไฟฟ้าระหว่างประเทศ (International Electrotechnical Commission, IEC) เรียกการเดินกระตุกว่า inching ส่วนตำราอเมริกันเรียกว่า jogging</li>
+  <li><b>สวิตช์เลือก RUN/JOG</b>: S3 ต่ออนุกรมกับหน้าสัมผัสค้าง KM1 13–14 ตำแหน่ง RUN ทางค้างครบ ปุ่ม S2 สั่งเดินต่อเนื่อง ตำแหน่ง JOG ทางค้างขาด S2 จึงเดินกระตุก ง่ายและปลอดภัย แต่ต้องบิดเปลี่ยนโหมดเอง</li>
+  <li><b>รีเลย์ช่วย KA1 (แนะนำ)</b>: ปุ่มเริ่ม S2 สั่ง KA1 ให้ค้างตัวเองด้วย KA1 13–14 แล้ว KA1 23–24 สั่ง KM1 ส่วนปุ่มเดินกระตุก S3 ป้อนไฟเข้าคอยล์ KM1 ตรง ไปไม่ถึงคอยล์ KA1 จึงค้างตัวเองไม่ได้ไม่ว่าจะกดหรือปล่อยอย่างไร</li>
+  <li><b>ปุ่มกดสองหน้าสัมผัส (ห้ามใช้)</b>: หน้าสัมผัสปกติปิด (normally closed, NC) 21–22 ของปุ่มเดินกระตุกอยู่ในทางค้าง เมื่อปล่อยปุ่มเร็ว 21–22 กลับต่อก่อน KM1 จะปล่อย มอเตอร์จึงหมุนค้าง งานเดินกระตุกยังเป็นงานหนักของคอนแทกเตอร์ (ประเภทการใช้งาน AC-4) เพราะต้องตัดกระแสเริ่มเดินทุกครั้ง</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>One rule</b>: the jog path must never pass through a holding (self-holding) contact; if it can, the motor can latch. The International Electrotechnical Commission (IEC) calls jogging "inching"; US books say jogging.</li>
+  <li><b>RUN/JOG selector</b>: S3 in series with the holding contact KM1 13–14. In RUN the holding path is complete and S2 starts continuous running; in JOG the holding path is open, so S2 only jogs. Simple and safe, but the operator must change the mode.</li>
+  <li><b>Auxiliary relay KA1 (recommended)</b>: start button S2 energises KA1, which holds itself with KA1 13–14 and runs KM1 through KA1 23–24; jog button S3 feeds the KM1 coil directly and never reaches the KA1 coil, so it cannot latch however it is pressed or released.</li>
+  <li><b>Double-contact push button (do not use)</b>: the normally closed (NC) contact 21–22 of the jog button sits in the holding path. On a fast release 21–22 re-closes before KM1 has dropped out, and the motor keeps running. Jogging is also hard on the contactor (utilization category AC-4), because it breaks the starting current every time.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>เดินกระตุกคืออะไร</a><a href="#tA"><b>A</b>สวิตช์เลือก RUN/JOG</a><a href="#tB"><b>B</b>รีเลย์ช่วย KA1</a><a href="#ex1"><b>1</b>เขียนใหม่เป็นแบบ IEC</a><a href="#tD"><b>D</b>ปุ่มกดสองหน้าสัมผัส</a><a href="#tE"><b>E</b>เลือกวงจรไหน</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>What jogging is</a><a href="#tA"><b>A</b>RUN/JOG selector</a><a href="#tB"><b>B</b>Auxiliary relay KA1</a><a href="#ex1"><b>1</b>Redraw to IEC</a><a href="#tD"><b>D</b>Double-contact push button</a><a href="#tE"><b>E</b>Which circuit?</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">เดินกระตุกคืออะไร และใช้ทำอะไร</h2><h2 data-l="en">What jogging is and what it is for</h2>
+    <div class="src" data-l="th">IEC 60050-441 (IEV 441-16-44) · UMC5 บทที่ 10 · EMC9 หน่วยที่ 23 · ตำราไทย บทที่ 6 หัวข้อ 6.2 รูป 6.17</div><div class="src" data-l="en">IEC 60050-441 (IEV 441-16-44) · UMC5 ch. 10 · EMC9 unit 23 · Thai textbook ch. 6 §6.2, Fig. 6.17</div></div></div>
+  <div class="story">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>คำศัพท์ไฟฟ้าระหว่างประเทศ (International Electrotechnical Vocabulary, IEV) ข้อ 441-16-44 นิยามการเดินกระตุก (inching) ว่าเป็นการป้อนไฟเข้ามอเตอร์ซ้ำ ๆ เป็นช่วงสั้น ๆ เพื่อให้กลไกที่มอเตอร์ขับขยับไปทีละน้อย ตำราอเมริกันเรียกว่า jogging และบางเล่มสงวนคำว่า inching ไว้สำหรับการเดินกระตุกที่แรงดันลดลง วิชานี้ใช้คำว่า "เดินกระตุก" แทนทั้งสองคำ งานที่ต้องเดินกระตุก เช่น ตั้งตำแหน่งชิ้นงานบนเครื่องตัด ร้อยสายพานหรือม้วนวัสดุเข้าเครื่อง และหมุนเพลาทีละน้อยตอนตั้งเครื่องหรือซ่อมบำรุง</p>
+        <p>ขั้นที่ 4 ของ<a href="ch5_1_self_holding.html">หน้า 5.1</a> (มีแต่ปุ่ม S2 ไม่มีหน้าสัมผัสค้างตัวเอง) ก็คือวงจรเดินกระตุกแล้ว แต่เครื่องจริงต้องทำได้ทั้งสองอย่างจากสถานีควบคุมเดียว: เดินต่อเนื่องด้วยวงจรค้างตัวเอง และเดินกระตุกที่ค้างตัวเองไม่ได้แน่นอน หัวข้อ A, B และ D คือสามวิธีที่พบในตำรา EMC9 สรุปจุดร่วมของวงจรเดินกระตุกทุกแบบไว้ว่าต้องไม่ให้เกิดทางค้างตัวเอง</p>
+        <p>รูป 6.17 ของตำราไทยเป็นการเดินกระตุกสองทิศทาง: กด S2 หรือ S3 ค้างไว้ มอเตอร์หมุนไปทางหนึ่งเฉพาะขณะกด เพราะไม่มีหน้าสัมผัสค้างตัวเองเลย และปุ่มกดกับคอนแทกเตอร์ยังล็อกกันเองไม่ให้ทำงานพร้อมกัน ตำราใช้ชื่อแบบ DIN (Deutsches Institut für Normung สถาบันมาตรฐานเยอรมัน): K1 K2 คือ KM1 KM2, F2 คือฟิวส์วงจรควบคุม F1 และ F3 คือโอเวอร์โหลด F2 ของวิชานี้ การกลับทางหมุนอยู่ในบทที่ 7</p></div>
+      <div class="story-p" data-l="en"><p>The International Electrotechnical Vocabulary (IEV), entry 441-16-44, defines inching as energising a motor repeatedly for short periods so that the driven mechanism makes small movements. US books call it jogging, and some keep the word inching for jogging at reduced voltage; this course says "jogging" for both. Typical jobs: positioning a workpiece on a cutting machine, threading a belt or a web of material into a machine, and turning a shaft a little at a time while setting up or servicing.</p>
+        <p>Step 4 of <a href="ch5_1_self_holding.html">page 5.1</a> (S2 only, no holding contact) is already a jog circuit. A real machine, however, needs both from one control station: continuous running with a self-holding circuit, and jogging that can never latch. Sections A, B and D are the three ways found in the textbooks. EMC9 sums up what every jog circuit has in common: it must not let a holding circuit form.</p>
+        <p>Thai textbook Fig. 6.17 jogs in two directions: holding S2 or S3 runs the motor one way only while the button is held, because there is no holding contact at all, and the push buttons and contactors also lock each other out. The textbook uses DIN (Deutsches Institut für Normung, the German standards body) names: K1 and K2 are our KM1 and KM2, F2 is our control fuse F1 and F3 our overload relay F2. Reversing comes in chapter 7.</p></div></div>
+    <div class="story-f">
+      <figure class="slide sm"><img src="img/book/book1_fig6_17_jog_two_ways.jpg?v=11" width="478" height="575" loading="lazy" decoding="async" alt="Thai textbook Fig. 6.17: control circuit for jogging in two directions; double-contact push buttons S2 and S3 and the NC contacts of K1 and K2 lock the two contactors out; overload contact F3 lights lamp H1.">
+        <figcaption data-l="th">รูป 6.17 วงจรควบคุมการเดินกระตุกสองทิศทาง · ที่มา: ธนภัทร ไพคำนาม, <i>การควบคุมมอเตอร์ไฟฟ้า</i> (2104-2009), บทที่ 6 หน้า 100 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 6.17, control circuit for jogging in two directions · source: Thanaphat Phaikhamnam, <i>Motor Control</i> (2104-2009), ch. 6, p. 100 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+  <div class="duo">
+    <div class="card"><h3 data-l="th">งานหนักของคอนแทกเตอร์: ประเภทการใช้งาน AC-4</h3><h3 data-l="en">Hard work for the contactor: utilization category AC-4</h3>
+      <p data-l="th">ทุกครั้งที่เดินกระตุก มอเตอร์ดึงกระแสเริ่มเดินราว 6–8 เท่าของกระแสพิกัด และคอนแทกเตอร์ต้องตัดกระแสก้อนนั้นขณะมอเตอร์ยังไม่ทันหมุนเร็ว มาตรฐาน IEC 60947-4-1 จึงจัดงานแบบนี้ (เริ่มเดิน เดินกระตุก และกลับทางขณะหมุน) เป็นประเภทการใช้งาน (utilization category) AC-4 ซึ่งทำให้หน้าสัมผัสสึกเร็วกว่างานปกติแบบ AC-3 (เริ่มเดินแล้วตัดตอนมอเตอร์หมุนเต็มความเร็ว) มาก เครื่องที่เดินกระตุกบ่อยจึงมักต้องใช้คอนแทกเตอร์ตัวใหญ่ขึ้น หรือรุ่นที่มีพิกัด AC-4 สูงพอ (Senty บทที่ 7 หน้า 105–106) การเลือกขนาดอยู่ในบทที่ 13</p>
+      <p data-l="en">Each jog makes the motor draw its starting current, about 6–8 times the rated current, and the contactor has to break that current before the motor has picked up speed. IEC 60947-4-1 therefore puts this kind of duty (starting, inching and plugging) in utilization category AC-4, which wears the contacts much faster than normal AC-3 duty (starting, then switching off at full speed). A machine that is jogged often usually needs a larger contactor, or one with a high enough AC-4 rating (Senty ch. 7, pp. 105–106). Sizing comes in chapter 13.</p></div>
+    <div class="card"><h3 data-l="th">สีของปุ่มเดินกระตุก</h3><h3 data-l="en">The colour of a jog button</h3>
+      <p data-l="th">ปุ่มที่ทำงานเฉพาะขณะกดค้าง เช่น ปุ่มเดินกระตุก ใช้สีขาว เทา หรือดำ ห้ามใช้สีแดง เหลือง หรือเขียว (IEC 60204-1 ข้อ 10.2.1) ปุ่มเริ่มใช้สีขาว (เขียวก็ได้ แต่ห้ามแดง) ปุ่มหยุดใช้สีดำ (แดงก็ได้ แต่ห้ามเขียว) ในภาพจำลองของหน้านี้ จุดสีบนปุ่มในแผงบอกสีของปุ่ม: S2 ขาว S1 ดำ และ S3 เทา</p>
+      <p data-l="en">Buttons that act only while held, such as a jog button, are white, grey or black, never red, yellow or green (IEC 60204-1, 10.2.1). A start button is white (green allowed, never red) and a stop button black (red allowed, never green). In the simulations on this page the dot on each panel button shows its colour: S2 white, S1 black, S3 grey.</p></div>
+  </div>
+  <p class="lead" data-l="th" style="margin-top:12px">การ์ดด้านล่างคือกล่องปุ่มกดจริงที่มีปุ่ม JOG สีขาว และชุดหน้าสัมผัสที่อยู่หลังปุ่ม แตะหมายเลขเพื่อดูว่าชี้ส่วนไหน ปุ่มกดสองหน้าสัมผัสในหัวข้อ D ก็คือปุ่มเดียวที่ซ้อนชุดหน้าสัมผัสปกติเปิดกับปกติปิดไว้ด้านหลัง</p>
+  <p class="lead" data-l="en" style="margin-top:12px">The card below shows a real control box with white JOG buttons, and the contact block behind a button. Tap a number to see what it points at. The double-contact push button of section D is one button with a normally open and a normally closed contact block stacked behind it.</p>
+  <div id="devs" style="margin-top:8px"></div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">สวิตช์เลือก RUN/JOG ในทางค้างตัวเอง</h2><h2 data-l="en">A RUN/JOG selector in the holding path</h2>
+    <div class="src" data-l="th">UMC5 บทที่ 10 รูป 10.5–10.6 · EMC9 หน่วยที่ 23 รูป 23-7 และ 23-8 · Senty บทที่ 14 วงจรที่ 13</div><div class="src" data-l="en">UMC5 ch. 10, Figs 10.5–10.6 · EMC9 unit 23, Figs 23-7 and 23-8 · Senty ch. 14, circuit 13</div></div></div>
+  <p class="lead" data-l="th">สวิตช์เลือก S3 เป็นแบบค้างตำแหน่ง หน้าสัมผัส 13–14 ของมัน (เลขลงท้าย 3–4 คือหน้าสัมผัสปกติเปิด, normally open, NO) ต่อเฉพาะตำแหน่ง RUN และอยู่อนุกรมกับหน้าสัมผัสค้างตัวเอง KM1 13–14 (ทางเดินกระแสที่ 2) บิดหัวสวิตช์ทางซ้าย (หรือแตะ S3 ในวงจร) แล้วกด S2 ค้างไว้และปล่อยในแต่ละตำแหน่ง ลองบิดไป JOG ขณะมอเตอร์หมุนอยู่ด้วย ตารางหน้าสัมผัสทางขวาบอกว่า 13–14 ต่อในตำแหน่งไหน ผลแต่ละครั้งบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">Selector S3 is maintained; its contact 13–14 (ending in 3–4: a normally open, NO, contact) is closed only in RUN and sits in series with the holding contact KM1 13–14 (current path 2). Turn the knob on the left (or tap S3 in the circuit), then hold S2 and let go in each position. Also try turning to JOG while the motor runs. The contact chart on the right shows in which position 13–14 is closed. Each result is recorded.</p>
+  <div class="card sim" style="padding:10px"><div class="selgrid"><div id="knA"></div><div id="simA" class="rlwrap rlscroll" style="--rlmin:380px"></div><div id="chA"></div></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logA"></div><div id="sumA" style="margin-top:8px"></div></div>
+  <div class="story n2" style="margin-top:12px">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>รูป 10.6 ของ UMC5 ต่อสวิตช์เลือก RUN–JOG อนุกรมกับหน้าสัมผัสค้างตัวเอง M แบบเดียวกับ S3 ของเรา: ตำแหน่ง RUN ทางค้างครบ ปุ่ม START สั่งเดินต่อเนื่อง ตำแหน่ง JOG ทางค้างขาด START จึงเดินกระตุก (รูป 10.5 ใช้สวิตช์โยกขั้วเดียวทำหน้าที่เดียวกัน) รูปนี้เป็นแบบ NEMA (National Electrical Manufacturers Association สมาคมผู้ผลิตอุปกรณ์ไฟฟ้าของสหรัฐฯ) ที่วาดแนวนอน ป้อนวงจรควบคุมจากหม้อแปลงควบคุม และวางหน้าสัมผัสโอเวอร์โหลด OL ไว้หลังคอยล์ ภาพจำลองด้านบนคือวงจรเดียวกันที่วาดใหม่เป็นแบบ IEC แนวตั้ง: F2 95–96 อยู่ด้านบนฝั่ง L คอยล์ต่อตรงลง N และใช้ชื่ออุปกรณ์กับเลขขั้วของวิชานี้</p></div>
+      <div class="story-p" data-l="en"><p>UMC5 Fig. 10.6 puts a RUN–JOG selector in series with the holding contact M, just like our S3: in RUN the holding path is complete and START runs the motor continuously; in JOG the holding path is open, so START only jogs (Fig. 10.5 does the same with a single-pole toggle switch). It is a horizontal NEMA (National Electrical Manufacturers Association, US) drawing that feeds the control circuit from a control transformer and places the overload contact OL after the coil. The simulation above is the same circuit redrawn to IEC: vertical, F2 95–96 at the top on the L side, the coil straight to N, with the course's device names and terminal numbers.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/umc5_fig10_6_selector_jog.jpg?v=11" width="1200" height="779" loading="lazy" decoding="async" alt="NEMA schematic: three-phase starter fed through a control transformer; a RUN/JOG selector switch in series with the holding contact M, which bridges the START button.">
+        <figcaption data-l="th">รูป 10.6 สวิตช์เลือก RUN–JOG ในทางค้างตัวเอง (แบบ NEMA วาดใหม่เป็นแบบ IEC ในภาพจำลองด้านบน) · ที่มา: Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. (Cengage, 2025) บทที่ 10 หน้า 118 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 10.6, RUN–JOG selector in the holding path (NEMA; redrawn to IEC in the simulation above) · source: Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed. (Cengage, 2025), ch. 10, p. 118 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">รีเลย์ช่วย KA1: ปุ่มเดินกระตุกไปไม่ถึงทางค้าง</h2><h2 data-l="en">Auxiliary relay KA1: the jog button never reaches a holding path</h2>
+    <div class="src" data-l="th">UMC5 บทที่ 10 รูป 10.3 · EMC9 หน่วยที่ 23 รูป 23-4 และ 23-5 · Senty บทที่ 14 วงจรที่ 14–15</div><div class="src" data-l="en">UMC5 ch. 10, Fig. 10.3 · EMC9 unit 23, Figs 23-4 and 23-5 · Senty ch. 14, circuits 14–15</div></div></div>
+  <p class="lead" data-l="th">ปุ่มเริ่ม S2 ป้อนไฟเข้าคอยล์รีเลย์ช่วย KA1 ซึ่งค้างตัวเองด้วย KA1 13–14 (ทางเดินกระแสที่ 2) และสั่งคอนแทกเตอร์ KM1 ผ่าน KA1 23–24 (ทางที่ 3) ส่วนปุ่มเดินกระตุก S3 13–14 ป้อนไฟเข้าคอยล์ KM1 โดยตรง (ทางที่ 4) กด S2, S3 และ S1 ในแผงหรือในวงจร ลองกด S3 ถี่ ๆ และกด S3 ขณะมอเตอร์เดินต่อเนื่อง แล้วดูว่า KA1 กับ KM1 ตัวไหนดูด เลือก "เน้นสาย" เพื่อดูว่าสายจาก S3 ไปถึงขั้วไหนบ้าง ผลบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">Start button S2 energises auxiliary relay KA1, which holds itself through KA1 13–14 (current path 2) and runs contactor KM1 through KA1 23–24 (path 3). Jog button S3 13–14 feeds the KM1 coil directly (path 4). Press S2, S3 and S1 in the panel or in the circuit; tap S3 quickly, and press S3 while the motor runs continuously, then see which of KA1 and KM1 pulls in. Use "highlight a wire" to see which terminals the wire from S3 reaches. The results are recorded.</p>
+  <div class="card sim rlwrap rlscroll" style="padding:8px;--rlmin:520px"><div id="simB"></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pB" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logB"></div><div id="sumB" style="margin-top:8px"></div></div>
+  <p class="simnote" data-l="th" style="margin-top:8px">KA1 ใช้เลขขั้วแบบรีเลย์ช่วยของบทที่ 4 (13–14 และ 23–24 ปกติเปิด) รีเลย์แบบเสียบฐานพิมพ์เลขหน้าสัมผัสเปลี่ยนทางเป็น 11-12-14 ถึง 41-42-44 และคอยล์ A1–A2 (<a href="ch4_2_relays.html">หน้า 4.2</a>) เมื่อต่อจริงให้เขียนเลขตามที่พิมพ์บนรีเลย์ที่ใช้ บางวงจรต่อหน้าสัมผัสปกติเปิดของ KM1 อนุกรมกับ KA1 13–14 ในทางค้าง เพื่อให้รีเลย์ค้างได้เฉพาะเมื่อคอนแทกเตอร์ดูดจริง (UMC5 รูป 10.3 (B), Senty วงจรที่ 14)</p>
+  <p class="simnote" data-l="en" style="margin-top:8px">KA1 uses the contactor-relay numbers of chapter 4 (13–14 and 23–24, normally open). A plug-in relay prints its changeover contacts as 11-12-14 to 41-42-44 and its coil as A1–A2 (<a href="ch4_2_relays.html">page 4.2</a>); when wiring a real panel, use the numbers printed on the relay you have. Some circuits add a normally open KM1 contact in series with KA1 13–14 in the holding path, so that the relay holds only if the contactor has really closed (UMC5 Fig. 10.3 (B), Senty circuit 14).</p>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">เขียนวงจรเดินกระตุกแบบ NEMA ใหม่เป็นแบบ IEC</h2><h2 data-l="en">Redrawing a NEMA jog circuit to IEC</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · UMC5 รูป 10.3 (A)</div><div class="src" data-l="en">Worked example · UMC5 Fig. 10.3 (A)</div></div></div>
+  <div class="story in">
+    <div class="story-t">
+      <div class="given" data-l="th"><div class="gl">โจทย์</div><p>รูป 10.3 (A) ของ UMC5 คือวงจรเดินกระตุกด้วยรีเลย์ควบคุม CR แบบ NEMA (วาดแนวนอนจาก L1 ไป L2 และหน้าสัมผัสโอเวอร์โหลด OL'S อยู่ฝั่ง L2) จงเขียนใหม่เป็นแบบ IEC แนวตั้งตามวิชานี้ (ก) อุปกรณ์แต่ละตัวใช้ชื่ออะไร (ข) หน้าสัมผัสและคอยล์ใช้เลขขั้วอะไร (ค) ตารางอ้างอิงใต้คอยล์ KA1 และ KM1 เขียนว่าอะไร (ง) ถ้ากด JOG ขณะมอเตอร์หยุดอยู่ คอยล์ใดได้ไฟ</p></div>
+      <div class="given" data-l="en"><div class="gl">Problem</div><p>UMC5 Fig. 10.3 (A) is a NEMA jog circuit with a control relay CR (drawn horizontally from L1 to L2, with the overload contacts OL'S on the L2 side). Redraw it as a vertical IEC circuit in the course style. (a) What is each device called? (b) What are the terminal numbers of the contacts and coils? (c) What does the cross-reference under coils KA1 and KM1 say? (d) If JOG is pressed while the motor is at rest, which coil is energised?</p></div></div>
+    <div class="story-f"><figure class="slide sm"><img src="img/book/umc5_fig10_3_relay_jog.jpg?v=11" width="1200" height="1071" loading="lazy" decoding="async" alt="Two NEMA schematics, (A) and (B): START energises control relay CR, which holds itself and feeds starter coil M; the JOG button feeds M directly. In (B) the holding path runs through a CR and an M contact in series.">
+      <figcaption data-l="th">รูป 10.3 เดินกระตุกด้วยรีเลย์ควบคุม (แบบ NEMA) · ที่มา: Herman &amp; Seiler (2025) บทที่ 10 หน้า 116 · แตะรูปเพื่อขยาย</figcaption>
+      <figcaption data-l="en">Fig. 10.3, jogging with a control relay (NEMA) · source: Herman &amp; Seiler (2025), ch. 10, p. 116 · tap to enlarge</figcaption></figure></div>
+  </div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="tD">
+  <div class="prob-head"><span class="prob-no">D</span><div><h2 data-l="th">ปุ่มกดสองหน้าสัมผัส: การแข่งกันของเวลาที่ทำให้มอเตอร์ค้าง</h2><h2 data-l="en">The double-contact push button: a timing race that latches the motor</h2>
+    <div class="src" data-l="th">UMC5 บทที่ 10 รูป 10.2 · EMC9 หน่วยที่ 23 รูป 23-3 · Senty บทที่ 14 วงจรที่ 12</div><div class="src" data-l="en">UMC5 ch. 10, Fig. 10.2 · EMC9 unit 23, Fig. 23-3 · Senty ch. 14, circuit 12</div></div></div>
+  <p class="lead" data-l="th">ปุ่มเดินกระตุก S3 มีสองหน้าสัมผัสบนแกนกดเดียวกัน: ปกติเปิด (NO) 13–14 ต่อขนานกับ S2 (ทางเดินกระแสที่ 2) และปกติปิด 21–22 ต่ออนุกรมกับหน้าสัมผัสค้าง KM1 13–14 (ทางที่ 3) ขณะกด S3 หน้าสัมผัส 13–14 ต่อ KM1 ดูด และ 21–22 เปิด ทางค้างจึงขาด ดูเหมือนเดินกระตุกได้ แต่ตอนปล่อย ถ้า 21–22 กลับต่อก่อนที่ KM1 13–14 จะเปิด คอยล์ได้ไฟกลับมาทางค้าง มอเตอร์ก็หมุนค้าง เลือกแบบการปล่อย แล้วกด S3 ค้างไว้และปล่อย (แบบปล่อยช้าแสดงช้าลงให้เห็นช่วงที่ปุ่มอยู่ตรงกลางและหน้าสัมผัสทั้งสองเปิด) ทุกครั้งที่ปล่อยบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">Jog button S3 has two contacts on one plunger: NO 13–14 in parallel with S2 (current path 2) and NC 21–22 in series with the holding contact KM1 13–14 (path 3). While S3 is held, 13–14 is closed, KM1 pulls in and 21–22 is open, so the holding path is broken: it seems to jog. But on release, if 21–22 re-closes before KM1 13–14 opens, the coil is fed again through the holding path and the motor latches. Choose how to release, then hold S3 and let go (the slow release is slowed down so that you can see the moment the button sits in the middle with both contacts open). Each release is recorded.</p>
+  <div class="card solve"><div id="modeD" class="toggles"></div></div>
+  <div class="card sim rlwrap rlscroll" style="padding:8px;margin-top:12px;--rlmin:460px"><div id="simD"></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pD" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logD"></div><div id="sumD" style="margin-top:8px"></div></div>
+  <div class="badbox" data-l="th" style="margin-top:12px">✗ <b>ห้ามใช้วงจรนี้</b>: มอเตอร์จะหยุดหรือไม่ขึ้นกับว่านิ้วปล่อยปุ่มเร็วแค่ไหน ซึ่งไม่มีใครควบคุมได้ ปุ่ม S1 ยังหยุดมอเตอร์ได้เสมอ แต่คนที่ปล่อยปุ่มเดินกระตุกเชื่อว่าเครื่องจะหยุดเอง ใช้สวิตช์เลือก (หัวข้อ A) หรือรีเลย์ช่วย (หัวข้อ B) แทน</div>
+  <div class="badbox" data-l="en" style="margin-top:12px">✗ <b>Do not use this circuit</b>: whether the motor stops depends on how fast a finger lets go, which nobody controls. S1 still stops the motor every time, but whoever lets go of the jog button believes the machine will stop by itself. Use the selector (section A) or the auxiliary relay (section B) instead.</div>
+  <p class="lead" data-l="th" style="margin-top:16px">ทำไมผลจึงขึ้นกับความเร็วของนิ้ว: แผนภาพเวลาด้านล่างขยายช่วงเวลา 60 มิลลิวินาทีหลังเริ่มปล่อยปุ่ม เลื่อนค่า "เวลาจาก 13–14 เปิดจน 21–22 กลับต่อ" (ปล่อยเร็ว = สั้น) และ "เวลาปล่อยของคอนแทกเตอร์" แล้วกด "ปล่อยปุ่ม S3 (ภาพช้า)" ทุกครั้งที่เล่นจบบันทึกลงตาราง</p>
+  <p class="lead" data-l="en" style="margin-top:16px">Why the result depends on the finger: the timing diagram below stretches the first 60 ms after the release starts. Move "time from 13–14 opening to 21–22 re-closing" (fast release = short) and "contactor drop-out time", then press "Release S3 (slow motion)". Each replay is recorded.</p>
+  <div class="card sim" style="padding:10px"><div id="race"></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pR" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logR"></div><div id="sumR" style="margin-top:8px"></div></div>
+  <p class="simnote" data-l="th" style="margin-top:8px">CADe SIMU เปลี่ยนหน้าสัมผัสทั้งสองของปุ่มในขั้นเดียวกัน และไม่มีเวลาปล่อยของคอนแทกเตอร์ จึงแสดงการแข่งกันของเวลานี้ไม่ได้: โปรแกรมจะให้ผลแบบเดียวทุกครั้ง (ค้างทุกครั้ง หรือไม่ค้างเลย) ผลในโปรแกรมจึงพิสูจน์ไม่ได้ว่าวงจรนี้ปลอดภัย</p>
+  <p class="simnote" data-l="en" style="margin-top:8px">CADe SIMU switches both contacts of a button in the same step and has no contactor drop-out time, so it cannot show this timing race: the program gives the same result every time (always latches, or never does), and that result proves nothing about the safety of the circuit.</p>
+  <div class="story n2" style="margin-top:12px">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>รูป 10.2 ของ UMC5 แสดงวงจรแนวคิดเดียวกันสองแบบ (A) และ (B) ที่ใช้ปุ่ม JOG สองหน้าสัมผัส: หน้าสัมผัสปกติเปิดป้อนไฟเข้าคอยล์ M และหน้าสัมผัสปกติปิดตัดทางค้างของ M ขณะกดปุ่ม แบบ (B) ตรงกับ S3 ในภาพจำลองด้านบน ซึ่งวาดใหม่เป็นแบบ IEC ตำราทั้ง UMC5, EMC9 (รูป 23-3) และ Senty เตือนว่าถ้าหน้าสัมผัสปกติปิดกลับต่อก่อนที่คอนแทกเตอร์จะปล่อย มอเตอร์จะหมุนต่อทั้งที่ปล่อยปุ่มแล้ว EMC9 ยอมให้ใช้วงจรนี้เฉพาะเมื่อมีอุปกรณ์เสริมที่กันไม่ให้หน้าสัมผัสปกติปิดกลับต่อเร็วเกินไป (jogging attachment) และถือว่าอันตรายถ้าไม่มี ทั้งสามเล่มแนะนำให้ใช้รีเลย์ควบคุมแบบหัวข้อ B แทน</p></div>
+      <div class="story-p" data-l="en"><p>UMC5 Fig. 10.2 shows the same idea twice, (A) and (B), with a double-contact JOG button: its NO contact feeds coil M and its NC contact breaks the holding path of M while the button is pressed. Version (B) matches S3 in the simulation above, redrawn to IEC. UMC5, EMC9 (Fig. 23-3) and Senty all warn that if the NC contact re-closes before the contactor drops out, the motor keeps running after the button is released. EMC9 accepts the circuit only with a jogging attachment that stops the NC contact from re-closing too early, and calls it hazardous without one. All three recommend a control relay as in section B instead.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/umc5_fig10_2_jog_button.jpg?v=11" width="1200" height="794" loading="lazy" decoding="async" alt="Two NEMA schematics, (A) and (B), with a double-contact JOG push button: its normally open part feeds coil M and its normally closed part is in series with the holding contact M.">
+        <figcaption data-l="th">รูป 10.2 เดินกระตุกด้วยปุ่มกดสองหน้าสัมผัส (แบบ NEMA วาดใหม่เป็นแบบ IEC ในภาพจำลองด้านบน) · ที่มา: Herman &amp; Seiler (2025) บทที่ 10 หน้า 115 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 10.2, jogging with double-contact push buttons (NEMA; redrawn to IEC in the simulation above) · source: Herman &amp; Seiler (2025), ch. 10, p. 115 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="tE">
+  <div class="prob-head"><span class="prob-no">E</span><div><h2 data-l="th">เลือกวงจรเดินกระตุกแบบไหน</h2><h2 data-l="en">Which jog circuit to choose</h2>
+    <div class="src" data-l="th">สรุปหัวข้อ A, B และ D · EMC9 หน่วยที่ 23 รูป 23-1</div><div class="src" data-l="en">Summary of sections A, B and D · EMC9 unit 23, Fig. 23-1</div></div></div>
+  <div class="card solve" style="overflow-x:auto" data-l="th"><table class="tbl stack">
+    <thead><tr><th>วงจร</th><th>เดินกระตุกอย่างไร</th><th>ค้างตัวเองโดยไม่ตั้งใจได้ไหม</th><th>อุปกรณ์ที่เพิ่ม</th><th>สรุป</th></tr></thead>
+    <tbody><tr><td>A สวิตช์เลือก RUN/JOG</td><td data-h="เดินกระตุกอย่างไร">บิด S3 ไป JOG แล้วกด S2 ค้าง</td><td data-h="ค้างโดยไม่ตั้งใจ">ไม่ได้: ทางค้างขาดที่ S3 13–14</td><td data-h="อุปกรณ์ที่เพิ่ม">สวิตช์เลือก 1 ตัว</td><td data-h="สรุป"><span class="rk-ok">✓ ใช้ได้</span> ง่าย แต่ต้องเปลี่ยนโหมดเอง ถ้าลืมบิดกลับเป็น RUN ปุ่ม S2 ก็แค่เดินกระตุก (ผิดไปทางปลอดภัย)</td></tr>
+    <tr><td>B รีเลย์ช่วย KA1</td><td data-h="เดินกระตุกอย่างไร">กด S3 ค้างได้ทุกเมื่อ ไม่ต้องเปลี่ยนโหมด</td><td data-h="ค้างโดยไม่ตั้งใจ">ไม่ได้: S3 ไปไม่ถึงคอยล์ KA1 และ KM1 ไม่มีหน้าสัมผัสค้างของตัวเอง</td><td data-h="อุปกรณ์ที่เพิ่ม">รีเลย์ช่วย 1 ตัว และปุ่ม S3</td><td data-h="สรุป"><span class="rk-ok">✓ แนะนำ</span> ปล่อยปุ่มเร็วหรือช้าก็หยุดเสมอ</td></tr>
+    <tr><td>D ปุ่มกดสองหน้าสัมผัส</td><td data-h="เดินกระตุกอย่างไร">กด S3 ค้าง</td><td data-h="ค้างโดยไม่ตั้งใจ">ได้: ถ้าปล่อยเร็วกว่าเวลาปล่อยของคอนแทกเตอร์</td><td data-h="อุปกรณ์ที่เพิ่ม">ไม่มี (ใช้ปุ่มสองหน้าสัมผัสแทนปุ่มธรรมดา)</td><td data-h="สรุป"><span class="rk-bad">✗ ห้ามใช้</span> ผลขึ้นกับความเร็วของนิ้ว</td></tr>
+    <tr><td>ปุ่มหยุดแบบล็อกค้าง (lock-stop)</td><td data-h="เดินกระตุกอย่างไร">ปุ่มหยุดอยู่ในทางค้างอย่างเดียว ปุ่มเริ่มต่อตรงเข้าคอยล์ ล็อกปุ่มหยุดให้เปิดค้างแล้วกดปุ่มเริ่ม</td><td data-h="ค้างโดยไม่ตั้งใจ">ไม่ค้าง แต่ปุ่มเริ่มยังสั่งเดินได้แม้ปุ่มหยุดถูกล็อกไว้</td><td data-h="อุปกรณ์ที่เพิ่ม">ปุ่มหยุดที่ล็อกได้</td><td data-h="สรุป"><span class="rk-bad">✗ ห้ามใช้</span> ปุ่มเริ่มข้ามปุ่มหยุด และคนที่เห็นปุ่มหยุดถูกล็อกอาจเข้าใจว่าเครื่องถูกตัดไว้แล้ว</td></tr></tbody></table></div>
+  <div class="card solve" style="overflow-x:auto" data-l="en"><table class="tbl stack">
+    <thead><tr><th>circuit</th><th>how to jog</th><th>can it latch by accident?</th><th>extra parts</th><th>verdict</th></tr></thead>
+    <tbody><tr><td>A RUN/JOG selector</td><td data-h="how to jog">turn S3 to JOG, then hold S2</td><td data-h="accidental latch">no: the holding path is open at S3 13–14</td><td data-h="extra parts">one selector</td><td data-h="verdict"><span class="rk-ok">✓ fine</span> simple, but the mode must be changed by hand; if RUN is forgotten, S2 only jogs (wrong on the safe side)</td></tr>
+    <tr><td>B auxiliary relay KA1</td><td data-h="how to jog">hold S3 at any time, no mode change</td><td data-h="accidental latch">no: S3 never reaches the KA1 coil, and KM1 has no holding contact of its own</td><td data-h="extra parts">one auxiliary relay and button S3</td><td data-h="verdict"><span class="rk-ok">✓ recommended</span> stops on every release, fast or slow</td></tr>
+    <tr><td>D double-contact push button</td><td data-h="how to jog">hold S3</td><td data-h="accidental latch">yes: when released faster than the contactor drops out</td><td data-h="extra parts">none (a double-contact button instead of a plain one)</td><td data-h="verdict"><span class="rk-bad">✗ do not use</span> the result depends on the finger</td></tr>
+    <tr><td>lock-stop button</td><td data-h="how to jog">the stop button is only in the holding path and start goes straight to the coil; lock the stop open, then press start</td><td data-h="accidental latch">no latch, but start still runs the motor with the stop locked</td><td data-h="extra parts">a lockable stop button</td><td data-h="verdict"><span class="rk-bad">✗ do not use</span> start bypasses stop, and a locked stop may be taken to mean the machine is locked off</td></tr></tbody></table></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">การเดินกระตุก</div><div class="src" data-l="en">Jogging</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>หัวข้อ A: เดินมอเตอร์ในตำแหน่ง RUN แล้วบิด S3 ไป JOG มอเตอร์เป็นอย่างไร ถ้าลืมบิดกลับเป็น RUN แล้วกด S2 จะเกิดอะไรขึ้น</li>
+    <li>หัวข้อ B: กด S2 ให้เดินต่อเนื่อง แล้วกด S3 และปล่อย มอเตอร์หยุดไหม เพราะอะไร จากนั้นเลือกเน้นสายของคอยล์ KM1 แล้วนับว่าสายนั้นไปถึงขั้วไหนบ้าง</li>
+    <li>หัวข้อ D: ตั้งเวลาปล่อยของคอนแทกเตอร์ไว้ 15 ms แล้วหาค่าเวลาของปุ่มที่น้อยที่สุดที่มอเตอร์ไม่ค้าง</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 6 หัวข้อ 6.2 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 10 · Herman, <i>Electric Motor Control</i> 9th ed. หน่วยที่ 23 · Senty, <i>Motor Control Fundamentals</i> บทที่ 7, 14 · IEC 60050-441 · IEC 60204-1 · IEC 60947-4-1</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Section A: run the motor in RUN, then turn S3 to JOG. What does the motor do? If you forget to turn back to RUN and press S2, what happens?</li>
+    <li>Section B: press S2 to run continuously, then press S3 and let go. Does the motor stop? Why? Then highlight the wire of coil KM1 and count which terminals it reaches.</li>
+    <li>Section D: set the contactor drop-out time to 15 ms and find the shortest button time at which the motor does not latch.</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 6 §6.2 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 10 · Herman, <i>Electric Motor Control</i>, 9th ed., unit 23 · Senty, <i>Motor Control Fundamentals</i>, ch. 7, 14 · IEC 60050-441 · IEC 60204-1 · IEC 60947-4-1</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui;
+  const hid = spec => new RL.Sim(document.createElement('div'), spec);   // hidden simulator for the summaries (same model as the page)
+  const tap = (s, ...ids) => { ids.forEach(i => s.press(i, true)); ids.forEach(i => s.press(i, false)); };
+  const onoff = v => (v ? t('ดูด', 'in') : t('ไม่ดูด', 'out')), runs = s => (s.running() ? t('หมุน', 'running') : t('หยุด', 'stopped'));
+  const ok = (v, a, b) => `<span class="${v ? 'rk-ok' : 'rk-bad'}">${v ? a : b}</span>`;
+  /* cross-reference lines ["NO", "13–14 ▸ 2", …] → "NO 13–14 ▸ 2, …" */
+  const xr = a => a.reduce((acc, x) => (x === 'NO' || x === 'NC' ? [...acc, [x]] : (acc[acc.length - 1].push(x), acc)), []).map(g => `${g[0]} ${g.slice(1).join(', ')}`).join(' · ');
+  DEV.mount($('devs'), ['pb']);
+
+  /* A: selector S3 (RUN/JOG) in series with the holding contact KM1 13–14 */
+  const simA = new RL.Sim($('simA'), C5.J1(), { max: 480, label: 'jog circuit with a RUN/JOG selector' });
+  const CHA = [{ name: 'S3 13–14', closed: ['RUN'], note: ['→ ทางค้าง KM1 13–14', '→ holding path KM1 13–14'] }];
+  const knA = new C3.Knob($('knA'), { positions: ['JOG', 'RUN'], at: 'RUN', onChange: p => simA.setPos('S3', p) });
+  const logA = new ED.Log($('logA'), [['ตำแหน่ง S3', 'S3 position'], ['ทำอะไร', 'what you did'], ['ผล', 'result']]);
+  let a0 = { s2: false, s1: false, at: 'RUN', run: false };
+  const trackA = s => { const d = s.dev, at = d.S3.at, r = s.running();
+    if (a0.s2 && !d.S2.pressed) logA.add(at + '|S2', [at, t('กด S2 แล้วปล่อย', 'press S2, let go'), r ? t('หมุนต่อ: ค้างตัวเองด้วย KM1 13–14 ผ่าน S3', 'keeps running: held by KM1 13–14 through S3') : t('หยุดทันทีที่ปล่อย: เดินกระตุก', 'stops on release: jogging')], 'ok');
+    if (a0.at !== at && a0.run && !r) logA.add('sw', [at, t('บิด S3 ไป JOG ขณะมอเตอร์หมุน', 'S3 turned to JOG while running'), t('หยุด: ทางค้างขาดที่ S3', 'stops: the holding path opens at S3')], 'warn');
+    if (!a0.s1 && d.S1.pressed && a0.run) logA.add(at + '|S1', [at, t('กด S1', 'press S1'), t('หยุด', 'stops')], 'ok');
+    a0 = { s2: !!d.S2.pressed, s1: !!d.S1.pressed, at, run: r };
+    C3.chart($('chA'), { positions: ['JOG', 'RUN'], contacts: CHA, at }); if (knA.at !== at) knA.set(at); };
+  simA.on(trackA); trackA(simA);
+  C5.panel($('pA'), simA, { only: ['S1', 'S2'], cut: false, status: s => (s.dev.F2.tripped ? C5.state(s) : [s.running() ? t('มอเตอร์หมุน', 'motor running') : t('มอเตอร์หยุด', 'motor stopped'),
+    `S3 = ${s.dev.S3.at} · ${s.dev.S3.at === 'RUN' ? t('ทางค้างครบ: S2 สั่งเดินต่อเนื่อง', 'holding path complete: S2 starts continuous running') : t('ทางค้างขาด: S2 เดินกระตุก', 'holding path open: S2 jogs')}`, s.running() ? 'good' : 'wait']) });
+  const trialsA = () => { const out = [];
+    ['RUN', 'JOG'].forEach(p => { const s = hid(C5.J1()); s.setPos('S3', p); s.press('S2', true); const held = s.running(); s.press('S2', false);
+      out.push([p, ok(held, t('หมุน', 'runs'), t('ไม่หมุน', 'does not run')), s.running() ? t('หมุนต่อ (ค้างตัวเอง)', 'keeps running (self-held)') : t('หยุด (เดินกระตุก)', 'stops (jogging)'), p === 'RUN' ? t('เดินต่อเนื่อง หยุดด้วย S1', 'continuous running, stopped with S1') : t('เดินกระตุก', 'jogging')]); });
+    const s = hid(C5.J1()); tap(s, 'S2'); s.setPos('S3', 'JOG');
+    out.push([t('RUN → JOG', 'RUN → JOG'), t('(มอเตอร์หมุนอยู่)', '(motor running)'), s.running() ? t('หมุนต่อ', 'keeps running') : t('หยุด', 'stops'), t('บิดไป JOG ตัดทางค้าง จึงหยุดได้ด้วย', 'turning to JOG opens the holding path, so it stops too')]);
+    return out; };
+  ED.summary($('sumA'), { head: [['ตำแหน่ง S3', 'S3 position'], ['ขณะกด S2', 'while S2 is held'], ['เมื่อปล่อย S2', 'when S2 is released'], ['ใช้เป็น', 'used as']], rows: trialsA,
+    points: [['หน้าสัมผัส S3 13–14 อยู่อนุกรมกับหน้าสัมผัสค้าง KM1 13–14: ตำแหน่ง RUN ทางค้างครบ วงจรเป็นวงจรค้างตัวเองปกติ ตำแหน่ง JOG ทางค้างขาด S2 จึงสั่งได้เฉพาะขณะกด', 'S3 13–14 is in series with the holding contact KM1 13–14: in RUN the holding path is complete and the circuit is a normal self-holding one; in JOG the holding path is open, so S2 works only while held.'],
+      ['ทางเดินกระแสของการเดินกระตุก (S2 ในตำแหน่ง JOG) ไม่ผ่านหน้าสัมผัสค้างที่ต่ออยู่เลย จึงค้างตัวเองไม่ได้ไม่ว่าจะปล่อยปุ่มเร็วแค่ไหน', 'The jog path (S2 in JOG) passes no closed holding contact at all, so it cannot latch however fast the button is released.'],
+      ['ข้อเสียคือต้องบิดเปลี่ยนโหมดเอง ถ้าลืมบิดกลับเป็น RUN ปุ่ม S2 ก็แค่เดินกระตุก ซึ่งผิดไปทางปลอดภัย', 'The drawback is the manual mode change; if RUN is forgotten, S2 only jogs, which is wrong on the safe side.']] });
+
+  /* B: auxiliary relay KA1 (recommended): S2 → KA1 (holds itself, runs KM1 through 23–24); jog button S3 → KM1 only */
+  const simB = new RL.Sim($('simB'), C5.J2(), { max: 640, label: 'jog circuit with auxiliary relay KA1' }), pB = $('pB');
+  const logB = new ED.Log($('logB'), [['ทำอะไร', 'what you did'], ['KA1', 'KA1'], ['KM1', 'KM1'], ['มอเตอร์', 'motor']]);
+  let b0 = { s2: false, s3: false, s1: false, ka: false, run: false };
+  const trackB = s => { const d = s.dev, ka = !!d.KA1.energized, r = s.running(), row = (k, lab, kind) => logB.add(k, [lab, onoff(ka), onoff(d.KM1.energized), runs(s)], kind);
+    if (b0.s2 && !d.S2.pressed) row('S2', t('กด S2 แล้วปล่อย', 'press S2, let go'), 'ok');
+    if (!b0.s3 && d.S3.pressed) row(b0.ka ? 'S3run' : 'S3', b0.ka ? t('กด S3 ค้าง ขณะเดินต่อเนื่อง', 'hold S3 while running continuously') : t('กด S3 ค้าง (มอเตอร์หยุดอยู่)', 'hold S3 (motor at rest)'), 'ok');
+    if (b0.s3 && !d.S3.pressed) row(ka ? 'S3runRel' : 'S3rel', ka ? t('ปล่อย S3 (KA1 ยังค้างอยู่)', 'let go of S3 (KA1 still holding)') : t('ปล่อย S3', 'let go of S3'), r && !ka ? 'bad' : 'ok');
+    if (!b0.s1 && d.S1.pressed && b0.run) row('S1', t('กด S1', 'press S1'), 'ok');
+    b0 = { s2: !!d.S2.pressed, s3: !!d.S3.pressed, s1: !!d.S1.pressed, ka, run: r }; };
+  simB.on(trackB);
+  C5.panel(pB, simB, { only: ['S1', 'S2', 'S3'], cut: false, status: s => (s.dev.F2.tripped ? C5.state(s) : [s.running() ? t('มอเตอร์หมุน', 'motor running') : t('มอเตอร์หยุด', 'motor stopped'),
+    `KA1 ${onoff(s.dev.KA1.energized)} · KM1 ${onoff(s.dev.KM1.energized)}${s.dev.KA1.energized ? ' · ' + t('เดินต่อเนื่อง (KA1 ค้างตัวเอง)', 'continuous (KA1 holds itself)') : s.running() ? ' · ' + t('เดินกระตุก', 'jogging') : ''}`, s.running() ? 'good' : 'wait']) });
+  /* highlight one wire: the KA1 coil wire (S2, KA1 13–14) or the KM1 coil wire (S3, KA1 23–24) */
+  const nos = simB.wireNumbers(), wKA = nos.get('0,4'), wKM = nos.get('2,4'), hlB = document.createElement('div');
+  ui.h2(pB, t('เน้นสาย', 'Highlight a wire'));
+  const terms = n => simB.termsOf(n).map(x => `-${x}`).join(', ');
+  ui.radio(pB, [{ id: 'hlNone', label: t('ไม่เน้น', 'none'), on: true }, { id: 'hlKA', label: t(`สาย ${wKA}: คอยล์ KA1`, `wire ${wKA}: coil KA1`) }, { id: 'hlKM', label: t(`สาย ${wKM}: คอยล์ KM1`, `wire ${wKM}: coil KM1`) }], id => {
+    simB.o.wireNos = id !== 'hlNone'; simB.o.hiWire = id === 'hlKA' ? wKA : id === 'hlKM' ? wKM : null; simB.render();
+    hlB.innerHTML = id === 'hlKA' ? t(`สาย ${wKA} ต่อ ${terms(wKA)} เท่านั้น: คอยล์ KA1 ได้ไฟจาก S2 หรือจากหน้าสัมผัสของ KA1 เอง ไม่มีทางมาจาก S3`, `wire ${wKA} joins ${terms(wKA)} only: coil KA1 is fed from S2 or from its own contact, never from S3`)
+      : id === 'hlKM' ? t(`สาย ${wKM} ต่อ ${terms(wKM)} เท่านั้น: S3 ป้อนไฟได้แค่คอยล์ KM1 และ KM1 ไม่มีหน้าสัมผัสค้างของตัวเอง ปล่อย S3 เมื่อไรก็หยุด`, `wire ${wKM} joins ${terms(wKM)} only: S3 can feed coil KM1 alone, and KM1 has no holding contact of its own, so it stops whenever S3 is released`)
+      : t('ตัวเลขในกรอบคือเลขสาย: หนึ่งเลขต่อหนึ่งจุดต่อร่วม (หน้า 5.6)', 'The boxed numbers are wire numbers: one number per junction (page 5.6)'); });
+  hlB.className = 'hint'; pB.appendChild(hlB); hlB.innerHTML = t('ตัวเลขในกรอบคือเลขสาย: หนึ่งเลขต่อหนึ่งจุดต่อร่วม (หน้า 5.6)', 'The boxed numbers are wire numbers: one number per junction (page 5.6)');
+  const trialsB = () => { const s = hid(C5.J2()), out = [], st = lab => out.push([lab, onoff(s.dev.KA1.energized), onoff(s.dev.KM1.energized), runs(s)]);
+    tap(s, 'S2'); st(t('กด S2 แล้วปล่อย', 'press S2, let go'));
+    s.press('S3', true); st(t('กด S3 ค้าง ขณะเดินต่อเนื่อง', 'hold S3 while running continuously')); s.press('S3', false); st(t('ปล่อย S3 (KA1 ยังค้างอยู่)', 'let go of S3 (KA1 still holding)'));
+    tap(s, 'S1'); st(t('กด S1', 'press S1'));
+    s.press('S3', true); st(t('กด S3 ค้าง (มอเตอร์หยุดอยู่)', 'hold S3 (motor at rest)')); s.press('S3', false); st(t('ปล่อย S3', 'let go of S3'));
+    let latched = false; for (let i = 0; i < 5; i++) { tap(s, 'S3'); if (s.running()) latched = true; }
+    out.push([t('กด S3 ถี่ ๆ 5 ครั้ง', 'tap S3 five times quickly'), onoff(s.dev.KA1.energized), onoff(s.dev.KM1.energized), ok(!latched, t('หยุดทุกครั้ง', 'stops every time'), t('ค้าง', 'latched'))]);
+    return out; };
+  ED.summary($('sumB'), { head: [['ทำอะไร', 'what you did'], ['KA1', 'KA1'], ['KM1', 'KM1'], ['มอเตอร์', 'motor']], rows: trialsB,
+    points: [['S3 ป้อนไฟได้แค่สายของคอยล์ KM1 ส่วนคอยล์ KA1 ได้ไฟจาก S2 หรือจาก KA1 13–14 เท่านั้น หน้าสัมผัสค้างตัวเดียวของวงจร (KA1 13–14) จึงไม่มีวันต่อเพราะการกด S3', 'S3 can feed only the wire of coil KM1; coil KA1 is fed from S2 or from KA1 13–14 alone, so the only holding contact of the circuit (KA1 13–14) can never close because S3 was pressed.'],
+      ['KM1 ไม่มีหน้าสัมผัสค้างของตัวเองในวงจรนี้ ปล่อย S3 เมื่อไร คอยล์ KM1 ก็ไม่มีไฟทันที ไม่ว่าจะปล่อยเร็วหรือช้า', 'KM1 has no holding contact of its own in this circuit; the moment S3 is released, coil KM1 loses its supply, whether the release is fast or slow.'],
+      ['กด S3 ขณะเดินต่อเนื่อง มอเตอร์หมุนต่อ เพราะ KA1 23–24 ยังป้อน KM1 อยู่ ต้องกด S1 จึงหยุด S1 และ F2 95–96 อยู่ในส่วนที่ทุกทางเดินกระแสใช้ร่วมกัน จึงหยุดได้เสมอ', 'Pressing S3 while running continuously changes nothing, because KA1 23–24 still feeds KM1; S1 stops it. S1 and F2 95–96 sit in the part shared by every current path, so they always stop the motor.']] });
+
+  /* worked example: UMC5 Fig. 10.3 (A) redrawn to IEC = C5.J2() */
+  const xJ2 = hid(C5.J2()), tmp = document.createElement('div');
+  new RL.Sim(tmp, C5.J2(), { print: true, max: 560, label: 'relay jog circuit redrawn to IEC' });
+  const svgJ2 = tmp.innerHTML.replace(/ data-dev="[^"]*" style="cursor:pointer"/g, '');
+  LS.choose($('ask1'), { labels: ['①', '②', '③'], options: [t('(ง) KA1 และ KM1 แล้ว KA1 ค้างตัวเอง', '(d) KA1 and KM1, and KA1 holds itself'), t('(ง) KM1 เท่านั้น', '(d) KM1 only'), t('(ง) KA1 เท่านั้น', '(d) KA1 only')], answer: 1 });
+  const NM = [['STOP', 'S1', t('ปุ่มหยุด ปกติปิด 11–12', 'stop button, NC 11–12')], ['START', 'S2', t('ปุ่มเริ่ม ปกติเปิด 13–14', 'start button, NO 13–14')], ['JOG', 'S3', t('ปุ่มเดินกระตุก ปกติเปิด 13–14', 'jog button, NO 13–14')],
+    ['CR', 'KA1', t('รีเลย์ช่วย คอยล์ A1–A2', 'auxiliary relay, coil A1–A2')], ['M', 'KM1', t('คอนแทกเตอร์ คอยล์ A1–A2', 'contactor, coil A1–A2')], ["OL'S", 'F2', t('หน้าสัมผัสโอเวอร์โหลด 95–96', 'overload contact 95–96')]];
+  LS.stepper($('st1'), { steps: [
+    { why: t('(ก) ชื่ออุปกรณ์แบบ NEMA → ชื่อของวิชา', '(a) NEMA names → course names'), body: `<table class="tbl"><tr><th>NEMA</th><th>${t('วิชานี้', 'course')}</th><th>${t('อุปกรณ์', 'device')}</th></tr>${NM.map(r => `<tr><td>${r[0]}</td><td><b>${r[1]}</b></td><td>${r[2]}</td></tr>`).join('')}</table>
+      <p>${t('เส้น L1 ของแบบ NEMA คือสาย L หลังฟิวส์วงจรควบคุม F1 และ L2 คือ N ในแบบ IEC หน้าสัมผัสทุกตัวอยู่ฝั่ง L ส่วนคอยล์ต่อตรงลง N', 'NEMA line L1 becomes L after the control fuse F1, and L2 becomes N; in the IEC drawing every contact is on the L side and the coils go straight to N.')}</p>` },
+    { why: t('(ข) วางแนวตั้งและเขียนเลขขั้ว', '(b) Vertical layout and terminal numbers'), body: `<p>${t('ด้านบน: F1 1–2 → F2 95–96 → S1 11–12 แล้วแยกเป็นสามทาง: S2 13–14 → คอยล์ KA1 พร้อม KA1 13–14 คร่อม S2 · KA1 23–24 → คอยล์ KM1 · S3 13–14 → คอยล์ KM1', 'At the top: F1 1–2 → F2 95–96 → S1 11–12, then three branches: S2 13–14 → coil KA1 with KA1 13–14 across S2 · KA1 23–24 → coil KM1 · S3 13–14 → coil KM1.')}</p>${svgJ2}` },
+    { why: t('(ค) ตารางอ้างอิงใต้คอยล์', '(c) The cross-reference under the coils'), body: `<p>KA1: <b>${xr(xJ2.xref('KA1'))}</b><br>KM1: <b>${xr(xJ2.xref('KM1'))}</b></p><p>${t('KA1 มีหน้าสัมผัสปกติเปิดสองชุดในทางเดินกระแสที่ 2 และ 3 ส่วน KM1 มีแต่หน้าสัมผัสหลักในวงจรกำลัง ไม่มีหน้าสัมผัสช่วยในวงจรควบคุมเลย', 'KA1 has two normally open contacts, in current paths 2 and 3; KM1 has only its main contacts in the power circuit and no auxiliary contact in the control circuit at all.')}</p>` },
+    { why: t('(ง) กด JOG ขณะมอเตอร์หยุด', '(d) JOG pressed at rest'), body: `<p>${t('กระแสไหล F1 → F2 95–96 → S1 → S3 13–14 → คอยล์ KM1 → N เท่านั้น คอยล์ KA1 ไม่อยู่บนทางนี้ หน้าสัมผัส KA1 13–14 และ 23–24 จึงเปิดอยู่ ปล่อย S3 แล้ว KM1 ปล่อย มอเตอร์หยุด', 'Current flows F1 → F2 95–96 → S1 → S3 13–14 → coil KM1 → N and nowhere else. Coil KA1 is not on this path, so KA1 13–14 and 23–24 stay open; when S3 is released, KM1 drops out and the motor stops.')}</p>` }],
+    answer: t('(ก) S1 S2 S3 KA1 KM1 F2 (ข) S1 11–12, S2 13–14, S3 13–14, KA1 13–14 และ 23–24, คอยล์ A1–A2, F2 95–96 (ค) ใต้ KA1: NO 13–14 ▸ 2, 23–24 ▸ 3 · ใต้ KM1: หน้าสัมผัสหลัก ▸ กำลัง (ง) KM1 เท่านั้น',
+      '(a) S1 S2 S3 KA1 KM1 F2; (b) S1 11–12, S2 13–14, S3 13–14, KA1 13–14 and 23–24, coils A1–A2, F2 95–96; (c) under KA1: NO 13–14 ▸ 2, 23–24 ▸ 3 · under KM1: main contacts ▸ power; (d) KM1 only') });
+
+  /* D: double-contact jog button: a fast release latches, a slow release (through the middle position) does not */
+  const MID = 0.4, simD = new RL.Sim($('simD'), C5.J3(), { max: 560, label: 'jog circuit with a double-contact push button' });
+  ui.radio($('modeD'), [{ id: 'relFast', label: t('ปล่อยเร็ว (ทันที)', 'fast release (at once)'), on: true }, { id: 'relSlow', label: t('ปล่อยช้า (ผ่านตำแหน่งกลาง)', 'slow release (through the middle)') }], id => { simD.dev.S3.midT = id === 'relSlow' ? MID : 0; });
+  C5.panel($('pD'), simD, { only: ['S1', 'S2', 'S3'], cut: false, status: s => (s.dev.S3.mid ? [t('S3 อยู่ตรงกลาง', 'S3 in the middle'), t('13–14 และ 21–22 เปิดทั้งคู่: KM1 ปล่อย', '13–14 and 21–22 both open: KM1 drops out'), 'warn']
+    : s.dev.F2.tripped ? C5.state(s) : s.running() ? [t('มอเตอร์หมุน', 'motor running'), s.dev.S3.pressed ? t('S3 กดอยู่: 13–14 ป้อนคอยล์ 21–22 เปิด', 'S3 held: 13–14 feeds the coil, 21–22 open') : t('คอยล์ได้ไฟทาง KM1 13–14 กับ S3 21–22', 'the coil is fed through KM1 13–14 and S3 21–22'), 'good'] : [t('มอเตอร์หยุด', 'motor stopped'), '', 'wait']) });
+  const logD = new ED.Log($('logD'), [['การปล่อย', 'release'], ['ก่อนกด S3', 'before S3 was pressed'], ['หลังปล่อย S3', 'after S3 is released'], ['เหตุผล', 'why']]);
+  let lastRun = false, s1D = false, pend = null;
+  simD.on(s => { const d = s.dev.S3, r = s.running();
+    if (d.pressed && !pend) pend = { was: lastRun };
+    if (pend && !d.pressed && pend.mode === undefined) pend.mode = d.mid ? 'slow' : 'fast';   // in the middle at the release = a slow release
+    if (pend && pend.mode && !d.pressed && !d.mid) { const m = pend.mode;
+      logD.add(`${m}|${pend.was ? 'run' : 'rest'}`, [m === 'slow' ? t('ปล่อยช้า', 'slow release') : t('ปล่อยเร็ว', 'fast release'), pend.was ? t('หมุนอยู่', 'running') : t('หยุดอยู่', 'at rest'),
+        r ? t('หมุนต่อ: ค้างตัวเอง', 'keeps running: latched') : t('หยุด', 'stops'),
+        r ? t('21–22 กลับต่อขณะ KM1 13–14 ยังต่ออยู่ คอยล์ได้ไฟทางค้าง', '21–22 re-closed while KM1 13–14 was still closed: the coil is fed through the holding path') : m === 'slow' ? t('ปุ่มค้างที่ตำแหน่งกลางนานพอให้ KM1 ปล่อยก่อน 21–22 จะกลับต่อ', 'the button stayed in the middle long enough for KM1 to drop out before 21–22 re-closed') : t('KM1 ไม่ได้ดูดอยู่ตอนปล่อย', 'KM1 was not in at the release')], r ? 'bad' : 'ok');
+      pend = null; }
+    if (!s1D && s.dev.S1.pressed && lastRun) logD.add('S1', [t('กด S1', 'press S1'), t('หมุนอยู่', 'running'), t('หยุด', 'stops'), t('ปุ่มหยุดตัดทุกทางเดินกระแส จึงหยุดได้เสมอ', 'the stop button breaks every current path, so it always stops the motor')], 'ok');
+    s1D = !!s.dev.S1.pressed; lastRun = r; });
+  LS.anim($('simD'), dt => simD.step(dt));   // the slow release passes through the middle position in step()
+  const trialsD = () => { const out = [], s = hid(C5.J3()), row = (lab, was) => out.push([lab, was ? t('หมุนอยู่', 'running') : t('หยุดอยู่', 'at rest'), ok(!s.running(), t('หยุด', 'stops'), t('หมุนต่อ (ค้างตัวเอง)', 'keeps running (latched)'))]);
+    const slow = () => { s.press('S3', true); s.setMid('S3', true); s.press('S3', false); s.setMid('S3', false); };
+    s.press('S3', true); s.press('S3', false); row(t('กด S3 แล้วปล่อยเร็ว', 'press S3, fast release'), false);
+    tap(s, 'S1'); row(t('กด S1', 'press S1'), true);
+    slow(); row(t('กด S3 แล้วปล่อยช้า', 'press S3, slow release'), false);
+    tap(s, 'S2'); s.press('S3', true); s.press('S3', false); row(t('ขณะเดินต่อเนื่อง กด S3 แล้วปล่อยเร็ว', 'while running, press S3, fast release'), true);
+    slow(); row(t('ขณะเดินต่อเนื่อง กด S3 แล้วปล่อยช้า', 'while running, press S3, slow release'), true);
+    return out; };
+  ED.summary($('sumD'), { head: [['ทำอะไร', 'what you did'], ['ก่อนหน้า', 'before'], ['ผล', 'result']], rows: trialsD,
+    points: [['ปล่อยเร็ว: 21–22 กลับต่อภายในไม่กี่มิลลิวินาที ขณะที่ KM1 ยังไม่ทันปล่อย หน้าสัมผัสค้าง KM1 13–14 จึงยังต่ออยู่ คอยล์ได้ไฟกลับมาทางค้าง มอเตอร์หมุนต่อทั้งที่ปล่อยปุ่มเดินกระตุกแล้ว', 'Fast release: 21–22 re-closes within a few milliseconds, before KM1 has dropped out; the holding contact KM1 13–14 is still closed, the coil is fed again through the holding path, and the motor keeps running although the jog button was released.'],
+      ['ปล่อยช้า: ปุ่มอยู่ตรงกลาง (หน้าสัมผัสทั้งสองเปิด) นานกว่าเวลาปล่อยของ KM1 คอนแทกเตอร์ปล่อยก่อน 21–22 จะกลับต่อ มอเตอร์หยุด', 'Slow release: the button sits in the middle (both contacts open) for longer than the drop-out time of KM1, so the contactor drops out before 21–22 re-closes and the motor stops.'],
+      ['นิ้วคนปล่อยเร็วหรือช้าก็ได้ และไม่มีใครรู้ล่วงหน้า ผลจึงเหมือนการสุ่ม วงจรที่ผลขึ้นกับความเร็วของนิ้วจึงใช้ไม่ได้ ปุ่ม S1 ยังหยุดได้เสมอ แต่คนที่ปล่อยปุ่มเดินกระตุกคาดว่ามอเตอร์จะหยุดเอง', 'A finger may let go fast or slowly and nobody knows in advance, so the result is a matter of chance; a circuit whose result depends on the finger cannot be used. S1 always stops it, but whoever lets go of the jog button expects the motor to stop by itself.']] });
+  /* D: the race on a millisecond time axis (C5.JogRace) */
+  const logR = new ED.Log($('logR'), [['13–14 เปิด → 21–22 กลับต่อ', '13–14 opens → 21–22 re-closes'], ['เวลาปล่อยของ KM1', 'KM1 drop-out time'], ['ผล', 'result']]);
+  const race = new C5.JogRace($('race'), { panel: $('pR'), id: 'rcD', onResult: r => logR.add(`${r.tRel}|${r.tDrop}`, [`${r.tRel} ms`, `${r.tDrop} ms`, r.latch ? t('ค้างตัวเอง: มอเตอร์หมุนต่อ', 'latches: the motor keeps running') : t('ไม่ค้าง: มอเตอร์หยุด', 'no latch: the motor stops')], r.latch ? 'bad' : 'ok') });
+  LS.anim($('race'), dt => race.step(dt));
+  ED.summary($('sumR'), { intro: ['เวลาปล่อยของคอนแทกเตอร์ตั้งไว้ 15 ms (ค่าตัวอย่าง)', 'contactor drop-out time set to 15 ms (an example value)'], head: [['13–14 เปิด → 21–22 กลับต่อ', '13–14 opens → 21–22 re-closes'], ['เวลาปล่อยของ KM1', 'KM1 drop-out time'], ['ผล', 'result']],
+    rows: () => [3, 8, 14, 15, 20, 30].map(v => { const r = C5.race(v, 15); return [`${v} ms`, '15 ms', ok(!r.latch, t('ไม่ค้าง', 'no latch'), t('ค้างตัวเอง', 'latches'))]; }),
+    points: [['มอเตอร์ค้างเมื่อ 21–22 กลับต่อก่อน KM1 13–14 เปิด คือเมื่อเวลาของปุ่มสั้นกว่าเวลาปล่อยของคอนแทกเตอร์ (ถ้าเท่ากันพอดี 13–14 ของ KM1 เปิดก่อน จึงไม่ค้าง)', 'The motor latches when 21–22 re-closes before KM1 13–14 opens, i.e. when the button time is shorter than the contactor drop-out time (at exactly the same time KM1 13–14 opens first, so it does not latch).'],
+      ['ตัวเลขเป็นค่าตัวอย่าง: เวลาปล่อยของคอนแทกเตอร์อยู่ในช่วงไม่กี่ถึงหลายสิบมิลลิวินาที ให้ดูค่าจริงจากเอกสารข้อมูลของคอนแทกเตอร์ ส่วนเวลาของปุ่มขึ้นกับนิ้วของคนกด', 'The numbers are example values: a contactor drops out in a few to a few tens of milliseconds (check its data sheet), while the button time depends on the finger.'],
+      ['อุปกรณ์เสริมของปุ่มบางรุ่นกันไม่ให้หน้าสัมผัสปกติปิดกลับต่อเร็วเกินไป แต่ทางที่ถูกคือไม่ให้ปุ่มเดินกระตุกอยู่ในทางค้างเลย (หัวข้อ A หรือ B)', 'Some buttons have an attachment that keeps the NC contact from re-closing too early, but the proper cure is to keep the jog button out of the holding path altogether (section A or B).']] });
+
+  /* C: practice */
+  ED.mcq('mcq', [
+    { q: t('1) การเดินกระตุก (inching) ตามนิยามของ IEC คืออะไร', '1) What is inching (jogging) by the IEC definition?'), options: [t('เริ่มเดินมอเตอร์ด้วยแรงดันลดลง', 'starting a motor at reduced voltage'), t('กลับทางหมุนมอเตอร์', 'reversing a motor'), t('ป้อนไฟเข้ามอเตอร์ซ้ำ ๆ เป็นช่วงสั้น ๆ ให้เครื่องขยับทีละน้อย', 'energising a motor repeatedly for short periods to obtain small movements'), t('หยุดมอเตอร์ด้วยเบรก', 'braking a motor to rest')], answer: 2, why: t('IEV 441-16-44', 'IEV 441-16-44') },
+    { q: t('2) วงจรสวิตช์เลือก (หัวข้อ A) ขณะ S3 อยู่ที่ JOG กด S2 แล้วปล่อย มอเตอร์เป็นอย่างไร', '2) In the selector circuit (section A) with S3 at JOG, S2 is pressed and released. What does the motor do?'), options: [t('หมุนค้างจนกด S1', 'keeps running until S1 is pressed'), t('หมุนเฉพาะขณะกด หยุดเมื่อปล่อย', 'runs only while S2 is held, stops on release'), t('ไม่หมุนเลย', 'does not run at all')], answer: 1, why: t('ทางค้างขาดที่ S3 13–14', 'the holding path is open at S3 13–14') },
+    { q: t('3) วงจรรีเลย์ช่วย (หัวข้อ B) ทำไมการกด S3 จึงทำให้มอเตอร์ค้างตัวเองไม่ได้', '3) In the relay circuit (section B), why can pressing S3 never latch the motor?'), options: [t('S3 ป้อนไฟได้แค่คอยล์ KM1 ส่วนหน้าสัมผัสค้างเป็นของ KA1 ซึ่งได้ไฟจาก S2 เท่านั้น', 'S3 feeds only coil KM1, and the holding contact belongs to KA1, which only S2 can energise'), t('S3 เป็นปุ่มสองหน้าสัมผัส', 'S3 is a double-contact button'), t('F2 ตัดทุกครั้งที่เดินกระตุก', 'F2 trips at every jog'), t('KA1 ปล่อยช้ากว่า KM1', 'KA1 drops out later than KM1')], answer: 0 },
+    { q: t('4) วงจรปุ่มกดสองหน้าสัมผัส (หัวข้อ D) มอเตอร์ค้างตัวเองเมื่อใด', '4) In the double-contact circuit (section D), when does the motor latch?'), options: [t('เมื่อกด S3 นานเกิน 1 วินาที', 'when S3 is held for more than 1 s'), t('เมื่อ F2 ตัด', 'when F2 trips'), t('ไม่มีทางค้าง', 'it can never latch'), t('เมื่อ 21–22 ของปุ่มกลับต่อก่อนที่ KM1 13–14 จะเปิด', 'when the 21–22 of the button re-closes before KM1 13–14 opens')], answer: 3, why: t('ปล่อยเร็วกว่าเวลาปล่อยของคอนแทกเตอร์', 'a release faster than the contactor drop-out time') },
+    { q: t('5) ปุ่มเดินกระตุกควรเป็นสีใด', '5) What colour should a jog button be?'), options: [t('แดง', 'red'), t('ขาว เทา หรือดำ', 'white, grey or black'), t('เขียว', 'green'), t('เหลือง', 'yellow')], answer: 1, why: t('IEC 60204-1 ข้อ 10.2.1: ปุ่มที่ทำงานเฉพาะขณะกดค้างห้ามใช้แดง เหลือง เขียว', 'IEC 60204-1, 10.2.1: buttons that act only while held are never red, yellow or green') },
+    { q: t('6) ทำไมเครื่องที่เดินกระตุกบ่อยต้องเลือกคอนแทกเตอร์ตามประเภทการใช้งาน AC-4', '6) Why does a machine that is jogged often need a contactor rated for AC-4?'), options: [t('คอยล์ใช้ไฟมากขึ้น', 'the coil draws more power'), t('มอเตอร์หมุนกลับทาง', 'the motor reverses'), t('ทุกครั้งต้องต่อและตัดกระแสเริ่มเดินหลายเท่าของกระแสพิกัด หน้าสัมผัสจึงสึกเร็ว', 'every jog makes and breaks a starting current several times the rated current, so the contacts wear fast')], answer: 2 }]);
+});
+</script>
+</body>
+</html>

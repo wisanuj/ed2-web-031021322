@@ -200,7 +200,7 @@ C4.tripCurve = (o = {}) => { const x0 = 56, x1 = 500, y0 = 30, y1 = 260, lx = v 
 const POWER = { stages: [{ k: 'cb', d: 'Q1' }, { k: 'mainNO', d: 'KM1' }, { k: 'therm', d: 'F2' }], motor: 'M1' };
 /* coil test: switch S1 energises KM1 through overload contact F2 95–96; auxiliary NO 13–14 lights H1, auxiliary NC 21–22 lights H2 (lamps fed ahead of 95–96) */
 C4.COILTEST = () => ({ supply: 'Q1', rows: 4, power: POWER,
-  devices: { Q1: { type: 'cb', on: true }, F1: { type: 'fuse' }, F2: { type: 'ol' }, S1: { type: 'sel' }, KM1: { type: 'coil' }, H1: { type: 'lamp', color: '#7ee787' }, H2: { type: 'lamp', color: '#ff6b6b' } },
+  devices: { Q1: { type: 'cb', on: true }, F1: { type: 'fuse' }, F2: { type: 'ol' }, S1: { type: 'sel' }, KM1: { type: 'coil' }, H1: { type: 'lamp', color: '#7ee787' }, H2: { type: 'lamp', color: '#f2f2f2' } },
   els: [ { k: 'fuse', d: 'F1', x: 0, y: 0, t: ['1', '2'] }, { k: 'NC', d: 'F2', x: 0, y: 1, t: ['95', '96'], op: 'thr' }, { k: 'NO', d: 'S1', x: 0, y: 2, t: ['13', '14'], op: 'sel' }, { k: 'coil', d: 'KM1', x: 0, y: 3, t: ['A1', 'A2'] },
     { k: 'w', pts: [[0, 1], [1, 1], [2, 1]], dots: [0, 1] }, { k: 'w', x: 1, y: 1 }, { k: 'NO', d: 'KM1', x: 1, y: 2, t: ['13', '14'] }, { k: 'lamp', d: 'H1', x: 1, y: 3, t: ['X1', 'X2'] },
     { k: 'w', x: 2, y: 1 }, { k: 'NC', d: 'KM1', x: 2, y: 2, t: ['21', '22'] }, { k: 'lamp', d: 'H2', x: 2, y: 3, t: ['X1', 'X2'] } ] });

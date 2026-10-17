@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=10"><link rel="stylesheet" href="assets/ed2.css?v=10">
-<script src="assets/stops.js?v=10"></script><script src="assets/shell.js?v=10"></script>
-<script src="assets/lesson.js?v=10"></script><script src="assets/draw.js?v=10"></script><script src="assets/ed.js?v=10"></script><script src="assets/sym.js?v=10"></script><script src="assets/iec.js?v=10"></script><script src="assets/relay.js?v=10"></script><script src="assets/ch2.js?v=10"></script>
+<link rel="stylesheet" href="assets/ee.css?v=11"><link rel="stylesheet" href="assets/ed2.css?v=11">
+<script src="assets/stops.js?v=11"></script><script src="assets/shell.js?v=11"></script>
+<script src="assets/lesson.js?v=11"></script><script src="assets/draw.js?v=11"></script><script src="assets/ed.js?v=11"></script><script src="assets/sym.js?v=11"></script><script src="assets/iec.js?v=11"></script><script src="assets/relay.js?v=11"></script><script src="assets/ch2.js?v=11"></script>
 </head>
 <body>
 <div class="wrap">
@@ -71,9 +71,9 @@
   <div class="prob-head"><span class="prob-no">W</span><div><h2 data-l="th">เลขสายและแบบสายไฟ</h2><h2 data-l="en">Wire numbers and the wiring diagram</h2>
     <div class="src" data-l="th">ตำราไทย รูป 1.4 · Senty บทที่ 11 · UMC5 บทที่ 7, 22 (สอนเต็มในบทที่ 5)</div><div class="src" data-l="en">Thai textbook Fig. 1.4 · Senty ch. 11 · UMC5 ch. 7, 22 (taught in full in chapter 5)</div></div></div>
   <div class="duo">
-    <div class="card solve"><p data-l="th">เปิด "แสดงเลขสาย" ในส่วน B: ทุกจุดที่ต่อถึงกันด้วยสายโดยไม่ผ่านอุปกรณ์มีศักย์ไฟฟ้าเดียวกัน จึงได้เลขเดียวกัน ฝั่งนิวทรัลเป็น 0 แล้วช่างจะสวมปลอกเลขสายที่ปลายสายทุกเส้น เมื่อเกิดปัญหา ช่างวัดไฟตามเลขสายได้ทันทีโดยไม่ต้องไล่สาย</p>
+    <div class="card solve"><p data-l="th">เปิด "แสดงเลขสาย" ในส่วน B: ทุกจุดที่ต่อถึงกันด้วยสายโดยไม่ผ่านอุปกรณ์มีศักย์ไฟฟ้าเดียวกัน จึงได้เลขเดียวกัน ฝั่งนิวทรัลเขียนว่า N แล้วช่างจะสวมปลอกเลขสายที่ปลายสายทุกเส้น เมื่อเกิดปัญหา ช่างวัดไฟตามเลขสายได้ทันทีโดยไม่ต้องไล่สาย</p>
       <p data-l="th">ตารางด้านขวาคือรายการเดินสาย (connection list) ที่ได้จากเลขสาย ปุ่มกดและหลอดที่อยู่บนฝาตู้ต่อผ่านแผงขั้วต่อ X1 บทที่ 5 จะเขียนแบบสายไฟเต็มจากรายการนี้</p>
-      <p data-l="en">Turn on "Show wire numbers" in section B: points joined by wire alone, with no device between them, are at the same potential and get the same number; the neutral side is 0. A ferrule with the number goes on every wire end, so when something fails the electrician measures by wire number without tracing wires.</p>
+      <p data-l="en">Turn on "Show wire numbers" in section B: points joined by wire alone, with no device between them, are at the same potential and get the same number; the neutral side is marked N. A ferrule with the number goes on every wire end, so when something fails the electrician measures by wire number without tracing wires.</p>
       <p data-l="en">The table on the right is the connection list made from the wire numbers. The buttons and lamps on the panel door connect through terminal strip X1. Chapter 5 draws the full wiring diagram from such a list.</p></div>
     <div class="card solve" style="overflow-x:auto"><table class="tbl" id="wl"></table></div>
   </div>
@@ -130,7 +130,7 @@ document.addEventListener('mc:ready', () => {
   /* connection list */
   $('wl').innerHTML = `<tr><th>${t('เลขสาย', 'wire')}</th><th>${t('จาก', 'from')}</th><th>${t('ไป', 'to')}</th></tr>` +
     [['1', 'Q1:2 (L1)', 'F1:1'], ['2', 'F1:2', 'F2:95, F2:97, KM1:23'], ['3', 'F2:96', 'X1:1 → S1:11'], ['4', 'S1:12', 'S2:13; X1:2 → KM1:13'], ['5', 'S2:14 → X1:3', 'KM1:14, KM1:A1'],
-     ['6', 'KM1:24', 'X1:4 → H1:X1'], ['7', 'F2:98', 'X1:5 → H2:X1'], ['0', 'N', 'KM1:A2; X1:6 → H1:X2, H2:X2']].map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
+     ['6', 'KM1:24', 'X1:4 → H1:X1'], ['7', 'F2:98', 'X1:5 → H2:X1'], ['N', 'N', 'KM1:A2; X1:6 → H1:X2, H2:X2']].map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
   ED.mcq('mcq', [
     { q: t('1) ใต้คอยล์ KM1 เขียนว่า "23–24 ▸ 3" หมายความว่าอะไร', '1) Under coil KM1 it says "23–24 ▸ 3". What does it mean?'), options: [t('หน้าสัมผัสปกติเปิด 23–24 ของ KM1 อยู่ทางเดินกระแสที่ 3', 'KM1\'s normally open contact 23–24 is in current path 3'), t('KM1 มี 3 หน้าสัมผัส', 'KM1 has 3 contacts'), t('สาย 23 ต่อกับสาย 24', 'wire 23 joins wire 24')], answer: 0 },
     { q: t('2) แบบชนิดใดเหมาะกับการดูภาพรวมของตู้ที่มีมอเตอร์ 20 ตัว', '2) Which drawing suits an overview of a panel with 20 motors?'), options: [t('แบบเส้นเดียว', 'single-line diagram'), t('วงจรควบคุม', 'control circuit'), t('แบบสายไฟ', 'wiring diagram')], answer: 0 },

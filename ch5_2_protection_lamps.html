@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="5.2 — Overload, pilot lamps and phase-failure relay">5.2 — โอเวอร์โหลด หลอดแสดงผล และรีเลย์ป้องกันเฟส</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=11"><link rel="stylesheet" href="assets/ed2.css?v=11">
+<link rel="stylesheet" href="assets/wiring.css?v=11">
+<script src="assets/stops.js?v=11"></script><script src="assets/shell.js?v=11"></script>
+<script src="assets/lesson.js?v=11"></script><script src="assets/draw.js?v=11"></script><script src="assets/ed.js?v=11"></script><script src="assets/sym.js?v=11"></script><script src="assets/iec.js?v=11"></script><script src="assets/relay.js?v=11"></script><script src="assets/ch2.js?v=11"></script><script src="assets/ch3.js?v=11"></script><script src="assets/ch4.js?v=11"></script>
+<script src="assets/ch5.js?v=11"></script>
+<script src="assets/wiring.js?v=11"></script><script src="assets/devdata.js?v=11"></script><script src="assets/dev.js?v=11"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">โอเวอร์โหลด หลอดแสดงผล และรีเลย์ป้องกันเฟส: ป้องกันและบอกสถานะของวงจรเริ่มเดินโดยตรง <span class="en">Overload, pilot lamps and phase-failure relay: protecting and signalling a direct-on-line starter</span></h1>
+<h1 data-l="en">Overload, pilot lamps and phase-failure relay <span class="en">Protecting and signalling a direct-on-line starter</span></h1>
+
+<p class="sub" data-l="th">หน้านี้ต่อจากหน้า 5.1 ตามไฟล์ใบงาน CADe SIMU ของรายวิชาแผ่นที่ 6–11 เริ่มจากเพิ่มโอเวอร์โหลดรีเลย์ F2 ให้วงจรเริ่มเดินโดยตรง (direct-on-line, DOL) แล้วดูว่าทำไมการใส่ F2 ไว้ในวงจรกำลังอย่างเดียวยังหยุดมอเตอร์ไม่ได้ จากนั้นเพิ่มหลอดแสดงผล (pilot lamp) ทีละดวง คือหลอดเดิน หลอดโอเวอร์โหลด และหลอดหยุด พร้อมเลือกหน้าสัมผัสและสีให้ตรงตามมาตรฐาน สุดท้ายเพิ่มรีเลย์ป้องกันเฟส F3 แล้วลองทำให้เฟสขาดหรือลำดับเฟสสลับ ทุกการทดลองบันทึกลงตารางและเปิดดูสรุปได้</p>
+<p class="sub" data-l="en">This page continues page 5.1 with sheets 6–11 of the course's CADe SIMU lab file. It first adds overload relay F2 to the direct-on-line (DOL) starter and shows why F2 in the power circuit alone still cannot stop the motor. Then it adds pilot lamps one at a time (run, overload and stopped) with the contacts and colours the standard asks for. Finally it adds phase-failure relay F3 and lets you lose a phase or swap the phase sequence. Every trial is recorded in a table, with a summary to open.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>โอเวอร์โหลดมีสองส่วนในแบบ</b>: ส่วนให้ความร้อน (แผ่นโลหะคู่) ของ F2 อยู่ในวงจรกำลังและรับรู้กระแสมอเตอร์ แต่จะหยุดมอเตอร์ได้ต้องมีหน้าสัมผัสปกติปิด (normally closed, NC) 95–96 อยู่ในทางเดินกระแสของคอยล์ KM1 เมื่อ F2 ตัด 95–96 เปิด KM1 หลุด มอเตอร์หยุด และเมื่อรีเซ็ตแล้วมอเตอร์ไม่หมุนเอง เพราะหน้าสัมผัสค้างตัวเอง KM1 13–14 เปิดไปแล้ว</li>
+  <li><b>หลอดแสดงผล</b>: หลอดเดิน H1 ผ่านหน้าสัมผัสปกติเปิด (normally open, NO) KM1 53–54 บอกว่าคอนแทกเตอร์ต่อจริง (หลอดที่คร่อมคอยล์บอกแค่ว่าคอยล์มีไฟ) หลอดโอเวอร์โหลด H2 ผ่าน F2 97–98 ต้องรับไฟจากจุดก่อน 95–96 หลอดหยุด H3 ผ่าน KM1 21–22 ขั้ว X2 ของหลอดทุกดวงและขั้ว A2 ของคอยล์ต่อตรงไปนิวทรัล (N)</li>
+  <li><b>สีหลอดและสีปุ่ม</b> ตาม IEC 60204-1 (IEC = International Electrotechnical Commission คณะกรรมาธิการไฟฟ้าระหว่างประเทศ) ตาราง 4: เขียว = ปกติ (มอเตอร์หมุน) เหลือง = ผิดปกติ (โอเวอร์โหลดตัด) ขาว = กลาง ๆ (มอเตอร์หยุด) สีแดงใช้กับเหตุฉุกเฉินหรืออันตรายเท่านั้น ส่วนปุ่มตามข้อ 10.2.1: ปุ่มเริ่มสีขาว ปุ่มหยุดสีดำ ปุ่มรีเซ็ตสีน้ำเงิน</li>
+  <li><b>รีเลย์ป้องกันเฟส F3</b> วัดไฟ L1 L2 L3 หลัง Q1 หน้าสัมผัส 11–14 ต่ออยู่ตลอดเวลาที่ไฟครบสามเฟสและลำดับเฟสถูก เปิดหลังเวลาหน่วงเมื่อเฟสขาดหรือลำดับเฟสผิด แล้วต่อกลับเองเมื่อไฟกลับมาปกติ การไม่ให้มอเตอร์หมุนเองเมื่อไฟกลับมาจึงเป็นหน้าที่ของหน้าสัมผัสค้างตัวเอง ส่วนการขาดของ L1 ทำให้วงจรควบคุมดับทั้งวงจรอยู่แล้ว</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>An overload relay appears twice in the drawing</b>: the heaters (bimetals) of F2 sit in the power circuit and sense the motor current, but to stop the motor its normally closed (NC) contact 95–96 must be in the current path of coil KM1. When F2 trips, 95–96 opens, KM1 drops out and the motor stops; after the reset the motor does not restart, because holding contact KM1 13–14 has already opened.</li>
+  <li><b>Pilot lamps</b>: run lamp H1 through normally open (NO) contact KM1 53–54 shows that the contactor has really closed (a lamp across the coil only shows that the coil has voltage). Overload lamp H2 through F2 97–98 must be fed from a point ahead of 95–96. Stopped lamp H3 goes through KM1 21–22. Terminal X2 of every lamp and terminal A2 of the coil go straight to neutral (N).</li>
+  <li><b>Lamp and button colours</b> after IEC 60204-1 (International Electrotechnical Commission, IEC), Table 4: green = normal (motor running), yellow = abnormal (overload tripped), white = neutral (motor stopped); red only for an emergency or danger. Buttons after 10.2.1: start white, stop black, reset blue.</li>
+  <li><b>Phase-failure relay F3</b> measures L1 L2 L3 after Q1. Its contact 11–14 is closed for as long as all three phases are present in the right sequence; it opens after a delay when a phase is lost or the sequence is wrong, and closes again by itself when the supply is healthy. Preventing a restart when the supply returns is therefore the job of the holding contact. Losing L1 kills the whole control circuit anyway.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>อุปกรณ์และหน้าสัมผัส</a><a href="#tA"><b>A</b>โอเวอร์โหลดและหลอดทีละขั้น</a><a href="#tB"><b>B</b>รีเลย์ป้องกันเฟส</a><a href="#ex1"><b>1</b>เลือกสีและหน้าสัมผัสของหลอด</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>Devices and contacts</a><a href="#tA"><b>A</b>Overload and lamps step by step</a><a href="#tB"><b>B</b>Phase-failure relay</a><a href="#ex1"><b>1</b>Choosing lamp colours and contacts</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">อุปกรณ์และหน้าสัมผัสที่ใช้ในหน้านี้</h2><h2 data-l="en">The devices and contacts used on this page</h2>
+    <div class="src" data-l="th">หน้า 4.1 และ 4.4 · IEC 60947-4-1 และ IEC 60947-5-1 (เลขขั้ว)</div><div class="src" data-l="en">Pages 4.1 and 4.4 · IEC 60947-4-1 and IEC 60947-5-1 (terminal numbers)</div></div></div>
+  <p class="lead" data-l="th">หน้านี้ใช้หน้าสัมผัสของอุปกรณ์ที่รู้จักแล้วในบทที่ 4 ตารางบอกว่าหน้าสัมผัสไหนไปทำหน้าที่อะไรในวงจร การ์ดด้านล่างตารางเป็นภาพอุปกรณ์จริง แตะหมายเลขเพื่อดูว่าชี้ส่วนไหน</p>
+  <p class="lead" data-l="en">This page uses contacts of devices you met in chapter 4. The table says which contact does which job in the circuit. The cards under it show the real devices: tap a number to see what it points at.</p>
+  <div class="card solve" data-l="th" style="overflow-x:auto"><table class="tbl stack"><tr><th>อุปกรณ์</th><th>ขั้ว</th><th>ชนิด</th><th>หน้าที่ในหน้านี้</th></tr>
+    <tr><td data-h="อุปกรณ์">F2 โอเวอร์โหลดรีเลย์</td><td data-h="ขั้ว">1/L1–2/T1, 3/L2–4/T2, 5/L3–6/T3</td><td data-h="ชนิด">ส่วนให้ความร้อน</td><td data-h="หน้าที่">รับกระแสมอเตอร์ในวงจรกำลัง</td></tr>
+    <tr><td data-h="อุปกรณ์">F2</td><td data-h="ขั้ว">95–96</td><td data-h="ชนิด">ปกติปิด (NC)</td><td data-h="หน้าที่">ตัดทางเดินกระแสของคอยล์ KM1 เมื่อโหลดเกิน</td></tr>
+    <tr><td data-h="อุปกรณ์">F2</td><td data-h="ขั้ว">97–98</td><td data-h="ชนิด">ปกติเปิด (NO)</td><td data-h="หน้าที่">ป้อนไฟให้หลอดโอเวอร์โหลด H2</td></tr>
+    <tr><td data-h="อุปกรณ์">KM1 คอนแทกเตอร์</td><td data-h="ขั้ว">13–14</td><td data-h="ชนิด">ปกติเปิด ในตัว</td><td data-h="หน้าที่">หน้าสัมผัสค้างตัวเอง (หน้า 5.1)</td></tr>
+    <tr><td data-h="อุปกรณ์">KM1</td><td data-h="ขั้ว">21–22</td><td data-h="ชนิด">ปกติปิด ในตัว</td><td data-h="หน้าที่">หลอดหยุด H3</td></tr>
+    <tr><td data-h="อุปกรณ์">KM1</td><td data-h="ขั้ว">53–54</td><td data-h="ชนิด">ปกติเปิด ชุดเสริมด้านหน้า</td><td data-h="หน้าที่">หลอดเดิน H1</td></tr>
+    <tr><td data-h="อุปกรณ์">H1, H2, H3 หลอดแสดงผล</td><td data-h="ขั้ว">X1–X2</td><td data-h="ชนิด">—</td><td data-h="หน้าที่">X1 รับไฟผ่านหน้าสัมผัส X2 ต่อ N</td></tr>
+    <tr><td data-h="อุปกรณ์">F3 รีเลย์ป้องกันเฟส</td><td data-h="ขั้ว">11–14 (และ 11–12)</td><td data-h="ชนิด">ต่ออยู่ขณะไฟปกติ (11–12 ต่อเมื่อผิดปกติ)</td><td data-h="หน้าที่">อนุกรมบนสุดของวงจรควบคุม (11–12 ใช้ป้อนหลอดแจ้งเตือนได้)</td></tr></table>
+    <p class="simnote">เลขขั้วที่ขึ้นต้นด้วย 9 สงวนไว้ให้หน้าสัมผัสของอุปกรณ์ป้องกัน: 95–96 ปกติปิด 97–98 ปกติเปิด (หน้า 4.4) หน้าสัมผัสช่วยอื่น ๆ ใช้หลักแรกบอกลำดับ หลักหลังบอกชนิด (1–2 ปกติปิด 3–4 ปกติเปิด) ชุดเสริมด้านหน้าใช้ลำดับ 5–8 เช่น 53–54 และ 61–62 ส่วนขั้วหลักของคอนแทกเตอร์มีเลขคู่กัน เช่น 1/L1 ทางเข้า 2/T1 ทางออก (หน้า 4.1)</p></div>
+  <div class="card solve" data-l="en" style="overflow-x:auto"><table class="tbl stack"><tr><th>Device</th><th>Terminals</th><th>Kind</th><th>Job on this page</th></tr>
+    <tr><td data-h="Device">F2 overload relay</td><td data-h="Terminals">1/L1–2/T1, 3/L2–4/T2, 5/L3–6/T3</td><td data-h="Kind">heaters</td><td data-h="Job">carry the motor current in the power circuit</td></tr>
+    <tr><td data-h="Device">F2</td><td data-h="Terminals">95–96</td><td data-h="Kind">NC</td><td data-h="Job">breaks the current path of coil KM1 on overload</td></tr>
+    <tr><td data-h="Device">F2</td><td data-h="Terminals">97–98</td><td data-h="Kind">NO</td><td data-h="Job">feeds overload lamp H2</td></tr>
+    <tr><td data-h="Device">KM1 contactor</td><td data-h="Terminals">13–14</td><td data-h="Kind">NO, built in</td><td data-h="Job">holding contact (page 5.1)</td></tr>
+    <tr><td data-h="Device">KM1</td><td data-h="Terminals">21–22</td><td data-h="Kind">NC, built in</td><td data-h="Job">stopped lamp H3</td></tr>
+    <tr><td data-h="Device">KM1</td><td data-h="Terminals">53–54</td><td data-h="Kind">NO, front-mounted block</td><td data-h="Job">run lamp H1</td></tr>
+    <tr><td data-h="Device">H1, H2, H3 pilot lamps</td><td data-h="Terminals">X1–X2</td><td data-h="Kind">—</td><td data-h="Job">X1 fed through a contact, X2 to N</td></tr>
+    <tr><td data-h="Device">F3 phase-failure relay</td><td data-h="Terminals">11–14 (and 11–12)</td><td data-h="Kind">closed while the supply is healthy (11–12 closed on a fault)</td><td data-h="Job">in series at the top of the control circuit (11–12 can feed a warning lamp)</td></tr></table>
+    <p class="simnote">Terminal numbers starting with 9 are kept for the contacts of protective devices: 95–96 NC, 97–98 NO (page 4.4). Other auxiliary contacts use the first digit for the sequence and the second for the kind (1–2 NC, 3–4 NO); a front-mounted block uses sequence digits 5–8, e.g. 53–54 and 61–62. The main terminals of a contactor carry double numbers, e.g. 1/L1 in and 2/T1 out (page 4.1).</p></div>
+  <div id="devs" style="margin-top:12px"></div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">โอเวอร์โหลดและหลอดแสดงผลทีละขั้น</h2><h2 data-l="en">Overload relay and pilot lamps, step by step</h2>
+    <div class="src" data-l="th">ไฟล์ใบงาน CADe SIMU ของรายวิชา แผ่นที่ 6–9 · UMC5 บทที่ 4 · Senty บทที่ 14 วงจรที่ 5 รูป 14-5 · IEC 60204-1 ตาราง 4</div><div class="src" data-l="en">The course's CADe SIMU lab file, sheets 6–9 · UMC5 ch. 4 · Senty ch. 14, circuit 5, Fig. 14-5 · IEC 60204-1, Table 4</div></div></div>
+  <p class="lead" data-l="th">เลือกขั้นที่ 1 ถึง 5 (ขั้นที่ 1–4 ตรงกับแผ่นที่ 6–9 ของไฟล์ใบงานแต่ใช้ชื่ออุปกรณ์ตามแบบของวิชา ขั้นที่ 5 วิชาเพิ่มเอง) อ่านว่าขั้นนั้นเพิ่มอะไรและเพราะอะไร แล้วสั่งมอเตอร์ด้วยปุ่มในแผงหรือแตะอุปกรณ์ในวงจรเอง คลิก F2 ในวงจรกำลังหรือปุ่ม F2 ในแผงเพื่อจำลองว่าโอเวอร์โหลดตัด และคลิกอีกครั้งเพื่อรีเซ็ต ขั้นที่ 3–5 มีตัวเลือกวิธีต่อหลอดเดินและการจำลองคอนแทกเตอร์ติดขัด สิ่งที่ทำ มอเตอร์ และหลอดที่ติดจะบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">Choose step 1 to 5 (steps 1–4 are sheets 6–9 of the lab file with the device names of the course drawings; step 5 is added by the course), read what the step adds and why, then run the motor with the panel buttons or by tapping devices in the circuit. Click F2 in the power circuit or its panel button to simulate an overload trip, and click it again to reset it. Steps 3–5 offer a choice of run-lamp wiring and a jammed contactor. What you do, the motor and the lamps that are lit are recorded in the table.</p>
+  <div class="card solve"><div id="stepsA"></div><div id="infoA"></div><div id="optA"></div></div>
+  <div class="card sim rlwrap" id="simA" style="padding:8px;margin-top:12px"></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logA"></div><div id="sumA" style="margin-top:8px"></div></div>
+  <div class="callout" data-l="th"><b>ขั้วสายของหลอดและคอยล์</b>: หน้าสัมผัสทุกตัวอยู่ฝั่ง L ส่วนขั้ว X2 ของหลอดและขั้ว A2 ของคอยล์ต่อตรงไป N เสมอ ไม่มีฟิวส์หรือสวิตช์ใน N ตามหลักของ IEC 60204-1 ข้อ 9.4.3.1 (หน้า 5.1) หลอดทุกดวงในหน้านี้รับไฟจาก F1 ขั้ว 2 ผ่านเส้นป้อนแนวนอนเส้นเดียว แล้วแยกลงเป็นทางเดินกระแสละดวง</div>
+  <div class="callout" data-l="en"><b>How lamps and coils are wired</b>: every contact sits on the L side, and terminal X2 of a lamp and terminal A2 of a coil always go straight to N, with no fuse or switch in N (the principle of IEC 60204-1, 9.4.3.1; page 5.1). All lamps on this page are fed from F1 terminal 2 through one horizontal feed, which branches down into one current path per lamp.</div>
+  <div class="story">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>รูป 14-5 ของ Senty เป็นวงจรเริ่มเดินแบบเดียวกับขั้นที่ 5 ที่เขียนเลขขั้วแบบ IEC ไว้ในกรอบเล็ก ๆ: คอยล์ A1–A2 หน้าสัมผัสโอเวอร์โหลด 95–96 หน้าสัมผัสปกติเปิด 53–54 ของชุดเสริมด้านหน้าสั่งหลอดที่ทางเดินกระแสที่ 3 และหน้าสัมผัสปกติปิด 61–62 ของชุดเดียวกันสั่งหลอดที่ทางเดินกระแสที่ 4 ภาพเล็กด้านซ้ายคือชุดเสริมที่มีขั้ว 53, 61 ด้านบนและ 54, 62 ด้านล่าง หนังสือใช้หน้าสัมผัสของคอนแทกเตอร์ (ไม่ใช่การต่อคร่อมคอยล์) เพื่อให้หลอดบอกสถานะจริงของคอนแทกเตอร์ ซึ่งเป็นเหตุผลเดียวกับที่แบบของวิชาต่อ H1 ผ่าน 53–54</p>
+        <p>หนังสือเล่มนี้ใช้สีหลอดแบบอเมริกัน คือหลอดแดง (R) เมื่อมอเตอร์หมุน และหลอดเขียว (G) เมื่อหยุดและพร้อมเริ่ม ตู้ควบคุมหลายแห่งก็ใช้สีแบบนี้ แต่ IEC 60204-1 ตาราง 4 ให้เขียวหมายถึงสภาพปกติ ขาวหมายถึงสภาพกลาง ๆ และสงวนแดงไว้สำหรับเหตุฉุกเฉิน วิชานี้จึงใช้หลอดเดิน H1 สีเขียว และหลอดหยุด H3 สีขาว เมื่อวาดใหม่เป็นแบบ IEC ก็คือขั้นที่ 5 ด้านบน ต่างกันแค่หลอดหยุดของวิชาใช้หน้าสัมผัสปกติปิดในตัว 21–22 แทน 61–62 ของชุดเสริม ทั้งสองคู่เป็นปกติปิดเพราะหลักหลังเป็น 1–2</p></div>
+      <div class="story-p" data-l="en"><p>Senty's Fig. 14-5 is the same kind of starter as step 5, with IEC terminal numbers in small boxes: coil A1–A2, overload contact 95–96, the NO contact 53–54 of a front-mounted block switching the lamp on rung 3, and the NC contact 61–62 of the same block switching the lamp on rung 4. The small picture on the left is that block, with terminals 53 and 61 on top and 54 and 62 below. The book uses contacts of the contactor (not a lamp across the coil) so that the lamps report the contactor's real state, which is the same reason the course wires H1 through 53–54.</p>
+        <p>The book uses US lamp colours: a red lamp (R) while the motor runs and a green lamp (G) while it is stopped and ready. Many panels use these colours, but IEC 60204-1 Table 4 makes green the normal state and white the neutral state, and keeps red for emergencies. The course therefore uses a green run lamp H1 and a white stopped lamp H3. Redrawn to IEC, the figure is step 5 above; the only difference is that the course's stopped lamp uses the built-in NC contact 21–22 instead of 61–62 on the block. Both are NC, because their second digits are 1–2.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/senty_fig14_5_status_lamps.jpg?v=11" width="1186" height="456" loading="lazy" decoding="async" alt="US ladder diagram with IEC terminal numbers: rung 1 Stop, Start with holding contact, coil A1-A2 and overload contact 95-96; rung 3 contact 53-54 to a red lamp; rung 4 contact 61-62 to a green lamp; on the left a front-mounted auxiliary block with terminals 53, 61, 54 and 62.">
+        <figcaption data-l="th">รูป 14-5 ชุดเริ่มเดินที่มีเลขขั้วแบบ IEC สั่งหลอดเดินและหลอดพร้อม (ทางเดินกระแสแบบอเมริกัน) · ที่มา: Senty, <i>Motor Control Fundamentals</i> (Delmar Cengage, 2013) บทที่ 14 หน้า 162 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 14-5, starter with IEC terminal numbers driving run and ready lamps (US ladder) · source: Senty, <i>Motor Control Fundamentals</i> (Delmar Cengage, 2013), ch. 14, p. 162 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+  <div class="card solve" data-l="th" style="overflow-x:auto;margin-top:12px"><h3>สีหลอดตาม IEC 60204-1 ตาราง 4</h3>
+    <table class="tbl stack"><tr><th>สี (รหัส)</th><th>ความหมาย</th><th>ในวิชานี้</th></tr>
+      <tr><td data-h="สี"><i class="capdot cap-green"></i> เขียว (GN)</td><td data-h="ความหมาย">สภาพปกติ</td><td data-h="ในวิชานี้">H1 มอเตอร์หมุน</td></tr>
+      <tr><td data-h="สี"><i class="capdot" style="background:#ffd166"></i> เหลือง (YE)</td><td data-h="ความหมาย">สภาพผิดปกติ ต้องเฝ้าดูหรือแก้ไข</td><td data-h="ในวิชานี้">H2 โอเวอร์โหลดตัด</td></tr>
+      <tr><td data-h="สี"><i class="capdot cap-white"></i> ขาว (WH)</td><td data-h="ความหมาย">กลาง ๆ ใช้เมื่อสีอื่นไม่เหมาะ หรือใช้ยืนยันสถานะ</td><td data-h="ในวิชานี้">H3 มอเตอร์หยุด</td></tr>
+      <tr><td data-h="สี"><i class="capdot cap-red"></i> แดง (RD)</td><td data-h="ความหมาย">ฉุกเฉิน อันตราย ต้องทำทันที</td><td data-h="ในวิชานี้">ไม่ใช้กับหลอดเดินหรือหลอดหยุด</td></tr>
+      <tr><td data-h="สี"><i class="capdot cap-blue"></i> น้ำเงิน (BU)</td><td data-h="ความหมาย">บังคับ ผู้ใช้ต้องทำบางอย่าง</td><td data-h="ในวิชานี้">เช่น แจ้งให้รีเซ็ต (ไม่ใช้ในหน้านี้)</td></tr></table>
+    <p class="simnote">รหัสสีสองตัวอักษร GN, YE, WH, RD, BU มาจาก IEC 60757 และเขียนไว้ข้างหลอดในวงจร ส่วนสีของปุ่มกดตาม IEC 60204-1 ข้อ 10.2.1: ปุ่มเริ่มสีขาว (สีเขียวก็ได้ ห้ามสีแดง) ปุ่มหยุดสีดำ (สีแดงก็ได้ ห้ามสีเขียว) ปุ่มรีเซ็ตสีน้ำเงิน</p></div>
+  <div class="card solve" data-l="en" style="overflow-x:auto;margin-top:12px"><h3>Lamp colours after IEC 60204-1, Table 4</h3>
+    <table class="tbl stack"><tr><th>Colour (code)</th><th>Meaning</th><th>In this course</th></tr>
+      <tr><td data-h="Colour"><i class="capdot cap-green"></i> green (GN)</td><td data-h="Meaning">normal condition</td><td data-h="In this course">H1 motor running</td></tr>
+      <tr><td data-h="Colour"><i class="capdot" style="background:#ffd166"></i> yellow (YE)</td><td data-h="Meaning">abnormal condition, watch or act</td><td data-h="In this course">H2 overload tripped</td></tr>
+      <tr><td data-h="Colour"><i class="capdot cap-white"></i> white (WH)</td><td data-h="Meaning">neutral: when no other colour fits, or to confirm a state</td><td data-h="In this course">H3 motor stopped</td></tr>
+      <tr><td data-h="Colour"><i class="capdot cap-red"></i> red (RD)</td><td data-h="Meaning">emergency, danger, act at once</td><td data-h="In this course">never for a run or stop lamp</td></tr>
+      <tr><td data-h="Colour"><i class="capdot cap-blue"></i> blue (BU)</td><td data-h="Meaning">mandatory: the operator must do something</td><td data-h="In this course">e.g. "reset needed" (not used on this page)</td></tr></table>
+    <p class="simnote">The two-letter colour codes GN, YE, WH, RD and BU come from IEC 60757 and are written next to each lamp in the circuit. Push-button colours follow IEC 60204-1, 10.2.1: start white (green allowed, never red), stop black (red allowed, never green), reset blue.</p></div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">รีเลย์ป้องกันเฟส F3 และหลอดแสดงเฟส</h2><h2 data-l="en">Phase-failure relay F3 and phase lamps</h2>
+    <div class="src" data-l="th">ไฟล์ใบงาน CADe SIMU ของรายวิชา แผ่นที่ 10–11 · EMC9 หน่วยที่ 14 รูป 14-2, 14-3 · IEC 60204-1 ข้อ 7.5, 7.8</div><div class="src" data-l="en">The course's CADe SIMU lab file, sheets 10–11 · EMC9 unit 14, Figs 14-2, 14-3 · IEC 60204-1, 7.5, 7.8</div></div></div>
+  <p class="lead" data-l="th">ด้านซ้ายคือแหล่งจ่ายสามเฟสหลัง Q1 กับรีเลย์ป้องกันเฟส F3 หลอดแสดงเฟส H4–H6 และวงจรกำลังของมอเตอร์ ด้านขวาคือวงจรควบคุมของขั้นที่ 5 ที่มี F3 11–14 ต่ออนุกรมอยู่บนสุดถัดจาก F1 กด S2 ให้มอเตอร์หมุน แล้วกด "L2 ขาด" ดู F3 นับเวลาหน่วง (ในหน้านี้ 1 s เป็นค่าตัวอย่าง) แล้วเปิด 11–14 จากนั้นกด "L2 ขาด" อีกครั้งเพื่อคืนเฟส F3 ต่อกลับเอง แต่มอเตอร์หมุนเองหรือไม่ ลอง "L1 ขาด" "สลับ L1 ↔ L3" และ "ไม่มี F3" เพื่อดูว่า F3 ป้องกันอะไร ผลแต่ละสภาพของแหล่งจ่ายบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">On the left: the three-phase supply after Q1 with phase-failure relay F3, phase lamps H4–H6 and the motor's power circuit. On the right: the control circuit of step 5 with F3 11–14 in series at the top, right after F1. Press S2 so the motor runs, then press "L2 lost" and watch F3 count its delay (1 s here, an example value) and open 11–14. Press "L2 lost" again to bring the phase back: F3 closes again by itself, but does the motor restart? Try "L1 lost", "L1 ↔ L3 swapped" and "without F3" to see what F3 protects against. The result for each supply condition is recorded in the table.</p>
+  <div class="card sim" style="padding:8px"><div id="phB"></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pB" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logB"></div><div id="sumB" style="margin-top:8px"></div></div>
+  <div class="callout" data-l="th"><b>F3 ต่ออย่างไร</b>: ขั้ววัดของ F3 ต่อกับ L1 L2 L3 (และ N ถ้ารุ่นนั้นต้องใช้) หลัง Q1 ในตู้จริงมีฟิวส์ขนาดเล็กของตัวเองป้องกันสายวัด (ภาพด้านซ้ายไม่ได้วาดไว้) หน้าสัมผัสออก 11–14 ต่ออยู่ขณะไฟปกติ แบบนี้เรียกว่าหลักวงจรปิด (closed-circuit principle) ถ้าสายหลุดหรือรีเลย์เสีย 11–14 ก็เปิดและหยุดมอเตอร์เช่นกัน จึงปลอดภัยไว้ก่อน 11–14 จึงต่ออนุกรมบนสุดของวงจรควบคุมถัดจาก F1 ส่วน 11–12 ซึ่งต่อเมื่อผิดปกติใช้ป้อนหลอดแจ้งเตือนสีเหลืองได้ F3 มีเวลาหน่วงเพื่อไม่ให้ตัดเมื่อไฟกระพริบสั้น ๆ (รุ่นจริงตั้งได้ตั้งแต่เสี้ยววินาทีถึงไม่กี่วินาที) และ<b>ต่อกลับเอง</b>เมื่อไฟกลับมาปกติ การไม่ให้มอเตอร์หมุนเองจึงเป็นหน้าที่ของหน้าสัมผัสค้างตัวเอง KM1 13–14 (IEC 60204-1 ข้อ 7.5) การขาดของ L1 ทำให้วงจรควบคุม 230 V ที่รับไฟระหว่าง L1 กับ N ดับทั้งวงจรอยู่แล้ว F3 จึงเพิ่มการป้องกันให้ L2 และ L3 และลำดับเฟสผิด ซึ่ง IEC 60204-1 ข้อ 7.8 ให้มีเมื่อลำดับเฟสผิดอาจเป็นอันตรายหรือทำให้เครื่องจักรเสียหาย เช่น ปั๊ม สายพาน และลิฟต์</div>
+  <div class="callout" data-l="en"><b>How F3 is connected</b>: the measuring terminals of F3 go to L1 L2 L3 (and N if the model needs it) after Q1; in a real panel they get their own small fuses (not drawn on the left). Output 11–14 is closed while the supply is healthy, the closed-circuit principle: if a wire comes loose or the relay fails, 11–14 also opens and stops the motor, so it fails safe. That is why 11–14 goes in series at the top of the control circuit, right after F1; 11–12, which closes on a fault, can feed a yellow warning lamp. F3 has a delay so that a short flicker does not trip it (real relays can be set from a fraction of a second to a few seconds), and it <b>closes again by itself</b> when the supply is healthy. Preventing a restart is therefore the job of holding contact KM1 13–14 (IEC 60204-1, 7.5). Losing L1 kills the 230 V control circuit, which is fed between L1 and N, anyway; F3 adds protection for L2 and L3 and against a wrong phase sequence, which IEC 60204-1, 7.8 asks for where a wrong sequence could be hazardous or damage the machine, e.g. pumps, conveyors and lifts.</div>
+  <div class="callout" data-l="th"><b>หลอดแสดงเฟสและมิเตอร์ (แผ่นที่ 11)</b>: หลอด H4 H5 H6 ต่อระหว่างแต่ละเฟสกับ N ผ่านเบรกเกอร์ Q2 หลอดดวงไหนดับแสดงว่าเฟสนั้นไม่มีไฟ ในแบบของวิชาเขียนมิเตอร์เป็นสัญลักษณ์: P1 วงกลมตัว V คือโวลต์มิเตอร์ต่อคร่อม L1–L2 (ราว 400 V) และ P2 วงกลมตัว A คือแอมมิเตอร์ที่วัดกระแสผ่านหม้อแปลงกระแส (current transformer, CT) T1 ซึ่งคล้องสายมอเตอร์เส้นหนึ่งไว้ CADe SIMU ไม่มีมิเตอร์ บอกได้แค่ว่าจุดไหนมีไฟหรือไม่มีไฟ ไฟล์ใบงานจึงใช้หลอดแทนมิเตอร์ ระวังอย่างหนึ่ง: มอเตอร์ที่หมุนอยู่จะป้อนแรงดันย้อนกลับเข้าเฟสที่ขาด หลอดของเฟสนั้นจึงหรี่แต่ไม่ดับ และรีเลย์แบบวัดแรงดันอย่างง่ายอาจตัดช้ากว่าที่ควร</div>
+  <div class="callout" data-l="en"><b>Phase lamps and meters (sheet 11)</b>: lamps H4, H5 and H6 sit between each phase and N, through breaker Q2; a lamp that is out shows that its phase has no voltage. The course drawing shows meters as symbols: P1, a circle with V, is a voltmeter across L1–L2 (about 400 V), and P2, a circle with A, is an ammeter fed by current transformer (CT) T1 around one motor conductor. CADe SIMU has no meters: it only shows whether a point is live or not, so the lab file uses lamps in place of the meters. One caution: a running motor back-feeds a lost phase, so that phase's lamp glows dimly instead of going out, and a simple voltage-sensing relay may trip later than it should.</div>
+  <div class="story">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>EMC9 หน่วยที่ 14 อธิบายว่าทำไมต้องมีรีเลย์ป้องกันเฟส: ถ้าสองเฟสสลับกัน มอเตอร์จะหมุนกลับทาง ซึ่งเป็นอันตรายกับลิฟต์และเครื่องจักรหลายชนิด และถ้าฟิวส์เฟสหนึ่งขาดหรือสายเฟสหนึ่งหลุดขณะมอเตอร์หมุน มอเตอร์จะหมุนต่อด้วยสองเฟสและร้อนเกิน รูป 14-2 เป็นรีเลย์ตรวจเฟสแบบโซลิดสเตตที่ตรวจทั้งแรงดันไม่สมดุลและลำดับเฟสกลับ หนังสือบอกว่ารีเลย์นี้คืนสภาพเองเมื่อแรงดันกลับมาถูกต้อง ซึ่งเป็นแบบเดียวกับ F3 ในหน้านี้</p>
+        <p>รูป 14-3 เป็นแบบอเมริกัน (National Electrical Manufacturers Association, NEMA) ของตัวตรวจกระแสสำหรับมอเตอร์ใหญ่ที่รับสัญญาณจากหม้อแปลงกระแสสามตัว หน้าสัมผัสปกติเปิดหมายเลข 1 ของมันต่ออนุกรมกับปุ่ม STOP ในวงจรคอยล์ และหน้าสัมผัสปกติปิดหมายเลข 2 ป้อนหลอดแจ้งเตือน (ALARM) เป็นแนวคิดเดียวกับ F3 11–14 ที่อนุกรมในวงจรควบคุมและ 11–12 ที่ป้อนหลอดแจ้งเตือน เมื่อวาดใหม่เป็นแบบ IEC ก็คือวงจรควบคุมด้านบน ส่วนหม้อแปลงกระแสในรูปใช้สัญลักษณ์ความคิดเดียวกับ T1 ที่ป้อนแอมมิเตอร์ P2</p>
+        <p>ชื่อ F3 มาจากชุดอักษรของวิชาที่ใช้ F กับรีเลย์ป้องกัน ถ้าเขียนตาม IEC 81346-2 อย่างเคร่งครัด รีเลย์ที่ทำหน้าที่ตรวจวัดอย่างเดียวอาจได้รหัส KF หรือรหัสกลุ่ม B ส่วนตัวอักษร P ในแบบ IEC ใช้กับเครื่องวัดและอุปกรณ์แสดงผล วิชานี้จึงใช้ P1, P2 กับมิเตอร์ และเรียกรีเลย์ป้องกันเฟสว่า F3 (ตารางเทียบชื่อกับไฟล์ใบงานอยู่ใน<a href="ch5_7_cadesimu.html">หน้า 5.7</a>)</p></div>
+      <div class="story-p" data-l="en"><p>EMC9 unit 14 explains why a phase-failure relay is needed. If two phases are swapped, the motor turns backwards, which is dangerous for lifts and many machines; if a fuse blows or a line breaks while the motor runs, the motor keeps running on two phases and overheats. Fig. 14-2 is a solid-state phase monitor that detects voltage unbalance and phase reversal; the book says it resets by itself when the correct voltage returns, just like F3 on this page.</p>
+        <p>Fig. 14-3 is a US (National Electrical Manufacturers Association, NEMA) drawing of a current monitor for a large motor, fed by three current transformers. Its NO contact 1 is in series with the STOP button in the coil circuit, and its NC contact 2 feeds an ALARM lamp: the same idea as F3 11–14 in series in the control circuit and 11–12 feeding a warning lamp. Redrawn to IEC, it is the control circuit above; the current transformers in the figure are the same idea as T1, which feeds ammeter P2.</p>
+        <p>The name F3 follows the course's letter set, which uses F for protective relays. Strictly after IEC 81346-2, a relay that only monitors could be coded KF or put in class B. In IEC drawings the letter P is used for measuring and indicating devices, so the course keeps P1 and P2 for the meters and calls the phase-failure relay F3 (the name map against the lab file is on <a href="ch5_7_cadesimu.html">page 5.7</a>).</p></div></div>
+    <div class="story-f">
+      <figure class="slide sm"><img src="img/book/emc9_fig14_2_phase_monitor.jpg?v=11" width="438" height="534" loading="lazy" decoding="async" alt="Photograph of a narrow solid-state phase monitor relay with screw terminals on its front and indicator labels ON, PHASE RVS and PHASE UNBAL.">
+        <figcaption data-l="th">รูป 14-2 รีเลย์ตรวจเฟสแบบโซลิดสเตต · ที่มา: Herman, <i>Electric Motor Control</i> 9th ed. (Delmar Cengage, 2010) หน่วยที่ 14 หน้า 136 (ภาพจาก Eaton Corporation) · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 14-2, solid-state phase monitor relay · source: Herman, <i>Electric Motor Control</i>, 9th ed. (Delmar Cengage, 2010), unit 14, p. 136 (courtesy of Eaton Corporation) · tap to enlarge</figcaption></figure>
+      <figure class="slide sm"><img src="img/book/emc9_fig14_3_current_monitor.jpg?v=11" width="780" height="819" loading="lazy" decoding="async" alt="US wiring diagram: three-phase motor with a disconnect, fuses, contactor M and overloads; three current transformers feed a current monitor whose NO contact 1 is in series with the STOP and START buttons and coil M, and whose NC contact 2 feeds an alarm lamp.">
+        <figcaption data-l="th">รูป 14-3 การต่อตัวตรวจกระแสของมอเตอร์ใหญ่ (แบบ NEMA) · ที่มา: Herman (2010) หน่วยที่ 14 หน้า 136 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 14-3, connections of a large-motor current monitor (NEMA) · source: Herman (2010), unit 14, p. 136 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">เลือกสีและหน้าสัมผัสของหลอดแสดงผล</h2><h2 data-l="en">Choosing the colours and contacts of the pilot lamps</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · IEC 60204-1 ตาราง 4 และข้อ 10.2.1 · IEC 60757</div><div class="src" data-l="en">Worked example · IEC 60204-1, Table 4 and 10.2.1 · IEC 60757</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>ตู้เริ่มเดินโดยตรงของสายพานลำเลียงต้องมีหลอดแสดงผลสามดวงที่ประตูตู้: (ก) มอเตอร์หมุน (ข) โอเวอร์โหลดตัด (ค) มอเตอร์หยุด สำหรับแต่ละดวงให้เลือกสีตาม IEC 60204-1 ตาราง 4 หน้าสัมผัสที่สั่งหลอด และจุดที่หลอดรับไฟ แล้ว (ง) เลือกสีของปุ่มเริ่ม ปุ่มหยุด และปุ่มรีเซ็ตของโอเวอร์โหลด วงจรด้านล่างคือคำตอบ ใช้ทดสอบทีละขั้นตามเฉลย</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>The DOL starter of a conveyor needs three pilot lamps on the panel door: (a) motor running, (b) overload tripped, (c) motor stopped. For each lamp choose the colour after IEC 60204-1 Table 4, the contact that switches it and the point it is fed from; then (d) choose the colours of the start, stop and overload-reset buttons. The circuit below is the answer; the solution steps test it one at a time.</p></div>
+  <div class="card sim rlwrap" id="boxE" style="padding:8px"><div id="simE"></div></div>
+  <div class="card solve" style="margin-top:12px"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">โอเวอร์โหลด หลอดแสดงผล และรีเลย์ป้องกันเฟส</div><div class="src" data-l="en">Overload relay, pilot lamps and phase-failure relay</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>หัวข้อ A ขั้นที่ 1: ให้มอเตอร์หมุน แล้วคลิก F2 ในวงจรกำลัง มอเตอร์หยุดหรือไม่ เพราะอะไร จากนั้นทำซ้ำในขั้นที่ 2 แล้วลองรีเซ็ต F2</li>
+    <li>หัวข้อ A ขั้นที่ 3: เปิด "จำลอง KM1 ติดขัด" แล้วกด S2 ค้างไว้ ทั้งแบบ H1 คร่อมคอยล์และแบบ H1 ผ่าน KM1 53–54 แบบไหนที่หลอดบอกความจริง ช่างซ่อมจะถูกหลอดหลอกในกรณีไหน</li>
+    <li>หัวข้อ B: ให้มอเตอร์หมุน ทำให้ L2 ขาดแล้วคืน L2 ทำไมมอเตอร์ไม่หมุนเองทั้งที่ F3 ต่อกลับเอง จากนั้นทำซ้ำโดยกด "ไม่มี F3" ก่อน แล้วเทียบผล</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 1 รูป 1.2 (หลอด H1 และ H2) · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 4 (โอเวอร์โหลด) · Herman, <i>Electric Motor Control</i> 9th ed. หน่วยที่ 14 · Senty, <i>Motor Control Fundamentals</i> บทที่ 14 วงจรที่ 5 · IEC 60204-1 ข้อ 7.5, 7.8, 9.4.3.1, 10.2.1 และตาราง 4 · IEC 60757 · IEC 60947-5-1</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Section A, step 1: run the motor, then click F2 in the power circuit. Does the motor stop, and why? Repeat in step 2, then reset F2.</li>
+    <li>Section A, step 3: turn on "Simulate a jammed KM1" and hold S2, once with H1 across the coil and once with H1 through KM1 53–54. Which lamp tells the truth? When would a lamp mislead a maintenance electrician?</li>
+    <li>Section B: run the motor, lose L2 and bring it back. Why does the motor not restart although F3 closes again by itself? Repeat after pressing "without F3" and compare.</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 1, Fig. 1.2 (lamps H1 and H2) · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 4 (overload relays) · Herman, <i>Electric Motor Control</i>, 9th ed., unit 14 · Senty, <i>Motor Control Fundamentals</i>, ch. 14, circuit 5 · IEC 60204-1, 7.5, 7.8, 9.4.3.1, 10.2.1 and Table 4 · IEC 60757 · IEC 60947-5-1</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui, tt = ED.tt;
+  const run = v => (v ? t('หมุน', 'running') : t('หยุด', 'stopped'));
+  /* drawing size: k × the natural width; a wide circuit keeps its natural width on a phone and scrolls sideways (.rlscroll) */
+  const fit = (sim, box, k = 1.3) => { const svg = sim.el.querySelector('svg'), W = svg ? svg.viewBox.baseVal.width : 600; sim.o.max = Math.round(W * k); sim.render();
+    sim.el.style.maxWidth = `${Math.round(W * k)}px`; sim.el.style.margin = '0 auto';
+    if (box) { box.classList.toggle('rlscroll', W >= 360); box.style.setProperty('--rlmin', `${Math.round(W)}px`); } return W; };
+
+  /* 0: device cards */
+  DEV.mount($('devs'), ['ol', 'km', 'lamp']);
+
+  /* A: sheets 6–9 of the lab file + the course's stopped lamp, one simulator per step. A jammed KM1: the coil element belongs to a dummy
+     coil KMX drawn as "KM1", so the coil gets voltage but no KM1 contact moves; the cross-reference under it still lists KM1's contacts */
+  const jam = s => { s.els.forEach(e => { if (e.k === 'coil' && e.d === 'KM1') e.d = 'KMX'; }); s.devices.KMX = { type: 'coil', label: 'KM1' }; return s; };
+  const SPEC = (k, o = {}) => { const s = k === 1 ? C5.SHEET(6) : k === 2 ? C5.SHEET(7) : k === 3 ? C5.SHEET(8, { run: o.run }) : k === 4 ? C5.SHEET(9, { run: o.run }) : C5.DOL5(); return o.jam && k >= 3 ? jam(s) : s; };
+  const mkSim = (el, k, o = {}, opts = {}) => { const s = new RL.Sim(el, SPEC(k, o), opts);
+    if (s.dev.KMX) { s.xref = id => RL.Sim.prototype.xref.call(s, id === 'KMX' ? 'KM1' : id); s.render(); } return s; };
+  const CODE = { H1: 'GN', H2: 'YE', H3: 'WH' };
+  const lampsTxt = s => { const has = ['H1', 'H2', 'H3'].filter(id => s.dev[id]); if (!has.length) return '—'; const on = has.filter(id => s.dev[id].energized); return on.length ? on.map(id => `${id} ${CODE[id]}`).join(' · ') : t('ไม่มีหลอดติด', 'no lamp lit'); };
+  const SHORT = { 1: ['F2 ในวงจรกำลัง', 'F2 in the power circuit'], 2: ['+ F2 95–96', '+ F2 95–96'], 3: ['+ หลอดเดิน H1', '+ run lamp H1'], 4: ['+ หลอดโอเวอร์โหลด H2', '+ overload lamp H2'], 5: ['+ หลอดหยุด H3', '+ stopped lamp H3'] };
+  const SRC = k => (k <= 4 ? t(`แผ่นที่ ${k + 5} ของไฟล์ใบงาน`, `sheet ${k + 5} of the lab file`) : t('วิชาเพิ่มเอง ไม่มีในไฟล์ใบงาน', 'added by the course, not in the lab file'));
+  const TITLE = k => (k <= 4 ? tt(C5.SHEETINFO[k + 5].title) : t('หลอดหยุด H3 ผ่าน KM1 21–22', 'Stopped lamp H3 through KM1 21–22'));
+  const ADDS = k => (k <= 4 ? tt(C5.SHEETINFO[k + 5].adds) : t('H3 (ขาว) ติดเมื่อ KM1 ปล่อย ผ่านหน้าสัมผัสปกติปิดในตัว 21–22 ได้วงจรเริ่มเดินโดยตรงแบบเต็มของวิชา', 'H3 (white) lights while KM1 is out, through the built-in NC contact 21–22: the complete DOL circuit of the course'));
+  const WHY = {
+    1: ['โอเวอร์โหลดรีเลย์ F2 ต่ออยู่ระหว่าง KM1 กับมอเตอร์ ส่วนให้ความร้อน (แผ่นโลหะคู่) ทั้งสามของ F2 มีกระแสมอเตอร์ไหลผ่านและร้อนขึ้นตามกระแส (หน้า 4.4) แต่ F2 ทำหน้าที่แค่รับรู้ ถ้าจะหยุดมอเตอร์ได้ ต้องเอาหน้าสัมผัสของ F2 ไปตัดทางเดินกระแสของคอยล์ ในแผ่นนี้ยังไม่มีหน้าสัมผัสของ F2 ในวงจรควบคุม เมื่อ F2 ตัด หน้าสัมผัสของมันเปลี่ยนสถานะ แต่ไม่มีอะไรใช้หน้าสัมผัสนั้น มอเตอร์จึงหมุนต่อไปจนร้อนเกิน',
+      'Overload relay F2 sits between KM1 and the motor. Its three heaters (bimetals) carry the motor current and warm up with it (page 4.4). But F2 only senses: to stop the motor, one of its contacts must break the coil circuit. This sheet has no F2 contact in the control circuit yet. When F2 trips, its contacts change over, but nothing uses them, so the motor runs on and overheats.'],
+    2: ['ต่อหน้าสัมผัสปกติปิด F2 95–96 ไว้บนสุดของวงจรควบคุม ถัดจากฟิวส์ F1 และก่อนปุ่มหยุด S1 เมื่อ F2 ตัด 95–96 เปิด คอยล์ KM1 ไม่มีไฟ KM1 หลุด มอเตอร์หยุด เหมือนมีคนกด S1 ค้างไว้ 95–96 อยู่อนุกรมกับทุกทางเดินกระแสที่ไปคอยล์ จึงตัดได้ไม่ว่าคอยล์จะรับไฟผ่าน S2 หรือผ่านหน้าสัมผัสค้าง การวางไว้บนสุดยังเหลือจุด F1 ขั้ว 2 ที่อยู่ก่อน 95–96 ไว้ป้อนไฟหลอดโอเวอร์โหลดในขั้นที่ 4 เมื่อรีเซ็ต F2 (บนรีเลย์จริงปุ่มรีเซ็ตมักเป็นสีน้ำเงิน) 95–96 ต่อกลับ แต่มอเตอร์ไม่หมุนเอง เพราะหน้าสัมผัสค้าง 13–14 เปิดไปตั้งแต่ KM1 หลุด ต้องกด S2 ใหม่ ถ้าเป็นวงจร 2 สายต้องตั้ง F2 เป็นรีเซ็ตด้วยมือ ไม่อย่างนั้นมอเตอร์จะหมุนเองเมื่อแผ่นโลหะคู่เย็นลง (หน้า 4.4)',
+      'NC contact F2 95–96 goes at the top of the control circuit, after fuse F1 and before stop button S1. When F2 trips, 95–96 opens, coil KM1 loses its voltage, KM1 drops out and the motor stops, just as if someone held S1. 95–96 is in series with every path to the coil, so it breaks the coil circuit whether the coil is fed through S2 or through the holding contact. Putting it at the top also leaves terminal 2 of F1, ahead of 95–96, free to feed the overload lamp of step 4. When F2 is reset (on a real relay the reset button is usually blue), 95–96 closes again, but the motor does not restart: holding contact 13–14 opened when KM1 dropped out, so S2 must be pressed again. With two-wire control F2 must be set to manual reset, or the motor would restart by itself once the bimetals cool (page 4.4).'],
+    3: ['หลอดเดิน H1 สีเขียว ไฟล์ใบงานแผ่นที่ 8 ต่อ H1 คร่อมคอยล์ (ขนานกับ A1–A2) หลอดจึงติดเมื่อคอยล์มีไฟ ส่วนแบบของวิชาต่อ H1 ผ่านหน้าสัมผัสปกติเปิด KM1 53–54 ของชุดหน้าสัมผัสเสริมด้านหน้า (หน้า 4.1) หลอดจึงติดเมื่อคอนแทกเตอร์ต่อจริงเท่านั้น ปกติทั้งสองแบบติดพร้อมกัน แต่ถ้าคอนแทกเตอร์ติดขัด (คอยล์มีไฟแต่แกนเหล็กเคลื่อนไม่ได้) หลอดที่คร่อมคอยล์จะติดทั้งที่มอเตอร์ไม่หมุน เลือกวิธีต่อ H1 และเปิด "จำลอง KM1 ติดขัด" ด้านล่างเพื่อเทียบ ขั้ว X2 ของหลอดต่อตรงไป N เหมือนขั้ว A2 ของคอยล์',
+      'Run lamp H1 is green. Sheet 8 of the lab file puts H1 across the coil (in parallel with A1–A2), so it lights whenever the coil has voltage. The course drawing feeds H1 through NO contact KM1 53–54 on the front-mounted block (page 4.1), so it lights only when the contactor has really closed. Normally both light together, but if the contactor jams (the coil is energised but the armature cannot move), a lamp across the coil lights although the motor is stopped. Choose how H1 is wired and turn on "Simulate a jammed KM1" below to compare. Terminal X2 of the lamp goes straight to N, like terminal A2 of the coil.'],
+    4: ['หลอดโอเวอร์โหลด H2 สีเหลือง ต่อผ่านหน้าสัมผัสปกติเปิด F2 97–98 ซึ่งต่อเมื่อ F2 ตัด และรับไฟจาก F1 ขั้ว 2 ซึ่งอยู่ก่อน 95–96 ถ้าต่อ H2 จากจุดหลัง 95–96 การตัดของ F2 ที่ทำให้ 95–96 เปิดจะตัดไฟของหลอดไปด้วย H2 จึงไม่มีวันติด (ดูกรณีนี้ในหน้า 5.5) โอเวอร์โหลดบางรุ่นมี 95–96 กับ 97–98 แยกกันสองชุด ให้ต่อสายสั้นจากขั้ว 95 ไปขั้ว 97 เพื่อให้ทั้งคู่รับไฟจาก F1 ขั้ว 2 บางรุ่นมีหน้าสัมผัสเปลี่ยนทาง 95–96–98 ที่ใช้ขั้ว 95 ร่วมกัน (แบบรูป 1.2 ในตำราไทย หน้า 5.1) ได้วงจรเดียวกัน',
+      'Overload lamp H2 is yellow. It is switched by NO contact F2 97–98, which closes when F2 trips, and it is fed from terminal 2 of F1, which is ahead of 95–96. If H2 were fed from a point after 95–96, the trip that opens 95–96 would also cut the lamp\'s supply, and H2 could never light (a fault case on page 5.5). Some overload relays have 95–96 and 97–98 as two separate contacts: a short link from terminal 95 to terminal 97 then feeds both from F1 terminal 2. Others have a changeover contact 95–96–98 with a common 95 (as in the Thai textbook\'s Fig. 1.2, page 5.1). Both give the same circuit.'],
+    5: ['ไฟล์ใบงานจบที่แผ่นที่ 9 วิชานี้เพิ่มหลอดหยุด H3 สีขาว ผ่านหน้าสัมผัสปกติปิด KM1 21–22 ที่มีในตัวคอนแทกเตอร์ (หลักแรก 2 = หน้าสัมผัสช่วยตัวที่สอง หลักหลัง 1–2 = ปกติปิด) ภาพคอนแทกเตอร์ใน CADe SIMU และคอนแทกเตอร์ของชุดฝึกพิมพ์เลข 21–22 ไว้ ส่วนสัญลักษณ์ใน CADe SIMU ตั้งต้นเป็น 11–12 จึงต้องแก้เลขเป็น 21–22 เอง H3 ติดเมื่อ KM1 ปล่อย และรับไฟจาก F1 ขั้ว 2 เช่นเดียวกับ H1 และ H2 จึงติดหลัง F2 ตัดด้วย (คู่กับ H2) H3 จึงหมายถึง "หยุด" ไม่ใช่ "พร้อมเริ่ม" ถ้าต้องการหลอดพร้อมเริ่มที่ดับเมื่อโอเวอร์โหลดตัด ต้องป้อนไฟจากจุดหลัง 95–96 ขั้นนี้คือวงจรเริ่มเดินโดยตรงแบบเต็มของวิชา ซึ่งหน้า 5.1 ใช้ในโจทย์ตัวอย่างที่ 1',
+      'The lab file ends at sheet 9. The course adds stopped lamp H3, white, through KM1\'s built-in NC contact 21–22 (first digit 2 = the second auxiliary contact, second digits 1–2 = NC). The contactor picture in CADe SIMU and the lab rig\'s contactor are both marked 21–22, while the CADe SIMU symbol starts as 11–12, so renumber it to 21–22 yourself. H3 lights while KM1 is out. It is fed from F1 terminal 2 like H1 and H2, so it also lights after an F2 trip (together with H2): H3 means "stopped", not "ready to start". A ready lamp that goes out on an overload trip would have to be fed from a point after 95–96. This step is the complete DOL circuit of the course, the one used in worked example 1 on page 5.1.'] };
+  const TRY = {
+    1: ['กด S2 ให้มอเตอร์หมุน แล้วคลิก F2 (ในวงจรกำลังหรือปุ่ม F2 ในแผง) เพื่อจำลองว่าโอเวอร์โหลดตัด ดูว่ามอเตอร์หยุดหรือไม่', 'Press S2 so the motor runs, then click F2 (in the power circuit or its panel button) to simulate an overload trip. Does the motor stop?'],
+    2: ['เริ่มมอเตอร์ แล้วคลิก F2 ให้ตัด จากนั้นคลิก F2 อีกครั้งเพื่อรีเซ็ต มอเตอร์หมุนเองหรือไม่ แล้วลองกด S2 ขณะ F2 ยังตัดอยู่', 'Start the motor and trip F2, then click F2 again to reset it. Does the motor restart by itself? Then try pressing S2 while F2 is still tripped.'],
+    3: ['เลือก "H1 คร่อมคอยล์" เปิด "จำลอง KM1 ติดขัด" แล้วกด S2 ค้างไว้ จากนั้นเปลี่ยนเป็น "H1 ผ่าน KM1 53–54" แล้วกดอีกครั้ง หลอดแบบไหนบอกความจริง', 'Choose "H1 across the coil", turn on "Simulate a jammed KM1" and hold S2; then change to "H1 through KM1 53–54" and press again. Which lamp tells the truth?'],
+    4: ['เริ่มมอเตอร์ แล้วทำให้ F2 ตัด ดูว่าหลอดไหนติดและหลอดไหนดับ แล้วรีเซ็ต F2', 'Start the motor, trip F2 and see which lamp lights and which goes out; then reset F2.'],
+    5: ['ดูว่าตอนหยุดหลอดไหนติด กด S2 แล้วกด S1 จากนั้นเริ่มใหม่ ทำให้ F2 ตัด และลองกด ⚡ ไฟดับแล้วกลับมา ขณะมอเตอร์หมุน', 'See which lamp is lit at rest. Press S2, then S1; start again, trip F2, and try ⚡ Power fails and returns while the motor runs.'] };
+  const boxA = $('simA'), pA = $('pA'), infoA = $('infoA'), optA = $('optA');
+  let kA = 1, optRun = 'coil', optJam = false, simA = null, snapA = null;
+  const labA = k => `${k} · ${tt(SHORT[k])}`;
+  const labLog = k => labA(k) + (k === 3 || k === 4 ? (optRun === 'aux' ? t(' (53–54)', ' (53–54)') : t(' (คร่อมคอยล์)', ' (across the coil)')) : '') + (optJam && k >= 3 ? t(' · KM1 ติดขัด', ' · KM1 jammed') : '');
+  const logA = new ED.Log($('logA'), [['ขั้น', 'step'], ['สิ่งที่ทำ', 'what you did'], ['มอเตอร์', 'motor'], ['หลอดที่ติด', 'lamps lit'], ['ความหมาย', 'what it means']]);
+  const radA = ui.radio($('stepsA'), [1, 2, 3, 4, 5].map(k => ({ id: `a${k}`, label: labA(k), on: k === 1 })), id => buildA(+id.slice(1)));
+  const navA = ui.buttons($('stepsA'), [{ id: 'aPrev', label: t('◀ ขั้นก่อน', '◀ Previous step'), onclick: () => buildA(Math.max(1, kA - 1)) },
+    { id: 'aNext', label: t('ขั้นถัดไป ▶', 'Next step ▶'), cls: 'on', onclick: () => buildA(Math.min(5, kA + 1)) }]);
+  /* options of steps 3–5: how H1 is wired (steps 3–4) and a jammed contactor */
+  const runRow = document.createElement('div'); optA.appendChild(runRow);
+  ui.html(runRow, `<b>${t('ตัวเลือก', 'Options')}:</b> ${t('วิธีต่อหลอดเดิน H1', 'how run lamp H1 is wired')}`, 'hint');
+  ui.radio(runRow, [{ id: 'coil', label: t('H1 คร่อมคอยล์ (แบบแผ่นที่ 8)', 'H1 across the coil (as sheet 8)'), on: true }, { id: 'aux', label: t('H1 ผ่าน KM1 53–54 (แบบของวิชา)', 'H1 through KM1 53–54 (course drawing)') }], id => { optRun = id; buildA(kA); });
+  const jamB = ui.buttons(optA, [{ id: 'jam', label: t('จำลอง KM1 ติดขัด', 'Simulate a jammed KM1'), title: t('คอยล์มีไฟ แต่แกนเหล็กเคลื่อนไม่ได้', 'the coil is energised but the armature cannot move'), onclick: el => { optJam = !optJam; el.classList.toggle('on', optJam); buildA(kA); } }]);
+  /* device states that a user action can change; a change between two emits = one action */
+  const snap = s => { const o = { run: s.running() }; Object.values(s.dev).forEach(d => { o[d.id] = `${d.pressed}|${d.on}|${d.tripped}|${d.blown}`; }); return o; };
+  const actTxt = (d, act) => act === 'press' ? t(`กด ${d.id}`, `press ${d.id}`) : act === 'release' ? t(`ปล่อย ${d.id}`, `release ${d.id}`) :
+    d.type === 'cb' ? (d.on ? t(`สับ ${d.id}`, `${d.id} on`) : t(`ปลด ${d.id}`, `${d.id} off`)) : d.type === 'ol' ? (d.tripped ? t(`${d.id} ตัด`, `${d.id} trips`) : t(`รีเซ็ต ${d.id}`, `reset ${d.id}`)) :
+    d.type === 'fuse' ? t(`เปลี่ยนฟิวส์ ${d.id}`, `replace fuse ${d.id}`) : d.id;
+  const dead = s => (s.dev.Q1 && !s.dev.Q1.on ? [t('ไม่มีอะไรเปลี่ยน: Q1 ปลดอยู่ วงจรควบคุมไม่มีไฟ', 'nothing changes: Q1 is off, so the control circuit is dead'), 'warn'] : s.dev.F1 && s.dev.F1.blown ? [t('ไม่มีอะไรเปลี่ยน: F1 ขาด', 'nothing changes: F1 has blown'), 'warn'] : null);
+  /* what one action means in step k: [text, kind], or null when it is not worth a row */
+  const meanA = (s, k, d, act, b, a) => {
+    const J = !!s.dev.KMX, coilLamp = optRun === 'coil' && (k === 3 || k === 4);
+    if (act === 'release') return J && coilLamp && d.id === 'S2' ? [t('ปล่อย S2: คอยล์ไม่มีไฟ H1 ที่คร่อมคอยล์ดับตาม', 'S2 released: the coil loses its voltage and H1 across it goes out'), ''] : null;
+    if (act === 'press' && d.id === 'S2') {
+      if (J && s.dev.KMX.energized) return coilLamp ? [t('คอยล์มีไฟ แต่ KM1 ติดขัดจึงไม่ต่อ มอเตอร์ไม่หมุน แต่ H1 ที่คร่อมคอยล์กลับติด: หลอดบอกแค่ว่าคอยล์มีไฟ', 'the coil is energised, but the jammed KM1 does not close and the motor is stopped; yet H1 across the coil lights: it only shows that the coil has voltage'), 'bad']
+        : [t('คอยล์มีไฟ แต่ KM1 ติดขัดจึงไม่ต่อ มอเตอร์ไม่หมุน และ H1 ที่ผ่าน KM1 53–54 ไม่ติด ตรงกับความจริง', 'the coil is energised, but the jammed KM1 does not close and the motor is stopped; H1 through KM1 53–54 stays dark, which is the truth'), 'ok'];
+      if (!b && a) return [k <= 2 ? t('KM1 ดูด มอเตอร์หมุน', 'KM1 pulls in and the motor runs') : k === 5 ? t('KM1 ดูด มอเตอร์หมุน H1 ติด H3 ดับ', 'KM1 pulls in and the motor runs; H1 lights, H3 goes out') : t('KM1 ดูด มอเตอร์หมุน H1 ติด', 'KM1 pulls in and the motor runs; H1 lights'), 'ok'];
+      if (!a && s.dev.F2 && s.dev.F2.tripped && k >= 2) return [t('เริ่มไม่ได้: F2 ยังตัดอยู่ 95–96 เปิด ต้องรีเซ็ต F2 ก่อน', 'cannot start: F2 is still tripped and 95–96 is open; reset F2 first'), 'warn'];
+      return (!a && dead(s)) || [b ? t('หมุนอยู่แล้ว กดซ้ำไม่มีผล', 'already running; pressing again changes nothing') : t('ไม่มีอะไรเปลี่ยน', 'nothing changes'), '']; }
+    if (act === 'press' && d.id === 'S1') return b && !a ? [t(`S1 ตัดทางเดินกระแส KM1 หลุด มอเตอร์หยุด${k === 5 ? ' H3 ติด' : ''}`, `S1 breaks the current path: KM1 drops out and the motor stops${k === 5 ? '; H3 lights' : ''}`), 'ok'] : [t('มอเตอร์หยุดอยู่แล้ว', 'the motor was already stopped'), ''];
+    if (act === 'press') return null;
+    if (d.type === 'ol') { if (d.tripped) {
+        if (b) return k === 1 ? [t('F2 ตัด แต่มอเตอร์ยังหมุน: ส่วนให้ความร้อนรู้ว่าโหลดเกิน แต่ไม่มีหน้าสัมผัส 95–96 ในวงจรควบคุมที่จะทำให้ KM1 หลุด', 'F2 trips, but the motor keeps running: the heaters sense the overload, but there is no contact 95–96 in the control circuit to drop KM1'), 'bad']
+          : [t(`F2 ตัด: 95–96 เปิด KM1 หลุด มอเตอร์หยุด${k >= 4 ? ' H2 ติด' : ''}${k === 5 ? ' และ H3 ติด' : ''}`, `F2 trips: 95–96 opens, KM1 drops out and the motor stops${k >= 4 ? '; H2 lights' : ''}${k === 5 ? ' and so does H3' : ''}`), 'ok'];
+        return k >= 4 ? [t('F2 ตัดขณะมอเตอร์หยุด: H2 ติดบอกว่าโอเวอร์โหลดตัดอยู่', 'F2 trips while the motor is stopped: H2 shows that the overload relay has tripped'), ''] : [t('F2 ตัดขณะมอเตอร์หยุด ลองใหม่ขณะมอเตอร์หมุน', 'F2 trips while the motor is stopped; try again while it runs'), 'warn']; }
+      return a ? [t('รีเซ็ต F2: มอเตอร์หมุนอยู่ตลอด เพราะ F2 ไม่มีหน้าสัมผัสในวงจรควบคุม', 'F2 reset: the motor ran all along, because F2 has no contact in the control circuit'), 'warn']
+        : k === 1 ? [t('รีเซ็ต F2', 'F2 reset'), ''] : [t(`รีเซ็ต F2: 95–96 ต่อกลับ แต่มอเตอร์ไม่หมุนเอง ต้องกด S2 ใหม่ (วงจร 3 สาย)${k >= 4 ? ' H2 ดับ' : ''}`, `F2 reset: 95–96 closes again, but the motor does not restart; S2 must be pressed again (three-wire control)${k >= 4 ? '; H2 goes out' : ''}`), 'ok']; }
+    if (d.type === 'cb') return d.on ? (a ? [t('สับ Q1 แล้วมอเตอร์หมุนทันที', 'Q1 on: the motor runs at once'), 'bad'] : [t('สับ Q1 แล้วมอเตอร์ยังหยุด: ต้องสั่งเริ่มใหม่', 'Q1 on: the motor stays off until it is started again'), 'ok'])
+      : [t('ปลด Q1: ทั้งวงจรกำลังและวงจรควบคุมไม่มีไฟ', 'Q1 off: the power and the control circuit are both dead'), ''];
+    if (d.type === 'fuse') return [t('เปลี่ยนฟิวส์แล้ว', 'fuse replaced'), ''];
+    return null; };
+  const cutA = (b, a) => (!b ? [t('มอเตอร์ไม่ได้หมุนก่อนไฟดับ ลองใหม่ขณะมอเตอร์หมุน', 'it was not running before the failure; try again while it runs'), 'warn']
+    : !a ? [t('KM1 หลุดตอนไฟดับ 13–14 เปิด เมื่อไฟกลับมามอเตอร์จึงไม่หมุนเอง', 'KM1 dropped out during the failure and 13–14 opened, so the motor stays off when the power returns'), 'ok'] : [t('มอเตอร์หมุนเองเมื่อไฟกลับมา', 'the motor restarts by itself when the power returns'), 'bad']);
+  /* status line: the jammed contactor first, then the usual DOL status with the lamps */
+  const stA = s => { const d = s.dev, L = lampsTxt(s), lamps = L === '—' ? '' : `${t('หลอดที่ติด', 'lamps lit')}: ${L}`;
+    if (d.KMX && d.KMX.energized && !s.running()) return [t('KM1 ติดขัด', 'KM1 jammed'), [t('คอยล์มีไฟ แต่หน้าสัมผัสไม่ต่อ มอเตอร์ไม่หมุน', 'the coil is energised but the contacts stay open; the motor is stopped'), lamps].filter(Boolean).join(' · '), 'bad'];
+    const c = C5.state(s); return [c[0], [c[1], lamps].filter(Boolean).join(' · '), c[2]]; };
+  function buildA(k) {
+    kA = k; radA.set(`a${k}`); navA.aPrev.disabled = k === 1; navA.aNext.disabled = k === 5;
+    infoA.innerHTML = `<h3>${t(`ขั้นที่ ${k} (${SRC(k)}): `, `Step ${k} (${SRC(k)}): `)}${TITLE(k)}</h3><p><b>${t('สิ่งที่เพิ่ม', 'What is new')}:</b> ${ADDS(k)}</p><p>${tt(WHY[k])}</p>` +
+      `<p class="simnote"><b>${t('ลองทำ', 'Try')}:</b> ${tt(TRY[k])}</p>`;
+    optA.style.display = k >= 3 ? '' : 'none'; runRow.style.display = k <= 4 ? '' : 'none'; jamB.jam.classList.toggle('on', optJam);
+    boxA.innerHTML = ''; const el = document.createElement('div'); boxA.appendChild(el);   // a fresh element: the old simulator's listeners go with the old one
+    simA = mkSim(el, k, { run: optRun, jam: optJam }, { label: `DOL with protection, step ${k}` }); fit(simA, boxA);
+    pA.innerHTML = ''; ui.h2(pA, t('สั่งงาน', 'Control'));
+    /* the panel's buttons and our own power-cut button (Q1 off and on, as in CADe SIMU), which logs itself */
+    const pan = C5.panel(pA, simA, { cut: false, status: stA }), sim = simA;
+    const cb = document.createElement('button'); cb.type = 'button'; cb.className = 'btn on'; cb.textContent = t('⚡ ไฟดับแล้วกลับมา', '⚡ Power fails and returns'); pan.row.appendChild(cb);
+    cb.addEventListener('click', () => { C5.powerCut(sim, { via: sim.dev.Q1.on ? 'Q1' : undefined, done: e => { pan.refresh(); const m = cutA(e.before, e.after);
+      log.add(`${k}|${optRun}|${optJam}|cut|${e.before}|${e.after}`, [labLog(k), t('⚡ ไฟดับแล้วกลับมา', '⚡ power fails and returns'), `${run(e.before)} → ${run(e.after)}`, lampsTxt(sim), m[0]], m[1]); } }); pan.refresh(); });
+    snapA = snap(simA);
+    simA.on(s => { if (s !== simA) return; const now = snap(s), was = snapA; snapA = now; if (s._cut) return;
+      Object.values(s.dev).forEach(d => { if (now[d.id] === was[d.id]) return; const act = d.type === 'pb' ? (d.pressed ? 'press' : 'release') : 'toggle', m = meanA(s, k, d, act, was.run, now.run);
+        if (m) log.add(`${k}|${optRun}|${optJam}|${d.id}|${act}|${act === 'toggle' ? now[d.id] : ''}|${was.run}|${now.run}`, [labLog(k), actTxt(d, act), `${run(was.run)} → ${run(now.run)}`, lampsTxt(s), m[0]], m[1]); }); }); }
+  const log = logA;
+  buildA(1);
+  /* summary: the same trials on hidden simulators */
+  const yes = (k, o, seq) => C5.runSeq(mkSim(document.createElement('div'), k, o), seq);
+  const ROWS = [{ k: 1 }, { k: 2 }, { k: 3, run: 'coil' }, { k: 3, run: 'aux' }, { k: 4, run: 'aux' }, { k: 5 }];
+  const has = (k, o, id) => !!SPEC(k, o).devices[id];
+  ED.summary($('sumA'), { head: [['ขั้น', 'step'], ['F2 ตัดขณะมอเตอร์หมุน', 'F2 trips while running'], ['หลอดเดิน H1', 'run lamp H1'], ['หลอดโอเวอร์โหลด H2', 'overload lamp H2'], ['หลอดหยุด H3', 'stopped lamp H3']],
+    rows: () => ROWS.map(o => { const k = o.k, stop = yes(k, o, [['tap', 'S2'], ['toggle', 'F2'], ['run', false]]), off = yes(k, o, [['tap', 'S2'], ['toggle', 'F2'], ['toggle', 'F2'], ['run', false]]);
+      const f2 = stop ? `<span class="rk-ok">${off ? t('มอเตอร์หยุด รีเซ็ตแล้วไม่หมุนเอง', 'motor stops; stays off after the reset') : t('มอเตอร์หยุด', 'motor stops')}</span>` : `<span class="rk-bad">${t('มอเตอร์หมุนต่อ', 'motor keeps running')}</span>`;
+      const h1 = !has(k, o, 'H1') ? '—' : `${yes(k, o, [['lit', 'H1', false], ['tap', 'S2'], ['lit', 'H1', true]]) ? t('ติดเมื่อมอเตอร์หมุน', 'lit while running') : '?'}; ` +
+        (yes(k, { ...o, jam: true }, [['hold', 'S2'], ['lit', 'H1', true]]) ? `<span class="rk-bad">${t('KM1 ติดขัด: ติดทั้งที่มอเตอร์ไม่หมุน', 'KM1 jammed: lit although the motor is stopped')}</span>` : `<span class="rk-ok">${t('KM1 ติดขัด: ไม่ติด ตรงกับความจริง', 'KM1 jammed: stays dark, which is true')}</span>`);
+      const h2 = !has(k, o, 'H2') ? '—' : yes(k, o, [['lit', 'H2', false], ['tap', 'S2'], ['toggle', 'F2'], ['lit', 'H2', true]]) ? t('ติดเมื่อ F2 ตัด', 'lit when F2 has tripped') : '?';
+      const h3 = !has(k, o, 'H3') ? '—' : yes(k, o, [['lit', 'H3', true], ['tap', 'S2'], ['lit', 'H3', false], ['toggle', 'F2'], ['lit', 'H3', true]]) ? t('ติดเมื่อหยุด (รวมหลัง F2 ตัด) ดับเมื่อหมุน', 'lit while stopped (also after an F2 trip), dark while running') : '?';
+      return [labA(k) + (k === 3 ? (o.run === 'aux' ? ' (53–54)' : t(' (คร่อมคอยล์)', ' (across the coil)')) : ''), f2, h1, h2, h3]; }),
+    points: [['F2 ปรากฏสองที่ในแบบ: ส่วนให้ความร้อนในวงจรกำลังรับรู้กระแส และหน้าสัมผัส 95–96 ในทางเดินกระแสของคอยล์สั่งหยุด ขั้นที่ 1 มีแต่ส่วนแรก มอเตอร์จึงหมุนต่อทั้งที่ F2 ตัด', 'F2 appears twice in the drawing: its heaters in the power circuit sense the current, and its contact 95–96 in the coil path stops the motor. Step 1 has only the first part, so the motor runs on although F2 has tripped.'],
+      ['รีเซ็ต F2 หรือไฟกลับมาหลังไฟดับ มอเตอร์ไม่หมุนเอง เพราะหน้าสัมผัสค้าง KM1 13–14 เปิดไปแล้ว ต้องมีคนกด S2 ใหม่', 'After an F2 reset, or when the power returns, the motor does not restart, because holding contact KM1 13–14 has opened; someone must press S2 again.'],
+      ['หลอดที่คร่อมคอยล์บอกแค่ว่าคอยล์มีไฟ หลอดที่ผ่าน KM1 53–54 บอกว่าคอนแทกเตอร์ต่อจริง แบบของวิชาจึงต่อ H1 ผ่าน 53–54', 'A lamp across the coil only shows that the coil has voltage; a lamp through KM1 53–54 shows that the contactor has really closed. The course drawing therefore wires H1 through 53–54.'],
+      ['H2 ต้องรับไฟจากจุดก่อน 95–96 (F1 ขั้ว 2) ส่วน H3 ผ่าน 21–22 ติดทุกครั้งที่ KM1 ปล่อย รวมถึงหลัง F2 ตัด', 'H2 must be fed from ahead of 95–96 (F1 terminal 2); H3 through 21–22 lights whenever KM1 is out, also after an F2 trip.']] });
+
+  /* B: phase-failure relay (C5.Phase with its own buttons); one log row per supply condition, updated as F3 and the motor react */
+  const logB = new ED.Log($('logB'), [['สภาพแหล่งจ่าย', 'supply'], ['F3 11–14', 'F3 11–14'], ['มอเตอร์', 'motor'], ['ความหมาย', 'what it means']]);
+  const condTxt = st => { const l = ['L1', 'L2', 'L3'].filter(k => st.lost[k]), p = [];
+    if (l.length) p.push(t(`${l.join(', ')} ขาด`, `${l.join(', ')} lost`)); if (st.swap) p.push(t('สลับ L1 ↔ L3', 'L1 ↔ L3 swapped')); if (st.bypass) p.push(t('ไม่มี F3', 'without F3'));
+    return p.length ? p.join(' · ') : t('ไฟปกติ', 'healthy supply'); };
+  const condKey = st => `${st.lost.L1}${st.lost.L2}${st.lost.L3}${st.swap}${st.bypass}`;
+  let condB = null, runAtB = false, faultB = false;
+  const motorTxt = (st, w) => { const n = ['L1', 'L2', 'L3'].filter(k => !st.lost[k]).length;
+    if (!st.km) return t('หยุด', 'stopped'); if (n === 3) return st.swap ? t('หมุนกลับทาง', 'turns backwards') : t('หมุน', 'running');
+    return w.spd > 0.5 ? t('เดินสองเฟส', 'single-phasing') : t('ไม่ออกตัว ครางและกินกระแสสูง', 'does not start; hums at a high current'); };
+  const meanB = (st, w) => { const n = ['L1', 'L2', 'L3'].filter(k => !st.lost[k]).length, fault = n < 3 || st.swap;
+    if (st.lost.L1) return [t('L1 ขาด: วงจรควบคุมรับไฟจาก L1 จึงดับทั้งวงจร KM1 หลุดทันทีแม้ไม่มี F3 และเมื่อ L1 กลับมามอเตอร์ก็ไม่หมุนเอง', 'L1 lost: the control circuit is fed from L1, so all of it is dead and KM1 drops out at once even without F3; when L1 returns the motor stays off'), st.km ? 'bad' : 'ok'];
+    if (!fault) { if (st.km) return [t('ไฟครบสามเฟส ลำดับเฟสถูก มอเตอร์หมุน', 'all three phases in the right sequence; the motor runs'), 'ok'];
+      return faultB ? [t('ไฟกลับมาปกติ F3 ต่อ 11–14 เอง แต่มอเตอร์ไม่หมุนเอง เพราะ KM1 13–14 เปิดอยู่ ต้องกด S2 ใหม่ (IEC 60204-1 ข้อ 7.5)', 'the supply is healthy again and F3 closes 11–14 by itself, but the motor does not restart, because KM1 13–14 is open; S2 must be pressed again (IEC 60204-1, 7.5)'), 'ok']
+        : [t('ไฟปกติ: กด S2 เพื่อเริ่ม', 'healthy supply: press S2 to start'), '']; }
+    if (st.bypass) return st.km ? [`${t('ไม่มี F3', 'without F3')}: ${st.text}`, 'bad'] : [t('ไม่มี F3: ไม่มีอะไรห้ามการเริ่มเดิน ลองกด S2', 'without F3 nothing prevents a start; try pressing S2'), 'warn'];
+    if (st.f3) return [t('F3 กำลังนับเวลาหน่วง 11–14 ยังต่ออยู่', 'F3 is counting its delay; 11–14 is still closed'), 'warn'];
+    if (runAtB) return [st.swap ? t('ลำดับเฟสเปลี่ยนขณะหมุน: F3 เปิด 11–14 หลังเวลาหน่วง KM1 หลุด มอเตอร์หยุด', 'the sequence changed while running: F3 opens 11–14 after its delay, KM1 drops out and the motor stops') :
+      t('เฟสขาดขณะหมุน: F3 เปิด 11–14 หลังเวลาหน่วงราว 1 s KM1 หลุด มอเตอร์หยุดก่อนร้อนเกิน', 'a phase was lost while running: F3 opens 11–14 after about 1 s, KM1 drops out and the motor stops before it overheats'), 'ok'];
+    return [st.swap ? t('ลำดับเฟสผิด: F3 เปิด 11–14 กด S2 แล้วเริ่มไม่ได้', 'wrong sequence: F3 has opened 11–14, so S2 cannot start the motor') : t('เฟสขาด: F3 เปิด 11–14 กด S2 แล้วเริ่มไม่ได้', 'a phase is lost: F3 has opened 11–14, so S2 cannot start the motor'), 'ok']; };
+  const f3Txt = (st, w) => (st.bypass ? t('ต่อข้าม', 'bypassed') : st.f3 ? (w.cnt > 0 ? t('ต่อ (กำลังนับเวลา)', 'closed (timing)') : t('ต่อ', 'closed')) : t('เปิด', 'open'));
+  const onB = st => { const key = condKey(st);
+    if (key !== condB) { runAtB = wB ? wB.sim.running() : false; condB = key; }
+    const n = ['L1', 'L2', 'L3'].filter(k => !st.lost[k]).length; if (n < 3 || st.swap) faultB = true;
+    const m = meanB(st, wB); logB.add(key, [condTxt(st), f3Txt(st, wB), motorTxt(st, wB), m[0]], m[1]);
+    if (n === 3 && !st.swap && st.km) faultB = false; };
+  let wB = null;
+  wB = new C5.Phase($('phB'), { panel: $('pB'), id: 'phb', readings: false, max: 640, onChange: st => onB(st) });
+  { const pc = $('phB').querySelector('.c5pc'); if (pc) { pc.classList.add('rlscroll'); pc.style.setProperty('--rlmin', '520px'); } }   // the control circuit keeps a legible size on phones and scrolls sideways
+  ui.html($('pB'), t('เวลาหน่วงของ F3 ในหน้านี้ 1 s เป็นค่าตัวอย่าง มิเตอร์ P1 และ P2 วาดเป็นสัญลักษณ์เท่านั้น', 'F3\'s delay of 1 s on this page is an example value; meters P1 and P2 are drawn as symbols only.'), 'hint');
+  LS.anim($('phB'), dt => wB.step(dt));
+  /* summary: the same cases on hidden widgets */
+  const runW = (w, s) => { for (let x = 0; x < s - 1e-9; x += 0.05) w.step(0.05); };
+  const startW = w => { w.sim.press('S2', true); w.sim.press('S2', false); runW(w, 1.5); };
+  const newW = () => { const w = new C5.Phase(document.createElement('div'), { readings: false }); runW(w, 0.2); return w; };
+  const CASES = [
+    { name: ['ไฟปกติ กด S2', 'healthy supply, press S2'], go: w => startW(w), why: ['F3 ต่อ 11–14 อยู่ มอเตอร์เริ่มเดินตามปกติ', 'F3 keeps 11–14 closed and the motor starts normally'], k: 'ok' },
+    { name: ['L2 ขาดขณะมอเตอร์หมุน', 'L2 lost while running'], go: w => { startW(w); w.set({ lost: { L2: true } }); runW(w, 1.3); }, why: ['F3 เปิด 11–14 หลังเวลาหน่วง KM1 หลุด มอเตอร์หยุดก่อนร้อนเกิน', 'F3 opens 11–14 after its delay; KM1 drops out and the motor stops before it overheats'], k: 'ok' },
+    { name: ['L2 กลับมา', 'L2 back'], go: w => { startW(w); w.set({ lost: { L2: true } }); runW(w, 1.3); w.set({ lost: { L2: false } }); runW(w, 1.3); }, why: ['F3 ต่อ 11–14 เอง แต่มอเตอร์ไม่หมุนเอง เพราะ KM1 13–14 เปิดอยู่ ต้องกด S2 ใหม่', 'F3 closes 11–14 by itself, but the motor stays off because KM1 13–14 is open; S2 must be pressed again'], k: 'ok' },
+    { name: ['L1 ขาดขณะมอเตอร์หมุน', 'L1 lost while running'], go: w => { startW(w); w.set({ lost: { L1: true } }); runW(w, 1.3); }, why: ['วงจรควบคุมรับไฟจาก L1 จึงดับทั้งวงจร KM1 หลุดทันที แม้ไม่มี F3', 'the control circuit is fed from L1, so all of it is dead and KM1 drops out at once, even without F3'], k: 'ok' },
+    { name: ['สลับ L1 ↔ L3 แล้วกด S2', 'L1 ↔ L3 swapped, then press S2'], go: w => { w.set({ swap: true }); runW(w, 1.3); startW(w); }, why: ['F3 เปิด 11–14 ไม่ยอมให้เริ่มเดิน มอเตอร์จึงไม่หมุนกลับทาง', 'F3 has opened 11–14 and does not allow a start, so the motor never turns backwards'], k: 'ok' },
+    { name: ['ไม่มี F3 · L3 ขาดขณะหมุน', 'without F3 · L3 lost while running'], go: w => { w.set({ bypass: true }); startW(w); w.set({ lost: { L3: true } }); runW(w, 1.5); }, why: () => { const x = C4.fmtT(C4.tripTime('10', 1.73)); return [`เดินสองเฟสต่อ กระแสราว 1.7 เท่า เหลือแค่ F2 ซึ่งคลาส 10 ตัดในราว ${x}`, `keeps running on two phases at about 1.7 times the current; only F2 is left, and a class 10 relay trips in about ${x}`]; }, k: 'bad' },
+    { name: ['ไม่มี F3 · สลับ L1 ↔ L3 แล้วกด S2', 'without F3 · L1 ↔ L3 swapped, press S2'], go: w => { w.set({ bypass: true, swap: true }); startW(w); }, why: ['มอเตอร์หมุนกลับทาง ปั๊มหรือสายพานอาจเสียหาย ไม่มีอะไรตรวจลำดับเฟส', 'the motor turns backwards and a pump or conveyor may be damaged; nothing checks the sequence'], k: 'bad' }];
+  ED.summary($('sumB'), { head: [['กรณี', 'case'], ['F3 11–14', 'F3 11–14'], ['มอเตอร์', 'motor'], ['สิ่งที่เกิด', 'what happens']],
+    rows: () => CASES.map(c => { const w = newW(); c.go(w); const st = w.state();
+      return [tt(c.name), f3Txt(st, w), motorTxt(st, w), `<span class="rk-${c.k}">${tt(typeof c.why === 'function' ? c.why() : c.why)}</span>`]; }),
+    points: [['F3 ป้องกันการขาดของ L2 และ L3 และลำดับเฟสผิด ส่วนการขาดของ L1 ทำให้วงจรควบคุมดับเองอยู่แล้ว', 'F3 protects against losing L2 or L3 and against a wrong sequence; losing L1 kills the control circuit by itself.'],
+      ['F3 ต่อกลับเองเมื่อไฟปกติ สิ่งที่ไม่ให้มอเตอร์หมุนเองคือหน้าสัมผัสค้าง KM1 13–14 (IEC 60204-1 ข้อ 7.5)', 'F3 closes again by itself when the supply is healthy; what keeps the motor from restarting is holding contact KM1 13–14 (IEC 60204-1, 7.5).'],
+      ['ถ้าไม่มี F3 มอเตอร์ที่เสียเฟสไปหนึ่งเฟสจะเดินสองเฟสต่อไป และเหลือแค่ F2 ที่ตัดช้า (หลายนาทีที่ราว 1.7 เท่า) ส่วนลำดับเฟสผิดไม่มีอะไรตรวจได้เลย (IEC 60204-1 ข้อ 7.8)', 'Without F3, a motor that loses a phase keeps running on two phases with only F2 to trip it, slowly (minutes at about 1.7 times the current), and a wrong sequence is not detected at all (IEC 60204-1, 7.8).'],
+      ['11–14 ต่ออยู่ขณะไฟปกติ (หลักวงจรปิด) สายหลุดหรือรีเลย์เสียจึงหยุดมอเตอร์เช่นกัน', '11–14 is closed while the supply is healthy (closed-circuit principle), so a loose wire or a failed relay also stops the motor.']] });
+
+  /* worked example 1: the complete DOL circuit; the stepper starts, trips and resets it to show each lamp */
+  const simE = new RL.Sim($('simE'), C5.DOL5(), { label: 'DOL circuit with run, overload and stopped lamps' }); fit(simE, $('boxE'), 1.15);
+  const restE = () => { if (!simE.dev.Q1.on) simE.toggle('Q1'); if (simE.dev.F1.blown) simE.toggle('F1'); if (simE.dev.F2.tripped) simE.toggle('F2'); simE.press('S2', false); if (simE.dev.KM1.energized) { simE.press('S1', true); simE.press('S1', false); } };
+  const goE = k => { restE(); if (k === 1) { simE.press('S2', true); simE.press('S2', false); } if (k === 2 || k === 3) { simE.press('S2', true); simE.press('S2', false); simE.toggle('F2'); } if (k === 3) simE.toggle('F2'); };
+  LS.choose($('ask1'), { labels: ['①', '②', '③'], options: [t('H1 แดงผ่าน KM1 13–14 · H2 เหลืองผ่าน F2 95–96 · H3 เขียวผ่าน KM1 21–22', 'H1 red through KM1 13–14 · H2 yellow through F2 95–96 · H3 green through KM1 21–22'),
+    t('H1 เขียวผ่าน KM1 53–54 · H2 เหลืองผ่าน F2 97–98 รับไฟก่อน 95–96 · H3 ขาวผ่าน KM1 21–22', 'H1 green through KM1 53–54 · H2 yellow through F2 97–98 fed ahead of 95–96 · H3 white through KM1 21–22'),
+    t('H1 เขียวคร่อมคอยล์ · H2 แดงผ่าน F2 97–98 รับไฟหลัง 95–96 · H3 ขาวผ่าน KM1 53–54', 'H1 green across the coil · H2 red through F2 97–98 fed after 95–96 · H3 white through KM1 53–54')], answer: 1 });
+  LS.stepper($('st1'), { steps: [
+    { why: t('(ก) มอเตอร์หมุน: สีเขียว ผ่าน KM1 53–54', '(a) Motor running: green, through KM1 53–54'),
+      body: `<p>${t('IEC 60204-1 ตาราง 4 ให้สีเขียวหมายถึงสภาพปกติ หลอดเดิน H1 จึงเป็นสีเขียว (GN) ต่อผ่านหน้าสัมผัสปกติเปิด KM1 53–54 ของชุดเสริมด้านหน้า เพราะหลอดต้องบอกว่าคอนแทกเตอร์ต่อจริง ไม่ใช่แค่ว่าคอยล์มีไฟ (หัวข้อ A ขั้นที่ 3) ไม่ใช้ 13–14 เพราะ 13–14 ทำหน้าที่ค้างตัวเองอยู่แล้ว วงจรด้านบนกด S2 ให้แล้ว: H1 ติด H3 ดับ', 'IEC 60204-1 Table 4 makes green the normal condition, so run lamp H1 is green (GN). It goes through NO contact KM1 53–54 on the front-mounted block, because the lamp must show that the contactor has really closed, not just that the coil has voltage (section A, step 3). 13–14 is not used, because it already does the holding. S2 has been pressed in the circuit above: H1 is lit and H3 is out.')}</p>` },
+    { why: t('(ข) โอเวอร์โหลดตัด: สีเหลือง ผ่าน F2 97–98 รับไฟก่อน 95–96', '(b) Overload tripped: yellow, through F2 97–98 fed ahead of 95–96'),
+      body: `<p>${t('โอเวอร์โหลดตัดเป็นสภาพผิดปกติ จึงใช้สีเหลือง (YE) หลอด H2 ต่อผ่านหน้าสัมผัสปกติเปิด F2 97–98 ที่ต่อเมื่อ F2 ตัด และต้องรับไฟจาก F1 ขั้ว 2 ซึ่งอยู่ก่อน 95–96 ถ้ารับไฟหลัง 95–96 หลอดจะไม่มีวันติด เพราะ 95–96 เปิดพร้อมกับที่ 97–98 ต่อ วงจรด้านบนทำให้ F2 ตัดแล้ว: มอเตอร์หยุด H2 ติด', 'An overload trip is an abnormal condition, so the lamp is yellow (YE). H2 goes through NO contact F2 97–98, which closes when F2 trips, and must be fed from F1 terminal 2, ahead of 95–96. Fed after 95–96 it could never light, because 95–96 opens at the same moment as 97–98 closes. F2 has been tripped in the circuit above: the motor stops and H2 lights.')}</p>` },
+    { why: t('(ค) มอเตอร์หยุด: สีขาว ผ่าน KM1 21–22', '(c) Motor stopped: white, through KM1 21–22'),
+      body: `<p>${t('มอเตอร์หยุดไม่ใช่ทั้งสภาพปกติที่ต้องเน้นหรือสภาพผิดปกติ จึงใช้สีขาว (WH) ซึ่งเป็นสีกลาง ๆ หลอด H3 ต่อผ่านหน้าสัมผัสปกติปิดในตัว KM1 21–22 จึงติดทุกครั้งที่ KM1 ปล่อย ตอนที่ F2 ตัดเมื่อครู่ H3 ก็ติดคู่กับ H2 วงจรด้านบนรีเซ็ต F2 แล้ว: H2 ดับ เหลือ H3 ติดดวงเดียว ถ้าต้องการหลอด "พร้อมเริ่ม" ที่ดับเมื่อโอเวอร์โหลดตัด ให้ป้อนไฟ H3 จากจุดหลัง 95–96', 'A stopped motor is neither a normal state to highlight nor an abnormal one, so the lamp is white (WH), the neutral colour. H3 goes through KM1\'s built-in NC contact 21–22, so it lights whenever KM1 is out; while F2 was tripped a moment ago, H3 was lit together with H2. F2 has been reset in the circuit above: H2 is out and only H3 is lit. For a "ready" lamp that goes out on an overload trip, feed H3 from a point after 95–96.')}</p>` },
+    { why: t('(ง) สีปุ่ม: เริ่มขาว หยุดดำ รีเซ็ตน้ำเงิน', '(d) Button colours: start white, stop black, reset blue'),
+      body: `<p>${t('IEC 60204-1 ข้อ 10.2.1: ปุ่มเริ่ม S2 สีขาว (สีเขียวก็ได้ ห้ามสีแดง) ปุ่มหยุด S1 สีดำ (สีแดงก็ได้ ห้ามสีเขียว) ปุ่มรีเซ็ตของ F2 สีน้ำเงิน สีแดงของหลอดสงวนไว้สำหรับเหตุฉุกเฉินหรืออันตราย จึงไม่ใช้กับหลอดเดินหรือหลอดหยุด รหัสสี GN, YE, WH ข้างหลอดในวงจรมาจาก IEC 60757', 'IEC 60204-1, 10.2.1: start button S2 white (green allowed, never red), stop button S1 black (red allowed, never green), the reset button of F2 blue. A red lamp is kept for an emergency or danger, so it is used neither for the run lamp nor for the stopped lamp. The colour codes GN, YE and WH next to the lamps come from IEC 60757.')}</p>` }],
+    answer: t('(ก) H1 เขียว ผ่าน KM1 53–54 (ข) H2 เหลือง ผ่าน F2 97–98 รับไฟจาก F1 ขั้ว 2 ก่อน 95–96 (ค) H3 ขาว ผ่าน KM1 21–22 (ง) เริ่มขาว หยุดดำ รีเซ็ตน้ำเงิน', '(a) H1 green through KM1 53–54; (b) H2 yellow through F2 97–98, fed from F1 terminal 2 ahead of 95–96; (c) H3 white through KM1 21–22; (d) start white, stop black, reset blue'),
+    onStep: k => goE(k) });
+
+  /* C: practice */
+  ED.mcq('mcq', [
+    { q: t('1) ไฟล์ใบงานแผ่นที่ 6 มี F2 อยู่ในวงจรกำลังอย่างเดียว ถ้า F2 ตัดขณะมอเตอร์หมุนจะเกิดอะไรขึ้น', '1) Sheet 6 of the lab file has F2 in the power circuit only. What happens if F2 trips while the motor runs?'), options: [t('มอเตอร์หยุดทันที', 'the motor stops at once'), t('ฟิวส์ F1 ขาด', 'fuse F1 blows'), t('มอเตอร์หมุนต่อ เพราะไม่มีหน้าสัมผัสของ F2 ในวงจรควบคุม', 'the motor keeps running, because no F2 contact is in the control circuit'), t('Q1 ตัด', 'Q1 trips')], answer: 2, why: t('ส่วนให้ความร้อนรับรู้ได้ แต่ต้องมี 95–96 ในทางเดินกระแสของคอยล์จึงสั่ง KM1 ได้', 'the heaters sense the overload, but 95–96 must be in the coil path to act on KM1') },
+    { q: t('2) หน้าสัมผัสใดของ F2 ต่ออนุกรมในทางเดินกระแสของคอยล์ KM1', '2) Which F2 contact goes in series in the current path of coil KM1?'), options: [t('97–98', '97–98'), t('95–96', '95–96'), t('13–14', '13–14'), t('A1–A2', 'A1–A2')], answer: 1, why: t('95–96 ปกติปิด เปิดเมื่อโหลดเกิน', '95–96 is NC and opens on overload') },
+    { q: t('3) หลอดโอเวอร์โหลด H2 ผ่าน F2 97–98 ต้องรับไฟจากจุดไหน', '3) Overload lamp H2 through F2 97–98 must be fed from where?'), options: [t('จากจุดหลัง 95–96', 'from a point after 95–96'), t('จากขั้ว A1 ของคอยล์', 'from coil terminal A1'), t('จาก N', 'from N'), t('จาก F1 ขั้ว 2 ก่อน 95–96', 'from F1 terminal 2, ahead of 95–96')], answer: 3, why: t('ถ้ารับไฟหลัง 95–96 ไฟของหลอดจะหายไปพร้อมกับที่ F2 ตัด', 'fed after 95–96, the lamp loses its supply at the very moment F2 trips') },
+    { q: t('4) หลอดที่บอกว่ามอเตอร์หมุนควรเป็นสีใดตาม IEC 60204-1', '4) After IEC 60204-1, what colour should the "motor running" lamp be?'), options: [t('เขียว', 'green'), t('แดง', 'red'), t('น้ำเงิน', 'blue'), t('เหลือง', 'yellow')], answer: 0, why: t('เขียว = สภาพปกติ แดงสงวนไว้สำหรับเหตุฉุกเฉิน', 'green = normal; red is kept for emergencies') },
+    { q: t('5) ทำไมแบบของวิชาต่อหลอดเดิน H1 ผ่าน KM1 53–54 แทนการต่อคร่อมคอยล์', '5) Why does the course drawing wire run lamp H1 through KM1 53–54 rather than across the coil?'), options: [t('เพื่อให้หลอดได้แรงดันสูงขึ้น', 'to give the lamp a higher voltage'), t('เพื่อให้หลอดบอกว่าคอนแทกเตอร์ต่อจริง ไม่ใช่แค่คอยล์มีไฟ', 'so that the lamp shows the contactor has really closed, not just that the coil has voltage'), t('เพราะคอยล์ต่อหลอดคร่อมไม่ได้', 'because a lamp cannot be connected across a coil'), t('เพื่อประหยัดสาย', 'to save wire')], answer: 1 },
+    { q: t('6) รีเลย์ป้องกันเฟส F3 ต่อ 11–14 กลับเองเมื่อไฟกลับมาปกติ อะไรทำให้มอเตอร์ไม่หมุนเอง', '6) Phase-failure relay F3 closes 11–14 by itself when the supply is healthy again. What keeps the motor from restarting by itself?'), options: [t('F2 95–96', 'F2 95–96'), t('ฟิวส์ F1', 'fuse F1'), t('หลอด H3', 'lamp H3'), t('หน้าสัมผัสค้าง KM1 13–14 ที่เปิดไปตอน KM1 หลุด', 'holding contact KM1 13–14, which opened when KM1 dropped out')], answer: 3, why: t('วงจร 3 สายลืมคำสั่งเดินเมื่อ KM1 หลุด (IEC 60204-1 ข้อ 7.5)', 'three-wire control forgets the run command when KM1 drops out (IEC 60204-1, 7.5)') }]);
+});
+</script>
+</body>
+</html>
