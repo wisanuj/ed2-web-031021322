@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=11"><link rel="stylesheet" href="assets/ed2.css?v=11">
-<script src="assets/stops.js?v=11"></script><script src="assets/shell.js?v=11"></script>
-<script src="assets/lesson.js?v=11"></script><script src="assets/draw.js?v=11"></script><script src="assets/ed.js?v=11"></script><script src="assets/sym.js?v=11"></script><script src="assets/iec.js?v=11"></script><script src="assets/relay.js?v=11"></script><script src="assets/ch2.js?v=11"></script><script src="assets/ch3.js?v=11"></script><script src="assets/devdata.js?v=11"></script><script src="assets/dev.js?v=11"></script>
+<link rel="stylesheet" href="assets/ee.css?v=12"><link rel="stylesheet" href="assets/ed2.css?v=12">
+<script src="assets/stops.js?v=12"></script><script src="assets/shell.js?v=12"></script>
+<script src="assets/lesson.js?v=12"></script><script src="assets/draw.js?v=12"></script><script src="assets/ed.js?v=12"></script><script src="assets/sym.js?v=12"></script><script src="assets/iec.js?v=12"></script><script src="assets/relay.js?v=12"></script><script src="assets/panel.js?v=12"></script><script src="assets/ch2.js?v=12"></script><script src="assets/ch3.js?v=12"></script><script src="assets/devdata.js?v=12"></script><script src="assets/dev.js?v=12"></script>
 </head>
 <body>
 <div class="wrap">
@@ -62,8 +62,8 @@
 <section class="prob" id="tA">
   <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">กดปุ่มช้า ๆ: หน้าสัมผัสไหนเปลี่ยนก่อน</h2><h2 data-l="en">Press slowly: which contact changes first?</h2>
     <div class="src" data-l="th">IEC 60947-5-1 (ชุดหน้าสัมผัส) · EMC9 หน่วยที่ 6 รูป 6-2</div><div class="src" data-l="en">IEC 60947-5-1 (contact elements) · EMC9 unit 6, Fig. 6-2</div></div></div>
-  <p class="lead" data-l="th">กดค้างที่ภาพปุ่ม (หรือปุ่มในแผงด้านล่าง) แล้วดูสะพานหน้าสัมผัสทั้งสองชุดขยับลง เปิด "แสดงช้า" เพื่อให้เห็นช่วงสีเหลืองในกราฟ ซึ่งหน้าสัมผัสทั้งสองเปิดอยู่พร้อมกัน ภาพกลางคือปุ่มเดียวกันในแบบ IEC ต่อหลอด H1 ผ่าน 11–12 และ H2 ผ่าน 23–24 แล้วลองเปลี่ยนเป็นปุ่มหยุดฉุกเฉิน: กดแล้วค้างจนกว่าจะหมุนปลด</p>
-  <p class="lead" data-l="en">Press and hold the button in the picture (or the one in the panel below) and watch both contact bridges move down. Turn on "Slow motion" to see the yellow band in the diagram, where both contacts are open together. The middle picture is the same button in an IEC drawing, lighting H1 through 11–12 and H2 through 23–24. Then switch to the emergency stop: it stays pressed until you turn it to release.</p>
+  <p class="lead" data-l="th">กดค้างที่ภาพปุ่ม (หรือที่ปุ่มบนประตูตู้ด้านล่าง ซึ่งเป็นปุ่มเดียวกันเมื่อมองจากด้านหน้า) แล้วดูสะพานหน้าสัมผัสทั้งสองชุดขยับลง เปิด "แสดงช้า" เพื่อให้เห็นช่วงสีเหลืองในกราฟ ซึ่งหน้าสัมผัสทั้งสองเปิดอยู่พร้อมกัน ภาพกลางคือปุ่มเดียวกันในแบบ IEC ต่อหลอด H1 ผ่าน 11–12 และ H2 ผ่าน 23–24 แล้วลองเปลี่ยนเป็นปุ่มหยุดฉุกเฉิน: กดแล้วค้างจนกว่าจะหมุนปลด</p>
+  <p class="lead" data-l="en">Press and hold the button in the picture (or the one on the panel door below, which is the same button seen from the front) and watch both contact bridges move down. Turn on "Slow motion" to see the yellow band in the diagram, where both contacts are open together. The middle picture is the same button in an IEC drawing, lighting H1 through 11–12 and H2 through 23–24. Then switch to the emergency stop: it stays pressed until you turn it to release.</p>
   <div class="card sim" style="padding:10px"><div id="pb"></div></div>
   <div class="card solve" style="margin-top:12px"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
 </section>
@@ -129,15 +129,26 @@ document.addEventListener('mc:ready', () => {
     b.addEventListener('click', () => { pb.cap = k; capRow.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); pb.draw(); showCap(); }); capRow.appendChild(b); });
   const capNote = ui.html(pA, '', 'hint');
   const showCap = () => { capNote.innerHTML = pb.variant === 'std' ? ED.tt(C3.CAPS[pb.cap][1]) : t('แดงบนพื้นเหลือง: สงวนไว้ให้ปุ่มหยุดฉุกเฉินเท่านั้น', 'red on yellow: for the emergency stop only'); };
-  ui.h2(pA, t('สั่งงาน', 'Control')); const row = document.createElement('div'); row.className = 'toggles'; pA.appendChild(row);
-  const hb = document.createElement('button'); hb.type = 'button'; hb.className = 'btn on'; hb.textContent = t('กดค้าง', 'Hold to press'); row.appendChild(hb);
-  hb.addEventListener('pointerdown', e => { e.preventDefault(); pb.down = true; if (pb.variant === 'estop') pb.latched = true; }); ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => hb.addEventListener(ev, () => { pb.down = false; }));
+  ui.h2(pA, t('สั่งงาน', 'Control'));
+  /* the same button seen from the front on a panel door, with its two lamps. PN.Door reads a relay simulator; this small adapter
+     hands it the cut-away button instead, so the cap sinks and the lamps follow the contacts as the travel goes (break before make,
+     slow motion included). The emergency stop latches on the door too: tap the mushroom again (or "Turn to release") to let it out. */
+  const fan = [], es = () => pb.variant === 'estop', t2 = () => pb.states().t2.join('–');
+  const front = { on: f => fan.push(f), running: () => false, toggle() {}, setPos() {},
+    spec: { get els() { return es() ? [{ k: 'NC', d: 'S1', op: 'mush' }, { k: 'NC', d: 'S1', op: 'mush' }] : [{ k: 'NC', d: 'S1', op: 'pb' }, { k: 'NO', d: 'S1', op: 'pb' }]; } },
+    dev: { S1: { type: 'pb', legend: '', get pressed() { return pb.held; }, get cap() { return pb.cap; }, get name() { return es() ? ['S1 หยุดฉุกเฉิน', 'S1 emergency stop'] : ['S1 NC + NO', 'S1 NC + NO']; } },
+      H1: { type: 'lamp', color: '#ff6b6b', code: 'RD', get energized() { return pb.states().c1; }, name: ['H1 ผ่าน 11–12', 'H1 via 11–12'] },
+      H2: { type: 'lamp', get color() { return es() ? '#ff6b6b' : '#7ee787'; }, get code() { return es() ? 'RD' : 'GN'; }, get energized() { return pb.states().c2; }, get name() { return [`H2 ผ่าน ${t2()}`, `H2 via ${t2()}`]; } } },
+    press(id, v) { if (es()) { if (v) pb.latched = true; else pb.release(); } else pb.down = v; fan.forEach(f => f(front)); } };
+  PN.door(pA, front, { title: ['ด้านหน้าบนประตูตู้ (กดค้างได้)', 'Front view on the panel door (hold)'] });
+  let sig = ''; const sync = () => { const s = pb.states(), k = [pb.held, pb.variant, pb.cap, s.c1, s.c2].join(); if (k !== sig) { sig = k; fan.forEach(f => f(front)); } };
+  const row = document.createElement('div'); row.className = 'toggles'; pA.appendChild(row);
   const sl = document.createElement('button'); sl.type = 'button'; sl.className = 'btn'; sl.textContent = t('แสดงช้า', 'Slow motion'); sl.addEventListener('click', () => { pb.slow = !pb.slow; sl.classList.toggle('on', pb.slow); }); row.appendChild(sl);
   const rel = document.createElement('button'); rel.type = 'button'; rel.className = 'btn'; rel.textContent = t('หมุนปลด', 'Turn to release'); rel.style.display = 'none'; rel.addEventListener('click', () => pb.release()); row.appendChild(rel);
   const stA = ui.status(pA), show = () => { const s = pb.states(), es = pb.variant === 'estop';
     ui.setStatus(stA, es ? (pb.latched ? t('ค้าง', 'latched') : t('ปกติ', 'released')) : t(`ระยะกด ${Math.round(pb.t * 100)} %`, `travel ${Math.round(pb.t * 100)} %`),
       `11–12 ${s.c1 ? t('ต่อ', 'closed') : t('เปิด', 'open')} · ${s.t2.join('–')} ${s.c2 ? t('ต่อ', 'closed') : t('เปิด', 'open')}` + (!s.c1 && !s.c2 && !es ? t(' · ทั้งสองเปิดอยู่พร้อมกัน', ' · both open together') : ''), !s.c1 && !s.c2 ? 'warn' : 'ok'); };
-  showCap(); show(); LS.anim($('pb'), dt => { pb.step(dt); show(); });
+  showCap(); show(); LS.anim($('tA'), dt => { pb.step(dt); show(); sync(); });   // the whole section, so a door far below the cut-away (phone) still moves it
   /* worked example */
   LS.choose($('ask1'), { options: [t('ไม่กด: H1 ติด · กด: H2 ติด', 'released: H1 lit · pressed: H2 lit'), t('ไม่กด: H2 ติด · กด: H1 ติด', 'released: H2 lit · pressed: H1 lit'), t('ติดทั้งคู่ตลอด', 'both always lit')], answer: 0 });
   LS.stepper($('st1'), { steps: [

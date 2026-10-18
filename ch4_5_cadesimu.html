@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=11"><link rel="stylesheet" href="assets/ed2.css?v=11">
-<script src="assets/stops.js?v=11"></script><script src="assets/shell.js?v=11"></script>
-<script src="assets/lesson.js?v=11"></script><script src="assets/draw.js?v=11"></script><script src="assets/ed.js?v=11"></script><script src="assets/sym.js?v=11"></script><script src="assets/iec.js?v=11"></script><script src="assets/relay.js?v=11"></script><script src="assets/ch2.js?v=11"></script><script src="assets/ch3.js?v=11"></script><script src="assets/ch4.js?v=11"></script><script src="assets/devdata.js?v=11"></script><script src="assets/dev.js?v=11"></script>
+<link rel="stylesheet" href="assets/ee.css?v=12"><link rel="stylesheet" href="assets/ed2.css?v=12">
+<script src="assets/stops.js?v=12"></script><script src="assets/shell.js?v=12"></script>
+<script src="assets/lesson.js?v=12"></script><script src="assets/draw.js?v=12"></script><script src="assets/ed.js?v=12"></script><script src="assets/sym.js?v=12"></script><script src="assets/iec.js?v=12"></script><script src="assets/relay.js?v=12"></script><script src="assets/panel.js?v=12"></script><script src="assets/ch2.js?v=12"></script><script src="assets/ch3.js?v=12"></script><script src="assets/ch4.js?v=12"></script><script src="assets/devdata.js?v=12"></script><script src="assets/dev.js?v=12"></script>
 </head>
 <body>
 <div class="wrap">
@@ -78,8 +78,9 @@ document.addEventListener('mc:ready', () => {
   $('howto').innerHTML = `<tr><th>${t('อุปกรณ์', 'item')}</th><th>${t('ทำใน CADe SIMU', 'in CADe SIMU')}</th></tr>` + HOWTO.map(r => `<tr><td><b>${t(r[0][0], r[0][1])}</b></td><td>${t(r[1][0], r[1][1])}</td></tr>`).join('');
   /* timed versus instantaneous contact */
   const sim = new RL.Sim($('simN'), C4.INSTANT(3), { max: 460 }), pN = $('pN');
-  ui.h2(pN, t('สั่งงาน', 'Control')); const row = document.createElement('div'); row.className = 'toggles'; pN.appendChild(row);
-  const b = document.createElement('button'); b.type = 'button'; b.className = 'btn on'; b.textContent = t('S1 เปิด / ปิด', 'S1 on / off'); b.addEventListener('click', () => sim.toggle('S1')); row.appendChild(b);
+  ui.h2(pN, t('สั่งงาน', 'Control'));
+  /* panel door: switch S1 and the lamps of the timed contact (H1) and the plain contact (H2) */
+  PN.door(pN, sim, { title: ['ประตูตู้ควบคุม (แตะ 0 หรือ I ที่ S1)', 'Panel door (tap 0 or I on S1)'], names: { S1: ['S1 สวิตช์', 'S1 switch'], H1: ['H1 ผ่าน 15–18', 'H1 via 15–18'], H2: ['H2 ผ่าน 13–14', 'H2 via 13–14'] } });
   const st = ui.status(pN);
   LS.anim($('simN'), dt => { sim.step(dt); const k = sim.dev.KT1, left = k.energized && k.tOn < k.T ? k.T - k.tOn : 0;
     ui.setStatus(st, `H1 ${sim.dev.H1.energized ? t('ติด', 'lit') : t('ดับ', 'off')} · H2 ${sim.dev.H2.energized ? t('ติด', 'lit') : t('ดับ', 'off')}`, left ? t(`KT1 นับเวลา เหลือ ${left.toFixed(1)} s`, `KT1 timing, ${left.toFixed(1)} s left`) : (k.energized ? t('ครบเวลาแล้ว', 'time is up') : t('เปิด S1 เพื่อเริ่ม', 'switch S1 on to start')), left ? '' : k.energized ? 'ok' : 'wait'); });

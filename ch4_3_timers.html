@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=11"><link rel="stylesheet" href="assets/ed2.css?v=11">
-<script src="assets/stops.js?v=11"></script><script src="assets/shell.js?v=11"></script>
-<script src="assets/lesson.js?v=11"></script><script src="assets/draw.js?v=11"></script><script src="assets/ed.js?v=11"></script><script src="assets/sym.js?v=11"></script><script src="assets/iec.js?v=11"></script><script src="assets/relay.js?v=11"></script><script src="assets/ch2.js?v=11"></script><script src="assets/ch3.js?v=11"></script><script src="assets/ch4.js?v=11"></script><script src="assets/devdata.js?v=11"></script><script src="assets/dev.js?v=11"></script>
+<link rel="stylesheet" href="assets/ee.css?v=12"><link rel="stylesheet" href="assets/ed2.css?v=12">
+<script src="assets/stops.js?v=12"></script><script src="assets/shell.js?v=12"></script>
+<script src="assets/lesson.js?v=12"></script><script src="assets/draw.js?v=12"></script><script src="assets/ed.js?v=12"></script><script src="assets/sym.js?v=12"></script><script src="assets/iec.js?v=12"></script><script src="assets/relay.js?v=12"></script><script src="assets/panel.js?v=12"></script><script src="assets/ch2.js?v=12"></script><script src="assets/ch3.js?v=12"></script><script src="assets/ch4.js?v=12"></script><script src="assets/devdata.js?v=12"></script><script src="assets/dev.js?v=12"></script>
 </head>
 <body>
 <div class="wrap">
@@ -160,11 +160,12 @@ document.addEventListener('mc:ready', () => {
   const sOn = new RL.Sim($('simOn'), C4.ONDELAY(5), { max: 420 }), sOff = new RL.Sim($('simOff'), C4.OFFDELAY(5), { max: 420 }), pB = $('pB');
   const logB = new ED.Log($('logB'), [['วงจร', 'circuit'], ['เหตุการณ์', 'event'], ['เวลาที่วัดได้', 'measured time']]);
   let clk = 0, tOn = null, tOff = null, prevH1 = false, prevOff = false, prevS1 = sOn.dev.S1.on, prevP = false;
-  ui.h2(pB, t('สั่งงาน', 'Control')); const rowB = document.createElement('div'); rowB.className = 'toggles'; pB.appendChild(rowB);
-  const b1 = document.createElement('button'); b1.type = 'button'; b1.className = 'btn on'; b1.textContent = t('วงจร KT1: S1 เปิด / ปิด', 'KT1 circuit: S1 on / off'); rowB.appendChild(b1);
-  const b2 = document.createElement('button'); b2.type = 'button'; b2.className = 'btn on hold'; b2.textContent = t('วงจร KT2: กด S1', 'KT2 circuit: press S1'); rowB.appendChild(b2);
-  b1.addEventListener('click', () => sOn.toggle('S1'));
-  b2.addEventListener('pointerdown', e => { if (e.button) return; e.preventDefault(); sOff.press('S1', true); }); ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b2.addEventListener(ev, () => sOff.press('S1', false)));
+  ui.h2(pB, t('สั่งงาน', 'Control'));
+  /* one panel door per circuit, side by side like the drawings (they stack on a phone): switch S1 of KT1, push button S1 of KT2, and their lamps */
+  const doors = document.createElement('div'); doors.style.cssText = 'display:flex;flex-wrap:wrap;gap:0 12px'; pB.appendChild(doors);
+  const dOn = document.createElement('div'), dOff = document.createElement('div'); [dOn, dOff].forEach(d => { d.style.cssText = 'flex:1 1 300px;min-width:0'; doors.appendChild(d); });
+  PN.door(dOn, sOn, { title: ['วงจร KT1 (แตะ 0 หรือ I ที่ S1)', 'KT1 circuit (tap 0 or I on S1)'], names: { S1: ['S1 สวิตช์', 'S1 switch'], H1: ['H1 ผ่าน 15–18', 'H1 via 15–18'], H2: ['H2 ผ่าน 15–16', 'H2 via 15–16'] } });
+  PN.door(dOff, sOff, { title: ['วงจร KT2 (กด S1 แล้วปล่อย)', 'KT2 circuit (press S1, let go)'], names: { S1: ['S1 ปุ่มกด', 'S1 push button'], H1: ['H1 ผ่าน 15–18', 'H1 via 15–18'], H2: ['H2 ผ่าน 15–16', 'H2 via 15–16'] } });
   /* the measured times start at the edges of S1 itself (button or drawing), not at any click on the drawings */
   sOn.on(s => { if (s.dev.S1.on !== prevS1) { prevS1 = s.dev.S1.on; tOn = clk; } });
   sOff.on(s => { const p = s.dev.S1.pressed; if (prevP && !p) tOff = clk; prevP = p; });

@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=11"><link rel="stylesheet" href="assets/ed2.css?v=11">
-<script src="assets/stops.js?v=11"></script><script src="assets/shell.js?v=11"></script>
-<script src="assets/lesson.js?v=11"></script><script src="assets/draw.js?v=11"></script><script src="assets/ed.js?v=11"></script><script src="assets/sym.js?v=11"></script><script src="assets/iec.js?v=11"></script><script src="assets/relay.js?v=11"></script><script src="assets/ch2.js?v=11"></script><script src="assets/ch3.js?v=11"></script><script src="assets/ch4.js?v=11"></script><script src="assets/devdata.js?v=11"></script><script src="assets/dev.js?v=11"></script>
+<link rel="stylesheet" href="assets/ee.css?v=12"><link rel="stylesheet" href="assets/ed2.css?v=12">
+<script src="assets/stops.js?v=12"></script><script src="assets/shell.js?v=12"></script>
+<script src="assets/lesson.js?v=12"></script><script src="assets/draw.js?v=12"></script><script src="assets/ed.js?v=12"></script><script src="assets/sym.js?v=12"></script><script src="assets/iec.js?v=12"></script><script src="assets/relay.js?v=12"></script><script src="assets/panel.js?v=12"></script><script src="assets/ch2.js?v=12"></script><script src="assets/ch3.js?v=12"></script><script src="assets/ch4.js?v=12"></script><script src="assets/devdata.js?v=12"></script><script src="assets/dev.js?v=12"></script>
 </head>
 <body>
 <div class="wrap">
@@ -126,11 +126,13 @@ document.addEventListener('mc:ready', () => {
   const log = new ED.Log($('logA'), [['การกด', 'action'], ['KA1', 'KA1'], ['KM1', 'KM1'], ['KM2', 'KM2'], ['H1', 'H1']]);
   const on = v => v ? `<span class="rk-ok">${t('มีไฟ', 'on')}</span>` : t('ไม่มีไฟ', 'off');
   ui.h2(pA, t('สั่งงาน (กดค้าง)', 'Control (hold)'));
+  /* panel door: stop S1, start S2 and lamp H1; the text button below holds both buttons at once */
+  PN.door(pA, sim, { names: { S1: ['S1 หยุด', 'S1 stop'], S2: ['S2 เริ่ม', 'S2 start'], H1: ['H1 ทำงาน', 'H1 running'] } });
   const row = document.createElement('div'); row.className = 'toggles'; pA.appendChild(row);
   const hold = (ids, lab) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn hold'; b.textContent = lab;
     b.addEventListener('pointerdown', e => { if (e.button) return; e.preventDefault(); ids.forEach(id => sim.press(id, true)); });
     ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, () => [...ids].reverse().forEach(id => sim.press(id, false)))); row.appendChild(b); };
-  hold(['S2'], t('S2 เริ่ม', 'S2 start')); hold(['S1'], t('S1 หยุด', 'S1 stop')); hold(['S1', 'S2'], t('กด S2 กับ S1 พร้อมกัน', 'S2 and S1 together'));   // stop S1 pressed first, released last
+  hold(['S1', 'S2'], t('กด S2 กับ S1 พร้อมกัน', 'S2 and S1 together'));   // stop S1 pressed first, released last
   /* one log row per case, from the sim's own press/release edges (buttons and the drawing alike) */
   const prevP = { S1: false, S2: false };
   sim.on(s => { const d = s.dev; ['S1', 'S2'].forEach(id => { const p = d[id].pressed; if (p === prevP[id]) return; prevP[id] = p;

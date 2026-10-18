@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=11"><link rel="stylesheet" href="assets/ed2.css?v=11">
-<script src="assets/stops.js?v=11"></script><script src="assets/shell.js?v=11"></script>
-<script src="assets/lesson.js?v=11"></script><script src="assets/draw.js?v=11"></script><script src="assets/ed.js?v=11"></script><script src="assets/sym.js?v=11"></script><script src="assets/iec.js?v=11"></script><script src="assets/relay.js?v=11"></script><script src="assets/ch2.js?v=11"></script>
+<link rel="stylesheet" href="assets/ee.css?v=12"><link rel="stylesheet" href="assets/ed2.css?v=12">
+<script src="assets/stops.js?v=12"></script><script src="assets/shell.js?v=12"></script>
+<script src="assets/lesson.js?v=12"></script><script src="assets/draw.js?v=12"></script><script src="assets/ed.js?v=12"></script><script src="assets/sym.js?v=12"></script><script src="assets/iec.js?v=12"></script><script src="assets/relay.js?v=12"></script><script src="assets/panel.js?v=12"></script><script src="assets/ch2.js?v=12"></script>
 </head>
 <body>
 <div class="wrap">
@@ -61,8 +61,8 @@
 <section class="prob" id="tB">
   <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">วงจรกำลังและวงจรควบคุม: กดปุ่มได้</h2><h2 data-l="en">Power and control circuits: press the buttons</h2>
     <div class="src" data-l="th">ตำราไทย รูป 1.2 วาดใหม่ตาม IEC · Senty บทที่ 11 · UMC5 บทที่ 7, 21</div><div class="src" data-l="en">Thai textbook Fig. 1.2 redrawn to IEC · Senty ch. 11 · UMC5 ch. 7, 21</div></div></div>
-  <p class="lead" data-l="th">กดปุ่ม S2 (กดค้างแล้วปล่อย) ในภาพหรือในแผงควบคุม: คอยล์ KM1 มีไฟ หน้าสัมผัสหลักในวงจรกำลังต่อ มอเตอร์หมุน และหน้าสัมผัส 13–14 ค้างวงจรไว้หลังปล่อยปุ่ม เส้นประเคลื่อนที่คือทางที่กระแสไหล (สีแดงฝั่งแหล่งจ่าย สีฟ้าฝั่งนิวทรัล) ลองกด S1 หยุด และคลิกโอเวอร์โหลด F2 ให้ตัด ดูตัวเลขใต้วงจร: เลขทางเดินกระแส 1–4 และตารางอ้างอิงใต้คอยล์ KM1</p>
-  <p class="lead" data-l="en">Press S2 (hold, then release) in the picture or the panel: coil KM1 is energised, the main contacts close in the power circuit, the motor turns, and contact 13–14 holds the circuit after you let go. Moving dashes show where current flows (red on the supply side, blue on the neutral side). Press S1 to stop, and click overload F2 to trip it. Look under the circuit: current-path numbers 1–4 and the cross-reference under coil KM1.</p>
+  <p class="lead" data-l="th">กดปุ่ม S2 (กดค้างแล้วปล่อย) ในภาพหรือที่ปุ่มบนประตูตู้ควบคุมด้านล่าง: คอยล์ KM1 มีไฟ หน้าสัมผัสหลักในวงจรกำลังต่อ มอเตอร์หมุน และหน้าสัมผัส 13–14 ค้างวงจรไว้หลังปล่อยปุ่ม เส้นประเคลื่อนที่คือทางที่กระแสไหล (สีแดงฝั่งแหล่งจ่าย สีฟ้าฝั่งนิวทรัล) หลอดสัญญาณบนประตูตู้ติดตามวงจร: H1 สีเขียวเมื่อมอเตอร์เดิน H2 สีเหลืองอำพันเมื่อโอเวอร์โหลดตัด ลองกด S1 หยุด และคลิกโอเวอร์โหลด F2 ให้ตัด ดูตัวเลขใต้วงจร: เลขทางเดินกระแส 1–4 และตารางอ้างอิงใต้คอยล์ KM1</p>
+  <p class="lead" data-l="en">Press S2 (hold, then release) in the picture or on the panel door below it: coil KM1 is energised, the main contacts close in the power circuit, the motor turns, and contact 13–14 holds the circuit after you let go. Moving dashes show where current flows (red on the supply side, blue on the neutral side). The pilot lamps on the door follow the circuit: H1 glows green while the motor runs, H2 amber when the overload has tripped. Press S1 to stop, and click overload F2 to trip it. Look under the circuit: current-path numbers 1–4 and the cross-reference under coil KM1.</p>
   <div class="card sim rlwrap" id="simB" style="padding:8px"></div>
   <div class="card solve" style="margin-top:12px"><div class="panel" id="pB" style="position:static;max-height:none"></div></div>
 </section>
@@ -117,10 +117,8 @@ document.addEventListener('mc:ready', () => {
   /* power and control */
   let wn = false; const sim = new RL.Sim($('simB'), C2.DOL(), { max: 900 });
   const pB = $('pB'); ui.h2(pB, t('สั่งงาน (หรือคลิกที่อุปกรณ์ในภาพ)', 'Control (or click the devices in the picture)'));
-  const hold = (id, lab) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = lab;
-    b.addEventListener('pointerdown', e => { e.preventDefault(); sim.press(id, true); }); ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, () => sim.press(id, false))); return b; };
-  const row = document.createElement('div'); row.className = 'toggles'; pB.appendChild(row);
-  row.appendChild(hold('S2', t('S2 เริ่ม (กดค้าง)', 'S2 start (hold)'))); row.appendChild(hold('S1', t('S1 หยุด (กดค้าง)', 'S1 stop (hold)')));
+  /* panel door: S1 stop (black, O) and S2 start (white, I) as real push buttons, lamps H1 and H2 glow with the circuit */
+  PN.door(pB, sim, { names: { S1: ['S1 หยุด', 'S1 stop'], S2: ['S2 เริ่ม', 'S2 start'], H1: ['H1 มอเตอร์เดิน', 'H1 running'], H2: ['H2 โอเวอร์โหลด', 'H2 overload'] } });
   ui.buttons(pB, [{ label: t('F2 โอเวอร์โหลดตัด / รีเซ็ต', 'F2 overload trip / reset'), onclick: () => sim.toggle('F2') }, { label: t('Q1 เปิด / ปิดเบรกเกอร์', 'Q1 breaker on / off'), onclick: () => sim.toggle('Q1') },
     { label: t('แสดงเลขสาย', 'Show wire numbers'), onclick: el => { wn = !wn; el.classList.toggle('on', wn); sim.o.wireNos = wn; sim.render(); } }]);
   const st = ui.status(pB);

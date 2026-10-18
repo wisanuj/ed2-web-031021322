@@ -247,7 +247,10 @@ C5.panel = (el, sim, o = {}) => {
   const row = document.createElement('div'); row.className = 'toggles c5row'; el.appendChild(row);
   const name = id => tt((o.names && o.names[id]) || sim.dev[id].name || [id, id]), act = (id, a, before) => { if (o.onAct) o.onAct({ id, act: a, before, after: sim.running() }); show(); };
   const ids = Object.keys(sim.dev).filter(id => (!o.only || o.only.includes(id)) && !(o.skip || []).includes(id) && !sim.dev[id].noClick);
+  const door = global.PN && o.door !== false ? new PN.Door(el, sim, { only: o.only, skip: o.skip, names: o.names, lamps: o.lamps, title: o.doorTitle, onAct: a => { if (o.onAct) o.onAct(a); show(); } }) : null;
+  if (door) el.insertBefore(door.box, row);
   ids.forEach(id => { const d = sim.dev[id], b = document.createElement('button'); b.type = 'button';
+    if (door && ['pb', 'sel', 'msel'].includes(d.type)) return;   // these are on the door
     if (d.type === 'pb') { b.className = 'btn hold'; b.innerHTML = `${d.cap ? `<i class="capdot cap-${d.cap}"></i>` : ''}${name(id)} ${T('(กดค้าง)', '(hold)')}`; let before = false;
       b.addEventListener('pointerdown', e => { e.preventDefault(); before = sim.running(); sim.press(id, true); act(id, 'press', before); });
       ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, () => { if (!sim.dev[id].pressed) return; const bf = sim.running(); sim.press(id, false); act(id, 'release', bf); })); }
@@ -258,7 +261,7 @@ C5.panel = (el, sim, o = {}) => {
     b.addEventListener('click', () => { C5.powerCut(sim, { via: o.cutVia, done: r => { if (o.onAct) o.onAct({ id: 'mains', act: 'cut', before: r.before, after: r.after }); show(); } }); show(); }); row.appendChild(b); }
   const st = MC.ui.status(el);
   const show = () => { const s = o.status ? o.status(sim) : C5.state(sim); MC.ui.setStatus(st, s[0], s[1], s[2]); };
-  sim.on(show); show(); return { row, status: st, refresh: show }; };
+  sim.on(show); show(); if (!row.children.length) row.remove(); return { row, door, status: st, refresh: show }; };
 /* default status of a DOL simulator: [pill, text, kind] */
 C5.state = sim => { const run = sim.running(), d = sim.dev;
   if (sim.mains === false) return [T('ไฟดับ', 'power off'), T('รอไฟกลับมา…', 'waiting for the power…'), 'bad'];
@@ -411,6 +414,8 @@ C5.Phase = class {
   state() { const st = this.status(); return { lost: { ...this.lost }, swap: this.swap, bypass: this.bypass, f3: this.sim.dev.F3.on, healthy: this.healthy(), km: this.kmClosed(), turning: this.spd > 0.3, dir: this.dir, amps: this.amps(), pill: st[0], text: st[1], kind: st[2] }; }
   /* current in L3 (where T1 sits), example motor I_N = 3.5 A */
   amps() { if (!this.kmClosed() || this.lost.L3) return 0; const n = this.present(); return n === 3 ? C5.IN * (this.spd > 0.9 ? 1 : 6.5) : n === 2 ? C5.IN * (this.spd > 0.5 ? 1.73 : 5.6) : 0; }
+  /* current in one line (the panel ammeter has a current transformer in each phase) */
+  ampsOf(k) { if (!this.kmClosed() || this.lost[k] || !this.sim.dev.Q1.on) return 0; const n = this.present(); return n === 3 ? C5.IN * (this.spd > 0.9 ? 1 : 6.5) : n === 2 ? C5.IN * (this.spd > 0.5 ? 1.73 : 5.6) : 0; }
   step(dt) { const h = this.healthy(), was = this.spd; let ch = false;
     if (h !== this.out) { this.cnt += dt; if (this.cnt >= C5.PHASE_T) { this.out = h; this.cnt = 0; ch = true; } } else this.cnt = 0;
     const km = this.kmClosed(), n = this.present();

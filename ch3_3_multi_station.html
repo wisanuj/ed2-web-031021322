@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=11"><link rel="stylesheet" href="assets/ed2.css?v=11">
-<script src="assets/stops.js?v=11"></script><script src="assets/shell.js?v=11"></script>
-<script src="assets/lesson.js?v=11"></script><script src="assets/draw.js?v=11"></script><script src="assets/ed.js?v=11"></script><script src="assets/sym.js?v=11"></script><script src="assets/iec.js?v=11"></script><script src="assets/relay.js?v=11"></script><script src="assets/ch2.js?v=11"></script><script src="assets/ch3.js?v=11"></script><script src="assets/devdata.js?v=11"></script><script src="assets/dev.js?v=11"></script>
+<link rel="stylesheet" href="assets/ee.css?v=12"><link rel="stylesheet" href="assets/ed2.css?v=12">
+<script src="assets/stops.js?v=12"></script><script src="assets/shell.js?v=12"></script>
+<script src="assets/lesson.js?v=12"></script><script src="assets/draw.js?v=12"></script><script src="assets/ed.js?v=12"></script><script src="assets/sym.js?v=12"></script><script src="assets/iec.js?v=12"></script><script src="assets/relay.js?v=12"></script><script src="assets/panel.js?v=12"></script><script src="assets/ch2.js?v=12"></script><script src="assets/ch3.js?v=12"></script><script src="assets/devdata.js?v=12"></script><script src="assets/dev.js?v=12"></script>
 </head>
 <body>
 <div class="wrap">
@@ -38,8 +38,8 @@
 <section class="prob" id="tA">
   <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">สั่งมอเตอร์จากสองจุด: ต่อถูกและต่อผิด</h2><h2 data-l="en">A motor from two stations: right and wrong</h2>
     <div class="src" data-l="th">UMC5 บทที่ 8 รูป 8.6–8.7 · EMC9 หน่วยที่ 20 · Senty บทที่ 14 วงจรที่ 4</div><div class="src" data-l="en">UMC5 ch. 8, Figs 8.6–8.7 · EMC9 unit 20 · Senty ch. 14, circuit 4</div></div></div>
-  <p class="lead" data-l="th">จุดที่ 1 มีปุ่มหยุด S1 และปุ่มเริ่ม S2 จุดที่ 2 มีปุ่มหยุด S3 และปุ่มเริ่ม S4 เลือกแบบการต่อ แล้วกดปุ่มค้างในวงจรหรือในแผงด้านล่าง ลองเริ่มจากจุดหนึ่งแล้วหยุดจากอีกจุด จากนั้นกด "ทดลองครบ 5 แบบ" ให้เครื่องทดลองแทนแล้วบันทึกผลลงตาราง ทำให้ครบทั้งสามแบบการต่อแล้วเปิดสรุป</p>
-  <p class="lead" data-l="en">Station 1 has stop S1 and start S2, station 2 has stop S3 and start S4. Choose a wiring, then hold buttons in the circuit or in the panel below; start from one station and stop from the other. Then press "Run all 5 trials" to have the trials done for you and recorded in the table. Do all three wirings, then open the summary.</p>
+  <p class="lead" data-l="th">จุดที่ 1 มีปุ่มหยุด S1 และปุ่มเริ่ม S2 จุดที่ 2 มีปุ่มหยุด S3 และปุ่มเริ่ม S4 เลือกแบบการต่อ แล้วกดปุ่มค้างในวงจรหรือที่ปุ่มของสองจุดสั่งงานด้านล่าง ลองเริ่มจากจุดหนึ่งแล้วหยุดจากอีกจุด จากนั้นกด "ทดลองครบ 5 แบบ" ให้เครื่องทดลองแทนแล้วบันทึกผลลงตาราง ทำให้ครบทั้งสามแบบการต่อแล้วเปิดสรุป</p>
+  <p class="lead" data-l="en">Station 1 has stop S1 and start S2, station 2 has stop S3 and start S4. Choose a wiring, then hold buttons in the circuit or on the two stations below; start from one station and stop from the other. Then press "Run all 5 trials" to have the trials done for you and recorded in the table. Do all three wirings, then open the summary.</p>
   <div class="card solve" style="margin-bottom:12px"><div id="mode"></div></div>
   <div class="card sim" style="padding:10px"><div id="simA"></div></div>
   <div class="card solve" style="margin-top:12px"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
@@ -130,10 +130,12 @@ document.addEventListener('mc:ready', () => {
   function build() {
     sim = new RL.Sim($('simA'), C3.STATION(mode), { max: 760 }); const pA = $('pA'); pA.innerHTML = '';
     ui.h2(pA, t('สั่งงาน (กดค้าง)', 'Control (hold)'));
+    /* the two control stations as real push buttons: station 1 on the panel door, station 2 in a push-button box out at the machine */
+    const doors = document.createElement('div'); doors.style.cssText = 'display:flex;flex-wrap:wrap;gap:0 12px'; pA.appendChild(doors);
+    const NM = { S1: ['S1 หยุด', 'S1 stop'], S2: ['S2 เริ่ม', 'S2 start'], S3: ['S3 หยุด', 'S3 stop'], S4: ['S4 เริ่ม', 'S4 start'] };
+    [[['S1', 'S2'], ['จุดที่ 1: ประตูตู้', 'Station 1: panel door']], [['S3', 'S4'], ['จุดที่ 2: กล่องปุ่มกดนอกตู้', 'Station 2: push-button box']]].forEach(([only, title]) => {
+      PN.door(doors, sim, { only, title, names: NM }).box.style.flex = '1 1 220px'; });
     const row = document.createElement('div'); row.className = 'toggles'; pA.appendChild(row);
-    const hold = (id, lab) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = lab;
-      b.addEventListener('pointerdown', e => { e.preventDefault(); sim.press(id, true); }); ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, () => sim.press(id, false))); row.appendChild(b); };
-    hold('S2', t('จุด 1: S2 เริ่ม', 'station 1: S2 start')); hold('S1', t('จุด 1: S1 หยุด', 'station 1: S1 stop')); hold('S4', t('จุด 2: S4 เริ่ม', 'station 2: S4 start')); hold('S3', t('จุด 2: S3 หยุด', 'station 2: S3 stop'));
     const both = document.createElement('button'); both.type = 'button'; both.className = 'btn'; both.textContent = t('กด S2 + S4 พร้อมกัน', 'S2 + S4 together');
     both.addEventListener('pointerdown', e => { e.preventDefault(); sim.press('S2', true); sim.press('S4', true); }); ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => both.addEventListener(ev, () => { sim.press('S2', false); sim.press('S4', false); })); row.appendChild(both);
     const auto = document.createElement('button'); auto.type = 'button'; auto.className = 'btn on'; auto.textContent = t('▶ ทดลองครบ 5 แบบ', '▶ Run all 5 trials');
@@ -156,7 +158,8 @@ document.addEventListener('mc:ready', () => {
     answer: t('(ก) อนุกรมกับปุ่มหยุดเดิม (ข) ขนานกับปุ่มเริ่มเดิมและ KM1 13–14 (ค) 3 เส้น', '(a) in series with the other stops; (b) in parallel with the other starts and KM1 13–14; (c) 3 wires') });
   /* B: hand-off-auto */
   const HCH = [{ name: 'S5 13–14', closed: ['H'], note: ['มือ', 'hand'] }, { name: 'S5 23–24', closed: ['A'], note: ['อัตโนมัติ', 'auto'] }];
-  const simB = new RL.Sim($('simB'), C3.HOA(), { max: 560 }), pB = $('pB');
+  const specB = C3.HOA(); specB.devices.H1.code = 'GN';
+  const simB = new RL.Sim($('simB'), specB, { max: 560 }), pB = $('pB');
   const logB = new ED.Log($('logB'), [['ตำแหน่ง S5', 'S5 position'], ['ลูกลอย S6', 'float S6'], ['คอยล์ KM1', 'coil KM1'], ['ปั๊ม', 'pump']]);
   const lvl = () => simB.dev.S6.on ? t('น้ำต่ำ (ต่อ)', 'water low (closed)') : t('น้ำเต็ม (เปิด)', 'tank full (open)');
   let knB;
@@ -166,6 +169,8 @@ document.addEventListener('mc:ready', () => {
     logB.add(p + simB.dev.S6.on, [p, lvl(), simB.dev.KM1.energized ? t('มีไฟ', 'on') : t('ไม่มีไฟ', 'off'), run ? t('ทำงาน', 'running') : t('หยุด', 'stopped')], p === 'H' && !simB.dev.S6.on ? 'bad' : run ? 'ok' : 'warn');
     if (knB && knB.at !== p) knB.set(p); };
   knB = new C3.Knob($('knB'), { positions: ['H', '0', 'A'], at: '0', onChange: p => simB.setPos('S5', p) });
+  /* the run lamp on the pump panel door (S5 is the knob above, S6 the float: no buttons on this door) */
+  PN.door(pB, simB, { only: [], title: ['ประตูตู้ปั๊ม: หลอดสัญญาณ', 'Pump panel door: pilot lamp'], names: { H1: ['H1 ปั๊มทำงาน', 'H1 pump running'] } });
   ui.h2(pB, t('ระดับน้ำ', 'Water level'));
   const rowB = document.createElement('div'); rowB.className = 'toggles'; pB.appendChild(rowB);
   const fb = document.createElement('button'); fb.type = 'button'; fb.className = 'btn on'; fb.textContent = t('S6 ลูกลอย: สลับ น้ำต่ำ / น้ำเต็ม', 'S6 float: toggle low / full'); fb.addEventListener('click', () => simB.toggle('S6')); rowB.appendChild(fb);

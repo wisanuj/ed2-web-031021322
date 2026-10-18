@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=11"><link rel="stylesheet" href="assets/ed2.css?v=11">
-<script src="assets/stops.js?v=11"></script><script src="assets/shell.js?v=11"></script>
-<script src="assets/lesson.js?v=11"></script><script src="assets/draw.js?v=11"></script><script src="assets/ed.js?v=11"></script><script src="assets/sym.js?v=11"></script><script src="assets/iec.js?v=11"></script><script src="assets/relay.js?v=11"></script><script src="assets/ch2.js?v=11"></script><script src="assets/ch3.js?v=11"></script><script src="assets/devdata.js?v=11"></script><script src="assets/dev.js?v=11"></script>
+<link rel="stylesheet" href="assets/ee.css?v=12"><link rel="stylesheet" href="assets/ed2.css?v=12">
+<script src="assets/stops.js?v=12"></script><script src="assets/shell.js?v=12"></script>
+<script src="assets/lesson.js?v=12"></script><script src="assets/draw.js?v=12"></script><script src="assets/ed.js?v=12"></script><script src="assets/sym.js?v=12"></script><script src="assets/iec.js?v=12"></script><script src="assets/relay.js?v=12"></script><script src="assets/panel.js?v=12"></script><script src="assets/ch2.js?v=12"></script><script src="assets/ch3.js?v=12"></script><script src="assets/devdata.js?v=12"></script><script src="assets/dev.js?v=12"></script>
 </head>
 <body>
 <div class="wrap">
@@ -82,10 +82,12 @@ document.addEventListener('mc:ready', () => {
      [t('สวิตช์ลูกลอย', 'float switch'), t('ไม่มีในโปรแกรม: ใช้ลิมิตสวิตช์หรือเซนเซอร์ ตั้งชื่อ S6 พิมพ์ "ลูกลอย" แล้วคลิกเพื่อจำลองระดับน้ำต่ำ/เต็ม', 'not in the program: use a limit switch or sensor, name it S6, type "float", and click it to simulate low/full')]].map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td></tr>`).join('');
   /* wrong name: the NO contact named S2 */
   const spec = C3.PBLAMPS(); spec.els = spec.els.map(e => (e.d === 'S1' && e.k === 'NO' ? { ...e, d: 'S2' } : e)); spec.devices.S2 = { type: 'pb' };
+  /* panel door: the program now sees two buttons; same plain cap and no I/O legend on both (they are not a start and a stop) */
+  Object.assign(spec.devices.S1, { cap: 'white', legend: '' }); Object.assign(spec.devices.S2, { cap: 'white', legend: '' });
+  Object.assign(spec.devices.H1, { code: 'RD' }); Object.assign(spec.devices.H2, { code: 'GN' });
   const sim = new RL.Sim($('simN'), spec, { max: 420 }), pN = $('pN'); ui.h2(pN, t('สั่งงาน (กดค้าง)', 'Control (hold)'));
-  const row = document.createElement('div'); row.className = 'toggles'; pN.appendChild(row);
-  [['S1', t('S1 (ปกติปิด)', 'S1 (NC)')], ['S2', t('"S2" (ปกติเปิดที่ตั้งชื่อผิด)', '"S2" (the misnamed NO)')]].forEach(([id, lab]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = lab;
-    b.addEventListener('pointerdown', e => { e.preventDefault(); sim.press(id, true); }); ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, () => sim.press(id, false))); row.appendChild(b); });
+  PN.door(pN, sim, { title: ['ประตูตู้: โปรแกรมเห็นเป็นสองปุ่ม (กดค้างได้)', 'Panel door: the program sees two buttons (hold)'],
+    names: { S1: ['S1 ปกติปิด', 'S1 NC'], S2: ['S2 ชื่อผิด', 'S2 wrong name'], H1: ['H1 ผ่าน 11–12', 'H1 via 11–12'], H2: ['H2 ผ่าน 23–24', 'H2 via 23–24'] } });
   const st = ui.status(pN); const show = () => { const h1 = sim.dev.H1.energized, h2 = sim.dev.H2.energized;
     ui.setStatus(st, `H1 ${h1 ? t('ติด', 'lit') : t('ดับ', 'off')} · H2 ${h2 ? t('ติด', 'lit') : t('ดับ', 'off')}`, h1 && h2 ? t('ติดพร้อมกัน: ปุ่มจริงทำไม่ได้ แสดงว่าชื่อผิด', 'both lit: the real button cannot do this, so a name is wrong') : sim.dev.S1.pressed && !h2 ? t('กด S1 แล้ว H2 ไม่ติด เพราะหน้าสัมผัสปกติเปิดไม่ได้ชื่อ S1', 'S1 pressed but H2 stays off, because the NO contact is not named S1') : t('ลองกดทีละปุ่ม', 'try each button'), h1 && h2 ? 'bad' : 'warn'); };
   sim.on(show); show();

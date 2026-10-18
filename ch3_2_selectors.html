@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=11"><link rel="stylesheet" href="assets/ed2.css?v=11">
-<script src="assets/stops.js?v=11"></script><script src="assets/shell.js?v=11"></script>
-<script src="assets/lesson.js?v=11"></script><script src="assets/draw.js?v=11"></script><script src="assets/ed.js?v=11"></script><script src="assets/sym.js?v=11"></script><script src="assets/iec.js?v=11"></script><script src="assets/relay.js?v=11"></script><script src="assets/ch2.js?v=11"></script><script src="assets/ch3.js?v=11"></script><script src="assets/devdata.js?v=11"></script><script src="assets/dev.js?v=11"></script>
+<link rel="stylesheet" href="assets/ee.css?v=12"><link rel="stylesheet" href="assets/ed2.css?v=12">
+<script src="assets/stops.js?v=12"></script><script src="assets/shell.js?v=12"></script>
+<script src="assets/lesson.js?v=12"></script><script src="assets/draw.js?v=12"></script><script src="assets/ed.js?v=12"></script><script src="assets/sym.js?v=12"></script><script src="assets/iec.js?v=12"></script><script src="assets/relay.js?v=12"></script><script src="assets/panel.js?v=12"></script><script src="assets/ch2.js?v=12"></script><script src="assets/ch3.js?v=12"></script><script src="assets/devdata.js?v=12"></script><script src="assets/dev.js?v=12"></script>
 </head>
 <body>
 <div class="wrap">
@@ -135,7 +135,8 @@ document.addEventListener('mc:ready', () => {
   DEV.mount($('devs'), ['sel']);
   /* A: selector with two lamps */
   const CONTACTS = [{ name: 'S1 13–14', closed: ['I'], note: ['→ H1', '→ H1'] }, { name: 'S1 23–24', closed: ['II'], note: ['→ H2', '→ H2'] }];
-  const sim = new RL.Sim($('simA'), C3.SELLAMPS(), { max: 360 }), pA = $('pA');
+  const specA = C3.SELLAMPS(); Object.assign(specA.devices.H1, { code: 'GN' }); Object.assign(specA.devices.H2, { code: 'YE' });
+  const sim = new RL.Sim($('simA'), specA, { max: 360 }), pA = $('pA');
   const log = new ED.Log($('logA'), [['ตำแหน่ง', 'position'], ['แบบสวิตช์', 'type'], ['13–14', '13–14'], ['23–24', '23–24'], ['หลอด', 'lamps']]);
   let spring = false, knob;
   const onoff = c => c ? t('ต่อ', 'closed') : t('เปิด', 'open');
@@ -147,6 +148,8 @@ document.addEventListener('mc:ready', () => {
   const mkKnob = () => { knob = new C3.Knob($('knA'), { positions: ['I', '0', 'II'], at: sim.dev.S1.at, spring, onChange: p => sim.setPos('S1', p) }); };
   ui.h2(pA, t('ชนิดของสวิตช์', 'Kind of switch'));
   ui.radio(pA, [{ id: 'm', label: t('ค้างตำแหน่ง', 'maintained'), on: true }, { id: 's', label: t('สปริงคืนกลาง (กดค้างที่ I หรือ II)', 'spring return (hold at I or II)') }], id => { spring = id === 's'; sim.setPos('S1', '0'); mkKnob(); show(); });
+  /* the two pilot lamps on the panel door (S1 itself is the knob above, so the door shows lamps only) */
+  PN.door(pA, sim, { only: [], title: ['ประตูตู้: หลอดสัญญาณ', 'Panel door: pilot lamps'], names: { H1: ['H1 ตำแหน่ง I', 'H1 position I'], H2: ['H2 ตำแหน่ง II', 'H2 position II'] } });
   const stA = ui.status(pA);
   sim.on(show); mkKnob(); show();
   ED.summary($('sumA'), { head: [['ตำแหน่ง', 'position'], ['13–14', '13–14'], ['23–24', '23–24'], ['H1', 'H1'], ['H2', 'H2']],

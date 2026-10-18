@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=11"><link rel="stylesheet" href="assets/ed2.css?v=11">
-<script src="assets/stops.js?v=11"></script><script src="assets/shell.js?v=11"></script>
-<script src="assets/lesson.js?v=11"></script><script src="assets/draw.js?v=11"></script><script src="assets/ed.js?v=11"></script><script src="assets/sym.js?v=11"></script><script src="assets/iec.js?v=11"></script><script src="assets/relay.js?v=11"></script><script src="assets/ch2.js?v=11"></script>
+<link rel="stylesheet" href="assets/ee.css?v=12"><link rel="stylesheet" href="assets/ed2.css?v=12">
+<script src="assets/stops.js?v=12"></script><script src="assets/shell.js?v=12"></script>
+<script src="assets/lesson.js?v=12"></script><script src="assets/draw.js?v=12"></script><script src="assets/ed.js?v=12"></script><script src="assets/sym.js?v=12"></script><script src="assets/iec.js?v=12"></script><script src="assets/relay.js?v=12"></script><script src="assets/panel.js?v=12"></script><script src="assets/ch2.js?v=12"></script>
 </head>
 <body>
 <div class="wrap">
@@ -51,8 +51,8 @@
 <section class="prob" id="tN">
   <div class="prob-head"><span class="prob-no">N</span><div><h2 data-l="th">ทดลองตั้งชื่อผิด: หน้าสัมผัสค้างชื่อ KM2</h2><h2 data-l="en">A wrong name on purpose: the holding contact named KM2</h2>
     <div class="src" data-l="th">จำลองสิ่งที่จะเกิดใน CADe SIMU (ใบงานที่ 2 ข้อ 3.2)</div><div class="src" data-l="en">What happens in CADe SIMU (lab sheet 2, step 3.2)</div></div></div>
-  <p class="lead" data-l="th">วงจรนี้เหมือนวงจรในหน้า 2.3 ทุกอย่าง ต่างกันที่หน้าสัมผัสค้างตัวเองถูกตั้งชื่อว่า <b>KM2</b> แทน KM1 กด S2 แล้วปล่อย: มอเตอร์หมุนเฉพาะตอนกด เพราะไม่มีคอยล์ KM2 หน้าสัมผัสนี้จึงไม่เคยต่อ ดูตารางอ้างอิงใต้คอยล์ KM1 ด้วย: หน้าสัมผัส 13–14 หายไปจากรายการ นี่คือวิธีตรวจชื่อผิดจากแบบโดยไม่ต้องจำลอง</p>
-  <p class="lead" data-l="en">This circuit is the one of page 2.3 except that the holding contact is named <b>KM2</b> instead of KM1. Press S2 and release it: the motor runs only while you press, because there is no coil KM2, so that contact never closes. Look at the cross-reference under coil KM1 too: contact 13–14 is missing from its list. That is how to catch a wrong name from the drawing without simulating.</p>
+  <p class="lead" data-l="th">วงจรนี้เหมือนวงจรในหน้า 2.3 ทุกอย่าง ต่างกันที่หน้าสัมผัสค้างตัวเองถูกตั้งชื่อว่า <b>KM2</b> แทน KM1 กด S2 บนประตูตู้แล้วปล่อย: มอเตอร์หมุนและหลอด H1 ติดเฉพาะตอนกด เพราะไม่มีคอยล์ KM2 หน้าสัมผัสนี้จึงไม่เคยต่อ ดูตารางอ้างอิงใต้คอยล์ KM1 ด้วย: หน้าสัมผัส 13–14 หายไปจากรายการ นี่คือวิธีตรวจชื่อผิดจากแบบโดยไม่ต้องจำลอง</p>
+  <p class="lead" data-l="en">This circuit is the one of page 2.3 except that the holding contact is named <b>KM2</b> instead of KM1. Press S2 on the panel door and release it: the motor runs, and lamp H1 glows, only while you press, because there is no coil KM2, so that contact never closes. Look at the cross-reference under coil KM1 too: contact 13–14 is missing from its list. That is how to catch a wrong name from the drawing without simulating.</p>
   <div class="card sim rlwrap" id="simN" style="padding:8px"></div>
   <div class="card solve" style="margin-top:12px"><div class="panel" id="pN" style="position:static;max-height:none"></div></div>
 </section>
@@ -85,9 +85,8 @@ document.addEventListener('mc:ready', () => {
   /* wrong name demonstration */
   const spec = C2.DOL(); spec.els = spec.els.map(e => (e.d === 'KM1' && e.k === 'NO' && e.t && e.t[0] === '13' ? { ...e, d: 'KM2' } : e)); spec.devices.KM2 = { type: 'coil' };
   const sim = new RL.Sim($('simN'), spec, { max: 900 }), pN = $('pN'); ui.h2(pN, t('สั่งงาน', 'Control'));
-  const row = document.createElement('div'); row.className = 'toggles'; pN.appendChild(row);
-  [['S2', t('S2 เริ่ม (กดค้าง)', 'S2 start (hold)')], ['S1', t('S1 หยุด (กดค้าง)', 'S1 stop (hold)')]].forEach(([id, lab]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = lab;
-    b.addEventListener('pointerdown', e => { e.preventDefault(); sim.press(id, true); }); ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, () => sim.press(id, false))); row.appendChild(b); });
+  /* panel door: S1 stop and S2 start as real push buttons; H1 glows only while S2 is held, since "KM2" never holds the circuit */
+  PN.door(pN, sim, { names: { S1: ['S1 หยุด', 'S1 stop'], S2: ['S2 เริ่ม', 'S2 start'], H1: ['H1 มอเตอร์เดิน', 'H1 running'], H2: ['H2 โอเวอร์โหลด', 'H2 overload'] } });
   const st = ui.status(pN); const show = () => { const run = sim.running(); ui.setStatus(st, run ? t('หมุนเฉพาะตอนกด', 'runs only while pressed') : t('หยุด', 'stopped'), t('หน้าสัมผัส "KM2" ไม่มีคอยล์สั่ง จึงค้างวงจรไม่ได้', 'contact "KM2" has no coil to drive it, so nothing holds the circuit'), run ? 'warn' : 'wait'); };
   sim.on(show); show();
 });
