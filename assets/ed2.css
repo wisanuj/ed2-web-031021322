@@ -191,3 +191,17 @@ table.tchart tr.live td:first-child{color:var(--good)}
 .pn-item.pn-ph{width:80px}.pn-item.pn-meter{width:120px;cursor:default}.pn-col{display:flex;flex-direction:column;align-items:center;gap:2px}
 .pn-meters [data-msel]{cursor:pointer}
 @media (max-width:420px){.pn-item.pn-ph{width:72px}.pn-item.pn-meter{width:100px}}
+
+/* chapter 6: conveyor line (C6.Conveyor), live timing chart (C6.Timeline), summed starting current (C6.StartSum); the SVGs keep a
+   legible size on phones and scroll sideways inside their own box (never the page) */
+.c6conv,.c6sum{display:flex;flex-direction:column;gap:8px}
+.c6conv .c6cv,.c6tl,.c6sum .c6ch{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.c6conv .c6cv svg{min-width:440px;margin:0 auto}
+.c6tl svg{min-width:460px}
+.c6sum .c6ch svg{min-width:420px}
+.c6cs{border:1px solid var(--line);border-radius:10px;background:var(--panel2);padding:6px 10px;font-size:15px;line-height:1.55;display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center}
+.c6cs .pill{flex:none}
+.c6duo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:start}   /* conveyor beside the timing chart */
+.c6duo > *{min-width:0}
+@media (max-width:1100px){.c6duo{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:480px){.c6cs{font-size:14px;padding:6px 8px}}

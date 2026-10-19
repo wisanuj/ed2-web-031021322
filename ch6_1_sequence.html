@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="6.1 — Motor 2 only after motor 1">6.1 — มอเตอร์ตัวที่สองเดินได้หลังตัวแรกเท่านั้น</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=13"><link rel="stylesheet" href="assets/ed2.css?v=13">
+<link rel="stylesheet" href="assets/wiring.css?v=13">
+<script src="assets/stops.js?v=13"></script><script src="assets/shell.js?v=13"></script>
+<script src="assets/lesson.js?v=13"></script><script src="assets/draw.js?v=13"></script><script src="assets/ed.js?v=13"></script><script src="assets/sym.js?v=13"></script><script src="assets/iec.js?v=13"></script><script src="assets/relay.js?v=13"></script><script src="assets/ch2.js?v=13"></script><script src="assets/ch3.js?v=13"></script><script src="assets/ch4.js?v=13"></script>
+<script src="assets/panel.js?v=13"></script><script src="assets/ch5.js?v=13"></script><script src="assets/ch6.js?v=13"></script>
+<script src="assets/wiring.js?v=13"></script><script src="assets/devdata.js?v=13"></script><script src="assets/dev.js?v=13"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">มอเตอร์ตัวที่สองเดินได้หลังตัวแรกเท่านั้น: การเริ่มเดินตามลำดับด้วยมือ <span class="en">Motor 2 only after motor 1: manual sequence starting</span></h1>
+<h1 data-l="en">Motor 2 only after motor 1 <span class="en">Manual sequence starting of two motors</span></h1>
+
+<p class="sub" data-l="th">การควบคุมตามลำดับ (sequence control) คือการเริ่มหรือหยุดมอเตอร์หลายตัวตามลำดับที่กำหนดไว้ มอเตอร์ตัวหนึ่งเริ่มเดินไม่ได้จนกว่าอีกตัวจะเดินอยู่ เช่น ปั๊มน้ำมันหล่อลื่นแรงดันสูงต้องเดินก่อนเครื่องจักร พัดลมของเครื่องปรับอากาศต้องเดินก่อนคอมเพรสเซอร์ และสายพานลำเลียงที่ป้อนของลงสายพานอีกเส้นต้องเดินหลังสายพานที่รับของ หน้านี้ใช้สายพานสองเส้นเป็นตัวอย่าง: M1 เป็นสายพานปลายทาง และ M2 ป้อนของลง M1 ลองสั่งวงจรที่ใช้หน้าสัมผัสอนุญาต (permissive contact) ของ KM1 แล้วดูของที่ไหลบนสายพาน เทียบกับวงจรแบบอื่น รวมทั้งแบบที่ทำให้ของกองจนล้น และดูว่าทำไมมอเตอร์แต่ละตัวต้องมีปุ่มหยุดและหน้าสัมผัสโอเวอร์โหลดของตัวเองในวงจรควบคุม</p>
+<p class="sub" data-l="en">Sequence control starts or stops several motors in a set order: one motor cannot start until another one is running. A high-pressure lubricating pump must run before the machine, the blower of an air-conditioning unit before the compressor, and a conveyor that feeds onto another belt only after the belt that receives the material. This page uses two belts: M1 is the discharge belt and M2 feeds onto M1. Run the circuit that uses a permissive contact of KM1 and watch the material on the belts, compare it with other ways of wiring it, including one that makes the material pile up, and see why each motor needs its own stop button and its own overload contact in the control circuit.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>หน้าสัมผัสอนุญาต</b> (permissive contact) KM1 83–84 เป็นหน้าสัมผัสปกติเปิด (normally open, NO) ของ KM1 ที่ต่ออนุกรมอยู่ในทางเดินกระแสของคอยล์ KM2: ขณะ M1 หยุด 83–84 เปิด กด S4 ก็ไม่เกิดอะไร เมื่อ KM1 ดูด 83–84 ต่อ จึงเริ่ม M2 ได้ และเมื่อ KM1 หลุด 83–84 เปิด KM2 ก็หลุดตาม</li>
+  <li><b>หน้าสัมผัสค้างตัวเองของ KM2 คร่อมเฉพาะปุ่ม S4</b>: ถ้า KM2 13–14 คร่อมหน้าสัมผัสอนุญาตด้วย KM1 จะถูกตรวจแค่ตอนเริ่มเดิน เมื่อ M1 หยุดแล้ว M2 ยังเดิน ของจาก M2 จะกองบน M1 ที่หยุดอยู่</li>
+  <li><b>มอเตอร์ละหนึ่งชุด</b>: แต่ละมอเตอร์มีเบรกเกอร์สาขา (Q11, Q12) คอนแทกเตอร์ (KM1, KM2) โอเวอร์โหลดรีเลย์ (F21, F22) และปุ่มหยุดของตัวเอง หน้าสัมผัส 95–96 ของโอเวอร์โหลดทุกตัวต้องอยู่ในวงจรควบคุม ผลคือ S1 หรือ F21 หยุดทั้งสองตัว ส่วน S3 หรือ F22 หยุดเฉพาะ M2 ซึ่งตรงกับงานสายพาน: สายพานที่หยุดต้องพาสายพานที่ป้อนของให้มันหยุดด้วย ส่วนสายพานปลายทางเดินต่อเพื่อระบายของได้</li>
+  <li><b>ชื่อสายพานในบทนี้</b>: M1 คือสายพานปลายทาง (ด้านที่ปล่อยของออก) ยิ่งเลขมากยิ่งใกล้ต้นทาง ของไหลจาก M2 ลง M1 การเริ่มเดินจากปลายทางก่อน (M1 แล้วจึง M2) ทำให้ของตกลงบนสายพานที่เดินอยู่เสมอ</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>The permissive contact</b> KM1 83–84 is a normally open (NO) contact of KM1 in series in the current path of coil KM2: while M1 is stopped, 83–84 is open and pressing S4 does nothing; when KM1 pulls in, 83–84 closes and M2 can be started; when KM1 drops out, 83–84 opens and KM2 drops out with it.</li>
+  <li><b>KM2's holding contact goes across S4 only</b>: if KM2 13–14 also bridged the permissive contact, KM1 would be checked only at the moment of starting; after M1 stops, M2 would run on and its material would pile up on the stopped M1.</li>
+  <li><b>One set per motor</b>: each motor has its own branch breaker (Q11, Q12), contactor (KM1, KM2), overload relay (F21, F22) and stop button, and the 95–96 contact of every overload relay must be in the control circuit. Then S1 or F21 stops both motors, while S3 or F22 stops only M2. That is what a conveyor line needs: a belt that stops must take the belt that feeds it with it, while the discharge belt may run on to clear.</li>
+  <li><b>Belt names in this chapter</b>: M1 is the discharge belt (where the material leaves); the higher the number, the closer to the feed end. Material flows from M2 onto M1. Starting from the discharge end (M1, then M2) makes the material always land on a moving belt.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>ทำไมต้องเรียงลำดับ</a><a href="#tA"><b>A</b>หน้าสัมผัสอนุญาต</a><a href="#tB"><b>B</b>ต่อแบบอื่น</a><a href="#tD"><b>D</b>โอเวอร์โหลดของแต่ละมอเตอร์</a><a href="#ex1"><b>1</b>ตารางอ้างอิงของ KM1 และ KM2</a><a href="#ex2"><b>2</b>เติมรูปในตำราให้ครบ</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>Why a sequence</a><a href="#tA"><b>A</b>The permissive contact</a><a href="#tB"><b>B</b>Other ways to wire it</a><a href="#tD"><b>D</b>Each motor's overload</a><a href="#ex1"><b>1</b>Cross-reference of KM1 and KM2</a><a href="#ex2"><b>2</b>Complete a textbook circuit</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">ทำไมต้องเรียงลำดับ และวงจรกำลังของมอเตอร์สองตัว</h2><h2 data-l="en">Why a sequence, and the power circuit of two motors</h2>
+    <div class="src" data-l="th">UMC5 บทที่ 12 · EMC9 หน่วยที่ 22 · Senty บทที่ 14 วงจรที่ 22 · ตำราไทย บทที่ 9 หัวข้อ 1</div><div class="src" data-l="en">UMC5 ch. 12 · EMC9 unit 22 · Senty ch. 14, circuit 22 · Thai textbook ch. 9 §1</div></div></div>
+  <div class="story">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>UMC5 บทที่ 12 ยกตัวอย่างงานที่ต้องเรียงลำดับ: เครื่องอัดไฮดรอลิกที่ปั๊มแรงดันสูงต้องเดินก่อนตัวเครื่อง และระบบปรับอากาศที่พัดลมต้องเดินก่อนคอมเพรสเซอร์ EMC9 หน่วยที่ 22 เพิ่มปั๊มน้ำมันหล่อลื่นและปั๊มไฮดรอลิกที่ต้องเดินก่อนเครื่องจักร และสายพานลำเลียงของสายการผลิต ตำราไทยบทที่ 9 แบ่งการเริ่มเดินตามลำดับเป็นแบบสั่งด้วยมือและแบบอัตโนมัติ หน้านี้เป็นแบบสั่งด้วยมือ ส่วนแบบอัตโนมัติด้วยตัวตั้งเวลาอยู่ในหน้า 6.3</p>
+        <p>รูป 14-22 ของ Senty เป็นวงจรของสายพานสองเส้น หนังสืออธิบายว่าวงจรนี้ใช้กับงานที่สายพานป้อน (Conveyor 2) เริ่มเดินไม่ได้จนกว่าสายพานหลักที่รับของ (Conveyor 1) จะเดินอยู่ ปุ่ม Stop #2 และ Start #2 ของสายพานป้อนรับไฟจากจุดที่หนังสือเขียนเลข 4 ซึ่งอยู่หลังปุ่ม Start #1 และหน้าสัมผัสค้างตัวเองของ S1 จุดนี้มีไฟเฉพาะเมื่อสายพานหลักเดินค้างอยู่ (หรือขณะกด Start #1) วิธีต่อจากจุดค้างตัวเองแบบนี้จะได้ลองในหัวข้อ B</p>
+        <p>รูปนี้เป็นแบบอเมริกัน (National Electrical Manufacturers Association, NEMA) ที่วาดทางเดินกระแสตามแนวนอน หน้าสัมผัสโอเวอร์โหลด OL อยู่ทางขวาใกล้สาย L2 และกรอบเลข 2, 3 คือขั้วของหน้าสัมผัสค้างในชุดเริ่มเดินแบบอเมริกัน เมื่อวาดใหม่ตามแบบของคณะกรรมาธิการไฟฟ้าระหว่างประเทศ (International Electrotechnical Commission, IEC) หรือ redrawn to IEC ทางเดินกระแสตั้งจาก L1 ลง N หน้าสัมผัสทุกตัว รวมทั้ง 95–96 ของโอเวอร์โหลด อยู่ฝั่ง L และคอยล์ต่อตรงลง N ในบทนี้ Conveyor 1 คือ M1 (สายพานปลายทาง) และ Conveyor 2 คือ M2</p>
+        <p>เหตุผลทางวิศวกรรมของลำดับนี้: เริ่มจากปลายทางก่อน (M1 แล้วจึง M2) ของที่ M2 ปล่อยลงมาจึงตกบนสายพานที่เดินอยู่ ถ้า M2 เดินขณะ M1 หยุด ของจะกองที่จุดส่งต่อจนล้นหก ส่วนการหยุดย้อนลำดับและการหยุดเมื่อโอเวอร์โหลดตัดอยู่ใน<a href="ch6_2_reverse_stop.html">หน้า 6.2</a></p></div>
+      <div class="story-p" data-l="en"><p>UMC5 ch. 12 gives examples of machines that need a sequence: a hydraulic press whose high-pressure pump must run before the press, and an air-conditioning system whose blower must run before the compressor. EMC9 unit 22 adds lubricating and hydraulic pumps that must run before a machine, and the conveyors of a production line. The Thai textbook, ch. 9, divides sequence starting into manual and automatic; this page is the manual kind, and automatic starting with timers follows on page 6.3.</p>
+        <p>Senty Fig. 14-22 is a circuit for two belts. The book says it suits a job where the feeder conveyor (Conveyor 2) cannot start until the main conveyor it feeds onto (Conveyor 1) is already running. Stop #2 and Start #2 of the feeder take their supply from the point the book numbers 4, after Start #1 and the holding contact of S1. That point is live only while the main conveyor holds itself in (or while Start #1 is pressed). You will try this way of wiring, from the holding node, in section B.</p>
+        <p>The figure is a US (National Electrical Manufacturers Association, NEMA) drawing with horizontal rungs: the overload contacts OL sit on the right, next to line L2, and the boxed 2 and 3 are the terminals of the holding contact in a US starter. Redrawn to IEC (International Electrotechnical Commission) practice, the current paths run vertically from L1 down to N, every contact, including the overload's 95–96, sits on the L side, and the coils go straight to N. In this chapter Conveyor 1 is M1 (the discharge belt) and Conveyor 2 is M2.</p>
+        <p>The engineering reason for this order: start from the discharge end (M1, then M2), so that what M2 drops always lands on a moving belt. If M2 ran while M1 stood still, the material would pile up at the transfer point until it spilled. Stopping in reverse order, and what to stop when an overload trips, follow on <a href="ch6_2_reverse_stop.html">page 6.2</a>.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/senty_fig14_22_conveyor.jpg?v=13" width="1102" height="514" loading="lazy" decoding="async" alt="US ladder diagram on a grid: rung 1 from L1 through Stop #1 and Start #1 with holding contact S1 to coil S1 and an overload contact to L2, labelled Conveyor 1; from point 4 a second rung runs through Stop #2 and Start #2 with holding contact S2 to coil S2 and its overload contact, labelled Conveyor 2.">
+        <figcaption data-l="th">รูป 14-22 วงจรที่ 22: สายพานป้อนเริ่มได้เมื่อสายพานหลักเดินแล้ว (แบบ NEMA) · ที่มา: Senty, <i>Motor Control Fundamentals</i> (Delmar Cengage, 2013) บทที่ 14 หน้า 172 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 14-22, circuit 22: the feeder starts only once the main conveyor runs (NEMA) · source: Senty, <i>Motor Control Fundamentals</i> (Delmar Cengage, 2013), ch. 14, p. 172 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+  <p class="lead" data-l="th" style="margin-top:16px"><b>วงจรกำลังของมอเตอร์สองตัว</b>: ไฟสามเฟส 400/230 V (L1 L2 L3 N PE) ผ่านเบรกเกอร์หลัก Q1 เข้าบัสบาร์ แล้วแยกเป็นสาขาละหนึ่งมอเตอร์ แต่ละสาขามีเบรกเกอร์สาขา คอนแทกเตอร์ และโอเวอร์โหลดรีเลย์ของตัวเอง เพราะมอเตอร์แต่ละตัวมีกระแสพิกัดของตัวเอง สายดินป้องกัน (protective earth, PE) ต่อที่โครงมอเตอร์ทุกตัว วงจรควบคุม 230 V แยกจาก L1 ของบัสบาร์หลัง Q1 กับ N (เห็นในวงจรของหัวข้อ A) การปลด Q1 จึงตัดไฟทั้งมอเตอร์และวงจรควบคุม แตะ Q1, Q11, Q12, F21, F22 ในรูปได้ แต่มอเตอร์จะหมุนเมื่อคอนแทกเตอร์ดูดเท่านั้น ซึ่งสั่งจากวงจรควบคุมในหัวข้อ A</p>
+  <p class="lead" data-l="en" style="margin-top:16px"><b>The power circuit of two motors</b>: the three-phase 400/230 V supply (L1 L2 L3 N PE) passes main breaker Q1 to a busbar and then splits into one branch per motor. Each branch has its own branch breaker, contactor and overload relay, because each motor has its own rated current. The protective earth (PE) goes to every motor frame. The 230 V control circuit is tapped from L1 of the busbar after Q1, and N (you see it in the circuit of section A), so switching Q1 off removes the supply from the motors and the control circuit alike. You can tap Q1, Q11, Q12, F21 and F22 in the drawing, but a motor turns only when its contactor pulls in, which the control circuit of section A commands.</p>
+  <div class="duo wide-sim">
+    <div class="card sim rlwrap" id="pw0" style="padding:8px"></div>
+    <div class="card solve" style="overflow-x:auto">
+      <table class="tbl stack" data-l="th"><tr><th>ชื่อ</th><th>IEC 81346-2</th><th>อุปกรณ์และหน้าที่</th></tr>
+        <tr><td data-h="ชื่อ"><b>Q1</b></td><td data-h="IEC 81346-2">QA</td><td data-h="อุปกรณ์">เบรกเกอร์หลัก ปลดและสับไฟทั้งชุด ตัดเองเมื่อลัดวงจร</td></tr>
+        <tr><td data-h="ชื่อ"><b>Q11, Q12</b></td><td data-h="IEC 81346-2">QA</td><td data-h="อุปกรณ์">เบรกเกอร์สาขา ป้องกันลัดวงจรของสาย M1 และ M2</td></tr>
+        <tr><td data-h="ชื่อ"><b>KM1, KM2</b></td><td data-h="IEC 81346-2">QA</td><td data-h="อุปกรณ์">คอนแทกเตอร์ของ M1 และ M2 หน้าสัมผัสหลัก 1/L1–2/T1, 3/L2–4/T2, 5/L3–6/T3</td></tr>
+        <tr><td data-h="ชื่อ"><b>F21, F22</b></td><td data-h="IEC 81346-2">FC</td><td data-h="อุปกรณ์">โอเวอร์โหลดรีเลย์ของ M1 และ M2: ตัวรับรู้ความร้อนอยู่ในวงจรกำลัง หน้าสัมผัส 95–96 และ 97–98 อยู่ในวงจรควบคุม</td></tr>
+        <tr><td data-h="ชื่อ"><b>F1</b></td><td data-h="IEC 81346-2">FC</td><td data-h="อุปกรณ์">ฟิวส์วงจรควบคุม</td></tr>
+        <tr><td data-h="ชื่อ"><b>M1, M2</b></td><td data-h="IEC 81346-2">MA</td><td data-h="อุปกรณ์">มอเตอร์สายพาน M1 ปลายทาง M2 ป้อนของลง M1 ขั้ว U1 V1 W1 และ PE</td></tr></table>
+      <table class="tbl stack" data-l="en"><tr><th>Name</th><th>IEC 81346-2</th><th>Device and job</th></tr>
+        <tr><td data-h="Name"><b>Q1</b></td><td data-h="IEC 81346-2">QA</td><td data-h="Device">main breaker: switches the whole set on and off, trips on a short circuit</td></tr>
+        <tr><td data-h="Name"><b>Q11, Q12</b></td><td data-h="IEC 81346-2">QA</td><td data-h="Device">branch breakers: short-circuit protection of the M1 and M2 cables</td></tr>
+        <tr><td data-h="Name"><b>KM1, KM2</b></td><td data-h="IEC 81346-2">QA</td><td data-h="Device">contactors of M1 and M2, main contacts 1/L1–2/T1, 3/L2–4/T2, 5/L3–6/T3</td></tr>
+        <tr><td data-h="Name"><b>F21, F22</b></td><td data-h="IEC 81346-2">FC</td><td data-h="Device">overload relays of M1 and M2: the thermal sensor sits in the power circuit, contacts 95–96 and 97–98 in the control circuit</td></tr>
+        <tr><td data-h="Name"><b>F1</b></td><td data-h="IEC 81346-2">FC</td><td data-h="Device">control fuse</td></tr>
+        <tr><td data-h="Name"><b>M1, M2</b></td><td data-h="IEC 81346-2">MA</td><td data-h="Device">belt motors: M1 at the discharge end, M2 feeds onto M1; terminals U1 V1 W1 and PE</td></tr></table>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">หน้าสัมผัสอนุญาต: M2 เริ่มได้เมื่อ KM1 ดูดแล้วเท่านั้น</h2><h2 data-l="en">The permissive contact: M2 can start only once KM1 has pulled in</h2>
+    <div class="src" data-l="th">UMC5 บทที่ 12 รูป 12.2 · ตำราไทย บทที่ 9 หัวข้อ 1.1 · Senty บทที่ 14 วงจรที่ 23</div><div class="src" data-l="en">UMC5 ch. 12, Fig. 12.2 · Thai textbook ch. 9 §1.1 · Senty ch. 14, circuit 23</div></div></div>
+  <p class="lead" data-l="th">วงจรควบคุมมีสี่ปุ่ม: S1 หยุด M1, S2 เริ่ม M1, S3 หยุด M2 และ S4 เริ่ม M2 (ปุ่มหยุดสีดำ ปุ่มเริ่มสีขาว) ทางเดินกระแสของ KM2 แยกจากจุดหลัง F21 95–96 ผ่านหน้าสัมผัสอนุญาต KM1 83–84 แล้วจึงถึง F22, S3 และ S4 ที่มี KM2 13–14 คร่อม ลองกด S4 ก่อน แล้วกด S2 ตามด้วย S4 จากนั้นลอง S3, S1 หรือแตะ F21, F22 ในรูป (หรือปุ่มใต้หน้าตู้) เพื่อให้โอเวอร์โหลดตัดและรีเซ็ต หลอดสีเขียว H1 H2 (GN) บอกว่ามอเตอร์เดิน หลอดสีเหลือง H4 H5 (YE) บอกว่าโอเวอร์โหลดตัด (รหัสสีตาม IEC 60757 ดูหน้า 5.2) สายพานด้านล่างเดินตาม M1 และ M2 ทุกการกดและสิ่งที่เกิดกับสายพานบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">The control circuit has four buttons: S1 stops M1, S2 starts M1, S3 stops M2 and S4 starts M2 (stop buttons black, start buttons white). KM2's current path branches off after F21 95–96 and passes the permissive contact KM1 83–84 before F22, S3 and S4 with KM2 13–14 across it. Press S4 first, then S2 followed by S4; then try S3 and S1, or tap F21 and F22 in the drawing (or the buttons under the panel door) to trip and reset the overload relays. Green lamps H1 and H2 (GN) show that a motor runs, yellow lamps H4 and H5 (YE) that an overload has tripped (colour codes after IEC 60757, see page 5.2). The belts below follow M1 and M2. Every press, and what happens on the belts, is recorded in the table.</p>
+  <div class="card sim rlwrap" id="simA" style="padding:8px"></div>
+  <div class="card" style="margin-top:12px"><div id="convA"></div><div id="cbA"></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logA"></div><div id="sumA" style="margin-top:8px"></div></div>
+  <div class="story" style="margin-top:12px">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>รูป 12.2 ของ UMC5 ใช้หลักเดียวกันกับมอเตอร์สามตัว: ทางเดินกระแสของ M2 มีหน้าสัมผัส M1 ต่ออนุกรมอยู่ถัดจากปุ่ม START 2 ที่มีหน้าสัมผัสค้าง M2 คร่อม และทางของ M3 มีหน้าสัมผัส M2 ในตำแหน่งเดียวกัน หนังสือเรียกหน้าสัมผัสปกติเปิดที่คุมลำดับแบบนี้ว่าหน้าสัมผัสอนุญาต (permissive contact) สังเกตว่าหน้าสัมผัสค้างของ M2 คร่อมเฉพาะ START 2 ไม่ได้คร่อมหน้าสัมผัส M1 ด้วย หน้าสัมผัสอนุญาตจึงถูกตรวจตลอดเวลาที่ M2 เดิน ตำราไทยรูป 9.2 (โจทย์ตัวอย่างที่ 2) วางหน้าสัมผัส K1 ไว้ใต้หน้าสัมผัสค้างของ K2 ตามหลักเดียวกัน</p>
+        <p>หนังสือวาดปุ่ม STOP ปุ่มเดียวร่วมกัน และหน้าสัมผัส OL1, OL2, OL3 อนุกรมกันที่ปลายสายร่วม โอเวอร์โหลดตัวใดตัดก็หยุดทุกตัว เมื่อวาดใหม่เป็นแบบ IEC ก็คือวงจรด้านบน: STOP → S1, START 1 → S2, START 2 → S4, หน้าสัมผัส M1 ในแถวของ M2 → KM1 83–84 วงจรของวิชาเพิ่มปุ่มหยุด S3 ให้ M2 และย้ายหน้าสัมผัสโอเวอร์โหลดมาไว้ฝั่ง L แยกของใครของมัน ผลของการวางโอเวอร์โหลดแบบต่าง ๆ ดูในหัวข้อ D และหน้า 6.2</p></div>
+      <div class="story-p" data-l="en"><p>UMC5 Fig. 12.2 uses the same idea with three motors: the current path of M2 has an M1 contact in series after START 2, which has the M2 holding contact across it, and the path of M3 has an M2 contact in the same place. The book calls the NO contacts that control the sequence this way permissive contacts. Notice that the M2 holding contact bridges only START 2, not the M1 contact, so the permissive contact is checked all the time M2 runs. Thai textbook Fig. 9.2 (worked example 2) puts the K1 contact under the holding contact of K2 on the same principle.</p>
+        <p>The book draws a single common STOP button and the overload contacts OL1, OL2, OL3 in series in the common return, so any overload stops every motor. Redrawn to IEC it is the circuit above: STOP → S1, START 1 → S2, START 2 → S4, the M1 contact in M2's rung → KM1 83–84. The course circuit adds stop button S3 for M2 and moves the overload contacts to the L side, one in each motor's path; what the different overload arrangements do is in section D and on page 6.2.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/umc5_fig12_2_permissive.jpg?v=13" width="1201" height="778" loading="lazy" decoding="async" alt="US ladder diagram fed from a control transformer: STOP, then three rungs. Rung 1: START 1 with holding contact M1 to coil M1. Rung 2: START 2 with holding contact M2, then an M1 contact, to coil M2. Rung 3: START 3 with holding contact M3, then an M2 contact, to coil M3. Overload contacts OL1, OL2, OL3 in series in the common return.">
+        <figcaption data-l="th">รูป 12.2 หน้าสัมผัสอนุญาตคุมลำดับการเริ่มเดิน (แบบ NEMA) · ที่มา: Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. (Cengage, 2025) บทที่ 12 หน้า 134 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 12.2, permissive contacts control the starting order (NEMA) · source: Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed. (Cengage, 2025), ch. 12, p. 134 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">ต่อแบบอื่น: จากจุดค้างตัวเอง และแบบที่ทำให้ของกอง</h2><h2 data-l="en">Other ways to wire it: from the holding node, and one that makes material pile up</h2>
+    <div class="src" data-l="th">UMC5 บทที่ 12 รูป 12.1 · EMC9 หน่วยที่ 22 รูป 22-1 · Senty บทที่ 14 วงจรที่ 22</div><div class="src" data-l="en">UMC5 ch. 12, Fig. 12.1 · EMC9 unit 22, Fig. 22-1 · Senty ch. 14, circuit 22</div></div></div>
+  <p class="lead" data-l="th">เลือกวงจรทีละแบบ อ่านว่าต่างจากหัวข้อ A ตรงไหน แล้วสั่งงานแบบเดียวกัน: S4 ก่อน, S2 แล้ว S4, จากนั้น S1 หรือ F21 ขณะทั้งสองเดิน ดูสายพานว่าของกองหรือไม่ ปุ่ม "KM1 ขดลวดขาด" จำลองคอยล์ KM1 ที่ขาด (KM1 ดูดไม่ได้เลย) และปุ่ม "▶ กด S2 ค้าง แล้วกด S4" กดให้เองเป็นลำดับ เพื่อดูว่าแต่ละแบบตรวจอะไรได้จริง ทุกการกดบันทึกลงตาราง พร้อมชื่อวงจรที่ใช้</p>
+  <p class="lead" data-l="en">Choose one circuit at a time, read how it differs from section A, then run the same tests: S4 first; S2, then S4; then S1 or F21 while both run. Watch whether material piles up on the belts. The "KM1 coil open" button simulates a burnt-out KM1 coil (KM1 can never pull in), and "▶ Hold S2, then press S4" presses the buttons for you in order, so you can see what each circuit really checks. Every press is recorded in the table together with the circuit used.</p>
+  <div class="card solve"><div id="selB"></div><div id="infoB"></div></div>
+  <div class="card sim rlwrap" id="simB" style="padding:8px;margin-top:12px"></div>
+  <div class="card" style="margin-top:12px"><div id="convB"></div><div id="cbB"></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pB" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logB"></div><div id="sumB" style="margin-top:8px"></div></div>
+  <div class="story n2" style="margin-top:12px">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>รูป 12.1 ของ UMC5 ต่อจากจุดค้างตัวเอง: ปุ่ม START 2 รับไฟจากจุดหลัง START 1 และหน้าสัมผัสค้าง M1 และปุ่ม START 3 รับไฟจากจุดหลัง START 2 และ M2 ปุ่ม START 2 จึงไม่มีไฟจนกว่า M1 จะค้างตัวเอง ไม่ต้องใช้หน้าสัมผัสเพิ่ม ส่วนบนของรูปเป็นวงจรกำลังของมอเตอร์สามตัว แต่ละตัวมีหน้าสัมผัสหลักและตัวรับรู้ความร้อนของโอเวอร์โหลด (OL) ของตัวเอง และมีหม้อแปลงควบคุม (control transformer) ลดแรงดันให้วงจรควบคุม ในแบบของวิชาวงจรควบคุมรับ 230 V ตรงจาก L1 กับ N แทน</p>
+        <p>รูป 22-1 ของ EMC9 ทำแบบเดียวกันกับชุดเริ่มเดินสำเร็จรูปสองชุด ด้านบนเป็นแบบการเดินสาย ด้านล่างเป็นแผนภาพวงจร ปุ่ม STOP ของชุดที่ 2 (เส้นสีฟ้า) ต่อจากขั้ว 3 ของชุดที่ 1 ซึ่งเป็นจุดหลังหน้าสัมผัสค้าง M1 และสาย "X" ที่วาดเป็นเส้นประคือสายที่ต่อมาจากโรงงานในชุดที่ 2 ซึ่งหนังสือให้ถอดออก วงจรควบคุมของชุดที่ 2 จึงรับไฟผ่านหน้าสัมผัสค้างของชุดที่ 1 เท่านั้น ในรูปนี้ปุ่มหยุดหรือโอเวอร์โหลดของ M1 หยุดทั้งสองตัว ส่วนปุ่มหยุดหรือโอเวอร์โหลดของ M2 หยุดเฉพาะ M2 เหมือนวงจรของหัวข้อ A เมื่อวาดใหม่เป็นแบบ IEC ก็คือแบบที่ 2 "จากจุดค้างตัวเองของ KM1" ด้านบน</p></div>
+      <div class="story-p" data-l="en"><p>UMC5 Fig. 12.1 wires from the holding node: START 2 takes its supply from the point after START 1 and the M1 holding contact, and START 3 from the point after START 2 and M2. START 2 therefore has no supply until M1 holds itself in, and no extra contact is needed. The top of the figure is the power circuit of three motors, each with its own main contacts and overload (OL) heaters, and a control transformer lowers the voltage for the control circuit; the course circuits take 230 V straight from L1 and N instead.</p>
+        <p>EMC9 Fig. 22-1 does the same with two standard starters: a wiring diagram on top, the line diagram below. The STOP button of the second starter (blue lines) is connected to terminal 3 of the first starter, the point after the M1 holding contact, and the dashed wire marked "X" is a factory connection in the second starter that the book removes, so the control circuit of the second starter gets its supply only through the maintaining contact of the first. Here the stop button or overload of M1 stops both motors, while the stop button or overload of M2 stops only M2, just like the circuit of section A. Redrawn to IEC it is circuit 2, "from KM1's holding node", above.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/umc5_fig12_1_holding_node.jpg?v=13" width="1200" height="1208" loading="lazy" decoding="async" alt="US drawing: power circuit of three motors from L1 L2 L3, each through three M contacts and three OL heaters, a fused control transformer, and below it the control circuit: STOP, START 1 with holding contact M1 to coil M1; START 2 fed from the M1 holding node, with holding contact M2, to coil M2; START 3 fed from the M2 node, with holding contact M3, to coil M3; overload contacts OL1, OL2, OL3 in series in the return.">
+        <figcaption data-l="th">รูป 12.1 มอเตอร์สามตัวเริ่มตามลำดับโดยรับไฟจากจุดค้างตัวเอง (แบบ NEMA) · ที่มา: Herman &amp; Seiler (2025) บทที่ 12 หน้า 133 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 12.1, three motors started in sequence from the holding nodes (NEMA) · source: Herman &amp; Seiler (2025), ch. 12, p. 133 · tap to enlarge</figcaption></figure>
+      <figure class="slide md"><img src="img/book/emc9_fig22_1_standard_starters.jpg?v=13" width="1196" height="739" loading="lazy" decoding="async" alt="US wiring diagram of two three-phase starters with start-stop stations, motor 1 and motor 2; the second station is wired from terminal 3 of the first starter, and a dashed factory wire marked X in the second starter. Below, the line diagram: STOP, START with holding contact M1 to coil M1 and its overload contacts; from point 3 a second STOP and START with holding contact M2 to coil M2 and its overload contacts.">
+        <figcaption data-l="th">รูป 22-1 ชุดเริ่มเดินสำเร็จรูปสองชุดที่ต่อให้เริ่มตามลำดับ (แบบ NEMA) · ที่มา: Herman, <i>Electric Motor Control</i> 9th ed. (Delmar Cengage, 2010) หน่วยที่ 22 หน้า 174 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 22-1, two standard starters wired for sequence starting (NEMA) · source: Herman, <i>Electric Motor Control</i>, 9th ed. (Delmar Cengage, 2010), unit 22, p. 174 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="tD">
+  <div class="prob-head"><span class="prob-no">D</span><div><h2 data-l="th">หน้าสัมผัสโอเวอร์โหลดของแต่ละมอเตอร์ต้องอยู่ในวงจรควบคุม</h2><h2 data-l="en">Each motor's overload contact must be in the control circuit</h2>
+    <div class="src" data-l="th">หน้า 4.4 (โอเวอร์โหลดรีเลย์) · IEC 60204-1 ข้อ 7.3</div><div class="src" data-l="en">Page 4.4 (overload relays) · IEC 60204-1, 7.3</div></div></div>
+  <p class="lead" data-l="th">ในวงจรกำลัง ทั้ง F21 และ F22 อยู่ในสายของมอเตอร์ของตัวเอง แต่ตัวรับรู้ความร้อนในวงจรกำลังทำได้แค่ "รู้" ว่ากระแสเกิน ส่วนการ "ตัด" มอเตอร์ทำโดยหน้าสัมผัส 95–96 ที่เปิดทางเดินกระแสของคอยล์ เลือกวงจรแบบที่ 1 ที่ F22 มีอยู่แค่ในวงจรกำลัง ให้ทั้งสองมอเตอร์เดิน แล้วแตะ F22 ให้ตัด ดูว่า M2 หยุดหรือไม่ จากนั้นเลือกแบบที่ 2 ที่มี F22 95–96 ในทางของ KM2 แล้วลองซ้ำ ผลแต่ละครั้งบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">In the power circuit, F21 and F22 both sit in their own motor's cable, but the thermal sensor in the power circuit can only "know" that the current is too high; switching the motor off is done by the 95–96 contact, which opens the coil's current path. Choose circuit 1, where F22 exists only in the power circuit, run both motors, then tap F22 to trip it and see whether M2 stops. Then choose circuit 2, with F22 95–96 in KM2's path, and try again. Each result is recorded in the table.</p>
+  <div class="card solve"><div id="selD"></div></div>
+  <div class="card sim rlwrap" id="simD" style="padding:8px;margin-top:12px"></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pD" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logD"></div><div id="sumD" style="margin-top:8px"></div></div>
+  <div class="callout" data-l="th"><b>ทำไมแต่ละมอเตอร์ต้องมีโอเวอร์โหลดของตัวเอง</b>: IEC 60204-1 ข้อ 7.3 ให้ป้องกันมอเตอร์ไม่ให้ร้อนเกิน โอเวอร์โหลดรีเลย์ตั้งตามกระแสพิกัดของมอเตอร์ที่มันเฝ้า (หน้า 4.4) มอเตอร์สองตัวจึงต้องมีสองตัว และหน้าสัมผัส 95–96 ของทั้งคู่ต้องอยู่ในวงจรควบคุม จะวาง 95–96 ไว้ที่ไหนกำหนดว่ามอเตอร์ตัวไหนหยุดบ้างเมื่อตัวหนึ่งโอเวอร์โหลด ในหน้านี้ F21 อยู่บนสุด (หยุดทั้งสองตัว เพราะ M2 ป้อนของลง M1) และ F22 อยู่ในทางของ KM2 (หยุดเฉพาะ M2) หน้า 6.2 จะเทียบการวางแบบอนุกรม แบบแยกตัว และแบบลดหลั่น</div>
+  <div class="callout" data-l="en"><b>Why every motor needs its own overload relay</b>: IEC 60204-1, 7.3 requires motors to be protected against overheating. An overload relay is set to the rated current of the motor it watches (page 4.4), so two motors need two relays, and the 95–96 contacts of both must be in the control circuit. Where you put each 95–96 decides which motors stop when one of them is overloaded. On this page F21 sits at the top (it stops both motors, because M2 feeds onto M1) and F22 sits in KM2's path (it stops only M2). Page 6.2 compares the series, the separate and the cascading arrangement.</div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">ตารางอ้างอิงหน้าสัมผัสของ KM1 และ KM2</h2><h2 data-l="en">The contact cross-reference of KM1 and KM2</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · วงจรของหัวข้อ A</div><div class="src" data-l="en">Worked example · the circuit of section A</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>วงจรด้านล่างคือวงจรของหัวข้อ A ที่ยังไม่มีตารางอ้างอิงใต้คอยล์ KM1 กับ KM2 คอนแทกเตอร์ในชุดฝึกมีหน้าสัมผัสช่วย 13–14 (ปกติเปิด) และ 21–22 (ปกติปิด) ในตัว และติดชุดหน้าสัมผัสเสริมด้านหน้า 53–54, 61–62, 71–72, 83–84 ได้หนึ่งชุด (ก) เขียนตารางอ้างอิงใต้คอยล์ KM1 และ KM2 (ข) KM1 ใช้หน้าสัมผัสช่วยปกติเปิดกี่ตัว คอนแทกเตอร์ที่มีพอหรือไม่ (ค) ถ้าย้าย KM1 83–84 ไปต่ออนุกรมกับ S4 ใต้หน้าสัมผัสค้าง KM2 13–14 ที่คร่อมทั้งคู่ จะเกิดอะไรเมื่อ M1 หยุด</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>The circuit below is the circuit of section A without the cross-reference under coils KM1 and KM2. The contactors of the lab kit have auxiliary contacts 13–14 (NO) and 21–22 (normally closed, NC) built in, and take one front-mounted block 53–54, 61–62, 71–72, 83–84. (a) Write the cross-reference under coils KM1 and KM2. (b) How many auxiliary NO contacts does KM1 use, and is the contactor enough? (c) If KM1 83–84 were moved into series with S4, under holding contact KM2 13–14 bridging both, what would happen when M1 stops?</p></div>
+  <div class="card sim rlwrap" id="simE" style="padding:8px"></div>
+  <div class="card solve" style="margin-top:12px"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="ex2">
+  <div class="prob-head"><span class="prob-no">2</span><div><h2 data-l="th">เติมวงจรในตำราไทยให้ครบตามมาตรฐานของวิชา</h2><h2 data-l="en">Complete a Thai textbook circuit to the course standard</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · ตำราไทย บทที่ 9 หัวข้อ 1.1 รูป 9.2</div><div class="src" data-l="en">Worked example · Thai textbook ch. 9 §1.1, Fig. 9.2</div></div></div>
+  <div class="story in">
+    <div class="story-t">
+      <div class="given" data-l="th"><div class="gl">โจทย์</div><p>รูป 9.2 ของตำราไทยเป็นวงจรควบคุมของมอเตอร์สองตัวที่เริ่มเดินตามลำดับด้วยมือ ใช้ชื่ออุปกรณ์แบบมาตรฐานเยอรมัน (Deutsches Institut für Normung, DIN): F2 ฟิวส์วงจรควบคุม F3 หน้าสัมผัสเปลี่ยนทางของโอเวอร์โหลด S1 ปุ่มหยุด S2 และ S3 ปุ่มเริ่ม K1 และ K2 คอนแทกเตอร์ H1 H2 H3 หลอดสัญญาณ เลข 1–5 ใต้เส้น N คือเลขทางเดินกระแส</p>
+        <p>(ก) เทียบชื่อในรูปกับชื่อในแบบของวิชา (ข) กด S3 ก่อนจะเกิดอะไร และกด S2 แล้วกด S3 จะเกิดอะไร (ค) ต้องเพิ่มหรือเปลี่ยนอะไรบ้างให้เป็นวงจรตามมาตรฐานของวิชาสำหรับสายพานสองเส้น M1 กับ M2</p></div>
+      <div class="given" data-l="en"><div class="gl">Problem</div><p>Fig. 9.2 of the Thai textbook is the control circuit of two motors started in sequence by hand. It uses the device letters of DIN (Deutsches Institut für Normung, the German standards institute): F2 control fuse, F3 changeover contact of the overload relay, S1 stop button, S2 and S3 start buttons, K1 and K2 contactors, H1 H2 H3 lamps. The numbers 1–5 under the N line are the current-path numbers.</p>
+        <p>(a) Match the names in the figure with the names of the course drawings. (b) What happens if S3 is pressed first, and what happens if S2 is pressed and then S3? (c) What must be added or changed to make it a circuit to the course standard for the two belts M1 and M2?</p></div></div>
+    <div class="story-f">
+      <figure class="slide sm"><img src="img/book/book1_fig9_2_sequence.jpg?v=13" width="695" height="835" loading="lazy" decoding="async" alt="Thai textbook Fig. 9.2: control circuit from L1 at 220 V through fuse F2 and the changeover contact of overload F3 (its NO side feeds lamp H3), stop button S1, then two branches: start S2 with holding contact K1 to coil K1 with lamp H1 in parallel; start S3 with holding contact K2, then a K1 contact in series, to coil K2 with lamp H2 in parallel; neutral N at the bottom with current paths 1 to 5.">
+        <figcaption data-l="th">รูป 9.2 วงจรควบคุมมอเตอร์สองตัวเริ่มเดินตามลำดับ (อักษรแบบ DIN) · ที่มา: ธนภัทร ไพคำนาม, <i>การควบคุมมอเตอร์ไฟฟ้า</i> (2104-2009), บทที่ 9 หน้า 170 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 9.2, control circuit of two motors started in sequence (DIN letters) · source: Thanaphat Phaikhamnam, <i>Motor Control</i> (2104-2009), ch. 9, p. 170 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+  <div class="card solve"><div id="ask2"></div><div id="st2"></div></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">การเริ่มเดินตามลำดับด้วยมือ</div><div class="src" data-l="en">Manual sequence starting</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>หัวข้อ A: ให้ทั้งสองมอเตอร์เดิน แล้วแตะ F21 ในรูป ดูว่า KM2 หลุดเพราะอะไร (ดูหน้าสัมผัส KM1 83–84 ในทางเดินกระแสที่ 3) จากนั้นรีเซ็ต F21 แล้วดูว่ามอเตอร์เดินเองหรือไม่</li>
+    <li>หัวข้อ B: เลือกแบบที่ 3 ให้ทั้งสองเดิน แล้วกด S1 ดูของบนสายพาน M1 แล้วเลือกแบบที่ 1 ทำซ้ำ อธิบายด้วยคำของตัวเองว่าทำไมหน้าสัมผัสค้างของ KM2 ต้องคร่อมเฉพาะ S4</li>
+    <li>หัวข้อ A: ขณะทั้งสองเดิน แตะ Q11 ในรูปวงจรกำลัง (เบรกเกอร์สาขาของ M1) ดูสายพาน แล้วคิดว่าควรเพิ่มอะไรในวงจรควบคุมเพื่อไม่ให้เกิดแบบนี้</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 9 หัวข้อ 1.1 รูป 9.1–9.2 · Herman, <i>Electric Motor Control</i> 9th ed. หน่วยที่ 22 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 12 · Senty, <i>Motor Control Fundamentals</i> บทที่ 14 วงจรที่ 22–23 · IEC 60204-1 ข้อ 7.3, 10.2.1 · IEC 60947-5-1</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Section A: run both motors, then tap F21 in the drawing and find out why KM2 drops out (look at contact KM1 83–84 in current path 3). Then reset F21 and see whether the motors start by themselves.</li>
+    <li>Section B: choose circuit 3, run both motors and press S1; watch the material on belt M1. Then choose circuit 1 and repeat. Explain in your own words why the KM2 holding contact must bridge S4 only.</li>
+    <li>Section A: while both run, tap Q11 in the power drawing (M1's branch breaker) and watch the belts. What should be added to the control circuit so that this cannot happen?</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 9 §1.1, Figs 9.1–9.2 · Herman, <i>Electric Motor Control</i>, 9th ed., unit 22 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 12 · Senty, <i>Motor Control Fundamentals</i>, ch. 14, circuits 22–23 · IEC 60204-1, 7.3, 10.2.1 · IEC 60947-5-1</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui, tt = ED.tt;
+  const hid = spec => new RL.Sim(document.createElement('div'), spec);
+  /* drawing size: k × the natural width; on a phone a wide circuit keeps at least 1000 px (or its natural width) and scrolls sideways inside its card (.rlscroll) */
+  const fit = (sim, box, k = 1.15) => { const svg = sim.el.querySelector('svg'), W = svg ? svg.viewBox.baseVal.width : 600; sim.o.max = Math.round(W * k); sim.render();
+    sim.el.style.maxWidth = `${Math.round(W * k)}px`; sim.el.style.margin = '0 auto';
+    if (box) { box.classList.toggle('rlscroll', W >= 360); box.style.setProperty('--rlmin', `${Math.round(Math.min(W, 1000))}px`); } return W; };
+  const mount = (box, spec, o = {}, k) => { box.innerHTML = ''; const el = document.createElement('div'); box.appendChild(el); const s = new RL.Sim(el, spec, o); fit(s, box, k); return s; };
+  const runs = s => C6.motors(s).filter(m => s.runningM(m));
+  const runTxt = v => (v ? t('หมุน', 'runs') : t('หยุด', 'stopped'));
+  const rk = (txt, kind) => `<span class="rk-${kind}">${txt}</span>`;
+  const list = a => (a.length ? a.join(', ') : t('ไม่มี', 'none'));
+  const lit = s => Object.keys(s.dev).filter(id => s.dev[id].type === 'lamp' && s.dev[id].energized);
+  /* the belts after a test: running motors and whether a stopped belt is fed by a running one (pile-up) */
+  const piles = a => a.includes('M2') && !a.includes('M1');
+  const runCell = a => (piles(a) ? rk(t(`${list(a)} เดิน: ของกองบน M1!`, `${list(a)} running: material piles up on M1!`), 'bad') : list(a));
+
+  /* every user action on a simulator (drawing, panel door, panel buttons): fn(device, act, running before, running after, sim) */
+  const snapD = s => { const o = {}; Object.values(s.dev).forEach(d => { o[d.id] = `${d.pressed}|${d.on}|${d.tripped}|${d.blown}`; }); return o; };
+  const watch = (sim, fn) => { let was = snapD(sim), wr = runs(sim);
+    sim.on(s => { const now = snapD(s), nr = runs(s);
+      Object.values(s.dev).forEach(d => { if (now[d.id] === was[d.id] || !['pb', 'cb', 'ol', 'fuse'].includes(d.type)) return;
+        const act = d.type === 'pb' ? (d.pressed ? 'press' : 'release') : d.type === 'cb' ? (d.on ? 'on' : 'off') : d.type === 'ol' ? (d.tripped ? 'trip' : 'reset') : 'fuse';
+        fn(d, act, wr, nr, s); });
+      was = now; wr = nr; }); };
+  const actTxt = (d, act) => ({ press: t(`กด ${d.id}`, `press ${d.id}`), release: t(`ปล่อย ${d.id}`, `release ${d.id}`), on: t(`สับ ${d.id}`, `${d.id} on`), off: t(`ปลด ${d.id}`, `${d.id} off`),
+    trip: t(`${d.id} ตัด`, `${d.id} trips`), reset: t(`รีเซ็ต ${d.id}`, `reset ${d.id}`), fuse: t(`เปลี่ยนฟิวส์ ${d.id}`, `replace fuse ${d.id}`) })[act];
+  /* why a start did nothing: dead supply or a tripped overload */
+  const dead = (s, m) => { const d = s.dev, tr = Object.keys(d).filter(id => d[id].type === 'ol' && d[id].tripped);
+    if (!d.Q1.on) return [t('ไม่มีอะไรเปลี่ยน: Q1 ปลดอยู่ วงจรควบคุมไม่มีไฟ', 'nothing changes: Q1 is off, so the control circuit is dead'), 'warn'];
+    if (d.F1.blown) return [t('ไม่มีอะไรเปลี่ยน: F1 ขาด', 'nothing changes: F1 has blown'), 'warn'];
+    if (tr.length) return [t(`ไม่มีอะไรเปลี่ยน: ${tr.join(', ')} ตัดอยู่ ต้องรีเซ็ตก่อน`, `nothing changes: ${tr.join(', ')} is tripped and must be reset first`), 'warn'];
+    return m ? [m, 'ok'] : [t('ไม่มีอะไรเปลี่ยน', 'nothing changes'), '']; };
+  /* what an action means in the two-motor circuits; v = 'A' | 'NODE' | 'BRIDGE' | 'NOOL' */
+  const meanSeq = (d, act, b, a, s, v) => {
+    const B1 = b.includes('M1'), B2 = b.includes('M2'), A1 = a.includes('M1'), A2 = a.includes('M2'), id = d.id, pile = !A1 && A2;
+    if (act === 'release') return id === 'S2' && B2 && !A2 ? [t('ปล่อย S2: จุดค้างตัวเองของ KM1 ไม่มีไฟอีก KM2 จึงหลุด M2 หยุด', "S2 released: KM1's holding node goes dead, so KM2 drops out and M2 stops"), 'ok'] : null;
+    if (act === 'press') {
+      if (id === 'S2') { if (!B1 && A1) return [t('KM1 ดูดและค้างตัวเองด้วย 13–14: M1 เดิน และ KM1 83–84 ต่อ ตอนนี้จึงเริ่ม M2 ได้', 'KM1 pulls in and holds itself with 13–14: M1 runs, and KM1 83–84 closes, so M2 may now be started'), 'ok'];
+        if (B1) return null;
+        if (s.spec.els.some(e => e.d === 'KM1' && e.k === 'coil' && e.open)) return [t('KM1 ไม่ดูด: คอยล์ KM1 ขาด ไม่มีกระแสไหลผ่านคอยล์', 'KM1 does not pull in: its coil is open, so no current flows through it'), 'warn'];
+        return dead(s, ''); }
+      if (id === 'S4') {
+        if (A2 && !B2) return pile ? [t('M2 เดินทั้งที่ M1 ไม่เดิน: จุดค้างตัวเองมีไฟเพราะกด S2 ค้างอยู่ ไม่ได้เพราะ KM1 ดูด จุดนี้จึงไม่ได้พิสูจน์ว่า KM1 ดูด ของกองบน M1', 'M2 runs although M1 does not: the holding node is live because S2 is held, not because KM1 pulled in, so the node does not prove that KM1 is in; material piles up on M1'), 'bad']
+          : v === 'NODE' ? [t('KM2 ดูด: ทางของ KM2 รับไฟจากจุดค้างตัวเองของ KM1 ซึ่งมีไฟเพราะ KM1 ค้างอยู่ M2 เดินและป้อนของลง M1 ที่เดินอยู่', "KM2 pulls in: its path takes its supply from KM1's holding node, which is live because KM1 holds itself in; M2 runs and feeds onto the moving M1"), 'ok']
+          : v === 'BRIDGE' ? [t('KM2 ดูดผ่าน S4 และ KM1 83–84 แล้วค้างตัวเองด้วย 13–14 ซึ่งคร่อมทั้งสองตัว', 'KM2 pulls in through S4 and KM1 83–84 and holds itself with 13–14, which bridges both'), 'ok']
+          : [t('KM2 ดูดผ่าน KM1 83–84 ที่ต่ออยู่ แล้วค้างตัวเองด้วย 13–14: M2 เดินและป้อนของลง M1 ที่เดินอยู่', 'KM2 pulls in through the closed KM1 83–84 and holds itself with 13–14: M2 runs and feeds onto the moving M1'), 'ok'];
+        if (B2) return null;
+        if (!A1) { const r = dead(s, ''); if (r[1] === 'warn') return r;
+          return v === 'NODE' ? [t('ไม่มีอะไรเกิด: ขณะ M1 หยุด จุดค้างตัวเองของ KM1 ไม่มีไฟ S4 จึงไม่มีไฟป้อน', "nothing happens: while M1 is stopped, KM1's holding node is dead, so S4 has no supply"), 'ok']
+            : [t('ไม่มีอะไรเกิด: ขณะ M1 หยุด KM1 83–84 เปิด กระแสจาก S4 ไปไม่ถึงคอยล์ KM2 (M2 เริ่มได้หลัง M1 เท่านั้น)', 'nothing happens: while M1 is stopped, KM1 83–84 is open, so S4 cannot reach coil KM2 (M2 may start only after M1)'), 'ok']; }
+        return dead(s, ''); }
+      if (id === 'S3') return B2 && !A2 ? [t('S3 ตัดเฉพาะทางของ KM2: M2 หยุด M1 เดินต่อและระบายของที่อยู่บนสายพานออกไป', "S3 opens KM2's path only: M2 stops, M1 runs on and carries away what is on it"), 'ok'] : null;
+      if (id === 'S1') {
+        if (B1 && !A1 && A2) return [t('M1 หยุดแต่ M2 เดินต่อ: ทางของ KM2 รับไฟก่อน S1 และหน้าสัมผัสค้างของ KM2 คร่อม KM1 83–84 ไว้ ไม่มีอะไรหยุด M2 ของจึงกองที่จุดที่ M2 ส่งลง M1', "M1 stops but M2 runs on: KM2's path takes its supply ahead of S1 and KM2's holding contact bridges KM1 83–84, so nothing stops M2 and the material piles up where M2 feeds M1"), 'bad'];
+        if (B1 && !A1 && B2) return [v === 'NODE' ? t('S1 ตัดไฟจุดค้างตัวเองของ KM1: KM1 และ KM2 หลุดทั้งคู่ สายพานหยุดพร้อมกัน', "S1 kills KM1's holding node: KM1 and KM2 both drop out and the belts stop together")
+          : t('KM1 หลุด 83–84 เปิด KM2 จึงหลุดตาม: สายพานหยุดพร้อมกัน (ของค้างอยู่บนทั้งสองเส้น หน้า 6.2 ให้หยุด M2 ก่อน)', 'KM1 drops out, its 83–84 opens and KM2 drops out too: both belts stop together (material stays on both belts; page 6.2 stops M2 first)'), 'ok'];
+        if (B1 && !A1) return [t('M1 หยุด', 'M1 stops'), 'ok'];
+        return null; }
+      return null; }
+    if (act === 'trip') { const n = id.slice(2), H = `H${3 + +n}`;
+      if (id === 'F21') return B1 && !A1 && A2 ? [t('F21 หยุด M1 แต่ M2 เดินต่อ: ทางของ KM2 รับไฟก่อน F21 และหน้าสัมผัสค้างของ KM2 คร่อม KM1 83–84 ของกองบน M1 ที่หยุดอยู่', "F21 stops M1 but M2 runs on: KM2's path is fed ahead of F21 and KM2's holding contact bridges KM1 83–84, so material piles up on the stopped M1"), 'bad']
+        : B1 && !A1 ? [B2 ? t(`F21 95–96 เปิดทางเดินกระแสที่ 1: KM1 หลุด และ 83–84 พา KM2 หลุดตาม หลอดเหลือง ${H} ติด`, `F21 95–96 opens current path 1: KM1 drops out and its 83–84 takes KM2 with it; yellow lamp ${H} lights`) : t(`F21 95–96 เปิด: M1 หยุด หลอดเหลือง ${H} ติด`, `F21 95–96 opens: M1 stops; yellow lamp ${H} lights`), 'ok']
+        : [t('F21 ตัดขณะ M1 หยุดอยู่: เริ่ม M1 ไม่ได้จนกว่าจะรีเซ็ต', 'F21 trips while M1 is stopped: M1 cannot be started until it is reset'), ''];
+      if (id === 'F22') return B2 && A2 ? [t('F22 ตัดแล้วแต่ M2 ยังเดิน: วงจรนี้ไม่มี F22 95–96 ในวงจรควบคุม ตัวรับรู้ความร้อนในวงจรกำลังรู้ว่ากระแสเกินแต่ตัดมอเตอร์เองไม่ได้ มอเตอร์จะร้อนจนเสียหาย', 'F22 has tripped but M2 runs on: this circuit has no F22 95–96 in the control circuit; the thermal sensor in the power circuit knows the current is too high but cannot switch the motor off, so the motor overheats'), 'bad']
+        : B2 && !A2 ? [t(`F22 95–96 เปิดทางของ KM2: หยุดเฉพาะ M2 ส่วน M1 เดินต่อ หลอดเหลือง ${H} ติด`, `F22 95–96 opens KM2's path: only M2 stops, M1 runs on; yellow lamp ${H} lights`), 'ok']
+        : [t('F22 ตัดขณะ M2 หยุดอยู่: เริ่ม M2 ไม่ได้จนกว่าจะรีเซ็ต', 'F22 trips while M2 is stopped: M2 cannot be started until it is reset'), ''];
+      return null; }
+    if (act === 'reset') return a.length > b.length ? [t('รีเซ็ตแล้วมอเตอร์เดินเอง', 'a motor restarts on the reset'), 'bad'] : [t('รีเซ็ตแล้วไม่มีอะไรเดินเอง: หน้าสัมผัสค้างเปิดไปตอนคอยล์หลุด ต้องกดเริ่มใหม่', 'reset: nothing starts by itself, because the holding contacts opened when the coils dropped out; press the start buttons again'), 'ok'];
+    if (id === 'Q1') return act === 'off' ? [b.length ? t('ปลด Q1: มอเตอร์และวงจรควบคุมไม่มีไฟ คอนแทกเตอร์หลุดทั้งคู่', 'Q1 off: the motors and the control circuit lose their supply; both contactors drop out') : t('ปลด Q1: ไม่มีไฟทั้งชุด', 'Q1 off: the whole set is dead'), '']
+      : a.length ? [t('สับ Q1 แล้วมอเตอร์เดินเอง', 'Q1 on and a motor restarts'), 'bad'] : [t('สับ Q1: ไม่มีอะไรเดินเอง (วงจร 3 สาย) ต้องกด S2 แล้ว S4 ใหม่', 'Q1 on: nothing restarts by itself (three-wire control); press S2, then S4 again'), 'ok'];
+    if (/^Q1\d$/.test(id)) { const m = `M${id.slice(2)}`, km = `KM${id.slice(2)}`;
+      if (act === 'off') return pile ? [t(`ปลด ${id}: ${m} ไม่มีไฟ แต่ ${km} ยังดูด (${id} ไม่มีหน้าสัมผัสในวงจรควบคุม) KM1 83–84 จึงยังให้ M2 เดิน ของกองบน M1 ในตู้จริงมักต่อหน้าสัมผัสช่วยของเบรกเกอร์สาขาอนุกรมในทางของคอยล์ เพื่อไม่ให้เกิดแบบนี้`, `${id} off: ${m} loses its supply, but ${km} stays in (${id} has no contact in the control circuit), so KM1 83–84 still lets M2 run and material piles up on M1. A real panel usually wires an auxiliary contact of the branch breaker in series with the coil so that this cannot happen`), 'bad']
+        : [t(`ปลด ${id}: ${m} ไม่มีไฟ แต่ ${km} ยังดูดอยู่ (${id} ไม่มีหน้าสัมผัสในวงจรควบคุม)`, `${id} off: ${m} has no supply, but ${km} is still in (${id} has no contact in the control circuit)`), 'warn'];
+      return a.includes(m) && !b.includes(m) ? [t(`สับ ${id}: ${m} หมุนทันที เพราะ ${km} ยังดูดค้างอยู่`, `${id} on: ${m} runs at once, because ${km} stayed in`), 'warn'] : [t(`สับ ${id}`, `${id} on`), '']; }
+    if (act === 'fuse') return [t('เปลี่ยนฟิวส์แล้ว', 'fuse replaced'), ''];
+    return null; };
+  /* belt controls under a conveyor: feed hopper open/closed and empty the belts */
+  const beltCtl = (el, get) => { const bt = ui.buttons(el, [{ id: `${el.id}Feed`, label: t('ถังป้อน: เปิด', 'hopper: open'), on: true, onclick: b => { const c = get(); c.setFeed(!c.feed); b.classList.toggle('on', c.feed); b.textContent = c.feed ? t('ถังป้อน: เปิด', 'hopper: open') : t('ถังป้อน: ปิด', 'hopper: closed'); } },
+    { id: `${el.id}Empty`, label: t('↺ ล้างของบนสายพาน', '↺ Empty the belts'), onclick: () => get().reset() }]); return bt; };
+  const convLog = (log, pre) => e => { if (e.kind === 'spill' && log._sp === e.from) return; log._sp = e.kind === 'spill' ? e.from : null;
+    const txt = e.kind === 'pile' ? [t(`ของเริ่มกองที่จุดที่ ${e.from} ส่งลง ${e.onto}: ${e.onto} หยุดแต่ ${e.from} ยังส่งของมา`, `material starts to pile up where ${e.from} feeds ${e.onto}: ${e.onto} has stopped but ${e.from} still delivers`), 'bad']
+      : e.kind === 'spill' ? [t(`ของล้นหกที่จุดส่งต่อ ${e.from} → ${e.onto}`, `material spills at the transfer point ${e.from} → ${e.onto}`), 'bad'] : [t(`กองที่จุด ${e.from} → ${e.onto} ถูกพาไปหมดแล้ว`, `the pile at ${e.from} → ${e.onto} has been carried away`), 'ok'];
+    log.add(`${pre}conv|${e.kind}|${e.from}`, [...(pre ? [pre.slice(0, -1)] : []), t('(สายพาน)', '(belts)'), '', '', txt[0]], txt[1]); };
+
+  /* 0: the power circuit of two motors (power-only spec of SEQ_A) */
+  const spP = C6.SEQ_A(); spP.els = [];
+  mount($('pw0'), spP, { label: 'power circuit of two motors' }, 1.1);
+
+  /* A: SEQ_A with the conveyor (two belts), panel door, log and summary */
+  const simA = mount($('simA'), C6.SEQ_A(), { label: 'two motors in sequence with a permissive contact' });
+  const convA = new C6.Conveyor($('convA'), simA, { onEvent: e => convLogA(e) });
+  beltCtl($('cbA'), () => convA);
+  C6.panel($('pA'), simA, { cut: false, skip: ['Q11', 'Q12'] });
+  const logA = new ED.Log($('logA'), [['สิ่งที่ทำ', 'what you did'], ['M1', 'M1'], ['M2', 'M2'], ['ความหมาย', 'what it means']]);
+  const convLogA = convLog(logA, '');
+  watch(simA, (d, act, b, a, s) => { const m = meanSeq(d, act, b, a, s, 'A'); if (!m) return;
+    logA.add(`${d.id}|${act}|${b}|${a}`, [actTxt(d, act), runTxt(a.includes('M1')), runTxt(a.includes('M2')), m[0]], m[1]); });
+  LS.anim($('tA'), dt => { simA.step(dt); convA.step(dt); });   // the whole section, so the belts keep moving while the door or the log is on screen
+  const BOTH = [['tap', 'S2'], ['tap', 'S4']];
+  const TESTS = [
+    [['กด S4 ก่อน (M1 หยุดอยู่)', 'S4 first (M1 stopped)'], [['tap', 'S4']]],
+    [['กด S2 แล้วกด S4', 'S2, then S4'], BOTH],
+    [['ทั้งสองเดิน แล้วกด S3', 'both running, then S3'], [...BOTH, ['tap', 'S3']]],
+    [['ทั้งสองเดิน แล้วกด S1', 'both running, then S1'], [...BOTH, ['tap', 'S1']]],
+    [['ทั้งสองเดิน แล้ว F21 ตัด', 'both running, F21 trips'], [...BOTH, ['toggle', 'F21']]],
+    [['ทั้งสองเดิน แล้ว F22 ตัด', 'both running, F22 trips'], [...BOTH, ['toggle', 'F22']]],
+    [['ทั้งสองเดิน ปลด Q1 แล้วสับกลับ', 'both running, Q1 off and on again'], [...BOTH, ['toggle', 'Q1'], ['toggle', 'Q1']]]];
+  const trialA = (spec, seq) => { const s = hid(spec); C6.runSeq(s, seq); return s; };
+  ED.summary($('sumA'), { head: [['การทดลอง', 'test'], ['M1', 'M1'], ['M2', 'M2'], ['หลอดที่ติด', 'lamps lit'], ['สายพาน', 'belts']],
+    rows: () => TESTS.map(([lab, seq]) => { const s = trialA(C6.SEQ_A(), seq), a = runs(s);
+      return [tt(lab), runTxt(a.includes('M1')), runTxt(a.includes('M2')), list(lit(s)), piles(a) ? rk(t('ของกองบน M1', 'material piles up on M1'), 'bad') : rk(t('ไม่มีของกอง', 'no pile-up'), 'ok')]; }),
+    points: [['M2 เริ่มได้หลัง M1 เท่านั้น: ขณะ M1 หยุด KM1 83–84 เปิด กด S4 ก็ไม่มีกระแสถึงคอยล์ KM2', 'M2 can start only after M1: while M1 is stopped, KM1 83–84 is open, so pressing S4 sends no current to coil KM2.'],
+      ['S1 หรือ F21 หยุดทั้งสองตัว เพราะ KM1 หลุดแล้ว 83–84 เปิด ส่วน S3 หรือ F22 หยุดเฉพาะ M2 และ M1 เดินระบายของต่อ ไม่มีกรณีไหนที่ M2 เดินขณะ M1 หยุด', 'S1 or F21 stops both motors, because KM1 drops out and 83–84 opens, while S3 or F22 stops only M2 and M1 runs on to clear. In no case does M2 run while M1 stands still.'],
+      ['ปลด Q1 แล้วสับกลับ ไม่มีอะไรเดินเอง: หน้าสัมผัสค้างทั้งสองเปิดไปเมื่อไฟดับ ต้องกด S2 แล้ว S4 ใหม่', 'Q1 off and on again: nothing restarts by itself, because both holding contacts opened when the supply went; press S2, then S4 again.']] });
+
+  /* B: three ways of making M2 depend on M1, with an open-coil fault of KM1 and an automatic "hold S2, then press S4" sequence */
+  const VAR = {
+    A: { f: C6.SEQ_A, lab: ['1 · หน้าสัมผัสอนุญาต KM1 83–84', '1 · permissive contact KM1 83–84'],
+      info: ['วงจรของหัวข้อ A: ทางของ KM2 แยกจากจุดหลัง F21 95–96 ผ่าน KM1 83–84 ก่อนถึง F22, S3 และ S4 หน้าสัมผัสค้าง KM2 13–14 คร่อมเฉพาะ S4 ทุกครั้งที่ KM2 ดูดอยู่ KM1 83–84 ต้องต่ออยู่ด้วย จึงพิสูจน์ได้ว่าแกนของ KM1 ดูดจริง', "The circuit of section A: KM2's path branches off after F21 95–96 and passes KM1 83–84 before F22, S3 and S4; the holding contact KM2 13–14 bridges S4 only. Whenever KM2 is in, KM1 83–84 must be closed too, so the circuit proves that KM1's armature really pulled in."] },
+    NODE: { f: C6.SEQ_NODE, lab: ['2 · จากจุดค้างตัวเองของ KM1', "2 · from KM1's holding node"],
+      info: ['ทางของ KM2 แยกจากจุดหลัง S2 ∥ KM1 13–14 (จุดค้างตัวเองของ KM1) แบบรูป 12.1 ของ UMC5 รูป 22-1 ของ EMC9 และวงจรที่ 22 ของ Senty ไม่ต้องใช้หน้าสัมผัสเพิ่ม จุดนี้มีไฟเฉพาะเมื่อ KM1 ค้างตัวเองอยู่ หรือขณะกด S2 ค้าง ประหยัดหน้าสัมผัสหนึ่งตัว แต่พิสูจน์ได้แค่ว่าจุดนี้มีไฟ ไม่ได้พิสูจน์ว่า KM1 ดูด ลองเปิด "KM1 ขดลวดขาด" แล้วกดปุ่มลำดับอัตโนมัติ', "KM2's path branches off after S2 ∥ KM1 13–14, KM1's holding node, as in UMC5 Fig. 12.1, EMC9 Fig. 22-1 and Senty circuit 22. No extra contact is needed: the node is live only while KM1 holds itself in, or while S2 is held. It saves one contact but proves only that the node is live, not that KM1 pulled in. Switch on \"KM1 coil open\" and press the automatic sequence button."] },
+    BRIDGE: { f: C6.SEQ_BRIDGE, lab: ['3 · หน้าสัมผัสค้างคร่อมหน้าสัมผัสอนุญาต', '3 · holding contact across the permissive'],
+      info: ['ทางของ KM2 รับไฟจาก F1 ขั้ว 2 (ก่อน F21 และ S1) และหน้าสัมผัสค้าง KM2 13–14 คร่อมทั้ง S4 และ KM1 83–84 ตอนเริ่มเดิน 83–84 ต้องต่ออยู่ M2 จึงยังเริ่มก่อน M1 ไม่ได้ แต่เมื่อ KM2 ค้างตัวเองแล้ว ไม่มีอะไรตรวจ KM1 อีก การกด S1 หรือ F21 ตัดจึงหยุดเฉพาะ M1 ส่วน M2 เดินต่อ ของจาก M2 กองบน M1 ที่หยุดอยู่จนล้น ห้ามใช้กับสายพาน', "KM2's path takes its supply from F1 terminal 2 (ahead of F21 and S1), and the holding contact KM2 13–14 bridges both S4 and KM1 83–84. At the moment of starting 83–84 must be closed, so M2 still cannot start before M1; but once KM2 holds itself in, nothing checks KM1 any more. Pressing S1 or an F21 trip stops only M1 while M2 runs on, and M2's material piles up on the stopped M1 until it spills. Never use it on a conveyor."] } };
+  const KEYS = ['A', 'NODE', 'BRIDGE'];
+  const logB = new ED.Log($('logB'), [['วงจร', 'circuit'], ['สิ่งที่ทำ', 'what you did'], ['M1', 'M1'], ['M2', 'M2'], ['ความหมาย', 'what it means']]);
+  const openKM1 = spec => { spec.els.forEach(e => { if (e.k === 'coil' && e.d === 'KM1') e.open = true; }); return spec; };
+  const specB = (v, open) => (open ? openKM1(VAR[v].f()) : VAR[v].f());
+  let vB = 'A', openB = false, simB = null, convB = null, queue = [];
+  const nameB = () => `${tt(VAR[vB].lab).split(' · ')[0]}${openB ? t(' (KM1 ขาด)', ' (KM1 open)') : ''}`;
+  const convLogB = e => convLog(logB, `${nameB()}|`)(e);
+  const selB = ui.radio($('selB'), KEYS.map(k => ({ id: `vb${k}`, label: tt(VAR[k].lab), on: k === 'A' })), id => buildB(id.slice(2), openB));
+  const ctlB = ui.buttons($('selB'), [{ id: 'open', label: t('KM1 ขดลวดขาด: ไม่มี', 'KM1 coil open: no'), onclick: b => { buildB(vB, !openB); } },
+    { id: 'seq', label: t('▶ กด S2 ค้าง แล้วกด S4', '▶ Hold S2, then press S4'), cls: 'on', onclick: () => runSeqB() }]);
+  function buildB(v, open) { vB = v; openB = open; queue = []; selB.set(`vb${v}`);
+    ctlB.open.classList.toggle('on', open); ctlB.open.textContent = open ? t('KM1 ขดลวดขาด: มี', 'KM1 coil open: yes') : t('KM1 ขดลวดขาด: ไม่มี', 'KM1 coil open: no');
+    $('infoB').innerHTML = `<p>${tt(VAR[v].info)}</p>` + (open ? `<p class="simnote">${t('คอยล์ KM1 ขาด: กระแสไม่ไหลผ่านคอยล์ KM1 จึงดูดไม่ได้เลย M1 ไม่มีวันเดิน คำถามคือ M2 จะเดินได้หรือไม่', 'KM1 coil open: no current flows through coil KM1, so it can never pull in and M1 never runs. The question is whether M2 can run.')}</p>` : '');
+    simB = mount($('simB'), specB(v, open), { label: 'variant of the two-motor sequence' });
+    convB = new C6.Conveyor($('convB'), simB, { onEvent: convLogB });
+    $('pB').innerHTML = ''; C6.panel($('pB'), simB, { cut: false, skip: ['Q11', 'Q12'] });
+    watch(simB, (d, act, b, a, s) => { const m = meanSeq(d, act, b, a, s, vB); if (!m) return;
+      logB.add(`${nameB()}|${d.id}|${act}|${b}|${a}`, [nameB(), actTxt(d, act), runTxt(a.includes('M1')), runTxt(a.includes('M2')), m[0]], m[1]); }); }
+  /* the automatic sequence: hold S2, after 1 s tap S4, after 4 s release S2 (driven by the animation loop, so it plays in model time) */
+  function runSeqB() { const s = simB; queue = [[0, () => s.press('S2', true)], [1, () => { s.press('S4', true); s.press('S4', false); }], [4, () => s.press('S2', false)]].map(([tq, fn]) => ({ tq, fn })); queue.t = 0; }
+  beltCtl($('cbB'), () => convB);
+  buildB('A', false);
+  LS.anim($('tB'), dt => { if (queue.length) { queue.t += dt; while (queue.length && queue[0].tq <= queue.t + 1e-9) queue.shift().fn(); } simB.step(dt); convB.step(dt); });
+  const TB = [
+    [['กด S4 ก่อน', 'S4 first'], [['tap', 'S4']], false],
+    [['กด S2 แล้วกด S4', 'S2, then S4'], BOTH, false],
+    [['ทั้งสองเดิน แล้วกด S3', 'both running, then S3'], [...BOTH, ['tap', 'S3']], false],
+    [['ทั้งสองเดิน แล้วกด S1', 'both running, then S1'], [...BOTH, ['tap', 'S1']], false],
+    [['ทั้งสองเดิน แล้ว F21 ตัด', 'both running, F21 trips'], [...BOTH, ['toggle', 'F21']], false],
+    [['KM1 ขาด: กด S2 ค้าง แล้วกด S4 (ขณะยังกด S2)', 'KM1 open: hold S2, press S4 (S2 still held)'], [['hold', 'S2'], ['tap', 'S4']], true]];
+  ED.summary($('sumB'), { head: [['การทดลอง', 'test'], ...KEYS.map(k => VAR[k].lab)],
+    rows: () => TB.map(([lab, seq, open]) => [tt(lab), ...KEYS.map(k => runCell(runs(trialA(specB(k, open), seq))))]),
+    intro: ['แต่ละช่องคือมอเตอร์ที่ยังเดินหลังการทดลอง', 'Each cell lists the motors still running after the test.'],
+    points: [['ทั้งสามแบบกัน M2 ไม่ให้เริ่มก่อน M1 ได้ (แถวแรก) ความต่างอยู่ที่หลังจากเดินแล้ว', 'All three keep M2 from starting before M1 (first row); the difference shows after they are running.'],
+      ['แบบที่ 3 ตรวจ KM1 แค่ตอนเริ่มเดิน เพราะหน้าสัมผัสค้างของ KM2 คร่อมหน้าสัมผัสอนุญาต และทางของ KM2 รับไฟก่อน S1 กับ F21: S1 หรือ F21 หยุด M1 แต่ M2 เดินต่อ ของกองบน M1 วางหน้าสัมผัสอนุญาตไว้นอกหน้าสัมผัสค้างของมอเตอร์ตัวถัดไปเสมอ', "Circuit 3 checks KM1 only at the moment of starting, because KM2's holding contact bridges the permissive contact and KM2's path is fed ahead of S1 and F21: S1 or F21 stops M1 but M2 runs on and the material piles up on M1. Always keep the permissive contact outside the next motor's holding contact."],
+      ['แบบที่ 2 ประหยัดหน้าสัมผัสหนึ่งตัวและใช้ได้กับงานส่วนใหญ่ แต่พิสูจน์แค่ว่าจุดค้างตัวเองมีไฟ ถ้าคอยล์ KM1 ขาด การกด S2 ค้างไว้ก็ทำให้ M2 เดินได้ทั้งที่ M1 ไม่เดิน แบบที่ 1 พิสูจน์ว่า KM1 ดูดจริง', 'Circuit 2 saves one contact and serves most jobs, but it proves only that the holding node is live: with KM1\'s coil open, holding S2 lets M2 run while M1 does not. Circuit 1 proves that KM1 really pulled in.'],
+      ['แม้แบบที่ 1 ก็ยังพิสูจน์แค่ว่าคอนแทกเตอร์ดูด ไม่ได้พิสูจน์ว่าสายพานเคลื่อนที่จริง (หน้า 6.2 กล่องสวิตช์ความเร็ว)', 'Even circuit 1 proves only that the contactor is in, not that the belt really moves (page 6.2, the speed-switch box).']] });
+
+  /* D: F22 only in the power circuit (SEQ_NOOL) against F22 95–96 in KM2's path (SEQ_A) */
+  const VD = { NOOL: { f: C6.SEQ_NOOL, lab: ['1 · F22 มีแค่ในวงจรกำลัง', '1 · F22 only in the power circuit'] }, A: { f: C6.SEQ_A, lab: ['2 · F22 95–96 ในทางของ KM2', "2 · F22 95–96 in KM2's path"] } };
+  const logD = new ED.Log($('logD'), [['วงจร', 'circuit'], ['สิ่งที่ทำ', 'what you did'], ['M1', 'M1'], ['M2', 'M2'], ['ความหมาย', 'what it means']]);
+  let vD = 'NOOL', simD = null;
+  ui.radio($('selD'), ['NOOL', 'A'].map(k => ({ id: `vd${k}`, label: tt(VD[k].lab), on: k === 'NOOL' })), id => buildD(id.slice(2)));
+  function buildD(v) { vD = v; simD = mount($('simD'), VD[v].f(), { label: 'overload contact of motor 2' });
+    $('pD').innerHTML = ''; C6.panel($('pD'), simD, { cut: false, skip: ['Q11', 'Q12'] });
+    watch(simD, (d, act, b, a, s) => { const m = meanSeq(d, act, b, a, s, v); if (!m) return; const nm = tt(VD[v].lab).split(' · ')[0];
+      logD.add(`${v}|${d.id}|${act}|${b}|${a}`, [nm, actTxt(d, act), runTxt(a.includes('M1')), runTxt(a.includes('M2')), m[0]], m[1]); }); }
+  buildD('NOOL');
+  const TD = [[['ทั้งสองเดิน แล้ว F22 ตัด', 'both running, F22 trips'], [...BOTH, ['toggle', 'F22']]], [['ทั้งสองเดิน แล้ว F21 ตัด', 'both running, F21 trips'], [...BOTH, ['toggle', 'F21']]],
+    [['F22 ตัดอยู่ แล้วกด S2 กับ S4', 'F22 tripped, then S2 and S4'], [['toggle', 'F22'], ...BOTH]]];
+  ED.summary($('sumD'), { head: [['การทดลอง', 'test'], ...['NOOL', 'A'].map(k => VD[k].lab)],
+    rows: () => TD.map(([lab, seq]) => [tt(lab), ...['NOOL', 'A'].map(k => { const s = trialA(VD[k].f(), seq), a = runs(s), bad = s.dev.F22.tripped && a.includes('M2');
+      return `${bad ? rk(list(a), 'bad') : list(a)}${s.dev.H5 ? ` · H5 ${s.dev.H5.energized ? t('ติด', 'lit') : t('ดับ', 'off')}` : ` · ${t('ไม่มี H5', 'no H5')}`}`; })]),
+    intro: ['แต่ละช่องคือมอเตอร์ที่ยังเดินหลังการทดลอง และสถานะหลอดโอเวอร์โหลด H5 ของ M2', "Each cell lists the motors still running after the test, and M2's overload lamp H5."],
+    points: [['ตัวรับรู้ความร้อนของ F22 ในวงจรกำลังไม่ได้ตัดกระแสมอเตอร์ เมื่อไม่มี F22 95–96 ในวงจรควบคุม M2 จึงเดินต่อทั้งที่โอเวอร์โหลดตัด และยังเริ่ม M2 ได้แม้ F22 ตัดค้างอยู่', "F22's thermal sensor in the power circuit does not interrupt the motor current. Without F22 95–96 in the control circuit, M2 runs on although the overload has tripped, and M2 can even be started while F22 is still tripped."],
+      ['เมื่อ F22 95–96 อยู่ในทางของ KM2: F22 ตัด → เฉพาะ M2 หยุด H5 ติด M1 เดินระบายของต่อ ส่วน F21 ที่อยู่บนสุดหยุดทั้งสองตัว', "With F22 95–96 in KM2's path: F22 trips → only M2 stops and H5 lights while M1 runs on to clear; F21, at the top, stops both."],
+      ['ตรวจทุกครั้งที่เขียนแบบ: โอเวอร์โหลดรีเลย์ทุกตัวที่วาดในวงจรกำลังต้องมีหน้าสัมผัส 95–96 ในวงจรควบคุม และตารางอ้างอิงช่วยหาได้ว่ามีครบหรือไม่', 'Check every drawing: every overload relay drawn in the power circuit needs a 95–96 contact in the control circuit, and the cross-reference helps you see whether it is there.']] });
+
+  /* worked example 1: cross-reference of KM1 and KM2 (the drawing starts without it) */
+  const simE = mount($('simE'), C6.SEQ_A(), { noXref: true, label: 'two-motor sequence circuit without cross-reference' });
+  const xr = (s, id) => s.xref(id).slice(1).join(' · ');
+  LS.choose($('ask1'), { options: [t('3 ตัว (13–14, 53–54, 83–84): พอ', '3 (13–14, 53–54, 83–84): enough'), t('2 ตัว (13–14, 83–84): พอ', '2 (13–14, 83–84): enough'), t('4 ตัว: ต้องเพิ่มชุดหน้าสัมผัสอีกชุด', '4: another block is needed')], answer: 0,
+    labels: [t('(ข) ก', '(b) a'), t('(ข) ข', '(b) b'), t('(ข) ค', '(b) c')] });
+  LS.stepper($('st1'), { steps: [
+    { why: t('ไล่หน้าสัมผัสของ KM1 ทีละตัว', "Go through KM1's contacts one by one"),
+      body: () => `<p>${t('หน้าสัมผัสหลัก 1–2, 3–4, 5–6 อยู่ในสาขาของ M1 ในวงจรกำลัง หน้าสัมผัสค้าง 13–14 อยู่ทางเดินกระแสที่ 2 (คร่อม S2) หน้าสัมผัสอนุญาต 83–84 อยู่ทางที่ 3 (ทางของ KM2) และ 53–54 อยู่ทางที่ 5 (หลอดเดิน H1) ตารางอ้างอิงใต้คอยล์ KM1 จึงเป็น', "Main contacts 1–2, 3–4, 5–6 sit in M1's branch of the power circuit; holding contact 13–14 in current path 2 (across S2); permissive contact 83–84 in path 3 (KM2's path); and 53–54 in path 5 (run lamp H1). The cross-reference under coil KM1 is therefore")}: <b>${xr(simE, 'KM1')}</b></p>`,
+      onShow: () => { simE.o.noXref = false; simE.render(); } },
+    { why: t('ไล่หน้าสัมผัสของ KM2', "Go through KM2's contacts"),
+      body: () => `<p>${t('หน้าสัมผัสหลักอยู่ในสาขาของ M2 หน้าสัมผัสค้าง 13–14 อยู่ทางที่ 4 (คร่อม S4) และ 53–54 อยู่ทางที่ 6 (หลอดเดิน H2) ตารางใต้คอยล์ KM2 จึงเป็น', "Its main contacts sit in M2's branch, holding contact 13–14 in path 4 (across S4) and 53–54 in path 6 (run lamp H2), so the table under coil KM2 is")}: <b>${xr(simE, 'KM2')}</b> ${t('KM2 83–84 ยังว่าง ใช้เป็นหน้าสัมผัสอนุญาตของสายพานเส้นที่สาม หรือใช้หยุดย้อนลำดับในหน้า 6.2 ได้', 'KM2 83–84 is still free: it can serve as the permissive contact of a third belt, or for the reverse-order stop of page 6.2.')}</p>` },
+    { why: t('นับหน้าสัมผัสช่วยปกติเปิดของ KM1', "Count KM1's auxiliary NO contacts"),
+      body: `<p>${t('KM1 ใช้หน้าสัมผัสช่วยปกติเปิด 3 ตัว: 13–14 ที่มีในตัวคอนแทกเตอร์ และ 53–54 กับ 83–84 บนชุดหน้าสัมผัสเสริมด้านหน้า ส่วน 61–62, 71–72 (ปกติปิด) และ 21–22 ในตัวยังว่าง คอนแทกเตอร์ของชุดฝึกจึงพอ ตารางอ้างอิงใต้คอยล์ช่วยนับแบบนี้ได้ทันทีตอนสั่งซื้ออุปกรณ์', 'KM1 uses 3 auxiliary NO contacts: 13–14 built into the contactor, and 53–54 and 83–84 on the front block; 61–62, 71–72 (NC) and the built-in 21–22 stay free. The lab-kit contactor is enough. The cross-reference under the coil lets you count like this straight away when you order the parts.')}</p>` },
+    { why: t('(ค) ถ้า KM2 13–14 คร่อม KM1 83–84 ด้วย', '(c) If KM2 13–14 also bridged KM1 83–84'),
+      body: `<p>${t('KM1 83–84 จะถูกตรวจแค่ตอนกด S4 เมื่อ KM2 ค้างตัวเองแล้ว กระแสไหลผ่าน KM2 13–14 อ้อม 83–84 ไป ทางของ KM2 รับไฟจากจุดหลัง F21 ซึ่งอยู่ก่อน S1 อยู่แล้ว การกด S1 จึงหยุดแค่ M1 ส่วน M2 เดินต่อและส่งของมากองบน M1 ที่หยุดอยู่ ถ้าทางของ KM2 รับไฟก่อน F21 ด้วย (แบบที่ 3 ในหัวข้อ B) แม้ F21 ตัดก็หยุดแค่ M1 เช่นกัน', "KM1 83–84 would be checked only while S4 is pressed: once KM2 holds itself in, the current flows through KM2 13–14 around 83–84. KM2's path is fed from the point after F21, which is already ahead of S1, so pressing S1 would stop only M1, while M2 runs on and piles its material onto the stopped M1. If KM2's path were also fed ahead of F21 (circuit 3 in section B), even an F21 trip would stop only M1.")}</p>` }],
+    answer: () => `${t('(ก) KM1', '(a) KM1')}: ${xr(simE, 'KM1')}; KM2: ${xr(simE, 'KM2')} · ${t('(ข) 3 ตัว พอ', '(b) 3, enough')} · ${t('(ค) S1 หยุด M1 แต่ M2 เดินต่อ ของกองบน M1', '(c) S1 stops M1 but M2 runs on; material piles up on M1')}`,
+    onStep: k => { if (k === 0) { simE.o.noXref = true; simE.render(); } } });
+
+  /* worked example 2: Thai textbook Fig. 9.2 completed to the course standard; the result is SEQ_A drawn in the last step */
+  LS.choose($('ask2'), { options: [t('S3 ก่อน: ไม่มีอะไรเกิด · S2 แล้ว S3: ทั้งสองเดิน', 'S3 first: nothing happens · S2, then S3: both run'), t('S3 ก่อน: M2 เดิน · S2 แล้ว S3: ทั้งสองเดิน', 'S3 first: M2 runs · S2, then S3: both run'), t('S3 ก่อน: ไม่มีอะไรเกิด · S2 แล้ว S3: เฉพาะ M2 เดิน', 'S3 first: nothing happens · S2, then S3: only M2 runs')], answer: 0,
+    labels: [t('(ข) ก', '(b) a'), t('(ข) ข', '(b) b'), t('(ข) ค', '(b) c')] });
+  const MAP2 = [['F2', 'F1', ['ฟิวส์วงจรควบคุม', 'control fuse']], ['F3', 'F21 95–96 / 97–98', ['หน้าสัมผัสของโอเวอร์โหลด M1 (ด้านปกติปิดในทางเดินกระแส ด้านปกติเปิดไปหลอด)', 'contacts of the M1 overload relay (NC side in the current path, NO side to the lamp)']],
+    ['S1', 'S1', ['ปุ่มหยุด', 'stop button']], ['S2', 'S2', ['ปุ่มเริ่ม M1', 'start M1']], ['S3', 'S4', ['ปุ่มเริ่ม M2', 'start M2']], ['K1, K2', 'KM1, KM2', ['คอนแทกเตอร์', 'contactors']],
+    ['H1, H2', 'H1, H2', ['หลอดเดิน (สีเขียว)', 'run lamps (green)']], ['H3', 'H4', ['หลอดโอเวอร์โหลด (สีเหลือง)', 'overload lamp (yellow)']]];
+  LS.stepper($('st2'), { steps: [
+    { why: t('(ก) เทียบชื่อ', '(a) Match the names'),
+      body: `<table class="tbl stack"><tr><th>${t('ตำราไทย (DIN)', 'Thai textbook (DIN)')}</th><th>${t('แบบของวิชา', 'course drawing')}</th><th>${t('อุปกรณ์', 'device')}</th></tr>${MAP2.map(r => `<tr><td data-h="${t('ตำราไทย', 'Thai textbook')}">${r[0]}</td><td data-h="${t('แบบของวิชา', 'course drawing')}"><b>${r[1]}</b></td><td data-h="${t('อุปกรณ์', 'device')}">${tt(r[2])}</td></tr>`).join('')}</table>` +
+        `<p>${t('ระวังชื่อซ้ำ: S3 ในตำราคือปุ่มเริ่ม M2 แต่ในแบบของวิชา S3 คือปุ่มหยุด M2 และปุ่มเริ่ม M2 ชื่อ S4', 'Watch the clash: S3 in the textbook is the start button of M2, but in the course drawing S3 is the stop button of M2 and the start button of M2 is S4.')}</p>` },
+    { why: t('(ข) ไล่ทางเดินกระแส', '(b) Trace the current paths'),
+      body: `<p>${t('ทางเดินกระแสที่ 3 มีหน้าสัมผัส K1 ต่ออนุกรมอยู่ใต้จุดที่ S3 กับหน้าสัมผัสค้าง K2 มาบรรจบกัน หน้าสัมผัส K1 นี้คือหน้าสัมผัสอนุญาต และอยู่นอกหน้าสัมผัสค้างของ K2 เหมือน KM1 83–84 ในหัวข้อ A กด S3 ก่อน: K1 เปิด กระแสไปไม่ถึงคอยล์ K2 จึงไม่มีอะไรเกิด กด S2: K1 ดูดค้าง M1 เดิน แล้วกด S3: K2 ดูดและค้าง ทั้งสองเดิน กด S1: ทั้งสองหยุด', "Current path 3 has a K1 contact in series below the point where S3 and the K2 holding contact meet. This K1 contact is the permissive contact, and it sits outside K2's holding contact, like KM1 83–84 in section A. S3 first: K1 is open, no current reaches coil K2, so nothing happens. S2: K1 pulls in and holds, M1 runs; then S3: K2 pulls in and holds, both run. S1: both stop.")}</p>` },
+    { why: t('(ค) สิ่งที่แบบของวิชาต้องมี', '(c) What the course drawing needs'),
+      body: `<p>(1) ${t('ปุ่มหยุดของ M2 (S3 ในแบบของวิชา) ในทางของ KM2 เพื่อหยุด M2 ได้โดยไม่หยุด M1', "a stop button for M2 (S3 in the course drawing) in KM2's path, so M2 can be stopped without stopping M1")}</p>` +
+        `<p>(2) ${t('หน้าสัมผัสโอเวอร์โหลดของมอเตอร์แต่ละตัวในวงจรควบคุม: F21 95–96 บนสุด (หยุดทั้งสองตัว) และ F22 95–96 ในทางของ KM2 (หยุดเฉพาะ M2) พร้อมหลอดเหลือง H4, H5 ผ่าน 97–98 ที่รับไฟก่อนหน้าสัมผัส 95–96', "the overload contact of each motor in the control circuit: F21 95–96 at the top (stops both) and F22 95–96 in KM2's path (stops only M2), with yellow lamps H4 and H5 through 97–98 fed ahead of the 95–96 contacts")}</p>` +
+        `<p>(3) ${t('หลอดเดินสีเขียว H1, H2 ผ่านหน้าสัมผัส KM1 53–54 และ KM2 53–54 ตามแบบของวิชา', 'green run lamps H1 and H2 through KM1 53–54 and KM2 53–54, as the course drawings do')}</p>` +
+        `<p>(4) ${t('เลขขั้วของทุกอุปกรณ์ เลขทางเดินกระแส และตารางอ้างอิงใต้คอยล์', 'terminal numbers on every device, current-path numbers and the cross-reference under the coils')}</p>` +
+        `<p>(5) ${t('วงจรกำลังตามหัวข้อ 0: Q1, Q11, Q12, KM1, KM2, F21, F22, M1, M2, N และ PE ไฟ 400/230 V วงจรควบคุม 230 V รับไฟหลัง Q1', 'the power circuit of section 0: Q1, Q11, Q12, KM1, KM2, F21, F22, M1, M2, N and PE at 400/230 V, with the 230 V control circuit fed after Q1')}</p>` },
+    { why: t('ผลลัพธ์: วงจรของหัวข้อ A', 'The result: the circuit of section A'),
+      body: `<p>${t('วงจรควบคุมตามแบบของวิชา (ไม่วาดวงจรกำลังซ้ำ) แตะปุ่มในรูปเพื่อลองได้', 'The control circuit to the course standard (the power circuit is not repeated); tap the buttons in the drawing to try it.')}</p><div class="rlwrap rlscroll" style="--rlmin:690px"><div class="ex2sim"></div></div>`,
+      onShow: li => { const el = li.querySelector('.ex2sim'); const s = new RL.Sim(el, C6.SEQ_A(), { noPower: true, max: 760, label: 'two-motor sequence to the course standard' }); el.style.maxWidth = '760px'; } }],
+    answer: t('(ก) F2 → F1, F3 → F21, S3 → S4, K1/K2 → KM1/KM2, H3 → H4 · (ข) S3 ก่อน: ไม่มีอะไรเกิด, S2 แล้ว S3: ทั้งสองเดิน · (ค) ปุ่มหยุด S3 ของ M2, F21 และ F22 95–96 ในวงจรควบคุมพร้อมหลอด H4 H5, หลอดเดินผ่าน 53–54, เลขขั้ว เลขทางเดินกระแส ตารางอ้างอิง และวงจรกำลังที่มี Q1 N PE',
+      '(a) F2 → F1, F3 → F21, S3 → S4, K1/K2 → KM1/KM2, H3 → H4 · (b) S3 first: nothing happens; S2, then S3: both run · (c) stop button S3 for M2, F21 and F22 95–96 in the control circuit with lamps H4 and H5, run lamps via 53–54, terminal and current-path numbers, the cross-reference, and a power circuit with Q1, N and PE') });
+
+  /* C: practice */
+  ED.mcq('mcq', [
+    { q: t('1) ในวงจรของหัวข้อ A หน้าสัมผัส KM1 83–84 ทำหน้าที่อะไร', '1) In the circuit of section A, what does contact KM1 83–84 do?'),
+      options: [t('ค้างตัวเองให้ KM1', 'holds KM1 in'), t('ป้อนไฟให้หลอดเดิน H1', 'feeds run lamp H1'), t('ให้เริ่ม M2 ได้เฉพาะขณะ KM1 ดูด และพา KM2 หลุดเมื่อ KM1 หลุด', 'lets M2 start only while KM1 is in, and drops KM2 when KM1 drops out'), t('หยุด M1 เมื่อ M2 โอเวอร์โหลด', 'stops M1 when M2 is overloaded')], answer: 2,
+      why: t('83–84 เป็นหน้าสัมผัสอนุญาตปกติเปิดในทางของ KM2 ต่อเฉพาะเมื่อ KM1 ดูด', "83–84 is a normally open permissive contact in KM2's path; it is closed only while KM1 is in.") },
+    { q: t('2) สายพาน M2 ป้อนของลงสายพาน M1 ควรเริ่มเดินตามลำดับใด', '2) Belt M2 feeds onto belt M1. In which order should they start?'),
+      options: [t('M1 ก่อน แล้วจึง M2', 'M1 first, then M2'), t('M2 ก่อน แล้วจึง M1', 'M2 first, then M1'), t('พร้อมกันเสมอ', 'always together'), t('ลำดับใดก็ได้', 'any order')], answer: 0,
+      why: t('เริ่มจากปลายทางก่อน ของจาก M2 จึงตกบนสายพาน M1 ที่เดินอยู่แล้ว', 'Start from the discharge end, so what M2 drops lands on a belt that is already moving.') },
+    { q: t('3) ทำไมหน้าสัมผัสค้าง KM2 13–14 ต้องคร่อมเฉพาะ S4 ไม่คร่อมหน้าสัมผัสอนุญาต KM1 83–84 ด้วย', '3) Why must holding contact KM2 13–14 bridge only S4 and not the permissive contact KM1 83–84 as well?'),
+      options: [t('เพื่อให้ใช้หน้าสัมผัสน้อยลง', 'to use fewer contacts'), t('ถ้าคร่อมด้วย KM1 จะถูกตรวจแค่ตอนเริ่มเดิน เมื่อ M1 หยุด M2 อาจเดินต่อจนของกอง', 'if it did, KM1 would be checked only at the start; when M1 stopped, M2 could run on and pile up material'), t('เพื่อให้ M2 เริ่มก่อน M1 ได้', 'so that M2 can start before M1'), t('เพื่อให้หลอด H2 ติด', 'so that lamp H2 lights')], answer: 1,
+      why: t('หน้าสัมผัสอนุญาตต้องอยู่นอกหน้าสัมผัสค้าง จึงถูกตรวจตลอดเวลาที่ M2 เดิน', 'The permissive contact must sit outside the holding contact, so that it is checked all the time M2 runs.') },
+    { q: t('4) ในวงจรของหัวข้อ A ขณะทั้งสองเดิน F22 ตัด ผลคืออะไร', '4) In the circuit of section A, with both running, F22 trips. What happens?'),
+      options: [t('ทั้งสองตัวหยุด', 'both stop'), t('ไม่มีตัวไหนหยุด', 'neither stops'), t('เฉพาะ M1 หยุด', 'only M1 stops'), t('เฉพาะ M2 หยุด M1 เดินต่อ และหลอด H5 ติด', 'only M2 stops, M1 runs on and lamp H5 lights')], answer: 3,
+      why: t('F22 95–96 อยู่ในทางของ KM2 เท่านั้น', "F22 95–96 sits only in KM2's path.") },
+    { q: t('5) วงจรหนึ่งวาด F22 ไว้ในวงจรกำลัง แต่ไม่มีหน้าสัมผัสของ F22 ในวงจรควบคุม เมื่อ M2 โอเวอร์โหลดจะเป็นอย่างไร', '5) A circuit draws F22 in the power circuit but has no F22 contact in the control circuit. What happens when M2 is overloaded?'),
+      options: [t('M2 หยุดเพราะ F22 ตัดกระแสในวงจรกำลัง', 'M2 stops because F22 interrupts the current in the power circuit'), t('M2 เดินต่อจนร้อนเกิน เพราะตัวรับรู้ความร้อนตัดมอเตอร์เองไม่ได้', 'M2 runs on and overheats, because the thermal sensor cannot switch the motor off'), t('M1 หยุดแทน', 'M1 stops instead'), t('ฟิวส์ F1 ขาด', 'fuse F1 blows')], answer: 1,
+      why: t('การตัดมอเตอร์ทำโดย 95–96 ที่เปิดทางของคอยล์ ไม่ใช่ตัวรับรู้ความร้อนในวงจรกำลัง', "Switching off is done by 95–96 opening the coil's path, not by the thermal sensor in the power circuit.") },
+    { q: t('6) เมื่อเทียบกับการต่อจากจุดค้างตัวเองของ KM1 หน้าสัมผัสอนุญาต KM1 83–84 พิสูจน์อะไรได้เพิ่ม', "6) Compared with wiring from KM1's holding node, what more does the permissive contact KM1 83–84 prove?"),
+      options: [t('ว่าสายพาน M1 เคลื่อนที่จริง', 'that belt M1 really moves'), t('ว่าโอเวอร์โหลด F21 ไม่ได้ตัด', 'that overload F21 has not tripped'), t('ว่าแกนของ KM1 ดูดจริง', "that KM1's armature really pulled in"), t('ไม่ได้พิสูจน์อะไรเพิ่ม', 'nothing more')], answer: 2,
+      why: t('จุดค้างตัวเองมีไฟได้ขณะกด S2 แม้คอยล์ KM1 ขาด ส่วน 83–84 ต่อเฉพาะเมื่อ KM1 ดูด การพิสูจน์ว่าสายพานเคลื่อนที่ต้องใช้สวิตช์ความเร็ว (หน้า 6.2)', 'The holding node can be live while S2 is held even with KM1\'s coil open, while 83–84 closes only when KM1 is in. Proving that the belt moves needs a speed switch (page 6.2).') }]);
+});
+</script>
+</body>
+</html>

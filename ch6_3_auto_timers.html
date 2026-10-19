@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="6.3 — Automatic sequence with timers: three conveyors">6.3 — เรียงลำดับอัตโนมัติด้วยตัวตั้งเวลา: สายพาน 3 ตัว</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=13"><link rel="stylesheet" href="assets/ed2.css?v=13">
+<link rel="stylesheet" href="assets/wiring.css?v=13">
+<script src="assets/stops.js?v=13"></script><script src="assets/shell.js?v=13"></script>
+<script src="assets/lesson.js?v=13"></script><script src="assets/draw.js?v=13"></script><script src="assets/ed.js?v=13"></script><script src="assets/sym.js?v=13"></script><script src="assets/iec.js?v=13"></script><script src="assets/relay.js?v=13"></script><script src="assets/ch2.js?v=13"></script><script src="assets/ch3.js?v=13"></script><script src="assets/ch4.js?v=13"></script>
+<script src="assets/panel.js?v=13"></script><script src="assets/ch5.js?v=13"></script><script src="assets/ch6.js?v=13"></script>
+<script src="assets/wiring.js?v=13"></script><script src="assets/devdata.js?v=13"></script><script src="assets/dev.js?v=13"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">เรียงลำดับอัตโนมัติด้วยตัวตั้งเวลา: สายพาน 3 ตัว <span class="en">Automatic sequence with timers: three conveyors</span></h1>
+<h1 data-l="en">Automatic sequence with timers <span class="en">Three conveyors started one after another by on-delay timers</span></h1>
+
+<p class="sub" data-l="th">ในหน้า 6.1 และ 6.2 ผู้ควบคุมกดปุ่มเริ่มของสายพานทีละตัวตามลำดับเอง สายการผลิตจริงมักสั่งทั้งสายด้วยปุ่มเดียว แล้วให้วงจรเริ่ม M1 ก่อน รอครู่หนึ่ง จึงเริ่ม M2 และ M3 ต่อไปเอง เรียกว่าการควบคุมแบบเรียงลำดับอัตโนมัติ (automatic sequence control) ช่วงเวลาระหว่างการเริ่มแต่ละตัวกำหนดด้วยตัวตั้งเวลาหน่วงเมื่อป้อนไฟ (on-delay timer) หน้านี้ให้เริ่มสายพาน 3 ตัวด้วยปุ่ม S2 ปุ่มเดียว ดูแผนภาพเวลากับภาพสายพานไปพร้อมกัน ลองทำให้โอเวอร์โหลดตัดในวงจรสองแบบ และดูว่าการเริ่มทีละตัวลดกระแสที่ดึงจากแหล่งจ่ายได้เท่าไร</p>
+<p class="sub" data-l="en">On pages 6.1 and 6.2 the operator presses the start button of each belt in turn. A real line is usually started with one button: the circuit starts M1, waits a moment, then starts M2 and M3 by itself. This is automatic sequence control, and the time between the starts is set by on-delay timers. On this page you start three conveyors with the single button S2, watch the timing chart and the belts together, trip an overload in two different circuits, and see how much starting the motors one at a time lowers the current drawn from the supply.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>ปุ่มเดียวเริ่มทั้งสาย</b>: กด S2 แล้ว KM1 ดูดและค้างตัวเองด้วย KM1 13–14 หน้าสัมผัส KM1 83–84 ป้อนไฟให้ตัวตั้งเวลา KT1 เริ่มนับ ครบเวลาแล้ว KT1 67–68 สั่ง KM2 จากนั้น KM2 83–84 ป้อนไฟให้ KT2 และ KT2 67–68 สั่ง KM3 ตั้งเวลาไว้ 3 s สายพานจึงเริ่มที่ 0, 3 และ 6 s</li>
+  <li><b>ตัวตั้งเวลารับไฟผ่านหน้าสัมผัสของคอนแทกเตอร์ตัวก่อน</b>: สายพานตัวถัดไปจึงเริ่มได้เฉพาะเมื่อคอนแทกเตอร์ของสายพานที่มันจะส่งของลงไปดูดแล้วจริง และถ้าคอนแทกเตอร์ตัวใดหลุด สายพานทุกตัวที่อยู่ต้นทางของมันก็หลุดตามเอง</li>
+  <li><b>ต่อโอเวอร์โหลดได้สองแบบ</b>: ให้หน้าสัมผัส 95–96 ของแต่ละตัวอยู่ในทางเดินกระแสของมอเตอร์ตัวเอง โอเวอร์โหลดตัวใดตัดก็หยุดสายพานตัวนั้นกับทุกตัวที่อยู่ต้นทาง (ตามกฎของสายพาน) หรือต่ออนุกรมกันทั้งสามตัวไว้ด้านบน ตัวใดตัดก็หยุดทั้งสาย เลือกตามลักษณะของเครื่องจักร</li>
+  <li><b>ทำไมต้องเริ่มทีละตัว</b>: มอเตอร์ดึงกระแสราว 6–7 เท่าของกระแสพิกัดขณะเริ่มเดิน ถ้าเริ่มพร้อมกันสามตัว กระแสก็รวมกันเกือบสามเท่า ถ้าเริ่มห่างกันนานกว่าเวลาที่มอเตอร์ใช้เริ่มเดิน กระแสสูงสุดจะใกล้เคียงกับการเริ่มมอเตอร์ตัวเดียว</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>One button starts the line</b>: S2 pulls in KM1, which holds itself through KM1 13–14; KM1 83–84 starts timer KT1; when KT1 times out, its contact 67–68 starts KM2; KM2 83–84 starts KT2, and KT2 67–68 starts KM3. With 3 s settings the belts start at 0, 3 and 6 s.</li>
+  <li><b>Each timer is fed through a contact of the contactor before it</b>: the next belt can start only when the contactor of the belt it feeds onto has really pulled in, and if any contactor drops out, every belt upstream of it drops out with it.</li>
+  <li><b>Two ways to wire the overloads</b>: each 95–96 in its own motor's path, so an overload stops its own belt and every belt upstream (the conveyor rule); or all three in series at the top, so any overload stops the whole line. The machine decides which.</li>
+  <li><b>Why start one at a time</b>: a motor draws about 6–7 times its rated current while it starts. Three started together add up to nearly three times that; started further apart than the time one motor needs to run up, the peak stays close to that of a single start.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>รู้ได้อย่างไรว่าถึงคิวตัวถัดไป</a><a href="#tA"><b>A</b>สายพาน 3 ตัวด้วยตัวตั้งเวลา</a><a href="#tB"><b>B</b>ทำไมต้องเริ่มทีละตัว</a><a href="#ex1"><b>1</b>ขยายวงจรของตำราไทยเป็น 3 ตัว</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>When may the next motor start?</a><a href="#tA"><b>A</b>Three conveyors with timers</a><a href="#tB"><b>B</b>Why start one at a time</a><a href="#ex1"><b>1</b>Extend the Thai textbook circuit</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">รู้ได้อย่างไรว่าถึงคิวของมอเตอร์ตัวถัดไป</h2><h2 data-l="en">How does the circuit know that the next motor may start?</h2>
+    <div class="src" data-l="th">UMC5 บทที่ 12 หน้า 132 รูป 12.4–12.5 · Senty บทที่ 14 วงจรที่ 9–10 · บทที่ 4 ตัวตั้งเวลา</div><div class="src" data-l="en">UMC5 ch. 12, p. 132, Figs 12.4–12.5 · Senty ch. 14, circuits 9–10 · chapter 4, timers</div></div></div>
+  <div class="story n2">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>Herman &amp; Seiler บอกวิธีตัดสินว่ามอเตอร์ตัวถัดไปเริ่มได้เมื่อไรไว้สามแบบ: วัดกระแสของมอเตอร์ตัวก่อน (กระแสลดลงเมื่อเริ่มเดินเสร็จ) วัดความเร็วของมอเตอร์ตัวก่อน หรือหน่วงเวลา ซึ่งเป็นวิธีที่ใช้กันมากวิธีหนึ่ง หน้านี้ใช้การหน่วงเวลาด้วยตัวตั้งเวลาหน่วงเมื่อป้อนไฟ (on-delay timer) ของ<a href="ch4_3_timers.html">หน้า 4.3</a>: เมื่อคอยล์ A1–A2 ได้ไฟ หน้าสัมผัสปกติเปิดแบบหน่วงเวลา (timed normally open contact, timed NO) 67–68 จะต่อเมื่อครบเวลาที่ตั้ง และเปิดทันทีที่คอยล์ไม่มีไฟ</p>
+        <p>รูป 12.4 ต่อคอยล์ตัวตั้งเวลา TR1 ขนานกับคอยล์ M1 หน้าสัมผัสหน่วงเวลาของ TR1 สั่ง M2 พร้อมกับคอยล์ TR2 และหน้าสัมผัสของ TR2 สั่ง M3 รูป 12.5 ทำงานแบบเดียวกัน แต่ป้อนไฟให้ตัวตั้งเวลาผ่านหน้าสัมผัสช่วยของ M1 และ M2 ตัวตั้งเวลาจึงเริ่มนับเฉพาะเมื่อคอนแทกเตอร์ตัวก่อนดูดแล้วจริง ทั้งสองรูปเป็นแบบของสมาคมผู้ผลิตอุปกรณ์ไฟฟ้าสหรัฐอเมริกา (National Electrical Manufacturers Association, NEMA) ที่วาดทางเดินกระแสตามแนวนอน รับไฟจากหม้อแปลงควบคุม และต่อหน้าสัมผัสโอเวอร์โหลด OL1–OL3 อนุกรมกันไว้ทางกลับ โอเวอร์โหลดตัวใดตัดก็หยุดทั้งหมด หัวข้อ A คือแนวคิดของรูป 12.5 ที่วาดใหม่เป็นแบบ IEC (International Electrotechnical Commission คณะกรรมาธิการไฟฟ้าระหว่างประเทศ) แนวตั้ง โดยตั้งเวลาไว้ 3 s แทน 5 s ของตำรา</p></div>
+      <div class="story-p" data-l="en"><p>Herman &amp; Seiler give three ways to decide when the next motor may start: sense the current of the motor before it (the current falls when its start is over), sense that motor's speed, or use a time delay, one of the most common methods. This page uses the time delay, with the on-delay timer of <a href="ch4_3_timers.html">page 4.3</a>: once coil A1–A2 is energised, the timed normally open (timed NO) contact 67–68 closes after the set time, and it opens at once when the coil loses its supply.</p>
+        <p>Fig. 12.4 puts the coil of timer TR1 in parallel with coil M1; the timed contact of TR1 starts M2 together with coil TR2, and the contact of TR2 starts M3. Fig. 12.5 works the same way but feeds the timers through auxiliary contacts of M1 and M2, so a timer starts counting only when the contactor before it has really pulled in. Both are horizontal drawings in the style of the US National Electrical Manufacturers Association (NEMA), fed from a control transformer, with the overload contacts OL1–OL3 in series on the return side, so any overload stops everything. Section A is the idea of Fig. 12.5 redrawn vertically to the International Electrotechnical Commission (IEC) style, with 3 s instead of the book's 5 s.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/umc5_fig12_4_timed_start.jpg?v=13" width="1200" height="710" loading="lazy" decoding="async" alt="NEMA schematic: STOP and START with holding contact M1 feed coil M1 and timer coil TR1 in parallel; the timed contact of TR1 feeds coil M2 and timer TR2, the timed contact of TR2 feeds coil M3; overload contacts OL1 OL2 OL3 in series on the return side; both timers set to 5 seconds.">
+        <figcaption data-l="th">รูป 12.4 เริ่มเดินมอเตอร์ 3 ตัวตามลำดับด้วยตัวตั้งเวลาที่ต่อขนานกับคอยล์ (แบบ NEMA) · ที่มา: Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. (Cengage, 2025) บทที่ 12 หน้า 135 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 12.4, three motors started in sequence by timers in parallel with the coils (NEMA) · source: Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed. (Cengage, 2025), ch. 12, p. 135 · tap to enlarge</figcaption></figure>
+      <figure class="slide md"><img src="img/book/umc5_fig12_5_aux_timers.jpg?v=13" width="1200" height="738" loading="lazy" decoding="async" alt="NEMA schematic: STOP and START with holding contact M1 feed coil M1; an M1 contact feeds timer TR1, whose timed contact feeds M2; an M2 contact feeds timer TR2, whose timed contact feeds M3; overload contacts in series on the return side.">
+        <figcaption data-l="th">รูป 12.5 ตัวตั้งเวลารับไฟผ่านหน้าสัมผัสช่วยของคอนแทกเตอร์ตัวก่อน (แบบ NEMA วาดใหม่เป็นแบบ IEC ในหัวข้อ A) · ที่มา: Herman &amp; Seiler (2025) บทที่ 12 หน้า 135 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 12.5, timers fed through an auxiliary contact of the contactor before them (NEMA; redrawn to IEC in section A) · source: Herman &amp; Seiler (2025), ch. 12, p. 135 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+  <div class="story n2" style="margin-top:12px">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>Senty เริ่มจากวงจรที่ง่ายกว่า: วงจรที่ 9 (รูป 14-9) ให้หน้าสัมผัสช่วย 4–5 ของคอนแทกเตอร์ S1 ของสายพาน 1 สั่งคอนแทกเตอร์ S2 ของสายพาน 2 กดปุ่ม Start ครั้งเดียว สายพานทั้งสองเริ่มเกือบพร้อมกัน วงจรที่ 10 (รูป 14-10) เพิ่มรีเลย์ตั้งเวลา TD ที่ต่อขนานกับคอยล์ S1 สายพาน 2 จึงเริ่มหลังสายพาน 1 ตามเวลาที่ตั้ง Senty ให้เหตุผลว่าการเว้นช่วงเวลาสำคัญเมื่อมอเตอร์มีขนาดใหญ่ เพราะการเริ่มพร้อมกันอาจสร้างปัญหาให้ระบบไฟฟ้าของโรงงาน (หัวข้อ B) เลขในกรอบสี่เหลี่ยมเป็นเลขขั้วแบบอเมริกัน: 2–3 และ 4–5 เป็นหน้าสัมผัสช่วยของชุดเริ่มเดิน S1 ส่วนเลขที่ TD เป็นขั้วของรีเลย์ตั้งเวลาแบบเสียบฐาน (รูปเล็กทางซ้าย คอยล์อยู่ที่ขั้ว 13–14) วิชานี้วาดวงจรแบบนี้ใหม่เป็นแบบ IEC แนวตั้งเหมือนหัวข้อ A และใช้เลขตาม IEC 60947: คอยล์ A1–A2 และหน้าสัมผัสหน่วงเวลาปกติเปิด 67–68</p></div>
+      <div class="story-p" data-l="en"><p>Senty starts with simpler circuits. In circuit 9 (Fig. 14-9) auxiliary contact 4–5 of starter S1 (conveyor 1) switches starter S2 (conveyor 2): one press of Start and both belts start almost together. Circuit 10 (Fig. 14-10) adds a timing relay TD in parallel with coil S1, so conveyor 2 starts the set time after conveyor 1. Senty's reason: a set time between the starts matters when the motors are large, because starting them together can cause problems on the plant's power system (section B). The boxed numbers are US terminal numbers: 2–3 and 4–5 are auxiliary contacts of starter S1, and the numbers at TD are the terminals of a plug-in timing relay (small picture on the left: its coil is on terminals 13–14). The course redraws such circuits vertically to IEC, as in section A, and uses the IEC 60947 numbers: coil A1–A2 and timed normally open contact 67–68.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/senty_fig14_9_aux_start.jpg?v=13" width="841" height="265" loading="lazy" decoding="async" alt="US ladder diagram: Stop and Start with holding contact 2-3 of S1 feed starter S1 of conveyor 1; auxiliary contact 4-5 of S1 feeds starter S2 of conveyor 2; each starter has its own overload contact.">
+        <figcaption data-l="th">รูป 14-9 วงจรที่ 9: มอเตอร์ตัวหนึ่งสั่งเริ่มมอเตอร์ตัวที่สองด้วยหน้าสัมผัสช่วย (ทางเดินกระแสแบบอเมริกัน) · ที่มา: Senty, <i>Motor Control Fundamentals</i> (Delmar Cengage, 2013) บทที่ 14 หน้า 165 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 14-9, circuit 9: one motor starts a second through an auxiliary contact (US ladder) · source: Senty, <i>Motor Control Fundamentals</i> (Delmar Cengage, 2013), ch. 14, p. 165 · tap to enlarge</figcaption></figure>
+      <figure class="slide md"><img src="img/book/senty_fig14_10_timer_start.jpg?v=13" width="843" height="272" loading="lazy" decoding="async" alt="US ladder diagram: Stop and Start with holding contact feed starter S1 of conveyor 1 and, in parallel, timing relay TD on terminals 13-14; the timed contact 9-5 of TD feeds starter S2 of conveyor 2.">
+        <figcaption data-l="th">รูป 14-10 วงจรที่ 10: เริ่มมอเตอร์ตัวที่สองหลังหน่วงเวลาด้วยรีเลย์ตั้งเวลา (ทางเดินกระแสแบบอเมริกัน) · ที่มา: Senty (2013) บทที่ 14 หน้า 165 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 14-10, circuit 10: the second motor starts after a delay set by a timing relay (US ladder) · source: Senty (2013), ch. 14, p. 165 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">สายพาน 3 ตัว เริ่มด้วยปุ่มเดียว</h2><h2 data-l="en">Three conveyors from one start button</h2>
+    <div class="src" data-l="th">UMC5 บทที่ 12 รูป 12.5 · ตำราไทย บทที่ 9 หัวข้อ 1.2 รูป 9.5 · Senty บทที่ 14 วงจรที่ 10 · IEC 60204-1 ข้อ 7.5 และ 10.7</div><div class="src" data-l="en">UMC5 ch. 12, Fig. 12.5 · Thai textbook ch. 9 §1.2, Fig. 9.5 · Senty ch. 14, circuit 10 · IEC 60204-1, 7.5 and 10.7</div></div></div>
+  <p class="lead" data-l="th">ปุ่มหยุดฉุกเฉิน S0 (หัวเห็ดสีแดงบนแผ่นสีเหลือง กดแล้วค้าง ต้องคลิกอีกครั้งจึงคืน) ปุ่มหยุดทั้งสาย S1 (สีดำ) และปุ่มเริ่มทั้งสาย S2 (สีขาว) อยู่ที่หน้าตู้ใต้วงจร ตัวตั้งเวลา KT1 และ KT2 ตั้งไว้เท่ากัน ปรับได้ด้วยแถบเลื่อน กด S2 แล้วรอดูแผนภาพเวลาและสายพาน จากนั้นลองกด S1, กด S0, ทำให้ไฟดับ และคลิกโอเวอร์โหลด F21, F22 หรือ F23 (ในวงจรหรือปุ่มในแผง) ขณะสายพานเดินครบสามตัว ทำทั้งสองแบบของการต่อโอเวอร์โหลด ผลแต่ละครั้งบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">The emergency stop S0 (a red mushroom on a yellow plate; it latches and needs a second click to release), the line stop S1 (black) and the line start S2 (white) are on the panel front under the circuit. KT1 and KT2 are set to the same time, adjustable with the slider. Press S2 and watch the timing chart and the belts; then press S1, press S0, let the power fail, and click overload relay F21, F22 or F23 (in the drawing or with the panel buttons) while all three belts run. Try both ways of wiring the overloads. Each result is recorded.</p>
+  <div class="card solve"><div class="panel" id="mA" style="position:static;max-height:none"></div></div>
+  <div class="card sim rlwrap rlscroll" id="boxA" style="padding:8px;margin-top:12px;--rlmin:1000px"></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
+  <div class="c6duo" style="margin-top:12px"><div class="card"><div id="cvA"></div></div><div class="card"><div id="tlA"></div></div></div>
+  <div class="card" style="margin-top:12px"><div id="logA"></div><div id="sumA" style="margin-top:8px"></div></div>
+  <div class="duo" style="margin-top:12px">
+    <div class="card"><h3 data-l="th">อ่านวงจรทีละทางเดินกระแส</h3><h3 data-l="en">Reading the circuit path by path</h3>
+      <ol data-l="th"><li>F1 → S0 → S1 → S2 → F21 95–96 → คอยล์ KM1 (สายพานปลายทาง M1)</li><li>KM1 13–14 คร่อม S2: หน้าสัมผัสค้างตัวเองของทั้งสาย</li><li>KM1 83–84 → คอยล์ KT1: เริ่มนับเมื่อ KM1 ดูดแล้วเท่านั้น</li><li>KT1 67–68 → F22 95–96 → คอยล์ KM2</li><li>KM2 83–84 → คอยล์ KT2</li><li>KT2 67–68 → F23 95–96 → คอยล์ KM3 (สายพานต้นทาง M3)</li><li>ทางที่ 7–9 หลอดเดินสีเขียว H1–H3 ผ่าน KM1–KM3 53–54 และทางที่ 10–12 หลอดโอเวอร์โหลดสีเหลือง H4–H6 ผ่าน F21–F23 97–98 รับไฟจาก F1 ขั้ว 2</li></ol>
+      <ol data-l="en"><li>F1 → S0 → S1 → S2 → F21 95–96 → coil KM1 (discharge belt M1)</li><li>KM1 13–14 across S2: the holding contact of the whole line</li><li>KM1 83–84 → coil KT1: it counts only once KM1 has pulled in</li><li>KT1 67–68 → F22 95–96 → coil KM2</li><li>KM2 83–84 → coil KT2</li><li>KT2 67–68 → F23 95–96 → coil KM3 (feed belt M3)</li><li>Paths 7–9: green run lamps H1–H3 via KM1–KM3 53–54; paths 10–12: yellow overload lamps H4–H6 via F21–F23 97–98, fed from F1 terminal 2</li></ol>
+      <p class="simnote" data-l="th">ถ้าเลือกต่อโอเวอร์โหลดอนุกรมด้านบน F21 F22 F23 จะย้ายไปอยู่ใต้ S0 ทางเดินกระแสอื่นเหมือนเดิม ตัวเลขใต้คอยล์แต่ละตัว (ตารางอ้างอิง) บอกว่าหน้าสัมผัสของมันอยู่ทางเดินกระแสไหน</p>
+      <p class="simnote" data-l="en">With the overloads in series at the top, F21 F22 F23 move up under S0 and every other path stays the same. The numbers under each coil (the cross-reference) tell you which path each of its contacts is in.</p></div>
+    <div class="card"><h3 data-l="th">ปุ่มหยุดฉุกเฉิน S0</h3><h3 data-l="en">The emergency stop S0</h3>
+      <p data-l="th">S0 เป็นปุ่มหัวเห็ดสีแดงบนพื้นสีเหลือง หน้าสัมผัสปกติปิด 11–12 อยู่บนสุดของวงจรต่อจาก F1 กดแล้วทุกทางเดินกระแสขาด สายพานหยุดทั้งหมด และปุ่มค้างอยู่ในตำแหน่งกดจนกว่าจะบิดหรือดึงคืน (IEC 60204-1 ข้อ 10.7) การคืนปุ่มต้องไม่ทำให้เครื่องเริ่มเอง ในวงจรนี้เป็นเช่นนั้นเพราะ KM1 13–14 เปิดไปแล้ว ต้องกด S2 ใหม่ ปุ่ม S1 คือการหยุดตามปกติของสาย ส่วน S0 มีไว้สำหรับเหตุอันตรายเท่านั้น ในเครื่องจักรจริงวงจรหยุดฉุกเฉินมักทำงานผ่านรีเลย์นิรภัย (safety relay) แต่หลักการเดียวกัน: ตัดทุกอย่าง และไม่เริ่มเองเมื่อคืนปุ่ม</p>
+      <p data-l="en">S0 is a red mushroom-head button on a yellow background. Its normally closed contact 11–12 sits at the very top of the circuit after F1: pressing it breaks every path, all the belts stop, and the button stays latched until it is turned or pulled back (IEC 60204-1, 10.7). Releasing it must not restart the machine; here it does not, because KM1 13–14 has already opened and S2 must be pressed again. S1 is the normal stop of the line; S0 is only for danger. On real machines the emergency stop usually acts through a safety relay, but the principle is the same: cut everything, and no restart when the button is released.</p></div>
+  </div>
+  <div class="duo" style="margin-top:12px">
+    <div class="card"><h3 data-l="th">95–96 อยู่ในทางของมอเตอร์แต่ละตัว</h3><h3 data-l="en">Each 95–96 in its own motor's path</h3>
+      <p data-l="th">F22 ตัด: ทางเดินกระแสที่ 4 ขาด KM2 หลุด KM2 83–84 เปิด KT2 ไม่มีไฟ หน้าสัมผัส 67–68 ของมันเปิดทันที KM3 จึงหลุดตาม ส่วน KM1 ไม่เกี่ยว M1 เดินต่อและพาของที่อยู่บนสายพานออกไปจนหมด นี่คือกฎข้อ 3 ของสายพานในหน้า 6.2: สายพานตัวใดหยุด ทุกตัวที่อยู่ต้นทางต้องหยุดทันที ส่วนตัวที่อยู่ปลายทางเดินต่อได้ วงจรนี้ได้ผลแบบนี้มาเองเพราะตัวตั้งเวลารับไฟผ่านหน้าสัมผัสของคอนแทกเตอร์ตัวก่อน ข้อควรระวัง: ขณะ M1 ยังเดิน KT1 67–68 ยังต่ออยู่ ถ้ารีเซ็ต F22 ตอนนั้น M2 จะเริ่มเองทันที จึงต้องกด S1 ก่อนรีเซ็ตโอเวอร์โหลด</p>
+      <p data-l="en">F22 trips: path 4 opens, KM2 drops out, KM2 83–84 opens, KT2 loses its supply and its contact 67–68 opens at once, so KM3 drops out too. KM1 is not involved: M1 runs on and carries away what is on its belt. That is conveyor rule 3 of page 6.2: when a belt stops, every belt upstream of it must stop at once, while belts downstream may run on. This circuit does it by itself, because each timer is fed through a contact of the contactor before it. A caution: while M1 runs, KT1 67–68 stays closed, so resetting F22 at that moment restarts M2 at once; press S1 before resetting an overload.</p></div>
+    <div class="card"><h3 data-l="th">95–96 ทั้งสามตัวอนุกรมกันด้านบน: โอเวอร์โหลดตัวใดก็หยุดทั้งหมด</h3><h3 data-l="en">All three 95–96 in series at the top: any overload stops all</h3>
+      <p data-l="th">โอเวอร์โหลดตัวใดตัดก็ตัดไฟของทุกทางเดินกระแส สายพานหยุดทั้งสายพร้อมกัน วงจรง่ายกว่าและตรงกับเงื่อนไขของ UMC5 ที่ว่าโอเวอร์โหลดของมอเตอร์ตัวใดก็ต้องหยุดมอเตอร์ทุกตัว (รูป 9.5 ของตำราไทยก็ต่อ F3 F4 อนุกรมกันด้านบน) แต่สายพานปลายทางหยุดทั้งที่ยังมีของอยู่ ต้องเริ่มใหม่ทั้งที่มีภาระ ส่วนหลอดสีเหลือง H4–H6 ยังบอกได้ว่าสายพานตัวไหนเป็นต้นเหตุ เครื่องจักรบางแบบต้องการแบบนี้ บางแบบต้องการแบบแรก ผู้ออกแบบต้องเลือก</p>
+      <p data-l="en">Any overload removes the supply of every path and the whole line stops at once. The circuit is simpler and matches the UMC5 requirement that an overload on any motor stops all motors (Thai textbook Fig. 9.5 also has F3 and F4 in series at the top). But the downstream belts stop with material on them and must restart loaded; the yellow lamps H4–H6 still tell which belt caused it. Some machines need this arrangement and some the first one: the designer chooses.</p></div>
+  </div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">ทำไมต้องเริ่มทีละตัว: กระแสเริ่มเดินรวมกัน</h2><h2 data-l="en">Why start one at a time: the starting currents add up</h2>
+    <div class="src" data-l="th">Senty บทที่ 14 วงจรที่ 10 หน้า 165 · แบบจำลองการเริ่มเดินของหน้า 5.1</div><div class="src" data-l="en">Senty ch. 14, circuit 10, p. 165 · start-up model of page 5.1</div></div></div>
+  <p class="lead" data-l="th">กราฟแสดงกระแสในสายเมนเมื่อเริ่มมอเตอร์เหมือนกัน 3 ตัว (หรือ 2 ตัว) พร้อมกัน (เส้นประสีแดง) เทียบกับเริ่มทีละตัวห่างกันตามเวลาที่ตั้งตัวตั้งเวลา (เส้นทึบสีเขียว) เส้นประสีเทาคือกระแสของมอเตอร์แต่ละตัว หน่วยของแกนตั้งคือเท่าของกระแสพิกัดของมอเตอร์ 1 ตัว เลื่อนเวลาหน่วงตั้งแต่ 0 ถึง 8 s แล้วดูว่ากระแสสูงสุดลดลงเท่าไร ทุกค่าที่ลองบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">The chart shows the line current when three (or two) identical motors are started together (red dashed line) and one at a time with the timer delay between them (solid green line); the grey dashed lines are the currents of the single motors. The vertical axis is in multiples of one motor's rated current. Move the delay from 0 to 8 s and see how far the peak drops. Every value you try is recorded.</p>
+  <div class="card solve"><div class="panel" id="pB" style="position:static;max-height:none"></div></div>
+  <div class="card sim" style="padding:10px;margin-top:12px"><div id="chB"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logB"></div><div id="sumB" style="margin-top:8px"></div></div>
+  <p class="simnote" data-l="th" style="margin-top:8px">ตัวเลขเป็นค่าตัวอย่างจากแบบจำลองมอเตอร์ของหน้า 5.1: มอเตอร์เหนี่ยวนำเหมือนกันทุกตัว ขับสายพานที่มีภาระ จึงเริ่มเดินเสร็จในราว 1.8 s กระแสจริงขึ้นกับมอเตอร์และภาระ ดูจากเอกสารข้อมูลของมอเตอร์ CADe SIMU ไม่คำนวณกระแส จึงดูผลนี้ในโปรแกรมไม่ได้</p>
+  <p class="simnote" data-l="en" style="margin-top:8px">The numbers are example values from the motor model of page 5.1: identical induction motors driving loaded belts, so each start takes about 1.8 s. Real currents depend on the motor and its load (see the motor data sheet). CADe SIMU does not compute currents, so this cannot be seen in the program.</p>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">ขยายวงจรเรียงลำดับอัตโนมัติของตำราไทยเป็นสายพาน 3 ตัว</h2><h2 data-l="en">Extending the Thai textbook's automatic sequence to three conveyors</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · ตำราไทย บทที่ 9 หัวข้อ 1.2 รูป 9.5</div><div class="src" data-l="en">Worked example · Thai textbook ch. 9 §1.2, Fig. 9.5</div></div></div>
+  <div class="story in">
+    <div class="story-t">
+      <div class="given" data-l="th"><div class="gl">โจทย์</div><p>รูป 9.5 ของตำราไทยเป็นวงจรเรียงลำดับอัตโนมัติของมอเตอร์ 2 ตัว ใช้ชื่ออุปกรณ์แบบ DIN (Deutsches Institut für Normung สถาบันมาตรฐานเยอรมัน): K1 K2 คอนแทกเตอร์ K3T ตัวตั้งเวลา F2 ฟิวส์วงจรควบคุม F3 F4 โอเวอร์โหลด H1 H2 หลอดเดิน H3 หลอดโอเวอร์โหลด (ก) เทียบชื่ออุปกรณ์กับชื่อของวิชานี้ (ข) กด S2 แล้วเกิดอะไรขึ้นตามลำดับ และทำไม K2 จึงยังดูดอยู่ได้หลังจาก K3T ไม่มีไฟ (ค) ถ้าต้องใช้วงจรนี้สั่งสายพาน 3 ตัวตามแบบของวิชา (M1 สายพานปลายทางเริ่มก่อน) ต้องเพิ่มอะไรบ้าง เขียนวงจรแบบ IEC พร้อมเลขขั้วและตารางอ้างอิง (ง) วงจรในรูปต่อโอเวอร์โหลดแบบใด ถ้า F4 ของมอเตอร์ตัวที่สองตัด มอเตอร์ตัวใดหยุด</p></div>
+      <div class="given" data-l="en"><div class="gl">Problem</div><p>Thai textbook Fig. 9.5 is an automatic sequence for two motors, with device names after DIN (Deutsches Institut für Normung, the German standards body): K1 K2 contactors, K3T timer, F2 control fuse, F3 F4 overload relays, H1 H2 run lamps, H3 overload lamp. (a) Match the device names to the course names. (b) What happens, in order, when S2 is pressed, and why does K2 stay in after K3T has lost its supply? (c) To run three conveyors in the course style (discharge belt M1 first), what has to be added? Draw the IEC circuit with terminal numbers and cross-references. (d) How are the overloads arranged in the figure? If F4 of the second motor trips, which motors stop?</p></div></div>
+    <div class="story-f"><figure class="slide sm"><img src="img/book/book1_fig9_5_auto_timer.jpg?v=13" width="802" height="818" loading="lazy" decoding="async" alt="Thai textbook Fig. 9.5: vertical control circuit for two motors started in sequence by on-delay timer K3T; overload changeover contacts F3 and F4 in series at the top feed overload lamp H3; start button S2 with holding contact K1; a K2 normally closed contact in the timer path; the timed contact of K3T with holding contact K2 and a K1 normally open contact feed K2; run lamps H1 and H2.">
+      <figcaption data-l="th">รูป 9.5 วงจรควบคุมแบบเรียงลำดับอัตโนมัติ · ที่มา: ธนภัทร ไพคำนาม, <i>การควบคุมมอเตอร์ไฟฟ้า</i> (2104-2009), บทที่ 9 หน้า 173 · แตะรูปเพื่อขยาย</figcaption>
+      <figcaption data-l="en">Fig. 9.5, automatic sequence control circuit · source: Thanaphat Phaikhamnam, <i>Motor Control</i> (2104-2009), ch. 9, p. 173 · tap to enlarge</figcaption></figure></div>
+  </div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">เรียงลำดับอัตโนมัติด้วยตัวตั้งเวลา</div><div class="src" data-l="en">Automatic sequence with timers</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>หัวข้อ A: ตั้งเวลา 5 s แล้วกด S2 อ่านเวลาที่ M2 และ M3 เริ่มจากแผนภาพเวลา ตรงกับที่คิดไว้หรือไม่ ถ้าตั้ง KT1 เป็น 2 s และ KT2 เป็น 6 s M3 จะเริ่มที่วินาทีเท่าไร</li>
+      <li>หัวข้อ A: ขณะ M2 เริ่มแล้วแต่ M3 ยังไม่เริ่ม คลิก F21 แล้วรีเซ็ต อะไรหยุดบ้าง และหลังรีเซ็ตมีอะไรเริ่มเองไหม ทำซ้ำทั้งสองแบบของการต่อโอเวอร์โหลด</li>
+      <li>หัวข้อ B: หาเวลาหน่วงที่สั้นที่สุดที่ทำให้กระแสสูงสุดของมอเตอร์ 3 ตัวลดลงเกิน 55 % แล้วเทียบกับเวลาเริ่มเดินของมอเตอร์ 1 ตัว</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 9 หัวข้อ 1.2 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 12 · Herman, <i>Electric Motor Control</i> 9th ed. หน่วยที่ 22 · Senty, <i>Motor Control Fundamentals</i> บทที่ 14 · IEC 60204-1 ข้อ 7.5 และ 10.7 · IEC 60947-5-1</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Section A: set 5 s and press S2. Read the times at which M2 and M3 start on the timing chart. Is that what you expected? With KT1 at 2 s and KT2 at 6 s, when would M3 start?</li>
+      <li>Section A: once M2 has started but M3 has not, click F21 and then reset it. What stops, and does anything restart after the reset? Repeat with both ways of wiring the overloads.</li>
+      <li>Section B: find the shortest delay that lowers the peak of three motors by more than 55 %, and compare it with the time one motor needs to start.</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 9 §1.2 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 12 · Herman, <i>Electric Motor Control</i>, 9th ed., unit 22 · Senty, <i>Motor Control Fundamentals</i>, ch. 14 · IEC 60204-1, 7.5 and 10.7 · IEC 60947-5-1</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui, tt = ED.tt, fd = ED.fd;
+  const hid = spec => new RL.Sim(document.createElement('div'), spec);   // hidden simulator for the summaries (same model as the page)
+  const runs = s => C6.motors(s).filter(m => s.runningM(m)), list = a => (a.length ? a.join(', ') : '–');
+  const yes = `<span class="rk-ok">✓</span>`, no = `<span class="rk-bad">✗</span>`;
+  /* cross-reference lines ["NO", "13–14 ▸ 2", …] → "NO 13–14 ▸ 2, …" */
+  const xr = a => a.reduce((acc, x) => (x === 'NO' || x === 'NC' ? [...acc, [x]] : (acc[acc.length - 1].push(x), acc)), []).map(g => `${g[0]} ${g.slice(1).join(', ')}`).join(' · ');
+  const fresh = box => { box.innerHTML = ''; const el = document.createElement('div'); box.appendChild(el); return el; };   // a fresh element drops the old listeners
+
+  /* A: three conveyors started by on-delay timers (C6.AUTO3), with the panel front, the conveyor line and the timing chart */
+  const MODE = { own: ['95–96 ในทางของมอเตอร์แต่ละตัว', 'each 95–96 in its own path'], all: ['95–96 อนุกรมด้านบน', '95–96 in series at the top'] };
+  let mode = 'own', TA = C6.T, simA = null, conv = null, tl = null, clk = 0, tS2 = null, R0 = [], snapA = null, readA = '';
+  const mA = $('mA'), boxA = $('boxA'), pA = $('pA');
+  ui.h2(mA, t('การต่อโอเวอร์โหลดและเวลาที่ตั้ง', 'Overload wiring and timer setting'));
+  ui.radio(mA, [{ id: 'own', label: t('95–96 อยู่ในทางของมอเตอร์แต่ละตัว', 'each 95–96 in its own motor path'), on: true }, { id: 'all', label: t('95–96 ทั้งสามตัวอนุกรมกันด้านบน (โอเวอร์โหลดตัวใดก็หยุดทั้งหมด)', 'all three 95–96 in series at the top (any overload stops all)') }], id => { mode = id; buildA(); });
+  ui.slider(mA, { id: 'tsetA', label: t('เวลาที่ตั้ง KT1 = KT2', 'setting KT1 = KT2'), min: 1, max: 8, step: 0.5, value: TA, unit: 's', dec: 1, oninput: v => { TA = v; if (simA) { simA.dev.KT1.T = v; simA.dev.KT2.T = v; } } });
+  const stA = ui.status(mA);
+  ui.buttons(mA, [{ id: 'clrA', label: t('↺ ล้างแผนภาพเวลาและสายพาน', '↺ Clear the chart and the belts'), onclick: () => { tl.clear(); conv.reset(); } }]);
+  const logA = new ED.Log($('logA'), [['การต่อโอเวอร์โหลด', 'overload wiring'], ['เหตุการณ์', 'event'], ['เวลาหลังกด S2', 'time after S2'], ['สายพาน', 'belts'], ['ความหมาย', 'what it means']],
+    { empty: ['ยังไม่มีผล กด S2 ที่หน้าตู้เพื่อเริ่มทั้งสาย', 'No results yet: press S2 on the panel front to start the line'] });
+  const snap = s => { const o = { mains: String(s.mains) }; Object.values(s.dev).forEach(d => { o[d.id] = `${d.pressed}|${d.on}|${d.tripped}|${d.blown}`; }); return o; };
+  const since = () => (tS2 === null ? '–' : `${fd(clk - tS2, 1)} s`);
+  const up = m => +m.slice(1);   // M3 is the feed end: a larger number is further upstream
+  const trackA = s => {
+    if (s !== simA) return; const now = snap(s), was = snapA, R1 = R0, R = runs(s); snapA = now; R0 = R;
+    const ch = Object.keys(now).filter(k => now[k] !== was[k]), d = s.dev, M = tt(MODE[mode]), stop = R1.filter(m => !R.includes(m)), go = R.filter(m => !R1.includes(m));
+    const add = (k, ev, belts, txt, kind, tm) => logA.add(`${mode}|${k}`, [M, ev, tm ?? (R1.length ? since() : '–'), belts, txt], kind);
+    if (!ch.length) {   // a timer contact changed: the next belt starts
+      go.forEach(m => { const i = up(m);
+        add(`${m}|${TA}`, t(`KT${i - 1} ครบเวลา`, `KT${i - 1} times out`), list(R), i === 2 ? t('KT1 67–68 ต่อ: KM2 ดูด M2 เดิน · KM2 83–84 ป้อนไฟให้ KT2 เริ่มนับ', 'KT1 67–68 closes: KM2 pulls in and M2 runs · KM2 83–84 starts KT2 counting')
+          : t('KT2 67–68 ต่อ: KM3 ดูด M3 เดิน สายพานเดินครบทั้งสาย ของจากถังป้อนตกลงบนสายพานที่เดินอยู่ทุกตัว', 'KT2 67–68 closes: KM3 pulls in and M3 runs; the whole line is moving, and material from the hopper always lands on a moving belt'), 'ok', since()); });
+      return; }
+    ch.forEach(id => { const dv = d[id];
+      if (id === 'S2' && dv.pressed) {
+        if (!R1.length && R.includes('M1')) { tS2 = clk; add(`S2|${TA}`, t('กด S2 เริ่มทั้งสาย', 'press S2: line start'), 'M1', t('KM1 ดูดและค้างตัวเองด้วย 13–14 · KM1 83–84 ป้อนไฟให้ KT1 เริ่มนับ · M2 และ M3 ยังหยุดรอ', 'KM1 pulls in and holds itself through 13–14 · KM1 83–84 starts KT1 counting · M2 and M3 wait'), 'ok', '0.0 s'); }
+        else if (!R.length) add('S2dead', t('กด S2', 'press S2'), '–', `${t('ไม่มีอะไรเริ่ม', 'nothing starts')}: ${C6.state(s)[0]}`, 'warn'); }
+      else if (id === 'S1' && dv.pressed && R1.length) add('S1', t('กด S1 หยุดทั้งสาย', 'press S1: line stop'), `${t('หยุด', 'stopped')}: ${list(stop)}`,
+        t('หยุดพร้อมกันทุกตัว: S1 อยู่ก่อนทุกทางเดินกระแส และหน้าสัมผัสหน่วงเมื่อป้อนไฟเปิดทันทีที่คอยล์ไม่มีไฟ ของที่อยู่บนสายพานค้างอยู่บนสายพาน (หยุดทีละตัวอยู่ในหน้า 6.4)', 'all stop at once: S1 is ahead of every path, and on-delay contacts open as soon as their coil loses supply; the material stays on the belts (a timed stop is on page 6.4)'), 'ok');
+      else if (id === 'S0') { if (dv.pressed) add('S0', t('กด S0 หยุดฉุกเฉิน', 'press S0: emergency stop'), R1.length ? `${t('หยุด', 'stopped')}: ${list(stop)}` : '–', t('ตัดทุกทางเดินกระแสทันที และปุ่มค้างอยู่ในตำแหน่งกด', 'every path is cut at once, and the button stays latched'), 'ok');
+        else add('S0rel', t('คืนปุ่ม S0', 'release S0'), list(R), R.length ? t('มีสายพานเริ่มเอง!', 'a belt restarted by itself!') : t('ไม่มีอะไรเริ่มเอง ต้องกด S2 ใหม่ (IEC 60204-1 ข้อ 10.7)', 'nothing restarts by itself; S2 must be pressed again (IEC 60204-1, 10.7)'), R.length ? 'bad' : 'ok'); }
+      else if (/^F2\d$/.test(id)) { const i = +id[2];
+        if (dv.tripped) {
+          if (!R1.length) { add(`${id}idle`, t(`${id} ตัด`, `${id} trips`), '–', t('สายพานหยุดอยู่แล้ว ลองใหม่ขณะสายพานเดินครบสามตัว', 'the belts were already stopped; try again with all three running'), 'warn'); return; }
+          const want = mode === 'all' ? R1 : R1.filter(m => up(m) >= i), right = want.every(m => stop.includes(m)) && stop.every(m => want.includes(m));
+          add(id, t(`${id} ตัด (โอเวอร์โหลดของ M${i})`, `${id} trips (overload of M${i})`), `${t('หยุด', 'stopped')}: ${list(stop)} · ${t('เดินต่อ', 'run on')}: ${list(R)}`,
+            !right ? t('ผลไม่ตรงกับการต่อที่เลือก', 'the result does not match the chosen wiring') : mode === 'all' ? t('ทั้งสายหยุด: 95–96 ของทุกตัวอนุกรมกันด้านบน ของค้างอยู่บนสายพานปลายทางด้วย', 'the whole line stops: every 95–96 is in series at the top, so material is left on the downstream belts as well')
+              : R.length ? t(`M${i} และสายพานต้นทางของมันหยุด ส่วน ${list(R)} เดินต่อและพาของออกไป (กฎข้อ 3 ของสายพาน)`, `M${i} and every belt upstream of it stop; ${list(R)} runs on and carries the material away (conveyor rule 3)`)
+                : t(`M${i} เป็นสายพานปลายทาง ทุกตัวจึงอยู่ต้นทางของมัน และหยุดทั้งหมด`, `M${i} is the discharge belt: every other belt is upstream of it, so all stop`), right ? 'ok' : 'bad'); }
+        else add(`${id}rst`, t(`รีเซ็ต ${id}`, `reset ${id}`), list(R), go.length ? t(`${list(go)} เริ่มเองทันทีที่รีเซ็ต: KM${i - 1} ยังดูดอยู่ KT${i - 1} 67–68 จึงยังต่อ และสายพานต้นทางที่เหลือเริ่มตามเวลาของตัวตั้งเวลา กด S1 ก่อนรีเซ็ตโอเวอร์โหลดทุกครั้ง`, `${list(go)} restarts the moment the relay is reset: KM${i - 1} is still in, so KT${i - 1} 67–68 is still closed, and the remaining upstream belts follow on their timers. Press S1 before resetting an overload, every time`)
+          : t('ไม่มีอะไรเริ่มเอง: หน้าสัมผัสค้าง KM1 13–14 เปิดไปแล้ว ต้องกด S2 ใหม่', 'nothing restarts by itself: holding contact KM1 13–14 has opened, so S2 must be pressed again'), go.length ? 'warn' : 'ok', '–'); }
+      else if (id === 'Q1' || id === 'mains') { const off = id === 'Q1' ? !dv.on : now.mains === 'false';
+        if (off) add(`${id}off`, id === 'Q1' ? t('ปลด Q1', 'Q1 off') : t('ไฟดับ', 'power fails'), R1.length ? `${t('หยุด', 'stopped')}: ${list(stop)}` : '–', t('วงจรควบคุมรับไฟหลัง Q1 จึงไม่มีไฟด้วย ทุกตัวหยุด', 'the control circuit is fed after Q1, so it is dead too: everything stops'), 'ok');
+        else add(`${id}on`, id === 'Q1' ? t('สับ Q1', 'Q1 on') : t('ไฟกลับมา', 'power returns'), list(R), R.length ? t('มีสายพานเริ่มเอง!', 'a belt restarted by itself!') : t('ไม่มีอะไรเริ่มเอง ต้องกด S2 ใหม่ (IEC 60204-1 ข้อ 7.5)', 'nothing restarts by itself; S2 must be pressed again (IEC 60204-1, 7.5)'), R.length ? 'bad' : 'ok'); } }); };
+  /* KT1 / KT2 readout from the model (the chart shows the same) */
+  const readout = () => { if (!simA) return; const k = id => { const d = simA.dev[id]; return d.energized ? (simA.act(id) ? t(`${id} ครบ ${fd(d.T, 1)} s แล้ว: 67–68 ต่อ`, `${id} done (${fd(d.T, 1)} s): 67–68 closed`) : t(`${id} นับ ${fd(Math.min(d.tOn, d.T), 1)} / ${fd(d.T, 1)} s`, `${id} counting ${fd(Math.min(d.tOn, d.T), 1)} / ${fd(d.T, 1)} s`)) : t(`${id} ไม่มีไฟ`, `${id} off`); };
+    const R = runs(simA), txt = `${k('KT1')} · ${k('KT2')}`; if (txt + R === readA) return; readA = txt + R; ui.setStatus(stA, R.length ? `${t('เดิน', 'running')}: ${R.join(' ')}` : t('หยุด', 'stopped'), txt, R.length === 3 ? 'good' : R.length ? 'warn' : 'wait'); };
+  function buildA() {
+    simA = new RL.Sim(fresh(boxA), C6.AUTO3({ olAll: mode === 'all', T: TA }), { max: 1300, label: 'three conveyors started by on-delay timers' });
+    pA.innerHTML = ''; ui.h2(pA, t('หน้าตู้และการสั่งงาน', 'Panel front and controls'));
+    C6.panel(pA, simA, { skip: ['Q11', 'Q12', 'Q13'] });
+    conv = new C6.Conveyor(fresh($('cvA')), simA, {});
+    tl = new C6.Timeline(fresh($('tlA')), simA, { span: 20, signals: [{ id: 'S2', sub: ['ปุ่มเริ่มทั้งสาย', 'line start'] }, { id: 'S1', sub: ['ปุ่มหยุดทั้งสาย', 'line stop'] },
+      { id: 'KM1', sub: ['คอยล์ · M1 ปลายทาง', 'coil · M1 discharge'] }, { id: 'KT1' }, { id: 'KM2', sub: ['คอยล์ · M2', 'coil · M2'] }, { id: 'KT2' }, { id: 'KM3', sub: ['คอยล์ · M3 ต้นทาง', 'coil · M3 feed'] }] });
+    clk = 0; tS2 = null; R0 = runs(simA); snapA = snap(simA); readA = ''; simA.on(trackA); readout(); }
+  buildA();
+  LS.anim($('tA'), dt => { clk += dt; simA.step(dt); conv.step(dt); tl.step(dt); readout(); });
+  /* summary from hidden simulators: the same circuits, the same actions */
+  const evA = all => C6.events(C6.AUTO3({ lamps: false, olAll: all }), [[0, 'tap', 'S2']], { until: 7 });
+  const afterA = (all, seq) => { const s = hid(C6.AUTO3({ lamps: false, olAll: all })); C6.runSeq(s, [['tap', 'S2'], ['wait', 7], ...seq]); return s; };
+  const cellA = (s, all0) => { const R = runs(s), S = ['M1', 'M2', 'M3'].filter(m => !R.includes(m)); return `${t('หยุด', 'stop')}: ${list(S)}${R.length ? ` · ${t('เดินต่อ', 'run on')}: ${list(R)}` : ''}`; };
+  ED.summary($('sumA'), { head: [['เหตุการณ์ (สายพานเดินครบสามตัว)', 'event (all three belts running)'], ['95–96 ในทางของมอเตอร์แต่ละตัว', 'each 95–96 in its own path'], ['95–96 อนุกรมด้านบน', '95–96 in series at the top']],
+    rows: () => { const st = all => { const e = evA(all); return `M1 ${fd(e.at('M1'), 1)} s · M2 ${fd(e.at('M2'), 1)} s · M3 ${fd(e.at('M3'), 1)} s`; };
+      const row = (lab, seq) => [lab, cellA(afterA(false, seq)), cellA(afterA(true, seq))];
+      const rst = all => { const s = afterA(all, [['toggle', 'F22']]), a0 = runs(s); C6.runSeq(s, [['toggle', 'F22']]); const a = runs(s); C6.runSeq(s, [['wait', 3.2]]); const b = runs(s);
+        return a.length > a0.length ? `<span class="rk-warn">${t(`เดินหลังรีเซ็ตทันที: ${list(a)} · อีก 3 s: ${list(b)}`, `running right after the reset: ${list(a)} · 3 s later: ${list(b)}`)}</span>` : `<span class="rk-ok">${t('ไม่มีอะไรเริ่มเอง', 'nothing restarts')}</span>`; };
+      const rel = all => { const s = afterA(all, [['hold', 'S0'], ['wait', 1], ['release', 'S0'], ['wait', 4]]); return runs(s).length ? `<span class="rk-bad">${t('เริ่มเอง', 'restarts')}</span>` : `<span class="rk-ok">${t('ไม่มีอะไรเริ่มเอง', 'nothing restarts')}</span>`; };
+      return [[t('กด S2 ที่ 0 s (KT1 = KT2 = 3 s)', 'S2 pressed at 0 s (KT1 = KT2 = 3 s)'), st(false), st(true)], row(t('กด S1', 'press S1'), [['tap', 'S1']]),
+        row(t('F21 ตัด (M1 ปลายทาง)', 'F21 trips (M1, discharge)'), [['toggle', 'F21']]), row(t('F22 ตัด (M2)', 'F22 trips (M2)'), [['toggle', 'F22']]), row(t('F23 ตัด (M3 ต้นทาง)', 'F23 trips (M3, feed)'), [['toggle', 'F23']]),
+        row(t('กด S0', 'press S0'), [['tap', 'S0']]), [t('กด S0 แล้วคืนปุ่ม', 'press S0, then release it'), rel(false), rel(true)], [t('F22 ตัดแล้วรีเซ็ตทันที', 'F22 trips and is reset at once'), rst(false), rst(true)]]; },
+    points: [['ตัวตั้งเวลาแต่ละตัวรับไฟผ่านหน้าสัมผัส 83–84 ของคอนแทกเตอร์ตัวก่อน: M2 เริ่มหลัง M1 ตามเวลาของ KT1 และ M3 เริ่มหลัง M2 ตามเวลาของ KT2 สายพานปลายทางเริ่มก่อนเสมอ ของจากต้นทางจึงตกลงบนสายพานที่เดินอยู่ทุกครั้ง', 'Each timer is fed through contact 83–84 of the contactor before it: M2 starts the KT1 time after M1 and M3 the KT2 time after M2. The discharge belt always starts first, so material from upstream always lands on a moving belt.'],
+      ['S1, S0 และไฟดับ หยุดทุกตัวพร้อมกัน เพราะอยู่ก่อนทุกทางเดินกระแส และหน้าสัมผัสหน่วงเมื่อป้อนไฟเปิดทันทีเมื่อคอยล์ไม่มีไฟ หลังจากนั้นไม่มีอะไรเริ่มเอง ต้องกด S2 ใหม่', 'S1, S0 and a power failure stop everything at once, because they are ahead of every path and on-delay contacts open as soon as their coil loses supply. Nothing restarts afterwards until S2 is pressed again.'],
+      ['ต่อ 95–96 ในทางของมอเตอร์แต่ละตัว: โอเวอร์โหลดของสายพานตัวใดหยุดตัวนั้นและทุกตัวที่อยู่ต้นทาง ตัวปลายทางเดินต่อเพื่อพาของออก ต่ออนุกรมด้านบน: ตัวใดตัดก็หยุดทั้งสาย วงจรง่ายกว่าแต่มีของค้างบนสายพานทุกตัว', '95–96 in each motor\'s own path: an overload stops its belt and every belt upstream, while the downstream belts run on and clear. In series at the top: any trip stops the whole line; simpler, but material is left on every belt.'],
+      ['ข้อควรระวังของแบบแรก: ขณะ M1 ยังเดินอยู่ KT1 67–68 ยังต่อ ถ้ารีเซ็ต F22 M2 จะเริ่มเองทันทีและ M3 ตามมา คนที่กำลังแก้ไขสายพานอาจไม่ทันระวัง จึงต้องกด S1 ให้ทั้งสายหยุดก่อนรีเซ็ตโอเวอร์โหลด แบบอนุกรมด้านบนไม่มีปัญหานี้เพราะ KM1 หลุดไปแล้ว', 'A caution with the first arrangement: while M1 still runs, KT1 67–68 is still closed, so resetting F22 restarts M2 at once and M3 follows; someone working on the belt may not expect it. Stop the whole line with S1 before resetting an overload. The series arrangement does not have this problem, because KM1 has already dropped out.']] });
+
+  /* B: summed starting current of two or three motors, together and staggered (C6.StartSum) */
+  const logB = new ED.Log($('logB'), [['จำนวนมอเตอร์', 'motors'], ['เวลาหน่วง', 'delay'], ['เริ่มพร้อมกัน', 'together'], ['เริ่มทีละตัว', 'one at a time'], ['กระแสสูงสุดลดลง', 'peak lower by']]);
+  const pB = $('pB'); ui.h2(pB, t('เวลาหน่วงและจำนวนมอเตอร์', 'Delay and number of motors'));
+  const pc = r => Math.round(100 * (1 - r.peak.stagger / r.peak.together));
+  new C6.StartSum($('chB'), { panel: pB, T: 3, n: 3, IN: 15, id: 'c6sB', onResult: r => logB.add(`${r.n}|${r.T}`, [r.n, `${fd(r.T, 1)} s`, `${fd(r.peak.together, 1)} ×`, `${fd(r.peak.stagger, 1)} ×`, `${pc(r)} %`], r.T >= r.tStart ? 'ok' : r.T > 0 ? 'warn' : 'bad') });
+  ED.summary($('sumB'), { intro: ['มอเตอร์ตัวอย่างเหมือนกันทุกตัว (กระแสเริ่มเดินราว 6.5 เท่าของพิกัด เริ่มเดินเสร็จในราว 1.8 s)', 'identical example motors (starting current about 6.5 × rated, run-up about 1.8 s)'],
+    head: [['จำนวนมอเตอร์', 'motors'], ['เวลาหน่วง', 'delay'], ['เริ่มพร้อมกัน', 'together'], ['เริ่มทีละตัว', 'one at a time'], ['ลดลง', 'lower by']],
+    rows: () => [[3, 0], [3, 1], [3, 2], [3, 3], [3, 5], [2, 3]].map(([n, T]) => { const r = C6.startSum({ n, T }); return [n, `${fd(T, 1)} s`, `${fd(r.peak.together, 1)} ×`, `${fd(r.peak.stagger, 1)} ×`, `${pc(r)} %`]; }),
+    points: [['เริ่มพร้อมกัน: กระแสของทุกตัวรวมกันพอดี มอเตอร์ 3 ตัวดึงกระแสราว 19 เท่าของพิกัดของมอเตอร์ 1 ตัว', 'Started together, the currents simply add: three motors draw about 19 times the rated current of one.'],
+      ['เริ่มห่างกันนานกว่าเวลาเริ่มเดิน (ราว 1.8 s ในตัวอย่าง): ขณะตัวถัดไปเริ่ม ตัวก่อนหน้าเดินที่กระแสปกติแล้ว กระแสสูงสุดจึงเหลือราว 8 เท่า คือกระแสเริ่มเดินของตัวเดียวบวกกระแสเดินของตัวที่เดินอยู่', 'Started further apart than the run-up time (about 1.8 s here), the motors before are already at normal current when the next one starts, so the peak is only about 8 times: one starting current plus the running currents of the others.'],
+      ['ถ้าเวลาหน่วงสั้นกว่าเวลาเริ่มเดิน การเริ่มยังซ้อนกันอยู่ (1 s: ราว 13 เท่า) ตั้งเวลาให้ยาวกว่าเวลาเริ่มเดินของมอเตอร์ที่ใช้งานจริงเสมอ', 'If the delay is shorter than the run-up, the starts still overlap (1 s: about 13 times); always set the delay longer than the run-up of the real motors.'],
+      ['กระแสสูงสุดที่ต่ำลงทำให้แรงดันตกชั่วขณะในระบบไฟฟ้าน้อยลง อุปกรณ์อื่นที่ต่ออยู่ในระบบเดียวกันจึงไม่ถูกรบกวน และเบรกเกอร์หลัก Q1 ไม่ต้องรับกระแสก้อนใหญ่ทั้งก้อน', 'A lower peak means a smaller voltage dip on the supply, so other equipment on the same supply is not disturbed, and the main breaker Q1 does not have to carry one large surge.']] });
+
+  /* worked example: Thai textbook Fig. 9.5 (two motors) → C6.AUTO3 in the course style */
+  const x3 = hid(C6.AUTO3({ lamps: false })), tmp = document.createElement('div');
+  new RL.Sim(tmp, C6.AUTO3({ lamps: false }), { print: true, noPower: true, max: 640, label: 'three conveyors redrawn to IEC' });
+  const svg3 = tmp.innerHTML.replace(/ data-dev="[^"]*" style="cursor:pointer"/g, '');
+  LS.choose($('ask1'), { labels: ['①', '②', '③'], options: [t('(ง) หยุดทั้งสองตัว', '(d) both motors stop'), t('(ง) หยุดเฉพาะมอเตอร์ตัวที่สอง', '(d) only the second motor stops'), t('(ง) ไม่มีตัวใดหยุด', '(d) neither stops')], answer: 0 });
+  const NM = [['K1', 'KM1', t('คอนแทกเตอร์ของมอเตอร์ตัวแรก (สายพานปลายทาง M1)', 'contactor of the first motor (discharge belt M1)')], ['K2', 'KM2', t('คอนแทกเตอร์ของมอเตอร์ตัวที่สอง (M2)', 'contactor of the second motor (M2)')],
+    ['K3T', 'KT1', t('ตัวตั้งเวลาหน่วงเมื่อป้อนไฟ คอยล์ A1–A2 หน้าสัมผัส 67–68', 'on-delay timer, coil A1–A2, contact 67–68')], ['F2', 'F1', t('ฟิวส์วงจรควบคุม', 'control fuse')],
+    ['F3, F4', 'F21, F22', t('โอเวอร์โหลดของมอเตอร์ตัวที่ 1 และ 2: 95–96 ปกติปิด (normally closed, NC), 97–98 ปกติเปิด (normally open, NO)', 'overload relays of motors 1 and 2: 95–96 normally closed (NC), 97–98 normally open (NO)')], ['S1, S2', 'S1, S2', t('ปุ่มหยุดทั้งสาย 11–12 และปุ่มเริ่มทั้งสาย 13–14', 'line stop 11–12 and line start 13–14')],
+    ['H1, H2', 'H1, H2', t('หลอดเดินสีเขียว ผ่าน KM1 53–54 และ KM2 53–54', 'green run lamps via KM1 53–54 and KM2 53–54')], ['H3', 'H4, H5', t('หลอดโอเวอร์โหลดสีเหลือง หนึ่งดวงต่อมอเตอร์หนึ่งตัว', 'yellow overload lamps, one per motor')]];
+  LS.stepper($('st1'), { steps: [
+    { why: t('(ก) ชื่อแบบ DIN ของตำรา → ชื่อของวิชา', '(a) The book\'s DIN names → course names'), body: `<table class="tbl"><tr><th>${t('ตำรา', 'book')}</th><th>${t('วิชานี้', 'course')}</th><th>${t('อุปกรณ์', 'device')}</th></tr>${NM.map(r => `<tr><td>${r[0]}</td><td><b>${r[1]}</b></td><td>${r[2]}</td></tr>`).join('')}</table>
+      <p>${t('วิชานี้เพิ่มปุ่มหยุดฉุกเฉิน S0 ไว้บนสุด เขียนเลขขั้วทุกหน้าสัมผัสและคอยล์ และเขียนตารางอ้างอิงใต้คอยล์', 'The course adds the emergency stop S0 at the top, writes terminal numbers on every contact and coil, and puts the cross-reference under each coil.')}</p>` },
+    { why: t('(ข) กด S2: K1 ดูดก่อน แล้ว K3T นับเวลา', '(b) S2 pressed: K1 pulls in first, then K3T counts'), body: `<p>${t('กด S2: K1 ดูดและค้างตัวเองด้วยหน้าสัมผัสปกติเปิดของ K1 ที่คร่อม S2 พร้อมกันนั้น K3T ได้ไฟผ่านหน้าสัมผัสปกติปิดของ K2 และหลอด H1 ติด ครบเวลาที่ตั้ง หน้าสัมผัสหน่วงเวลาของ K3T ต่อ K2 ได้ไฟผ่านหน้าสัมผัสปกติเปิดของ K1 แล้วค้างตัวเองด้วยหน้าสัมผัสปกติเปิดของ K2 ที่คร่อมหน้าสัมผัสของ K3T หลอด H2 ติด', 'S2: K1 pulls in and holds itself through the K1 normally open contact across S2; at the same time K3T is energised through the K2 normally closed contact, and H1 lights. When the set time is up, the timed contact of K3T closes; K2 is fed through a K1 normally open contact and then holds itself through the K2 normally open contact across the K3T contact; H2 lights.')}</p>
+      <p>${t('เมื่อ K2 ดูด หน้าสัมผัสปกติปิดของ K2 เปิด K3T ไม่มีไฟ หน้าสัมผัสของมันจึงเปิดทันที แต่ K2 ยังค้างอยู่ได้ด้วยหน้าสัมผัสค้างของตัวเอง ตัวตั้งเวลาจึงไม่ต้องมีไฟตลอดเวลาที่มอเตอร์เดิน และหน้าสัมผัสของ K1 ที่อยู่ใต้ทางค้างของ K2 ทำให้ K2 หลุดตามเมื่อ K1 หลุด', 'Once K2 is in, its normally closed contact opens and K3T loses its supply, so its contact opens at once; K2 stays in through its own holding contact. The timer therefore does not stay energised while the motors run, and the K1 contact below the K2 hold makes K2 drop out whenever K1 does.')}</p>` },
+    { why: t('(ค) ขยายเป็นสายพาน 3 ตัวตามแบบของวิชา', '(c) Extending to three conveyors in the course style'), body: `<p>${t('เพิ่ม KM3, F23 และตัวตั้งเวลาตัวที่สอง KT2 วิชานี้ใช้วิธีของรูป 12.5 ของ Herman &amp; Seiler: ตัวตั้งเวลาแต่ละตัวรับไฟผ่านหน้าสัมผัส 83–84 ของคอนแทกเตอร์ตัวก่อน และหน้าสัมผัสหน่วงเวลา 67–68 ป้อนคอยล์ตัวถัดไปตรง ๆ โดยไม่ต้องมีหน้าสัมผัสค้าง ถ้า KM1 หลุด KT1 ไม่มีไฟและ 67–68 เปิดทันที KM2 จึงหลุดตามเหมือนในตำรา ทั้งสองแบบใช้ได้: แบบของตำราตัดไฟตัวตั้งเวลาหลังใช้งาน ส่วนแบบนี้ใช้หน้าสัมผัสน้อยกว่าและเพิ่มสายพานได้ง่ายกว่า', 'Add KM3, F23 and a second timer KT2. The course uses the method of Herman &amp; Seiler Fig. 12.5: each timer is fed through contact 83–84 of the contactor before it, and its timed contact 67–68 feeds the next coil directly, with no holding contact. If KM1 drops out, KT1 loses its supply and 67–68 opens at once, so KM2 drops out too, as in the textbook. Both versions work: the textbook switches the timer off after use; this one needs fewer contacts and is easier to extend to more belts.')}</p>${svg3}` },
+    { why: t('ตารางอ้างอิงใต้คอยล์', 'The cross-reference under the coils'), body: `<p>KM1: <b>${xr(x3.xref('KM1'))}</b><br>KM2: <b>${xr(x3.xref('KM2'))}</b><br>KM3: <b>${xr(x3.xref('KM3'))}</b><br>KT1: <b>${xr(x3.xref('KT1'))}</b> · KT2: <b>${xr(x3.xref('KT2'))}</b></p>
+      <p>${t('KM2 ต้องมีหน้าสัมผัสปกติเปิดสองตัวในวงจรควบคุม (83–84 ป้อน KT2 และ 53–54 ของหลอดเดินถ้ามีหลอด) ชุดหน้าสัมผัสเสริมด้านหน้า 53–54 / 61–62 / 71–72 / 83–84 จึงพอ', 'KM2 needs two normally open contacts in the control circuit (83–84 for KT2 and 53–54 for the run lamp, if there is one), so the front block 53–54 / 61–62 / 71–72 / 83–84 is enough.')}</p>` },
+    { why: t('(ง) โอเวอร์โหลดในรูป 9.5', '(d) The overloads in Fig. 9.5'), body: `<p>${t('หน้าสัมผัสปกติปิดของ F3 และ F4 ต่ออนุกรมกันด้านบน ก่อน S1 โอเวอร์โหลดตัวใดตัดก็ตัดไฟทุกทางเดินกระแส มอเตอร์ทั้งสองหยุด เหมือนแบบ "อนุกรมด้านบน" ในหัวข้อ A ส่วนด้านที่เป็นหน้าสัมผัสปกติเปิดของทั้งสองตัวป้อนหลอด H3 ดวงเดียว ถ้าใช้กับสายพานแล้วต้องการให้สายพานปลายทางเดินต่อได้ ให้ย้าย 95–96 ไปไว้ในทางของมอเตอร์แต่ละตัวแบบหัวข้อ A', 'The normally closed contacts of F3 and F4 are in series at the top, ahead of S1: either overload removes the supply of every path and both motors stop, like the "in series at the top" option of section A; the normally open sides of both feed the single lamp H3. For conveyors on which the downstream belt should run on, move each 95–96 into its own motor\'s path as in section A.')}</p>` }],
+    answer: t('(ก) K1 → KM1, K2 → KM2, K3T → KT1, F2 → F1, F3 F4 → F21 F22, H3 → H4 H5 (ข) K1 ดูดและค้าง K3T นับเวลา ครบเวลาแล้ว K2 ดูดผ่าน K1 และค้างด้วยหน้าสัมผัสของตัวเอง K2 ปกติปิดตัดไฟ K3T (ค) เพิ่ม KM3 F23 KT2: KM1 83–84 → KT1, KT1 67–68 → F22 → KM2, KM2 83–84 → KT2, KT2 67–68 → F23 → KM3 (ง) อนุกรมด้านบน: F4 ตัดแล้วหยุดทั้งสองตัว',
+      '(a) K1 → KM1, K2 → KM2, K3T → KT1, F2 → F1, F3 F4 → F21 F22, H3 → H4 H5; (b) K1 pulls in and holds, K3T counts; when it times out K2 pulls in through K1 and holds itself, and the K2 NC switches K3T off; (c) add KM3, F23, KT2: KM1 83–84 → KT1, KT1 67–68 → F22 → KM2, KM2 83–84 → KT2, KT2 67–68 → F23 → KM3; (d) in series at the top: an F4 trip stops both') });
+
+  /* C: practice */
+  ED.mcq('mcq', [
+    { q: t('1) กด S2 ที่เวลา 0 s ตั้ง KT1 = KT2 = 4 s สายพาน M3 เริ่มเดินที่เวลาเท่าไร', '1) S2 is pressed at 0 s with KT1 = KT2 = 4 s. When does belt M3 start?'), options: ['4 s', '8 s', '12 s', t('ทันที', 'at once')], answer: 1, why: t('KT1 เริ่มนับที่ 0 s → M2 ที่ 4 s แล้ว KT2 เริ่มนับ → M3 ที่ 8 s', 'KT1 counts from 0 s → M2 at 4 s, then KT2 counts → M3 at 8 s') },
+    { q: t('2) ทำไมจึงป้อนไฟ KT1 ผ่าน KM1 83–84 แทนที่จะต่อตรงจากจุดหลัง S1', '2) Why is KT1 fed through KM1 83–84 rather than straight from the point after S1?'), options: [t('เพื่อให้ KT1 นับเฉพาะเมื่อ KM1 ดูดแล้วจริง และหลุดตามเมื่อ KM1 หลุด', 'so that KT1 counts only when KM1 has really pulled in, and drops out when KM1 does'), t('เพื่อประหยัดหน้าสัมผัส', 'to save a contact'), t('เพราะตัวตั้งเวลาต้องใช้ไฟ 400 V', 'because the timer needs 400 V'), t('เพื่อให้ M2 เริ่มก่อน M1', 'so that M2 starts before M1')], answer: 0 },
+    { q: t('3) วงจรที่ 95–96 อยู่ในทางของมอเตอร์แต่ละตัว ขณะเดินครบสามตัว F22 ตัด สายพานตัวใดหยุด', '3) In the circuit with each 95–96 in its own path, F22 trips while all three run. Which belts stop?'), options: [t('ทั้งสามตัว', 'all three'), t('M1 และ M2', 'M1 and M2'), t('M2 เท่านั้น', 'only M2'), t('M2 และ M3', 'M2 and M3')], answer: 3, why: t('KM2 หลุด → KM2 83–84 เปิด → KT2 ไม่มีไฟ → KM3 หลุด ส่วน M1 ปลายทางเดินต่อ', 'KM2 drops → KM2 83–84 opens → KT2 off → KM3 drops; the discharge belt M1 runs on') },
+    { q: t('4) วงจรที่ 95–96 ทั้งสามตัวอนุกรมกันด้านบน F23 ตัด สายพานตัวใดหยุด', '4) With all three 95–96 in series at the top, F23 trips. Which belts stop?'), options: [t('M3 เท่านั้น', 'only M3'), t('M2 และ M3', 'M2 and M3'), t('ไม่มีตัวใดหยุด', 'none'), t('ทั้งสามตัว', 'all three')], answer: 3 },
+    { q: t('5) ขณะเดินครบสามตัว กด S1 เกิดอะไรขึ้น', '5) All three run and S1 is pressed. What happens?'), options: [t('ทุกตัวหยุดพร้อมกัน', 'all stop at once'), t('M3 หยุดก่อน แล้ว M2 และ M1 ตามทีละ 3 s', 'M3 stops first, then M2 and M1 at 3 s steps'), t('M1 หยุดตัวเดียว', 'only M1 stops'), t('ไม่มีอะไรหยุดจนตัวตั้งเวลาครบ', 'nothing stops until the timers time out')], answer: 0, why: t('หน้าสัมผัสหน่วงเมื่อป้อนไฟเปิดทันทีเมื่อคอยล์ไม่มีไฟ การหยุดทีละตัวต้องใช้ตัวตั้งเวลาหน่วงเมื่อตัดไฟ (หน้า 6.4)', 'on-delay contacts open at once when the coil loses supply; a stop in turn needs off-delay timers (page 6.4)') },
+    { q: t('6) มอเตอร์เหมือนกัน 3 ตัว เริ่มเดินเสร็จในราว 1.8 s ถ้าเริ่มห่างกันตัวละ 3 s กระแสสูงสุดในสายเมนใกล้กับข้อใด (เท่าของกระแสพิกัดของมอเตอร์ 1 ตัว)', '6) Three identical motors each take about 1.8 s to start. Started 3 s apart, the peak line current is closest to (× one motor\'s rated current):'), options: [t('ราว 19 เท่า', 'about 19 ×'), t('ราว 13 เท่า', 'about 13 ×'), t('ราว 8 เท่า', 'about 8 ×'), t('ราว 3 เท่า', 'about 3 ×')], answer: 2, why: t('กระแสเริ่มเดินของตัวเดียวบวกกระแสเดินของตัวที่เดินอยู่แล้ว (หัวข้อ B)', 'one starting current plus the running currents of the motors already up (section B)') }]);
+});
+</script>
+</body>
+</html>

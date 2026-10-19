@@ -20,7 +20,20 @@
                  as a tap from L1 and N after (or before) Q1, motor U1 V1 W1 + PE, clickable Q1/F2 poles) and
                  power: { phases: 1, stages, motor, start: true } (L1 N PE, two-pole Q1/KM1 in L and N, F2 with the motor current looped
                  through its three poles, motor 1~ with run winding U1–U2 and, when start, the start winding Z1–Z2 through the start
-                 capacitor C and the centrifugal switch, which opens at 75 % speed while step() is called). Old specs draw as before. */
+                 capacitor C and the centrifugal switch, which opens at 75 % speed while step() is called). Old specs draw as before.
+   chapter 6 additions (18 Oct 2026; old specs draw and behave exactly as before):
+                 power: { full: true, tap: 'after'|'before', main: { k: 'cb', d: 'Q1' } (or an array of stages), feeders: [{ stages: [{ k: 'cb',
+                 d: 'Q11' }, { k: 'mainNO', d: 'KM1' }, { k: 'therm', d: 'F21' }], motor: 'M1' }, …], fw (feeder pitch, default 136 px) } draws
+                 L1 L2 L3 N PE, the main stages, a busbar, one vertical branch per motor with terminal numbers, each motor with U1 V1 W1 and
+                 a PE bus under the motors; the control supply is tapped from the L1 busbar (after Q1) or ahead of Q1; Q1, Q1n and F2n are
+                 clickable. sim.runningM(id) = that motor runs (main stages and its own branch closed; a 'therm' stage never opens a branch:
+                 only its 95–96 in the control circuit stops the motor); sim.running() = ANY motor runs (sim.running(id) = runningM(id)).
+                 The cross-reference lists a feeder contactor's main contacts as "1–2, 3–4, 5–6 ▸ M2" (the motor branch they switch).
+                 device options: welded (coil: all its contacts stay actuated whatever the coil does: a contactor stuck closed),
+                 weldOnClose (coil: becomes welded the first time it is energised), latch (push button: a click in the drawing latches it
+                 and the next click releases it; automatic for a button whose contact has op 'mush', the emergency stop)
+                 element options: welded (an NO or NC contact that stays closed: a welded auxiliary contact), open (a coil or lamp with an
+                 open winding or filament: it carries no current and never energises) */
 (function (global) {
 'use strict';
 const RL = {}, IE = global.IEC;
@@ -39,7 +52,7 @@ RL.Sim = class {
   emit() { this.listeners.forEach(fn => fn(this)); }
   /* ---------------- device state */
   act(id) { const d = this.dev[id]; if (!d) return false;
-    switch (d.type) { case 'pb': return d.pressed; case 'sel': case 'sen': case 'cb': case 'fault': return d.on; case 'ol': return d.tripped; case 'coil': return d.energized;
+    switch (d.type) { case 'pb': return d.pressed; case 'sel': case 'sen': case 'cb': case 'fault': return d.on; case 'ol': return d.tripped; case 'coil': return d.welded ? true : d.energized;
       case 'timer': return d.mode === 'off' ? (d.energized || d.hold > 0) : (d.energized && d.tOn >= d.T); default: return false; } }
   /* actuated state of one contact element (multi-position selectors depend on the element's own positions) */
   actE(e) { if (e.pos) return e.pos.includes(this.dev[e.d].at);
@@ -48,6 +61,7 @@ RL.Sim = class {
   /* a push button caught between its positions (break before make): its NO and NC are both open */
   midE(e) { const d = this.dev[e.d]; return !!(d && d.mid && (e.k === 'NO' || e.k === 'NC')); }
   conducts(e) { if (e.k === 'w') return true; if (e.k === 'fuse') return !this.dev[e.d].blown; if (e.k === 'cb') return this.dev[e.d].on; if (e.k === 'earth') return !!this.dev[e.d].on;
+    if (e.welded && (e.k === 'NO' || e.k === 'NC')) return true;   // a welded contact stays closed
     if (this.midE(e)) return false; if (e.k === 'NO') return this.actE(e); if (e.k === 'NC') return !this.actE(e); return false; }
   isLoad(e) { return e.k === 'coil' || e.k === 'lamp'; }
   supplyOn() { if (this.mains === false) return false; const s = this.spec.supply; return !s || (this.dev[s] && this.dev[s].on && !this.dev[s].blown); }
@@ -67,7 +81,7 @@ RL.Sim = class {
     return out; }
   solveOnce() {
     const E = this.edges(), on = this.supplyOn(), adj = new Map(), add = (u, v, ed) => { if (!adj.has(u)) adj.set(u, []); adj.get(u).push([v, ed]); };
-    E.forEach(ed => { ed.load = this.isLoad(ed.e); ed.cond = !ed.load && this.conducts(ed.e); if (ed.cond) { add(ed.a, ed.b, ed); add(ed.b, ed.a, ed); } });
+    E.forEach(ed => { ed.load = this.isLoad(ed.e) && !ed.e.open; ed.cond = !ed.load && !ed.e.open && this.conducts(ed.e); if (ed.cond) { add(ed.a, ed.b, ed); add(ed.b, ed.a, ed); } });
     const bfs = s => { const seen = new Set([s]), q = [s]; while (q.length) { const u = q.shift(); (adj.get(u) || []).forEach(([v]) => { if (!seen.has(v)) { seen.add(v); q.push(v); } }); } return seen; };
     const rL = on ? bfs('L') : new Set(), rN = bfs('N'), short = on && rL.has('N');
     const loads = E.filter(ed => ed.load).map(ed => ({ ed, live: !short && ((rL.has(ed.a) && rN.has(ed.b)) || (rL.has(ed.b) && rN.has(ed.a))) }));
@@ -79,7 +93,9 @@ RL.Sim = class {
         this.msg = 'short'; continue; }
       let changed = false; const en = {};
       r.loads.forEach(({ ed, live }) => { const d = this.dev[ed.e.d]; if (d) en[d.id] = (en[d.id] || false) || live; });
+      r.E.forEach(ed => { if (ed.e.open && this.isLoad(ed.e)) { const d = this.dev[ed.e.d]; if (d && !(d.id in en)) en[d.id] = false; } });   // an open coil never energises
       Object.entries(en).forEach(([id, v]) => { const d = this.dev[id]; if (d.type === 'timer' && v) d.hold = d.T;   // an off-delay holds even if no step() ran while energised
+        if (v && d.weldOnClose && !d.welded) { d.welded = true; changed = true; }
         if (d.energized !== v) { d.energized = v; changed = true; if (!v && d.type === 'timer') d.tOn = 0; } });
       if (!changed) break; }
     this.r = r; this.current(); }
@@ -120,21 +136,37 @@ RL.Sim = class {
     if (d.type === 'cb' && d.on) this.msg = ''; if (d.type === 'fuse') this.msg = ''; this.update(); }
   update() { this.solve(); this.render(); this.emit(); }
   setPos(id, at) { const d = this.dev[id]; if (d && d.type === 'msel' && d.positions.includes(at)) { d.at = at; this.update(); } }
-  down(e) { const id = this.devAt(e); if (id && this.dev[id].type === 'pb') { e.preventDefault(); this.press(id, true); this.held = id; } }
+  /* a latching push button (the emergency stop): a click latches it, the next click releases it */
+  latching(id) { const d = this.dev[id]; return !!d && d.type === 'pb' && (d.latch !== undefined ? !!d.latch : this.spec.els.some(e => e.d === id && e.op === 'mush')); }
+  down(e) { const id = this.devAt(e); if (id && this.dev[id].type === 'pb') { e.preventDefault(); if (this.latching(id)) { this.press(id, !this.dev[id].pressed); return; } this.press(id, true); this.held = id; } }
   up() { if (this.held) { const id = this.held; this.held = null; this.press(id, false); } }
   click(e) { const id = this.devAt(e); if (id && this.dev[id].type !== 'pb') this.toggle(id); }
-  running(m) { const p = this.spec.power; if (!p || this.mains === false) return false; return p.stages.every(s => (s.k === 'cb' ? this.dev[s.d].on : s.k === 'mainNO' ? this.act(s.d) : true)); }
+  /* motor running: one motor (power.stages), or with power.feeders any motor (running()) or motor m (running(m) = runningM(m)) */
+  running(m) { const p = this.spec.power; if (!p || this.mains === false) return false;
+    if (p.feeders) return m ? this.runningM(m) : p.feeders.some(f => this.runningM(f.motor));
+    return p.stages.every(s => (s.k === 'cb' ? this.dev[s.d].on : s.k === 'mainNO' ? this.act(s.d) : true)); }
+  /* one motor of a multi-motor power circuit: the main stages and the motor's own branch closed (a 'therm' stage does not open it) */
+  runningM(m) { const p = this.spec.power; if (!p || this.mains === false) return false;
+    if (!p.feeders) return (!m || m === (p.motor || 'M1')) && this.running();
+    const f = p.feeders.find(q => q.motor === m); if (!f) return false;
+    return [...this.mainSt(), ...f.stages].every(s => this.stOn(s)); }
+  stOn(s) { return s.k === 'cb' ? !!this.dev[s.d].on : s.k === 'mainNO' ? this.act(s.d) : true; }
+  /* stages of the power circuit: the main stages (power.main, or power.stages of a one-motor circuit) and, with feeders, every branch's */
+  mainSt() { const P = this.spec.power; return !P ? [] : P.main ? [].concat(P.main) : (P.stages || []); }
+  pStages() { const P = this.spec.power; return !P ? [] : P.feeders ? [...this.mainSt(), ...P.feeders.flatMap(f => f.stages)] : P.stages; }
+  /* width taken by a multi-motor power drawing (the control rails start here) */
+  feedW() { const P = this.spec.power; return Math.max(172, 132 + (P.feeders.length - 1) * (P.fw || 136)); }
   /* ---------------- drawing */
   X(x) { return this.ox + x * this.DX; }
   Y(y) { return this.oy + y * this.DY; }
   pathNo(x) { return this.spec.pathNo ? this.spec.pathNo(x) : x + 1; }
-  full() { const P = this.spec.power; return !!P && !this.o.noPower && (P.full || P.phases === 1); }
+  full() { const P = this.spec.power; return !!P && !this.o.noPower && (P.full || P.phases === 1 || !!P.feeders); }
   hiNo() { const h = this.o.hiWire; return h === undefined || h === null || h === '' ? null : h === 'N' ? 0 : +h; }
   render() {
     const S = this.spec, ctl = S.els.length > 0, xs = ctl ? S.els.flatMap(e => (e.pts ? e.pts.map(p => p[0]) : [e.x])) : [0], x0 = Math.min(...xs), x1 = Math.max(...xs), full = this.full();
-    const pw = S.power && !this.o.noPower ? (full ? 172 : 170) : 0; this.ox = pw + 70 - x0 * this.DX; this.oy = 34;
+    const pw = S.power && !this.o.noPower ? (full ? (S.power.feeders ? this.feedW() : 172) : 170) : 0; this.ox = pw + 70 - x0 * this.DX; this.oy = 34;
     const rx = this.X(x0) - (full ? 70 : 30); this.railX0 = rx;   // full power drawing: the rails start further left, where the control supply comes in
-    const W = ctl ? this.X(x1) + 90 : (S.power && S.power.phases === 1 ? 144 : 140) + 34, xrefH = 16 + 12 * Math.max(2, ...Object.values(this.dev).filter(d => d.type === 'coil' || d.type === 'timer').map(d => this.xref(d.id).length + 1));
+    const W = ctl ? this.X(x1) + 90 : S.power && S.power.feeders && !this.o.noPower ? this.feedW() - 20 : (S.power && S.power.phases === 1 ? 144 : 140) + 34, xrefH = 16 + 12 * Math.max(2, ...Object.values(this.dev).filter(d => d.type === 'coil' || d.type === 'timer').map(d => this.xref(d.id).length + 1));
     let H = ctl ? this.Y(S.rows) + 22 + xrefH : 0; let s = '';
     const on = this.supplyOn() && !this.o.print, anyCur = this.cur.size > 0 && !this.o.print, hi = this.hiNo(), nos = this.o.wireNos || hi !== null ? this.wireNumbers() : null;
     const hiL = hi !== null && nos.get('L') === hi, hiN = hi === 0;
@@ -155,7 +187,7 @@ RL.Sim = class {
           s += `<g${hw ? ' stroke="var(--accent)"' : c ? ` stroke="${c}"` : ''}${this.cur.has(ed) ? ' class="rl-cur"' : ''}>${IE.L(this.X(ed.pa[0]), this.Y(ed.pa[1]), this.X(ed.pb[0]), this.Y(ed.pb[1]), hw ? { w: 3.4 } : {})}</g>`; });
         p.forEach((q, j) => { if (e.dots && e.dots.includes(j)) s += `<circle cx="${this.X(q[0])}" cy="${this.Y(q[1])}" r="2.8" fill="${col || 'currentColor'}" stroke="none"/>`; }); return; }
       const x = this.X(e.x), y0 = this.Y(e.y), y1 = this.Y(e.y + (e.h || 1)), d = this.dev[e.d] || {}, live = d.energized;
-      const act = this.midE(e) ? e.k === 'NC' : (e.k === 'NO' || e.k === 'NC') ? this.actE(e) : this.act(e.d);   // between positions: NO drawn open, NC drawn open
+      const act = e.welded && (e.k === 'NO' || e.k === 'NC') ? e.k === 'NO' : this.midE(e) ? e.k === 'NC' : (e.k === 'NO' || e.k === 'NC') ? this.actE(e) : this.act(e.d);   // between positions: NO drawn open, NC drawn open; welded: drawn closed
       const body = IE.draw(e.k, x, y0, y1, { act, op: e.op, td: e.td || (d.type === 'timer' && e.k === 'coil' ? d.mode : undefined), live, lamp: d.color, blown: d.blown });
       const hit = CLICK.includes(d.type) && !d.noClick ? ` data-dev="${e.d}" style="cursor:pointer"` : '';
       s += `<g${col ? ` stroke="${col}"` : ''}${cls}${hit}>${hit ? `<rect x="${x - 40}" y="${y0 + 6}" width="56" height="${y1 - y0 - 12}" fill="transparent" stroke="none"/>` : ''}${body}</g>`;
@@ -205,7 +237,9 @@ RL.Sim = class {
   /* "NO 13–14 → 2" lines for the contacts of one device, from where they sit in the drawing */
   xref(id) { const S = this.spec, out = [], no = [], nc = [];
     S.els.filter(e => e.d === id && (e.k === 'NO' || e.k === 'NC')).forEach(e => (e.k === 'NO' ? no : nc).push(`${e.t ? e.t.join('–') : ''} ▸ ${this.pathNo(e.x)}`));
-    if (S.power && S.power.stages.some(s => s.d === id && s.k === 'mainNO')) no.unshift(`${S.power.phases === 1 ? '1–2, 3–4' : '1–2, 3–4, 5–6'} ▸ ${MC.t('กำลัง', 'power')}`);
+    const fd = S.power && S.power.feeders ? S.power.feeders.find(f => f.stages.some(s => s.d === id && s.k === 'mainNO')) : null;
+    if (fd) no.unshift(`1–2, 3–4, 5–6 ▸ ${fd.motor}`);   // a feeder contactor: the motor branch its main contacts switch
+    else if (S.power && this.mainSt().some(s => s.d === id && s.k === 'mainNO')) no.unshift(`${S.power.phases === 1 ? '1–2, 3–4' : '1–2, 3–4, 5–6'} ▸ ${MC.t('กำลัง', 'power')}`);
     if (no.length) { out.push('NO'); out.push(...no); } if (nc.length) { out.push('NC'); out.push(...nc); } return out; }
   /* simple three-phase power circuit to the left: rails L1 L2 L3, stages (cb / mainNO / therm), motor */
   renderPower() { const P = this.spec.power, x0 = 52, dx = 20, yT = this.Y(0), n = P.stages.length, step = (this.Y(this.spec.rows) - yT - 70) / (n + 0.6), run = this.running();
@@ -226,6 +260,7 @@ RL.Sim = class {
      supply tapped from L1 and N after Q1 (tap 'before': ahead of Q1), motor terminals and PE; Q1 and F2 can be clicked here.
      Returns { s, bottom } (the drawing may reach below the control circuit's N rail). */
   renderPowerFull(hiL, hiN) {
+    if (this.spec.power.feeders) return this.renderFeeders(hiL, hiN);
     const P = this.spec.power, one = P.phases === 1, S = this.spec, ctl = S.els.length > 0, run = this.running(), pr = !!this.o.print, live0 = this.mains !== false && !pr;
     const LX = one ? [36] : [40, 66, 92], NX = one ? 122 : 118, PX = one ? 144 : 140, yT = this.Y(0), step = P.step || 54, st = P.stages, y0s = yT + 24;
     const [railL, railN, anyCur] = this.railCol, F = v => +(+v).toFixed(1), first = st.findIndex(t => t.k === 'cb');
@@ -279,6 +314,54 @@ RL.Sim = class {
       s += g(nc(nOk && ok), nOk && curM, IE.L(NX, y, NX, yb1));
       bottom = yb1 + 22; }
     return { s, bottom }; }
+  /* multi-motor power circuit (power.feeders): supply L1 L2 L3 N PE, the main stages (Q1), a busbar, one branch per motor (Q1n, KMn,
+     F2n with terminal numbers), the motors with U1 V1 W1 and a PE bus underneath. The control supply is the L1 busbar carried on to
+     the control rail (tap 'after', i.e. after Q1) or a tap ahead of Q1 (tap 'before'); N comes from the supply terminal. Crossing
+     conductors have no dot, junctions have one. Returns { s, bottom }. */
+  renderFeeders(hiL, hiN) {
+    const P = this.spec.power, S = this.spec, ctl = S.els.length > 0, pr = !!this.o.print, live0 = this.mains !== false && !pr, any = this.running();
+    const LX = [40, 66, 92], NX = 118, PX = 140, FW = P.fw || 136, yT = this.Y(0), step = P.step || 54, y0s = yT + 24, FD = P.feeders, n = FD.length;
+    const [railL, railN, anyCur] = this.railCol, F = v => +(+v).toFixed(1), xs = i => 40 + i * FW, xLast = xs(n - 1);
+    const g = (c, cur, body) => `<g${c ? ` stroke="${c}"` : ''}${cur ? ' class="rl-cur"' : ''}>${body}</g>`, dot = (x, y) => `<circle cx="${F(x)}" cy="${F(y)}" r="2.8" fill="currentColor" stroke="none"/>`;
+    const lc = (okk, run) => (pr || !okk ? null : run ? COL.cur : COL.live);
+    // one row of stages on three poles (px); returns its drawing and whether the path is still closed below it
+    const stage = (t, px, y, ok, run) => { const y1 = y + step, dv = this.dev[t.d] || {}, closed = t.k === 'cb' ? !!dv.on : t.k === 'mainNO' ? this.act(t.d) : true, ym = (y + y1) / 2;
+      const hit = !pr && (dv.type === 'cb' || dv.type === 'ol') && !dv.noClick;
+      let b = hit ? `<rect x="${px[0] - 34}" y="${F(y + 4)}" width="${px[2] - px[0] + 46}" height="${step - 8}" fill="transparent" stroke="none"/>` : '';
+      px.forEach((x, k) => { b += g(lc(ok, run), ok && run, IE.draw(t.k, x, y, y1, { act: closed, trip: t.k === 'therm' && dv.tripped })) + IE.T(String(2 * k + 1), x + 5, y + 11, { size: 8 }) + IE.T(String(2 * k + 2), x + 5, y1 - 3, { size: 8 }); });
+      b += IE.T(dv.label || t.d, px[0] - 10, ym + 4, { anchor: 'end', size: 11, weight: 700 });
+      if (t.k !== 'therm') b += IE.L(px[0] - 8, ym, px[2] - 8, ym, { dash: '3 2' });
+      if (dv.tripped && t.k === 'therm') b += IE.T('!', px[0] - 10, ym + 16, { anchor: 'end', size: 11, weight: 700, col: 'var(--bad)' });
+      return { s: hit ? `<g data-dev="${t.d}" style="cursor:pointer">${b}</g>` : b, ok: ok && closed }; };
+    let s = '', y = y0s, ok = live0;
+    [['L1', LX[0]], ['L2', LX[1]], ['L3', LX[2]], ['N', NX], ['PE', PX]].forEach(([l, x]) => { s += IE.T(l, x, yT - 8, { size: 10, anchor: 'middle', weight: 700 }); });
+    // geometry of the branches first, so that PE can be drawn underneath everything
+    const yQ = y0s + this.mainSt().length * step, yB = [yQ + 14, yQ + 22, yQ + 30], tapA = ctl && P.tap !== 'before', yF = yB[2] + 12;
+    const mot = FD.map((f, i) => { const cy = yF + f.stages.length * step + 56; return [xs(i) + 26 - 15.6, cy + 15.6, cy]; });   // PE terminal at the lower left of each motor
+    const yPE = Math.max(...mot.map(m => m[2])) + 22 + 16, xa = Math.min(PX, ...mot.map(m => m[0])), xb = Math.max(PX, ...mot.map(m => m[0]));
+    s += IE.L(PX, yT, PX, yPE) + IE.L(xa, yPE, xb, yPE) + mot.map(([x, yb]) => IE.L(x, yb, x, yPE) + (x !== xa && x !== xb ? dot(x, yPE) : '')).join('') +
+      (PX !== xa && PX !== xb ? dot(PX, yPE) : '') + IE.T('PE', xa - 4, yPE + 4, { size: 8, anchor: 'end', weight: 700 });
+    // supply conductors, main stages, drops to the busbar and the busbar
+    LX.forEach(x => { s += g(lc(ok, any), ok && any, IE.L(x, yT, x, y)); });
+    this.mainSt().forEach(t => { const r = stage(t, LX, y, ok, any); s += r.s; ok = r.ok; y += step; });
+    LX.forEach((x, k) => { s += g(lc(ok, any), ok && any, IE.L(x, yQ, x, yB[k]) + (n > 1 ? IE.L(x, yB[k], xLast + 26 * k, yB[k]) : '')); });
+    // the control supply
+    if (ctl) { const xr = this.railX0, xv = xr - 8, yR = this.Y(S.rows), cL = hiL ? 'var(--accent)' : railL, cN = hiN ? 'var(--accent)' : railN, wL = hiL ? 3.4 : 1.6, wN = hiN ? 3.4 : 1.6, cu = anyCur ? ' class="rl-cur"' : '';
+      if (tapA) { const yN = yQ + 6;
+        s += `<g stroke="${cL}"${cu}>${IE.L(xLast, yB[0], xr, yB[0], { w: wL })}${IE.L(xr, yB[0], xr, this.Y(0), { w: wL })}</g>` + (n === 1 ? dot(xLast, yB[0]) : '');
+        s += `<g stroke="${cN}"${cu}>${IE.L(NX, yT, NX, yN, { w: wN })}${IE.L(NX, yN, xv, yN, { w: wN })}${IE.L(xv, yN, xv, yR, { w: wN })}${IE.L(xv, yR, xr, yR, { w: wN })}</g>`; }
+      else { const t0 = yT + 8, t1 = yT + 15;
+        s += `<g stroke="${cL}"${cu}>${IE.L(LX[0], t0, xr, t0, { w: wL })}${IE.L(xr, t0, xr, this.Y(0), { w: wL })}</g>` + dot(LX[0], t0);
+        s += `<g stroke="${cN}"${cu}>${IE.L(NX, yT, NX, t1, { w: wN })}${IE.L(NX, t1, xv, t1, { w: wN })}${IE.L(xv, t1, xv, yR, { w: wN })}${IE.L(xv, yR, xr, yR, { w: wN })}</g>`; } }
+    // the motor branches
+    FD.forEach((f, i) => { const x0 = xs(i), px = [x0, x0 + 26, x0 + 52], run = this.runningM(f.motor); let okf = ok, yy = yF;
+      px.forEach((x, k) => { s += g(lc(okf, run), okf && run, IE.L(x, yB[k], x, yy)) + (n > 1 && (i < n - 1 || (k === 0 && tapA)) ? dot(x, yB[k]) : ''); });
+      f.stages.forEach(t => { const r = stage(t, px, yy, okf, run); s += r.s; okf = r.ok; yy += step; });
+      const yt2 = yy + 18, cy = yy + 56, cx = x0 + 26, r = 22;
+      px.forEach((x, k) => { s += g(lc(okf, run), okf && run, IE.L(x, yy, x, yt2) + IE.L(x, yt2, cx + (k - 1) * 13, cy - (k === 1 ? r : 17.5))) + `<circle cx="${x}" cy="${yt2}" r="2.4" fill="var(--panel)" stroke="currentColor"/>` + IE.T(['U1', 'V1', 'W1'][k], x + 4, yt2 - 3, { size: 8, weight: 700 }); });
+      s += IE.motor(cx, cy, r) + IE.T(f.motor, x0 - 10, cy + 4, { anchor: 'end', size: 11, weight: 700 });
+      if (run) s += `<g class="rl-spin" style="transform-origin:${cx}px ${cy}px"><path d="M ${cx + r + 6} ${cy + 4} A 28 28 0 0 1 ${cx + 4} ${cy + r + 6}" stroke="${COL.cur}" fill="none" stroke-width="2"/><path d="M ${cx} ${cy + r + 2} L ${cx + 4} ${cy + r + 6} L ${cx} ${cy + r + 10}" stroke="${COL.cur}" fill="none" stroke-width="2"/></g>`; });
+    return { s, bottom: yPE + 12 }; }
 };
 global.RL = RL;
 })(window);

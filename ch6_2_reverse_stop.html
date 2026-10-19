@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="6.2 — Stopping in reverse order and overloads on a conveyor line">6.2 — หยุดย้อนลำดับและโอเวอร์โหลดของสายพาน</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=13"><link rel="stylesheet" href="assets/ed2.css?v=13">
+<link rel="stylesheet" href="assets/wiring.css?v=13">
+<script src="assets/stops.js?v=13"></script><script src="assets/shell.js?v=13"></script>
+<script src="assets/lesson.js?v=13"></script><script src="assets/draw.js?v=13"></script><script src="assets/ed.js?v=13"></script><script src="assets/sym.js?v=13"></script><script src="assets/iec.js?v=13"></script><script src="assets/relay.js?v=13"></script><script src="assets/ch2.js?v=13"></script><script src="assets/ch3.js?v=13"></script><script src="assets/ch4.js?v=13"></script>
+<script src="assets/panel.js?v=13"></script><script src="assets/ch5.js?v=13"></script><script src="assets/ch6.js?v=13"></script>
+<script src="assets/wiring.js?v=13"></script><script src="assets/devdata.js?v=13"></script><script src="assets/dev.js?v=13"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">หยุดย้อนลำดับและโอเวอร์โหลดของสายพาน: สายพานที่หยุดต้องพาสายพานที่ป้อนของให้หยุดด้วย <span class="en">Stopping in reverse order and overloads on a conveyor line</span></h1>
+<h1 data-l="en">Stopping in reverse order and overloads on a conveyor line <span class="en">A belt that stops must take the belts feeding it with it</span></h1>
+
+<p class="sub" data-l="th">หน้า 6.1 ทำให้ M2 เริ่มได้หลัง M1 เท่านั้น หน้านี้ดูอีกครึ่งหนึ่งของงานสายพาน: การหยุด เริ่มจากเล่นกับสายพานสามเส้นด้วยมือเพื่อหากฎของสายพานเอง (เริ่มจากปลายทาง หยุดจากต้นทาง และสายพานที่หยุดต้องพาสายพานที่ป้อนของให้มันหยุดด้วย) แล้วต่อวงจรหยุดย้อนลำดับ ที่ปุ่มหยุดของ M1 ไม่มีผลขณะ M2 ยังเดิน จากนั้นเทียบการวางหน้าสัมผัสโอเวอร์โหลดสามแบบ คือแบบอนุกรม แบบแยกตัว และแบบลดหลั่น ว่าเมื่อโอเวอร์โหลดตัวหนึ่งตัด สายพานเส้นไหนหยุดบ้าง และของกองหรือไม่ ปิดท้ายด้วยข้อจำกัดว่าคอนแทกเตอร์ที่ดูดอยู่ไม่ได้พิสูจน์ว่าสายพานเคลื่อนที่จริง</p>
+<p class="sub" data-l="en">Page 6.1 made M2 start only after M1. This page looks at the other half of conveyor work: stopping. First play with three belts by hand and find the conveyor rules yourself (start from the discharge end, stop from the feed end, and a belt that stops must take the belts feeding it with it). Then wire a reverse-order stop, in which M1's stop button does nothing while M2 still runs. Then compare three ways of placing the overload contacts, in series, separately and cascading, and see which belts stop when one overload relay trips and whether material piles up. Last comes a limit: a contactor that is in does not prove that the belt really moves.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>กฎของสายพาน</b> (เหตุผลทางวิศวกรรม ไม่ได้ยกมาจากมาตรฐาน): (1) เริ่มจากปลายทางก่อน M1 → M2 → M3 ของจึงตกบนสายพานที่เดินอยู่ (2) หยุดจากต้นทางก่อน M3 → M2 → M1 สายพานแต่ละเส้นจึงวิ่งจนว่างก่อนเส้นที่รับของจากมันจะหยุด และเริ่มใหม่ได้โดยไม่มีของค้าง (3) ถ้าสายพานเส้นหนึ่งหยุดด้วยเหตุใดก็ตาม ทุกเส้นที่อยู่เหนือมัน (ทางต้นทาง) ต้องหยุดทันที ส่วนเส้นที่อยู่ปลายทางเดินต่อเพื่อระบายของได้ (4) ปุ่มหยุดฉุกเฉินหยุดทุกอย่าง</li>
+  <li><b>หยุดย้อนลำดับด้วยมือ</b>: ต่อหน้าสัมผัสปกติเปิด (normally open, NO) KM2 83–84 คร่อมปุ่มหยุด S1 ของ M1 อย่างเดียว ขณะ M2 เดิน S1 จึงไม่มีผล ต้องกด S3 หยุด M2 ก่อน ห้ามคร่อม F21 95–96 ฟิวส์ F1 หรือปุ่มหยุดฉุกเฉิน เพราะอุปกรณ์ป้องกันต้องหยุดได้เสมอ สามมอเตอร์: KM2 ยังคร่อม S1 (ใช้ 63–64 เพราะ 83–84 กลายเป็นหน้าสัมผัสอนุญาตของ KM3) และ KM3 83–84 คร่อม S3 KM2 จึงต้องมีหน้าสัมผัสปกติเปิด 4 ตัว</li>
+  <li><b>โอเวอร์โหลดสามแบบ</b>: แบบอนุกรม (95–96 ทุกตัวต่อกันบนสุด) ตัวไหนตัดก็หยุดทุกเส้น ปลอดภัยแต่หยุดเส้นปลายทางโดยไม่จำเป็น แบบแยกตัว (แต่ละตัวอยู่ในทางของมอเตอร์ของมัน EMC9 เรียกว่า COMMON) หยุดเฉพาะตัวที่ตัด สายพานต้นทางเดินต่อและของกอง แบบลดหลั่น (cascade) หยุดตัวที่ตัดและทุกเส้นเหนือมัน ตรงกับกฎข้อ 3</li>
+  <li><b>คอนแทกเตอร์ดูดไม่ได้แปลว่าสายพานเคลื่อนที่</b>: ข้อต่อขาด สายพานลื่น หรือมอเตอร์ไม่มีไฟเพราะเบรกเกอร์สาขาปลด คอนแทกเตอร์ก็ยังดูดได้ งานที่ต้องการความแน่นอนใช้สวิตช์ความเร็ว (speed switch) หรือการวัดกระแสยืนยันว่ามอเตอร์หมุนจริง</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>The conveyor rules</b> (engineering reasoning, not quoted from a standard): (1) start from the discharge end, M1 → M2 → M3, so material always lands on a moving belt; (2) stop from the feed end, M3 → M2 → M1, so each belt runs empty before the belt it feeds stops, and every belt restarts unloaded; (3) if a belt stops for any reason, every belt above it (towards the feed end) must stop at once, while the belts towards the discharge end may run on to clear; (4) the emergency stop stops everything.</li>
+  <li><b>Reverse-order stop by hand</b>: a normally open (NO) contact KM2 83–84 goes across M1's stop button S1 only. While M2 runs, S1 does nothing: M2 must be stopped with S3 first. Never put it across F21 95–96, fuse F1 or the emergency stop, because protective devices must always be able to stop the motor. With three motors, KM2 still bridges S1 (with 63–64, because its 83–84 becomes the permissive contact for KM3) and KM3 83–84 bridges S3, so KM2 needs four NO contacts.</li>
+  <li><b>Three overload arrangements</b>: in series (every 95–96 at the top) any trip stops every belt, which is safe but stops the discharge belts needlessly; separately (each in its own motor's path; EMC9 calls it COMMON) only the tripped motor stops, the feed-end belts run on and material piles up; cascading stops the tripped motor and every belt above it, which is rule 3.</li>
+  <li><b>A contactor that is in does not prove the belt moves</b>: with a broken coupling, a slipping belt, or a motor without supply because its branch breaker is off, the contactor can still be in. Where it matters, a speed switch or current sensing proves that the motor really turns.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>กฎของสายพาน</a><a href="#tA"><b>A</b>หยุดย้อนลำดับ</a><a href="#tB"><b>B</b>โอเวอร์โหลดสามแบบ</a><a href="#tD"><b>D</b>คอนแทกเตอร์ดูดกับสายพานเดิน</a><a href="#ex1"><b>1</b>หน้าสัมผัสของ KM2</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>The conveyor rules</a><a href="#tA"><b>A</b>Reverse-order stop</a><a href="#tB"><b>B</b>Three overload arrangements</a><a href="#tD"><b>D</b>Contactor in, belt moving?</a><a href="#ex1"><b>1</b>The contacts of KM2</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">กฎของสายพาน: ลองสั่งสายพานสามเส้นด้วยมือ</h2><h2 data-l="en">The conveyor rules: run three belts by hand</h2>
+    <div class="src" data-l="th">Senty บทที่ 14 วงจรที่ 22 · EMC9 หน่วยที่ 1 และหน่วยที่ 48 · IEC 60204-1 ข้อ 10.7</div><div class="src" data-l="en">Senty ch. 14, circuit 22 · EMC9 units 1 and 48 · IEC 60204-1, 10.7</div></div></div>
+  <p class="lead" data-l="th">สายพานสามเส้นเรียงจากต้นทางไปปลายทาง: ถังป้อนของ → M3 → M2 → M1 → ถังรับ ของไหลจาก M3 ลง M2 แล้วลง M1 ยังไม่มีวงจรควบคุม ปุ่มด้านล่างสั่งมอเตอร์แต่ละตัวตรง ๆ ลองเริ่มเดินผิดลำดับ (M3 ก่อน) และถูกลำดับ ลองหยุด M1 ขณะเส้นอื่นยังเดิน แล้วลองปิดถังป้อนและหยุดจาก M3 โดยรอให้แต่ละเส้นว่างก่อน ทุกการสั่งและสิ่งที่เกิดที่จุดส่งต่อบันทึกลงตาราง สรุปผลด้านล่างเล่นแต่ละแบบซ้ำบนสายพานจำลองที่ซ่อนอยู่</p>
+  <p class="lead" data-l="en">Three belts in a row from the feed end to the discharge end: feed hopper → M3 → M2 → M1 → bin. Material flows from M3 onto M2 and then onto M1. There is no control circuit yet: the buttons below switch each motor directly. Start in the wrong order (M3 first) and in the right order, stop M1 while the others still run, then close the hopper and stop from M3, waiting until each belt is empty. Every command, and what happens at the transfer points, is recorded in the table; the summary replays each case on a hidden copy of the belts.</p>
+  <div class="card"><div id="conv0"></div><div id="ctl0"></div></div>
+  <div class="card" style="margin-top:12px"><div id="log0"></div><div id="sum0" style="margin-top:8px"></div></div>
+  <div class="callout" data-l="th"><b>กฎมาจากไหน</b>: Senty (บทที่ 14 หน้า 172) และ EMC9 (หน่วยที่ 48 หน้า 338) ต่างบอกว่าสายพานป้อนต้องเริ่มได้หลังสายพานที่มันป้อนของให้เดินแล้ว และ EMC9 (หน่วยที่ 1 หน้า 6) นับการป้องกันของกองบนสายพาน (conveyor pile-up) เป็นหน้าที่หนึ่งของวงจรควบคุม ส่วนลำดับการหยุดจากต้นทางไม่มีหนังสือเล่มไหนเขียนไว้ตรง ๆ เป็นเหตุผลทางวิศวกรรมที่เห็นได้จากการลองด้านบน: ถ้าหยุดเส้นปลายทางก่อน ของจากเส้นที่ยังเดินจะกองที่จุดส่งต่อ ปุ่มหยุดฉุกเฉินเป็นปุ่มหัวเห็ดสีแดงบนพื้นเหลือง ตามมาตรฐาน IEC 60204-1 ข้อ 10.7 ของคณะกรรมาธิการไฟฟ้าระหว่างประเทศ (International Electrotechnical Commission, IEC) ปุ่มนี้หยุดทุกอย่างพร้อมกัน ของค้างบนสายพานได้ แต่ไม่กอง เพราะไม่มีเส้นไหนยังส่งของมา ปุ่มนี้จะใช้ในหน้า 6.3</div>
+  <div class="callout" data-l="en"><b>Where the rules come from</b>: Senty (ch. 14, p. 172) and EMC9 (unit 48, p. 338) both say that a feeder conveyor may start only once the conveyor it feeds is running, and EMC9 (unit 1, p. 6) counts the prevention of conveyor pile-ups among the jobs of a control circuit. No book states the stopping order directly: it is engineering reasoning that you can see in the trials above. If the discharge belt stops first, material from the belts still running piles up at the transfer point. The emergency stop, a red mushroom button on a yellow background after IEC 60204-1, 10.7 (a standard of the International Electrotechnical Commission, IEC), stops everything together; material stays on the belts but does not pile up, because no belt is still delivering. You will use it on page 6.3.</div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">หยุดย้อนลำดับ: ปุ่มหยุดของ M1 ไม่มีผลขณะ M2 ยังเดิน</h2><h2 data-l="en">Reverse-order stop: M1's stop button does nothing while M2 runs</h2>
+    <div class="src" data-l="th">ออกแบบของวิชา (ต่อจากวงจรของหน้า 6.1) · IEC 60204-1 ข้อ 9.2.5.3</div><div class="src" data-l="en">The course's own design (built on the circuit of page 6.1) · IEC 60204-1, 9.2.5.3</div></div></div>
+  <p class="lead" data-l="th">วงจรของหน้า 6.1 บวกหน้าสัมผัสปกติเปิดของ KM2 หนึ่งตัวที่คร่อมปุ่มหยุด S1 (ทางเดินกระแสที่ 2) เริ่มด้วย S2 แล้ว S4 จากนั้นกด S1 ขณะ M2 เดิน ดูว่าเกิดอะไร แล้วหยุดตามลำดับ: S3 ก่อน รอให้ M1 ว่าง แล้วจึงกด S1 ลองให้ F21 ตัดขณะทั้งสองเดินด้วย เลือก "สามมอเตอร์" เพื่อดูวงจรที่ KM3 คร่อม S3 อีกตัว ทุกการกดและของที่ยังค้างบนสายพานตอนหยุดบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">The circuit of page 6.1 plus one NO contact of KM2 across stop button S1 (current path 2). Start with S2, then S4; then press S1 while M2 runs and see what happens. Then stop in order: S3 first, wait until M1 is empty, then S1. Also trip F21 while both run. Choose "three motors" to see the circuit in which KM3 bridges S3 as well. Every press, and the material still on a belt when it stops, is recorded in the table.</p>
+  <div class="card solve"><div id="selA"></div></div>
+  <div class="card sim rlwrap" id="simA" style="padding:8px;margin-top:12px"></div>
+  <div class="card" style="margin-top:12px"><div id="convA"></div><div id="cbA"></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logA"></div><div id="sumA" style="margin-top:8px"></div></div>
+  <div class="duo" style="margin-top:12px">
+    <div class="card"><h3 data-l="th">คร่อมปุ่มหยุดเท่านั้น</h3><h3 data-l="en">Across the stop button only</h3>
+      <p data-l="th">หน้าสัมผัสของ KM2 คร่อมเฉพาะ S1 ซึ่งเป็นคำสั่งหยุดตามปกติของผู้ใช้งาน ส่วนอุปกรณ์ที่หยุดเพื่อความปลอดภัยต้องหยุดได้เสมอ: ถ้าคร่อม F21 95–96 โอเวอร์โหลดของ M1 จะหยุด M1 ไม่ได้ขณะ M2 เดิน มอเตอร์ร้อนจนเสียหาย ถ้าคร่อม F1 หรือปุ่มหยุดฉุกเฉิน การลัดวงจรหรือการกดหยุดฉุกเฉินก็หยุดไม่ได้ ในวงจรนี้ F21 ยังหยุด M1 ได้ทันที และ M2 หยุดตามเพราะ KM1 83–84 เปิด (กฎข้อ 3)</p>
+      <p data-l="en">The KM2 contact bridges only S1, the operator's normal stop command. Devices that stop for safety must always be able to stop: across F21 95–96, M1's overload could not stop M1 while M2 runs and the motor would overheat; across F1 or the emergency stop, a short circuit or an emergency stop could not stop it either. In this circuit F21 still stops M1 at once, and M2 follows because KM1 83–84 opens (rule 3).</p></div>
+    <div class="card"><h3 data-l="th">หน้าสัมผัสที่ต้องมี</h3><h3 data-l="en">The contacts it takes</h3>
+      <p data-l="th">สองมอเตอร์: KM2 ใช้ 13–14 (ค้างตัวเอง) 53–54 (หลอดเดิน H2) และ 83–84 (คร่อม S1) สามมอเตอร์: KM2 ต้องใช้ 13–14, 53–54, 63–64 (คร่อม S1) และ 83–84 (หน้าสัมผัสอนุญาตของ KM3) รวมหน้าสัมผัสปกติเปิด 4 ตัว ชุดหน้าสัมผัสเสริมด้านหน้าแบบ 53–54, 61–62, 71–72, 83–84 มีปกติเปิดแค่สองตัว KM2 จึงต้องใช้ชุดแบบปกติเปิด 4 ตัว (53–54, 63–64, 73–74, 83–84) ตารางอ้างอิงใต้คอยล์ช่วยนับ (โจทย์ตัวอย่างที่ 1) IEC 60204-1 ข้อ 9.2.5.3 ให้คำสั่งหยุดมีผลเหนือคำสั่งเริ่ม วงจรนี้ยังเป็นไปตามนั้น เพราะ S3 หยุด M2 ได้เสมอ และ S1 มีผลเมื่อไม่มีสายพานต้นทางที่ต้องระบายของลงมา</p>
+      <p data-l="en">Two motors: KM2 uses 13–14 (holding), 53–54 (run lamp H2) and 83–84 (across S1). Three motors: KM2 needs 13–14, 53–54, 63–64 (across S1) and 83–84 (permissive for KM3), four NO contacts in all. A front block 53–54, 61–62, 71–72, 83–84 has only two NO, so KM2 needs a block with four NO (53–54, 63–64, 73–74, 83–84); the cross-reference under the coil helps you count (worked example 1). IEC 60204-1, 9.2.5.3 wants stop commands to override start commands; this circuit still does, because S3 can always stop M2, and S1 works as soon as no feed-end belt still needs to clear onto M1.</p></div>
+  </div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">โอเวอร์โหลดสามแบบ: สายพานเส้นไหนหยุดเมื่อโอเวอร์โหลดตัวหนึ่งตัด</h2><h2 data-l="en">Three overload arrangements: which belts stop when one overload relay trips</h2>
+    <div class="src" data-l="th">EMC9 หน่วยที่ 22 รูป 22-4 · UMC5 บทที่ 12</div><div class="src" data-l="en">EMC9 unit 22, Fig. 22-4 · UMC5 ch. 12</div></div></div>
+  <p class="lead" data-l="th">สายพานสามเส้น ปุ่ม S1 หยุดทั้งสาย S2 เริ่ม M1, S3 เริ่ม M2, S4 เริ่ม M3 เลือกการวางหน้าสัมผัส 95–96 ของ F21, F22, F23 ทีละแบบ เริ่มเดินครบทั้งสามเส้น (S2, S3, S4) รอให้ของไหลถึงปลายทาง แล้วแตะโอเวอร์โหลดตัวใดตัวหนึ่งในรูปหรือในปุ่มใต้หน้าตู้ ดูว่าเส้นไหนหยุดและของกองที่ไหน รีเซ็ตแล้วลองตัวอื่น ผลแต่ละครั้งบันทึกลงตาราง ตารางสรุปบอกว่าโอเวอร์โหลดแต่ละตัวหยุดเส้นไหนในแต่ละแบบ</p>
+  <p class="lead" data-l="en">Three belts; S1 stops the whole line, S2 starts M1, S3 starts M2, S4 starts M3. Choose one placement of the 95–96 contacts of F21, F22, F23 at a time, start all three belts (S2, S3, S4), wait until material reaches the discharge end, then tap one overload relay in the drawing or in the buttons under the panel door and see which belts stop and where material piles up. Reset it and try another. Each result is recorded in the table, and the summary shows which belts each overload stops in each arrangement.</p>
+  <div class="card solve"><div id="selB"></div><div id="infoB"></div></div>
+  <div class="card sim rlwrap" id="simB" style="padding:8px;margin-top:12px"></div>
+  <div class="card" style="margin-top:12px"><div id="convB"></div><div id="cbB"></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pB" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logB"></div><div id="sumB" style="margin-top:8px"></div></div>
+  <div class="story" style="margin-top:12px">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>รูป 22-4 ของ EMC9 วาดการวางหน้าสัมผัสโอเวอร์โหลดของมอเตอร์สองตัวไว้สามแบบ SERIES: ปลายคอยล์ M1 และ M2 มาบรรจบกัน แล้วผ่านหน้าสัมผัสโอเวอร์โหลด (OL'S) ของ M1 และ M2 ที่ต่ออนุกรมกัน ตัวไหนตัดก็หยุดทั้งคู่ COMMON: คอยล์แต่ละตัวผ่านหน้าสัมผัสโอเวอร์โหลดของตัวเองไปที่สายร่วม แต่ละตัวจึงหยุดเฉพาะมอเตอร์ของมัน คำว่า COMMON ในหนังสือหมายถึงต่อเข้าสายร่วมด้วยกัน ไม่ได้หมายถึงโอเวอร์โหลดร่วม ในหน้านี้จึงเรียกว่า "แยกตัว" (แต่ละมอเตอร์ของตัวเอง) CASCADING: คอยล์ M2 ผ่านโอเวอร์โหลดของ M2 แล้วไปบรรจบกับปลายคอยล์ M1 ก่อนโอเวอร์โหลดของ M1 โอเวอร์โหลดของ M1 จึงหยุดทั้งคู่ ส่วนของ M2 หยุดเฉพาะ M2 หนังสือสรุปว่าการวางโอเวอร์โหลดทำได้แทบทุกแบบที่ต้องการ</p>
+        <p>รูปนี้เป็นแบบอเมริกัน (National Electrical Manufacturers Association, NEMA) ที่หน้าสัมผัสโอเวอร์โหลดอยู่ฝั่งสายกลับ เมื่อวาดใหม่เป็นแบบ IEC หน้าสัมผัส 95–96 อยู่ฝั่ง L ทั้งหมด แบบลดหลั่นกลายเป็นต้นไม้: ทางของ KM2 แยกจากจุดหลัง F21 และทางของ KM3 แยกจากจุดหลัง F22 วงจรด้านบนใช้มอเตอร์สามตัว M1 อยู่ปลายทาง โอเวอร์โหลดของ M1 จึงต้องหยุดทุกเส้น ส่วนโอเวอร์โหลดของ M3 (ต้นทาง) หยุดเฉพาะ M3 UMC5 บทที่ 12 ใช้แบบอนุกรมในทุกรูป (โอเวอร์โหลดตัวใดตัดก็หยุดทุกมอเตอร์) ส่วนคำถามท้ายบทของ UMC5 ให้ลองออกแบบให้โอเวอร์โหลดหยุดเฉพาะมอเตอร์ของตัวเอง แบบไหนเหมาะขึ้นกับเครื่องจักร สำหรับสายพานคือแบบลดหลั่น</p></div>
+      <div class="story-p" data-l="en"><p>EMC9 Fig. 22-4 draws three ways of placing the overload contacts of two motors. SERIES: the ends of coils M1 and M2 are joined and then pass the overload contacts (OL'S) of M1 and M2 in series, so either trip stops both. COMMON: each coil passes its own overload contacts to the common line, so each stops only its own motor. The book's word COMMON means "joined to the common line", not a shared overload, so this page calls it "separate" (each motor its own). CASCADING: coil M2 passes M2's overload and then joins the end of coil M1 ahead of M1's overload, so M1's overload stops both while M2's stops only M2. The book sums up that practically any overload arrangement can be made.</p>
+        <p>The figure is a US (National Electrical Manufacturers Association, NEMA) drawing with the overload contacts on the return side. Redrawn to IEC, every 95–96 sits on the L side and the cascading arrangement becomes a tree: KM2's path branches off after F21 and KM3's path after F22. The circuit above has three motors with M1 at the discharge end, so M1's overload must stop every belt while M3's (the feed end) stops only M3. UMC5 ch. 12 uses the series arrangement in every figure (any overload stops all motors), while one of UMC5's review questions asks for a redesign in which an overload stops only its own motor. Which one fits depends on the machine; for a conveyor line it is the cascade.</p></div></div>
+    <div class="story-f">
+      <figure class="slide sm"><img src="img/book/emc9_fig22_4_overloads.jpg?v=13" width="767" height="934" loading="lazy" decoding="async" alt="US line diagrams of two coils M1 and M2 with three overload arrangements: SERIES, both coils joined and returned through the overload contacts of M1 and M2 in series; COMMON, each coil through its own overload contact to the line; CASCADING, coil M2 through M2's overload into the node after coil M1, then through M1's overload.">
+        <figcaption data-l="th">รูป 22-4 การวางหน้าสัมผัสโอเวอร์โหลดสามแบบ (แบบ NEMA) · ที่มา: Herman, <i>Electric Motor Control</i> 9th ed. (Delmar Cengage, 2010) หน่วยที่ 22 หน้า 175 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 22-4, three overload arrangements (NEMA) · source: Herman, <i>Electric Motor Control</i>, 9th ed. (Delmar Cengage, 2010), unit 22, p. 175 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+  <div class="callout" data-l="th"><b>วงจรนี้ตรวจลำดับเฉพาะตอนเริ่มเดิน</b>: ในวงจรของหัวข้อนี้ หน้าสัมผัสอนุญาต KM1 83–84 และ KM2 83–84 ต่ออนุกรมกับปุ่มเริ่มเท่านั้น และหน้าสัมผัสค้างตัวเองคร่อมทั้งปุ่มเริ่มและหน้าสัมผัสอนุญาต M2 จึงยังเริ่มก่อน M1 ไม่ได้ แต่เมื่อเดินแล้ว การวางโอเวอร์โหลดเพียงอย่างเดียวเป็นตัวกำหนดว่าเส้นไหนหยุด จึงเทียบสามแบบได้ตรง ๆ ในงานจริงให้วางหน้าสัมผัสอนุญาตนอกหน้าสัมผัสค้างแบบหน้า 6.1 ด้วย</div>
+  <div class="callout" data-l="en"><b>This circuit checks the order only at start</b>: here the permissive contacts KM1 83–84 and KM2 83–84 are in series with the start buttons only, and each holding contact bridges both the start button and the permissive contact. M2 still cannot start before M1, but once running, the overload wiring alone decides which belts stop, so the three arrangements can be compared directly. In a real panel keep the permissive contacts outside the holding contacts as on page 6.1 as well.</div>
+</section>
+
+<section class="prob" id="tD">
+  <div class="prob-head"><span class="prob-no">D</span><div><h2 data-l="th">คอนแทกเตอร์ดูดอยู่ ไม่ได้แปลว่าสายพานเคลื่อนที่</h2><h2 data-l="en">A contactor that is in does not prove the belt moves</h2>
+    <div class="src" data-l="th">EMC9 หน่วยที่ 48 รูป 48-9 · UMC5 บทที่ 12</div><div class="src" data-l="en">EMC9 unit 48, Fig. 48-9 · UMC5 ch. 12</div></div></div>
+  <div class="story">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>หน้าสัมผัสอนุญาต KM1 83–84 พิสูจน์ว่าแกนของ KM1 ดูด แต่ไม่ได้พิสูจน์ว่าสายพาน M1 เคลื่อนที่: ถ้าข้อต่อระหว่างมอเตอร์กับลูกกลิ้งขาด สายพานลื่นบนลูกกลิ้ง หรือเบรกเกอร์สาขา Q11 ปลด (ลองในหน้า 6.1) KM1 ยังดูดอยู่และ M2 ยังส่งของลงมาได้ UMC5 บทที่ 12 (หน้า 132) บอกวิธีตัดสินว่ามอเตอร์ตัวถัดไปเริ่มได้เมื่อไรไว้สามแบบ: วัดกระแสของมอเตอร์ตัวก่อน (กระแสลดลงเมื่อเร่งถึงความเร็ว) วัดความเร็วของมอเตอร์ตัวก่อน หรือหน่วงเวลา ซึ่งหนังสือบอกว่าเป็นวิธีหนึ่งที่ใช้บ่อยที่สุด (หน้า 6.3)</p>
+        <p>รูป 48-9 ของ EMC9 ใช้สวิตช์ความเร็ว (หนังสือเรียก plugging switch) ที่เพลาของมอเตอร์สายพานหลัก หน้าสัมผัส F ของสวิตช์ต่อเมื่อสายพานหลักหมุนจริง คอยล์ของสายพานป้อน F รับไฟผ่านหน้าสัมผัสช่วย M และหน้าสัมผัสของสวิตช์ความเร็วต่ออนุกรมกัน สายพานป้อนจึงเริ่มได้เมื่อสายพานหลักหมุนแล้วเท่านั้น และหยุดทันทีเมื่อสายพานหลักช้าลง ในรูปนี้หน้าสัมผัสโอเวอร์โหลดของสายพานป้อน (F OL'S) อยู่ในแถวของสายพานหลักด้วย โอเวอร์โหลดของสายพานป้อนจึงหยุดทั้งสองเส้น ส่วนวงจรของวิชาให้สายพานปลายทางเดินต่อเพื่อระบายของ (กฎข้อ 3)</p>
+        <p>เมื่อวาดใหม่เป็นแบบ IEC หน้าสัมผัสของสวิตช์ความเร็วคือหน้าสัมผัสปกติเปิดที่มีสัญลักษณ์ตัวขับแบบความเร็ว ต่ออนุกรมกับ KM1 83–84 ในทางของ KM2 โปรแกรม CADe SIMU ไม่มีสวิตช์ความเร็ว เรื่องนี้จึงเป็นความรู้ประกอบ ไม่อยู่ในใบงาน</p></div>
+      <div class="story-p" data-l="en"><p>The permissive contact KM1 83–84 proves that KM1's armature pulled in, not that belt M1 moves: if the coupling between motor and pulley breaks, the belt slips on its pulley, or branch breaker Q11 is off (try it on page 6.1), KM1 is still in and M2 can still deliver. UMC5 ch. 12 (p. 132) gives three ways of deciding when the next motor may start: sense the current of the previous motor (it falls as the motor reaches speed), sense its speed, or a time delay, which the book calls one of the most common (page 6.3).</p>
+        <p>EMC9 Fig. 48-9 puts a speed switch (the book calls it a plugging switch) on the shaft of the main conveyor motor. Its contact F closes only while the main conveyor really turns. The feeder coil F takes its supply through auxiliary contact M and the speed-switch contact in series, so the feeder can start only once the main conveyor turns, and stops as soon as it slows down. In this figure the feeder's overload contacts (F OL'S) sit in the main conveyor's rung too, so a feeder overload stops both conveyors; the course circuits let the discharge belt run on to clear (rule 3).</p>
+        <p>Redrawn to IEC, the speed-switch contact is an NO contact with the speed-actuator symbol in series with KM1 83–84 in KM2's path. CADe SIMU has no speed switch, so this is background knowledge, not part of the lab sheet.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/emc9_fig48_9_speed_switch.jpg?v=13" width="1034" height="502" loading="lazy" decoding="async" alt="US ladder diagram: main motor rung from L1 through STOP and RUN with holding contact M to coil M, then the overload contacts of M and of F to L2; feeder rung from L1 through an M contact and the contact of speed switch F, linked by a dashed line to the main motor, to coil F.">
+        <figcaption data-l="th">รูป 48-9 สายพานป้อนเริ่มได้เมื่อสายพานหลักหมุนจริง ตรวจด้วยสวิตช์ความเร็ว (แบบ NEMA) · ที่มา: Herman (2010) หน่วยที่ 48 หน้า 340 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 48-9, the feeder starts only once the main conveyor really turns, proven by a speed switch (NEMA) · source: Herman (2010), unit 48, p. 340 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">หน้าสัมผัสของ KM2 ในวงจรหยุดย้อนลำดับสามมอเตอร์</h2><h2 data-l="en">The contacts of KM2 in the three-motor reverse-order stop</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · วงจรของหัวข้อ A (สามมอเตอร์)</div><div class="src" data-l="en">Worked example · the circuit of section A (three motors)</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>วงจรด้านล่างคือวงจรหยุดย้อนลำดับของสายพานสามเส้น พร้อมหลอดเดิน H1–H3 แต่ยังไม่มีตารางอ้างอิงใต้คอยล์ (ก) หน้าสัมผัสที่ทำให้ S1 และ S3 ไม่มีผลเป็นของคอนแทกเตอร์ตัวไหน และอยู่ทางเดินกระแสที่เท่าไร (ข) เขียนตารางอ้างอิงใต้คอยล์ KM2 แล้วนับว่า KM2 ใช้หน้าสัมผัสช่วยปกติเปิดกี่ตัว (ค) คอนแทกเตอร์ที่มี 13–14 ในตัวและชุดหน้าสัมผัสเสริมด้านหน้า 53–54, 61–62, 71–72, 83–84 ใช้เป็น KM2 ได้หรือไม่ ถ้าไม่ได้ต้องเปลี่ยนอะไร</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>The circuit below is the reverse-order stop of three belts, with run lamps H1–H3, but without the cross-reference under the coils. (a) Which contactor's contacts make S1 and S3 ineffective, and in which current paths are they? (b) Write the cross-reference under coil KM2 and count how many auxiliary NO contacts KM2 uses. (c) Can a contactor with 13–14 built in and a front block 53–54, 61–62, 71–72, 83–84 serve as KM2? If not, what must change?</p></div>
+  <div class="card sim rlwrap" id="simE" style="padding:8px"></div>
+  <div class="card solve" style="margin-top:12px"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">การหยุดย้อนลำดับและโอเวอร์โหลดของสายพาน</div><div class="src" data-l="en">Reverse-order stop and conveyor overloads</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>หัวข้อ 0: เริ่มเดินถูกลำดับ แล้วกด "หยุดทั้งหมดทันที" ดูว่าของค้างบนสายพานแต่ละเส้นกี่ชิ้น เทียบกับการหยุดจาก M3 โดยรอให้แต่ละเส้นว่าง</li>
+    <li>หัวข้อ A (สามมอเตอร์): ให้ทั้งสามเดิน แล้วลองกด S1, S3, S5 ตามลำดับต่าง ๆ ลำดับไหนเท่านั้นที่หยุดได้ และ F22 ตัดแล้วเส้นไหนหยุด</li>
+    <li>หัวข้อ B: แบบแยกตัว ให้ F21 ตัดขณะทั้งสามเดิน ดูว่าของกองที่ไหนและเร็วแค่ไหนจึงล้น แล้วคิดว่าโรงงานแบบไหนที่แบบแยกตัวเหมาะกว่า (เช่น เครื่องจักรที่ไม่ได้ส่งของต่อกัน)</li></ol>
+    <div class="book">Herman, <i>Electric Motor Control</i> 9th ed. หน่วยที่ 1, 22, 48 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 12 · Senty, <i>Motor Control Fundamentals</i> บทที่ 14 วงจรที่ 22 · ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 9 หัวข้อ 1 · IEC 60204-1 ข้อ 9.2.5.3, 10.7</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Section 0: start in the right order, then press "Stop everything at once" and count the parcels left on each belt; compare with stopping from M3 while waiting until each belt is empty.</li>
+    <li>Section A (three motors): run all three, then try S1, S3 and S5 in different orders. Which order is the only one that stops them? Which belts stop when F22 trips?</li>
+    <li>Section B: in the separate arrangement, trip F21 while all three run. Where does material pile up, and how soon does it spill? In what kind of plant would the separate arrangement fit better (for example machines that do not pass material on to each other)?</li></ol>
+    <div class="book">Herman, <i>Electric Motor Control</i>, 9th ed., units 1, 22, 48 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 12 · Senty, <i>Motor Control Fundamentals</i>, ch. 14, circuit 22 · Thai textbook <i>Motor Control</i>, ch. 9 §1 · IEC 60204-1, 9.2.5.3, 10.7</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui, tt = ED.tt;
+  const hid = spec => new RL.Sim(document.createElement('div'), spec);
+  /* drawing size: k × the natural width; on a phone a wide circuit keeps at least 1000 px (or its natural width) and scrolls sideways inside its card (.rlscroll) */
+  const fit = (sim, box, k = 1.1) => { const svg = sim.el.querySelector('svg'), W = svg ? svg.viewBox.baseVal.width : 600; sim.o.max = Math.round(W * k); sim.render();
+    sim.el.style.maxWidth = `${Math.round(W * k)}px`; sim.el.style.margin = '0 auto';
+    if (box) { box.classList.toggle('rlscroll', W >= 360); box.style.setProperty('--rlmin', `${Math.round(Math.min(W, 1000))}px`); } return W; };
+  const mount = (box, spec, o = {}, k) => { box.innerHTML = ''; const el = document.createElement('div'); box.appendChild(el); const s = new RL.Sim(el, spec, o); fit(s, box, k); return s; };
+  const runs = s => C6.motors(s).filter(m => s.runningM(m));
+  const idx = m => +m.slice(1);
+  const rk = (txt, kind) => `<span class="rk-${kind}">${txt}</span>`;
+  const list = a => (a.length ? a.join(', ') : t('ไม่มี', 'none'));
+  /* every user action on a simulator: fn(device, act, running before, running after, sim) */
+  const snapD = s => { const o = {}; Object.values(s.dev).forEach(d => { o[d.id] = `${d.pressed}|${d.on}|${d.tripped}|${d.blown}`; }); return o; };
+  const watch = (sim, fn) => { let was = snapD(sim), wr = runs(sim);
+    sim.on(s => { const now = snapD(s), nr = runs(s);
+      Object.values(s.dev).forEach(d => { if (now[d.id] === was[d.id] || !['pb', 'cb', 'ol', 'fuse'].includes(d.type)) return;
+        const act = d.type === 'pb' ? (d.pressed ? 'press' : 'release') : d.type === 'cb' ? (d.on ? 'on' : 'off') : d.type === 'ol' ? (d.tripped ? 'trip' : 'reset') : 'fuse';
+        fn(d, act, wr, nr, s); });
+      was = now; wr = nr; }); };
+  const actTxt = (d, act) => ({ press: t(`กด ${d.id}`, `press ${d.id}`), release: t(`ปล่อย ${d.id}`, `release ${d.id}`), on: t(`สับ ${d.id}`, `${d.id} on`), off: t(`ปลด ${d.id}`, `${d.id} off`),
+    trip: t(`${d.id} ตัด`, `${d.id} trips`), reset: t(`รีเซ็ต ${d.id}`, `reset ${d.id}`), fuse: t(`เปลี่ยนฟิวส์ ${d.id}`, `replace fuse ${d.id}`) })[act];
+  /* the conveyor verdict of a set of running belts: a stopped belt fed by a running one piles up */
+  const pileAt = a => { for (let i = 1; i <= 3; i++) if (!a.includes(`M${i}`) && a.includes(`M${i + 1}`)) return `M${i + 1} → M${i}`; return ''; };
+  const beltCtl = (el, get) => ui.buttons(el, [{ id: `${el.id}Feed`, label: t('ถังป้อน: เปิด', 'hopper: open'), on: true, onclick: b => { const c = get(); c.setFeed(!c.feed); b.classList.toggle('on', c.feed); b.textContent = c.feed ? t('ถังป้อน: เปิด', 'hopper: open') : t('ถังป้อน: ปิด', 'hopper: closed'); } },
+    { id: `${el.id}Empty`, label: t('↺ ล้างของบนสายพาน', '↺ Empty the belts'), onclick: () => get().reset() }]);
+  /* conveyor events as log rows (one row per kind and transfer point; a spill is logged once until something else happens) */
+  const convLog = (log, cells) => e => { if (e.kind === 'spill' && log._sp === e.from) return; log._sp = e.kind === 'spill' ? e.from : null;
+    const m = e.kind === 'pile' ? [t(`ของเริ่มกองที่จุดที่ ${e.from} ส่งลง ${e.onto}: ${e.onto} หยุดแต่ ${e.from} ยังส่งของมา`, `material starts to pile up where ${e.from} feeds ${e.onto}: ${e.onto} has stopped but ${e.from} still delivers`), 'bad']
+      : e.kind === 'spill' ? [t(`ของล้นหกที่จุดส่งต่อ ${e.from} → ${e.onto}`, `material spills at the transfer point ${e.from} → ${e.onto}`), 'bad'] : [t(`กองที่จุด ${e.from} → ${e.onto} ถูกพาไปหมดแล้ว`, `the pile at ${e.from} → ${e.onto} has been carried away`), 'ok'];
+    log.add(`conv|${e.kind}|${e.from}|${cells().join('|')}`, [...cells(), t('(สายพาน)', '(belts)'), '', m[0]], m[1]); };
+
+  /* 0: three belts switched by hand (no circuit), log of every command with the rule it obeys or breaks, summary from hidden conveyors */
+  const st0 = { M1: false, M2: false, M3: false };
+  const log0 = new ED.Log($('log0'), [['สิ่งที่ทำ', 'what you did'], ['เส้นที่เดิน', 'belts running'], ['ความหมาย', 'what it means']]);
+  const conv0 = new C6.Conveyor($('conv0'), null, { belts: C6.BELTS(3), run: id => st0[id], onEvent: e => convLog(log0, () => [])(e) });
+  const runList0 = () => C6.BELTS(3).filter(id => st0[id]).reverse();
+  const lab0 = id => `${id}${id === 'M3' ? t(' (ต้นทาง)', ' (feed end)') : id === 'M1' ? t(' (ปลายทาง)', ' (discharge)') : ''}: ${st0[id] ? t('▶ เดิน', '▶ running') : t('■ หยุด', '■ stopped')}`;
+  const b0 = ui.buttons($('ctl0'), [...C6.BELTS(3).map(id => ({ id, label: lab0(id), onclick: () => toggle0(id) })),
+    { id: 'feed0', label: t('ถังป้อน: เปิด', 'hopper: open'), on: true, onclick: b => { conv0.setFeed(!conv0.feed); b.classList.toggle('on', conv0.feed); b.textContent = conv0.feed ? t('ถังป้อน: เปิด', 'hopper: open') : t('ถังป้อน: ปิด', 'hopper: closed');
+      log0.add(`feed|${conv0.feed}`, [conv0.feed ? t('เปิดถังป้อน', 'open the hopper') : t('ปิดถังป้อน', 'close the hopper'), list(runList0()), conv0.feed ? t('ของเริ่มลง M3 เมื่อ M3 เดิน', 'material falls onto M3 whenever M3 runs') : t('ไม่มีของใหม่ลง M3 แล้ว: ก่อนหยุดสายพานตามปกติให้ปิดถังป้อนก่อน แล้วหยุดจาก M3', 'no new material reaches M3: before a normal stop, close the hopper first, then stop from M3')], 'ok'); } },
+    { id: 'all', label: t('■ หยุดทั้งหมดทันที (หยุดฉุกเฉิน)', '■ Stop everything at once (emergency stop)'), cls: 'danger', onclick: () => allStop0() },
+    { id: 'empty0', label: t('↺ ล้างของบนสายพาน', '↺ Empty the belts'), onclick: () => conv0.reset() }]);
+  const show0 = () => C6.BELTS(3).forEach(id => { b0[id].textContent = lab0(id); b0[id].classList.toggle('on', st0[id]); });
+  function toggle0(id) { const i = idx(id), on = !st0[id], left = conv0.state().onBelt[id]; st0[id] = on; show0();
+    const dn = `M${i - 1}`, up = `M${i + 1}`;
+    const m = on ? (i > 1 && !st0[dn] ? [t(`${id} เดินขณะ ${dn} ที่รับของจากมันหยุดอยู่: ของจะกองที่จุด ${id} → ${dn} (ผิดกฎข้อ 1)`, `${id} runs while ${dn}, which it feeds, stands still: material will pile up at ${id} → ${dn} (breaks rule 1)`), 'bad']
+        : i === 1 ? [t('M1 เดินก่อน: ปล่อยของลงถังรับได้ เริ่มจากปลายทางถูกต้อง', 'M1 runs first: it discharges into the bin; starting from the discharge end is right'), 'ok'] : [t(`${id} เดินหลัง ${dn}: ของตกลงบนสายพานที่เดินอยู่ (กฎข้อ 1)`, `${id} runs after ${dn}: its material lands on a moving belt (rule 1)`), 'ok'])
+      : (i < 3 && st0[up] ? [t(`${id} หยุดขณะ ${up} ยังส่งของมา: ของกองที่จุด ${up} → ${id} (ผิดกฎข้อ 2 และ 3: ต้องหยุด ${up} ด้วย)`, `${id} stops while ${up} still delivers: material piles up at ${up} → ${id} (breaks rules 2 and 3: ${up} must stop too)`), 'bad']
+        : left > 0 && i === 3 && conv0.feed ? [t(`M3 หยุดขณะถังป้อนยังเปิด: มีของค้างบน M3 ${left} ชิ้น ก่อนหยุดตามปกติให้ปิดถังป้อนแล้วรอให้ M3 ว่าง`, `M3 stops with the hopper still open: ${left} parcels stay on M3. Before a normal stop, close the hopper and let M3 run empty`), 'warn']
+        : left > 0 ? [t(`${id} หยุดโดยไม่มีเส้นไหนส่งของมาแล้ว แต่ยังมีของค้างอยู่ ${left} ชิ้น ครั้งหน้าจะเริ่มเดินทั้งที่มีของ รอให้ว่างก่อนจึงหยุด (หน้า 6.4 ใช้ตัวตั้งเวลาทำให้)`, `${id} stops with nothing delivering to it any more, but ${left} parcels are still on it; it will restart loaded. Wait until it is empty before stopping it (page 6.4 does this with timers)`), 'warn']
+        : [t(`${id} หยุดหลังวิ่งจนว่าง: ไม่มีของกองและไม่มีของค้าง (กฎข้อ 2)`, `${id} stops after running empty: no pile-up and nothing left on it (rule 2)`), 'ok']);
+    log0.add(`${id}|${on}|${m[1]}|${runList0().join('')}`, [`${on ? t('เริ่ม', 'start') : t('หยุด', 'stop')} ${id}`, list(runList0()), m[0]], m[1]); }
+  function allStop0() { const was = runList0(), onB = conv0.state().onBelt; C6.BELTS(3).forEach(id => { st0[id] = false; }); show0(); if (!was.length) return;
+    const n = Object.values(onB).reduce((x, y) => x + y, 0);
+    log0.add(`all|${was.join('')}`, [t('หยุดทั้งหมดทันที', 'stop everything at once'), list([]), t(`ทุกเส้นหยุดพร้อมกัน: ไม่มีของกอง เพราะไม่มีเส้นไหนยังส่งของมา แต่มีของค้างบนสายพาน ${n} ชิ้น ใช้กับการหยุดฉุกเฉิน (กฎข้อ 4) ไม่ใช่การหยุดตามปกติ`, `every belt stops together: nothing piles up, because no belt is still delivering, but ${n} parcels stay on the belts. This is for an emergency stop (rule 4), not a normal stop`)], 'ok'); }
+  LS.anim($('t0'), dt => conv0.step(dt));
+  /* hidden conveyor runs: plan = [[t, id, on]], returns the final state, the largest pile and the events */
+  const convRun = (plan, until = 30) => { const st = { M1: false, M2: false, M3: false }, c = new C6.Conveyor(document.createElement('div'), null, { belts: C6.BELTS(3), run: id => st[id] });
+    const P = plan.slice().sort((p, q) => p[0] - q[0]); let now = 0, k = 0, maxPile = 0;
+    while (now <= until) { while (k < P.length && P[k][0] <= now + 1e-9) { if (P[k][1] === 'feed') c.setFeed(P[k][2]); else st[P[k][1]] = P[k][2]; k++; } c.step(0.05); now += 0.05; maxPile = Math.max(maxPile, ...Object.values(c.state().piles)); }
+    return { s: c.state(), maxPile, ev: c.events }; };
+  const UP = [[0, 'M1', true], [2, 'M2', true], [4, 'M3', true]];
+  const CASES0 = [
+    [['เริ่ม M1 → M2 → M3 ทุก 2 วินาที', 'start M1 → M2 → M3, 2 s apart'], UP, 14, false],
+    [['เริ่ม M3 → M2 → M1 ทุก 4 วินาที', 'start M3 → M2 → M1, 4 s apart'], [[0, 'M3', true], [4, 'M2', true], [8, 'M1', true]], 24, false],
+    [['เดินครบ ปิดถังป้อน แล้วหยุด M1 → M2 → M3 ทุก 3 วินาที', 'all running, hopper closed, then stop M1 → M2 → M3, 3 s apart'], [...UP, [14, 'feed', false], [17, 'M1', false], [20, 'M2', false], [23, 'M3', false]], 30, true],
+    [['เดินครบ ปิดถังป้อน แล้วหยุด M3 → M2 → M1 ทุก 3 วินาที', 'all running, hopper closed, then stop M3 → M2 → M1, 3 s apart'], [...UP, [14, 'feed', false], [17, 'M3', false], [20, 'M2', false], [23, 'M1', false]], 30, true],
+    [['เดินครบ แล้วหยุดทั้งหมดพร้อมกัน', 'all running, then stop everything at once'], [...UP, [14, 'M1', false], [14, 'M2', false], [14, 'M3', false]], 20, true],
+    [['เดินครบ แล้ว M2 หยุดเส้นเดียว (เช่นโอเวอร์โหลด)', 'all running, then M2 alone stops (e.g. overload)'], [...UP, [14, 'M2', false]], 26, false],
+    [['เดินครบ แล้ว M2 หยุดพร้อม M3 (เส้นที่ป้อนของให้)', 'all running, then M2 stops together with M3 (the belt feeding it)'], [...UP, [14, 'M2', false], [14, 'M3', false]], 26, false]];
+  ED.summary($('sum0'), { head: [['สิ่งที่ทำ', 'what was done'], ['ของกองมากสุด (ชิ้น)', 'largest pile (parcels)'], ['ของหก (ชิ้น)', 'spilled (parcels)'], ['ของค้างบน M3 / M2 / M1', 'left on M3 / M2 / M1'], ['ผล', 'result']],
+    intro: ['สายพานจำลองแบบเดียวกับด้านบน (ถังป้อนเปิด) เล่นซ้ำโดยไม่แสดงผล', 'The same belts as above (hopper open), replayed without being shown.'],
+    rows: () => CASES0.map(([lab, plan, until, stop]) => { const r = convRun(plan, until), o = r.s.onBelt, bad = r.maxPile > 0, left = o.M1 + o.M2 + o.M3;
+      return [tt(lab), bad ? rk(r.maxPile, 'bad') : '0', r.s.spilled ? rk(r.s.spilled, 'bad') : '0', `${o.M3} / ${o.M2} / ${o.M1}`, bad ? rk(t('ของกอง', 'pile-up'), 'bad')
+        : stop && left ? rk(t('ไม่กอง แต่มีของค้างบนสายพาน', 'no pile-up, but material left on the belts'), 'warn') : stop ? rk(t('ไม่กอง สายพานว่างทุกเส้น', 'no pile-up, every belt empty'), 'ok') : rk(t('ไม่กอง', 'no pile-up'), 'ok')]; }),
+    points: [['กฎข้อ 1: เริ่มจากปลายทาง (M1 ก่อน) ไม่มีของกอง เริ่มจากต้นทาง ของกองที่จุดส่งต่อตั้งแต่ก่อนเส้นถัดไปจะเดิน', 'Rule 1: starting from the discharge end (M1 first) gives no pile-up; starting from the feed end piles material at the transfer points before the next belt runs.'],
+      ['กฎข้อ 2: ปิดถังป้อนแล้วหยุดจากต้นทาง (M3 ก่อน) โดยเว้นเวลาให้แต่ละเส้นวิ่งจนว่าง สายพานทุกเส้นหยุดแบบว่างเปล่า ครั้งหน้าจึงเริ่มเดินโดยไม่มีของค้าง หยุดจากปลายทางก่อนทำให้ของที่ยังอยู่บนเส้นต้นทางกองที่จุดส่งต่อ', 'Rule 2: closing the hopper and stopping from the feed end (M3 first), with time for each belt to run empty, leaves every belt empty, so it restarts unloaded; stopping from the discharge end first piles the material still on the feed-end belts up at the transfer points.'],
+      ['กฎข้อ 3: ถ้า M2 หยุดเส้นเดียว M3 ยังส่งของมากองบน M2 ถ้า M3 หยุดพร้อมกันก็ไม่กอง ส่วน M1 เดินต่อและระบายของออกไปได้', 'Rule 3: if M2 alone stops, M3 still delivers and the material piles up on M2; if M3 stops with it, nothing piles up, and M1 runs on and clears.'],
+      ['กฎข้อ 4: หยุดทั้งหมดพร้อมกันไม่ทำให้ของกอง แต่ทิ้งของไว้บนทุกเส้น จึงใช้กับการหยุดฉุกเฉิน', 'Rule 4: stopping everything at once causes no pile-up but leaves material on every belt, so it is for the emergency stop.']] });
+
+  /* A: reverse-order stop, two or three motors, with the conveyor */
+  const STOPB = { S1: 1, S3: 2, S5: 3 }, STARTB = { S2: 1, S4: 2, S6: 3 };
+  const BRIDGE = n => (n === 3 ? { S1: 'KM2 63–64', S3: 'KM3 83–84' } : { S1: 'KM2 83–84' });
+  let nA = 2, simA = null, convA = null;
+  const specA = n => C6.REV_STOP(n === 3 ? { n: 3, lamps: false } : {});
+  const logA = new ED.Log($('logA'), [['มอเตอร์', 'motors'], ['สิ่งที่ทำ', 'what you did'], ['เส้นที่เดิน', 'belts running'], ['ความหมาย', 'what it means']]);
+  const nmA = () => (nA === 3 ? t('สามตัว', 'three') : t('สองตัว', 'two'));
+  const meanRev = (d, act, b, a, s, n) => {
+    const id = d.id, stopped = b.filter(m => !a.includes(m)), pile = pileAt(a);
+    if (act === 'release') return null;
+    if (act === 'press' && STOPB[id]) { const i = STOPB[id], m = `M${i}`, up = `M${i + 1}`;
+      if (!b.includes(m)) return null;
+      if (a.includes(m)) return [t(`${id} ไม่มีผล: ${BRIDGE(n)[id]} คร่อม ${id} อยู่ขณะ ${up} เดิน ต้องหยุด ${up} ก่อน แล้วรอให้ ${m} ว่าง`, `${id} does nothing: ${BRIDGE(n)[id]} bridges ${id} while ${up} runs; stop ${up} first, then let ${m} run empty`), 'ok'];
+      if (pile) return [t(`${m} หยุดแต่เส้นต้นทางยังเดิน ของกองที่ ${pile}`, `${m} stops but a feed-end belt still runs: material piles up at ${pile}`), 'bad'];
+      const left = convA ? convA.state().onBelt[m] : 0;
+      if (left > 0 && i === n && convA.feed) return [t(`${m} (ต้นทาง) หยุดขณะถังป้อนยังเปิด: มีของค้างบน ${m} ${left} ชิ้น ในการหยุดตามปกติให้หยุดการป้อนของก่อน แล้วให้ ${m} วิ่งจนว่าง`, `${m} (the feed end) stops with the hopper still open: ${left} parcels stay on ${m}. In a normal stop, stop the feed first and let ${m} run empty`), 'warn'];
+      return left > 0 ? [t(`${m} หยุดตามลำดับ แต่ยังมีของค้างอยู่ ${left} ชิ้น ครั้งหน้าควรรอให้ว่างก่อนกด ${id}`, `${m} stops in order, but ${left} parcels are still on it; next time wait until it is empty before pressing ${id}`), 'warn']
+        : [t(`${m} หยุดตามลำดับหลังวิ่งจนว่าง`, `${m} stops in order after running empty`), 'ok']; }
+    if (act === 'press' && STARTB[id]) { const i = STARTB[id], m = `M${i}`;
+      if (a.includes(m) && !b.includes(m)) return [t(`${m} เริ่มเดิน${i > 1 ? ` หลัง M${i - 1}` : ''}`, `${m} starts${i > 1 ? ` after M${i - 1}` : ''}`), 'ok'];
+      if (!a.includes(m) && i > 1 && !a.includes(`M${i - 1}`)) return [t(`ไม่มีอะไรเกิด: M${i - 1} หยุดอยู่ KM${i - 1} 83–84 จึงเปิด`, `nothing happens: M${i - 1} is stopped, so KM${i - 1} 83–84 is open`), 'ok'];
+      return null; }
+    if (act === 'trip') { const i = +id.slice(2);
+      if (pile) return [t(`${id} ตัดแต่เส้นต้นทางยังเดิน ของกองที่ ${pile}`, `${id} trips but a feed-end belt still runs: material piles up at ${pile}`), 'bad'];
+      return stopped.length ? [t(`${id} 95–96 เปิด: หยุด ${list(stopped)} ทันที ไม่มีหน้าสัมผัสคร่อมโอเวอร์โหลด จึงหยุดได้แม้ปุ่มหยุดถูกคร่อมอยู่${a.length ? ` ส่วน ${list(a)} เดินต่อเพื่อระบายของ` : ''}`, `${id} 95–96 opens: ${list(stopped)} stop at once; no contact bridges an overload, so it stops even while the stop button is bridged${a.length ? `, while ${list(a)} run on to clear` : ''}`), 'ok']
+        : [t(`${id} ตัดขณะ M${i} หยุดอยู่`, `${id} trips while M${i} is stopped`), '']; }
+    if (act === 'reset') return [t('รีเซ็ตแล้วไม่มีอะไรเดินเอง', 'reset: nothing starts by itself'), a.length > b.length ? 'bad' : 'ok'];
+    if (id === 'Q1') return act === 'off' ? [t('ปลด Q1: ไม่มีไฟทั้งชุด ทุกเส้นหยุดพร้อมกัน', 'Q1 off: the whole set is dead and every belt stops together'), ''] : [a.length ? t('สับ Q1 แล้วมอเตอร์เดินเอง', 'Q1 on and a motor restarts') : t('สับ Q1: ไม่มีอะไรเดินเอง', 'Q1 on: nothing restarts by itself'), a.length ? 'bad' : 'ok'];
+    if (/^Q1\d$/.test(id)) return act === 'off' ? [pile ? t(`ปลด ${id}: มอเตอร์ไม่มีไฟแต่คอนแทกเตอร์ยังดูด ของกองที่ ${pile}`, `${id} off: the motor has no supply but its contactor stays in; material piles up at ${pile}`) : t(`ปลด ${id}: มอเตอร์ไม่มีไฟแต่คอนแทกเตอร์ยังดูด`, `${id} off: the motor has no supply but its contactor stays in`), pile ? 'bad' : 'warn'] : [t(`สับ ${id}`, `${id} on`), ''];
+    return null; };
+  function buildA(n) { nA = n;
+    simA = mount($('simA'), specA(n), { label: `reverse-order stop of ${n} motors` });
+    convA = new C6.Conveyor($('convA'), simA, { onEvent: e => convLog(logA, () => [nmA()])(e) });
+    $('pA').innerHTML = ''; C6.panel($('pA'), simA, { cut: false, skip: ['Q11', 'Q12', 'Q13'] });
+    watch(simA, (d, act, b, a, s) => { const m = meanRev(d, act, b, a, s, n); if (!m) return;
+      logA.add(`${n}|${d.id}|${act}|${b}|${a}`, [nmA(), actTxt(d, act), list(a), m[0]], m[1]); }); }
+  ui.radio($('selA'), [{ id: 'n2', label: t('สองมอเตอร์ (KM2 83–84 คร่อม S1)', 'two motors (KM2 83–84 across S1)'), on: true }, { id: 'n3', label: t('สามมอเตอร์ (KM2 63–64 คร่อม S1, KM3 83–84 คร่อม S3)', 'three motors (KM2 63–64 across S1, KM3 83–84 across S3)') }], id => buildA(+id.slice(1)));
+  beltCtl($('cbA'), () => convA);
+  buildA(2);
+  LS.anim($('tA'), dt => { simA.step(dt); convA.step(dt); });   // the whole section, so the belts keep moving while the door or the log is on screen
+  const trial = (spec, seq) => { const s = hid(spec); C6.runSeq(s, seq); return runs(s); };
+  const ALL2 = [['tap', 'S2'], ['tap', 'S4']], ALL3 = [['tap', 'S2'], ['tap', 'S4'], ['tap', 'S6']];
+  const TA = [
+    [['ทุกตัวเดิน แล้วกด S1', 'all running, then S1'], [['tap', 'S1']], [['tap', 'S1']]],
+    [['ทุกตัวเดิน แล้วกด S3', 'all running, then S3'], [['tap', 'S3']], [['tap', 'S3']]],
+    [['ทุกตัวเดิน แล้วกด S3 ตามด้วย S1', 'all running, then S3 followed by S1'], [['tap', 'S3'], ['tap', 'S1']], [['tap', 'S3'], ['tap', 'S1']]],
+    [['สามตัว: กด S5, S3 แล้ว S1', 'three motors: S5, S3, then S1'], null, [['tap', 'S5'], ['tap', 'S3'], ['tap', 'S1']]],
+    [['ทุกตัวเดิน แล้ว F21 ตัด', 'all running, F21 trips'], [['toggle', 'F21']], [['toggle', 'F21']]],
+    [['ทุกตัวเดิน แล้ว F22 ตัด', 'all running, F22 trips'], [['toggle', 'F22']], [['toggle', 'F22']]],
+    [['กด S4 ก่อน (M1 หยุดอยู่)', 'S4 first (M1 stopped)'], [['tap', 'S4']], [['tap', 'S4']], true]];
+  const cellA = (a, pre) => { const p = pileAt(a); return p ? rk(`${list(a)} · ${t('ของกองที่', 'pile-up at')} ${p}`, 'bad') : list(a); };
+  ED.summary($('sumA'), { head: [['การทดลอง', 'test'], ['สองมอเตอร์: เส้นที่ยังเดิน', 'two motors: belts still running'], ['สามมอเตอร์: เส้นที่ยังเดิน', 'three motors: belts still running']],
+    rows: () => TA.map(([lab, s2, s3, fresh]) => [tt(lab), s2 ? cellA(trial(specA(2), [...(fresh ? [] : ALL2), ...s2])) : '—', cellA(trial(specA(3), [...(fresh ? [] : ALL3), ...s3]))]),
+    points: [['ขณะเส้นต้นทางยังเดิน ปุ่มหยุดของเส้นปลายทางไม่มีผล เพราะหน้าสัมผัสของคอนแทกเตอร์เส้นต้นทางคร่อมไว้ การหยุดจึงได้ลำดับเดียว: จากต้นทางมาปลายทาง', 'While a feed-end belt runs, the stop button of the belt below it does nothing, because a contact of the feed-end contactor bridges it; the only way to stop is from the feed end towards the discharge end.'],
+      ['โอเวอร์โหลดไม่ถูกคร่อม F21 จึงหยุดทุกเส้นทันที (M1 หยุด แล้ว 83–84 ของ KM1 พาเส้นที่อยู่เหนือขึ้นไปหยุดตาม) F22 หยุด M2 และ M3 ส่วน M1 เดินระบายของต่อ ตรงกับกฎข้อ 3', 'No overload is bridged: F21 stops every belt at once (M1 stops, and KM1 83–84 takes the belts above it along), F22 stops M2 and M3 while M1 runs on to clear, which is rule 3.'],
+      ['วงจรหยุดย้อนลำดับไม่ได้รอให้สายพานว่างเอง คนกดต้องรอ หน้า 6.4 ใช้ตัวตั้งเวลาหน่วงเมื่อตัดไฟ (off-delay) ทำให้อัตโนมัติ', 'The reverse-order stop does not wait for a belt to run empty: the operator must wait. Page 6.4 makes it automatic with off-delay timers.']] });
+
+  /* B: three overload arrangements with the conveyor; summary from C6.OL_STOPS */
+  const MODES = { series: { lab: ['อนุกรม', 'series'], info: ['F21, F22, F23 95–96 ต่ออนุกรมกันบนสุดของวงจรควบคุม (ใต้ F1) โอเวอร์โหลดตัวไหนตัดก็ตัดไฟทั้งวงจร ทุกเส้นหยุด ปลอดภัยและใช้หน้าสัมผัสน้อย แต่เส้นปลายทางหยุดทั้งที่ระบายของต่อได้ และไม่รู้ว่าตัวไหนตัดถ้าไม่มีหลอดแยก (H4–H6)', 'F21, F22, F23 95–96 in series at the top of the control circuit (under F1). Any trip cuts the whole circuit and every belt stops. Safe and simple, but the discharge belts stop although they could have cleared, and without separate lamps (H4–H6) nobody knows which one tripped.'] },
+    own: { lab: ['แยกตัว (EMC9: COMMON)', 'separate (EMC9: COMMON)'], info: ['95–96 ของแต่ละตัวอยู่ในทางของมอเตอร์ของมันเอง โอเวอร์โหลดตัดหยุดเฉพาะมอเตอร์ตัวนั้น เหมาะกับเครื่องที่ทำงานอิสระต่อกัน แต่กับสายพาน: F21 ตัด M1 หยุด M2 และ M3 ยังส่งของมากองบน M1', "Each 95–96 sits in its own motor's path, so a trip stops only that motor. It suits machines that work independently, but on a conveyor line an F21 trip stops M1 while M2 and M3 keep delivering onto it."] },
+    cascade: { lab: ['ลดหลั่น (cascade)', 'cascading'], info: ['ต้นไม้: F21 อยู่ก่อนจุดแยกของทุกทาง ทางของ KM2 แยกจากจุดหลัง F21 ผ่าน F22 และทางของ KM3 แยกจากจุดหลัง F22 ผ่าน F23 โอเวอร์โหลดตัดหยุดมอเตอร์ของมันและทุกเส้นที่อยู่เหนือมัน ส่วนเส้นปลายทางเดินต่อ ตรงกับกฎข้อ 3', "A tree: F21 sits ahead of every branch, KM2's path branches off after F21 and passes F22, and KM3's path branches off after F22 and passes F23. A trip stops its own motor and every belt above it, while the discharge belts run on: rule 3."] } };
+  const KEYSB = ['series', 'own', 'cascade'];
+  const logB = new ED.Log($('logB'), [['แบบ', 'arrangement'], ['สิ่งที่ทำ', 'what you did'], ['เส้นที่เดิน', 'belts running'], ['ความหมาย', 'what it means']]);
+  let mB = 'cascade', simB = null, convB = null;
+  const verdict = (i, stopped, a) => { const up = a.filter(m => idx(m) > i), down = stopped.filter(m => idx(m) < i);
+    return up.length ? [t(`หยุด ${list(stopped)} แต่ ${list(up)} ทางต้นทางยังเดิน: ของกองที่ ${pileAt(a)}`, `${list(stopped)} stop, but ${list(up)} towards the feed end keep running: material piles up at ${pileAt(a)}`), 'bad']
+      : down.length ? [t(`หยุด ${list(stopped)}: ปลอดภัย แต่ ${list(down)} ทางปลายทางหยุดด้วยทั้งที่ระบายของต่อได้ ของจึงค้างบนสายพาน`, `${list(stopped)} stop: safe, but ${list(down)} towards the discharge end stop too although they could clear, so material stays on the belts`), 'warn']
+      : [t(`หยุด M${i} และทุกเส้นที่อยู่เหนือมัน (${list(stopped)})${a.length ? ` ส่วน ${list(a)} เดินต่อเพื่อระบายของ` : ''}: ตรงกับกฎข้อ 3`, `M${i} and every belt above it stop (${list(stopped)})${a.length ? `, while ${list(a)} run on to clear` : ''}: rule 3`), 'ok']; };
+  const meanOl = (d, act, b, a) => { const id = d.id;
+    if (act === 'trip') { const i = +id.slice(2), stopped = b.filter(m => !a.includes(m)); if (!b.includes(`M${i}`)) return [t(`${id} ตัดขณะ M${i} หยุดอยู่`, `${id} trips while M${i} is stopped`), ''];
+      return verdict(i, stopped, a); }
+    if (act === 'reset') return [t('รีเซ็ตแล้วไม่มีอะไรเดินเอง เริ่มใหม่ด้วย S2, S3, S4', 'reset: nothing starts by itself; start again with S2, S3, S4'), 'ok'];
+    if (act === 'press' && /^S[234]$/.test(id)) { const i = +id.slice(1) - 1, m = `M${i}`;
+      if (a.includes(m) && !b.includes(m)) return [t(`${m} เริ่มเดิน`, `${m} starts`), 'ok'];
+      if (!a.includes(m) && i > 1 && !a.includes(`M${i - 1}`)) return [t(`ไม่มีอะไรเกิด: M${i - 1} หยุดอยู่ หน้าสัมผัสอนุญาต KM${i - 1} 83–84 เปิด`, `nothing happens: M${i - 1} is stopped, so permissive contact KM${i - 1} 83–84 is open`), 'ok'];
+      return null; }
+    if (act === 'press' && id === 'S1' && b.length) return [t('S1 หยุดทั้งสายพร้อมกัน', 'S1 stops the whole line together'), 'ok'];
+    if (id === 'Q1') return [act === 'off' ? t('ปลด Q1: ทุกเส้นหยุด', 'Q1 off: every belt stops') : t('สับ Q1: ไม่มีอะไรเดินเอง', 'Q1 on: nothing restarts by itself'), ''];
+    return null; };
+  const selB = ui.radio($('selB'), KEYSB.map(k => ({ id: `m${k}`, label: tt(MODES[k].lab), on: k === 'cascade' })), id => buildB(id.slice(1)));
+  function buildB(mode) { mB = mode; selB.set(`m${mode}`); $('infoB').innerHTML = `<p>${tt(MODES[mode].info)}</p>`;
+    simB = mount($('simB'), C6.OL_ARR(mode, { lamps: 'ol' }), { label: `overload arrangement: ${mode}` });
+    convB = new C6.Conveyor($('convB'), simB, { onEvent: e => convLog(logB, () => [tt(MODES[mB].lab)])(e) });
+    $('pB').innerHTML = ''; C6.panel($('pB'), simB, { cut: false, skip: ['Q11', 'Q12', 'Q13'] });
+    watch(simB, (d, act, b, a) => { const m = meanOl(d, act, b, a); if (!m) return;
+      logB.add(`${mode}|${d.id}|${act}|${b}|${a}`, [tt(MODES[mode].lab), actTxt(d, act), list(a), m[0]], m[1]); }); }
+  beltCtl($('cbB'), () => convB);
+  buildB('cascade');
+  LS.anim($('tB'), dt => { simB.step(dt); convB.step(dt); });
+  ED.summary($('sumB'), { head: [['โอเวอร์โหลดที่ตัด (ทุกเส้นเดินอยู่)', 'overload that trips (all belts running)'], ...KEYSB.map(k => MODES[k].lab)],
+    intro: ['แต่ละช่องคือเส้นที่หยุด ได้จากวงจรด้านบนแบบละหนึ่งวงจรที่ซ่อนอยู่', 'Each cell lists the belts that stop, taken from a hidden copy of each circuit above.'],
+    rows: () => { const S = {}; KEYSB.forEach(k => { S[k] = C6.OL_STOPS(k); });
+      return [1, 2, 3].map(i => [`F2${i} (M${i}${i === 1 ? t(', ปลายทาง', ', discharge') : i === 3 ? t(', ต้นทาง', ', feed end') : ''})`, ...KEYSB.map(k => { const st = S[k][`F2${i}`], a = ['M1', 'M2', 'M3'].filter(m => !st.includes(m)), v = verdict(i, st, a);
+        return rk(list(st), v[1] === 'ok' ? 'ok' : v[1]) + (v[1] === 'bad' ? ` · ${t('ของกองที่', 'pile-up at')} ${pileAt(a)}` : v[1] === 'warn' ? ` · ${t('หยุดเกินจำเป็น', 'more than needed')}` : ''); })]); },
+    points: [['แบบอนุกรม: ทุกช่องหยุดทุกเส้น ไม่มีของกองเลย แต่เส้นปลายทางหยุดโดยไม่จำเป็นและของค้างบนสายพาน', 'Series: every cell stops every belt; nothing ever piles up, but the discharge belts stop needlessly and material stays on them.'],
+      ['แบบแยกตัว: หยุดแค่ตัวที่ตัด F21 หรือ F22 ตัดแล้วเส้นต้นทางยังส่งของมากอง ใช้กับสายพานไม่ได้ แต่ใช้กับเครื่องที่ไม่ได้ส่งของต่อกันได้ ซึ่งคำถามท้ายบทของ UMC5 ให้ลองออกแบบ', 'Separate: only the tripped motor stops; after an F21 or F22 trip the feed-end belts keep delivering and material piles up. Unusable on a conveyor line, but fine for machines that do not pass material on, which a UMC5 review question asks you to design.'],
+      ['แบบลดหลั่น: โอเวอร์โหลดหยุดมอเตอร์ของมันและทุกเส้นเหนือมัน เส้นปลายทางเดินระบายของต่อ ตรงกับกฎข้อ 3 จึงเป็นแบบที่ใช้กับสายพาน และเป็นผลที่วงจรเริ่มเดินอัตโนมัติของหน้า 6.3 ได้มาเอง', 'Cascading: an overload stops its own motor and every belt above it, while the discharge belts run on to clear. That is rule 3, so it is the arrangement for conveyors, and the automatic circuit of page 6.3 gets it for free.']] });
+
+  /* worked example 1: KM2 in the three-motor reverse-order stop (run lamps shown, cross-reference hidden at first) */
+  const simE = mount($('simE'), C6.REV_STOP({ n: 3, lamps: 'run' }), { noXref: true, label: 'three-motor reverse-order stop without cross-reference' });
+  const xr = id => simE.xref(id).slice(1).join(' · ');
+  const pathOf = (id, term) => { const r = simE.xref(id).find(x => x.startsWith(term)); return r ? r.split('▸')[1].trim() : '?'; };
+  LS.choose($('ask1'), { options: [t('3 ตัว: ใช้ชุดหน้าสัมผัสเสริมเดิมได้', '3: the usual front block will do'), t('4 ตัว: ต้องใช้ชุดหน้าสัมผัสเสริมแบบปกติเปิด 4 ตัว', '4: it needs a front block with four NO contacts'), t('5 ตัว: ต้องใช้คอนแทกเตอร์สองตัว', '5: it needs two contactors')], answer: 1,
+    labels: [t('(ข) ก', '(b) a'), t('(ข) ข', '(b) b'), t('(ข) ค', '(b) c')] });
+  LS.stepper($('st1'), { steps: [
+    { why: t('(ก) หน้าสัมผัสที่คร่อมปุ่มหยุด', '(a) The contacts across the stop buttons'),
+      body: () => `<p>${t(`S1 ถูกคร่อมด้วย KM2 63–64 ในทางเดินกระแสที่ ${pathOf('KM2', '63')} และ S3 ถูกคร่อมด้วย KM3 83–84 ในทางที่ ${pathOf('KM3', '83')} หน้าสัมผัสของเส้นต้นทางคร่อมปุ่มหยุดของเส้นที่อยู่ถัดลงไปทางปลายทาง S5 ไม่มีอะไรคร่อม เพราะ M3 อยู่ต้นสุด ไม่มีเส้นไหนส่งของลงมา`, `S1 is bridged by KM2 63–64 in current path ${pathOf('KM2', '63')}, and S3 by KM3 83–84 in path ${pathOf('KM3', '83')}: a contact of the feed-end belt bridges the stop button of the belt just below it. Nothing bridges S5, because M3 is the first belt and nothing delivers onto it.`)}</p>`,
+      onShow: () => { simE.o.noXref = false; simE.render(); } },
+    { why: t('(ข) ตารางอ้างอิงใต้คอยล์ KM2', '(b) The cross-reference under coil KM2'),
+      body: () => `<p><b>KM2: ${xr('KM2')}</b></p><p>${t('KM2 ใช้หน้าสัมผัสช่วยปกติเปิด 4 ตัว: 13–14 ค้างตัวเอง, 53–54 หลอดเดิน H2, 63–64 คร่อม S1 และ 83–84 หน้าสัมผัสอนุญาตในทางของ KM3 เทียบกับ KM1 และ KM3 ที่ใช้ตัวละ 3', 'KM2 uses four auxiliary NO contacts: 13–14 holding, 53–54 run lamp H2, 63–64 across S1 and 83–84 the permissive in KM3\'s path; compare KM1 and KM3, which use three each:')} KM1: ${xr('KM1')} · KM3: ${xr('KM3')}</p>` },
+    { why: t('(ค) เลือกชุดหน้าสัมผัส', '(c) Choose the contact block'),
+      body: `<p>${t('13–14 มีในตัวคอนแทกเตอร์ ชุดหน้าสัมผัสเสริม 53–54, 61–62, 71–72, 83–84 มีปกติเปิดแค่สองตัว (53–54 และ 83–84) รวมได้ 3 ตัว ไม่พอสำหรับ KM2 จึงต้องใช้ชุดแบบปกติเปิด 4 ตัว (53–54, 63–64, 73–74, 83–84) หรือเพิ่มชุดหน้าสัมผัสด้านข้างอีกชุด เลขขั้วตามหลักของ IEC: ตัวแรกบอกตำแหน่ง ตัวหลัง 3–4 บอกว่าเป็นปกติเปิด จึงเป็น 63–64 ไม่ใช่ 61–62 ส่วน KM1 และ KM3 ใช้ชุดเดิมได้ ตารางอ้างอิงใต้คอยล์จึงใช้เขียนรายการอุปกรณ์ได้ทันที', '13–14 is built into the contactor; the front block 53–54, 61–62, 71–72, 83–84 has only two NO (53–54 and 83–84), three in all, which is not enough for KM2. It needs a block with four NO (53–54, 63–64, 73–74, 83–84), or an extra side-mounted block. The IEC numbering rule: the first digit gives the position, the second 3–4 says NO, hence 63–64 and not 61–62. KM1 and KM3 can keep the usual block, so the cross-reference under the coils gives you the parts list straight away.')}</p>` }],
+    answer: () => `${t('(ก) KM2 63–64 คร่อม S1, KM3 83–84 คร่อม S3', '(a) KM2 63–64 across S1, KM3 83–84 across S3')} · ${t('(ข) KM2', '(b) KM2')}: ${xr('KM2')} ${t('= ปกติเปิด 4 ตัว', '= four NO')} · ${t('(ค) ไม่ได้ ใช้ชุดหน้าสัมผัสเสริมแบบปกติเปิด 4 ตัว', '(c) no: use a front block with four NO contacts')}`,
+    onStep: k => { if (k === 0) { simE.o.noXref = true; simE.render(); } } });
+
+  /* C: practice */
+  ED.mcq('mcq', [
+    { q: t('1) สายพาน M3 → M2 → M1 (M1 ปลายทาง) ควรหยุดตามลำดับใดในการหยุดตามปกติ', '1) Belts M3 → M2 → M1 (M1 at the discharge end): in which order should they stop in a normal stop?'),
+      options: [t('M1, M2, M3 ทันทีต่อกัน', 'M1, M2, M3 one right after the other'), t('พร้อมกันทั้งหมด', 'all together'), t('M3 ก่อน รอให้แต่ละเส้นว่าง แล้ว M2 แล้ว M1', 'M3 first, letting each belt run empty, then M2, then M1'), t('M2 ก่อน', 'M2 first')], answer: 2,
+      why: t('หยุดจากต้นทาง แต่ละเส้นวิ่งจนว่างก่อนเส้นที่รับของจากมันจะหยุด', 'Stop from the feed end: each belt runs empty before the belt it feeds stops.') },
+    { q: t('2) ในวงจรหยุดย้อนลำดับสองมอเตอร์ หน้าสัมผัส KM2 83–84 ต้องคร่อมอะไร', '2) In the two-motor reverse-order stop, what must contact KM2 83–84 bridge?'),
+      options: [t('ปุ่มหยุด S1 อย่างเดียว', 'stop button S1 only'), t('F21 95–96', 'F21 95–96'), t('ฟิวส์ F1', 'fuse F1'), t('ปุ่มหยุดฉุกเฉิน', 'the emergency stop')], answer: 0,
+      why: t('อุปกรณ์ป้องกันและปุ่มหยุดฉุกเฉินต้องหยุดได้เสมอ คร่อมได้เฉพาะคำสั่งหยุดตามปกติ', 'Protective devices and the emergency stop must always be able to stop; only the normal stop command may be bridged.') },
+    { q: t('3) ขณะ M2 เดิน กด S1 ในวงจรหยุดย้อนลำดับ ผลคืออะไร', '3) While M2 runs, S1 is pressed in the reverse-order stop. What happens?'),
+      options: [t('M1 หยุด M2 เดินต่อ', 'M1 stops, M2 runs on'), t('ไม่มีอะไรเกิด ต้องหยุด M2 ด้วย S3 ก่อน', 'nothing happens; M2 must be stopped with S3 first'), t('ทั้งสองหยุด', 'both stop'), t('F1 ขาด', 'F1 blows')], answer: 1,
+      why: t('KM2 83–84 คร่อม S1 ไว้ขณะ KM2 ดูด', 'KM2 83–84 bridges S1 while KM2 is in.') },
+    { q: t('4) สายพานสามเส้นใช้โอเวอร์โหลดแบบลดหลั่น ทุกเส้นเดินอยู่แล้ว F22 ตัด เส้นไหนหยุด', '4) Three belts with cascading overloads, all running; F22 trips. Which belts stop?'),
+      options: [t('M2 เท่านั้น', 'only M2'), t('ทุกเส้น', 'all of them'), t('M1 และ M2', 'M1 and M2'), t('M2 และ M3', 'M2 and M3')], answer: 3,
+      why: t('หยุดตัวที่ตัดและทุกเส้นที่อยู่เหนือมัน M1 เดินระบายของต่อ', 'The tripped motor and every belt above it stop; M1 runs on to clear.') },
+    { q: t('5) ทำไมโอเวอร์โหลดแบบแยกตัว (EMC9 เรียกว่า COMMON) จึงไม่เหมาะกับสายพาน', "5) Why does the separate overload arrangement (EMC9's COMMON) not suit a conveyor line?"),
+      options: [t('ใช้หน้าสัมผัสมากเกินไป', 'it uses too many contacts'), t('เมื่อเส้นปลายทางหยุด เส้นต้นทางยังส่งของมากองบนมัน', 'when a discharge-end belt stops, the feed-end belts keep delivering onto it'), t('โอเวอร์โหลดตัดไม่ได้', 'the overloads cannot trip'), t('ทุกเส้นหยุดเสมอ', 'every belt always stops')], answer: 1,
+      why: t('ผิดกฎข้อ 3: เส้นที่หยุดต้องพาเส้นที่ป้อนของให้มันหยุดด้วย', 'It breaks rule 3: a belt that stops must take the belts feeding it with it.') },
+    { q: t('6) หน้าสัมผัส KM1 83–84 ต่ออยู่ บอกได้แน่นอนเรื่องใด', '6) Contact KM1 83–84 is closed. What does that tell you for certain?'),
+      options: [t('สายพาน M1 เคลื่อนที่อยู่', 'belt M1 is moving'), t('มอเตอร์ M1 มีไฟ', 'motor M1 has supply'), t('ข้อต่อของ M1 ไม่ขาด', "M1's coupling is intact"), t('แกนของคอนแทกเตอร์ KM1 ดูดอยู่', "KM1's armature is pulled in")], answer: 3,
+      why: t('การยืนยันว่าสายพานเคลื่อนที่ต้องใช้สวิตช์ความเร็วหรือการวัดกระแส', 'Proving that the belt moves needs a speed switch or current sensing.') }]);
+});
+</script>
+</body>
+</html>
