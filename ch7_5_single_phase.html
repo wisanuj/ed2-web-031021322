@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="7.5 — Reversing a single-phase motor">7.5 — กลับทางมอเตอร์ 1 เฟส</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=14"><link rel="stylesheet" href="assets/ed2.css?v=14">
+<link rel="stylesheet" href="assets/wiring.css?v=14">
+<script src="assets/stops.js?v=14"></script><script src="assets/shell.js?v=14"></script>
+<script src="assets/lesson.js?v=14"></script><script src="assets/draw.js?v=14"></script><script src="assets/ed.js?v=14"></script><script src="assets/sym.js?v=14"></script><script src="assets/iec.js?v=14"></script><script src="assets/relay.js?v=14"></script><script src="assets/ch2.js?v=14"></script><script src="assets/ch3.js?v=14"></script><script src="assets/ch4.js?v=14"></script>
+<script src="assets/panel.js?v=14"></script><script src="assets/ch5.js?v=14"></script><script src="assets/ch6.js?v=14"></script><script src="assets/ch7.js?v=14"></script>
+<script src="assets/wiring.js?v=14"></script><script src="assets/devdata.js?v=14"></script><script src="assets/dev.js?v=14"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">กลับทางมอเตอร์ 1 เฟส: กลับขั้วขดลวดเพียงขดเดียว และหยุดก่อนกลับทาง <span class="en">Reversing a single-phase motor</span></h1>
+<h1 data-l="en">Reversing a single-phase motor <span class="en">Reverse one winding only, and stop before reversing</span></h1>
+
+<p class="sub" data-l="th">มอเตอร์ 1 เฟสไม่มีสามเฟสให้สลับ แต่มีขดลวดสองชุด คือขดรัน (run winding) U1–U2 และขดสตาร์ต (start winding) Z1–Z2 สนามแม่เหล็กหมุนจากแกนของขดที่กระแสนำหน้าไปหาแกนของขดที่กระแสตามหลัง จึงกลับทางได้ด้วยการกลับขั้วขดใดขดหนึ่ง หน้านี้เริ่มจากดูว่าทำไมต้องกลับขดเดียว แล้วลองกลับทางสามแบบ: ย้ายสะพานต่อที่แผงขั้วมอเตอร์ ใช้สวิตช์ 2 ขั้ว 2 ทาง และใช้คอนแทกเตอร์สองตัวที่มีอินเตอร์ล็อก จากนั้นดูข้อจำกัดสำคัญของมอเตอร์ที่มีสวิตช์แรงเหวี่ยง: เมื่อหมุนเร็วแล้ว การกลับขดสตาร์ตไม่มีผล ต้องหยุดก่อนแล้วจึงสั่งกลับทาง</p>
+<p class="sub" data-l="en">A single-phase motor has no three phases to swap, but it has two windings: the run winding U1–U2 and the start winding Z1–Z2. Its field turns from the axis of the winding whose current leads towards the axis of the winding whose current lags, so reversing either winding reverses the motor. This page first shows why only one winding may be reversed, then lets you reverse the motor three ways: by moving the bridges on the motor's terminal board, with a double-pole double-throw switch, and with two interlocked contactors. Last comes the key limit of a motor with a centrifugal switch: once it runs fast, reversing the start winding does nothing, so the motor must stop before it is reversed.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>กลับขดเดียว ไม่ใช่ทั้งสองขด</b>: กลับขั้วขดสตาร์ต Z1–Z2 หรือขดรัน U1–U2 ขดใดขดหนึ่งเทียบกับอีกขด ถ้ากลับทั้งสองขด (เช่น สลับสาย L กับ N ที่ขั้วมอเตอร์) มอเตอร์หมุนทางเดิม ที่นิยมคือกลับขดสตาร์ต เพราะไม่ต้องแตะการต่อขดรันที่เลือกแรงดันไว้แล้ว</li>
+  <li><b>สามวิธีกลับทาง</b>: ย้ายสะพานต่อสองตัวที่แผงขั้วมอเตอร์ (ตั้งครั้งเดียว) สวิตช์ 2 ขั้ว 2 ทาง (double-pole double-throw, DPDT) ต่อหลังเบรกเกอร์ Q1 หรือคอนแทกเตอร์ KM1 และ KM2 ที่สั่งจากปุ่มกดได้และมีการป้องกันไม่ให้มอเตอร์เดินเองหลังไฟดับ</li>
+  <li><b>คอนแทกเตอร์ 3 ขั้ว</b>: ขั้วที่ 1 ต่อ L เข้า U1 (ขดรันถูกตัดด้วยเมื่อหยุด) ขั้วที่ 2 และ 3 ต่อขดสตาร์ต KM1 ให้ L → Z1 กับ N → Z2 ส่วน KM2 ให้ L → Z2 กับ N → Z1 ปลาย U2 ต่อ N โอเวอร์โหลด F2 อยู่ก่อนจุดแยกจึงวัดกระแสของทั้งสองขด ถ้า KM1 และ KM2 ต่อพร้อมกัน L กับ N จะลัดถึงกัน จึงต้องมีอินเตอร์ล็อก KM 21–22 เหมือนวงจรสามเฟส</li>
+  <li><b>หยุดก่อนกลับทาง</b>: เมื่อความเร็วถึงราว 75&nbsp;% สวิตช์แรงเหวี่ยง (centrifugal switch, CS) เปิด ขดสตาร์ตหลุดออก การกลับขดสตาร์ตตอนนั้นจึงไม่มีผล มอเตอร์หมุนทางเดิมต่อไป วงจรนี้จึงใช้แบบเดินหน้า–หยุด–ถอยหลังเท่านั้น ข้อยกเว้นคือมอเตอร์แบบตัวเก็บประจุค่าคงที่ (permanent-split capacitor, PSC) ที่ไม่มีสวิตช์แรงเหวี่ยง ซึ่งกลับทางขณะหมุนได้ตามข้อกำหนดของผู้ผลิต</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>One winding, not both</b>: reverse the start winding Z1–Z2 or the run winding U1–U2 with respect to the other. Reversing both (for example by swapping L and N at the motor leads) leaves the direction unchanged. The usual choice is the start winding, because the run connection chosen for the supply voltage stays untouched.</li>
+  <li><b>Three ways to reverse</b>: move two bridges on the motor's terminal board (set once), a double-pole double-throw (DPDT) switch after breaker Q1, or contactors KM1 and KM2, which can be commanded from push buttons and keep the motor from restarting by itself after a power failure.</li>
+  <li><b>Three-pole contactors</b>: pole 1 connects L to U1 (so the run winding is switched off too), poles 2 and 3 connect the start winding: KM1 gives L → Z1 and N → Z2, KM2 gives L → Z2 and N → Z1. U2 goes to N. Overload relay F2 sits ahead of the split, so it carries the current of both windings. If KM1 and KM2 closed together, L and N would be shorted, so the KM 21–22 interlock is needed just as in the three-phase circuit.</li>
+  <li><b>Stop before reversing</b>: at about 75&nbsp;% speed the centrifugal switch (CS) opens and the start winding drops out, so reversing it then does nothing and the motor keeps turning the old way. This circuit is therefore forward – stop – reverse only. The exception is the permanent-split capacitor (PSC) motor, which has no centrifugal switch and may be reversed while running within the maker's limits.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>กลับขดเดียว</a><a href="#tA"><b>A</b>แผงขั้วและสวิตช์ 2 ทาง</a><a href="#tB"><b>B</b>กลับทางด้วยคอนแทกเตอร์</a><a href="#ex1"><b>1</b>กด S3 ขณะยังหมุนเร็ว</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>Reverse one winding</a><a href="#tA"><b>A</b>Terminal board and DPDT switch</a><a href="#tB"><b>B</b>Reversing with contactors</a><a href="#ex1"><b>1</b>S3 while still turning fast</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">สองขดลวด: กลับขั้วขดเดียวแล้วสนามหมุนกลับทาง</h2><h2 data-l="en">Two windings: reverse one and the field turns the other way</h2>
+    <div class="src" data-l="th">ตำราไทย บทที่ 5 หัวข้อ 2 รูป 5.5 · UMC5 บทที่ 29 รูป 29.20–29.21 · EMC9 หน่วยที่ 21 · Senty บทที่ 5 · IEC 60034-8</div><div class="src" data-l="en">Thai textbook ch. 5 §2, Fig. 5.5 · UMC5 ch. 29, Figs 29.20–29.21 · EMC9 unit 21 · Senty ch. 5 · IEC 60034-8</div></div></div>
+  <p class="lead" data-l="th">กดปุ่มใต้ภาพเพื่อกลับขั้วขดรัน U1–U2 หรือขดสตาร์ต Z1–Z2 (หรือทั้งสองขด) ซ้ายคือการต่อเข้ากับสาย L และ N ขวาคือสเตเตอร์ที่มีขดรันอยู่ซ้าย–ขวาและขดสตาร์ตอยู่บน–ล่าง ลูกศรเส้นประบอกทิศของแกนแม่เหล็กแต่ละขด ลูกศรทึบคือสนามแม่เหล็กรวมที่หมุน และจุดบนโรเตอร์หมุนตามสนาม ทุกแบบที่ลองบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">Press the buttons under the picture to reverse the run winding U1–U2 or the start winding Z1–Z2 (or both). On the left is the connection to L and N; on the right is the stator, with the run winding left and right and the start winding top and bottom. The dashed arrows show the magnetic axis of each winding, the solid arrow is the resulting field as it turns, and the dot on the rotor follows the field. Every combination you try is recorded in the table.</p>
+  <div class="card sim rlwrap" style="padding:10px"><div id="w0" style="min-width:480px"></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="p0" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="log0"></div><div id="sum0" style="margin-top:8px"></div></div>
+  <div class="story n2" style="margin-top:12px">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>มอเตอร์ 1 เฟสแบบแยกเฟส (split-phase) และแบบตัวเก็บประจุช่วยเริ่มเดิน (capacitor-start) มีขดลวดสองชุดวางห่างกัน 90° ทางไฟฟ้า กระแสในขดสตาร์ตนำหน้ากระแสในขดรัน (ตัวเก็บประจุทำให้นำหน้าเกือบ 90°) แกนแม่เหล็กของขดสตาร์ตจึงแรงสุดก่อน แล้วจึงเป็นแกนของขดรัน สนามรวมจึงหมุนจากแกนหนึ่งไปอีกแกนหนึ่ง ถ้ากลับขั้วขดใดขดหนึ่ง แกนของขดนั้นชี้กลับทิศ สนามจึงหมุนทางตรงข้าม ถ้ากลับทั้งสองขด ทั้งสองแกนกลับทิศพร้อมกัน สนามหมุนทางเดิม ตำราทุกเล่มของรายวิชาให้กฎเดียวกันนี้</p>
+        <p>รูป 5.5 ก ของตำราไทยเป็นการต่อหมุนปกติ: L1 เข้า U1 ของขดรัน RW และผ่านสวิตช์แรงเหวี่ยง CS เข้า Z1 ของขดสตาร์ต SW ส่วน U2 และ Z2 ลง N รูป ข กลับเฉพาะขดสตาร์ต: สายที่มาจาก CS ย้ายไปเข้า Z2 และ Z1 ลง N ขดรันต่อเหมือนเดิม ตำราไทยบอกว่าการกลับขดสตาร์ตเป็นวิธีที่นิยม และทำได้ด้วยสวิตช์ 2 ขั้ว 2 ทางหรือคอนแทกเตอร์ ซึ่งเป็นหัวข้อ A และ B</p>
+        <p>ตำราอเมริกันใช้ชื่อขั้ว T1–T4 กับขดรันสองส่วน และ T5 กับ T6 หรือ T8 กับขดสตาร์ต (เทียบกับ U1–U2 และ Z1–Z2 ของ IEC) รูป 29.20 เป็นมอเตอร์แรงดันคู่: ที่ 120 V ขดรันสองส่วนต่อขนานกัน ที่ 240 V ต่ออนุกรมกัน ส่วนขดสตาร์ตต่อคร่อมขดรันส่วนเดียวเสมอ การกลับทางจึงนิยมกลับขดสตาร์ต เพราะไม่ต้องแก้การต่อขดรัน รูป 29.21 บอกทิศจากการต่อ T5 กับ T1 หรือ T4 โดยมองจากด้านหลังมอเตอร์ตามแบบอเมริกัน ส่วนมาตรฐาน IEC 60034-8 (คณะกรรมาธิการไฟฟ้าระหว่างประเทศ International Electrotechnical Commission, IEC) มองจากด้านปลายเพลา (ด้านขับ) ทิศที่รูปอเมริกันเรียกว่าตามเข็มนาฬิกาจึงเป็นทวนเข็มนาฬิกาเมื่อมองแบบ IEC ก่อนเทียบทิศกับรูปจากตำราเล่มใด ให้ดูก่อนว่ารูปมองจากด้านไหน</p></div>
+      <div class="story-p" data-l="en"><p>Split-phase and capacitor-start single-phase motors have two windings placed 90° apart (electrically). The start-winding current leads the run-winding current (the capacitor makes it lead by almost 90°), so the start winding's magnetic axis peaks first and the run winding's axis next: the resulting field turns from one axis towards the other. Reversing either winding turns its axis round, so the field turns the other way. Reversing both turns both axes round together, and the field turns the same way as before. Every book of the course gives this same rule.</p>
+        <p>Fig. 5.5 (a) of the Thai textbook is the normal connection: L1 goes to U1 of the running winding RW and, through the centrifugal switch CS, to Z1 of the starting winding SW; U2 and Z2 go to N. Fig. (b) reverses the start winding only: the lead from CS moves to Z2 and Z1 goes to N, while the run winding stays as it was. The Thai textbook names the start-winding swap as the usual method, done with a double-pole double-throw switch or with contactors: sections A and B.</p>
+        <p>American books mark the two run-winding halves T1–T4 and the start winding T5 and T6 or T8 (compare U1–U2 and Z1–Z2 in IEC). Fig. 29.20 is a dual-voltage motor: at 120 V the two run halves are in parallel, at 240 V in series, while the start winding always sits across one run half. That is why the start winding is the one usually reversed: the run connection need not be touched. Fig. 29.21 gives the direction from where T5 is joined (to T1 or to T4), viewed from the rear of the motor in the American way. IEC 60034-8 (International Electrotechnical Commission, IEC) views the motor from the shaft (drive) end, so what the American figure calls clockwise is counter-clockwise in IEC terms. Before you compare directions with a figure from any book, check which end it is viewed from.</p></div></div>
+    <div class="story-f">
+      <figure class="slide sm"><img src="img/book/book1_fig5_5_start_swap.jpg?v=14" width="680" height="832" loading="lazy" decoding="async" alt="Two drawings of a single-phase motor between L1 and N: running winding RW from U1 to U2, starting winding SW from Z1 to Z2 through centrifugal switch CS. In the normal connection CS feeds Z1; in the reversed connection CS feeds Z2 and Z1 goes to N.">
+        <figcaption data-l="th">รูป 5.5 การต่อหมุนปกติ (ก) และกลับทางด้วยการกลับขดสตาร์ต (ข) · ที่มา: ธนภัทร ไพคำนาม, <i>การควบคุมมอเตอร์ไฟฟ้า</i> (2104-2009), บทที่ 5 หน้า 75 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 5.5, normal connection (a) and reversed by swapping the start winding (b) · source: Thanaphat Phaikhamnam, <i>Motor Control</i> (2104-2009), ch. 5, p. 75 · tap to enlarge</figcaption></figure>
+      <figure class="slide md"><img src="img/book/umc5_fig29_20_split_reverse.jpg?v=14" width="1400" height="995" loading="lazy" decoding="async" alt="American drawing of a dual-voltage split-phase motor: at 120 volts the two run-winding halves T1–T2 and T3–T4 are in parallel, at 240 volts in series; the start winding T5 to T6 or T8 with the centrifugal switch is connected across one run half.">
+        <figcaption data-l="th">รูป 29.20 มอเตอร์แยกเฟสแรงดันคู่ ต่อ 120 V และ 240 V โดยขดสตาร์ตคร่อมขดรันส่วนเดียว (แบบอเมริกัน) · ที่มา: Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. (Cengage, 2025) บทที่ 29 หน้า 280 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 29.20, dual-voltage split-phase motor at 120 V and 240 V, the start winding across one run half (American drawing) · source: Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed. (Cengage, 2025), ch. 29, p. 280 · tap to enlarge</figcaption></figure>
+      <figure class="slide md"><img src="img/book/umc5_fig29_21_direction.jpg?v=14" width="1400" height="533" loading="lazy" decoding="async" alt="Two terminal sketches T1 T4 T5 T8 to L1 L2: clockwise rotation with T5 joined to T1 side, counterclockwise with T5 joined to T4 side, viewed from the rear.">
+        <figcaption data-l="th">รูป 29.21 ทิศหมุนจากการต่อขั้ว T5 (มองจากด้านหลังตามแบบอเมริกัน) · ที่มา: Herman &amp; Seiler (2025) บทที่ 29 หน้า 280 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 29.21, direction from where T5 is joined (viewed from the rear, American practice) · source: Herman &amp; Seiler (2025), ch. 29, p. 280 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">กลับทางที่แผงขั้วมอเตอร์ และด้วยสวิตช์ 2 ขั้ว 2 ทาง</h2><h2 data-l="en">Reversing at the terminal board and with a double-pole double-throw switch</h2>
+    <div class="src" data-l="th">Senty บทที่ 5 รูป 5-10 และ 5-12 · ตำราไทย บทที่ 5 หัวข้อ 2 รูป 5.6 · IEC 60034-8</div><div class="src" data-l="en">Senty ch. 5, Figs 5-10 and 5-12 · Thai textbook ch. 5 §2, Fig. 5.6 · IEC 60034-8</div></div></div>
+  <p class="lead" data-l="th">ซ้าย: แผงขั้วแบบ IEC ของมอเตอร์ตัวเก็บประจุช่วยเริ่มเดินตามรูป 5-12 ของ Senty สาย L ต่อที่ขั้ว Z2 และสาย N ที่ขั้ว V1 ไว้แล้ว แตะตำแหน่งสะพานต่อ (กรอบเส้นประ) ในรูปหรือปุ่มใต้รูปเพื่อใส่หรือถอด แล้วดูว่าขดรันได้ไฟทางไหน มอเตอร์หมุนทางใด หรือสะพานลัดสาย L กับ N ถึงกัน ขวา: สวิตช์ 2 ขั้ว 2 ทาง Q2 ตามรูป 5.6 ของตำราไทยที่วาดใหม่แบบ IEC พร้อมสายดินป้องกัน (protective earth, PE) เลือกทาง F หรือ R แล้วสับ Q1 จากนั้นลองโยก Q2 ขณะมอเตอร์หมุนเร็ว และขณะที่ปลด Q1 ให้มอเตอร์หมุนช้าลงแล้ว ทุกผลบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">Left: the IEC terminal board of a capacitor-start motor after Senty's Fig. 5-12. The L lead is already on terminal Z2 and the N lead on terminal V1. Tap a bridge position (dashed outline) in the picture, or the buttons under it, to fit or remove a bridge, and see which way the run winding is fed, which way the motor turns, or whether the bridges short L to N. Right: double-pole double-throw switch Q2 of the Thai textbook's Fig. 5.6, redrawn to IEC with the protective earth (PE). Choose F or R and switch Q1 on; then throw Q2 while the motor runs fast, and again after switching Q1 off and letting the motor slow down. Every result is recorded in the table.</p>
+  <div class="duo" style="margin-top:4px">
+    <div class="card sim" style="padding:10px"><h3 data-l="th" style="margin-top:0">แผงขั้วกับสะพานต่อสองตัว</h3><h3 data-l="en" style="margin-top:0">Terminal board with two bridges</h3><div id="brdA"></div><div id="brdBtn" style="margin-top:6px"></div><div id="brdSt"></div></div>
+    <div class="card sim" style="padding:10px"><h3 data-l="th" style="margin-top:0">สวิตช์ 2 ขั้ว 2 ทาง Q2</h3><h3 data-l="en" style="margin-top:0">Double-pole double-throw switch Q2</h3><div id="dpA"></div><div id="dpBtn" style="margin-top:6px"></div><div id="dpSt"></div></div>
+  </div>
+  <div class="card" style="margin-top:12px"><div id="logA"></div><div id="sumA" style="margin-top:8px"></div></div>
+  <div class="story n3" style="margin-top:12px">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>รูป 5-10 ของ Senty เป็นแผนภาพการต่อแบบ IEC ของมอเตอร์ตัวเก็บประจุช่วยเริ่มเดินชนิดกลับทางได้: ขดรัน U1–U2 ขดสตาร์ต Z2 ต่อผ่านตัวเก็บประจุ C<sub>S</sub> และสวิตช์แรงเหวี่ยงไปที่ V1 ตารางใต้รูปบอกว่าสายเส้นไฟแต่ละเส้นต้องต่อกับขั้วใด รูป 5-12 แสดงสิ่งเดียวกันบนแผงขั้วจริง: แถวบน Z2 U2 V2 แถวล่าง U1 V1 Z1 ตัวเก็บประจุและสวิตช์แรงเหวี่ยงต่ออยู่ระหว่าง Z1 V2 และ V1 การหมุนตามเข็มนาฬิกาใช้สะพาน Z2–U2 กับ U1–V1 ส่วนการหมุนทวนเข็มนาฬิกาย้ายสะพานเป็น Z2–U1 กับ U2–V1 แผงนี้กลับขั้วขดรันเทียบกับขดสตาร์ต ซึ่งเป็นไปตามกฎเดียวกัน: กลับขดเดียว</p>
+        <p>สะพานต่อเหมาะกับการเลือกทิศครั้งเดียวตอนติดตั้ง เช่น ปั๊มหรือพัดลมที่หมุนทางเดียว ถ้าต้องกลับทางบ่อยหรือสั่งจากที่อื่น ใช้สวิตช์หรือคอนแทกเตอร์ รูป 5.6 ของตำราไทยต่อขดรัน U1–U2 คร่อม L และ N หลังเบรกเกอร์ 2 ขั้ว Q1 ตลอด แล้วใช้สวิตช์ 2 ขั้ว 2 ทางป้อนขดสตาร์ต: ทาง F ให้ L เข้า Z1 (ผ่าน CS) และ N เข้า Z2 ทาง R ต่อไขว้ให้ L เข้า Z2 และ N เข้า Z1 ในภาพจำลองเราวาดใหม่แบบ IEC แนวตั้ง และเพิ่มสายดินป้องกันไปที่โครงมอเตอร์ ควรเลือกทางขณะปลด Q1 อยู่ การโยกสวิตช์ขณะมอเตอร์หมุนเร็วไม่ทำให้กลับทาง เพราะสวิตช์แรงเหวี่ยงเปิดอยู่</p></div>
+      <div class="story-p" data-l="en"><p>Senty's Fig. 5-10 is the IEC connection diagram of a reversible capacitor-start motor: run winding U1–U2, and the start winding from Z2 through capacitor C<sub>S</sub> and the centrifugal switch to V1. The table under it says which terminals each line lead goes to. Fig. 5-12 shows the same on a real terminal board: top row Z2 U2 V2, bottom row U1 V1 Z1, with the capacitor and the centrifugal switch between Z1, V2 and V1. Clockwise uses bridges Z2–U2 and U1–V1; counter-clockwise moves them to Z2–U1 and U2–V1. This board reverses the run winding with respect to the start winding, which follows the same rule: one winding.</p>
+        <p>Bridges suit a direction chosen once, at installation, for example a pump or a fan that turns one way only. If the motor must be reversed often or from elsewhere, a switch or contactors are used. The Thai textbook's Fig. 5.6 keeps the run winding U1–U2 across L and N after the two-pole breaker Q1 and feeds the start winding through a double-pole double-throw switch: position F gives L to Z1 (through CS) and N to Z2; position R is cross-wired, L to Z2 and N to Z1. The simulation redraws it vertically to IEC and adds the protective earth to the motor frame. Choose the direction while Q1 is off: throwing the switch while the motor runs fast does not reverse it, because the centrifugal switch is open.</p></div></div>
+    <div class="story-f">
+      <figure class="slide sm"><img src="img/book/senty_fig5_10_iec_cap_start.jpg?v=14" width="561" height="500" loading="lazy" decoding="async" alt="IEC connection diagram drawn as a triangle: auxiliary start winding Z2, main run winding U2 to U1, capacitor CS and a switch to V1; a table gives CW with L1 on Z2 and U2 and L2 on U1 and V1, anti-CW with L1 on Z2 and U1 and L2 on U2 and V1.">
+        <figcaption data-l="th">รูป 5-10 แผนภาพการต่อแบบ IEC ของมอเตอร์ตัวเก็บประจุช่วยเริ่มเดินชนิดกลับทางได้ · ที่มา: Senty, <i>Motor Control Fundamentals</i> (Delmar Cengage, 2013) บทที่ 5 หน้า 59 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 5-10, IEC connection diagram of a reversible capacitor-start motor · source: Senty, <i>Motor Control Fundamentals</i> (Delmar Cengage, 2013), ch. 5, p. 59 · tap to enlarge</figcaption></figure>
+      <figure class="slide sm"><img src="img/book/senty_fig5_12_board.jpg?v=14" width="551" height="727" loading="lazy" decoding="async" alt="Two views of a six-terminal motor board, top row Z2 U2 V2, bottom row U1 V1 Z1, with a capacitor and a switch inside: clockwise with bridges Z2–U2 and U1–V1, anti-clockwise with bridges Z2–U1 and U2–V1.">
+        <figcaption data-l="th">รูป 5-12 แผงขั้วของมอเตอร์ตัวเก็บประจุช่วยเริ่มเดินชนิดกลับทางได้ แบบ IEC · ที่มา: Senty (2013) บทที่ 5 หน้า 59 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 5-12, IEC terminal board of a reversible capacitor-start motor · source: Senty (2013), ch. 5, p. 59 · tap to enlarge</figcaption></figure>
+      <figure class="slide sm"><img src="img/book/book1_fig5_6_dpdt.jpg?v=14" width="660" height="940" loading="lazy" decoding="async" alt="Single-phase motor reversed by a double-pole double-throw switch: L and N through a two-pole breaker Q1; U1 and U2 of the run winding fixed to L and N; the DPDT switch feeds Z1 and Z2, cross-wired in position R; centrifugal switch CS in the start winding.">
+        <figcaption data-l="th">รูป 5.6 กลับทางมอเตอร์ 1 เฟสด้วยสวิตช์ 2 ขั้ว 2 ทาง · ที่มา: ธนภัทร ไพคำนาม (2104-2009) บทที่ 5 หน้า 76 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 5.6, reversing a single-phase motor with a double-pole double-throw switch · source: Thanaphat Phaikhamnam (2104-2009), ch. 5, p. 76 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">กลับทางด้วยคอนแทกเตอร์: เดินหน้า–หยุด–ถอยหลัง</h2><h2 data-l="en">Reversing with contactors: forward – stop – reverse</h2>
+    <div class="src" data-l="th">EMC9 หน่วยที่ 21 รูป 21-8 · ตำราไทย บทที่ 5 · IEC 60034-8 · IEC 60204-1 ข้อ 7.5 และ 9.3.4</div><div class="src" data-l="en">EMC9 unit 21, Fig. 21-8 · Thai textbook ch. 5 · IEC 60034-8 · IEC 60204-1, 7.5 and 9.3.4</div></div></div>
+  <p class="lead" data-l="th">วงจรควบคุมเป็นแบบเดินหน้า–หยุด–ถอยหลังของหน้า 7.2 (อินเตอร์ล็อกด้วย KM1 21–22 และ KM2 21–22) วงจรกำลังเป็นแบบ 1 เฟส: Q1 2 ขั้ว โอเวอร์โหลด F2 แล้วแยกเป็น KM1 และ KM2 แบบ 3 ขั้ว กด S2 ที่หน้าตู้ ดูขดสตาร์ตได้ไฟจนมอเตอร์ถึง 75&nbsp;% แล้วหลุดออก กด S1 แล้ว S3 ทันที (ขณะยังหมุนเร็ว) แล้วลองใหม่โดยรอให้หมุนช้าลงก่อน แถบความเร็วใต้วงจรบอกความเร็วพร้อมทิศ (บวก = ตามเข็มนาฬิกา) ลองเลือก "ไม่มีอินเตอร์ล็อก" แล้วกด S2 ตามด้วย S3 ด้วย ผลทุกครั้งบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">The control circuit is the forward – stop – reverse circuit of page 7.2 (interlocked by KM1 21–22 and KM2 21–22). The power circuit is single-phase: two-pole Q1, overload relay F2, then the three-pole contactors KM1 and KM2. Press S2 on the panel front and watch the start winding carry current until the motor reaches 75&nbsp;% and then drop out. Press S1 and then S3 at once (while the motor still turns fast), and again after letting it slow down. The speed bar under the circuit shows the speed with its sign (positive = clockwise). Also choose "without interlock" and press S2, then S3. Every result is recorded in the table.</p>
+  <div class="card solve" style="margin-bottom:12px"><div id="modeB"></div></div>
+  <div class="card sim rlwrap rlscroll" style="padding:8px;--rlmin:760px"><div id="simB"></div></div>
+  <div class="card solve" style="margin-top:12px"><div id="spdB"></div><div class="panel" id="pB" style="position:static;max-height:none;margin-top:8px"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logB"></div><div id="sumB" style="margin-top:8px"></div></div>
+  <p class="simnote" data-l="th" style="margin-top:8px">เวลาในแบบจำลอง (เร่งถึง 75&nbsp;% ราว 1 s หมุนอิสระจนหยุด 2.5 s) เป็นค่าตัวอย่าง มอเตอร์จริงขึ้นกับโหลดและความเฉื่อย ส่วน CADe SIMU ไม่มีขั้ว Z1–Z2 ในสัญลักษณ์มอเตอร์ 1 เฟส ใบงานจึงให้วาดวงจรกำลังนี้บนกระดาษ (หน้า 7.7)</p>
+  <p class="simnote" data-l="en" style="margin-top:8px">The times of the model (about 1 s to 75&nbsp;%, 2.5 s to coast to rest) are example values; a real motor depends on its load and inertia. CADe SIMU's single-phase motor symbol has no Z1–Z2 terminals, so the lab sheet has this power circuit drawn on paper (page 7.7).</p>
+  <div class="duo" style="margin-top:12px">
+    <div class="card"><h3 data-l="th">ทำไมคอนแทกเตอร์ต้องตัดขดรันด้วย</h3><h3 data-l="en">Why the contactors switch the run winding too</h3>
+      <p data-l="th">ถ้า KM1 และ KM2 สลับเฉพาะขดสตาร์ต ขดรัน U1–U2 จะคร่อมสายตลอดเวลาที่ Q1 สับอยู่ กด S1 แล้วมอเตอร์ไม่หยุด และถ้าโรเตอร์หยุดนิ่งอยู่ ขดรันขดเดียวสร้างแรงบิดเริ่มเดินไม่ได้ มอเตอร์ฮัมและกินกระแสสูงจนร้อน ขั้วที่ 1 ของทั้งสองตัวจึงต่อ L เข้า U1 คอนแทกเตอร์ตัวใดดูดก็ป้อนขดรัน และเมื่อไม่มีตัวใดดูด มอเตอร์ไม่มีไฟเลย (ปลาย U2 ต่อ N ถาวร ทำนองเดียวกับปลาย A2 ของคอยล์)</p>
+      <p data-l="en">If KM1 and KM2 swapped only the start winding, the run winding U1–U2 would sit across the supply whenever Q1 is on: S1 would not stop the motor, and with the rotor at rest the run winding alone cannot make starting torque, so the motor hums and overheats on a high current. Pole 1 of both contactors therefore connects L to U1: whichever contactor is in feeds the run winding, and with neither in the motor has no supply at all (U2 stays on N, much like coil terminal A2).</p></div>
+    <div class="card"><h3 data-l="th">F2 อยู่ก่อนจุดแยก และต้องมีอินเตอร์ล็อก</h3><h3 data-l="en">F2 ahead of the split, and an interlock</h3>
+      <p data-l="th">กระแสจาก Q1 ผ่านสามขั้วของ F2 อนุกรมกัน (เหมือนหน้า 5.4) ก่อนแยกไป KM1 และ KM2 F2 จึงวัดกระแสรวมของขดรันและขดสตาร์ต รวมทั้งตอนเริ่มเดินที่ขดสตาร์ตกินกระแสมากที่สุด ถ้า KM1 และ KM2 ต่อพร้อมกัน ขั้วที่ 2 ของตัวหนึ่งต่อ L เข้า Z1 ขณะที่ขั้วที่ 3 ของอีกตัวต่อ N เข้า Z1 เช่นกัน L กับ N ลัดถึงกันผ่านหน้าสัมผัส Q1 ตัด จึงใช้อินเตอร์ล็อก KM 21–22 แบบเดียวกับวงจรสามเฟส (IEC 60204-1 ข้อ 9.3.4)</p>
+      <p data-l="en">The current from Q1 passes through the three poles of F2 in series (as on page 5.4) before it splits to KM1 and KM2, so F2 measures the total current of the run and start windings, including the start, when the start winding draws the most. If KM1 and KM2 closed together, pole 2 of one would connect L to Z1 while pole 3 of the other connects N to Z1: L and N are shorted through the contacts and Q1 trips. So the KM 21–22 interlock is used just as in the three-phase circuit (IEC 60204-1, 9.3.4).</p></div>
+  </div>
+  <div class="callout" style="margin-top:12px" data-l="th"><b>ข้อยกเว้น: มอเตอร์แบบตัวเก็บประจุค่าคงที่ (PSC)</b> ไม่มีสวิตช์แรงเหวี่ยง ขดช่วยกับตัวเก็บประจุต่ออยู่ตลอด การกลับขดช่วยจึงมีผลทุกความเร็ว มอเตอร์เบรกแล้วกลับทางเอง ผู้ผลิตมอเตอร์ PSC ชนิดกลับทางได้ (reversible motor) มักกำหนดเวลาพักและวิธีเบรกไว้ ให้ทำตามข้อกำหนดของรุ่นที่ใช้ ส่วนมอเตอร์แยกเฟสและแบบตัวเก็บประจุช่วยเริ่มเดินในหน้านี้ ต้องหยุดก่อนกลับทางทุกครั้ง</div>
+  <div class="callout" style="margin-top:12px" data-l="en"><b>The exception: the permanent-split capacitor (PSC) motor</b> has no centrifugal switch: its auxiliary winding and capacitor stay connected, so reversing the auxiliary winding acts at any speed and the motor brakes and reverses by itself. Makers of reversible PSC motors usually state a rest time and a braking method; follow the data of the model you use. The split-phase and capacitor-start motors of this page must stop before every reversal.</div>
+  <div class="story" style="margin-top:12px">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>รูป 21-8 ของ EMC9 เป็นแบบอเมริกันตามมาตรฐานของ NEMA (National Electrical Manufacturers Association สมาคมผู้ผลิตอุปกรณ์ไฟฟ้าของสหรัฐอเมริกา) ที่วาดทางเดินกระแสแนวนอน ด้านบนคือวงจรกำลัง: หน้าสัมผัส F หรือ R ป้อนขดรัน (Run) ส่วนขดสตาร์ต (Start) กับสวิตช์แรงเหวี่ยงอยู่กลางหน้าสัมผัสสี่ตัว F ต่อปลายซ้ายเข้า L1 และปลายขวาลง N ส่วน R ต่อกลับกัน ด้านล่างคือวงจรควบคุม: Stop, Forward กับหน้าสัมผัสค้าง F, หน้าสัมผัสปกติปิด R ก่อนคอยล์ F และกลับกันสำหรับ R เส้นประระหว่างคอยล์ F และ R คืออินเตอร์ล็อกทางกล ข้อความในหน่วยนี้ให้กฎเดียวกับหัวข้อ 0: กลับขดสตาร์ตหรือขดรัน ไม่ใช่ทั้งสองขด</p>
+        <p>วงจรในภาพจำลองคือรูปนี้ที่วาดใหม่แบบ IEC แนวตั้ง: F เป็น KM1 R เป็น KM2 ปุ่ม Stop Forward Reverse เป็น S1 S2 S3 หน้าสัมผัสปกติปิดของอีกตัวเป็น 21–22 ขดรันและขดสตาร์ตใช้ชื่อขั้ว U1–U2 และ Z1–Z2 แหล่งจ่ายเป็น L กับ N 230 V ผ่าน Q1 2 ขั้ว และโอเวอร์โหลด F2 อยู่ก่อนจุดแยกจึงวัดกระแสของทั้งสองขด</p></div>
+      <div class="story-p" data-l="en"><p>EMC9's Fig. 21-8 is an American drawing in the style of the National Electrical Manufacturers Association (NEMA), with horizontal current paths. At the top is the power circuit: an F or R contact feeds the run winding, and the start winding with its centrifugal switch sits in the middle of four contacts: F connects its left end to L1 and its right end to N, R the other way round. Below is the control circuit: Stop, Forward with the F holding contact, a normally closed R contact ahead of coil F, and the mirror image for R. The dashed line between coils F and R is the mechanical interlock. The text of this unit gives the same rule as section 0: reverse the start or the run winding, not both.</p>
+        <p>The circuit in the simulation is this figure redrawn vertically to IEC: F becomes KM1, R becomes KM2, the Stop, Forward and Reverse buttons become S1, S2 and S3, the other contactor's normally closed (NC) contact is 21–22, and the windings carry the terminal markings U1–U2 and Z1–Z2. The supply is L and N, 230 V, through the two-pole Q1, and overload relay F2 sits ahead of the split, so it measures the current of both windings.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/emc9_fig21_8_single_phase.jpg?v=14" width="1120" height="1164" loading="lazy" decoding="async" alt="American ladder diagram for reversing a single-phase motor: run winding fed through F or R contacts and an overload heater; start winding with centrifugal switch between four contacts F and R; control rungs Stop, Forward with holding contact F, R normally closed and coil F; Reverse with holding contact R, F normally closed and coil R; overload contact; a dashed mechanical link between coils F and R.">
+        <figcaption data-l="th">รูป 21-8 กลับทางมอเตอร์ 1 เฟสด้วยคอนแทกเตอร์ (แบบอเมริกัน) · ที่มา: Herman, <i>Electric Motor Control</i> 9th ed. (Delmar Cengage, 2010) หน่วยที่ 21 หน้า 169 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 21-8, reversing a single-phase motor with contactors (American drawing) · source: Herman, <i>Electric Motor Control</i>, 9th ed. (Delmar Cengage, 2010), unit 21, p. 169 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">กด S3 ขณะมอเตอร์ยังหมุนเร็ว</h2><h2 data-l="en">S3 while the motor still turns fast</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · วงจรของหัวข้อ B</div><div class="src" data-l="en">Worked example · the circuit of section B</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>มอเตอร์ในหัวข้อ B เดินหน้าเต็มความเร็ว ผู้ควบคุมกด S1 แล้วกด S3 ตามทันที (ราว 0.2 s หลัง S1) (ก) KM2 ดูดหรือไม่ และมอเตอร์หมุนทางไหนต่อจากนั้น (ข) ถ้ากด S1 แล้วรอ ต้องรออย่างน้อยนานเท่าไรในแบบจำลองนี้ การกด S3 จึงทำให้มอเตอร์กลับทาง (ค) ควรสอนผู้ใช้เครื่องอย่างไร</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>The motor of section B runs forward at full speed. The operator presses S1 and then S3 straight away (about 0.2 s after S1). (a) Does KM2 pull in, and which way does the motor turn after that? (b) If S1 is pressed and the operator waits, at least how long must they wait in this model before S3 reverses the motor? (c) What should the machine's users be taught?</p></div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">กลับทางมอเตอร์ 1 เฟส</div><div class="src" data-l="en">Reversing single-phase motors</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>หัวข้อ 0: ทำให้ได้ทิศตามเข็มนาฬิกาสองแบบ และทวนเข็มนาฬิกาสองแบบ แล้วอธิบายว่าทำไมการสลับสาย L กับ N ที่ขั้วมอเตอร์ไม่ทำให้กลับทาง</li>
+      <li>หัวข้อ A: ใส่สะพานครั้งละสองตัวให้ครบทุกคู่ คู่ไหนลัดวงจร คู่ไหนทำให้ขดรันไม่มีไฟ และคู่ไหนใช้ได้</li>
+      <li>หัวข้อ B: กด S1 แล้วรอให้ความเร็วเหลือราว 40&nbsp;% จึงกด S3 มอเตอร์ทำอะไร เทียบกับการกด S3 ทันทีหลัง S1 และกับการรอจนหยุดนิ่ง</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 5 หัวข้อ 2 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 29 · Herman, <i>Electric Motor Control</i> 9th ed. หน่วยที่ 21 · Senty, <i>Motor Control Fundamentals</i> บทที่ 5 · IEC 60034-8 · IEC 60204-1 ข้อ 7.5 และ 9.3.4</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Section 0: get clockwise two ways and counter-clockwise two ways, then explain why swapping L and N at the motor leads does not reverse the motor.</li>
+      <li>Section A: fit the bridges two at a time, every pair. Which pairs short the supply, which leave the run winding without supply, and which work?</li>
+      <li>Section B: press S1, wait until the speed is down to about 40&nbsp;%, then press S3. What does the motor do? Compare with S3 straight after S1 and with waiting for standstill.</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 5 §2 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 29 · Herman, <i>Electric Motor Control</i>, 9th ed., unit 21 · Senty, <i>Motor Control Fundamentals</i>, ch. 5 · IEC 60034-8 · IEC 60204-1, 7.5 and 9.3.4</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui, IE = IEC, tt = ED.tt;
+  const hid = spec => new RL.Sim(document.createElement('div'), spec);   // hidden simulator for summaries and the worked example (same model as the page)
+  const fresh = (pn, sim) => { const k = C7.state(sim).join('|'); if (pn._k !== k) { pn._k = k; pn.refresh(); } };   // redraw the panel status only when it changes
+  const tap = (s, ...ids) => { ids.forEach(i => s.press(i, true)); ids.forEach(i => s.press(i, false)); };
+  const yes = `<span class="rk-ok">✓</span>`, no = `<span class="rk-bad">✗</span>`;
+  const RED = '#ff6b6b', BLUE = '#3fa9f5', still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const CW = () => t('ตามเข็มนาฬิกา', 'clockwise'), CCW = () => t('ทวนเข็มนาฬิกา', 'counter-clockwise');
+  const dirTxt = d => (d > 0 ? `↻ ${CW()}` : d < 0 ? `↺ ${CCW()}` : t('ไม่หมุน', 'no rotation'));
+  const pct = w => `${Math.round(Math.abs(w) * 100)}&nbsp;%`;
+  /* arrow with a filled head (theme colour col) */
+  const arw = (x1, y1, x2, y2, o = {}) => { const a = Math.atan2(y2 - y1, x2 - x1), h = o.h || 9, col = o.col || 'currentColor';
+    const p = [[x2, y2], [x2 - h * Math.cos(a - 0.4), y2 - h * Math.sin(a - 0.4)], [x2 - h * Math.cos(a + 0.4), y2 - h * Math.sin(a + 0.4)]].map(q => q.map(v => v.toFixed(1)).join(',')).join(' ');
+    return IE.L(x1, y1, x2 - 0.7 * h * Math.cos(a), y2 - 0.7 * h * Math.sin(a), { col, w: o.w || 1.6, dash: o.dash }) + `<polygon points="${p}" fill="${col}" stroke="none"${o.op ? ` opacity="${o.op}"` : ''}/>`; };
+  const dot = (x, y, col) => `<circle cx="${x}" cy="${y}" r="3" fill="${col || 'currentColor'}" stroke="none"/>`;
+  const term = (x, y, lab, col) => `<circle cx="${x}" cy="${y}" r="3.4" fill="var(--panel)"/>` + IE.T(lab, x + 9, y + 4, { size: 11, weight: 700, col });
+
+  /* 0: two windings 90° apart, the start current leading the run current by about 90°. r = polarity of the run winding (+1 = U1 on L),
+     s = polarity of the start winding (+1 = Z1 on L). Field B(θ) = r·cos θ along the run axis (horizontal) − s·sin θ along the start
+     axis (vertical, up = +): it turns clockwise when r·s = +1 and counter-clockwise when r·s = −1. The direction is read from the
+     formula; nothing else decides it. */
+  let r0 = 1, s0 = 1, th0 = 0.6, rot0 = 1.2;
+  const dir0 = (r, s) => r * s;
+  const w0svg = () => { const cx = 450, cy = 128, R = 84, d = dir0(r0, s0), C1 = 'var(--c7-l1, #a0522d)', C2 = 'var(--accent)';
+    let b = IE.L(30, 30, 262, 30, { col: RED, w: 1.8 }) + IE.T('L', 12, 34, { size: 12, weight: 700, col: RED }) + IE.L(30, 226, 262, 226, { col: BLUE, w: 1.8 }) + IE.T('N', 12, 230, { size: 12, weight: 700, col: BLUE });
+    b += dot(90, 30, RED) + dot(190, 30, RED) + dot(90, 226, BLUE) + dot(190, 226, BLUE);
+    b += IE.L(90, 30, 90, 100, { col: RED }) + term(90, 104, r0 > 0 ? 'U1' : 'U2', C1) + IE.wind(90, 108, 176, { col: C1 }) + term(90, 180, r0 > 0 ? 'U2' : 'U1', C1) + IE.L(90, 184, 90, 226, { col: BLUE });
+    b += IE.contact(true, 190, 30, 70, { op: 'spd', col: RED }) + IE.T('CS', 200, 48, { size: 10, col: 'var(--muted)' }) + IE.cap(190, 70, 98, { col: RED }) + IE.T('C', 202, 88, { size: 10, col: 'var(--muted)' }) + IE.L(190, 98, 190, 100, { col: RED });
+    b += term(190, 104, s0 > 0 ? 'Z1' : 'Z2', C2) + IE.wind(190, 108, 176, { col: C2 }) + term(190, 180, s0 > 0 ? 'Z2' : 'Z1', C2) + IE.L(190, 184, 190, 226, { col: BLUE });
+    b += IE.T(t('ขดรัน', 'run'), 82, 146, { size: 10.5, anchor: 'end', col: C1, weight: 600 }) + IE.T(t('ขดสตาร์ต', 'start'), 204, 146, { size: 10.5, col: C2, weight: 600 });
+    if (r0 < 0) b += IE.T(t('กลับขั้ว', 'reversed'), 82, 160, { size: 10, anchor: 'end', col: 'var(--warn)', weight: 700 });
+    if (s0 < 0) b += IE.T(t('กลับขั้ว', 'reversed'), 204, 160, { size: 10, col: 'var(--warn)', weight: 700 });
+    /* the stator: run coils left and right, start coils top and bottom */
+    const box = (x, y, w, h, lab, col) => `<rect x="${x - w / 2}" y="${y - h / 2}" width="${w}" height="${h}" rx="3" fill="${col}" fill-opacity=".22" stroke="${col}"/>` + IE.T(lab, x, y + 4, { size: 10.5, anchor: 'middle', weight: 700, col });
+    b += `<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="var(--line)" stroke-width="12"/>`;
+    b += box(cx - R, cy, 18, 48, 'U', C1) + box(cx + R, cy, 18, 48, 'U', C1) + box(cx, cy - R, 48, 18, 'Z', C2) + box(cx, cy + R, 48, 18, 'Z', C2);
+    b += arw(cx - r0 * 66, cy, cx + r0 * 66, cy, { col: C1, dash: '5 4', op: 0.8 }) + arw(cx, cy + s0 * 66, cx, cy - s0 * 66, { col: C2, dash: '5 4', op: 0.8 });
+    b += `<circle cx="${cx}" cy="${cy}" r="40" fill="var(--panel2)" stroke="var(--line)"/>` + dot(cx + 30 * Math.cos(rot0), cy - 30 * Math.sin(rot0), 'var(--ink)');
+    const bx = r0 * Math.cos(th0), by = -s0 * Math.sin(th0);
+    b += arw(cx, cy, cx + 58 * bx, cy - 58 * by, { col: 'var(--bad)', w: 3, h: 12 });
+    b += IE.T(dirTxt(d), cx, cy + R + 32, { size: 13, anchor: 'middle', weight: 700, col: d > 0 ? 'var(--good)' : 'var(--accent)' }) + IE.T(t('มองจากด้านปลายเพลา', 'seen from the shaft end'), cx, cy + R + 47, { size: 10, anchor: 'middle', col: 'var(--muted)' });
+    return IE.svg(560, 270, b, { max: 640, label: t('ขดรัน ขดสตาร์ต และสนามแม่เหล็กหมุน', 'run winding, start winding and the rotating field') }); };
+  const p0 = $('p0'); ui.h2(p0, t('กลับขั้วขดลวด', 'Reverse a winding'));
+  const st0 = ui.status(p0);
+  const B0 = ui.buttons(p0, [
+    { id: 'run', label: t('กลับขั้วขดรัน U1–U2', 'reverse the run winding U1–U2'), onclick: () => { r0 = -r0; upd0(); } },
+    { id: 'st', label: t('กลับขั้วขดสตาร์ต Z1–Z2', 'reverse the start winding Z1–Z2'), onclick: () => { s0 = -s0; upd0(); } },
+    { id: 'ln', label: t('สลับสาย L กับ N ที่ขั้วมอเตอร์', 'swap L and N at the motor leads'), onclick: () => { r0 = -r0; s0 = -s0; upd0(); } }]);
+  p0.insertBefore(st0, null);
+  const pol = (r, a, b) => (r > 0 ? t(`${a} ที่ L (ปกติ)`, `${a} on L (normal)`) : t(`${b} ที่ L (กลับขั้ว)`, `${b} on L (reversed)`));
+  const why0 = (r, s) => r > 0 && s > 0 ? t('ต่อแบบปกติ', 'the normal connection') : r * s < 0 ? t('กลับขั้วขดเดียว: แกนของขดนั้นกลับทิศ สนามหมุนทางตรงข้าม', 'one winding reversed: its axis turns round, so the field turns the other way') :
+    t('กลับทั้งสองขด: ทั้งสองแกนกลับทิศพร้อมกัน สนามหมุนทางเดิม', 'both reversed: both axes turn round together, so the field turns the same way');
+  const log0 = new ED.Log($('log0'), [['ขดรัน U1–U2', 'run winding U1–U2'], ['ขดสตาร์ต Z1–Z2', 'start winding Z1–Z2'], ['สนามหมุน', 'the field turns'], ['เหตุผล', 'why']]);
+  const upd0 = () => { const d = dir0(r0, s0); B0.run.classList.toggle('on', r0 < 0); B0.st.classList.toggle('on', s0 < 0);
+    ui.setStatus(st0, d > 0 ? CW() : CCW(), why0(r0, s0), d > 0 ? 'good' : 'ok');
+    log0.add(`${r0}|${s0}`, [pol(r0, 'U1', 'U2'), pol(s0, 'Z1', 'Z2'), dirTxt(d), why0(r0, s0)], r0 < 0 && s0 < 0 ? 'warn' : 'ok'); $('w0').innerHTML = w0svg(); };
+  $('w0').innerHTML = w0svg(); ui.setStatus(st0, CW(), why0(1, 1), 'good');
+  LS.anim($('w0'), dt => { if (!dt || still) return; const d = dir0(r0, s0); th0 = (th0 + dt * 2 * Math.PI * 0.45) % (2 * Math.PI); rot0 -= d * dt * 2 * Math.PI * 0.4; $('w0').innerHTML = w0svg(); });
+  ED.summary($('sum0'), { head: [['ขดรัน U1–U2', 'run winding U1–U2'], ['ขดสตาร์ต Z1–Z2', 'start winding Z1–Z2'], ['สนามหมุน', 'the field turns'], ['เหตุผล', 'why']],
+    rows: () => [[1, 1], [1, -1], [-1, 1], [-1, -1]].map(([r, s]) => [pol(r, 'U1', 'U2'), pol(s, 'Z1', 'Z2'), dirTxt(dir0(r, s)), why0(r, s)]),
+    points: [['ทิศของสนามขึ้นกับขั้วของขดรันเทียบกับขดสตาร์ต: กลับขดใดขดหนึ่งแล้วกลับทาง กลับทั้งสองขดแล้วทิศเดิม', 'The direction depends on the polarity of the run winding with respect to the start winding: reversing either one reverses the motor; reversing both does not.'],
+      ['สลับสาย L กับ N ที่ขั้วมอเตอร์เท่ากับกลับทั้งสองขด มอเตอร์จึงหมุนทางเดิม', 'Swapping L and N at the motor leads reverses both windings, so the motor turns the same way.'],
+      ['ที่นิยมคือกลับขดสตาร์ต เพราะการต่อขดรันของมอเตอร์แรงดันคู่ไม่ต้องเปลี่ยน', 'The start winding is the one usually reversed, because the run connection of a dual-voltage motor then stays as it is.']] });
+
+  /* A1: the IEC terminal board of Senty Fig. 5-12. Terminals: top Z2 U2 V2, bottom U1 V1 Z1; inside the motor V1 –CS– V2 –C– Z1 and the
+     start winding Z1–Z2, the run winding U1–U2. L is on Z2 and N on V1, so the start branch is always fed Z2 → V1 and the bridges decide
+     which end of the run winding goes to L: U2 on L = clockwise (Senty's table), U1 on L = counter-clockwise. */
+  const TP = { Z2: [86, 84], U2: [166, 84], V2: [246, 84], U1: [86, 184], V1: [166, 184], Z1: [246, 184] };
+  const BR = { b1: ['Z2', 'U2'], b2: ['U1', 'V1'], b3: ['Z2', 'U1'], b4: ['U2', 'V1'] };
+  const evalB = set => { const par = {}; Object.keys(TP).forEach(k => { par[k] = k; }); const f = k => (par[k] === k ? k : (par[k] = f(par[k])));
+    Object.keys(BR).forEach(b => { if (set[b]) { const [a, c] = BR[b]; par[f(a)] = f(c); } });
+    const L = f('Z2'), N = f('V1'), u1 = f('U1'), u2 = f('U2'), side = k => (f(k) === L ? 'L' : f(k) === N ? 'N' : '');
+    if (L === N) return { kind: 'short', d: 0, side };
+    const d = u2 === L && u1 === N ? 1 : u1 === L && u2 === N ? -1 : 0;
+    return { kind: d ? 'run' : u1 === u2 ? 'same' : 'open', d, side }; };
+  const brName = set => Object.keys(BR).filter(b => set[b]).map(b => BR[b].join('–')).join(', ') || t('ไม่มีสะพาน', 'no bridges');
+  const brText = (set, e = evalB(set)) => e.kind === 'short' ? [t('ลัดวงจร', 'short circuit'), t('สะพานต่อ Z2 (สาย L) ถึง V1 (สาย N) โดยตรง: L กับ N ลัดถึงกัน อุปกรณ์ป้องกันตัดทันทีที่จ่ายไฟ', 'the bridges join Z2 (the L lead) straight to V1 (the N lead): L is shorted to N and the protective device trips as soon as power is applied'), 'bad'] :
+    e.kind === 'run' ? [e.d > 0 ? CW() : CCW(), e.d > 0 ? t('U2 อยู่ที่ L และ U1 อยู่ที่ N เหมือนแถวบนของรูป 5-12', 'U2 on L and U1 on N, as in the upper view of Fig. 5-12') : t('U1 อยู่ที่ L และ U2 อยู่ที่ N: ขดรันกลับขั้วเทียบกับขดสตาร์ต เหมือนแถวล่างของรูป 5-12', 'U1 on L and U2 on N: the run winding is reversed with respect to the start winding, as in the lower view of Fig. 5-12'), 'good'] :
+    e.kind === 'same' ? [t('ขดรันไม่มีกระแส', 'no run current'), t('ปลายทั้งสองของขดรันอยู่ที่ศักย์เดียวกัน มีแต่ขดสตาร์ตได้ไฟ มอเตอร์ฮัมแต่ไม่ออกตัว และขดสตาร์ตร้อนจนอุปกรณ์ป้องกันตัด', 'both ends of the run winding are at the same potential; only the start winding is fed, so the motor hums without starting and the start winding overheats until the protection trips'), 'warn'] :
+    [t('ขดรันไม่มีไฟ', 'run winding not fed'), t('ขดรันต่อกับสายไม่ครบสองปลาย มีแต่ขดสตาร์ตได้ไฟ มอเตอร์ฮัมแต่ไม่ออกตัว ใส่สะพานให้ครบสองตัว', 'the run winding is not connected at both ends; only the start winding is fed, so the motor hums without starting: fit two bridges'), 'warn'];
+  let brA = { b1: false, b2: false, b3: false, b4: false };
+  const brdSVG = () => { const e = evalB(brA), sc = k => (e.kind === 'short' ? 'var(--bad)' : e.side(k) === 'L' ? RED : e.side(k) === 'N' ? BLUE : 'var(--muted)');
+    let b = `<rect x="44" y="44" width="244" height="184" rx="16" fill="var(--panel2)" stroke="var(--line)" stroke-width="2"/>`;
+    b += IE.L(166 + 11, 184 - 9, 246 - 30, 84 + 34, { col: 'var(--muted)' }) + IE.L(246 - 30, 84 + 34, 246 - 18, 84 + 20, { col: 'var(--muted)', w: 1.8 }) + IE.L(246 - 24, 84 + 25, 246 - 11, 84 + 10, { col: 'var(--muted)' }) +
+      IE.T('CS', 196, 150, { size: 10, col: 'var(--muted)' }) + IE.cap(246, 98, 170, { col: 'var(--muted)' }) + IE.T('C', 258, 138, { size: 10, col: 'var(--muted)' });
+    Object.entries(BR).forEach(([k, [a, c]]) => { const [x1, y1] = TP[a], [x2, y2] = TP[c], hz = y1 === y2, on = brA[k], col = on ? sc(a) : 'var(--muted)';
+      const r = hz ? { x: x1, y: y1 - 8, w: x2 - x1, h: 16 } : { x: x1 - 8, y: y1, w: 16, h: y2 - y1 };
+      b += `<g data-b="${k}" style="cursor:pointer"><rect x="${r.x - 4}" y="${r.y - 4}" width="${r.w + 8}" height="${r.h + 8}" fill="transparent" stroke="none"/>` +
+        (on ? `<rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" rx="5" fill="#8d939c" stroke="${col}" stroke-width="2.2"/>` : `<rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" rx="5" fill="none" stroke="var(--muted)" stroke-dasharray="4 3"/>`) + '</g>'; });
+    Object.entries(TP).forEach(([k, [x, y]]) => { b += `<circle cx="${x}" cy="${y}" r="13" fill="var(--panel)" stroke="${sc(k)}" stroke-width="2"/><circle cx="${x}" cy="${y}" r="5" fill="none" stroke="${sc(k)}"/>` +
+      IE.T(k, x, y < 120 ? y - 20 : y + 30, { size: 12, anchor: 'middle', weight: 700 }); });
+    b += IE.L(6, 84, 73, 84, { col: RED, w: 2.4 }) + IE.T('L', 8, 76, { size: 12, weight: 700, col: RED }) + IE.L(166, 197, 166, 286, { col: BLUE, w: 2.4 }) + IE.T('N', 174, 284, { size: 12, weight: 700, col: BLUE });
+    b += IE.T(e.kind === 'run' ? dirTxt(e.d) : e.kind === 'short' ? t('⚡ ลัดวงจร', '⚡ short circuit') : t('ไม่ออกตัว', 'does not start'), 300, 268, { size: 13, anchor: 'end', weight: 700, col: e.kind === 'run' ? 'var(--good)' : e.kind === 'short' ? 'var(--bad)' : 'var(--warn)' });
+    return IE.svg(330, 296, b, { max: 380, label: t('แผงขั้วมอเตอร์กับสะพานต่อ', 'motor terminal board with bridges') }); };
+  const logA = new ED.Log($('logA'), [['ที่ไหน', 'where'], ['การต่อ / ทำอะไร', 'connection / action'], ['ผล', 'result'], ['เหตุผล', 'why']],
+    { empty: ['ยังไม่มีผล ใส่สะพานหรือสับ Q1 แล้วผลจะมาเรียงในตารางนี้', 'No results yet: fit a bridge or switch Q1 on and the results will be listed here'] });
+  const brdSt = ui.status($('brdSt'));
+  const brdBtns = ui.buttons($('brdBtn'), Object.entries(BR).map(([k, p]) => ({ id: k, label: p.join('–'), onclick: () => { brA[k] = !brA[k]; showB(true); } })));
+  const showB = rec => { const e = evalB(brA), s = brText(brA, e); $('brdA').innerHTML = brdSVG(); Object.keys(BR).forEach(k => brdBtns[k].classList.toggle('on', brA[k])); ui.setStatus(brdSt, s[0], s[1], s[2]);
+    if (rec) logA.add('b' + Object.keys(BR).filter(k => brA[k]).join(''), [t('แผงขั้ว', 'terminal board'), brName(brA), e.kind === 'run' ? dirTxt(e.d) : s[0], s[1]], e.kind === 'run' ? 'ok' : e.kind === 'short' ? 'bad' : 'warn'); };
+  $('brdA').addEventListener('click', ev => { const g = ev.target.closest('[data-b]'); if (!g) return; brA[g.dataset.b] = !brA[g.dataset.b]; showB(true); });
+  showB(false);
+
+  /* A2: the double-pole double-throw switch Q2 of the Thai textbook's Fig. 5.6, redrawn to IEC with PE. The run winding sits across L and N
+     after Q1; Q2 feeds the start winding: F = L → Z1, N → Z2; R = L → Z2, N → Z1. Speed model as relay.js (single-phase reversing): with the
+     centrifugal switch closed the start winding drives w towards its direction; open, the run winding keeps the direction it turns;
+     unpowered it coasts down in 2.5 s; the switch opens at 75 % and closes again below 60 %. */
+  const DP = { q1: false, pos: 'F', w: 0, cs: true };
+  const dpStep = (S, dt) => { const k = Math.min(1, dt / 0.75), dv = S.pos === 'F' ? 1 : -1; let w = S.w;
+    if (S.q1 && S.cs) w += (dv - w) * k; else if (S.q1 && Math.abs(w) > 0.05) w += ((w > 0 ? 1 : -1) - w) * k; else if (!S.q1) w = (w > 0 ? 1 : -1) * Math.max(0, Math.abs(w) - dt / 2.5);
+    S.w = w; const a = Math.abs(w); if (S.cs && a >= 0.75) S.cs = false; else if (!S.cs && a < 0.6) S.cs = true; };
+  const dpSVG = () => { const S = DP, on = S.q1, cL = on ? RED : null, cN = on ? BLUE : null, F = S.pos === 'F', z1 = on ? (F ? RED : BLUE) : null, z2 = on ? (F ? BLUE : RED) : null, d = Math.abs(S.w) > 0.02 ? Math.sign(S.w) : 0;
+    let b = IE.T('L', 50, 13, { size: 12, anchor: 'middle', weight: 700, col: RED }) + IE.T('N', 100, 13, { size: 12, anchor: 'middle', weight: 700, col: BLUE }) + IE.T('PE', 372, 13, { size: 12, anchor: 'middle', weight: 700 });
+    b += IE.cb(50, 18, 72, { act: on, col: cL }) + IE.cb(100, 18, 72, { act: on, col: cN }) + IE.L(26, 45, 96, 45, { dash: '3 3', col: 'var(--muted)' }) + IE.T('Q1', 6, 49, { size: 11, weight: 700 }) +
+      IE.T('1', 56, 26, { size: 8.5, col: 'var(--muted)' }) + IE.T('2', 56, 70, { size: 8.5, col: 'var(--muted)' }) + IE.T('3', 106, 26, { size: 8.5, col: 'var(--muted)' }) + IE.T('4', 106, 70, { size: 8.5, col: 'var(--muted)' });
+    // L: down to U1, branch at y 100 to pole 1 (x 165); N: down to U2, branch at y 88 to pole 2 (x 255)
+    b += IE.L(50, 72, 50, 228, { col: cL }) + IE.L(50, 228, 75, 228, { col: cL }) + IE.L(75, 228, 75, 232, { col: cL }) + IE.L(50, 100, 165, 100, { col: cL }) + IE.L(165, 100, 165, 116, { col: cL }) + dot(50, 100, cL || 'currentColor');
+    b += IE.L(100, 72, 100, 330, { col: cN }) + IE.L(100, 330, 75, 330, { col: cN }) + IE.L(75, 330, 75, 320, { col: cN }) + IE.L(100, 88, 255, 88, { col: cN }) + IE.L(255, 88, 255, 116, { col: cN }) + dot(100, 88, cN || 'currentColor');
+    // Q2: pole 1 common x 165 (F 150, R 180), pole 2 common x 255 (F 240, R 270); blades to the chosen side
+    b += `<rect x="134" y="108" width="152" height="70" rx="4" fill="none" stroke="var(--muted)" stroke-dasharray="4 3"/>` + IE.T('Q2', 290, 120, { size: 11, weight: 700 });
+    [[165, 150, 180, cL], [255, 240, 270, cN]].forEach(([xc, xf, xr, c]) => { const xt = F ? xf : xr;
+      b += `<circle cx="${xc}" cy="${118}" r="2.8" fill="var(--panel)" stroke="${c || 'currentColor'}"/>` + IE.L(xc, 121, xt, 156, { col: c, w: 1.8 }) +
+        [xf, xr].map(x => IE.L(x, 160, x, 172) + `<circle cx="${x}" cy="160" r="2.6" fill="var(--panel)"/>`).join('') + IE.T('F', xf - 4, 171, { size: 8.5, anchor: 'end', col: 'var(--muted)' }) + IE.T('R', xr + 4, 171, { size: 8.5, col: 'var(--muted)' }); });
+    b += IE.L(F ? 159 : 171, 138, F ? 249 : 261, 138, { dash: '3 3', col: 'var(--muted)' });
+    // outputs: Z1 = pole-1 F (150) + pole-2 R (270), bus at y 196; Z2 = pole-1 R (180) + pole-2 F (240), bus at y 184
+    b += IE.L(150, 172, 150, 198, { col: z1 }) + IE.L(270, 172, 270, 198, { col: z1 }) + IE.L(150, 198, 270, 198, { col: z1 }) + dot(210, 198, z1 || 'currentColor') + IE.L(210, 198, 210, 232, { col: z1 });
+    b += IE.L(180, 172, 180, 182, { col: z2 }) + IE.L(240, 172, 240, 182, { col: z2 }) + IE.L(180, 182, 240, 182, { col: z2 }) + dot(228, 182, z2 || 'currentColor') + IE.L(228, 182, 228, 330, { col: z2 }) + IE.L(228, 330, 210, 330, { col: z2 }) + IE.L(210, 330, 210, 320, { col: z2 });
+    // the motor: run winding U1–U2 at x 75, start branch at x 210 (CS, C, winding Z1–Z2), M 1~ with the direction
+    b += `<rect x="34" y="214" width="300" height="126" rx="10" fill="none" stroke="var(--muted)" stroke-dasharray="5 4"/>` + IE.T('M1', 318, 232, { size: 11, anchor: 'end', weight: 700 });
+    b += term(75, 236, 'U1') + IE.wind(75, 240, 312, { col: 'var(--c7-l1, #a0522d)' }) + term(75, 316, 'U2');
+    b += term(210, 236, 'Z1') + IE.contact(true, 210, 240, 270, { op: 'spd', act: !S.cs }) + IE.cap(210, 270, 288) + IE.wind(210, 288, 312, { col: 'var(--accent)' }) + term(210, 316, 'Z2');
+    b += IE.T('CS', 196, 252, { size: 9, anchor: 'end', col: 'var(--muted)' }) + IE.T('C', 222, 283, { size: 9, col: 'var(--muted)' });
+    b += IE.motor(290, 276, 22, { one: true }) + IE.T(d > 0 ? '↻' : d < 0 ? '↺' : '', 290, 318, { size: 18, anchor: 'middle', weight: 700, col: d > 0 ? 'var(--good)' : 'var(--accent)' }) + IE.T(`n ${Math.round(Math.abs(S.w) * 20) * 5} %`, 290, 334, { size: 9, anchor: 'middle', col: 'var(--muted)' });
+    b += IE.L(372, 18, 372, 300, { col: 'var(--good)' }) + IE.L(372, 300, 334, 300, { col: 'var(--good)' }) + dot(334, 300, 'var(--good)');
+    return IE.svg(390, 346, b, { max: 430, label: t('สวิตช์ 2 ขั้ว 2 ทางกลับทางมอเตอร์ 1 เฟส', 'double-pole double-throw switch reversing a single-phase motor') }); };
+  const dpSt = ui.status($('dpSt'));
+  const dpState = S => { const a = Math.abs(S.w), d = a > 0.02 ? Math.sign(S.w) : 0, dv = S.pos === 'F' ? 1 : -1;
+    if (!S.q1) return a > 0.02 ? [t('หมุนอิสระ', 'coasting'), t(`Q1 ปลด มอเตอร์ช้าลง ${pct(S.w)} สวิตช์แรงเหวี่ยง${S.cs ? 'ต่อแล้ว' : 'ยังเปิด'}`, `Q1 off, the motor slows down: ${pct(S.w)}, centrifugal switch ${S.cs ? 'closed again' : 'still open'}`), 'warn'] : [t('หยุด', 'stopped'), t(`Q2 อยู่ที่ ${S.pos}: สับ Q1 แล้วมอเตอร์จะหมุน${dv > 0 ? 'ตามเข็มนาฬิกา' : 'ทวนเข็มนาฬิกา'}`, `Q2 at ${S.pos}: switch Q1 on and the motor will turn ${dv > 0 ? 'clockwise' : 'counter-clockwise'}`), 'wait'];
+    if (!S.cs && d !== dv) return [d > 0 ? CW() : CCW(), t(`Q2 อยู่ที่ ${S.pos} แต่มอเตอร์ยังหมุนทางเดิม: สวิตช์แรงเหวี่ยงเปิดอยู่ ขดสตาร์ตที่กลับขั้วจึงไม่มีผล (${pct(S.w)})`, `Q2 is at ${S.pos}, yet the motor keeps its old direction: the centrifugal switch is open, so the reversed start winding has no effect (${pct(S.w)})`), 'warn'];
+    if (S.cs && d && d !== dv) return [t('กำลังเบรก', 'braking'), t(`ต่ำกว่า 60 % สวิตช์แรงเหวี่ยงต่อ ขดสตาร์ตที่กลับขั้วเบรกมอเตอร์แล้วจะกลับทาง (${pct(S.w)})`, `below 60 % the centrifugal switch is closed: the reversed start winding brakes the motor and will reverse it (${pct(S.w)})`), 'warn'];
+    return [d > 0 ? CW() : d < 0 ? CCW() : t('ออกตัว', 'starting'), t(`ความเร็ว ${pct(S.w)} · สวิตช์แรงเหวี่ยง${S.cs ? 'ต่อ: ขดสตาร์ตมีกระแส' : 'เปิด: เดินด้วยขดรันอย่างเดียว'}`, `speed ${pct(S.w)} · centrifugal switch ${S.cs ? 'closed: the start winding carries current' : 'open: running on the run winding only'}`), 'good']; };
+  let dpKey = '';
+  const showD = () => { const k = `${DP.q1}|${DP.pos}|${DP.cs}|${Math.round(DP.w * 20)}`; if (k === dpKey) return; dpKey = k; $('dpA').innerHTML = dpSVG(); const s = dpState(DP); ui.setStatus(dpSt, s[0], s[1], s[2]); };
+  const dpBtn = $('dpBtn'), q1B = ui.buttons(dpBtn, [{ id: 'q1', label: t('Q1 สับ / ปลด', 'Q1 on / off'), onclick: () => { DP.q1 = !DP.q1; q1B.q1.classList.toggle('on', DP.q1);
+    if (DP.q1) logA.add('dq1' + DP.pos + (Math.abs(DP.w) > 0.05 ? (DP.cs ? 's' : 'm') : ''), [t('สวิตช์ Q2', 'switch Q2'), t(`สับ Q1 (Q2 ที่ ${DP.pos})`, `Q1 on (Q2 at ${DP.pos})`), dirTxt(Math.abs(DP.w) > 0.05 && !DP.cs ? Math.sign(DP.w) : DP.pos === 'F' ? 1 : -1),
+      Math.abs(DP.w) > 0.05 && !DP.cs ? t('มอเตอร์ยังหมุนเร็ว สวิตช์แรงเหวี่ยงเปิด จึงหมุนทางเดิมต่อ', 'the motor still runs fast with the centrifugal switch open, so it keeps its direction') :
+      Math.abs(DP.w) > 0.05 && Math.sign(DP.w) !== (DP.pos === 'F' ? 1 : -1) ? t(`มอเตอร์ยังหมุนช้า ๆ ${pct(DP.w)} สวิตช์แรงเหวี่ยงต่อแล้ว ขดสตาร์ตเบรกมอเตอร์แล้วกลับทาง (กระแสสูง)`, `the motor still turns slowly at ${pct(DP.w)} with the centrifugal switch closed: the start winding brakes it and reverses it (high current)`) :
+      t('ขดสตาร์ตต่อผ่านสวิตช์แรงเหวี่ยงที่ต่ออยู่ จึงออกตัวตามทางที่ Q2 เลือก', 'the start winding is fed through the closed centrifugal switch, so the motor starts the way Q2 selects')], 'ok');
+    dpKey = ''; showD(); } }]);
+  ui.radio(dpBtn, [{ id: 'F', label: t('Q2 ทาง F', 'Q2 at F'), on: true }, { id: 'R', label: t('Q2 ทาง R', 'Q2 at R') }], id => { const a = Math.abs(DP.w), was = Math.sign(DP.w); DP.pos = id; const dv = id === 'F' ? 1 : -1;
+    const [res, why, kind] = !DP.q1 ? [dirTxt(dv), a > 0.05 ? t('Q1 ปลดอยู่: เลือกทางไว้สำหรับครั้งต่อไป (สับ Q1 เมื่อช้ากว่า 60 % จะเบรกแล้วกลับทาง)', 'Q1 is off: the direction is set for the next start (switching Q1 on below 60 % brakes and reverses)') : t('Q1 ปลดอยู่: เลือกทางก่อนสับ Q1 ซึ่งเป็นวิธีที่ถูก', 'Q1 is off: choosing the direction before Q1 is switched on is the right way'), 'ok'] :
+      !DP.cs && a > 0.05 ? [dirTxt(was), t(`โยกขณะหมุน ${pct(DP.w)}: สวิตช์แรงเหวี่ยงเปิด ขดสตาร์ตไม่มีผล มอเตอร์หมุนทางเดิมต่อ`, `thrown at ${pct(DP.w)}: the centrifugal switch is open, the start winding has no effect, the motor keeps turning the old way`), 'warn'] :
+      a > 0.05 && was !== dv ? [dirTxt(dv), t(`โยกขณะหมุนช้า ${pct(DP.w)}: สวิตช์แรงเหวี่ยงต่อ ขดสตาร์ตเบรกแล้วกลับทาง (กระแสสูง)`, `thrown at ${pct(DP.w)}: the centrifugal switch is closed, the start winding brakes and reverses the motor (high current)`), 'warn'] :
+      [dirTxt(dv), t('มอเตอร์ยังไม่หมุน: ออกตัวตามทางใหม่', 'the motor was not turning: it starts the new way'), 'ok'];
+    logA.add(`dsw${DP.q1 ? 1 : 0}${!DP.cs && a > 0.05 ? 'f' : a > 0.05 ? 's' : 'z'}${id}`, [t('สวิตช์ Q2', 'switch Q2'), t(`โยก Q2 ไปทาง ${id}${DP.q1 ? '' : ' (Q1 ปลด)'}`, `Q2 thrown to ${id}${DP.q1 ? '' : ' (Q1 off)'}`), res, why], kind); dpKey = ''; showD(); });
+  LS.anim($('dpA'), dt => { if (dt) dpStep(DP, dt); showD(); });
+  showD();
+  /* summary of A: the board from evalB, the switch from dpStep on fresh states (the same model as the widgets) */
+  const dpRun = steps => { const S = { q1: false, pos: 'F', w: 0, cs: true }; steps.forEach(([k, v]) => { if (k === 'wait') { for (let x = 0; x < v - 1e-9; x += 0.02) dpStep(S, 0.02); } else S[k] = v; }); return S; };
+  ED.summary($('sumA'), { head: [['ที่ไหน', 'where'], ['การต่อ / ทำอะไร', 'connection / action'], ['ผล', 'result']],
+    rows: () => { const B = [['b1', 'b2'], ['b3', 'b4'], ['b1'], ['b1', 'b3'], ['b1', 'b4'], ['b2', 'b3']].map(ks => { const set = { b1: false, b2: false, b3: false, b4: false }; ks.forEach(k => { set[k] = true; }); const e = evalB(set), s = brText(set, e);
+        return [t('แผงขั้ว', 'terminal board'), brName(set), `${e.kind === 'run' ? yes : no} ${e.kind === 'run' ? dirTxt(e.d) : s[0]}`]; });
+      const r1 = dpRun([['q1', true], ['wait', 3]]), r2 = dpRun([['pos', 'R'], ['q1', true], ['wait', 3]]), r3 = dpRun([['q1', true], ['wait', 3], ['pos', 'R'], ['wait', 3]]), r4 = dpRun([['q1', true], ['wait', 3], ['q1', false], ['wait', 1.5], ['pos', 'R'], ['q1', true], ['wait', 3]]);
+      const D = [[t('Q2 ที่ F สับ Q1', 'Q2 at F, Q1 on'), r1], [t('Q2 ที่ R สับ Q1', 'Q2 at R, Q1 on'), r2], [t('หมุนเต็มความเร็ว โยก Q2 ไป R', 'at full speed, Q2 thrown to R'), r3], [t('ปลด Q1 รอ 1.5 s โยก Q2 ไป R แล้วสับ Q1', 'Q1 off, wait 1.5 s, Q2 to R, Q1 on'), r4]]
+        .map(([a, S]) => [t('สวิตช์ Q2', 'switch Q2'), a, `${dirTxt(Math.sign(S.w))} (${pct(S.w)})`]);
+      return [...B, ...D]; },
+    points: [['แผงขั้ว: สะพาน Z2–U2 กับ U1–V1 หมุนตามเข็มนาฬิกา สะพาน Z2–U1 กับ U2–V1 หมุนทวนเข็มนาฬิกา สะพานคู่อื่นลัดวงจรหรือทำให้ขดรันไม่มีไฟ ดูแผ่นป้ายในกล่องขั้วของมอเตอร์จริงทุกครั้ง', 'Terminal board: bridges Z2–U2 and U1–V1 turn clockwise, Z2–U1 and U2–V1 counter-clockwise; the other pairs short the supply or leave the run winding unfed. Always read the plate inside the real motor\'s terminal box.'],
+      ['สวิตช์ 2 ขั้ว 2 ทาง: เลือกทางขณะปลด Q1 การโยกขณะหมุนเร็วไม่ทำให้กลับทาง เพราะสวิตช์แรงเหวี่ยงเปิดอยู่ ถ้าโยกเมื่อช้ากว่า 60 % ขดสตาร์ตจะเบรกแล้วกลับทางด้วยกระแสสูง', 'DPDT switch: choose the direction with Q1 off. Throwing it at full speed does not reverse the motor, because the centrifugal switch is open; thrown below 60 %, the start winding brakes and reverses the motor on a high current.'],
+      ['สะพานและสวิตช์ไม่ป้องกันการเดินเองหลังไฟดับ ถ้าต้องสั่งจากปุ่มกดหรือหลายที่ ใช้คอนแทกเตอร์ (หัวข้อ B)', 'Bridges and a switch do not prevent a restart after a power failure; for push-button or remote control, use contactors (section B).']] });
+
+  /* B: single-phase reversing with contactors. C7.ONEPH = forward – stop – reverse with the KM 21–22 interlock on the single-phase reversing
+     power drawing (Q1 two-pole, F2 ahead of the split, KM1 L → U1, L → Z1, N → Z2; KM2 L → U1, L → Z2, N → Z1; U2 to N); C7.NONE({ _one })
+     = the same without the interlock. step() runs the signed speed model of relay.js (sim.w, sim.cs). */
+  const runS = (s, sec) => { for (let x = 0; x < sec - 1e-9; x += 0.02) s.step(0.02); };
+  const MB = { el: { spec: () => C7.ONEPH(), name: ['มีอินเตอร์ล็อก KM1 21–22 และ KM2 21–22', 'with the KM1 21–22 and KM2 21–22 interlock'], short: ['มีอินเตอร์ล็อก', 'interlocked'] },
+    none: { spec: () => C7.NONE({ _one: true }), name: ['ไม่มีอินเตอร์ล็อก', 'without interlock'], short: ['ไม่มีอินเตอร์ล็อก', 'no interlock'] } };
+  let modeB = 'el', simB = null, pnB = null;
+  const spdB = s => { const x0 = 16, x1 = 344, xc = 180, X = v => xc + (x1 - xc) * Math.max(-1, Math.min(1, v)), w = s.w || 0, cs = s.cs !== false;
+    let b = `<rect x="${x0}" y="22" width="${x1 - x0}" height="14" rx="4" fill="var(--panel2)" stroke="var(--line)"/>`;
+    if (Math.abs(w) > 0.004) b += `<rect x="${Math.min(xc, X(w)).toFixed(1)}" y="22" width="${Math.abs(X(w) - xc).toFixed(1)}" height="14" rx="3" fill="${cs ? '#ffb020' : '#1d8a4a'}" opacity=".85" stroke="none"/>`;
+    [-1, 1].forEach(sg => { b += IE.L(X(0.75 * sg), 16, X(0.75 * sg), 42, { col: 'var(--accent)', w: 1.6 }) + IE.L(X(0.6 * sg), 22, X(0.6 * sg), 42, { col: 'var(--muted)', dash: '3 3' }); });
+    b += IE.L(xc, 14, xc, 44, { col: 'var(--ink)' }) + IE.T('0', xc, 54, { size: 9, anchor: 'middle', col: 'var(--muted)' }) + IE.T(`↺ 100 %`, x0, 54, { size: 9, col: 'var(--muted)' }) + IE.T(`100 % ↻`, x1, 54, { size: 9, anchor: 'end', col: 'var(--muted)' });
+    b += IE.T(t('75 %: สวิตช์แรงเหวี่ยงเปิด', '75 %: CS opens'), X(0.75) - 3, 12, { size: 9.5, anchor: 'end', col: 'var(--accent)', weight: 700 }) + IE.T(t('60 %: ต่อกลับ', '60 %: closes again'), X(-0.6) + 3, 12, { size: 9, col: 'var(--muted)' });
+    return IE.svg(360, 60, b, { max: 560, label: t('ความเร็วและทิศของมอเตอร์', 'motor speed and direction') }); };
+  let lastSpd = '';
+  const showSpd = () => { const s = simB, w = s.w || 0, k = `${Math.round(w * 100)}|${s.cs}`; if (k === lastSpd) return; lastSpd = k;
+    $('spdB').innerHTML = spdB(s) + `<div class="hint" style="margin-top:2px">${t('ความเร็ว', 'speed')} <b>${w > 0.004 ? '+' : w < -0.004 ? '−' : ''}${pct(w)}</b> ${Math.abs(w) > 0.02 ? dirTxt(Math.sign(w)) : ''} · ${t('ขดสตาร์ต Z1–Z2', 'start winding Z1–Z2')}: <b>${s.cs ? (s.running() ? t('มีกระแส (สวิตช์แรงเหวี่ยงต่อ)', 'carries current (centrifugal switch closed)') : t('สวิตช์แรงเหวี่ยงต่อ', 'centrifugal switch closed')) : t('หลุดออก (สวิตช์แรงเหวี่ยงเปิด)', 'cut out (centrifugal switch open)')}</b></div>`; };
+  const logB = new ED.Log($('logB'), [['วงจร', 'circuit'], ['ทำอะไร', 'what you did'], ['มอเตอร์', 'motor'], ['เหตุผล', 'why']]);
+  let b0 = null;
+  const snapB = s => ({ s1: !!s.dev.S1.pressed, s2: !!s.dev.S2.pressed, s3: !!s.dev.S3.pressed, k1: s.act('KM1'), k2: s.act('KM2'), f2: !!s.dev.F2.tripped, q1: !!s.dev.Q1.on, mains: s.mains !== false, sh: s.msg === 'pshort', w: s.w || 0, cs: s.cs !== false });
+  const trackB = s => { if (s !== simB) return; const n = snapB(s), p = b0 || n, m = tt(MB[modeB].short), mot = () => (Math.abs(s.w || 0) > 0.02 ? `${dirTxt(Math.sign(s.w))} ${pct(s.w)}` : s.running() ? dirTxt(s.dir() === 'ccw' ? -1 : 1) : t('หยุด', 'stopped'));
+    const row = (k, what, why, kind) => logB.add(modeB + k, [m, what, mot(), why], kind || 'ok');
+    if (!p.sh && n.sh) row('sh', t('กด S2 แล้ว S3', 'S2, then S3'), t('KM1 และ KM2 ต่อพร้อมกัน: L ลัดถึง N ผ่านหน้าสัมผัสของขดสตาร์ต Q1 ตัด คลิก Q1 เพื่อสับกลับ', 'KM1 and KM2 closed together: L is shorted to N through the start-winding contacts and Q1 trips; click Q1 to switch it on again'), 'bad');
+    if (!p.k1 && n.k1 && n.s2) row('S2', t('กด S2', 'press S2'), Math.abs(p.w) < 0.05 ? t('KM1 ดูด: ขดรันและขดสตาร์ตได้ไฟ ออกตัวตามเข็มนาฬิกา', 'KM1 pulls in: run and start windings are fed and the motor starts clockwise') : t(`KM1 ดูดขณะยังหมุน ${pct(p.w)}`, `KM1 pulls in while the motor still turns at ${pct(p.w)}`));
+    if (p.cs && !n.cs && s.running()) row('cs' + (n.w > 0 ? '+' : '-'), t('มอเตอร์เร่งถึง 75 %', 'the motor reaches 75 %'), t('สวิตช์แรงเหวี่ยงเปิด ขดสตาร์ตหลุดออก มอเตอร์เดินต่อด้วยขดรัน', 'the centrifugal switch opens, the start winding drops out and the motor runs on the run winding'));
+    if (!p.s1 && n.s1 && (p.k1 || p.k2)) row('S1', t('กด S1', 'press S1'), t('คอนแทกเตอร์หลุด มอเตอร์หมุนอิสระช้าลง สวิตช์แรงเหวี่ยงจะต่อกลับที่ 60 %', 'the contactor drops out; the motor coasts down and the centrifugal switch closes again at 60 %'));
+    if (!p.k2 && n.k2 && n.s3 && !n.sh) { const a = Math.abs(p.w), fwd = p.w > 0.05;
+      if (fwd && !p.cs) row('S3f', t(`กด S3 ขณะหมุน ${pct(p.w)}`, `press S3 at ${pct(p.w)}`), t('KM2 ดูด แต่สวิตช์แรงเหวี่ยงยังเปิด ขดสตาร์ตที่กลับขั้วไม่มีผล ขดรันพามอเตอร์กลับไปหมุนตามเข็มนาฬิกาเต็มความเร็ว', 'KM2 pulls in, but the centrifugal switch is still open: the reversed start winding has no effect and the run winding takes the motor back to full speed clockwise'), 'warn');
+      else if (fwd) row('S3s', t(`กด S3 ขณะหมุน ${pct(p.w)}`, `press S3 at ${pct(p.w)}`), t('ต่ำกว่า 60 % สวิตช์แรงเหวี่ยงต่อแล้ว ขดสตาร์ตที่กลับขั้วเบรกมอเตอร์ผ่านศูนย์แล้วหมุนทวนเข็มนาฬิกา (กระแสสูงระหว่างเบรก)', 'below 60 % the centrifugal switch is closed: the reversed start winding brakes the motor through zero and runs it counter-clockwise (high current while braking)'), 'warn');
+      else row('S3', t('กด S3 ขณะหยุดนิ่ง', 'press S3 at standstill'), t('KM2 ดูด: ขดสตาร์ตกลับขั้ว ออกตัวทวนเข็มนาฬิกา', 'KM2 pulls in: the start winding is reversed and the motor starts counter-clockwise')); }
+    if (!p.s3 && n.s3 && p.k1 && n.k1 && !n.k2) row('S3i', t('กด S3 ขณะเดินหน้า', 'press S3 while forward'), t('ไม่เกิดอะไร: KM1 21–22 เปิดอยู่ในทางเดินกระแสของ KM2 ต้องกด S1 ก่อน', 'nothing happens: KM1 21–22 is open in the KM2 path; S1 must be pressed first'));
+    if (!p.s2 && n.s2 && p.k2 && n.k2 && !n.k1) row('S2i', t('กด S2 ขณะถอยหลัง', 'press S2 while in reverse'), t('ไม่เกิดอะไร: KM2 21–22 เปิดอยู่ในทางเดินกระแสของ KM1', 'nothing happens: KM2 21–22 is open in the KM1 path'));
+    if (p.f2 !== n.f2) row(n.f2 ? 'F2' : 'F2r', n.f2 ? t('F2 ตัด', 'F2 trips') : t('รีเซ็ต F2', 'reset F2'), n.f2 ? t('95–96 เปิด คอนแทกเตอร์หลุด มอเตอร์หมุนอิสระจนหยุด', '95–96 opens, the contactor drops out and the motor coasts to rest') : (n.k1 || n.k2 ? t('เดินเอง: ไม่ควรเกิด', 'restarts: it should not') : t('ไม่เดินเอง ต้องกดปุ่มเริ่มใหม่', 'no restart: a start button must be pressed again')), n.f2 || !(n.k1 || n.k2) ? 'ok' : 'bad');
+    if (p.q1 !== n.q1 && !n.sh && !p.sh) row(n.q1 ? 'Q1on' : 'Q1off', n.q1 ? t('สับ Q1', 'Q1 on') : t('ปลด Q1', 'Q1 off'), n.q1 ? (n.k1 || n.k2 ? t('เดินเอง: ไม่ควรเกิด', 'restarts: it should not') : t('ไม่เดินเอง: ทางค้างตัวเองขาดไปแล้ว', 'no restart: the holding path is open')) : t('Q1 ตัดทั้ง L และ N ทั้งมอเตอร์และวงจรควบคุมไม่มีไฟ', 'Q1 opens L and N: neither the motor nor the control circuit has supply'), n.q1 && (n.k1 || n.k2) ? 'bad' : 'ok');
+    if (!p.mains && n.mains) row('cut', t('ไฟดับแล้วกลับมา', 'power fails and returns'), n.k1 || n.k2 ? t('เดินเอง: ไม่ควรเกิด', 'restarts: it should not') : t('ไม่เดินเอง (IEC 60204-1 ข้อ 7.5)', 'no restart (IEC 60204-1, 7.5)'), n.k1 || n.k2 ? 'bad' : 'ok');
+    b0 = n; showSpd(); };
+  const buildB = () => { $('simB').innerHTML = ''; $('pB').innerHTML = ''; lastSpd = ''; b0 = null;
+    simB = new RL.Sim($('simB'), MB[modeB].spec(), { max: 1060, label: t('กลับทางมอเตอร์ 1 เฟสด้วยคอนแทกเตอร์', 'single-phase reversing with contactors') });
+    simB.on(trackB); b0 = snapB(simB); ui.h2($('pB'), t('สั่งงาน', 'Control')); pnB = C7.panel($('pB'), simB, {}); showSpd(); };
+  ui.radio($('modeB'), Object.entries(MB).map(([k, v]) => ({ id: k, label: tt(v.name), on: k === modeB })), id => { modeB = id; buildB(); });
+  buildB();
+  LS.anim($('simB'), dt => { if (!simB) return; simB.step(dt); if (b0) { const n = snapB(simB); if (n.cs !== b0.cs) trackB(simB); } fresh(pnB, simB); showSpd(); });
+  /* summary: the same circuits on hidden simulators */
+  const trialsB = () => { const out = [], mk = () => hid(C7.ONEPH()), sp = s => `${dirTxt(Math.abs(s.w) > 0.02 ? Math.sign(s.w) : 0)} ${pct(s.w)}`;
+    let s = mk(); tap(s, 'S2'); runS(s, 3); out.push([t('กด S2 รอ 3 s', 'S2, wait 3 s'), sp(s), `${s.cs ? no : yes} ${t('ขดสตาร์ตหลุดออกที่ 75 %', 'start winding cut out at 75 %')}`]);
+    tap(s, 'S1'); runS(s, 0.2); tap(s, 'S3'); runS(s, 3); out.push([t('กด S1 แล้ว S3 ทันที (0.2 s)', 'S1, then S3 at once (0.2 s)'), sp(s), `${s.act('KM2') && s.w > 0.5 ? yes : no} ${t('KM2 ดูด แต่ยังหมุนตามเข็มนาฬิกา: ไม่กลับทาง', 'KM2 in, still clockwise: no reversal')}`]);
+    s = mk(); tap(s, 'S2'); runS(s, 3); tap(s, 'S1'); runS(s, 1.5); const w15 = s.w; tap(s, 'S3'); runS(s, 3); out.push([t(`กด S1 รอ 1.5 s (${pct(w15)}) แล้ว S3`, `S1, wait 1.5 s (${pct(w15)}), then S3`), sp(s), `${s.w < -0.5 ? yes : no} ${t('เบรกแล้วกลับทาง (กระแสสูงระหว่างเบรก)', 'brakes and reverses (high current while braking)')}`]);
+    s = mk(); tap(s, 'S2'); runS(s, 3); tap(s, 'S1'); runS(s, 3); tap(s, 'S3'); runS(s, 3); out.push([t('กด S1 รอจนหยุดนิ่ง แล้ว S3', 'S1, wait for standstill, then S3'), sp(s), `${s.w < -0.5 ? yes : no} ${t('ออกตัวทวนเข็มนาฬิกาตามปกติ', 'normal counter-clockwise start')}`]);
+    tap(s, 'S2'); runS(s, 0.5); out.push([t('ถอยหลังอยู่ กด S2', 'in reverse, press S2'), sp(s), `${s.act('KM2') && !s.act('KM1') ? yes : no} ${t('ไม่เกิดอะไร (KM2 21–22)', 'nothing happens (KM2 21–22)')}`]);
+    s.toggle('F2'); runS(s, 3); s.toggle('F2'); runS(s, 1); out.push([t('F2 ตัด แล้วรีเซ็ต', 'F2 trips, then reset'), sp(s), `${!s.running() ? yes : no} ${t('หยุด ไม่เดินเองหลังรีเซ็ต', 'stops, no restart after the reset')}`]);
+    s = mk(); tap(s, 'S2'); runS(s, 2); s.setMains(false); s.setMains(true); runS(s, 3); out.push([t('เดินอยู่: ไฟดับแล้วกลับมา', 'running: power fails and returns'), sp(s), `${!s.running() ? yes : no} ${t('ไม่เดินเอง', 'no restart')}`]);
+    s = hid(C7.NONE({ _one: true })); tap(s, 'S2'); tap(s, 'S3'); out.push([t('ไม่มีอินเตอร์ล็อก: S2 แล้ว S3', 'no interlock: S2, then S3'), s.dev.Q1.on ? t('Q1 สับอยู่', 'Q1 on') : t('Q1 ตัด', 'Q1 tripped'), `${s.msg === 'pshort' ? yes : no} ${t('L ลัดถึง N: ต้องมีอินเตอร์ล็อก', 'L shorted to N: an interlock is needed')}`]);
+    return out; };
+  ED.summary($('sumB'), { head: [['ทำอะไร', 'what you did'], ['มอเตอร์', 'motor'], ['ผล', 'result']], rows: trialsB,
+    points: [['วงจรควบคุมทำงานเหมือนวงจรเดินหน้า–หยุด–ถอยหลังสามเฟส: อินเตอร์ล็อก KM 21–22 กันไม่ให้คอนแทกเตอร์ทั้งสองต่อพร้อมกัน และไม่มีอะไรเดินเองหลังไฟดับหรือรีเซ็ต F2', 'The control circuit works like the three-phase forward – stop – reverse circuit: the KM 21–22 interlock keeps the two contactors from closing together, and nothing restarts after a power failure or an F2 reset.'],
+      ['การกด S3 ขณะมอเตอร์ยังหมุนเร็วเกิน 60 % ไม่ทำให้กลับทาง: KM2 ดูด แต่ขดรันพามอเตอร์หมุนทางเดิมต่อ ผู้ใช้อาจเข้าใจผิดว่าเครื่องถอยหลังอยู่', 'Pressing S3 while the motor still turns faster than 60 % does not reverse it: KM2 pulls in, but the run winding keeps the motor turning the old way, and the user may wrongly believe the machine is in reverse.'],
+      ['ระหว่าง 60 % กับหยุดนิ่ง ขดสตาร์ตที่กลับขั้วเบรกมอเตอร์แล้วกลับทาง ด้วยกระแสสูงในขดสตาร์ตซึ่งออกแบบมาให้ทำงานสั้น ๆ จึงให้หยุดนิ่งก่อนกลับทางเสมอ', 'Between 60 % and standstill the reversed start winding brakes and reverses the motor, with a high current in a winding built for short duty; so always let the motor stand still before reversing.']] });
+
+  /* worked example: S1 at 3 s, then S3 after 0.2 s, 1.5 s or at standstill (hidden C7.ONEPH simulators, sampled every 0.05 s) */
+  const exRun = gap => { const s = hid(C7.ONEPH()), pts = [], ev = {}; let tm = 0, s3 = false;
+    tap(s, 'S2'); while (tm < 9 - 1e-9) { if (!ev.s1 && tm >= 3 - 1e-9) { tap(s, 'S1'); ev.s1 = tm; } if (!s3 && tm >= 3 + gap - 1e-9) { tap(s, 'S3'); s3 = true; ev.s3 = tm; ev.w3 = s.w; }
+      const w0 = s.w || 0, c0 = s.cs; s.step(0.05); tm += 0.05; const w = s.w || 0;
+      if (ev.s1 !== undefined && ev.cs === undefined && !c0 && s.cs) ev.cs = tm;   // centrifugal switch closes again
+      if (w0 > 0 && w <= 0 && ev.zero === undefined) ev.zero = tm;
+      if (tm >= 3 && tm <= 3 + gap + 2) ev.min = Math.min(ev.min ?? 9, w);
+      pts.push([tm, w]); }
+    ev.end = s.w; ev.km2 = s.act('KM2'); return { pts, ev }; };
+  const EX = { a: exRun(0.2), b: exRun(1.5), c: exRun(3.0) };
+  const fd = (x, d = 1) => ED.fd(x, d);
+  const exChart = keys => { const W = 540, H = 262, x0 = 46, x1 = 520, y0 = 18, y1 = 196, X = v => x0 + (x1 - x0) * v / 9, Y = w => (y0 + y1) / 2 - w * (y1 - y0) / 2;
+    const COLS = { a: 'var(--bad)', b: 'var(--accent)', c: 'var(--good)' }, NAMES = { a: t('S3 หลัง S1 0.2 s', 'S3 0.2 s after S1'), b: t('S3 หลัง S1 1.5 s', 'S3 1.5 s after S1'), c: t('S3 เมื่อหยุดนิ่ง', 'S3 at standstill') };
+    let b = '';
+    [0.75, 0.6, -0.6, -0.75].forEach(v => { b += IE.L(x0, Y(v), x1, Y(v), { col: 'var(--line)', dash: Math.abs(v) === 0.75 ? '6 3' : '2 4' }); });
+    b += IE.T('75 %', x0 - 4, Y(0.75) + 3, { size: 9, anchor: 'end', col: 'var(--muted)' }) + IE.T('60 %', x0 - 4, Y(0.6) + 9, { size: 9, anchor: 'end', col: 'var(--muted)' }) + IE.T('−75 %', x0 - 4, Y(-0.75) + 3, { size: 9, anchor: 'end', col: 'var(--muted)' });
+    b += IE.L(x0, Y(0), x1, Y(0), { col: 'var(--muted)' }) + IE.L(x0, y0, x0, y1, { col: 'var(--muted)' });
+    for (let s = 0; s <= 9; s++) b += IE.L(X(s), y1, X(s), y1 + 4, { col: 'var(--muted)' }) + IE.T(`${s}`, X(s), y1 + 15, { size: 9, anchor: 'middle', col: 'var(--muted)' });
+    b += IE.T('t (s)', x1, y1 + 28, { size: 9.5, anchor: 'end', col: 'var(--muted)' }) + IE.T(t('↻ ตามเข็มนาฬิกา', '↻ clockwise'), x0 + 6, y0 + 8, { size: 9.5, col: 'var(--muted)' }) + IE.T(t('↺ ทวนเข็มนาฬิกา', '↺ counter-clockwise'), x0 + 6, y1 - 4, { size: 9.5, col: 'var(--muted)' });
+    b += IE.L(X(3), y0, X(3), y1, { col: 'var(--ink)', dash: '4 3' }) + IE.T('S1', X(3) + 3, y1 - 5, { size: 10, weight: 700 });
+    keys.forEach((k, i) => { const R = EX[k], d = R.pts.map(([tm, w], j) => `${j ? 'L' : 'M'}${X(tm).toFixed(1)} ${Y(w).toFixed(1)}`).join(' ');
+      b += `<path d="M${X(0)} ${Y(0)} ${d.replace(/^M/, 'L')}" fill="none" stroke="${COLS[k]}" stroke-width="2.2"/>` + IE.L(X(R.ev.s3), Y(R.ev.w3) - 7, X(R.ev.s3), Y(R.ev.w3) + 7, { col: COLS[k], w: 2 }) +
+        IE.T(`S3`, X(R.ev.s3) + 3, Y(R.ev.w3) + 16, { size: 9.5, weight: 700, col: COLS[k] }) + IE.L(x0 + 158 * i, y1 + 44, x0 + 158 * i + 18, y1 + 44, { col: COLS[k], w: 2.2 }) + IE.T(NAMES[k], x0 + 158 * i + 22, y1 + 48, { size: 9.5, col: COLS[k] }); });
+    return `<div style="overflow-x:auto">${IE.svg(W, H, b, { max: 620, label: t('ความเร็วกับเวลาเมื่อกด S3 หลัง S1', 'speed against time when S3 follows S1') })}</div>`; };
+  LS.choose($('ask1'), { options: [t('KM2 ดูดไม่ได้ เพราะ KM1 21–22 ยังเปิดอยู่', 'KM2 cannot pull in, because KM1 21–22 is still open'), t('KM2 ดูด แต่มอเตอร์ยังหมุนตามเข็มนาฬิกาต่อไปจนเต็มความเร็ว', 'KM2 pulls in, but the motor keeps turning clockwise, back up to full speed'),
+    t('มอเตอร์เบรกแล้วกลับเป็นทวนเข็มนาฬิกาทันที', 'the motor brakes and turns counter-clockwise at once'), t('Q1 ตัดเพราะ L ลัดถึง N', 'Q1 trips because L is shorted to N')], answer: 1 });
+  LS.stepper($('st1'), { steps: [
+    { why: t('(ก) กด S1: KM1 หลุด มอเตอร์หมุนอิสระ แต่สวิตช์แรงเหวี่ยงยังเปิด', '(a) S1: KM1 drops out and the motor coasts, but the centrifugal switch is still open'),
+      body: `<p>${t(`KM1 หลุด หน้าสัมผัส KM1 21–22 ในทางเดินกระแสของ KM2 จึงต่อกลับทันที เมื่อกด S3 ที่ 0.2 s ต่อมา KM2 ดูดได้ ขั้วที่ 1 ของ KM2 ป้อน L เข้า U1 เหมือนที่ KM1 เคยป้อน ขดรันจึงได้ไฟขั้วเดิม ขั้วที่ 2 และ 3 กลับขั้วขดสตาร์ต แต่ความเร็วยังสูงกว่า 60 % (ต่ำสุด ${pct(EX.a.ev.min)}) สวิตช์แรงเหวี่ยงจึงยังเปิด ขดสตาร์ตไม่มีกระแส ขดรันพามอเตอร์กลับไปหมุนตามเข็มนาฬิกาเต็มความเร็ว (เส้นสีแดง) หลอดหรือป้ายของ KM2 บอกว่าถอยหลัง แต่เครื่องเดินหน้าอยู่`,
+        `KM1 drops out, so KM1 21–22 in the KM2 path closes again at once. When S3 is pressed 0.2 s later, KM2 can pull in. Pole 1 of KM2 feeds L to U1 just as KM1 did, so the run winding keeps its polarity; poles 2 and 3 reverse the start winding, but the speed is still above 60 % (lowest ${pct(EX.a.ev.min)}), so the centrifugal switch is still open and the start winding carries no current. The run winding takes the motor back to full speed clockwise (red curve). A lamp or label on KM2 says reverse while the machine runs forward.`)}</p>${exChart(['a'])}` },
+    { why: t(`(ข) รอให้ช้ากว่า 60 %: ในแบบจำลองใช้ ${fd(EX.b.ev.cs - EX.b.ev.s1)} s หลัง S1`, `(b) Wait until below 60 %: ${fd(EX.b.ev.cs - EX.b.ev.s1)} s after S1 in this model`),
+      body: `<p>${t(`แบบจำลองหมุนอิสระจากเต็มความเร็วจนหยุดใน 2.5 s สวิตช์แรงเหวี่ยงต่อกลับเมื่อความเร็วลดถึง 60 % คือราว ${fd(EX.b.ev.cs - EX.b.ev.s1)} s หลัง S1 ถ้ากด S3 ที่ 1.5 s (ความเร็ว ${pct(EX.b.ev.w3)}) ขดสตาร์ตที่กลับขั้วมีกระแสอีกครั้ง มันเบรกมอเตอร์ผ่านศูนย์ที่ ${fd(EX.b.ev.zero - EX.b.ev.s3)} s หลังกด S3 แล้วพาหมุนทวนเข็มนาฬิกา (เส้นสีน้ำเงิน) ระหว่างเบรก ขดสตาร์ตรับกระแสสูงเหมือนการกลับทางขณะหมุน (หน้า 7.3) ส่วนการรอจนหยุดนิ่ง (เส้นสีเขียว) เป็นการออกตัวธรรมดา`,
+        `The model coasts from full speed to rest in 2.5 s; the centrifugal switch closes again when the speed falls to 60 %, about ${fd(EX.b.ev.cs - EX.b.ev.s1)} s after S1. If S3 is pressed at 1.5 s (speed ${pct(EX.b.ev.w3)}), the reversed start winding carries current again: it brakes the motor through zero ${fd(EX.b.ev.zero - EX.b.ev.s3)} s after S3 and runs it counter-clockwise (blue curve). While braking, the start winding takes a high current, as in reversing at speed (page 7.3). Waiting for standstill (green curve) gives an ordinary start.`)}</p>${exChart(['a', 'b', 'c'])}` },
+    { why: t('(ค) สอนให้หยุดนิ่งก่อนกลับทาง หรือให้วงจรรอแทน', '(c) Teach "standstill before reversing", or let the circuit wait'),
+      body: `<p>${t('วงจรควบคุมไม่รู้ความเร็วของมอเตอร์ ป้ายที่สถานีกดและการฝึกผู้ใช้จึงต้องบอกว่า "หยุดนิ่งก่อนกลับทาง" ถ้าต้องการให้วงจรบังคับเอง ให้ใช้สวิตช์ความเร็วศูนย์ (zero-speed switch) ซึ่งรู้ความเร็วจริงของเพลา รีเลย์ล็อกหลังกดหยุดแบบหน้า 7.3 ช่วยได้เฉพาะเมื่อตั้งเวลายาวกว่าเวลาที่มอเตอร์หมุนอิสระจนหยุดพร้อมโหลดจริง และล็อกหายไปเมื่อไฟดับ ถ้างานต้องกลับทางบ่อยหรือขณะหมุน ให้เลือกมอเตอร์แบบตัวเก็บประจุค่าคงที่ (PSC) ชนิดกลับทางได้ หรือมอเตอร์สามเฟส',
+        'The control circuit does not know the motor speed, so a sign at the station and the users\' training must say "standstill before reversing". If the circuit itself should enforce it, use a zero-speed switch, which senses the real shaft speed; the stop-lock relay of page 7.3 helps only if its time is longer than the motor takes to coast to rest with its real load, and a power failure clears it. If the job needs frequent reversing or reversing while running, choose a reversible permanent-split capacitor (PSC) motor or a three-phase motor.')}</p>` }],
+    answer: t(`(ก) KM2 ดูด แต่มอเตอร์หมุนตามเข็มนาฬิกาต่อไป เพราะสวิตช์แรงเหวี่ยงยังเปิด (ข) อย่างน้อยราว ${fd(EX.b.ev.cs - EX.b.ev.s1)} s ในแบบจำลอง (จนต่ำกว่า 60 %) แต่ควรรอจนหยุดนิ่ง (ค) หยุดนิ่งก่อนกลับทาง หรือให้วงจรรอด้วยสวิตช์ความเร็วศูนย์ (ล็อกด้วยเวลาของหน้า 7.3 ช่วยได้เพียงบางส่วน)`,
+      `(a) KM2 pulls in, but the motor keeps turning clockwise because the centrifugal switch is still open; (b) at least about ${fd(EX.b.ev.cs - EX.b.ev.s1)} s in the model (until below 60 %), but waiting for standstill is the rule; (c) standstill before reversing, or a zero-speed switch that makes the circuit wait (the timed lock of page 7.3 helps only partly)`) });
+
+  /* C: practice (answers spread over a–d) */
+  ED.mcq('mcq', [
+    { q: t('1) จะกลับทางมอเตอร์แบบตัวเก็บประจุช่วยเริ่มเดิน ต้องทำอย่างไร', '1) How is a capacitor-start motor reversed?'),
+      options: [t('กลับขั้วทั้งขดรันและขดสตาร์ต', 'reverse both the run and the start winding'), t('สลับสาย L กับ N ที่ขั้วมอเตอร์', 'swap L and N at the motor leads'), t('กลับขั้วขดสตาร์ต Z1–Z2 (หรือขดรัน U1–U2) เพียงขดเดียว', 'reverse the start winding Z1–Z2 (or the run winding U1–U2), one winding only'), t('สลับขั้วของตัวเก็บประจุ', 'swap the capacitor terminals')], answer: 2,
+      why: t('ทิศของสนามขึ้นกับขั้วของขดหนึ่งเทียบกับอีกขด กลับขดเดียวแล้วกลับทาง (หัวข้อ 0)', 'The direction depends on one winding\'s polarity with respect to the other: reverse one and the motor reverses (section 0).') },
+    { q: t('2) ช่างสลับสาย L กับ N ที่ขั้วมอเตอร์ 1 เฟส เพื่อให้กลับทาง ผลคืออะไร', '2) An electrician swaps L and N at the leads of a single-phase motor to reverse it. What happens?'),
+      options: [t('มอเตอร์หมุนทางเดิม เพราะเท่ากับกลับทั้งสองขด', 'the motor turns the same way, because both windings are reversed'), t('มอเตอร์กลับทาง', 'the motor reverses'), t('มอเตอร์ไม่ออกตัว', 'the motor does not start'), t('ตัวเก็บประจุระเบิด', 'the capacitor bursts')], answer: 0 },
+    { q: t('3) มอเตอร์ตัวเก็บประจุช่วยเริ่มเดินหมุนตามเข็มนาฬิกาเต็มความเร็ว KM1 หลุดแล้ว KM2 ดูดทันที เกิดอะไรขึ้น', '3) A capacitor-start motor runs clockwise at full speed; KM1 drops out and KM2 pulls in at once. What happens?'),
+      options: [t('กลับทางทันที', 'it reverses at once'), t('หยุดแล้วไม่ออกตัว', 'it stops and will not start'), t('F2 ตัด', 'F2 trips'), t('หมุนตามเข็มนาฬิกาต่อไป เพราะสวิตช์แรงเหวี่ยงเปิดอยู่', 'it keeps turning clockwise, because the centrifugal switch is open')], answer: 3,
+      why: t('ขดสตาร์ตที่กลับขั้วไม่มีกระแสจนกว่าความเร็วจะต่ำกว่า 60 % (หัวข้อ B และโจทย์ตัวอย่าง)', 'The reversed start winding carries no current until the speed falls below 60 % (section B and the worked example).') },
+    { q: t('4) ทำไมขั้วที่ 1 ของ KM1 และ KM2 ต่อ L เข้า U1', '4) Why does pole 1 of KM1 and KM2 connect L to U1?'),
+      options: [t('เพื่อให้ขดรันถูกตัดด้วยเมื่อหยุด และไม่ค้างคร่อมสายขณะโรเตอร์หยุดนิ่ง', 'so that the run winding is switched off too when stopped and never left on the supply with the rotor at rest'), t('เพื่อกลับขั้วขดรัน', 'to reverse the run winding'), t('เพื่อให้ F2 วัดกระแสได้', 'so that F2 can measure the current'), t('เพื่อเพิ่มแรงบิด', 'to raise the torque')], answer: 0 },
+    { q: t('5) ถ้าไม่มีอินเตอร์ล็อก แล้ว KM1 และ KM2 ของวงจร 1 เฟสต่อพร้อมกัน จะเกิดอะไร', '5) Without an interlock, what happens if KM1 and KM2 of the single-phase circuit close together?'),
+      options: [t('มอเตอร์หยุดเฉย ๆ', 'the motor just stops'), t('L ลัดถึง N ผ่านหน้าสัมผัสของขดสตาร์ต Q1 ตัด', 'L is shorted to N through the start-winding contacts and Q1 trips'), t('มอเตอร์หมุนเร็วขึ้น', 'the motor runs faster'), t('ไม่มีอะไรเกิดขึ้น', 'nothing happens')], answer: 1,
+      why: t('KM1 ต่อ L เข้า Z1 ขณะที่ KM2 ต่อ N เข้า Z1 (หัวข้อ B ตัวเลือก "ไม่มีอินเตอร์ล็อก")', 'KM1 connects L to Z1 while KM2 connects N to Z1 (section B, "without interlock").') },
+    { q: t('6) แผงขั้วตามรูป 5-12 ของ Senty หมุนตามเข็มนาฬิกาด้วยสะพาน Z2–U2 กับ U1–V1 จะให้หมุนทวนเข็มนาฬิกาต้องย้ายสะพานเป็นอย่างไร', '6) Senty\'s board of Fig. 5-12 turns clockwise with bridges Z2–U2 and U1–V1. Where do the bridges go for counter-clockwise?'),
+      options: [t('Z2–U2 กับ U2–V1', 'Z2–U2 and U2–V1'), t('U1–V1 กับ Z2–U1', 'U1–V1 and Z2–U1'), t('Z2–U1 กับ U2–V1', 'Z2–U1 and U2–V1'), t('ถอดสะพานออกทั้งหมด', 'remove both bridges')], answer: 2,
+      why: t('สองตัวเลือกแรกต่อ L ถึง N โดยตรง (ลัดวงจร) ส่วนการถอดสะพานทำให้ขดรันไม่มีไฟ (หัวข้อ A)', 'The first two join L straight to N (a short), and with no bridges the run winding is not fed (section A).') }]);
+});
+</script>
+</body>
+</html>

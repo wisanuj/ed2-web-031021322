@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="7.1 — Reversing by swapping two phases">7.1 — กลับทางหมุนด้วยการสลับสองเฟส</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=14"><link rel="stylesheet" href="assets/ed2.css?v=14">
+<link rel="stylesheet" href="assets/wiring.css?v=14">
+<script src="assets/stops.js?v=14"></script><script src="assets/shell.js?v=14"></script>
+<script src="assets/lesson.js?v=14"></script><script src="assets/draw.js?v=14"></script><script src="assets/ed.js?v=14"></script><script src="assets/sym.js?v=14"></script><script src="assets/iec.js?v=14"></script><script src="assets/relay.js?v=14"></script><script src="assets/ch2.js?v=14"></script><script src="assets/ch3.js?v=14"></script><script src="assets/ch4.js?v=14"></script>
+<script src="assets/panel.js?v=14"></script><script src="assets/ch5.js?v=14"></script><script src="assets/ch6.js?v=14"></script><script src="assets/ch7.js?v=14"></script>
+<script src="assets/wiring.js?v=14"></script><script src="assets/devdata.js?v=14"></script><script src="assets/dev.js?v=14"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">กลับทางหมุนด้วยการสลับสองเฟส <span class="en">Reversing by swapping two phases</span></h1>
+<h1 data-l="en">Reversing by swapping two phases <span class="en">Phase sequence, the rotating field and two contactors</span></h1>
+
+<p class="sub" data-l="th">เครื่องจักรหลายชนิดต้องหมุนได้สองทาง: รอกยกขึ้นและลง ประตูเปิดและปิด สายพานป้อนและถอยกลับ โต๊ะเครื่องมือกลเลื่อนซ้ายและขวา มอเตอร์เหนี่ยวนำ 3 เฟสหมุนตามสนามแม่เหล็กหมุน และสนามแม่เหล็กหมุนไปตามลำดับเฟส (phase sequence) ที่ขั้ว U1 V1 W1 ได้รับ สลับสายไฟเข้าสองเส้นใดก็ได้ ลำดับเฟสกลับ มอเตอร์ก็กลับทาง แต่ถ้าย้ายทั้งสามเส้นวนไปหนึ่งตำแหน่ง ลำดับเฟสยังเหมือนเดิมและมอเตอร์หมุนทางเดิม หน้านี้ให้ลองต่อ L1 L2 L3 เข้า U1 V1 W1 ครบทั้งหกแบบ แล้วลองวงจรกำลังกลับทางหมุนด้วยคอนแทกเตอร์สองตัว และดูว่าเกิดอะไรขึ้นถ้าคอนแทกเตอร์ทั้งสองต่อพร้อมกัน</p>
+<p class="sub" data-l="en">Many machines must run both ways: a hoist lifts and lowers, a door opens and closes, a conveyor feeds and returns, a machine-tool table moves left and right. A three-phase induction motor turns with its rotating magnetic field, and the field turns in the order of the phases (the phase sequence) that reach U1, V1 and W1. Swap any two supply lines and the sequence reverses, and so does the motor; move all three one place round and the sequence stays the same, and so does the direction. On this page you try all six ways of connecting L1, L2 and L3 to U1, V1 and W1, then run the reversing power circuit with two contactors and see what happens when both contactors close at once.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>ลำดับเฟสกำหนดทิศหมุน</b>: มาตรฐาน IEC 60034-8 ฉบับปี 2002 ข้อ 6.7.1 ของคณะกรรมาธิการไฟฟ้าระหว่างประเทศ (International Electrotechnical Commission, IEC) กำหนดว่าเมื่อ U1 V1 W1 ได้รับเฟสตามลำดับ L1 L2 L3 มอเตอร์ต้องหมุนตามเข็มนาฬิกาเมื่อมองจากด้านปลายเพลา (ด้านขับ, drive end)</li>
+  <li><b>สลับสองเส้น ไม่ใช่วนสามเส้น</b>: สลับสองเส้นคู่ใดก็ได้ มอเตอร์กลับทาง ส่วนการย้ายทั้งสามเส้นวนไปหนึ่งตำแหน่ง (L1 → V1, L2 → W1, L3 → U1) ลำดับเฟสยังเหมือนเดิม มอเตอร์หมุนทางเดิม</li>
+  <li><b>คอนแทกเตอร์สองตัว</b>: KM1 (เดินหน้า) ต่อ L1 L2 L3 เข้า U1 V1 W1 ตรง ๆ ส่วน KM2 (ถอยหลัง) สลับ L1 กับ L3 ที่ด้านเข้า เอาต์พุตของทั้งสองตัวต่อรวมกันแล้วผ่านโอเวอร์โหลด F2 ตัวเดียวไปยังมอเตอร์</li>
+  <li><b>ห้ามต่อพร้อมกัน</b>: ถ้า KM1 และ KM2 ต่อพร้อมกัน หน้าสัมผัสหลักจะต่อ L1 กับ L3 ถึงกันตรง ๆ เกิดการลัดวงจรระหว่างเฟส Q1 ตัด หน้า 7.2 แสดงวิธีอินเตอร์ล็อก (interlock) ไม่ให้เกิดเหตุนี้</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>The phase sequence sets the direction</b>: IEC 60034-8 (2002 edition, 6.7.1), a standard of the International Electrotechnical Commission (IEC), says that when U1, V1 and W1 receive the phases in the order L1, L2, L3, the motor turns clockwise seen from the shaft end (the drive end).</li>
+  <li><b>Swap two, never move three round</b>: swapping any two lines reverses the motor; moving all three one place round (L1 → V1, L2 → W1, L3 → U1) keeps the phase sequence, and the motor turns the same way as before.</li>
+  <li><b>Two contactors</b>: KM1 (forward) connects L1, L2, L3 straight to U1, V1, W1; KM2 (reverse) swaps L1 and L3 on its supply side. The outputs of both are joined and go through one overload relay F2 to the motor.</li>
+  <li><b>Never both at once</b>: if KM1 and KM2 close together, their main contacts join L1 and L3 directly: a phase-to-phase short circuit, and Q1 trips. Page 7.2 shows how interlocks prevent it.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>ลำดับเฟสกับทิศหมุน</a><a href="#tA"><b>A</b>ต่อได้หกแบบ</a><a href="#tB"><b>B</b>คอนแทกเตอร์สองตัว</a><a href="#tD"><b>D</b>สวิตช์กลับทางแบบมือหมุน</a><a href="#ex1"><b>1</b>เติมรูป 6.14 ให้ครบ</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>Phase sequence and direction</a><a href="#tA"><b>A</b>Six ways to connect</a><a href="#tB"><b>B</b>Two contactors</a><a href="#tD"><b>D</b>Manual reversing switches</a><a href="#ex1"><b>1</b>Complete Fig. 6.14</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">ลำดับเฟสกำหนดทิศหมุน</h2><h2 data-l="en">The phase sequence sets the direction</h2>
+    <div class="src" data-l="th">ตำราไทย บทที่ 6 หัวข้อ 5 รูป 6.11 หน้า 96–97 · UMC5 บทที่ 9 รูป 9.1 หน้า 103 · Senty บทที่ 5 หน้า 56–57 · IEC 60034-8 ข้อ 6.7.1</div><div class="src" data-l="en">Thai textbook ch. 6 §5, Fig. 6.11, pp. 96–97 · UMC5 ch. 9, Fig. 9.1, p. 103 · Senty ch. 5, pp. 56–57 · IEC 60034-8, 6.7.1</div></div></div>
+  <div class="story n2">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>ขดลวดสามชุดของมอเตอร์วางห่างกัน 120° รอบสเตเตอร์ เมื่อป้อนไฟ 3 เฟส กระแสในแต่ละขดขึ้นถึงยอดไม่พร้อมกัน แต่ตามกันไปทีละขดตามลำดับเฟส ผลรวมของสนามแม่เหล็กจากทั้งสามขดจึงเป็นสนามที่มีขนาดคงที่และหมุนไปรอบ ๆ (สนามแม่เหล็กหมุน, rotating field) โรเตอร์ถูกสนามนี้ลากให้หมุนตามไปในทางเดียวกัน ทิศของสนามขึ้นกับว่ากระแสขึ้นยอดในขดใดก่อนขดใด ไม่ได้ขึ้นกับว่าสายเส้นไหนชื่ออะไร</p>
+        <p>รูป 6.11 ของตำราไทยแสดงแผงขั้วต่อของมอเตอร์ที่ต่อแบบสตาร์ (W2 U2 V2 ต่อถึงกันด้วยแผ่นตัวเชื่อม) และสายไฟเข้าสี่แบบ: (ก) L1 L2 L3 เข้า U1 V1 W1 ตามลำดับ เป็นการหมุนปกติ (ข) สลับ L2 กับ L3 (ค) สลับ L1 กับ L3 และ (ง) สลับ L1 กับ L2 สามแบบหลังสลับสายเพียงสองเส้นเท่านั้น มอเตอร์จึงกลับทางหมุนทั้งสามแบบ และสามแบบนี้หมุนไปทางเดียวกันหมด จะเลือกสลับคู่ใดก็ได้ วิชานี้ใช้การสลับ L1 กับ L3 เหมือนรูป 6.14 ของตำราไทยและสตาร์ตเตอร์กลับทางแบบอเมริกันตามแนวทางของ NEMA (National Electrical Manufacturers Association สมาคมผู้ผลิตอุปกรณ์ไฟฟ้าของสหรัฐฯ)</p></div>
+      <div class="story-p" data-l="en"><p>The three windings of the motor lie 120° apart round the stator. With a three-phase supply the current in each winding reaches its peak at a different moment, one winding after the other in the order of the phases. Together the three windings make a field of constant strength that turns round the stator (the rotating field), and the rotor is dragged round with it in the same direction. Which way the field turns depends on which winding peaks before which, not on what the wires are called.</p>
+        <p>Thai textbook Fig. 6.11 shows the terminal board of a star-connected motor (W2, U2 and V2 joined by the links) with four ways of bringing in the supply: (a) L1, L2, L3 to U1, V1, W1 in order, the normal direction; (b) L2 and L3 swapped; (c) L1 and L3 swapped; (d) L1 and L2 swapped. Each of the last three swaps only two wires, so in all three the motor reverses, and all three turn the same way. Any pair will do; this course swaps L1 and L3, as Fig. 6.14 of the Thai textbook and US reversing starters (NEMA, the US National Electrical Manufacturers Association) do.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/book1_fig6_11_terminal_swaps.jpg?v=14" width="735" height="615" loading="lazy" decoding="async" alt="Four star-connected terminal boards with W2 U2 V2 linked: (a) L1 L2 L3 to U1 V1 W1; (b) L2 and L3 crossed; (c) L1 and L3 crossed; (d) L1 and L2 crossed.">
+        <figcaption data-l="th">รูป 6.11 การสลับสายไฟเข้าขั้วมอเตอร์ (ก)–(ง) · ที่มา: ธนภัทร ไพคำนาม, <i>การควบคุมมอเตอร์ไฟฟ้า</i> (2104-2009), บทที่ 6 หน้า 96–97 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 6.11, swapping the supply wires at the motor terminals, (a)–(d) · source: Thanaphat Phaikhamnam, <i>Motor Control</i> (2104-2009), ch. 6, pp. 96–97 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+  <div class="story n2" style="margin-top:12px">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>รูป 9.1 ของ Herman &amp; Seiler บอกเรื่องเดียวกันด้วยภาพเดียว: บนคือการต่อแบบหนึ่งกับทิศหมุนของมัน ล่างคือการต่อเดียวกันที่สลับสายเข้าสองเส้น (L2 กับ L3) ลูกศรทิศหมุนกลับทาง ตำราอเมริกันเรียกขั้วมอเตอร์ว่า T1 T2 T3 (ตรงกับ U1 V1 W1) และบอกว่าสตาร์ตเตอร์กลับทางแบบ NEMA สลับ T1 กับ T3 และใช้รีเลย์โอเวอร์โหลดเพียงชุดเดียว เพราะในเวลาหนึ่งมีคอนแทกเตอร์ทำงานเพียงตัวเดียว</p>
+        <p>ทิศ "ตามเข็มนาฬิกา" ต้องบอกเสมอว่ามองจากด้านไหน IEC มองจากด้านปลายเพลา (drive end) ส่วนตำราอเมริกันมักมองจากด้านตรงข้ามเพลา Senty จึงเขียนว่าทิศมาตรฐานแบบ NEMA คือทวนเข็มนาฬิกาเมื่อมองจากด้านตรงข้ามเพลา ซึ่งเป็นทิศเดียวกันกับตามเข็มนาฬิกาแบบ IEC ทุกภาพในวิชานี้มองจากด้านปลายเพลา</p></div>
+      <div class="story-p" data-l="en"><p>Herman &amp; Seiler’s Fig. 9.1 says the same in one picture: on top one connection and its direction, below it the same connection with two supply wires (L2 and L3) swapped, and the arrow of rotation turns round. US books call the motor terminals T1, T2, T3 (our U1, V1, W1); they add that NEMA reversing starters swap T1 and T3 and need only one overload relay, because only one contactor is in at a time.</p>
+        <p>“Clockwise” always needs a viewpoint. IEC looks at the shaft end (the drive end); US books often look from the opposite end. That is why Senty gives the NEMA standard direction as counter-clockwise seen from the end opposite the shaft, which is the same direction as IEC clockwise. Every picture in this course is seen from the shaft end.</p></div></div>
+    <div class="story-f">
+      <figure class="slide sm"><img src="img/book/umc5_fig9_1_two_leads.jpg?v=14" width="666" height="427" loading="lazy" decoding="async" alt="Two sketches: L1 L2 L3 to motor leads T2 T1 T3 with a clockwise arrow; below, L2 and L3 crossed and the arrow of rotation reversed.">
+        <figcaption data-l="th">รูป 9.1 สลับสายเข้ามอเตอร์สองเส้นใดก็ได้ ทิศหมุนก็กลับ · ที่มา: Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. (Cengage, 2025) บทที่ 9 หน้า 103 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 9.1, swapping any two motor leads reverses the rotation · source: Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed. (Cengage, 2025), ch. 9, p. 103 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">ต่อ L1 L2 L3 เข้า U1 V1 W1 ได้หกแบบ</h2><h2 data-l="en">Six ways to connect L1, L2, L3 to U1, V1, W1</h2>
+    <div class="src" data-l="th">IEC 60034-8 ข้อ 6.7.1 · ตำราไทย บทที่ 6 หัวข้อ 5 · UMC5 บทที่ 9 หน้า 103</div><div class="src" data-l="en">IEC 60034-8, 6.7.1 · Thai textbook ch. 6 §5 · UMC5 ch. 9, p. 103</div></div></div>
+  <p class="lead" data-l="th">ตอบคำถามก่อน แล้วแตะแถวในตารางเพื่อเลือกการต่อ ภาพซ้ายแสดงขดลวดสามชุด (สีตามเฟสที่ต่ออยู่) เส้นประคือสนามของแต่ละขด ลูกศรหนาคือสนามรวมที่หมุน และแท่งกลางคือโรเตอร์ที่หมุนตาม ภาพหมุนช้าลงมากเพื่อให้ดูทัน (ไฟ 50 Hz ทำให้สนามของมอเตอร์ 2 ขั้วหมุน 50 รอบต่อวินาที) ทุกแบบที่ลองบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">Answer the question first, then tap a row of the table to choose a connection. The picture shows the three windings (coloured by the phase they are on), each winding’s own field as a dashed line, the turning resultant field as the thick arrow, and the rotor following it. It is slowed down a lot so that you can follow it (at 50 Hz the field of a two-pole motor turns 50 times a second). Every connection you try is recorded in the table.</p>
+  <div class="card solve"><div id="askA"></div></div>
+  <div class="card sim" style="padding:10px;margin-top:12px"><div id="fdA"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logA"></div><div id="sumA" style="margin-top:8px"></div></div>
+  <div class="duo" style="margin-top:12px">
+    <div class="card"><h3 data-l="th">ทำไมการวนสามเส้นไม่กลับทาง</h3><h3 data-l="en">Why moving all three round does not reverse</h3>
+      <p data-l="th">อ่านเฟสที่ U1 → V1 → W1 แล้ววนกลับมา U1: แบบปกติได้ L1 → L2 → L3 → L1 ถ้าย้ายทั้งสามเส้นไปหนึ่งตำแหน่ง (U1 ได้ L3, V1 ได้ L1, W1 ได้ L2) ก็ยังอ่านได้ L3 → L1 → L2 → L3 ซึ่งเป็นวงเดียวกัน แค่เริ่มอ่านคนละจุด สนามจึงหมุนทางเดิม แต่ถ้าสลับสองเส้น (U1 ได้ L3, V1 ได้ L2, W1 ได้ L1) จะอ่านได้ L3 → L2 → L1 วงกลับด้าน สนามและมอเตอร์จึงกลับทาง</p>
+      <p data-l="en">Read the phases at U1 → V1 → W1 and back to U1. Normally you get L1 → L2 → L3 → L1. Move all three one place (U1 gets L3, V1 gets L1, W1 gets L2) and you read L3 → L1 → L2 → L3: the same ring, just started at another point, so the field turns the same way. Swap two (U1 gets L3, V1 gets L2, W1 gets L1) and you read L3 → L2 → L1: the ring runs backwards, so the field and the motor reverse.</p></div>
+    <div class="card"><h3 data-l="th">ก่อนต่อเข้ากับเครื่องจักร</h3><h3 data-l="en">Before coupling to the machine</h3>
+      <p data-l="th">ไม่มีใครรู้ลำดับเฟสของสายที่เดินมาถึงตู้ได้ด้วยการดูสีหรือชื่อสาย ช่างจึงวัดด้วยเครื่องวัดลำดับเฟส (phase-sequence indicator) หรือลองเดินมอเตอร์สั้น ๆ ก่อนต่อเพลาเข้ากับเครื่องจักร ถ้ามอเตอร์หมุนผิดทาง ให้สลับสายสองเส้นที่ขั้วมอเตอร์หรือที่ขั้วออกของโอเวอร์โหลด เครื่องสูบน้ำ พัดลม และเครื่องอัดอากาศบางชนิดเสียหายได้ถ้าหมุนกลับทาง เครื่องที่หมุนได้ทางเดียวจึงมีลูกศรบอกทิศติดไว้ถาวร</p>
+      <p data-l="en">Nobody can tell the phase sequence of the cables arriving at a panel from their colours or labels. Electricians measure it with a phase-sequence indicator, or run the motor briefly before coupling it to the machine. If it turns the wrong way, swap two wires at the motor terminals or at the overload outputs. Some pumps, fans and compressors are damaged if they run backwards, so a machine that may turn only one way carries a permanent arrow.</p></div>
+  </div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">วงจรกำลังกลับทางหมุนด้วยคอนแทกเตอร์สองตัว</h2><h2 data-l="en">The reversing power circuit with two contactors</h2>
+    <div class="src" data-l="th">UMC5 บทที่ 9 รูป 9.2–9.3 หน้า 104 · EMC9 หน่วยที่ 21 หน้า 165 · ตำราไทย บทที่ 6 รูป 6.14</div><div class="src" data-l="en">UMC5 ch. 9, Figs 9.2–9.3, p. 104 · EMC9 unit 21, p. 165 · Thai textbook ch. 6, Fig. 6.14</div></div></div>
+  <p class="lead" data-l="th">เลือกว่า KM2 สลับสายคู่ไหน แล้วใช้ปุ่มที่หน้าตู้ใต้วงจร: S2 เดินหน้า (KM1) S3 ถอยหลัง (KM2) S1 หยุด ตารางเล็กบอกว่าขั้ว U1 V1 W1 ได้เฟสใดอยู่ วงจรควบคุมแบบแรกมีอินเตอร์ล็อกทางไฟฟ้า (หน้าสัมผัส 21–22 ของคอนแทกเตอร์อีกตัว) ต้องกด S1 ก่อนจึงกลับทางได้ แบบที่สองไม่มีอินเตอร์ล็อกเลย ลองกด S2 แล้วกด S3 ขณะมอเตอร์หมุน ดูว่าเกิดอะไรขึ้นที่วงจรกำลัง แล้วคลิกที่ Q1 เพื่อสับกลับ ทุกครั้งที่ทิศหมุนเปลี่ยนจะบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">Choose which pair KM2 swaps, then use the buttons on the panel front under the circuit: S2 forward (KM1), S3 reverse (KM2), S1 stop. The small table shows which phase is on U1, V1 and W1. The first control circuit has the electrical interlock (contact 21–22 of the other contactor), so you must press S1 before you can reverse. The second has no interlock at all: press S2, then S3 while the motor runs, watch the power circuit, then click Q1 to switch it on again. Every change of direction is recorded in the table.</p>
+  <div class="card solve"><div class="panel" id="mB" style="position:static;max-height:none"></div></div>
+  <div class="card sim rlwrap rlscroll" id="boxB" style="padding:8px;margin-top:12px;--rlmin:640px"></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pB" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logB"></div><div id="sumB" style="margin-top:8px"></div></div>
+  <div class="duo" style="margin-top:12px">
+    <div class="card"><h3 data-l="th">อ่านวงจรกำลัง</h3><h3 data-l="en">Reading the power circuit</h3>
+      <ol data-l="th"><li>L1 L2 L3 → Q1 เบรกเกอร์หลัก (ตัดทั้งวงจรกำลังและวงจรควบคุม เพราะวงจรควบคุม 230 V ต่อจาก L1 กับ N หลัง Q1)</li><li>หลัง Q1 สายทั้งสามแยกไปยังด้านเข้าของคอนแทกเตอร์สองตัว: KM1 1/L1 3/L2 5/L3 รับ L1 L2 L3 ตรง ๆ ส่วน KM2 1/L1 รับ L3, 3/L2 รับ L2, 5/L3 รับ L1 (สายไขว้เหนือ KM2)</li><li>ด้านออก 2/T1 4/T2 6/T3 ของคอนแทกเตอร์ทั้งสองต่อรวมกัน (จุดต่อทึบ) แล้วผ่านโอเวอร์โหลด F2 ชุดเดียวไปยัง U1 V1 W1 และสายดินป้องกัน (PE) ต่อที่โครงมอเตอร์</li><li>ใต้คอยล์ KM1 และ KM2 ในวงจรควบคุม ตารางอ้างอิงบอก "1–2, 3–4, 5–6 ▸ วงจรกำลัง" คือหน้าสัมผัสหลักสามคู่ของตัวนั้น</li></ol>
+      <ol data-l="en"><li>L1 L2 L3 → Q1 main breaker (it switches both the power and the control circuit, because the 230 V control circuit is taken from L1 and N after Q1)</li><li>After Q1 the three lines branch to the supply side of both contactors: KM1 1/L1, 3/L2, 5/L3 get L1, L2, L3 straight; KM2 1/L1 gets L3, 3/L2 gets L2, 5/L3 gets L1 (the crossover above KM2)</li><li>The outputs 2/T1, 4/T2, 6/T3 of both contactors are joined (junction dots) and go through the single overload relay F2 to U1, V1, W1; the protective earth (PE) goes to the motor frame</li><li>Under coils KM1 and KM2 in the control circuit, the cross-reference “1–2, 3–4, 5–6 ▸ power” means the three main contacts of that contactor</li></ol></div>
+    <div class="card"><h3 data-l="th">ถ้าคอนแทกเตอร์ทั้งสองต่อพร้อมกัน</h3><h3 data-l="en">If both contactors close together</h3>
+      <p data-l="th">หน้าสัมผัสหลักขั้วที่ 1 ของ KM1 ต่อ L1 เข้า U1 และหน้าสัมผัสขั้วที่ 1 ของ KM2 ต่อ L3 เข้า U1 จุดเดียวกัน ขั้วที่ 3 ก็ต่อ L3 และ L1 เข้า W1 เช่นกัน L1 กับ L3 จึงต่อถึงกันผ่านหน้าสัมผัสหลักโดยไม่มีอะไรจำกัดกระแส กระแสลัดวงจรระหว่างเฟสไหลทันที Q1 ตัด หน้าสัมผัสหลักอาจไหม้หรือเชื่อมติด CADe SIMU หยุดการจำลองและแจ้งเตือนการลัดวงจร ห้ามแก้ด้วยการลบสายทิ้ง แต่ต้องใส่อินเตอร์ล็อก (หน้า 7.2)</p>
+      <p data-l="en">Main pole 1 of KM1 connects L1 to U1 and main pole 1 of KM2 connects L3 to the same U1; pole 3 likewise connects L3 and L1 to W1. L1 and L3 are then joined through the main contacts with nothing to limit the current: a phase-to-phase short-circuit current flows at once and Q1 trips; the main contacts may burn or weld. CADe SIMU stops the simulation with a short-circuit warning. Never “fix” it by deleting wires: add interlocks (page 7.2).</p></div>
+  </div>
+  <div class="story n2" style="margin-top:12px">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>รูป 9.2 ของ Herman &amp; Seiler เป็นวงจรกำลังของสตาร์ตเตอร์กลับทางแบบ NEMA วาดแนวนอน หน้าสัมผัส F (forward) สามคู่และ R (reverse) สามคู่ป้อนขั้ว T1 และ T3 จากสายคนละเส้นกัน ส่วน T2 ได้ L2 เสมอ สตาร์ตเตอร์จริงจึงสลับ T1 กับ T3 ไม่ว่าจะวาดแบบใด แล้วผ่านโอเวอร์โหลด (OL) ชุดเดียว ภาพจำลองด้านบนเป็นวงจรเดียวกันที่วาดใหม่เป็นแบบ IEC แนวตั้ง (Q1 ด้านบน มอเตอร์ด้านล่าง)</p>
+        <p>รูป 9.3 เป็นภาพถ่ายด้านเข้าของสตาร์ตเตอร์กลับทางที่ประกอบมาจากโรงงาน สายสั้นสีดำด้านล่างเชื่อมขั้วเข้าของคอนแทกเตอร์สองตัวไขว้กัน ตำแหน่งที่ 1 กับ 3 จึงสลับกันระหว่างตัวเดินหน้ากับตัวถอยหลัง เมื่อซื้อชุดกลับทางสำเร็จรูป สายไขว้นี้ อินเตอร์ล็อกทางกล และหน้าสัมผัสช่วยมักต่อมาให้แล้ว แต่ในห้องปฏิบัติการเราต่อเองทุกเส้น</p></div>
+      <div class="story-p" data-l="en"><p>Herman &amp; Seiler’s Fig. 9.2 is the power circuit of a NEMA reversing starter, drawn horizontally. The three forward contacts F and the three reverse contacts R feed T1 and T3 from opposite lines, while T2 always gets L2, so the starter swaps T1 and T3 whichever way it is drawn, and one overload relay (OL) serves both. The simulator above is the same circuit redrawn to IEC, vertical: Q1 at the top, the motor at the bottom.</p>
+        <p>Fig. 9.3 is a photo of the supply side of a factory-built reversing starter. The short black links underneath join the inputs of the two contactors crosswise, so positions 1 and 3 change places between the forward and the reverse contactor. A ready-made reversing set usually comes with these links, the mechanical interlock and the auxiliary contacts already wired; in the lab you wire every one yourself.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/umc5_fig9_2_rev_power.jpg?v=14" width="1200" height="513" loading="lazy" decoding="async" alt="NEMA horizontal power diagram: three F contacts and three R contacts from L1 L2 L3 to overload heaters OL and motor leads T1 T2 T3; the R contacts are drawn in red and feed T1 and T3 from the opposite lines.">
+        <figcaption data-l="th">รูป 9.2 สตาร์ตเตอร์กลับทางสลับสาย T1 กับ T3 (แบบ NEMA วาดใหม่เป็นแบบ IEC ในภาพจำลอง) · ที่มา: Herman &amp; Seiler (2025) บทที่ 9 หน้า 104 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 9.2, a reversing starter swaps leads T1 and T3 (NEMA; redrawn to IEC in the simulator) · source: Herman &amp; Seiler (2025), ch. 9, p. 104 · tap to enlarge</figcaption></figure>
+      <figure class="slide sm"><img src="img/book/umc5_fig9_3_line_side.jpg?v=14" width="667" height="325" loading="lazy" decoding="async" alt="Photo of the supply side of a reversing starter: short black wires link the input terminals of the two contactors crosswise.">
+        <figcaption data-l="th">รูป 9.3 ด้านเข้าของสตาร์ตเตอร์กลับทาง สายเชื่อมสลับตำแหน่งที่ 1 กับ 3 · ที่มา: Herman &amp; Seiler (2025) บทที่ 9 หน้า 104 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 9.3, supply side of a reversing starter; the links swap positions 1 and 3 · source: Herman &amp; Seiler (2025), ch. 9, p. 104 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="tD">
+  <div class="prob-head"><span class="prob-no">D</span><div><h2 data-l="th">ก่อนมีคอนแทกเตอร์: สวิตช์กลับทางแบบมือหมุน</h2><h2 data-l="en">Before contactors: manual reversing switches</h2>
+    <div class="src" data-l="th">ตำราไทย บทที่ 6 หัวข้อ 5 รูป 6.12–6.13 หน้า 97–98 · IEC 60204-1 ข้อ 7.5</div><div class="src" data-l="en">Thai textbook ch. 6 §5, Figs 6.12–6.13, pp. 97–98 · IEC 60204-1, 7.5</div></div></div>
+  <div class="story n2">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>ตำราไทยแสดงวิธีกลับทางด้วยมือสองแบบก่อนถึงวงจรคอนแทกเตอร์ รูป 6.12 เป็นดรัมสวิตช์ (drum switch) ต่อหลังเบรกเกอร์ Q1 มีสามตำแหน่ง F (เดินหน้า) O (หยุด) และ R (ถอยหลัง) ในแผนภาพ เส้นแนวตั้งแต่ละเส้นคือตำแหน่งหนึ่งของด้ามหมุน และสี่เหลี่ยมทึบบอกว่าในตำแหน่งนั้นดรัมต่อขั้วแถวนั้นถึงกัน ขั้ว U V W ไปที่มอเตอร์ ขั้ว L1 L2 L3 มาจาก Q1 รูป 6.13 เป็นสวิตช์มีด 3 ขั้ว 2 ทาง (triple-pole double-throw, TPDT): โยกขึ้นต่อทางหนึ่ง โยกลงต่ออีกทางหนึ่ง สายไขว้รูปตัว X ที่ขั้วด้านหนึ่งสลับสายสองเส้น ตรงกลางคือหยุด</p>
+        <p>สวิตช์ทั้งสองแบบตัดต่อกระแสมอเตอร์เต็มที่ด้วยมือที่ตัวสวิตช์ จึงสั่งจากที่ไกลไม่ได้ และไม่มีวงจรค้างตัวเอง ถ้าไฟดับขณะด้ามค้างอยู่ที่ F หรือ R มอเตอร์จะเดินขึ้นมาเองทันทีที่ไฟกลับมา ซึ่ง IEC 60204-1 ข้อ 7.5 ไม่ยอมให้เกิดในที่ที่เป็นอันตราย ปัจจุบันจึงใช้คอนแทกเตอร์สองตัวกับปุ่มกดแทน ตัวอักษร F และ R บนสวิตช์เป็นเพียงชื่อตำแหน่ง ทิศที่ได้จริงขึ้นกับว่าแต่ละตำแหน่งส่งเฟสใดไปที่ U1 V1 W1 เมื่อเจอสวิตช์หรือแผนภาพแบบนี้ ให้ไล่ดูเฟสที่ขั้วมอเตอร์ในทุกตำแหน่ง แล้วเทียบกับตารางในหัวข้อ A ก่อนเชื่อชื่อที่เขียนไว้</p></div>
+      <div class="story-p" data-l="en"><p>Before the contactor circuit, the Thai textbook shows two manual ways to reverse. Fig. 6.12 is a drum switch after breaker Q1 with three positions: F (forward), O (off) and R (reverse). In its chart each vertical line is one position of the handle, and a filled square means the drum joins the terminals of that row in that position; terminals U, V, W go to the motor, L1, L2, L3 come from Q1. Fig. 6.13 is a triple-pole double-throw (TPDT) knife switch: thrown up it connects one way, thrown down the other; the X-shaped cross-links on one side swap two lines, and the middle is off.</p>
+        <p>Both switch the full motor current by hand at the switch, so they cannot be worked from a distance, and they have no self-holding circuit: if the power fails while the handle is left at F or R, the motor starts by itself the moment the power returns, which IEC 60204-1, 7.5, does not allow where that is dangerous. That is why two contactors and push buttons are used today. The letters F and R on a switch only name the positions; the direction you get depends on which phase each position sends to U1, V1 and W1. Whenever you meet such a switch or chart, trace the phases at the motor terminals in every position and compare them with the table in section A before you trust the names.</p></div></div>
+    <div class="story-f">
+      <figure class="slide sm"><img src="img/book/book1_fig6_12_drum_switch.jpg?v=14" width="520" height="538" loading="lazy" decoding="async" alt="Thai textbook Fig. 6.12: supply L1 L2 L3 3-phase 50 Hz through breaker Q1 to a drum switch with positions F, O and R; filled squares mark the closed contacts; terminals U V W to motor U1 V1 W1.">
+        <figcaption data-l="th">รูป 6.12 การกลับทางหมุนด้วยดรัมสวิตช์ · ที่มา: ธนภัทร ไพคำนาม (2104-2009) บทที่ 6 หน้า 97 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 6.12, reversing with a drum switch · source: Thanaphat Phaikhamnam (2104-2009), ch. 6, p. 97 · tap to enlarge</figcaption></figure>
+      <figure class="slide sm"><img src="img/book/book1_fig6_13_tpdt_switch.jpg?v=14" width="430" height="562" loading="lazy" decoding="async" alt="Thai textbook Fig. 6.13: supply through breaker Q1 to a triple-pole double-throw knife switch with positions F, O and R; cross-links on the R side swap two lines; motor U1 V1 W1 below.">
+        <figcaption data-l="th">รูป 6.13 การกลับทางหมุนด้วยสวิตช์มีด 3 ขั้ว 2 ทาง (TPDT) · ที่มา: ธนภัทร ไพคำนาม (2104-2009) บทที่ 6 หน้า 98 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 6.13, reversing with a triple-pole double-throw (TPDT) switch · source: Thanaphat Phaikhamnam (2104-2009), ch. 6, p. 98 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+  <div class="card solve" style="margin-top:12px"><div id="askD"></div><div id="stD"></div></div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">เติมวงจรกำลังรูป 6.14 ให้ครบตามแบบของวิชา</h2><h2 data-l="en">Completing the power circuit of Fig. 6.14 to the course standard</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · ตำราไทย บทที่ 6 รูป 6.14 หน้า 99</div><div class="src" data-l="en">Worked example · Thai textbook ch. 6, Fig. 6.14, p. 99</div></div></div>
+  <div class="story in">
+    <div class="story-t">
+      <div class="given" data-l="th"><div class="gl">โจทย์</div><p>รูป 6.14 ของตำราไทยเป็นวงจรกำลังกลับทางหมุน ใช้ชื่ออุปกรณ์แบบ DIN (Deutsches Institut für Normung สถาบันมาตรฐานเยอรมัน): F1 ฟิวส์กำลัง K1 K2 คอนแทกเตอร์ F3 รีเลย์โอเวอร์โหลด (ก) เมื่อ K2 ดูด สายเส้นใดไปถึง U1 V1 W1 และมอเตอร์กลับทางหรือไม่ (ข) เขียนใหม่ด้วยชื่ออุปกรณ์ของวิชา (ค) เติมสิ่งที่แบบของวิชาต้องมีให้ครบ: อุปกรณ์ตัดวงจรหลัก เลขขั้ว สายดินป้องกัน แรงดันของระบบ และจุดต่อวงจรควบคุม</p></div>
+      <div class="given" data-l="en"><div class="gl">Problem</div><p>Thai textbook Fig. 6.14 is a reversing power circuit with device names after DIN (Deutsches Institut für Normung, the German standards body): F1 power fuses, K1 and K2 contactors, F3 overload relay. (a) When K2 is in, which line reaches U1, V1 and W1, and does the motor reverse? (b) Rewrite it with the course device names. (c) Add what the course drawing must have: the main switching device, terminal numbers, the protective earth, the system voltage and the tap for the control circuit.</p></div></div>
+    <div class="story-f"><figure class="slide sm"><img src="img/book/book1_fig6_14_rev_power.jpg?v=14" width="437" height="526" loading="lazy" decoding="async" alt="Thai textbook Fig. 6.14: L1 L2 L3 3-phase 50 Hz through fuses F1 to contactors K1 (straight) and K2 (fed L3, L2, L1), outputs joined, through overload relay F3 to motor U1 V1 W1.">
+      <figcaption data-l="th">รูป 6.14 วงจรกำลังสำหรับการกลับทางหมุน · ที่มา: ธนภัทร ไพคำนาม (2104-2009) บทที่ 6 หน้า 99 · แตะรูปเพื่อขยาย</figcaption>
+      <figcaption data-l="en">Fig. 6.14, power circuit for reversing · source: Thanaphat Phaikhamnam (2104-2009), ch. 6, p. 99 · tap to enlarge</figcaption></figure></div>
+  </div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">ลำดับเฟสและวงจรกำลังกลับทางหมุน</div><div class="src" data-l="en">Phase sequence and the reversing power circuit</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>หัวข้อ A: เริ่มจากแถวที่ 1 สลับสองเส้นคู่หนึ่ง แล้วสลับอีกคู่หนึ่ง ได้แถวไหน มอเตอร์หมุนทางไหน สลับสามครั้งล่ะ</li>
+      <li>หัวข้อ B: เลือกแบบ "เลื่อนวนทั้งสามเส้น" กด S2 แล้วกด S1 และ S3 KM2 ดูดหรือไม่ มอเตอร์หมุนทางไหน ถ้าเจอวงจรแบบนี้ในตู้จริงจะรู้ได้อย่างไรว่าต่อผิด</li>
+      <li>หัวข้อ B: เลือกวงจรควบคุมที่ไม่มีอินเตอร์ล็อก แล้วลองกับการสลับสายทั้งสามคู่ สายคู่ใดลัดถึงกันในแต่ละแบบ</li>
+      <li>หัวข้อ D: ไล่ดูรูป 6.12 ว่าในตำแหน่ง F และ R ขั้ว U V W ได้เฟสใด แล้วเทียบกับตารางในหัวข้อ A ทั้งสองตำแหน่งหมุนทางใด</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 6 หัวข้อ 5 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 9 · Herman, <i>Electric Motor Control</i> 9th ed. หน่วยที่ 21 · Senty, <i>Motor Control Fundamentals</i> บทที่ 5 และ 14 · IEC 60034-8 (ฉบับปี 2002) ข้อ 6.7.1 · IEC 60204-1 ข้อ 7.5</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Section A: start from row 1, swap one pair, then another pair. Which row do you reach, and which way does the motor turn? And after three swaps?</li>
+      <li>Section B: choose “all three moved one place”, press S2, then S1 and S3. Does KM2 pull in? Which way does the motor turn? How would you find this mistake in a real panel?</li>
+      <li>Section B: choose the control circuit without interlock and try all three swapped pairs. Which lines are shorted together in each case?</li>
+      <li>Section D: trace Fig. 6.12 to find the phase on U, V and W in positions F and R, then compare with the table in section A. Which way does each position turn the motor?</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 6 §5 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 9 · Herman, <i>Electric Motor Control</i>, 9th ed., unit 21 · Senty, <i>Motor Control Fundamentals</i>, ch. 5 and 14 · IEC 60034-8 (2002 edition), 6.7.1 · IEC 60204-1, 7.5</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui, tt = ED.tt;
+  const hid = spec => new RL.Sim(document.createElement('div'), spec);   // hidden simulator for the summaries (same model as the page)
+  const fresh = box => { box.innerHTML = ''; const el = document.createElement('div'); box.appendChild(el); return el; };   // a fresh element drops the old listeners
+  const tap = (s, ...ids) => ids.forEach(id => { s.press(id, true); s.press(id, false); });
+  const PH = v => `<b style="color:${C7.COL['L' + v]}">L${v}</b>`, phs = p => p.map(PH).join(' ');
+  const ROT = { cw: () => `<span class="pill good">${t('ตามเข็ม ↻', 'clockwise ↻')}</span>`, ccw: () => `<span class="pill warn">${t('ทวนเข็ม ↺', 'counter-clockwise ↺')}</span>`, 0: () => t('หยุด', 'stopped') };
+  const ask = (el, q) => { el.innerHTML = `<p style="margin:0 0 6px"><b>${q}</b></p><div></div><div class="answer" hidden></div>`; return { box: el.children[1], ans: el.children[2] }; };
+
+  /* A: the rotating field for the six connections (C7.Field) */
+  const qA = ask($('askA'), t('ถ้าย้ายสายทั้งสามเส้นไปหนึ่งตำแหน่ง: L1 → V1, L2 → W1, L3 → U1 มอเตอร์จะหมุนทางไหน', 'All three wires are moved one place: L1 → V1, L2 → W1, L3 → U1. Which way does the motor turn?'));
+  const logA = new ED.Log($('logA'), [['U1 V1 W1', 'U1 V1 W1'], ['การต่อ', 'connection'], ['ทิศหมุน', 'rotation'], ['ความหมาย', 'what it means']],
+    { empty: ['ยังไม่มีผล แตะแถวในตารางเพื่อเลือกการต่อ', 'No results yet: tap a row of the table to choose a connection'] });
+  const whyA = p => { const k = C7.permKind(p); if (k.kind === 'start') return t('ลำดับเฟส L1 → L2 → L3 ตรงกับ U1 → V1 → W1: ทิศมาตรฐาน', 'phase sequence L1 → L2 → L3 on U1 → V1 → W1: the standard direction');
+    if (k.kind === 'cyclic') return t('ทั้งสามเส้นเลื่อนวนไปพร้อมกัน วงลำดับเฟสยังเป็นวงเดิม จึงหมุนทางเดิม', 'all three moved round together: the same ring of phases, so the same direction');
+    return t(`สลับ ${k.pair[0]} กับ ${k.pair[1]}: วงลำดับเฟสกลับด้าน มอเตอร์กลับทาง`, `${k.pair[0]} and ${k.pair[1]} swapped: the ring of phases runs backwards, the motor reverses`); };
+  const addA = p => { const d = C7.permDir(p), k = C7.permKind(p); logA.add(p.join(''), [phs(p), tt(k.label), ROT[d](), whyA(p)], k.kind === 'swap' ? 'warn' : 'ok'); };
+  const field = new C7.Field($('fdA'), { perm: [1, 2, 3], table: true, onChange: p => addA(p) });
+  addA([1, 2, 3]);
+  LS.choose(qA.box, { labels: ['①', '②', '③'], options: [t('ตามเข็มนาฬิกาเหมือนเดิม', 'clockwise, as before'), t('ทวนเข็มนาฬิกา (กลับทาง)', 'counter-clockwise (reversed)'), t('ไม่หมุน เพราะสนามไม่หมุน', 'it does not turn: the field does not rotate')], answer: 0,
+    onPick: (i, ok) => { if (!ok) return; qA.ans.hidden = false; field.set([3, 1, 2]);
+      qA.ans.innerHTML = t('U1 ได้ L3, V1 ได้ L1, W1 ได้ L2 อ่านรอบวง U1 → V1 → W1 ได้ L3 → L1 → L2 ซึ่งเป็นวงเดียวกับ L1 → L2 → L3 สนามจึงหมุนทางเดิม ภาพด้านล่างเปลี่ยนเป็นการต่อแบบนี้ให้แล้ว (แถวที่ 3)', 'U1 gets L3, V1 gets L1, W1 gets L2. Read round U1 → V1 → W1 and you get L3 → L1 → L2, the same ring as L1 → L2 → L3, so the field turns the same way. The picture below now shows this connection (row 3).'); } });
+  LS.anim($('tA'), dt => field.step(dt));
+  ED.summary($('sumA'), { head: [['#', '#'], ['U1 V1 W1', 'U1 V1 W1'], ['การต่อ', 'connection'], ['ทิศหมุน (มองจากด้านปลายเพลา)', 'rotation (seen from the shaft end)']],
+    rows: () => C7.PERMS.map((p, i) => [String(i + 1), phs(p), tt(C7.permKind(p).label), ROT[C7.permDir(p)]()]),
+    points: [['แถว 1–3 มีลำดับเฟสวงเดียวกัน (L1 → L2 → L3 วนรอบ U1 → V1 → W1) มอเตอร์หมุนตามเข็มนาฬิกาทั้งสามแถว แถว 4–6 สลับสองเส้น มอเตอร์หมุนทวนเข็มนาฬิกาทั้งสามแถว', 'Rows 1–3 have the same ring of phases (L1 → L2 → L3 round U1 → V1 → W1): the motor turns clockwise in all three. Rows 4–6 swap two lines: counter-clockwise in all three.'],
+      ['จะกลับทางต้องสลับสองเส้นพอดี สลับอีกคู่หนึ่งจะได้การวนสามเส้น ซึ่งหมุนกลับมาทางเดิม', 'To reverse, swap exactly two lines. Swapping a second pair gives a three-wire shift, which turns the original way again.'],
+      ['ชื่อสายหรือสีสายไม่ได้บอกลำดับเฟส ทุกครั้งที่ต่อสายมอเตอร์ใหม่ต้องตรวจทิศหมุนก่อนต่อเข้ากับเครื่องจักร', 'Wire names and colours do not tell the phase sequence: check the direction every time a motor is reconnected, before it is coupled to the machine.']] });
+
+  /* B: the reversing power circuit (C7.ELEC / C7.NONE with the KM2 wiring map) */
+  const MAPS = [{ id: 's13', map: [3, 2, 1], lab: ['สลับ L1 กับ L3 (แบบของวิชา)', 'L1 ↔ L3 swapped (course standard)'] }, { id: 's23', map: [1, 3, 2], lab: ['สลับ L2 กับ L3', 'L2 ↔ L3 swapped'] },
+    { id: 's12', map: [2, 1, 3], lab: ['สลับ L1 กับ L2', 'L1 ↔ L2 swapped'] }, { id: 'cyc', map: [3, 1, 2], lab: ['เลื่อนวนทั้งสามเส้น (L1 → V1, L2 → W1, L3 → U1)', 'all three moved one place (L1 → V1, L2 → W1, L3 → U1)'] }];
+  const CTL = { elec: ['มีอินเตอร์ล็อกทางไฟฟ้า (KM1 21–22, KM2 21–22)', 'with the electrical interlock (KM1 21–22, KM2 21–22)'], none: ['ไม่มีอินเตอร์ล็อก (เพื่อดูว่าทำไมต้องมี)', 'without any interlock (to see why one is needed)'] };
+  const M = id => MAPS.find(m => m.id === id), mk = (c, map) => (c === 'elec' ? C7.ELEC : C7.NONE)({ map });
+  const pairs = s => (s.pshort || []).map(p => p.join(t(' กับ ', '–'))).join(', ');
+  let mapId = 's13', ctl = 'elec', simB = null, sigB = '0';
+  const mB = $('mB'), boxB = $('boxB'), pB = $('pB');
+  ui.h2(mB, t('KM2 สลับสายคู่ไหน', 'Which pair does KM2 swap?'));
+  ui.radio(mB, MAPS.map(m => ({ id: m.id, label: tt(m.lab), on: m.id === mapId })), id => { mapId = id; buildB(); });
+  ui.h2(mB, t('วงจรควบคุม', 'Control circuit'));
+  ui.radio(mB, [{ id: 'elec', label: tt(CTL.elec), on: true }, { id: 'none', label: tt(CTL.none) }], id => { ctl = id; buildB(); });
+  const logB = new ED.Log($('logB'), [['KM2 สลับ', 'KM2 swaps'], ['วงจรควบคุม', 'control'], ['สิ่งที่ทำ', 'action'], ['ต่ออยู่', 'in'], ['U1 V1 W1', 'U1 V1 W1'], ['ทิศหมุน', 'rotation'], ['ความหมาย', 'what it means']],
+    { empty: ['ยังไม่มีผล กด S2 หรือ S3 ที่หน้าตู้', 'No results yet: press S2 or S3 on the panel front'] });
+  let phB = null, lastAct = '';
+  const showPh = () => { if (!phB) return; const m = M(mapId).map, k1 = simB.act('KM1'), k2 = simB.act('KM2');
+    const row = (id, p, on) => `<tr class="${on ? 'on' : ''}"><td data-h="">${id}</td>${p.map((v, k) => `<td data-h="${['U1', 'V1', 'W1'][k]}">${PH(v)}</td>`).join('')}<td data-h="${t('ทิศหมุน', 'rotation')}">${ROT[C7.permDir(p)]()}</td></tr>`;
+    phB.innerHTML = `<table class="tbl" style="margin-top:8px;width:auto;min-width:min(100%,420px)"><tr><th>${t('ต่ออยู่', 'in')}</th><th>U1</th><th>V1</th><th>W1</th><th>${t('ทิศหมุน', 'rotation')}</th></tr>${row('KM1', [1, 2, 3], k1)}${row('KM2', m, k2)}</table>`; };
+  const sig = s => (s.msg === 'pshort' ? 'short' : String(s.dir()));
+  /* snapshot of the devices: which button or switch changed (presses on the panel front and clicks in the drawing both count) */
+  const snap = s => { const o = { mains: String(s.mains) }; Object.values(s.dev).forEach(d => { o[d.id] = `${d.pressed}|${d.on}|${d.tripped}|${d.blown}`; }); return o; };
+  let snapB = null;
+  const trackB = s => { if (s !== simB) return; showPh(); const was = snapB, now = snap(s); snapB = now; const before = sigB, g = sig(s); sigB = g;
+    const ch = Object.keys(now).filter(k => now[k] !== was[k]), pick = ch.find(k => /^S[123]$/.test(k)) || ch.find(k => k === 'mains') || ch.find(k => k === 'Q1' || k === 'F2');
+    if (pick) lastAct = pick === 'mains' ? t('ไฟดับแล้วกลับมา', 'power cut') : /^S/.test(pick) ? (s.dev[pick].pressed ? t(`กด ${pick}`, `press ${pick}`) : t(`ปล่อย ${pick}`, `release ${pick}`)) : t(`คลิก ${pick}`, `click ${pick}`);
+    const m = M(mapId), A = [tt(m.lab), tt(CTL[ctl]), lastAct || '–'];
+    if (g === before) {   // a press that changed nothing: the electrical interlock at work
+      if (ctl === 'elec' && pick && /^S[23]$/.test(pick) && s.dev[pick].pressed && ((pick === 'S3' && g === 'cw') || (pick === 'S2' && g === 'ccw'))) { const o = pick === 'S3' ? 'KM1' : 'KM2', n = pick === 'S3' ? 'KM2' : 'KM1';
+        logB.add(`${mapId}|elec|${pick}dead`, [...A, o, '–', ROT[g](), t(`${pick} ไม่มีผล: ${o} 21–22 ในทางของ ${n} เปิดอยู่ ต้องกด S1 ก่อน (เดินหน้า–หยุด–ถอยหลัง)`, `${pick} does nothing: ${o} 21–22 in the ${n} path is open; press S1 first (forward – stop – reverse)`)], 'ok'); }
+      return; }
+    if (g === '0') return;
+    if (g === 'short') { logB.add(`${mapId}|${ctl}|short`, [...A, 'KM1 + KM2', '–', `<span class="pill bad">${t('ลัดวงจร', 'short circuit')}</span>`, t(`KM1 และ KM2 ต่อพร้อมกัน: ${pairs(s)} ต่อถึงกันผ่านหน้าสัมผัสหลัก Q1 ตัด และวงจรควบคุมหลัง Q1 ดับไปด้วย`, `KM1 and KM2 closed together: ${pairs(s)} joined through the main contacts; Q1 trips and the control circuit after Q1 goes dead too`)], 'bad'); return; }
+    const k2 = s.act('KM2'), p = k2 ? m.map : [1, 2, 3], d = s.dir();
+    const txt = !k2 ? t('เดินหน้า: L1 L2 L3 เข้า U1 V1 W1 ตามลำดับ', 'forward: L1, L2, L3 to U1, V1, W1 in order') : d === 'ccw' ? t('ถอยหลัง: KM2 สลับสองเส้น ลำดับเฟสกลับ มอเตอร์กลับทาง', 'reverse: KM2 swaps two lines, the phase sequence reverses and so does the motor')
+      : t('KM2 ดูด แต่มอเตอร์ยังหมุนตามเข็มนาฬิกา: การวนสามเส้นไม่เปลี่ยนลำดับเฟส วงจรนี้กลับทางไม่ได้', 'KM2 is in, but the motor still turns clockwise: moving all three round keeps the phase sequence, so this circuit cannot reverse');
+    logB.add(`${mapId}|${ctl}|${k2 ? 'KM2' : 'KM1'}`, [...A, k2 ? 'KM2' : 'KM1', phs(p), ROT[d](), txt], k2 && d === 'cw' ? 'bad' : 'ok'); };
+  function buildB() {
+    simB = new RL.Sim(fresh(boxB), mk(ctl, M(mapId).map), { max: 820, label: 'reversing power circuit with two contactors' }); sigB = '0'; lastAct = '';
+    pB.innerHTML = ''; ui.h2(pB, t('หน้าตู้และการสั่งงาน', 'Panel front and controls'));
+    C7.panel(pB, simB); phB = document.createElement('div'); pB.appendChild(phB);
+    snapB = snap(simB); simB.on(trackB); showPh(); }
+  buildB();
+  const runB = (c, map, seq) => { const s = hid(mk(c, map)); seq(s); return s; };
+  ED.summary($('sumB'), { intro: ['ผลจากแบบจำลองเดียวกับภาพจำลอง: กด S2, กด S1 แล้วกด S3 (มีอินเตอร์ล็อก) และกด S2 แล้วกด S3 ขณะเดินหน้า (ไม่มีอินเตอร์ล็อก)', 'Results from the same model as the simulator: S2; S1 then S3 (with the interlock); S2, then S3 while forward (without interlock)'],
+    head: [['KM2 สลับ', 'KM2 swaps'], ['U1 V1 W1 เมื่อ KM2 ต่อ', 'U1 V1 W1 with KM2 in'], ['KM1 ต่อ', 'KM1 in'], ['KM2 ต่อ', 'KM2 in'], ['ต่อพร้อมกัน (ไม่มีอินเตอร์ล็อก)', 'both in (no interlock)']],
+    rows: () => MAPS.map(m => { const a = runB('elec', m.map, s => tap(s, 'S2')), b = runB('elec', m.map, s => tap(s, 'S2', 'S1', 'S3')), c = runB('none', m.map, s => tap(s, 'S2', 'S3'));
+      return [tt(m.lab), phs(m.map), ROT[a.dir()](), ROT[b.dir()]() + (b.dir() === 'cw' ? ` <span class="rk-bad">${t('ไม่กลับทาง', 'no reversal')}</span>` : ''), c.msg === 'pshort' ? `<span class="rk-bad">${t('ลัดวงจร', 'short')}: ${pairs(c)} · ${t('Q1 ตัด', 'Q1 trips')}</span>` : '–']; }),
+    points: [['สลับสายคู่ใดก็ได้ KM2 ก็กลับทางมอเตอร์ได้ วิชานี้ใช้ L1 ↔ L3 เหมือนตำราไทยและสตาร์ตเตอร์แบบ NEMA ส่วนตัวอย่างใน IEC 60034-8 ใช้ L2 กับ L3', 'Whichever pair KM2 swaps, it reverses the motor. The course uses L1 ↔ L3, like the Thai textbook and NEMA starters; the example in IEC 60034-8 uses L2 and L3.'],
+      ['การวนสามเส้น: KM2 ดูดได้ตามปกติ แต่มอเตอร์หมุนทางเดิม วงจรดูถูกต้องจากด้านควบคุม ต้องตรวจด้วยการเดินจริงหรือเครื่องวัดลำดับเฟส', 'Moving all three round: KM2 pulls in normally but the motor keeps its direction. The control side looks right; only a test run or a phase-sequence indicator shows it.'],
+      ['ถ้าคอนแทกเตอร์ทั้งสองต่อพร้อมกัน สายที่ KM2 สลับจะลัดถึงกันเสมอ ไม่ว่าจะสลับคู่ใด จึงต้องมีอินเตอร์ล็อก (หน้า 7.2)', 'If both contactors close together, the lines KM2 swaps are shorted whichever pair it is, so an interlock is needed (page 7.2).'],
+      ['โอเวอร์โหลด F2 ชุดเดียวพอ เพราะทั้งสองทิศจ่ายไฟผ่าน F2 ตัวเดียวกัน และในเวลาหนึ่งมีคอนแทกเตอร์ต่ออยู่ตัวเดียว', 'One overload relay F2 is enough: both directions feed the motor through the same F2, and only one contactor is in at a time.']] });
+
+  /* D: the TPDT switch of Fig. 6.13 */
+  const qD = ask($('askD'), t('รูป 6.13 ตำแหน่ง R ต่อ L1 เข้า V1, L2 เข้า U1 และ L3 เข้า W1 (ผ่านสายจัมเปอร์) เทียบกับตำแหน่ง F ที่ต่อตรง มอเตอร์หมุนทางไหน', 'In Fig. 6.13, position R connects L1 to V1, L2 to U1 and L3 to W1 (through the jumper). Compared with position F (straight), which way does the motor turn?'));
+  LS.choose(qD.box, { labels: ['①', '②', '③'], options: [t('กลับทาง (ทวนเข็มนาฬิกา)', 'reversed (counter-clockwise)'), t('ทางเดียวกับ F', 'the same way as F'), t('ไม่หมุน', 'it does not turn')], answer: 0 });
+  LS.stepper($('stD'), { steps: [
+    { why: t('ไล่เฟสที่ขั้วมอเตอร์ในตำแหน่ง R', 'Trace the phases at the motor in position R'), body: `<p>${t('U1 ได้ L2, V1 ได้ L1, W1 ได้ L3: U1 V1 W1 = ', 'U1 gets L2, V1 gets L1, W1 gets L3: U1 V1 W1 = ')}${phs([2, 1, 3])} · ${t('สลับ L1 กับ L2 สองเส้น เป็นแถวที่ 6 ของตารางในหัวข้อ A', 'L1 and L2 swapped, row 6 of the table in section A')} → ${ROT.ccw()}</p>
+      <p>${t('ตำแหน่ง F ต่อตรง U1 V1 W1 = ', 'Position F is straight: U1 V1 W1 = ')}${phs([1, 2, 3])} → ${ROT.cw()}</p>` },
+    { why: t('ไฟดับขณะด้ามค้างอยู่ที่ R', 'The power fails with the handle at R'), body: `<p>${t('สวิตช์ยังต่ออยู่ เมื่อไฟกลับมา มอเตอร์เดินถอยหลังขึ้นมาเองทันที ไม่มีอะไรจำว่าไฟเคยดับ วงจรคอนแทกเตอร์ที่มีหน้าสัมผัสค้างตัวเองไม่เดินเอง เพราะคอนแทกเตอร์หลุดเมื่อไฟดับ และต้องกดปุ่มเริ่มใหม่ (IEC 60204-1 ข้อ 7.5)', 'The switch stays closed, so when the power returns the motor starts in reverse by itself at once: nothing remembers the power failure. A contactor circuit with a holding contact does not restart, because the contactor drops out when the power fails and a start button must be pressed again (IEC 60204-1, 7.5).')}</p>` }],
+    answer: t('ตำแหน่ง R สลับ L1 กับ L2 มอเตอร์กลับทาง และหลังไฟดับมอเตอร์เดินขึ้นมาเองถ้าด้ามค้างอยู่', 'Position R swaps L1 and L2, so the motor reverses; after a power failure it restarts by itself if the handle is left on') });
+
+  /* worked example 1: Fig. 6.14 completed to the course standard */
+  const tmp = document.createElement('div');
+  new RL.Sim(tmp, C7.ELEC(), { print: true, max: 680, label: 'reversing power and control circuit redrawn to the course standard' });
+  const svg1 = tmp.innerHTML.replace(/ data-dev="[^"]*" style="cursor:pointer"/g, '');
+  const q1 = ask($('ask1'), t('(ก) เมื่อ K2 ดูด สายเส้นใดไปถึง U1', '(a) When K2 is in, which line reaches U1?'));
+  LS.choose(q1.box, { labels: ['①', '②', '③'], options: ['L3', 'L1', 'L2'], answer: 0 });
+  const NM = [['F1', 'Q1', t('เบรกเกอร์หลัก 3 ขั้ว ตัดและป้องกันการลัดวงจรของวงจรกำลัง (ชื่อ F1 ในวิชานี้ใช้กับฟิวส์วงจรควบคุม)', 'three-pole main breaker: switches off and protects the power circuit against short circuits (in this course F1 is the control fuse)')],
+    ['K1', 'KM1', t('คอนแทกเตอร์เดินหน้า ต่อตรง', 'forward contactor, straight')], ['K2', 'KM2', t('คอนแทกเตอร์ถอยหลัง สลับ L1 กับ L3', 'reverse contactor, L1 and L3 swapped')],
+    ['F3', 'F2', t('รีเลย์โอเวอร์โหลด หน้าสัมผัส 95–96 และ 97–98 อยู่ในวงจรควบคุม', 'overload relay; its contacts 95–96 and 97–98 are in the control circuit')], ['M', 'M1', t('มอเตอร์ 3 เฟส', 'three-phase motor')]];
+  LS.stepper($('st1'), { steps: [
+    { why: t('(ก) ไล่สายของ K2', '(a) Trace K2'), body: `<p>${t('ด้านเข้าของ K2 ขั้วซ้ายสุดรับ L3 ขั้วกลางรับ L2 ขั้วขวาสุดรับ L1 ด้านออกต่อรวมกับ K1 ไปยัง U1 V1 W1 ตามลำดับ จึงได้ U1 V1 W1 = ', 'K2’s leftmost input is fed from L3, the middle from L2, the rightmost from L1; its outputs join K1’s and go to U1, V1, W1 in order. So U1 V1 W1 = ')}${phs([3, 2, 1])} · ${t('สลับ L1 กับ L3 (แถวที่ 5 ของตารางในหัวข้อ A) มอเตอร์กลับทาง', 'L1 and L3 swapped (row 5 of the table in section A): the motor reverses')} ${ROT.ccw()}</p>` },
+    { why: t('(ข) ชื่ออุปกรณ์แบบ DIN ของตำรา → ชื่อของวิชา', '(b) The book’s DIN names → course names'), body: `<table class="tbl"><tr><th>${t('ตำรา', 'book')}</th><th>${t('วิชานี้', 'course')}</th><th>${t('อุปกรณ์', 'device')}</th></tr>${NM.map(r => `<tr><td>${r[0]}</td><td><b>${r[1]}</b></td><td>${r[2]}</td></tr>`).join('')}</table>` },
+    { why: t('(ค) สิ่งที่แบบของวิชาเติม', '(c) What the course drawing adds'), body: `<ul><li>${t('แหล่งจ่าย 3/N/PE ~ 50 Hz 400/230 V มีราง N และ PE ด้านบน', 'supply 3/N/PE ~ 50 Hz 400/230 V, with N and PE rails at the top')}</li>
+      <li>${t('Q1 เบรกเกอร์หลักแทนฟิวส์ เลขขั้ว 1–2, 3–4, 5–6', 'Q1 main breaker in place of the fuses, terminals 1–2, 3–4, 5–6')}</li>
+      <li>${t('เลขขั้วหลักของ KM1 และ KM2: 1/L1–2/T1, 3/L2–4/T2, 5/L3–6/T3 และของ F2: 1–2, 3–4, 5–6', 'main terminals of KM1 and KM2: 1/L1–2/T1, 3/L2–4/T2, 5/L3–6/T3, and of F2: 1–2, 3–4, 5–6')}</li>
+      <li>${t('สายดินป้องกัน PE ต่อที่โครงมอเตอร์', 'the protective earth PE to the motor frame')}</li>
+      <li>${t('จุดต่อวงจรควบคุม 230 V จาก L1 กับ N หลัง Q1 ผ่านฟิวส์ F1 (ปิด Q1 แล้ววงจรควบคุมดับด้วย)', 'the 230 V control circuit tapped from L1 and N after Q1 through fuse F1 (switching Q1 off also kills the control circuit)')}</li></ul>` },
+    { why: t('แบบที่เขียนเสร็จ', 'The finished drawing'), body: `<div class="rlwrap" style="max-width:680px">${svg1}</div><p class="hint">${t('วงจรกำลังอยู่ด้านซ้าย วงจรควบคุมแบบมีอินเตอร์ล็อกทางไฟฟ้าอยู่ด้านขวา (หน้า 7.2 อธิบายทีละขั้น)', 'The power circuit is on the left; the control circuit with the electrical interlock is on the right (page 7.2 builds it step by step).')}</p>` }],
+    answer: t('(ก) L3 → U1, L2 → V1, L1 → W1: สลับ L1 กับ L3 มอเตอร์กลับทาง (ข) F1 → Q1, K1 → KM1, K2 → KM2, F3 → F2, M → M1 (ค) แหล่งจ่าย 3/N/PE 400/230 V, Q1, เลขขั้วทุกขั้ว, PE ที่มอเตอร์ และจุดต่อวงจรควบคุมหลัง Q1', '(a) L3 → U1, L2 → V1, L1 → W1: L1 and L3 swapped, the motor reverses; (b) F1 → Q1, K1 → KM1, K2 → KM2, F3 → F2, M → M1; (c) supply 3/N/PE 400/230 V, Q1, all terminal numbers, PE at the motor and the control tap after Q1') });
+
+  /* C: practice */
+  ED.mcq('mcq', [
+    { q: t('1) มอเตอร์หมุนตามเข็มนาฬิกาเมื่อต่อ L1 → U1, L2 → V1, L3 → W1 ช่างสลับ L1 กับ L2 ที่แผงขั้วต่อ มอเตอร์จะหมุนทางไหน', '1) A motor turns clockwise with L1 → U1, L2 → V1, L3 → W1. An electrician swaps L1 and L2 at the terminal board. Which way does it turn now?'), options: [t('ทวนเข็มนาฬิกา', 'counter-clockwise'), t('ตามเข็มนาฬิกา', 'clockwise'), t('ไม่หมุน', 'it does not turn'), t('หมุนช้าลงครึ่งหนึ่ง', 'at half speed')], answer: 0, why: t('สลับสองเส้น ลำดับเฟสกลับ มอเตอร์กลับทาง', 'two lines swapped: the sequence reverses, so does the motor') },
+    { q: t('2) ต่อ L1 → V1, L2 → W1, L3 → U1 (ย้ายทั้งสามเส้นไปหนึ่งตำแหน่ง) มอเตอร์ตัวเดิมจะหมุนทางไหน', '2) The same motor is connected L1 → V1, L2 → W1, L3 → U1 (all three moved one place). Which way does it turn?'), options: [t('ทวนเข็มนาฬิกา', 'counter-clockwise'), t('สั่นอยู่กับที่', 'it hums and stands still'), t('ตามเข็มนาฬิกา เหมือนเดิม', 'clockwise, as before'), t('ขึ้นกับว่าเปิดสวิตช์ตอนไหน', 'it depends on when it is switched on')], answer: 2, why: t('การวนสามเส้นไม่เปลี่ยนวงลำดับเฟส', 'a three-wire shift does not change the ring of phases') },
+    { q: t('3) ในวงจรกำลังของวิชานี้ เมื่อ KM2 ต่อ ขั้ว U1 ได้เฟสใด', '3) In the course power circuit, which phase reaches U1 when KM2 is in?'), options: ['L1', 'L2', 'L3', 'N'], answer: 2, why: t('KM2 สลับ L1 กับ L3: U1 ได้ L3, V1 ได้ L2, W1 ได้ L1', 'KM2 swaps L1 and L3: U1 gets L3, V1 gets L2, W1 gets L1') },
+    { q: t('4) ถ้า KM1 และ KM2 ต่อพร้อมกัน จะเกิดอะไรขึ้น', '4) What happens if KM1 and KM2 close together?'), options: [t('มอเตอร์หยุดนิ่งเพราะแรงบิดหักล้างกัน', 'the motor stands still because the torques cancel'), t('L1 กับ L3 ลัดถึงกันผ่านหน้าสัมผัสหลัก Q1 ตัด', 'L1 and L3 are shorted through the main contacts and Q1 trips'), t('โอเวอร์โหลด F2 ตัดหลังผ่านไปหลายวินาที', 'overload F2 trips after several seconds'), t('ไม่มีอะไรเกิดขึ้น', 'nothing happens')], answer: 1, why: t('เป็นการลัดวงจรระหว่างเฟส กระแสสูงมากทันที ต้องใช้อินเตอร์ล็อกป้องกัน', 'a phase-to-phase short circuit with a very high current at once: interlocks must prevent it') },
+    { q: t('5) ตาม IEC ทิศ "ตามเข็มนาฬิกา" ของมอเตอร์มองจากด้านใด', '5) From which end does IEC look at a motor when it says “clockwise”?'), options: [t('ด้านปลายเพลา (ด้านขับ)', 'the shaft end (drive end)'), t('ด้านพัดลมระบายความร้อน', 'the cooling-fan end'), t('ด้านกล่องขั้วต่อ', 'the terminal-box side'), t('ด้านบนของมอเตอร์', 'the top of the motor')], answer: 0, why: t('ตำราอเมริกันมักมองจากด้านตรงข้ามเพลา จึงต้องดูให้ดีว่าแต่ละรูปมองจากด้านไหน', 'US books often look from the opposite end, so always check the viewpoint of a picture') },
+    { q: t('6) ดรัมสวิตช์ค้างอยู่ที่ตำแหน่ง F ไฟดับแล้วกลับมา จะเกิดอะไรขึ้น', '6) A drum switch is left at F. The power fails and returns. What happens?'), options: [t('มอเตอร์ไม่เดิน ต้องหมุนด้ามใหม่', 'the motor stays off until the handle is moved'), t('มอเตอร์เดินถอยหลัง', 'the motor runs in reverse'), t('ฟิวส์ขาด', 'a fuse blows'), t('มอเตอร์เดินขึ้นมาเองทันที', 'the motor restarts by itself at once')], answer: 3, why: t('สวิตช์มือไม่มีวงจรค้างตัวเอง จึงป้องกันการเดินเองหลังไฟกลับไม่ได้ (IEC 60204-1 ข้อ 7.5)', 'a manual switch has no holding circuit, so it cannot prevent a restart when the power returns (IEC 60204-1, 7.5)') }]);
+});
+</script>
+</body>
+</html>

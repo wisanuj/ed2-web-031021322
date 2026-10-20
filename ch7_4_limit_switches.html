@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="7.4 — Automatic reversing with limit switches">7.4 — กลับทางอัตโนมัติด้วยลิมิตสวิตช์</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=14"><link rel="stylesheet" href="assets/ed2.css?v=14">
+<link rel="stylesheet" href="assets/wiring.css?v=14">
+<script src="assets/stops.js?v=14"></script><script src="assets/shell.js?v=14"></script>
+<script src="assets/lesson.js?v=14"></script><script src="assets/draw.js?v=14"></script><script src="assets/ed.js?v=14"></script><script src="assets/sym.js?v=14"></script><script src="assets/iec.js?v=14"></script><script src="assets/relay.js?v=14"></script><script src="assets/ch2.js?v=14"></script><script src="assets/ch3.js?v=14"></script><script src="assets/ch4.js?v=14"></script>
+<script src="assets/panel.js?v=14"></script><script src="assets/ch5.js?v=14"></script><script src="assets/ch6.js?v=14"></script><script src="assets/ch7.js?v=14"></script>
+<script src="assets/wiring.js?v=14"></script><script src="assets/devdata.js?v=14"></script><script src="assets/dev.js?v=14"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">กลับทางอัตโนมัติด้วยลิมิตสวิตช์ <span class="en">Automatic reversing with limit switches</span></h1>
+<h1 data-l="en">Automatic reversing with limit switches <span class="en">Travel limits, a back-and-forth cycle, over-travel switches and the traps of a real machine</span></h1>
+
+<p class="sub" data-l="th">โต๊ะเครื่องจักร แคร่ ประตู หรือแท่นยกเคลื่อนที่ไปมาระหว่างตำแหน่งปลายทางสองข้าง วงจรจึงต้องรู้ว่าส่วนที่เคลื่อนที่อยู่ตรงไหน ลิมิตสวิตช์ (limit switch หรือสวิตช์ตำแหน่ง position switch) ทำงานเมื่อส่วนที่เคลื่อนที่มากดคันโยกของมันที่ตำแหน่งที่ติดตั้งไว้ หน้านี้ใช้ลิมิตสวิตช์สองตัวหยุดแคร่ที่ปลายทั้งสองข้างก่อน แล้วต่อวงจรให้แคร่วิ่งไปมาเอง เพิ่มสวิตช์กันเลยระยะเป็นด่านที่สอง ลองกับดักที่เครื่องจริงเจอ และเทียบกับการกลับทางด้วยตัวตั้งเวลา</p>
+<p class="sub" data-l="en">A machine table, a carriage, a door or a platform moves between two end positions, so the circuit has to know where the moving part is. A limit switch (position switch) is operated when the moving part presses its lever at the place where it is mounted. On this page two limit switches first stop a carriage at both ends; then the circuit is extended so that the carriage runs back and forth by itself, over-travel switches are added as a second line of defence, you try the traps a real machine meets, and the result is compared with reversing on a timer.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>ลิมิตสวิตช์หนึ่งตัว สองหน้าสัมผัส</b>: หน้าสัมผัสปกติปิด (normally closed, NC) 21–22 มีเครื่องหมายเปิดแบบบังคับ (direct opening ตามภาคผนวก K ของ IEC 60947-5-1 มาตรฐานของคณะกรรมาธิการไฟฟ้าระหว่างประเทศ (International Electrotechnical Commission, IEC)) อยู่ในทางเดินกระแสของทิศที่มันเป็นปลายทาง ส่วนหน้าสัมผัสปกติเปิด (normally open, NO) 13–14 ใช้สั่งทิศตรงข้ามในรอบอัตโนมัติ</li>
+  <li><b>หยุดที่ปลายทาง</b>: S5 21–22 อยู่ในทางของ KM1 (ปลายทางเดินหน้า) S6 21–22 อยู่ในทางของ KM2 ลิมิตสวิตช์ที่ถูกกดตัดเฉพาะทิศของมันเอง ทิศตรงข้ามยังสั่งได้ จึงขับแคร่ออกจากปลายทางได้เสมอ</li>
+  <li><b>วิ่งไปมาเอง (วงจรที่วิชานี้ออกแบบเอง)</b>: รีเลย์ KA1 "รอบอัตโนมัติ" เริ่มด้วย S4 ค้างตัวเอง และหลุดเมื่อกด S1 โอเวอร์โหลดตัด หรือไฟดับ KA1 23–24 กับ S6 13–14 สั่งเดินหน้าที่ปลายทางถอยหลัง KA1 33–34 กับ S5 13–14 สั่งถอยหลังที่ปลายทางเดินหน้า ไฟกลับมาแล้ว KA1 ไม่ดูด แคร่จึงไม่ขยับเอง (IEC 60204-1 ข้อ 7.5)</li>
+  <li><b>ด่านที่สองและราคาที่ต้องจ่าย</b>: สวิตช์กันเลยระยะ S7 และ S8 (NC แบบเปิดบังคับ) อยู่เลยลิมิตสวิตช์ปลายทางออกไป หยุดแคร่เมื่อ S5 หรือ S6 เสีย การกลับทางที่ปลายทางทันทีเป็นการกลับทางขณะหมุน (ประเภทการใช้งาน AC-4 ของคอนแทกเตอร์ หน้า 7.3) เว้นแต่จะมีตัวตั้งเวลาให้หยุดรอนานกว่าเวลาที่มอเตอร์หมุนค้างจนหยุด ส่วนการกลับทางด้วยตัวตั้งเวลาอย่างเดียวไม่รู้ว่าแคร่อยู่ที่ไหน</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>One limit switch, two contacts</b>: the normally closed (NC) contact 21–22, marked for direct opening (Annex K of IEC 60947-5-1, a standard of the International Electrotechnical Commission (IEC)), sits in the path of the direction for which it is the end; the normally open (NO) contact 13–14 starts the opposite direction in the automatic cycle.</li>
+  <li><b>Stopping at the ends</b>: S5 21–22 is in the KM1 path (forward end), S6 21–22 in the KM2 path. An operated limit switch cuts only its own direction; the other direction can still be started, so the carriage can always be driven off the end.</li>
+  <li><b>Back and forth by itself (a circuit designed for this course)</b>: relay KA1 "auto cycle" is started by S4, holds itself, and drops out with S1, an overload trip or a power failure. KA1 23–24 with S6 13–14 starts forward at the reverse end; KA1 33–34 with S5 13–14 starts reverse at the forward end. When the power returns KA1 stays out, so the carriage does not move by itself (IEC 60204-1, 7.5).</li>
+  <li><b>A second line of defence, and the price</b>: over-travel switches S7 and S8 (NC, direct opening) sit beyond the end switches and stop the carriage if S5 or S6 fails. Reversing at the end at once is plugging (contactor utilization category AC-4, page 7.3) unless a timer makes the carriage wait longer than the motor takes to coast to a stop; reversing on a timer alone does not know where the carriage is.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>ลิมิตสวิตช์</a><a href="#tA"><b>A</b>หยุดที่ปลายทาง</a><a href="#tB"><b>B</b>วิ่งไปมาเอง</a><a href="#tD"><b>D</b>กลับทางด้วยตัวตั้งเวลา</a><a href="#ex1"><b>1</b>ใส่ลิมิตสวิตช์ให้วงจรกลับทาง</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>Limit switches</a><a href="#tA"><b>A</b>Travel limits</a><a href="#tB"><b>B</b>Back and forth by itself</a><a href="#tD"><b>D</b>Reversing on a timer</a><a href="#ex1"><b>1</b>Adding limit switches</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">ลิมิตสวิตช์: หน้าสัมผัส สัญลักษณ์ และการเปิดแบบบังคับ</h2><h2 data-l="en">Limit switches: contacts, symbol and direct opening</h2>
+    <div class="src" data-l="th">IEC 60947-5-1 ข้อ 2.2.1.3 และภาคผนวก K · EMC9 หน่วยที่ 13 · UMC5 บทที่ 16 หน้า 176 รูป 16.15 · UMC5 บทที่ 20 หน้า 206 รูป 20.23 · IEC 60204-1 ข้อ 9.3.2 และ 10.1.4</div><div class="src" data-l="en">IEC 60947-5-1, 2.2.1.3 and Annex K · EMC9 unit 13 · UMC5 ch. 16, p. 176, Fig. 16.15 · UMC5 ch. 20, p. 206, Fig. 20.23 · IEC 60204-1, 9.3.2 and 10.1.4</div></div></div>
+  <div class="duo">
+    <div class="card"><h3 data-l="th">ลิมิตสวิตช์หนึ่งตัวในวงจร</h3><h3 data-l="en">One limit switch in the circuit</h3>
+      <div id="sym0" style="max-width:420px;margin:0 auto"></div>
+      <p data-l="th">IEC 60947-5-1 เรียกลิมิตสวิตช์ว่าสวิตช์ตำแหน่ง (position switch): สวิตช์นำร่องที่ทำงานเมื่อชิ้นส่วนที่เคลื่อนที่ของเครื่องจักรมาถึงตำแหน่งที่ตั้งไว้ ลิมิตสวิตช์ที่ใช้ในหน้านี้มีหน้าสัมผัสสองชุดในตัวเดียว: NC 21–22 และ NO 13–14 กลไกเดียวกันกดทั้งสองชุด ในแบบวงจรของวิชานี้หน้าสัมผัสทั้งสองมักอยู่คนละทางเดินกระแส จึงเขียนชื่อเดียวกัน (S5) กำกับทั้งสองตัวเพื่อบอกว่าเป็นสวิตช์ตัวเดียวกัน (ถ้าวาดหน้าสัมผัสไว้ติดกัน บางแบบลากเส้นประเชื่อมไว้ด้วย)</p>
+      <p data-l="en">IEC 60947-5-1 calls a limit switch a position switch: a pilot switch operated when a moving part of the machine reaches a set position. The limit switches on this page have two contact sets in one body: NC 21–22 and NO 13–14. The same mechanism operates both. In the course drawings the two contacts usually sit in different paths, so both carry the same name (S5) to show that they belong to one switch (where the contacts are drawn side by side, some drawings also join them with a dashed line).</p>
+      <p data-l="th">เครื่องหมายลูกศรในวงกลมบนก้านของ 21–22 คือการเปิดแบบบังคับ (direct opening action ชื่อเดิม positive opening): เมื่อคันโยกถูกกด ชิ้นส่วนที่แข็งเกร็งดันหน้าสัมผัสให้แยกออกโดยตรง ไม่ได้อาศัยสปริง หน้าสัมผัสที่ติดกันเล็กน้อยหรือสปริงที่หักจึงไม่ทำให้มันค้างต่ออยู่ ผู้ผลิตบอกระยะกดและแรงกดที่น้อยที่สุดสำหรับการเปิดแบบบังคับ และความเร็วสูงสุดที่คันโยกรับได้ไว้ในเอกสาร</p>
+      <p data-l="en">The arrow in a circle on the link of 21–22 marks direct opening action (formerly called positive opening): when the lever is pressed, rigid parts force the contacts apart directly, not through a spring. A slightly welded contact or a broken spring therefore cannot keep it closed. The maker states the minimum travel and force for direct opening, and the highest actuating speed the lever can take.</p></div>
+    <div class="card"><h3 data-l="th">ทำไมใช้หน้าสัมผัสปกติปิดสำหรับหยุด</h3><h3 data-l="en">Why an NC contact for stopping</h3>
+      <p data-l="th">ถ้าใช้หน้าสัมผัสปกติเปิดของลิมิตสวิตช์สั่งหยุด (ผ่านรีเลย์อีกตัว) สายหลุด ขั้วหลวม หรือสวิตช์เสีย จะทำให้คำสั่งหยุดหายไปเงียบ ๆ แคร่วิ่งชนปลายราง หน้าสัมผัสปกติปิดที่อยู่ในทางเดินกระแสของคอยล์ทำงานกลับกัน: สายหลุดหรือขั้วหลวมก็ตัดคอยล์ แคร่หยุดเหมือนถึงปลายทาง ความเสียหายแบบนี้จึงเห็นได้ทันทีและปลอดภัย IEC 60204-1 ข้อ 9.3.2 ให้ตรวจจับตำแหน่งที่เลยขีดจำกัดแล้วอาจเกิดอันตรายและสั่งให้เครื่องหยุด ข้อ 10.1.4 ให้ติดตั้งสวิตช์ตำแหน่งไม่ให้เสียหายเมื่อแคร่เลยระยะ และสวิตช์ที่ทำหน้าที่ด้านความปลอดภัยต้องเปิดแบบบังคับ (ถอดความจากชื่อข้อและหลักของข้อ)</p>
+      <p data-l="en">If the NO contact of a limit switch were used to stop (through another relay), a broken wire, a loose terminal or a failed switch would silently lose the stop command, and the carriage would run into the end of the track. An NC contact in the coil path works the other way round: a broken wire or a loose terminal de-energises the coil and the carriage stops as if it had reached the end, so the fault shows at once and is safe. IEC 60204-1, 9.3.2 asks for an operating limit whose overrun is hazardous to be detected and to stop the machine; 10.1.4 asks for position switches to be mounted so that over-travel does not damage them, and for those with a safety function to have direct opening (paraphrased from the clause titles and their principle).</p>
+      <table class="tbl stack" data-l="th"><tr><th>ชื่อ</th><th>ตำแหน่ง</th><th>หน้าสัมผัสที่ใช้</th></tr>
+        <tr><td data-h="ชื่อ">S5</td><td data-h="ตำแหน่ง">ปลายทางเดินหน้า (ขวา)</td><td data-h="หน้าสัมผัสที่ใช้">21–22 ในทางของ KM1 · 13–14 สั่งถอยหลังในรอบอัตโนมัติ</td></tr>
+        <tr><td data-h="ชื่อ">S6</td><td data-h="ตำแหน่ง">ปลายทางถอยหลัง (ซ้าย)</td><td data-h="หน้าสัมผัสที่ใช้">21–22 ในทางของ KM2 · 13–14 สั่งเดินหน้าในรอบอัตโนมัติ</td></tr>
+        <tr><td data-h="ชื่อ">S7, S8</td><td data-h="ตำแหน่ง">เลย S5 และ S6 ออกไป</td><td data-h="หน้าสัมผัสที่ใช้">21–22 แบบเปิดบังคับ กันเลยระยะ</td></tr></table>
+      <table class="tbl stack" data-l="en"><tr><th>name</th><th>position</th><th>contacts used</th></tr>
+        <tr><td data-h="name">S5</td><td data-h="position">forward end (right)</td><td data-h="contacts used">21–22 in the KM1 path · 13–14 starts reverse in the auto cycle</td></tr>
+        <tr><td data-h="name">S6</td><td data-h="position">reverse end (left)</td><td data-h="contacts used">21–22 in the KM2 path · 13–14 starts forward in the auto cycle</td></tr>
+        <tr><td data-h="name">S7, S8</td><td data-h="position">beyond S5 and S6</td><td data-h="contacts used">21–22 with direct opening, over-travel</td></tr></table>
+      <p class="simnote" data-l="th">วิชานี้ใช้อักษร S กับลิมิตสวิตช์เหมือนปุ่มกด มาตรฐาน IEC 81346-2 ใช้รหัสตัวอักษรอีกชุดหนึ่ง (เช่น BG สำหรับเซนเซอร์ตำแหน่ง) ซึ่งจะเห็นในแบบของบางบริษัท</p>
+      <p class="simnote" data-l="en">The course uses the letter S for limit switches, as for push buttons. IEC 81346-2 uses another set of letter codes (for example BG for position sensors), which you will meet in some companies' drawings.</p></div>
+  </div>
+  <div class="story n2" style="margin-top:12px">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>Herman &amp; Seiler รูป 20.23 เป็นวงจรเปิดปิดประตูแบบสหรัฐอเมริกา (National Electrical Manufacturers Association, NEMA) วงจรควบคุมรับไฟจากหม้อแปลงควบคุม บนสุดเป็นปุ่มหยุดฉุกเฉิน (EMERGENCY STOP) กับปุ่ม RESET ที่สั่งรีเลย์ CR ให้ค้างตัวเอง หน้าสัมผัสของ CR ป้อนไฟให้ทั้งสองทิศ ทางขึ้น: ปุ่ม UP กับหน้าสัมผัสค้าง แล้วผ่านลิมิตสวิตช์ LS1 แบบปกติปิด (เปิดเมื่อประตูขึ้นสุด) และหน้าสัมผัสอินเตอร์ล็อก DN ไปที่คอยล์ UP ทางลง: ปุ่ม DOWN กับหน้าสัมผัสค้าง แล้วผ่านหน้าสัมผัส PD ของตัวตรวจจับแสง (เปิดเมื่อมีสิ่งกีดขวางลำแสงใต้ประตู) ลิมิตสวิตช์ LS2 (เปิดเมื่อประตูลงสุด) และหน้าสัมผัสอินเตอร์ล็อก UP ไปที่คอยล์ DN</p>
+        <p>ลิมิตสวิตช์แต่ละตัวตัดเฉพาะทางของทิศที่มันเป็นปลายทาง ประตูที่ขึ้นสุดแล้วยังสั่งลงได้ทันที ซึ่งเป็นหลักเดียวกับหัวข้อ A รูป 16.15 ใช้หลักเดียวกันกับแท่นยกแบบไฮดรอลิก: ปุ่ม UP สั่งคอนแทกเตอร์ M ของมอเตอร์ปั๊ม ผ่าน LS1 ที่เปิดเมื่อแท่นขึ้นสุด ปุ่ม DOWN สั่งรีเลย์ CR ผ่าน LS2 ที่เปิดเมื่อแท่นลงสุด และหน้าสัมผัสของ CR เปิดวาล์วโซลินอยด์ให้แท่นลง ทิศขึ้นและลงที่นี่ไม่ใช่การกลับทางของมอเตอร์ แต่ลิมิตสวิตช์ทำงานแบบเดียวกัน วิชานี้วาดแบบของ IEC ในแนวตั้ง ส่วนรูปของตำราเป็นแบบ NEMA ในแนวนอน</p></div>
+      <div class="story-p" data-l="en"><p>Herman &amp; Seiler's Fig. 20.23 is a door-opener circuit drawn in the US style of the National Electrical Manufacturers Association (NEMA). The control circuit is fed from a control transformer. At the top, the EMERGENCY STOP and the RESET button make relay CR hold itself, and a CR contact feeds both directions. Up: the UP button with its holding contact, then limit switch LS1, normally closed (it opens when the door is fully up), and the DN interlock contact, to coil UP. Down: the DOWN button with its holding contact, then contact PD of a photodetector (it opens when something blocks the beam under the door), limit switch LS2 (it opens when the door is fully down) and the UP interlock contact, to coil DN.</p>
+        <p>Each limit switch cuts only the path of the direction for which it is the end: a door that is fully up can be sent down at once, the same principle as section A. Fig. 16.15 uses the same principle on a hydraulic platform: UP starts the pump motor's contactor M through LS1, which opens at the top; DOWN starts relay CR through LS2, which opens at the bottom, and a CR contact opens the solenoid valve that lets the platform down. Up and down are not a motor reversal here, but the limit switches work the same way. The course draws vertical IEC diagrams; the books' figures are horizontal NEMA ladders.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/umc5_fig20_23_door_opener.jpg?v=14" width="1210" height="1184" loading="lazy" decoding="async" alt="NEMA diagram of a door opener: power circuit with UP and DN contactors, the DN contactor swapping two lines, overloads and the motor; control transformer; EMERGENCY STOP and RESET with relay CR holding itself; a CR contact feeds the UP path (UP button with hold, limit switch LS1, DN interlock, coil UP, overload contact) and the DOWN path (DOWN button with hold, photodetector contact PD, limit switch LS2, UP interlock, coil DN).">
+        <figcaption data-l="th">รูป 20.23 วงจรควบคุมประตูที่มีลิมิตสวิตช์ปลายทางทั้งสองทิศและตัวตรวจจับแสง (แบบ NEMA) · ที่มา: Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. (Cengage, 2025) บทที่ 20 หน้า 206 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 20.23, door control with an end limit switch for each direction and a photodetector (NEMA) · source: Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed. (Cengage, 2025), ch. 20, p. 206 · tap to enlarge</figcaption></figure>
+      <figure class="slide md"><img src="img/book/umc5_fig16_15_platform.jpg?v=14" width="1166" height="961" loading="lazy" decoding="async" alt="NEMA diagram of a platform lift: contactor M runs the pump motor; STOP, then the UP button with holding contact M, limit switch LS1 and a CR interlock to coil M; the DOWN button with holding contact CR, limit switch LS2 and an M interlock to relay CR; a CR contact switches the solenoid valve.">
+        <figcaption data-l="th">รูป 16.15 วงจรยกและลดแท่นด้วยลิมิตสวิตช์ LS1 และ LS2 (แบบ NEMA) · ที่มา: Herman &amp; Seiler (2025) บทที่ 16 หน้า 176 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 16.15, raising and lowering a platform with limit switches LS1 and LS2 (NEMA) · source: Herman &amp; Seiler (2025), ch. 16, p. 176 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">หยุดที่ปลายทางด้วยลิมิตสวิตช์สองตัว</h2><h2 data-l="en">Stopping at both ends with two limit switches</h2>
+    <div class="src" data-l="th">Senty บทที่ 14 วงจรที่ 21 หน้า 171 · UMC5 บทที่ 20 รูป 20.23 · EMC9 หน่วยที่ 36 หน้า 267 · IEC 60204-1 ข้อ 9.3.2</div><div class="src" data-l="en">Senty ch. 14, circuit 21, p. 171 · UMC5 ch. 20, Fig. 20.23 · EMC9 unit 36, p. 267 · IEC 60204-1, 9.3.2</div></div></div>
+  <p class="lead" data-l="th">วงจรนี้คือเดินหน้า–หยุด–ถอยหลังของหน้า 7.2 ที่เพิ่ม S5 21–22 ไว้ในทางของ KM1 และ S6 21–22 ไว้ในทางของ KM2 ใต้จุดที่หน้าสัมผัสค้างมาบรรจบ ใต้วงจรเป็นแคร่บนราง เดินหน้า (KM1) แคร่วิ่งไปทางขวาหา S5 ถอยหลัง (KM2) วิ่งไปทางซ้ายหา S6 ลิมิตสวิตช์ถูกกดเองเมื่อแคร่มาถึง ลอง: กด S2 แล้วดูแคร่หยุดที่ S5 กด S2 อีกครั้ง กด S3 กด S1 ระหว่างทาง และทำให้ไฟดับระหว่างแคร่วิ่ง ขณะมอเตอร์หยุด แตะที่รางหรือลากแคร่เพื่อย้ายตำแหน่งได้ ทุกเหตุการณ์บันทึกลงตาราง</p>
+  <p class="lead" data-l="en">This is the forward–stop–reverse circuit of page 7.2 with S5 21–22 added to the KM1 path and S6 21–22 to the KM2 path, below the point where the holds join. Under the circuit is a carriage on a track: forward (KM1) drives it to the right towards S5, reverse (KM2) to the left towards S6, and the limit switches are pressed by the carriage when it arrives. Try: press S2 and watch the carriage stop at S5; press S2 again; press S3; press S1 on the way; let the power fail while the carriage moves. While the motor is stopped you can tap the track or drag the carriage to move it. Every event is recorded.</p>
+  <div class="card sim rlwrap rlscroll" id="boxA" style="padding:8px;--rlmin:860px"></div>
+  <div class="card" style="margin-top:12px"><div id="carA"></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logA"></div><div id="sumA" style="margin-top:8px"></div></div>
+  <div class="story" style="margin-top:12px">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>Senty วงจรที่ 21 (รูป 14-21) คือวงจรของหัวข้อนี้ในแบบของสหรัฐอเมริกา ใช้กับเครนเหนือศีรษะขนาดเล็กที่ต้องไม่วิ่งเลยปลายราง ปุ่ม Right และ Left มีหน้าสัมผัสค้าง 2–3 ของคอนแทกเตอร์ตัวเอง ตามด้วยหน้าสัมผัสอินเตอร์ล็อกปกติปิด 6–7 ของคอนแทกเตอร์อีกตัว แล้วจึงเป็นลิมิตสวิตช์ปลายทางแบบปกติปิด (Right travel limit switch, Left travel limit switch) ก่อนถึงคอยล์ R และ L กรอบด้านซ้ายคือชุดหน้าสัมผัสช่วยของคอนแทกเตอร์: 6–7 ปกติปิด 4–5 ปกติเปิด</p>
+        <p>Senty อธิบายว่าถ้าเครนวิ่งไปทางขวาจนลิมิตสวิตช์ด้านขวาเปิด คอยล์ R จะดูดไม่ได้ แต่คอยล์ L ยังดูดได้ เพราะลิมิตสวิตช์แต่ละตัวอยู่ในทางของทิศตัวเองเท่านั้น ในวงจรของวิชานี้ S5 อยู่ก่อน KM2 21–22 ส่วนของ Senty อยู่หลังหน้าสัมผัสอินเตอร์ล็อก หน้าสัมผัสที่ต่ออนุกรมกันในทางเดียวกันสลับลำดับได้โดยการทำงานไม่เปลี่ยน</p></div>
+      <div class="story-p" data-l="en"><p>Senty's circuit 21 (Fig. 14-21) is the circuit of this section in US style, used for a small overhead crane that must not run past the end of its track. The Right and Left buttons have their own contactor's holding contact 2–3, followed by the NC interlock contact 6–7 of the other contactor, and then an NC travel limit switch (right travel limit switch, left travel limit switch) before coils R and L. The box at the left shows the contactor's auxiliary contact block: 6–7 NC, 4–5 NO.</p>
+        <p>Senty explains that if the crane runs right until the right limit switch opens, coil R cannot pull in, but coil L still can, because each limit switch is only in its own direction's path. In the course circuit S5 sits ahead of KM2 21–22, while Senty puts it after the interlock contact; contacts in series in the same path can be swapped without changing what the circuit does.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/senty_fig14_21_travel_limits.jpg?v=14" width="1400" height="640" loading="lazy" decoding="async" alt="US ladder diagram: Stop, then the Right button with holding contact R, the L interlock contact and the right travel limit switch to coil R; the Left button with holding contact L, the R interlock contact and the left travel limit switch to coil L; overload contact OL; a box at the left shows contact block terminals 6-7 normally closed and 4-5 normally open.">
+        <figcaption data-l="th">รูป 14-21 วงจรที่ 21: กลับทางพร้อมอินเตอร์ล็อกและลิมิตสวิตช์ปลายทางซ้ายขวา (ทางเดินกระแสแบบอเมริกัน) · ที่มา: Senty, <i>Motor Control Fundamentals</i> (Delmar Cengage, 2013) บทที่ 14 หน้า 171 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 14-21, circuit 21: interlocked reversing with left and right travel limit switches (US ladder) · source: Senty, <i>Motor Control Fundamentals</i> (Delmar Cengage, 2013), ch. 14, p. 171 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+  <div class="callout" data-l="th" style="margin-top:12px"><b>จัมเปอร์ตรงที่ต่อลิมิตสวิตช์</b>: สตาร์ตเตอร์กลับทางสำเร็จรูปบางรุ่นเว้นที่ไว้ต่อลิมิตสวิตช์ปลายทางในทางเดินกระแสของคอยล์แต่ละตัว และต่อสายจัมเปอร์ (jumper) คร่อมที่นั้นไว้จากโรงงาน Herman (EMC9 หน่วยที่ 36 หน้า 267) อธิบายว่าเมื่อลิมิตสวิตช์ถูกชนจนเปิด มอเตอร์หยุด และต้องสั่งทิศตรงข้ามด้วยปุ่มกด ซึ่งเป็นหลักเดียวกับหัวข้อนี้ และเมื่อติดตั้งลิมิตสวิตช์แล้วต้องถอดจัมเปอร์ออก ถ้าลืม จัมเปอร์จะต่อลัดคร่อมลิมิตสวิตช์ไว้ แคร่วิ่งเลยปลายทางทั้งที่ลิมิตสวิตช์เปิดแล้ว ก่อนเดินเครื่องที่ต่อสายใหม่ จึงทดสอบวงจรควบคุมโดยยังไม่ต่อสายมอเตอร์: สั่งเดินหน้า กด S5 ด้วยมือ แล้วดูว่า KM1 หลุดจริง ทำแบบเดียวกันกับ S6 และ KM2 ในแบบของวิชา S5 21–22 และ S6 21–22 อยู่ในตำแหน่งของจัมเปอร์นั้นพอดี (เครื่องจำลองด้านบน)</div>
+  <div class="callout" data-l="en" style="margin-top:12px"><b>Jumpers where the limit switches go</b>: some ready-made reversing starters leave a place for an end limit switch in each coil path and fit a jumper across it at the factory. Herman (EMC9, unit 36, p. 267) explains that when a limit switch is struck and opens, the motor stops and has to be started in the opposite direction with the push button, the same principle as in this section, and that the jumper must be removed once a limit switch is fitted. If it is forgotten, the jumper short-circuits the limit switch and the carriage runs past the end although the switch has opened. Before a newly wired machine runs, test the control circuit with the motor leads still disconnected: start forward, operate S5 by hand and check that KM1 really drops out; do the same with S6 and KM2. In the course drawing S5 21–22 and S6 21–22 sit exactly where those jumpers are (the simulator above).</div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">วิ่งไปมาเอง: รอบอัตโนมัติด้วยลิมิตสวิตช์</h2><h2 data-l="en">Back and forth by itself: an automatic cycle with limit switches</h2>
+    <div class="src" data-l="th">วงจรที่วิชานี้ออกแบบเอง · IEC 60204-1 ข้อ 7.5, 9.3.2 และ 10.1.4 · IEC 60947-5-1 ภาคผนวก K · IEC 60947-4-1 ข้อ 5.3.5.5</div><div class="src" data-l="en">A circuit designed for this course · IEC 60204-1, 7.5, 9.3.2 and 10.1.4 · IEC 60947-5-1, Annex K · IEC 60947-4-1, 5.3.5.5</div></div></div>
+  <p class="lead" data-l="th">ตำราทั้งห้าเล่มที่วิชานี้ใช้ไม่มีวงจรให้แคร่วิ่งไปมาระหว่างลิมิตสวิตช์สองตัว วงจรนี้จึงออกแบบขึ้นสำหรับวิชานี้ กด S4 (เริ่มรอบอัตโนมัติ) ก่อน แล้วกด S2 หรือ S3 เพื่อบอกทิศแรก แคร่จะวิ่งไปมาเองจนกว่าจะกด S1 เลือกได้ว่าจะมีสวิตช์กันเลยระยะ S7 S8 หรือไม่ ให้หยุดรอที่ปลายทาง 2 s หรือกลับทางทันที และทำให้ S5 เสีย (คันโยกไม่ถูกกด) ปุ่มกับดักด้านล่างวางแคร่ไว้ในตำแหน่งที่เครื่องจริงมักเจอ ดูแผนภาพเวลาประกอบ ทุกเหตุการณ์บันทึกลงตาราง</p>
+  <p class="lead" data-l="en">None of the five books this course uses has a circuit that drives a carriage back and forth between two limit switches, so this one was designed for the course. Press S4 (auto start) first, then S2 or S3 to give the first direction: the carriage runs back and forth by itself until S1 is pressed. You can choose whether the over-travel switches S7 S8 are fitted, whether the carriage waits 2 s at each end or reverses at once, and you can break S5 (its lever is no longer pressed). The trap buttons put the carriage where a real machine often finds it. Watch the timing chart as well. Every event is recorded.</p>
+  <div class="card solve"><div class="panel" id="mB" style="position:static;max-height:none"></div></div>
+  <div class="card sim rlwrap rlscroll" id="boxB" style="padding:8px;margin-top:12px;--rlmin:960px"></div>
+  <div class="card" style="margin-top:12px"><div id="carB"></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pB" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="tlB"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logB"></div><div id="sumB" style="margin-top:8px"></div></div>
+  <div class="duo" style="margin-top:12px">
+    <div class="card"><h3 data-l="th">อ่านวงจรทีละทางเดินกระแส</h3><h3 data-l="en">Reading the circuit path by path</h3>
+      <ol data-l="th"><li>F1 → F2 95–96 → S1 11–12 → (S2 13–14 ∥ KM1 13–14 ∥ ทางเดินกระแสที่ 3) → S5 21–22 → S7 21–22 → KM2 21–22 → คอยล์ KM1</li><li>KM1 13–14: ค้างตัวเอง</li><li>KA1 23–24 → S6 13–14: แคร่ถึงปลายทางถอยหลังขณะรอบอัตโนมัติทำงาน สั่งเดินหน้า</li><li>(S3 13–14 ∥ KM2 13–14 ∥ ทางเดินกระแสที่ 6) → S6 21–22 → S8 21–22 → KM1 21–22 → คอยล์ KM2</li><li>KM2 13–14: ค้างตัวเอง</li><li>KA1 33–34 → S5 13–14: ถึงปลายทางเดินหน้า สั่งถอยหลัง</li><li>S4 13–14 → คอยล์ KA1</li><li>KA1 13–14 คร่อม S4: ค้างตัวเอง</li></ol>
+      <ol data-l="en"><li>F1 → F2 95–96 → S1 11–12 → (S2 13–14 ∥ KM1 13–14 ∥ path 3) → S5 21–22 → S7 21–22 → KM2 21–22 → coil KM1</li><li>KM1 13–14: the hold</li><li>KA1 23–24 → S6 13–14: the carriage reaches the reverse end with the cycle on, so forward starts</li><li>(S3 13–14 ∥ KM2 13–14 ∥ path 6) → S6 21–22 → S8 21–22 → KM1 21–22 → coil KM2</li><li>KM2 13–14: the hold</li><li>KA1 33–34 → S5 13–14: the forward end starts reverse</li><li>S4 13–14 → coil KA1</li><li>KA1 13–14 across S4: the hold</li></ol>
+      <p class="simnote" data-l="th">ถ้าเลือกหยุดรอที่ปลายทาง S5 13–14 จะป้อนไฟให้ตัวตั้งเวลา KT1 (ทางเดินกระแสที่ 9) และ KT1 67–68 แทนที่ S5 13–14 ในทางเดินกระแสที่ 6 ทิศถอยหลังก็ใช้ S6 13–14 กับ KT2 แบบเดียวกัน</p>
+      <p class="simnote" data-l="en">With the wait at the ends selected, S5 13–14 feeds timer KT1 (path 9) and KT1 67–68 takes the place of S5 13–14 in path 6; the reverse end uses S6 13–14 and KT2 the same way.</p></div>
+    <div class="card"><h3 data-l="th">ทำไมวงจรจึงเป็นแบบนี้</h3><h3 data-l="en">Why the circuit looks like this</h3>
+      <ul data-l="th"><li><b>S1 และ F2 อยู่ในทางร่วมด้านบน</b> ไม่ได้ตัดเฉพาะ KA1: ถ้า S1 ตัดแค่ KA1 คอนแทกเตอร์ที่ค้างอยู่จะพาแคร่วิ่งต่อไปจนถึงปลายทาง</li>
+        <li><b>KA1 ต้องค้างตัวเองและหลุดเมื่อไฟดับ</b>: ถ้าใช้สวิตช์ค้างตำแหน่งแทน KA1 แคร่ที่จอดทับ S5 หรือ S6 อยู่จะออกวิ่งเองทันทีที่ไฟกลับมา (IEC 60204-1 ข้อ 7.5)</li>
+        <li><b>ลิมิตสวิตช์ถูกกดชั่วขณะก็พอ</b>: KM2 ค้างตัวเองด้วย KM2 13–14 ทันทีที่ S5 13–14 ต่อ แคร่จึงวิ่งออกจาก S5 ได้แม้ S5 จะคืนตัว</li>
+        <li><b>กด S4 ขณะแคร่จอดทับ S5</b>: KA1 33–34 กับ S5 13–14 ต่อครบทันที แคร่ถอยหลังออกไปเลย วิชานี้ถือว่าเป็นคำสั่งเริ่มที่ตั้งใจ ผู้ควบคุมต้องรู้ไว้</li>
+        <li><b>กลับทางที่ปลายทางทันที</b> คือการกลับทางขณะหมุนทุกรอบ (หน้า 7.3) คอนแทกเตอร์ต้องเป็น AC-4 ถ้าเลือกหยุดรอ 2 s มอเตอร์มีเวลาหมุนค้างจนหยุดก่อนกลับทาง ถ้าเวลารอนานกว่าเวลาหมุนค้างจริง (หน้า 7.3) ก็เป็นการกลับทางจากหยุดนิ่ง (AC-3) แต่เวลาที่ตั้งไว้ไม่รู้ความเร็วจริงของมอเตอร์</li></ul>
+      <ul data-l="en"><li><b>S1 and F2 sit in the common path at the top</b>, not only in front of KA1: if S1 dropped only KA1, the latched contactor would carry the carriage on to the end.</li>
+        <li><b>KA1 must hold itself and drop out on a power failure</b>: with a maintained switch instead of KA1, a carriage parked on S5 or S6 would set off by itself as soon as the power returned (IEC 60204-1, 7.5).</li>
+        <li><b>A momentary operation of a limit switch is enough</b>: KM2 holds itself through KM2 13–14 as soon as S5 13–14 closes, so the carriage drives off S5 even after S5 springs back.</li>
+        <li><b>S4 pressed while the carriage rests on S5</b>: KA1 33–34 and S5 13–14 complete the path at once and the carriage drives off in reverse. The course treats this as an intended start command; the operator has to know it.</li>
+        <li><b>Reversing at the end at once</b> is plugging on every stroke (page 7.3): the contactors need AC-4. With the 2 s wait selected the motor has time to coast down before it reverses; if the wait is longer than the real coast-down time (page 7.3), the reversal starts from standstill (AC-3 duty), but the set time does not know the real speed.</li></ul></div>
+  </div>
+</section>
+
+<section class="prob" id="tD">
+  <div class="prob-head"><span class="prob-no">D</span><div><h2 data-l="th">กลับทางด้วยตัวตั้งเวลา: ไม่ต้องรู้ตำแหน่ง</h2><h2 data-l="en">Reversing on a timer: no position needed</h2>
+    <div class="src" data-l="th">ตำราไทย บทที่ 6 หัวข้อ 6.5 รูป 6.21 · IEC 60947-4-1 ข้อ 5.3.5.5</div><div class="src" data-l="en">Thai textbook ch. 6 §6.5, Fig. 6.21 · IEC 60947-4-1, 5.3.5.5</div></div></div>
+  <p class="lead" data-l="th">ตำราไทยหัวข้อ 6.5 กลับทางอัตโนมัติด้วยตัวตั้งเวลาสองตัว วงจรด้านล่างคือรูป 6.21 ที่วาดใหม่ตามแบบของวิชา: กด S4 แล้วมอเตอร์เดินหน้าตามเวลาของ KT1 ถอยหลังตามเวลาของ KT2 สลับกันไปจนกว่าจะกด S1 ตั้งเวลาด้วยแถบเลื่อน ดูแผนภาพเวลา แล้วลองกด S1 ทำให้ไฟดับ และคลิก F2 ทุกเหตุการณ์บันทึกลงตาราง</p>
+  <p class="lead" data-l="en">Thai textbook §6.5 reverses automatically with two timers. The circuit below is its Fig. 6.21 redrawn in the course style: press S4 and the motor runs forward for KT1's time, then in reverse for KT2's time, and so on until S1 is pressed. Set the times with the sliders, watch the timing chart, then press S1, let the power fail and click F2. Every event is recorded.</p>
+  <div class="card solve"><div class="panel" id="mD" style="position:static;max-height:none"></div></div>
+  <div class="card sim rlwrap rlscroll" id="boxD" style="padding:8px;margin-top:12px;--rlmin:960px"></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pD" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="tlD"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logD"></div><div id="sumD" style="margin-top:8px"></div></div>
+  <div class="story" style="margin-top:12px">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>รูป 6.21 ของตำราไทยใช้ชื่อแบบ DIN (Deutsches Institut für Normung สถาบันมาตรฐานเยอรมัน): K3A รีเลย์ช่วย (วิชานี้ใช้ KA1) K4T และ K5T ตัวตั้งเวลาหน่วงเมื่อป้อนไฟ (KT1 และ KT2) K1 และ K2 คอนแทกเตอร์เดินหน้าและถอยหลัง (KM1 และ KM2) S2 ปุ่มเริ่ม (วิชานี้ใช้ S4 เริ่มรอบอัตโนมัติ เหมือนหัวข้อ B) F2 ฟิวส์และ F3 โอเวอร์โหลด (F1 และ F2) ส่วนหลอด H1 H2 ต่อขนานกับคอยล์ และ H3 คือหลอดโอเวอร์โหลด</p>
+        <p>กด S2: K3A ดูดและค้างตัวเอง K4T รับไฟผ่านหน้าสัมผัสปกติปิดของ K2 ส่วน K5T รับไฟผ่านหน้าสัมผัสปกติปิดของ K1 หน้าสัมผัสของ K3A ป้อนไฟให้ K1 ผ่านหน้าสัมผัสหน่วงเวลาปกติปิดของ K4T และ K2 ปกติปิด K1 ดูด มอเตอร์เดินหน้า K5T หยุดนับเพราะ K1 ปกติปิดเปิด ครบเวลาของ K4T: หน้าสัมผัสปกติปิดของมันตัด K1 หน้าสัมผัสปกติเปิดของมันสั่ง K2 ซึ่งค้างตัวเอง แล้ว K2 ปกติปิดก็ตัด K4T ให้เริ่มใหม่ ขณะ K2 ดูด K5T นับเวลา ครบแล้วตัด K2 แล้ว K1 ก็ดูดอีกรอบ</p>
+        <p>วงจรของวิชาทำงานเหมือนกัน แต่หลอดรับไฟผ่านหน้าสัมผัส 53–54 ตัวตั้งเวลารับไฟผ่าน 61–62 ของคอนแทกเตอร์ (21–22 ใช้เป็นอินเตอร์ล็อกแล้ว) และหลอดหยุดอยู่ H4 ใช้ 71–72 สังเกตว่าทุกครั้งที่ครบเวลา คอนแทกเตอร์ตัวหนึ่งหลุดและอีกตัวดูดทันที มอเตอร์ถูกกลับทางขณะหมุนทุกรอบ (AC-4) ถ้าต้องการให้หยุดก่อนกลับทาง ต้องเพิ่มช่วงหยุดรอแบบหัวข้อ B และเวลาที่ตั้งไม่ได้บอกว่าแคร่อยู่ที่ไหน ถ้าโหลดหนักขึ้นหรือรางฝืดขึ้น ระยะที่วิ่งได้ก็เปลี่ยน การกลับทางด้วยเวลาจึงเหมาะกับงานที่ไม่มีตำแหน่งปลายทาง เช่น ใบกวนที่ต้องหมุนสลับทิศเป็นช่วง ๆ ส่วนแคร่ที่ต้องหยุดตรงปลายทางใช้ลิมิตสวิตช์</p></div>
+      <div class="story-p" data-l="en"><p>Thai textbook Fig. 6.21 uses names after DIN (Deutsches Institut für Normung, the German standards body): K3A auxiliary relay (the course uses KA1), K4T and K5T on-delay timers (KT1 and KT2), K1 and K2 forward and reverse contactors (KM1 and KM2), S2 start (the course uses S4 auto start, as in section B), F2 fuse and F3 overload relay (F1 and F2); lamps H1 H2 are in parallel with the coils and H3 is the overload lamp.</p>
+        <p>Press S2: K3A pulls in and holds itself. K4T is fed through the NC contact of K2, K5T through the NC contact of K1. A K3A contact feeds K1 through the timed NC contact of K4T and the K2 NC: K1 pulls in and the motor runs forward, while K5T stops because the K1 NC has opened. When K4T times out, its NC contact drops K1 and its NO contact starts K2, which holds itself; the K2 NC then switches K4T off so it can start again. While K2 is in, K5T counts; when it times out it drops K2, and K1 pulls in once more.</p>
+        <p>The course circuit works the same way, but the lamps are fed through contacts 53–54, the timers through the contactors' 61–62 (21–22 are already the interlocks), and the stopped lamp H4 uses 71–72. Notice that at every time-out one contactor drops out and the other pulls in at once: the motor is plug-reversed on every changeover (AC-4). If it should stop first, a pause like the one in section B has to be added. And the set time does not tell where the carriage is: with a heavier load or a stiffer track the distance travelled changes. Reversing on a timer therefore suits drives with no end positions, such as a stirrer that turns a while each way; a carriage that must stop at its ends uses limit switches.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/book1_fig6_21_auto_timer.jpg?v=14" width="895" height="757" loading="lazy" decoding="async" alt="Thai textbook Fig. 6.21: vertical control circuit with fuse F2 and overload contact F3 feeding lamp H3; stop S1; start S2 with holding contact K3A to relay K3A; K2 and K1 normally closed contacts feeding timers K4T and K5T; a K3A contact feeding coil K1 through the timed normally closed contact of K4T and a K2 normally closed contact, and coil K2 through the timed normally open contact of K4T with holding contact K2, the timed normally closed contact of K5T and a K1 normally closed contact; lamps H1 and H2 in parallel with the coils; paths 1 to 8.">
+        <figcaption data-l="th">รูป 6.21 วงจรควบคุมการกลับทางหมุนอัตโนมัติด้วยตัวตั้งเวลา · ที่มา: ธนภัทร ไพคำนาม, <i>การควบคุมมอเตอร์ไฟฟ้า</i> (2104-2009), บทที่ 6 หน้า 104 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 6.21, automatic reversing control circuit with timers · source: Thanaphat Phaikhamnam, <i>Motor Control</i> (2104-2009), ch. 6, p. 104 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">ใส่ลิมิตสวิตช์ให้วงจรเดินหน้า–หยุด–ถอยหลัง</h2><h2 data-l="en">Adding limit switches to a forward–stop–reverse circuit</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · หน้า 7.2 · Senty บทที่ 14 วงจรที่ 21</div><div class="src" data-l="en">Worked example · page 7.2 · Senty ch. 14, circuit 21</div></div></div>
+  <div class="story in">
+    <div class="story-t">
+      <div class="given" data-l="th"><div class="gl">โจทย์</div><p>วงจรในรูปคือเดินหน้า–หยุด–ถอยหลังของหน้า 7.2 ใช้ขับโต๊ะเครื่องจักรที่เดินหน้าไปทางขวาและถอยหลังไปทางซ้าย ต้องเพิ่มลิมิตสวิตช์ S5 ที่ปลายขวาและ S6 ที่ปลายซ้าย (ก) S5 ใช้หน้าสัมผัสใด และต่อไว้ที่ไหน (ข) S6 ต่อที่ไหน (ค) ถ้าต่อ S5 21–22 อนุกรมกับ S1 ในทางร่วมด้านบน เกิดอะไรขึ้นเมื่อโต๊ะถึงปลายขวา (ง) ถ้าต่อสลับกัน S5 21–22 อยู่ในทางของ KM2 และ S6 21–22 อยู่ในทางของ KM1 เกิดอะไรขึ้น (จ) ทำไมจึงใช้หน้าสัมผัสปกติปิดแบบเปิดบังคับ</p></div>
+      <div class="given" data-l="en"><div class="gl">Problem</div><p>The circuit in the figure is the forward–stop–reverse circuit of page 7.2. It drives a machine table that moves right in forward and left in reverse. Limit switches S5 at the right end and S6 at the left end are to be added. (a) Which contact of S5 is used, and where does it go? (b) Where does S6 go? (c) If S5 21–22 were put in series with S1 in the common path at the top, what would happen when the table reaches the right end? (d) What if the two were swapped, S5 21–22 in the KM2 path and S6 21–22 in the KM1 path? (e) Why an NC contact with direct opening?</p></div></div>
+    <div class="story-f"><div class="card" id="g1" style="padding:8px"></div></div>
+  </div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">ลิมิตสวิตช์และการกลับทางอัตโนมัติ</div><div class="src" data-l="en">Limit switches and automatic reversing</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>หัวข้อ A: วางแคร่ไว้กลางราง กด S2 แล้วกด S1 ก่อนถึง S5 จากนั้นกด S3 แคร่ไปหยุดที่ไหน ถ้ากด S2 ขณะแคร่จอดทับ S6 เกิดอะไรขึ้น</li>
+      <li>หัวข้อ B: เปิดรอบอัตโนมัติแล้วทำให้ไฟดับขณะแคร่วิ่ง เมื่อไฟกลับมามีอะไรขยับไหม ต้องกดปุ่มใดบ้างจึงจะวิ่งไปมาได้อีก ลองทำแบบเดียวกันตอนแคร่จอดทับ S5</li>
+      <li>หัวข้อ B: ทำให้ S5 เสียแล้วเปิดรอบอัตโนมัติ ทั้งแบบมีและไม่มี S7 S8 จดว่าแคร่หยุดที่ไหน แล้วใช้ปุ่มใดขับกลับ</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 6 หัวข้อ 6.5 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 16 และ 20 · Herman, <i>Electric Motor Control</i> 9th ed. หน่วยที่ 13 และ 36 · Senty, <i>Motor Control Fundamentals</i> บทที่ 14 · IEC 60947-5-1 · IEC 60947-4-1 · IEC 60204-1 ข้อ 7.5, 9.3.2 และ 10.1.4</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Section A: put the carriage in the middle, press S2, then S1 before it reaches S5, then S3. Where does the carriage stop? What happens if S2 is pressed while the carriage rests on S6?</li>
+      <li>Section B: start the auto cycle and let the power fail while the carriage moves. Does anything move when the power returns? Which buttons are needed before it runs back and forth again? Try the same with the carriage resting on S5.</li>
+      <li>Section B: break S5 and start the auto cycle, with and without S7 S8. Note where the carriage stops and which button drives it back.</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 6 §6.5 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 16 and 20 · Herman, <i>Electric Motor Control</i>, 9th ed., units 13 and 36 · Senty, <i>Motor Control Fundamentals</i>, ch. 14 · IEC 60947-5-1 · IEC 60947-4-1 · IEC 60204-1, 7.5, 9.3.2 and 10.1.4</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui, tt = ED.tt, fd = ED.fd, IE = IEC;
+  const hid = spec => new RL.Sim(document.createElement('div'), spec);   // hidden simulator for the summaries (same model as the page)
+  const fresh = box => { box.innerHTML = ''; const el = document.createElement('div'); box.appendChild(el); return el; };   // a fresh element drops the old listeners
+  const ok = s => `<span class="rk-ok">${s}</span>`, warn = s => `<span class="rk-warn">${s}</span>`, bad = s => `<span class="rk-bad">${s}</span>`;
+  const dirTxt = d => (d === 'cw' ? t('เดินหน้า (KM1)', 'forward (KM1)') : d === 'ccw' ? t('ถอยหลัง (KM2)', 'reverse (KM2)') : t('หยุด', 'stopped'));
+  const xr = a => a.reduce((acc, x) => (x === 'NO' || x === 'NC' ? [...acc, [x]] : (acc[acc.length - 1].push(x), acc)), []).map(g => `${g[0]} ${g.slice(1).join(', ')}`).join(' · ');
+  const snap = s => { const o = { mains: String(s.mains), dir: String(s.dir()) }; Object.values(s.dev).forEach(d => { o[d.id] = `${d.pressed}|${d.on}|${d.tripped}|${d.blown}|${d.energized}`; }); return o; };
+  const changed = (now, was) => Object.keys(now).filter(k => k !== 'dir' && now[k] !== was[k]);
+  const posTxt = c => { const p = c.pos; return p > 0.965 || p < 0.035 ? t('ที่ปลายราง', 'at the end stop') : p >= 0.94 ? t('เลย S5 ถึง S7', 'past S5, at S7') : p <= 0.06 ? t('เลย S6 ถึง S8', 'past S6, at S8') : p >= 0.88 ? t('ทับ S5 (ปลายขวา)', 'on S5 (right end)') : p <= 0.12 ? t('ทับ S6 (ปลายซ้าย)', 'on S6 (left end)') : t(`บนราง ${Math.round(p * 100)} %`, `on the track, ${Math.round(p * 100)} %`); };
+  /* a hidden simulator with a hidden carriage, driven in 0.02 s steps (summaries) */
+  const runCar = (spec, pos, seq, o = {}) => { const s = hid(spec), c = new C7.Carriage(null, s, { pos, ...o });
+    const adv = T => { let l = T; while (l > 1e-9) { const d = Math.min(0.02, l); s.step(d); c.step(d); l -= d; } };
+    seq.forEach(([op, ...a]) => { if (op === 'wait') adv(a[0]); else if (op === 'set') s.setOn(a[0], a[1]); else if (op === 'auto') c.auto = a[0]; else C6.runSeq(s, [[op, ...a]]); }); return { s, c, adv }; };
+
+  /* 0: the two contacts of one limit switch (static symbol) */
+  (() => { const x1 = 140, x2 = 300, y0 = 12, y1 = 90, ym = (y0 + y1) / 2, xm = x1 - 17.5;
+    let s = IE.contact(true, x1, y0, y1, { op: 'lim' }) + IE.contact(false, x2, y0, y1, { op: 'lim' });
+    s += `<circle cx="${xm}" cy="${ym}" r="4.8" fill="var(--panel)"/><path d="M ${xm - 3} ${ym} L ${xm + 2.6} ${ym} M ${xm + 0.4} ${ym - 2.2} L ${xm + 2.6} ${ym} L ${xm + 0.4} ${ym + 2.2}" fill="none"/>`;
+    [[x1, '21', '22'], [x2, '13', '14']].forEach(([x, a, b]) => { s += IE.T(a, x + 5, y0 + 12, { size: 10 }) + IE.T(b, x + 5, y1 - 4, { size: 10 }) + IE.T('S5', x - 40, ym + 4, { size: 12, anchor: 'end', weight: 700 }); });
+    s += IE.T(t('NC 21–22 เปิดแบบบังคับ', 'NC 21–22, direct opening'), x1 - 14, y1 + 22, { size: 11, anchor: 'middle', col: 'var(--muted)' }) + IE.T(t('NO 13–14', 'NO 13–14'), x2 - 14, y1 + 22, { size: 11, anchor: 'middle', col: 'var(--muted)' });
+    $('sym0').innerHTML = IE.svg(400, 124, `<g stroke="currentColor" stroke-width="1.4" fill="none">${s}</g>`, { max: 420, label: 'limit switch S5: NC contact 21-22 with the direct opening mark and NO contact 13-14' }); })();
+
+  /* A: travel limits (C7.LIMITS) with the carriage */
+  let simA = null, pnA = null, carA = null, snapA = null;
+  const pA = $('pA');
+  const logA = new ED.Log($('logA'), [['เหตุการณ์', 'event'], ['แคร่', 'carriage'], ['ผล', 'result'], ['ความหมาย', 'what it means']],
+    { empty: ['ยังไม่มีผล กด S2 ที่หน้าตู้ให้แคร่เดินหน้า', 'No results yet: press S2 on the panel front to drive the carriage forward'] });
+  const trackA = s => {
+    if (s !== simA) return; const now = snap(s), was = snapA; snapA = now; const d0 = was.dir === '0' ? 0 : was.dir, d1 = s.dir(), dv = s.dev, ch = changed(now, was);
+    const add = (k, ev, txt, kind) => logA.add(k, [ev, posTxt(carA), dirTxt(d1), txt], kind);
+    if (ch.includes('S5') && dv.S5.on && d0 === 'cw' && !d1) { add('S5stop', t('แคร่ถึง S5', 'carriage reaches S5'), t('S5 21–22 เปิด KM1 หลุด แคร่หยุดที่ปลายขวา', 'S5 21–22 opens, KM1 drops out, the carriage stops at the right end'), 'ok'); return; }
+    if (ch.includes('S6') && dv.S6.on && d0 === 'ccw' && !d1) { add('S6stop', t('แคร่ถึง S6', 'carriage reaches S6'), t('S6 21–22 เปิด KM2 หลุด แคร่หยุดที่ปลายซ้าย', 'S6 21–22 opens, KM2 drops out, the carriage stops at the left end'), 'ok'); return; }
+    ch.forEach(id => { const x = dv[id];
+      if ((id === 'S2' || id === 'S3') && x.pressed) { const want = id === 'S2' ? 'cw' : 'ccw', lim = id === 'S2' ? 'S5' : 'S6', nm = id === 'S2' ? t('กด S2 เดินหน้า', 'press S2 forward') : t('กด S3 ถอยหลัง', 'press S3 reverse');
+        if (d1 === want && d0 !== want) add(`${id}go${dv[want === 'cw' ? 'S6' : 'S5'].on ? 'off' : ''}`, nm, dv[want === 'cw' ? 'S6' : 'S5'].on ? t(`แคร่วิ่งออกจาก ${want === 'cw' ? 'S6' : 'S5'}: ลิมิตสวิตช์ที่ถูกกดตัดเฉพาะทิศของมันเอง`, `the carriage drives off ${want === 'cw' ? 'S6' : 'S5'}: an operated limit switch cuts only its own direction`) : t('แคร่ออกวิ่ง', 'the carriage moves off'), 'ok');
+        else if (!d1 && dv[lim].on) add(`${id}lim`, nm, t(`ไม่มีผล: แคร่ทับ ${lim} อยู่ ${lim} 21–22 จึงเปิด ใช้ปุ่มอีกทิศขับออก`, `nothing happens: the carriage is on ${lim}, so ${lim} 21–22 is open; use the other button to drive it off`), 'ok');
+        else if (d0 && d1 === d0 && d0 !== want) add(`${id}int`, nm, t(`ไม่มีผล: ${want === 'cw' ? 'KM2 21–22' : 'KM1 21–22'} เปิดอยู่ กด S1 ก่อน`, `nothing happens: ${want === 'cw' ? 'KM2 21–22' : 'KM1 21–22'} is open; press S1 first`), 'ok'); }
+      else if (id === 'S1' && x.pressed && d0) add('S1', t('กด S1 ระหว่างทาง', 'press S1 on the way'), t('แคร่หยุดตรงนั้น ทิศใดก็สั่งต่อได้', 'the carriage stops where it is; either direction can be started'), 'ok');
+      else if (id === 'F2') { if (x.tripped && d0) add('F2', t('F2 ตัด', 'F2 trips'), t('แคร่หยุด หลอด H3 ติด', 'the carriage stops; lamp H3 lights'), 'ok'); else if (!x.tripped) add('F2r', t('รีเซ็ต F2', 'reset F2'), d1 ? bad(t('แคร่ออกวิ่งเอง!', 'the carriage moved off by itself!')) : t('ไม่มีอะไรเริ่มเอง', 'nothing restarts'), d1 ? 'bad' : 'ok'); }
+      else if (id === 'mains') { if (now.mains === 'false') { if (d0) add('cut', t('ไฟดับขณะแคร่วิ่ง', 'power fails while the carriage moves'), t('คอนแทกเตอร์หลุด แคร่หยุด', 'the contactor drops out, the carriage stops'), 'ok'); }
+        else add('back', t('ไฟกลับมา', 'power returns'), d1 ? bad(t('แคร่ออกวิ่งเอง!', 'the carriage moved off by itself!')) : t('ไม่มีอะไรเริ่มเอง (IEC 60204-1 ข้อ 7.5)', 'nothing restarts by itself (IEC 60204-1, 7.5)'), d1 ? 'bad' : 'ok'); } }); };
+  function buildA() {
+    simA = new RL.Sim(fresh($('boxA')), C7.LIMITS({ lamps: ['H1', 'H2', 'H3'] }), { max: 1000, label: 'reversing circuit with travel limit switches S5 and S6' });
+    carA = new C7.Carriage(fresh($('carA')), simA, { pos: 0.5, onEvent: e => { if (e.kind === 'crash') logA.add('crash', [t('ชนปลายราง', 'crash'), posTxt(carA), dirTxt(simA.dir()), bad(t('แคร่ชนตัวหยุดปลายราง', 'the carriage hit the end stop'))], 'bad'); } });
+    pA.innerHTML = ''; ui.h2(pA, t('หน้าตู้และการสั่งงาน', 'Panel front and controls'));
+    pnA = C7.panel(pA, simA, { skip: ['S5', 'S6'] }); snapA = snap(simA); simA.on(trackA); }
+  buildA();
+  LS.anim($('tA'), dt => { simA.step(dt); carA.step(dt); pnA.refresh(); });
+  ED.summary($('sumA'), { intro: ['แคร่ใช้เวลาราว 3 s วิ่งจาก S6 ถึง S5 (ความเร็วตัวอย่าง)', 'the carriage takes about 3 s from S6 to S5 (example speed)'],
+    head: [['ทำอะไร', 'what is done'], ['แคร่อยู่ที่', 'carriage ends'], ['มอเตอร์', 'motor'], ['ความหมาย', 'what it means']],
+    rows: () => { const row = (lab, pos, seq, why) => { const r = runCar(C7.LIMITS(), pos, seq); return [lab, posTxt(r.c), dirTxt(r.s.dir()), r.c.crashed ? bad(t('ชนปลายราง', 'crash')) : why]; };
+      return [row(t('แคร่กลางราง กด S2', 'carriage in the middle, press S2'), 0.5, [['tap', 'S2'], ['wait', 4]], ok(t('S5 21–22 ตัด KM1 ที่ปลายขวา', 'S5 21–22 drops KM1 at the right end'))),
+        row(t('แคร่ทับ S5 กด S2', 'carriage on S5, press S2'), 0.91, [['tap', 'S2'], ['wait', 1]], ok(t('ไม่มีผล S5 21–22 เปิดอยู่', 'nothing: S5 21–22 is open'))),
+        row(t('แคร่ทับ S5 กด S3', 'carriage on S5, press S3'), 0.91, [['tap', 'S3'], ['wait', 5]], ok(t('ขับออกจาก S5 ได้ แล้วหยุดที่ S6', 'drives off S5, then stops at S6'))),
+        row(t('กด S2 แล้วกด S1 ที่ 0.6 s แล้วกด S3', 'S2, S1 after 0.6 s, then S3'), 0.5, [['tap', 'S2'], ['wait', 0.6], ['tap', 'S1'], ['wait', 0.5], ['tap', 'S3'], ['wait', 5]], ok(t('หยุดตรงนั้น แล้วถอยไปหยุดที่ S6', 'stops where it is, then reverses to S6'))),
+        row(t('กด S2 ไฟดับที่ 0.6 s แล้วกลับมา', 'S2, power failure at 0.6 s and back'), 0.5, [['tap', 'S2'], ['wait', 0.6], ['cut'], ['wait', 3]], ok(t('หยุดและไม่ออกวิ่งเอง', 'stops and does not move off by itself')))]; },
+    points: [['ลิมิตสวิตช์ปลายทางอยู่ในทางของทิศที่วิ่งเข้าหามัน: S5 21–22 ในทางของ KM1 S6 21–22 ในทางของ KM2 ใต้จุดที่หน้าสัมผัสค้างบรรจบ หน้าสัมผัสค้างจึงคร่อมมันไม่ได้', 'An end limit switch sits in the path of the direction that runs towards it: S5 21–22 in the KM1 path, S6 21–22 in the KM2 path, below the point where the hold joins, so the hold cannot bridge it.'],
+      ['แคร่ที่ทับลิมิตสวิตช์อยู่ยังขับออกด้วยปุ่มอีกทิศได้เสมอ เพราะลิมิตสวิตช์ตัดเฉพาะทิศของมันเอง', 'A carriage resting on a limit switch can always be driven off with the other button, because the switch cuts only its own direction.'],
+      ['ไฟดับหรือโอเวอร์โหลดตัดแล้วไม่มีอะไรเริ่มเอง เหมือนวงจรเดินหน้า–หยุด–ถอยหลังทั่วไป', 'After a power failure or an overload trip nothing restarts by itself, as in any forward–stop–reverse circuit.']] });
+
+  /* B: automatic back-and-forth (C7.AUTO, designed for this course) with the carriage, options and trap set-ups */
+  const optB = { over: true, dwell: 0, broken: false };
+  let simB = null, pnB = null, carB = null, tlB = null, snapB = null, trapB = '';
+  const mB = $('mB'), pB = $('pB');
+  ui.h2(mB, t('ตัวเลือกของวงจร', 'Circuit options'));
+  ui.radio(mB, [{ id: 'ov1', label: t('มีสวิตช์กันเลยระยะ S7 S8', 'over-travel switches S7 S8 fitted'), on: true }, { id: 'ov0', label: t('ไม่มี S7 S8', 'no S7 S8') }], id => { optB.over = id === 'ov1'; trap(trapB); });
+  ui.radio(mB, [{ id: 'dw0', label: t('กลับทางทันทีที่ปลายทาง', 'reverse at once at the ends'), on: true }, { id: 'dw2', label: t('หยุดรอ 2 s ที่ปลายทาง (KT1 KT2)', 'wait 2 s at the ends (KT1 KT2)') }], id => { optB.dwell = id === 'dw2' ? 2 : 0; trap(trapB); });
+  const bB = ui.buttons(mB, [{ id: 'brkB', label: t('ทำให้ S5 เสีย (คันโยกไม่ถูกกด) / ซ่อม', 'Break S5 (its lever is no longer pressed) / repair'), onclick: () => setBroken(!optB.broken) }]);
+  const setBroken = v => { optB.broken = v; bB.brkB.classList.toggle('on', v); if (!carB) return; if (v) carB.broken.add('S5'); else carB.broken.delete('S5'); carB.last = ''; carB.press(); carB.draw(); };
+  ui.h2(mB, t('กับดักของเครื่องจริง', 'Traps of a real machine'));
+  ui.buttons(mB, [{ id: 'trS5', label: t('① แคร่จอดทับ S5 รอบอัตโนมัติไม่ทำงาน', '① Carriage parked on S5, auto cycle off'), onclick: () => trap('s5') },
+    { id: 'trBoth', label: t('② S5 และ S6 ถูกกดพร้อมกัน', '② S5 and S6 both operated'), onclick: () => trap('both') },
+    { id: 'trS6', label: t('③ หลังกด S1 ดันแคร่ไปทับ S6 ด้วยมือ', '③ After S1, carriage pushed onto S6 by hand'), onclick: () => trap('s6') },
+    { id: 'trOff', label: t('↺ เริ่มใหม่ แคร่กลางราง', '↺ Start again, carriage in the middle'), onclick: () => trap('') }]);
+  const stTrap = ui.status(mB);
+  const TRAPS = {
+    '': [t('ปกติ', 'normal'), t('แคร่อยู่กลางราง รอบอัตโนมัติยังไม่ทำงาน กด S4 แล้วกด S2 หรือ S3', 'The carriage is in the middle and the auto cycle is off: press S4, then S2 or S3.'), 'wait'],
+    s5: [t('กับดัก ①', 'trap ①'), t('แคร่จอดทับ S5 KA1 หลุดอยู่ ลองกด S2 แล้วกด S3 จากนั้นกด ① อีกครั้งแล้วลองกด S4 ดูว่าแคร่ทำอะไร', 'The carriage rests on S5 and KA1 is out. Try S2, then S3; then press ① again and try S4 to see what the carriage does.'), 'warn'],
+    both: [t('กับดัก ②', 'trap ②'), t('แคร่จอดที่ S5 และคันโยกของ S6 ติดค้างในตำแหน่งถูกกด (เช่น งอหลังถูกกระแทก) ลองกด S4 S2 และ S3 แล้วอ่านบรรทัดสถานะใต้หน้าตู้', 'The carriage stands on S5 and the lever of S6 is jammed in the operated position (bent after a knock, say). Try S4, S2 and S3, and read the status line under the panel front.'), 'warn'],
+    s6: [t('กับดัก ③', 'trap ③'), t('รอบอัตโนมัติถูกหยุดด้วย S1 แล้วมีคนดันแคร่ไปทับ S6 ด้วยมือ ไม่มีอะไรเริ่มเอง เพราะ KA1 หลุดแล้ว จากนั้นลองกด S4', 'The auto cycle was stopped with S1 and someone pushed the carriage onto S6 by hand. Nothing starts, because KA1 has dropped out. Then try S4.'), 'warn'] };
+  const logB = new ED.Log($('logB'), [['เหตุการณ์', 'event'], ['แคร่', 'carriage'], ['ผล', 'result'], ['ความหมาย', 'what it means']],
+    { empty: ['ยังไม่มีผล กด S4 แล้วกด S2 ที่หน้าตู้', 'No results yet: press S4, then S2 on the panel front'] });
+  const optKey = () => `${optB.over ? 'o' : 'n'}${optB.dwell}${optB.broken ? 'b' : ''}${trapB}`;
+  const endOf = d => (d === 'cw' ? 'S5' : 'S6');
+  const trackB = s => {
+    if (s !== simB) return; const now = snap(s), was = snapB; snapB = now; const d0 = was.dir === '0' ? 0 : was.dir, d1 = s.dir(), dv = s.dev, ch = changed(now, was);
+    const ka0 = was.KA1.endsWith('true'), ka1 = !!dv.KA1.energized, at = id => !!(dv[id] && dv[id].on);
+    const add = (k, ev, txt, kind) => logB.add(`${optKey()}|${k}`, [ev, posTxt(carB), dirTxt(d1), txt], kind);
+    if (ch.includes('S1') && dv.S1.pressed) { if (d0 || ka0) add('S1', t('กด S1', 'press S1'), t('S1 อยู่ในทางร่วมด้านบน คอนแทกเตอร์และ KA1 หลุดพร้อมกัน แคร่หยุดตรงนั้นและรอบอัตโนมัติจบ', 'S1 is in the common path at the top: the contactor and KA1 drop out together; the carriage stops where it is and the auto cycle is over'), 'ok'); return; }
+    if (ch.includes('mains')) { if (now.mains === 'false') { if (d0 || ka0) add('cut', t('ไฟดับ', 'power fails'), t('คอนแทกเตอร์และ KA1 หลุด แคร่หยุด', 'the contactor and KA1 drop out; the carriage stops'), 'ok'); }
+      else add('back', t('ไฟกลับมา', 'power returns'), d1 ? bad(t('แคร่ออกวิ่งเอง!', 'the carriage moved off by itself!')) : t('ไม่มีอะไรขยับ: KA1 หลุดไปพร้อมไฟดับ ต้องกด S4 และบอกทิศใหม่ (IEC 60204-1 ข้อ 7.5)', 'nothing moves: KA1 dropped out with the power; S4 and a direction are needed again (IEC 60204-1, 7.5)'), d1 ? 'bad' : 'ok'); return; }
+    if (ch.includes('F2')) { if (dv.F2.tripped) { if (d0 || ka0) add('F2', t('F2 ตัด', 'F2 trips'), t('F2 95–96 อยู่ในทางร่วม คอนแทกเตอร์และ KA1 หลุด หลอด H3 ติด', 'F2 95–96 is in the common path: the contactor and KA1 drop out; lamp H3 lights'), 'ok'); }
+      else add('F2r', t('รีเซ็ต F2', 'reset F2'), d1 ? bad(t('แคร่ออกวิ่งเอง!', 'the carriage moved off by itself!')) : t('ไม่มีอะไรเริ่มเอง KA1 ก็หลุดแล้ว', 'nothing restarts; KA1 has dropped out as well'), d1 ? 'bad' : 'ok'); return; }
+    if (ch.includes('S4') && dv.S4.pressed) {
+      if (ka1 && !d0 && d1) add('S4go', t('กด S4 ขณะแคร่ทับลิมิตสวิตช์', 'press S4 with the carriage on a limit switch'), warn(t(`แคร่ออกวิ่งทันที: KA1 ${d1 === 'cw' ? '23–24 กับ S6' : '33–34 กับ S5'} 13–14 ต่อครบ S4 จึงเป็นคำสั่งเริ่มด้วย`, `the carriage moves off at once: KA1 ${d1 === 'cw' ? '23–24 with S6' : '33–34 with S5'} 13–14 completes the path, so S4 is a start command too`)), 'warn');
+      else if (ka1 && !ka0) add('S4', t('กด S4', 'press S4'), at('S5') && at('S6') ? t('KA1 ดูด แต่ S5 และ S6 ถูกกดทั้งคู่ ทั้งสองทิศถูกตัด แคร่ขยับไม่ได้', 'KA1 pulls in, but S5 and S6 are both operated: both directions are cut and the carriage cannot move')
+        : t('KA1 ดูดและค้างตัวเอง ยังไม่มีอะไรขยับ รอ S2 หรือ S3 บอกทิศแรก', 'KA1 pulls in and holds itself; nothing moves until S2 or S3 gives the first direction'), 'ok');
+      return; }
+    const btn = ['S2', 'S3'].find(id => ch.includes(id) && dv[id].pressed);
+    if (btn) { const want = btn === 'S2' ? 'cw' : 'ccw', lim = endOf(want), ot = want === 'cw' ? 'S7' : 'S8', nm = btn === 'S2' ? t('กด S2 เดินหน้า', 'press S2 forward') : t('กด S3 ถอยหลัง', 'press S3 reverse');
+      if (!d0 && d1 === want) add(`${btn}go`, nm, ka1 ? t('แคร่ออกวิ่ง และจะวิ่งไปมาเองจนกว่าจะกด S1', 'the carriage moves off and will run back and forth until S1 is pressed') : t(`แคร่ออกวิ่งเที่ยวเดียว (KA1 ไม่ดูด) และจะหยุดที่ ${lim}`, `the carriage makes a single stroke (KA1 is out) and will stop at ${lim}`), 'ok');
+      else if (!d1 && at('S5') && at('S6')) add(`${btn}both`, nm, t('ไม่มีผล: S5 21–22 และ S6 21–22 เปิดทั้งคู่ ต้องหาว่าทำไมลิมิตสวิตช์สองตัวถูกกดพร้อมกัน ห้ามต่อสายข้าม', 'nothing happens: S5 21–22 and S6 21–22 are both open; find out why both limit switches are operated, never bridge them'), 'warn');
+      else if (!d1 && at(ot)) add(`${btn}ot`, nm, t(`ไม่มีผล: ${ot} 21–22 เปิดอยู่ ใช้ปุ่มอีกทิศขับแคร่กลับ`, `nothing happens: ${ot} 21–22 is open; drive the carriage back with the other button`), 'ok');
+      else if (!d1 && at(lim)) add(`${btn}lim`, nm, t(`ไม่มีผล: แคร่ทับ ${lim} อยู่ ${lim} 21–22 จึงเปิด ใช้ปุ่มอีกทิศขับออก`, `nothing happens: the carriage is on ${lim}, so ${lim} 21–22 is open; use the other button to drive it off`), 'ok');
+      else if (d0 && d0 !== want && d1 === d0) add(`${btn}int`, nm, t(`ไม่มีผล: ${want === 'cw' ? 'KM2 21–22' : 'KM1 21–22'} เปิดอยู่ ทิศถูกเปลี่ยนโดยลิมิตสวิตช์เท่านั้น หรือกด S1 ก่อน`, `nothing happens: ${want === 'cw' ? 'KM2 21–22' : 'KM1 21–22'} is open; only a limit switch changes the direction, or press S1 first`), 'ok');
+      return; }
+    if (d0 === 'cw' && d1 === 'ccw') add('revR', t('แคร่ถึง S5', 'carriage reaches S5'), warn(t('S5 21–22 ตัด KM1 แล้ว S5 13–14 กับ KA1 33–34 สั่ง KM2 ทันที มอเตอร์ถูกกลับทางขณะหมุนทุกเที่ยว (AC-4)', 'S5 21–22 drops KM1, then S5 13–14 with KA1 33–34 starts KM2 at once: the motor is plug-reversed on every stroke (AC-4)')), 'warn');
+    else if (d0 === 'ccw' && d1 === 'cw') add('revL', t('แคร่ถึง S6', 'carriage reaches S6'), warn(t('S6 21–22 ตัด KM2 แล้ว S6 13–14 กับ KA1 23–24 สั่ง KM1 ทันที กลับทางขณะหมุน (AC-4)', 'S6 21–22 drops KM2, then S6 13–14 with KA1 23–24 starts KM1 at once: plugging (AC-4)')), 'warn');
+    else if (d0 && !d1) { const lim = endOf(d0), ot = d0 === 'cw' ? 'S7' : 'S8', tm = d0 === 'cw' ? 'KT1' : 'KT2';
+      if (at(ot)) add(`ot${ot}`, t(`แคร่ถึง ${ot}`, `carriage reaches ${ot}`), bad(t(`เลยระยะ: ${lim} ไม่ทำงาน ${ot} 21–22 จึงตัดแทน ขับแคร่กลับด้วยปุ่มอีกทิศ แล้วตรวจ ${lim}`, `over-travel: ${lim} did not act, so ${ot} 21–22 cut instead; drive the carriage back with the other button, then check ${lim}`)), 'bad');
+      else if (at(lim) && ka1 && optB.dwell) add(`dw${lim}`, t(`แคร่ถึง ${lim}`, `carriage reaches ${lim}`), t(`${lim} 21–22 ตัดคอนแทกเตอร์ ${lim} 13–14 เริ่ม ${tm} มอเตอร์หมุนค้างและช้าลงระหว่างรอ ${fd(optB.dwell, 0)} s`, `${lim} 21–22 drops the contactor and ${lim} 13–14 starts ${tm}; the motor runs down during the ${fd(optB.dwell, 0)} s wait`), 'ok');
+      else if (at(lim)) add(`end${lim}`, t(`แคร่ถึง ${lim}`, `carriage reaches ${lim}`), t(`${lim} 21–22 ตัด แคร่หยุดที่ปลายทาง รอบอัตโนมัติไม่ทำงาน (KA1 หลุด) จึงจอดอยู่ตรงนั้น`, `${lim} 21–22 cuts and the carriage stops at the end; the auto cycle is off (KA1 out), so it stays there`), 'ok'); }
+    else if (!d0 && d1 && ka1 && optB.dwell) { const tm = d1 === 'ccw' ? 'KT1' : 'KT2'; add(`go${tm}`, t(`${tm} ครบเวลา`, `${tm} times out`), t(`${tm} 67–68 ต่อ แคร่กลับทางหลังช่วงรอ (AC-3 ถ้ามอเตอร์หยุดนิ่งแล้วจริง)`, `${tm} 67–68 closes: the carriage reverses after the wait (AC-3 if the motor has really stopped)`), 'ok'); } };
+  const evB = e => { if (e.kind === 'crash') logB.add(`${optKey()}|crash`, [t('ชนปลายราง', 'crash'), posTxt(carB), dirTxt(simB.dir()), bad(t('ไม่มีสวิตช์กันเลยระยะ แคร่ชนตัวหยุดปลายราง', 'no over-travel switch: the carriage hit the end stop'))], 'bad'); };
+  function buildB(pos = 0.5, setup = null) {
+    simB = new RL.Sim(fresh($('boxB')), C7.AUTO({ over: optB.over, dwell: optB.dwell, lamps: ['H1', 'H2', 'H3'] }), { max: 1100, label: 'automatic back-and-forth circuit with limit switches S5 S6, over-travel switches and auto-cycle relay KA1' });
+    carB = new C7.Carriage(fresh($('carB')), simB, { pos, broken: optB.broken ? ['S5'] : [], onEvent: evB });
+    pB.innerHTML = ''; ui.h2(pB, t('หน้าตู้และการสั่งงาน', 'Panel front and controls'));
+    pnB = C7.panel(pB, simB, { skip: ['S5', 'S6', 'S7', 'S8'] });
+    const sig = [{ id: 'S4', sub: ['ปุ่มเริ่มอัตโนมัติ', 'auto start button'] }, { id: 'KA1', sub: ['คอยล์ · รอบอัตโนมัติ', 'coil · auto cycle'] }, { id: 'S6', sub: ['ปลายซ้าย · ถูกกด', 'left end · operated'] },
+      { id: 'KM1', sub: ['คอยล์ · เดินหน้า', 'coil · forward'] }, { id: 'S5', sub: ['ปลายขวา · ถูกกด', 'right end · operated'] }, { id: 'KM2', sub: ['คอยล์ · ถอยหลัง', 'coil · reverse'] }];
+    if (optB.dwell) sig.push({ id: 'KT1', show: 'coil' }, { id: 'KT2', show: 'coil' });
+    tlB = new C6.Timeline(fresh($('tlB')), simB, { span: 24, signals: sig });
+    if (setup) setup(simB, carB);
+    snapB = snap(simB); simB.on(trackB); pnB.refresh(); }
+  function trap(k) { trapB = k;
+    if (k === 's5') buildB(0.91);
+    else if (k === 'both') buildB(0.91, (s, c) => { c.auto = false; s.setOn('S5', true); s.setOn('S6', true); });
+    else if (k === 's6') buildB(0.3, (s, c) => { C6.runSeq(s, [['tap', 'S4'], ['tap', 'S1']]); c.place(0.1); });
+    else buildB(0.5);
+    const m = TRAPS[k] || TRAPS['']; ui.setStatus(stTrap, m[0], m[1], m[2]); }
+  trap('');
+  LS.anim($('tB'), dt => { simB.step(dt); carB.step(dt); tlB.step(dt); pnB.refresh(); });
+  /* summary: hidden automatic circuits, each row a fresh one (carriage 0.25 track lengths per second) */
+  const waitAt = o => { const s = hid(C7.AUTO(o)), c = new C7.Carriage(null, s, { pos: 0.5 }); C6.runSeq(s, [['tap', 'S4'], ['tap', 'S2']]);
+    let t0 = null, t1 = null, tm = 0, last = s.dir(); while (tm < 12 && t1 === null) { s.step(0.02); c.step(0.02); tm += 0.02; const d = s.dir(); if (last === 'cw' && !d) t0 = tm; if (!last && d === 'ccw' && t0 !== null) t1 = tm; last = d; }
+    return t0 !== null && t1 !== null ? t1 - t0 : 0; };
+  ED.summary($('sumB'), { intro: ['วงจรของหัวข้อนี้ แคร่ใช้เวลาราว 3 s วิ่งจาก S6 ถึง S5 ทุกแถวเริ่มจากวงจรใหม่', 'the circuit of this section; the carriage takes about 3 s from S6 to S5; every row starts from a fresh circuit'],
+    head: [['ทำอะไร', 'what is done'], ['แคร่อยู่ที่', 'carriage ends'], ['มอเตอร์', 'motor'], ['ความหมาย', 'what it means']],
+    rows: () => { const row = (lab, o, pos, seq, why, car = {}) => { const r = runCar(C7.AUTO(o), pos, seq, car); return [lab, posTxt(r.c), dirTxt(r.s.dir()), why(r)]; }, A = {};
+      return [row(t('แคร่กลางราง กด S4', 'carriage in the middle, press S4'), A, 0.5, [['tap', 'S4'], ['wait', 2]], r => ok(r.s.dev.KA1.energized ? t('KA1 ดูด ไม่มีอะไรขยับ รอคำสั่งทิศแรก', 'KA1 is in, nothing moves: it waits for the first direction') : '–')),
+        row(t('กด S4 แล้วกด S2 รอ 14 s', 'S4, then S2, wait 14 s'), A, 0.5, [['tap', 'S4'], ['tap', 'S2'], ['wait', 14]], r => (r.c.crashed ? bad(t('ชน', 'crash')) : ok(t(`กลับทาง ${r.c.revs} ครั้ง ไม่ชน ไม่เลยระยะ`, `${r.c.revs} reversals, no crash, no over-travel`)))),
+        row(t('กำลังวิ่งไปมา แล้วกด S1', 'running back and forth, then S1'), A, 0.5, [['tap', 'S4'], ['tap', 'S2'], ['wait', 5], ['tap', 'S1'], ['wait', 5]], r => ok(t('หยุดตรงนั้นและไม่ออกวิ่งอีก KA1 หลุด', 'stops where it is and stays; KA1 out'))),
+        row(t('กำลังวิ่งไปมา ไฟดับแล้วกลับมา', 'running back and forth, power fails and returns'), A, 0.5, [['tap', 'S4'], ['tap', 'S2'], ['wait', 2], ['cut'], ['wait', 5]], r => (r.s.dir() ? bad(t('เริ่มเอง', 'restarts')) : ok(t('ไม่มีอะไรขยับ KA1 หลุดไปกับไฟดับ', 'nothing moves; KA1 dropped out with the power')))),
+        row(t('แคร่ทับ S5 รอบอัตโนมัติไม่ทำงาน กด S2', 'carriage on S5, auto cycle off, press S2'), A, 0.91, [['tap', 'S2'], ['wait', 1]], () => ok(t('ไม่มีผล S5 21–22 เปิดอยู่', 'nothing: S5 21–22 is open'))),
+        row(t('แคร่ทับ S5 รอบอัตโนมัติไม่ทำงาน กด S3', 'carriage on S5, auto cycle off, press S3'), A, 0.91, [['tap', 'S3'], ['wait', 5]], () => ok(t('ขับออกจาก S5 แล้วหยุดที่ S6', 'drives off S5, then stops at S6'))),
+        row(t('แคร่ทับ S5 กด S4', 'carriage on S5, press S4'), A, 0.91, [['tap', 'S4'], ['wait', 1]], r => (r.s.dir() === 'ccw' ? warn(t('ถอยออกทันที: S4 เป็นคำสั่งเริ่มด้วย', 'reverses off at once: S4 is a start command too')) : '–')),
+        row(t('S5 และ S6 ถูกกดพร้อมกัน กด S4 S2 S3', 'S5 and S6 both operated, press S4, S2, S3'), A, 0.91, [['auto', false], ['set', 'S5', true], ['set', 'S6', true], ['tap', 'S4'], ['tap', 'S2'], ['tap', 'S3'], ['wait', 2]], r => (r.s.dir() ? bad(t('ขยับ', 'moves')) : ok(t('ไม่มีอะไรขยับ ทั้งสองทิศถูกตัด', 'nothing moves: both directions are cut')))),
+        row(t('S5 เสีย มี S7 S8 กด S4 แล้วกด S2', 'S5 broken, S7 S8 fitted, press S4, then S2'), A, 0.5, [['tap', 'S4'], ['tap', 'S2'], ['wait', 5]], r => (r.c.crashed ? bad(t('ชน', 'crash')) : bad(t('S7 หยุดแคร่ เลยระยะ ต้องขับกลับด้วย S3 และซ่อม S5', 'S7 stops the carriage: over-travel; drive it back with S3 and repair S5'))), { broken: ['S5'] }),
+        row(t('S5 เสีย ไม่มี S7 S8 กด S4 แล้วกด S2', 'S5 broken, no S7 S8, press S4, then S2'), { over: false }, 0.5, [['tap', 'S4'], ['tap', 'S2'], ['wait', 5]], r => (r.c.crashed ? bad(t('แคร่ชนตัวหยุดปลายราง', 'the carriage hits the end stop')) : '–'), { broken: ['S5'] }),
+        [t('หยุดรอ 2 s ที่ปลายทาง กด S4 แล้วกด S2', 'wait 2 s at the ends, press S4, then S2'), t('ทับ S5 ระหว่างรอ', 'on S5 during the wait'), t('หยุด แล้วถอยหลัง', 'stopped, then reverse'), ((w) => ok(t(`รอที่ S5 นาน ${w} s แล้วจึงถอยหลัง มอเตอร์มีเวลาหยุดก่อนกลับทาง (AC-3 ถ้าหยุดนิ่งทัน)`, `waits ${w} s at S5, then reverses; the motor has time to stop first (AC-3 if it does)`)))(fd(waitAt({ dwell: 2 }), 1))]]; },
+    points: [['KA1 ทำให้รอบอัตโนมัติเริ่มด้วยคำสั่งเท่านั้น และหลุดเมื่อกด S1 โอเวอร์โหลดตัด หรือไฟดับ ไฟกลับมาแล้วแคร่จึงไม่ขยับเอง', 'KA1 lets the auto cycle start only on a command and drops out with S1, an overload trip or a power failure, so the carriage does not move by itself when the power returns.'],
+      ['ลิมิตสวิตช์ตัวเดียวทำสองหน้าที่: 21–22 ตัดทิศที่วิ่งเข้าหามัน และ 13–14 กับหน้าสัมผัสของ KA1 สั่งทิศตรงข้าม หน้าสัมผัสค้างของคอนแทกเตอร์ตัวใหม่ทำให้แคร่วิ่งออกไปได้แม้ลิมิตสวิตช์จะคืนตัว', 'One limit switch does two jobs: 21–22 cuts the direction running towards it, and 13–14 with a KA1 contact starts the opposite one. The new contactor\'s holding contact keeps the carriage going after the limit switch springs back.'],
+      ['สวิตช์กันเลยระยะ S7 S8 เป็นด่านที่สองเมื่อ S5 หรือ S6 เสีย ถ้าไม่มี แคร่ชนปลายราง หลังเลยระยะต้องขับกลับด้วยมือและหาสาเหตุก่อนเปิดรอบอัตโนมัติอีก', 'Over-travel switches S7 S8 are the second line of defence when S5 or S6 fails; without them the carriage hits the end stop. After an over-travel, drive back by hand and find the cause before the auto cycle runs again.'],
+      ['ลิมิตสวิตช์สองตัวถูกกดพร้อมกันตัดทั้งสองทิศ และกด S4 ขณะแคร่ทับลิมิตสวิตช์ทำให้แคร่ออกวิ่งทันที ผู้ควบคุมต้องรู้ทั้งสองกรณี', 'Both limit switches operated cut both directions, and S4 pressed while the carriage rests on a limit switch sets it moving at once; the operator has to know both cases.'],
+      ['กลับทางที่ปลายทางทันทีคือการกลับทางขณะหมุนทุกเที่ยว (AC-4) ตัวตั้งเวลาหน่วงที่ปลายทางให้มอเตอร์มีเวลาหยุดก่อนกลับทาง (AC-3 ถ้าเวลารอนานกว่าเวลาหมุนค้าง) แต่เที่ยวหนึ่งนานขึ้น', 'Reversing at the end at once is plugging on every stroke (AC-4); a dwell timer at the ends gives the motor time to stop first (AC-3 if the wait is longer than the coast-down), at the cost of a longer cycle.']] });
+
+  /* D: reversing on two timers (C7.AUTO_T, Thai textbook Fig. 6.21 redrawn) */
+  const optD = { T1: 4, T2: 4 };
+  let simD = null, pnD = null, tlD = null, snapD = null, clkD = 0, tPh = 0;
+  const mD = $('mD'), pD = $('pD');
+  ui.h2(mD, t('เวลาที่ตั้ง', 'Timer settings'));
+  ui.slider(mD, { id: 't1D', label: t('KT1 เวลาเดินหน้า', 'KT1 forward time'), min: 2, max: 8, step: 1, value: optD.T1, unit: 's', dec: 0, oninput: v => { optD.T1 = v; if (simD) simD.dev.KT1.T = v; } });
+  ui.slider(mD, { id: 't2D', label: t('KT2 เวลาถอยหลัง', 'KT2 reverse time'), min: 2, max: 8, step: 1, value: optD.T2, unit: 's', dec: 0, oninput: v => { optD.T2 = v; if (simD) simD.dev.KT2.T = v; } });
+  ui.buttons(mD, [{ id: 'clrD', label: t('↺ ล้างแผนภาพเวลา', '↺ Clear the timing chart'), onclick: () => tlD.clear() }]);
+  ui.html(mD, t('เครื่องจำลองเปลี่ยนทิศทันที มอเตอร์จริงถูกกลับทางขณะหมุนทุกครั้งที่ครบเวลา (หน้า 7.3)', 'The simulator changes direction instantly; the real motor is plug-reversed at every time-out (page 7.3).'), 'hint');
+  const logD = new ED.Log($('logD'), [['เวลาที่ตั้ง', 'settings'], ['เหตุการณ์', 'event'], ['ผล', 'result'], ['ความหมาย', 'what it means']],
+    { empty: ['ยังไม่มีผล กด S4 ที่หน้าตู้', 'No results yet: press S4 on the panel front'] });
+  const trackD = s => {
+    if (s !== simD) return; const now = snap(s), was = snapD; snapD = now; const d0 = was.dir === '0' ? 0 : was.dir, d1 = s.dir(), dv = s.dev, ch = changed(now, was), held = clkD - tPh;
+    const set = `KT1 ${fd(dv.KT1.T, 0)} s · KT2 ${fd(dv.KT2.T, 0)} s`, add = (k, ev, txt, kind) => logD.add(`${dv.KT1.T}|${dv.KT2.T}|${k}`, [set, ev, dirTxt(d1), txt], kind);
+    if (d1 !== d0) tPh = clkD;
+    if (ch.includes('S4') && dv.S4.pressed) { if (!d0 && d1) add('S4', t('กด S4', 'press S4'), t('KA1 ดูดและค้างตัวเอง KM1 ดูดผ่าน KT1 55–56 และ KT1 เริ่มนับผ่าน KM2 61–62', 'KA1 pulls in and holds itself; KM1 pulls in through KT1 55–56, and KT1 starts counting through KM2 61–62'), 'ok'); return; }
+    if (ch.includes('S1') && dv.S1.pressed) { if (d0) add('S1', t('กด S1', 'press S1'), t('KA1 คอนแทกเตอร์ และตัวตั้งเวลาหลุดทั้งหมด รอบจบ', 'KA1, the contactor and the timers all drop out; the cycle is over'), 'ok'); return; }
+    if (ch.includes('mains')) { if (now.mains === 'false') { if (d0) add('cut', t('ไฟดับ', 'power fails'), t('ทุกคอยล์หลุด', 'every coil drops out'), 'ok'); }
+      else add('back', t('ไฟกลับมา', 'power returns'), d1 ? bad(t('มอเตอร์เริ่มเอง!', 'the motor restarted by itself!')) : t('ไม่มีอะไรเริ่มเอง: KA1 หลุดไปแล้ว ต้องกด S4 ใหม่ (IEC 60204-1 ข้อ 7.5)', 'nothing restarts: KA1 has dropped out; S4 is needed again (IEC 60204-1, 7.5)'), d1 ? 'bad' : 'ok'); return; }
+    if (ch.includes('F2')) { if (dv.F2.tripped) { if (d0) add('F2', t('F2 ตัด', 'F2 trips'), t('มอเตอร์หยุด หลอด H3 ติด', 'the motor stops; lamp H3 lights'), 'ok'); }
+      else add('F2r', t('รีเซ็ต F2', 'reset F2'), d1 ? bad(t('มอเตอร์เริ่มเอง!', 'the motor restarted by itself!')) : t('ไม่มีอะไรเริ่มเอง', 'nothing restarts'), d1 ? 'bad' : 'ok'); return; }
+    if (d0 === 'cw' && d1 === 'ccw') add('f2r', t(`KT1 ครบเวลา (เดินหน้าไป ${fd(held, 1)} s)`, `KT1 times out (forward for ${fd(held, 1)} s)`), warn(t('KT1 55–56 ตัด KM1 และ KT1 67–68 สั่ง KM2 ทันที KM2 ค้างตัวเองแล้ว KM2 61–62 ตัด KT1 ให้เริ่มใหม่ กลับทางขณะหมุน (AC-4)', 'KT1 55–56 drops KM1 and KT1 67–68 starts KM2 at once; KM2 holds itself and KM2 61–62 resets KT1: plugging (AC-4)')), 'warn');
+    else if (d0 === 'ccw' && d1 === 'cw') add('r2f', t(`KT2 ครบเวลา (ถอยหลังไป ${fd(held, 1)} s)`, `KT2 times out (reverse for ${fd(held, 1)} s)`), warn(t('KT2 55–56 ตัด KM2 แล้ว KM2 21–22 ต่อกลับ KM1 ดูดทันที กลับทางขณะหมุนอีกครั้ง', 'KT2 55–56 drops KM2, KM2 21–22 closes again and KM1 pulls in at once: plugging again')), 'warn'); };
+  function buildD() {
+    simD = new RL.Sim(fresh($('boxD')), C7.AUTO_T({ T1: optD.T1, T2: optD.T2, lamps: 'all' }), { max: 1100, label: 'automatic reversing on two timers, Thai textbook Fig. 6.21 redrawn in the course style' });
+    pD.innerHTML = ''; ui.h2(pD, t('หน้าตู้และการสั่งงาน', 'Panel front and controls'));
+    pnD = C7.panel(pD, simD);
+    tlD = new C6.Timeline(fresh($('tlD')), simD, { span: 24, signals: [{ id: 'S4', sub: ['ปุ่มเริ่มอัตโนมัติ', 'auto start button'] }, { id: 'KA1', sub: ['คอยล์ · รอบอัตโนมัติ', 'coil · auto cycle'] },
+      { id: 'KT1' }, { id: 'KM1', sub: ['คอยล์ · เดินหน้า', 'coil · forward'] }, { id: 'KT2' }, { id: 'KM2', sub: ['คอยล์ · ถอยหลัง', 'coil · reverse'] }] });
+    snapD = snap(simD); tPh = clkD; simD.on(trackD); }
+  buildD();
+  LS.anim($('tD'), dt => { clkD += dt; simD.step(dt); tlD.step(dt); pnD.refresh(); });
+  /* summary: direction phases of hidden timer circuits */
+  const phases = (o, seq, T) => { const s = hid(C7.AUTO_T(o)); C6.runSeq(s, seq); const out = []; let last = s.dir(), t0 = 0, tm = 0;
+    while (tm < T - 1e-9) { s.step(0.02); tm += 0.02; const d = s.dir(); if (d !== last) { if (last) out.push([last, t0, tm]); t0 = tm; last = d; } }
+    if (last) out.push([last, t0, null]); return { s, out }; };
+  const phTxt = out => out.map(([d, a, b]) => `${d === 'cw' ? t('เดินหน้า', 'forward') : t('ถอยหลัง', 'reverse')} ${fd(a, 1)}–${b === null ? '…' : fd(b, 1)} s`).join(' · ');
+  ED.summary($('sumD'), { intro: ['วงจรของหัวข้อนี้ เวลานับจากกด S4', 'the circuit of this section; times from S4'],
+    head: [['ตั้งเวลาและทำอะไร', 'settings and what is done'], ['ทิศทางตามเวลา', 'direction against time'], ['ความหมาย', 'what it means']],
+    rows: () => { const a = phases({ T1: 4, T2: 4 }, [['tap', 'S4']], 13), b = phases({ T1: 6, T2: 3 }, [['tap', 'S4']], 13);
+      const c = phases({ T1: 4, T2: 4 }, [['tap', 'S4'], ['wait', 5], ['tap', 'S1']], 8), e = phases({ T1: 4, T2: 4 }, [['tap', 'S4'], ['wait', 2], ['cut']], 8), f = phases({ T1: 4, T2: 4 }, [['tap', 'S4'], ['wait', 2], ['toggle', 'F2'], ['toggle', 'F2']], 8);
+      return [[t('KT1 4 s, KT2 4 s กด S4', 'KT1 4 s, KT2 4 s, press S4'), phTxt(a.out), warn(t('กลับทางทันทีทุกครั้งที่ครบเวลา (AC-4)', 'reverses at once at every time-out (AC-4)'))],
+        [t('KT1 6 s, KT2 3 s กด S4', 'KT1 6 s, KT2 3 s, press S4'), phTxt(b.out), ok(t('เดินหน้าตามเวลาของ KT1 ถอยหลังตามเวลาของ KT2', 'forward for KT1\'s time, reverse for KT2\'s time'))],
+        [t('กด S4 แล้วกด S1 ที่ 5 s รอ 8 s', 'S4, S1 at 5 s, wait 8 s'), t('หยุดตั้งแต่ 5 s', 'stopped from 5 s on'), c.s.dir() ? bad(t('เริ่มเอง', 'restarts')) : ok(t('หยุดและไม่เริ่มเอง', 'stops and stays stopped'))],
+        [t('กด S4 ไฟดับที่ 2 s แล้วกลับมา รอ 8 s', 'S4, power failure at 2 s and back, wait 8 s'), t('หยุดตั้งแต่ 2 s', 'stopped from 2 s on'), e.s.dir() ? bad(t('เริ่มเอง', 'restarts')) : ok(t('ไม่มีอะไรเริ่มเอง KA1 หลุด', 'nothing restarts; KA1 out'))],
+        [t('กด S4 F2 ตัดที่ 2 s แล้วรีเซ็ต รอ 8 s', 'S4, F2 trips at 2 s and is reset, wait 8 s'), t('หยุดตั้งแต่ 2 s', 'stopped from 2 s on'), f.s.dir() ? bad(t('เริ่มเอง', 'restarts')) : ok(t('ไม่มีอะไรเริ่มเอง', 'nothing restarts'))]]; },
+    points: [['KT1 กำหนดเวลาเดินหน้า KT2 กำหนดเวลาถอยหลัง หน้าสัมผัส 61–62 ของคอนแทกเตอร์ตัดตัวตั้งเวลาของทิศที่กำลังเดินให้เริ่มนับใหม่ทุกรอบ', 'KT1 sets the forward time and KT2 the reverse time; the contactors\' 61–62 contacts reset the running direction\'s timer so it counts afresh every cycle.'],
+      ['ทุกครั้งที่ครบเวลา คอนแทกเตอร์ตัวหนึ่งหลุดและอีกตัวดูดทันที มอเตอร์ถูกกลับทางขณะหมุนทุกรอบ คอนแทกเตอร์ต้องเป็น AC-4', 'At every time-out one contactor drops out and the other pulls in at once: the motor is plug-reversed every cycle, so the contactors need AC-4.'],
+      ['เวลาไม่รู้ตำแหน่ง ระยะที่แคร่วิ่งได้ในเวลาที่ตั้งเปลี่ยนตามโหลดและแรงเสียดทาน งานที่ต้องหยุดตรงปลายทางจึงใช้ลิมิตสวิตช์', 'Time does not know the position: the distance covered in the set time changes with the load and the friction, so a drive that must stop at its ends uses limit switches.'],
+      ['ไฟดับ โอเวอร์โหลดตัด หรือกด S1 ทำให้ KA1 หลุด และไม่มีอะไรเริ่มเอง', 'A power failure, an overload trip or S1 drops KA1, and nothing restarts by itself.']] });
+
+  /* worked example 1: where the limit switches go (drawings from the same factories, results from hidden simulators) */
+  const draw = (spec, label, max) => { const tmp = document.createElement('div'); new RL.Sim(tmp, spec, { print: true, noPower: true, max, label }); return tmp.innerHTML.replace(/ data-dev="[^"]*" style="cursor:pointer"/g, ''); };
+  $('g1').innerHTML = `<div class="rlwrap">${draw(C7.ELEC(), 'forward-stop-reverse control circuit of page 7.2', 520)}</div><p class="simnote">${t('วงจรเดินหน้า–หยุด–ถอยหลังของหน้า 7.2 ในแบบของวิชา', 'The forward–stop–reverse circuit of page 7.2 in the course style')}</p>`;
+  const rOk = runCar(C7.LIMITS(), 0.5, [['tap', 'S2'], ['wait', 4]]), rOk2 = runCar(C7.LIMITS(), 0.91, [['tap', 'S3'], ['wait', 1]]);
+  const commonS5 = () => { const sp = C7.LIMITS(); sp.els = sp.els.map(e => (e.d === 'S6' ? { ...e, d: 'S5' } : e)); delete sp.devices.S6; return sp; };   // S5 cutting both paths = S5 in the common path
+  const rCom = runCar(commonS5(), 0.5, [['tap', 'S2'], ['wait', 4], ['tap', 'S3'], ['wait', 2]]), rWrong = runCar(C7.LIMITS({ _limWrong: true }), 0.5, [['tap', 'S2'], ['wait', 5]]);
+  const x1 = hid(C7.LIMITS());
+  LS.choose($('ask1'), { labels: ['①', '②', '③'], options: [t('(ก) S5 21–22 ในทางของ KM1 ใต้จุดที่หน้าสัมผัสค้างบรรจบ', '(a) S5 21–22 in the KM1 path, below the point where the hold joins'), t('(ก) S5 13–14 อนุกรมกับ S1', '(a) S5 13–14 in series with S1'), t('(ก) S5 21–22 ในทางของ KM2', '(a) S5 21–22 in the KM2 path')], answer: 0 });
+  LS.stepper($('st1'), { steps: [
+    { why: t('(ก) S5: หน้าสัมผัสปกติปิด 21–22 ในทางของ KM1', '(a) S5: the NC contact 21–22 in the KM1 path'), body: `<p>${t('เดินหน้าพาโต๊ะไปทางขวาหา S5 S5 จึงต้องตัดคอยล์ KM1 ใช้หน้าสัมผัสปกติปิด 21–22 ต่ออนุกรมในทางของ KM1 ใต้จุดที่ KM1 13–14 มาบรรจบกับ S2 หน้าสัมผัสค้างจึงคร่อม S5 ไม่ได้ ถ้าใส่ S5 อนุกรมกับ S2 ภายในกิ่งที่ KM1 13–14 คร่อมอยู่ S5 จะตัดได้เฉพาะตอนยังไม่ค้างตัวเอง และโต๊ะวิ่งเลยปลายทาง', 'Forward drives the table right towards S5, so S5 has to break coil KM1: its NC contact 21–22 goes in series into the KM1 path, below the point where KM1 13–14 joins S2, so the hold cannot bridge it. Put S5 in series with S2 inside the branch that KM1 13–14 spans, and it could break only before latching: the table would run past the end.')}</p><p>${t(`ผลจากแบบจำลอง: โต๊ะกลางราง กด S2 → ${posTxt(rOk.c)} มอเตอร์${dirTxt(rOk.s.dir())}`, `From the model: table in the middle, press S2 → ${posTxt(rOk.c)}, motor ${dirTxt(rOk.s.dir())}`)}</p>` },
+    { why: t('(ข) S6: 21–22 ในทางของ KM2 ตำแหน่งเดียวกัน', '(b) S6: 21–22 in the KM2 path, in the same place'), body: `<p>${t('ถอยหลังพาโต๊ะไปทางซ้ายหา S6 S6 21–22 จึงอยู่ในทางของ KM2 ใต้จุดที่ KM2 13–14 บรรจบ ลิมิตสวิตช์แต่ละตัวตัดเฉพาะทิศที่วิ่งเข้าหามัน โต๊ะที่จอดทับ S5 จึงยังถอยออกด้วย S3 ได้', 'Reverse drives the table left towards S6, so S6 21–22 sits in the KM2 path below the point where KM2 13–14 joins. Each limit switch breaks only the direction running towards it, so a table resting on S5 can still be driven off with S3.')}</p><p>${t(`ผลจากแบบจำลอง: โต๊ะทับ S5 กด S3 → มอเตอร์${dirTxt(rOk2.s.dir())}`, `From the model: table on S5, press S3 → motor ${dirTxt(rOk2.s.dir())}`)}</p>` },
+    { why: t('(ค) S5 ในทางร่วมด้านบน: หยุดได้ แต่ติดอยู่ที่ปลายทาง', '(c) S5 in the common path: it stops, but it is stuck at the end'), body: `<p>${t('S5 21–22 อนุกรมกับ S1 ตัดทั้งสองทิศ โต๊ะหยุดที่ปลายขวาได้ แต่ขณะจอดทับ S5 ทั้ง S2 และ S3 ไม่มีผล ต้องดันโต๊ะออกด้วยมือหรือต่อสายข้ามลิมิตสวิตช์ ซึ่งเป็นนิสัยที่อันตราย', 'S5 21–22 in series with S1 breaks both directions. The table does stop at the right end, but while it rests on S5 neither S2 nor S3 does anything: someone has to push it off by hand or bridge the limit switch, a dangerous habit.')}</p><p>${t(`ผลจากแบบจำลอง: กด S2 แล้วกด S3 → ${posTxt(rCom.c)} มอเตอร์${dirTxt(rCom.s.dir())}`, `From the model: press S2, then S3 → ${posTxt(rCom.c)}, motor ${dirTxt(rCom.s.dir())}`)}</p>` },
+    { why: t('(ง) สลับทางกัน: โต๊ะวิ่งเลยปลายทาง', '(d) Paths swapped: the table runs past the end'), body: `<p>${t('ถ้า S5 21–22 อยู่ในทางของ KM2 และ S6 21–22 อยู่ในทางของ KM1 โต๊ะที่เดินหน้าไปกด S5 จะตัด KM2 ซึ่งไม่ได้ดูดอยู่ KM1 จึงยังดูด โต๊ะวิ่งต่อจนชนปลายราง ถอยหลังก็ชนปลายอีกด้านเช่นกัน', 'With S5 21–22 in the KM2 path and S6 21–22 in the KM1 path, the table running forward presses S5, which breaks KM2, a coil that is not energised: KM1 stays in and the table runs on into the end stop. Reverse crashes at the other end in the same way.')}</p><p>${t(`ผลจากแบบจำลอง: โต๊ะกลางราง กด S2 → ${rWrong.c.crashed ? 'ชนตัวหยุดปลายราง' : posTxt(rWrong.c)}`, `From the model: table in the middle, press S2 → ${rWrong.c.crashed ? 'crash into the end stop' : posTxt(rWrong.c)}`)}</p>` },
+    { why: t('(จ) ทำไมจึงใช้หน้าสัมผัสปกติปิดแบบเปิดบังคับ', '(e) Why an NC contact with direct opening'), body: `<p>${t('หน้าสัมผัสปกติปิดในทางของคอยล์ทำให้สายขาดหรือขั้วหลวมกลายเป็นการหยุด ไม่ใช่การวิ่งเลยปลายทาง และการเปิดแบบบังคับดันหน้าสัมผัสให้แยกออกด้วยกลไกโดยตรง แม้หน้าสัมผัสจะติดกันเล็กน้อยหรือสปริงหัก (IEC 60947-5-1 ภาคผนวก K) ถ้าโต๊ะเลยปลายทางแล้วอาจเกิดอันตราย ให้เพิ่มสวิตช์กันเลยระยะอีกชั้นหนึ่งแบบหัวข้อ B', 'An NC contact in the coil path turns a broken wire or a loose terminal into a stop rather than an over-run, and direct opening forces the contacts apart mechanically even if they are slightly welded or the spring has broken (IEC 60947-5-1, Annex K). Where running past the end could be hazardous, add over-travel switches as a second layer, as in section B.')}</p>` },
+    { why: t('วงจรที่ได้ในแบบของวิชา', 'The result in the course style'), body: `<div class="rlwrap">${draw(C7.LIMITS(), 'reversing control circuit with travel limit switches S5 and S6', 560)}</div><p>KM1: <b>${xr(x1.xref('KM1'))}</b><br>KM2: <b>${xr(x1.xref('KM2'))}</b></p>` }],
+    answer: t('(ก) S5 21–22 ในทางของ KM1 ใต้จุดที่หน้าสัมผัสค้างบรรจบ (ข) S6 21–22 ในทางของ KM2 ตำแหน่งเดียวกัน (ค) หยุดได้ แต่ขับออกจาก S5 ด้วย S3 ไม่ได้ (ง) โต๊ะวิ่งเลยไปชนปลายราง (จ) สายขาดกลายเป็นการหยุด และหน้าสัมผัสถูกดันให้เปิดแม้ติดกัน', '(a) S5 21–22 in the KM1 path, below the point where the hold joins; (b) S6 21–22 in the KM2 path in the same place; (c) it stops, but S3 cannot drive it off S5; (d) the table runs into the end stop; (e) a broken wire becomes a stop, and the contacts are forced open even if welded') });
+
+  /* C: practice */
+  ED.mcq('mcq', [
+    { q: t('1) แคร่เดินหน้าไปทางขวาหาลิมิตสวิตช์ S5 ควรต่อ S5 อย่างไร', '1) The carriage moves right in forward towards limit switch S5. How should S5 be wired?'), options: [t('S5 21–22 ในทางของ KM1 ใต้จุดที่หน้าสัมผัสค้างบรรจบ', 'S5 21–22 in the KM1 path, below the point where the hold joins'), t('S5 13–14 ขนานกับ S1', 'S5 13–14 in parallel with S1'), t('S5 21–22 อนุกรมกับ S2 ภายในกิ่งที่ KM1 13–14 คร่อม', 'S5 21–22 in series with S2, inside the branch spanned by KM1 13–14'), t('S5 21–22 ในทางของ KM2', 'S5 21–22 in the KM2 path')], answer: 0, why: t('ลิมิตสวิตช์ต้องตัดทิศที่วิ่งเข้าหามัน และหน้าสัมผัสค้างต้องคร่อมมันไม่ได้', 'A limit switch must break the direction running towards it, and the hold must not be able to bridge it.') },
+    { q: t('2) แคร่จอดทับ S5 (ปลายทางเดินหน้า) ในวงจรของหัวข้อ A ปุ่มใดขยับแคร่ได้', '2) The carriage rests on S5 (forward end) in the circuit of section A. Which button can move it?'), options: [t('S2 เท่านั้น', 'S2 only'), t('S3 เท่านั้น', 'S3 only'), t('ทั้ง S2 และ S3', 'both S2 and S3'), t('ไม่มีปุ่มใดเลย', 'neither')], answer: 1, why: t('S5 21–22 ตัดเฉพาะทางของ KM1 ทางของ KM2 ยังต่ออยู่', 'S5 21–22 breaks only the KM1 path; the KM2 path is still complete.') },
+    { q: t('3) รอบอัตโนมัติกำลังทำงาน ไฟดับ 2 วินาทีแล้วกลับมา เกิดอะไรขึ้น', '3) The auto cycle is running when the power fails for 2 seconds and returns. What happens?'), options: [t('แคร่วิ่งต่อในทิศเดิม', 'the carriage carries on in the same direction'), t('แคร่วิ่งกลับไปที่ S6', 'the carriage returns to S6'), t('ไม่มีอะไรขยับ ต้องกด S4 และบอกทิศใหม่', 'nothing moves; S4 and a direction are needed again'), t('Q1 ตัด', 'Q1 trips')], answer: 2, why: t('KA1 และคอนแทกเตอร์หลุดไปพร้อมไฟดับ หน้าสัมผัสค้างเปิดหมด (IEC 60204-1 ข้อ 7.5)', 'KA1 and the contactor dropped out with the power, so every holding contact is open (IEC 60204-1, 7.5).') },
+    { q: t('4) ในรอบอัตโนมัติ คันโยกของ S5 หักจนไม่ถูกกด และมีสวิตช์กันเลยระยะ S7 อยู่ เกิดอะไรขึ้น', '4) In the auto cycle the lever of S5 breaks so that it is no longer operated, and over-travel switch S7 is fitted. What happens?'), options: [t('แคร่วิ่งเลย S5 ไปจนกด S7 แล้วหยุด ต้องขับกลับด้วย S3 และซ่อม S5', 'the carriage runs past S5 until it presses S7 and stops; drive it back with S3 and repair S5'), t('S7 สั่งถอยหลังแทน S5 รอบอัตโนมัติทำงานต่อ', 'S7 starts reverse instead of S5 and the cycle carries on'), t('แคร่ชนปลายราง', 'the carriage hits the end stop'), t('ไม่มีอะไรเปลี่ยน', 'nothing changes')], answer: 0, why: t('S7 มีแต่หน้าสัมผัสปกติปิด 21–22 ใช้หยุด ไม่ได้สั่งทิศใหม่ เลยระยะแล้วต้องหาสาเหตุก่อน', 'S7 has only an NC contact 21–22 that stops; it starts nothing. After an over-travel the cause must be found first.') },
+    { q: t('5) แคร่กลับทางที่ปลายทางทันทีทุกเที่ยว คอนแทกเตอร์ต้องเลือกตามประเภทการใช้งานใด', '5) The carriage reverses at the end at once on every stroke. Which utilization category must the contactors be chosen for?'), options: ['AC-1', 'AC-3', 'AC-4', t('ประเภทใดก็ได้ถ้ามีลิมิตสวิตช์', 'any, as long as there are limit switches')], answer: 2, why: t('กลับทางขณะหมุนทุกเที่ยวเป็นงาน AC-4 ถ้ามีตัวตั้งเวลาหน่วงให้มอเตอร์หยุดก่อนกลับทาง จึงเป็น AC-3', 'Plugging on every stroke is AC-4 duty; with a dwell timer that lets the motor stop before reversing it becomes AC-3.') },
+    { q: t('6) ข้อใดถูกต้องเกี่ยวกับการกลับทางอัตโนมัติด้วยตัวตั้งเวลาสองตัว (รูป 6.21 ของตำราไทย)', '6) Which statement about automatic reversing on two timers (Thai textbook Fig. 6.21) is true?'), options: [t('กลับทางขณะหมุนทุกครั้งที่ครบเวลา และไม่รู้ว่าแคร่อยู่ที่ไหน', 'it plug-reverses at every time-out and does not know where the carriage is'), t('หยุดแคร่ตรงปลายทางได้แม่นกว่าลิมิตสวิตช์', 'it stops a carriage at its end more accurately than limit switches'), t('ไฟกลับมาแล้วเริ่มเองต่อจากเดิม', 'it carries on by itself when the power returns'), t('ไม่ต้องมีอินเตอร์ล็อก', 'it needs no interlock')], answer: 0, why: t('ระยะที่วิ่งได้ในเวลาที่ตั้งเปลี่ยนตามโหลด จึงเหมาะกับงานที่ไม่มีตำแหน่งปลายทาง เช่น ใบกวน', 'The distance covered in the set time changes with the load, so it suits drives with no end positions, such as a stirrer.') }]);
+});
+</script>
+</body>
+</html>

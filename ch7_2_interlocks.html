@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="7.2 — Interlocks in four steps">7.2 — อินเตอร์ล็อกสี่ขั้น</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=14"><link rel="stylesheet" href="assets/ed2.css?v=14">
+<link rel="stylesheet" href="assets/wiring.css?v=14">
+<script src="assets/stops.js?v=14"></script><script src="assets/shell.js?v=14"></script>
+<script src="assets/lesson.js?v=14"></script><script src="assets/draw.js?v=14"></script><script src="assets/ed.js?v=14"></script><script src="assets/sym.js?v=14"></script><script src="assets/iec.js?v=14"></script><script src="assets/relay.js?v=14"></script><script src="assets/ch2.js?v=14"></script><script src="assets/ch3.js?v=14"></script><script src="assets/ch4.js?v=14"></script>
+<script src="assets/panel.js?v=14"></script><script src="assets/ch5.js?v=14"></script><script src="assets/ch6.js?v=14"></script><script src="assets/ch7.js?v=14"></script>
+<script src="assets/wiring.js?v=14"></script><script src="assets/devdata.js?v=14"></script><script src="assets/dev.js?v=14"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">อินเตอร์ล็อกสี่ขั้น <span class="en">Interlocks in four steps</span></h1>
+<h1 data-l="en">Interlocks in four steps <span class="en">From no interlock to electrical, push-button and mechanical interlocks</span></h1>
+
+<p class="sub" data-l="th">หน้า 7.1 แสดงแล้วว่า KM1 กับ KM2 ต้องไม่ต่อพร้อมกันเด็ดขาด การอินเตอร์ล็อก (interlocking) คือการจัดวงจรให้สิ่งหนึ่งเกิดขึ้นได้เฉพาะเมื่ออีกสิ่งหนึ่งไม่ได้เกิดอยู่ วงจรกลับทางหมุนใช้อินเตอร์ล็อกสามแบบ และหลายวงจรใช้ครบทั้งสามแบบ: อินเตอร์ล็อกทางไฟฟ้าด้วยหน้าสัมผัสช่วยปกติปิด (normally closed, NC) ของคอนแทกเตอร์ อินเตอร์ล็อกด้วยปุ่มกดสองหน้าสัมผัส และอินเตอร์ล็อกทางกลด้วยคานระหว่างคอนแทกเตอร์ หน้านี้ประกอบวงจรทีละขั้นจากไม่มีอินเตอร์ล็อกจนครบสามแบบ ทดสอบว่าแต่ละขั้นรับประกันอะไรและไม่รับประกันอะไร ดูว่าตำแหน่งของหน้าสัมผัสค้างตัวเองทำให้กลับทางทันทีได้หรือไม่ และดูว่าคอนแทกเตอร์ที่หน้าสัมผัสเชื่อมติดหรือคอยล์ที่ถูกล็อกไว้ทำให้เกิดอะไรขึ้น</p>
+<p class="sub" data-l="en">Page 7.1 showed that KM1 and KM2 must never close together. Interlocking means arranging a circuit so that one thing can happen only while another is not happening. Reversing circuits use three kinds of interlock, and many use all three: the electrical interlock with the normally closed (NC) auxiliary contacts of the contactors, the push-button interlock with double-contact buttons, and the mechanical interlock, a lever between the contactors. This page builds the circuit step by step from no interlock to all three, tests what each step guarantees and what it does not, shows how the position of the holding contact decides whether direct reversing works, and shows what a welded contactor or a blocked coil does.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>อินเตอร์ล็อกทางไฟฟ้า</b>: KM2 21–22 อยู่ในทางเดินกระแสของคอยล์ KM1 และ KM1 21–22 อยู่ในทางของ KM2 หน้าสัมผัสนี้เคลื่อนที่ไปกับคอนแทกเตอร์จริง จึงบอกสถานะจริงของคอนแทกเตอร์ การกลับทางต้องกด S1 ก่อน (เดินหน้า–หยุด–ถอยหลัง)</li>
+  <li><b>อินเตอร์ล็อกด้วยปุ่มกด</b>: S3 21–22 อยู่ในทางของ KM1 และ S2 21–22 อยู่ในทางของ KM2 กดปุ่มของอีกทิศ หน้าสัมผัสปกติปิดตัด KM1 ก่อน แล้วหน้าสัมผัสปกติเปิดจึงสั่ง KM2 เป็นการกลับทางทันที (direct reversing) กดพร้อมกันสองปุ่มไม่มีอะไรทำงาน แต่ปุ่มรู้แค่คำสั่ง ไม่รู้ว่าคอนแทกเตอร์ค้างอยู่หรือไม่</li>
+  <li><b>ตำแหน่งของหน้าสัมผัสค้างตัวเอง</b>: KM1 13–14 ต้องคร่อมเฉพาะ S2 13–14 ถ้าคร่อม S3 21–22 ไปด้วย ปุ่ม S3 จะตัด KM1 ไม่ได้ และการกลับทางทันทีหายไป</li>
+  <li><b>อินเตอร์ล็อกทางกล</b>: คานกันไม่ให้หน้าสัมผัสหลักของทั้งสองตัวปิดพร้อมกัน แม้คอยล์ทั้งสองมีไฟ แต่คอยล์ที่ถูกล็อกไว้ขณะมีไฟจะกินกระแสสูงและร้อนจนไหม้ จึงต้องมีอินเตอร์ล็อกทางไฟฟ้าด้วยเสมอ</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>Electrical interlock</b>: KM2 21–22 sits in the coil path of KM1 and KM1 21–22 in the path of KM2. The contact moves with the contactor itself, so it tells the contactor’s real state. Reversing needs S1 first (forward – stop – reverse).</li>
+  <li><b>Push-button interlock</b>: S3 21–22 sits in the KM1 path and S2 21–22 in the KM2 path. When the other button is pressed, its NC contact drops KM1 first, then its normally open (NO) contact starts KM2: direct reversing. Pressing both does nothing. But a button only knows the command, not whether a contactor is stuck in.</li>
+  <li><b>Where the holding contact goes</b>: KM1 13–14 must bridge only S2 13–14. If it also bridges S3 21–22, S3 can no longer drop KM1 and direct reversing is lost.</li>
+  <li><b>Mechanical interlock</b>: a lever stops the main contacts of both contactors closing together, even if both coils get voltage. But a coil held open while energised draws a high current and burns out, so the electrical interlock is always kept as well.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>ทำไมต้องอินเตอร์ล็อก</a><a href="#tA"><b>A</b>สี่ขั้น</a><a href="#tB"><b>B</b>หน้าสัมผัสค้างคร่อมอะไร</a><a href="#tD"><b>D</b>แต่ละชั้นรู้อะไร</a><a href="#ex1"><b>1</b>จากรูป 6.17 เป็นวงจรเดินค้าง</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>Why interlock</a><a href="#tA"><b>A</b>Four steps</a><a href="#tB"><b>B</b>What the hold bridges</a><a href="#tD"><b>D</b>What each layer sees</a><a href="#ex1"><b>1</b>From Fig. 6.17 to a run circuit</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">ทำไมต้องอินเตอร์ล็อก</h2><h2 data-l="en">Why interlock</h2>
+    <div class="src" data-l="th">UMC5 บทที่ 9 หน้า 103–105 รูป 9.6 · EMC9 หน่วยที่ 21 หน้า 165–168 · IEC 60204-1 ข้อ 9.3.4</div><div class="src" data-l="en">UMC5 ch. 9, pp. 103–105, Fig. 9.6 · EMC9 unit 21, pp. 165–168 · IEC 60204-1, 9.3.4</div></div></div>
+  <div class="story n2">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>Herman &amp; Seiler อธิบายว่าการอินเตอร์ล็อกในสตาร์ตเตอร์กลับทางมีไว้กันไม่ให้คอนแทกเตอร์ทั้งสองทำงานพร้อมกัน เพราะถ้าเกิดขึ้น สายไฟสองเส้นของระบบ 3 เฟสจะลัดถึงกัน (หน้า 7.1 หัวข้อ B) และบอกว่ามีสามวิธี: อินเตอร์ล็อกทางกล ปุ่มกดสองหน้าสัมผัส และหน้าสัมผัสช่วยปกติปิด ตำราสรุปว่า "Many reversing controls use all three." (วงจรกลับทางจำนวนมากใช้ครบทั้งสามแบบ) Herman ใน EMC9 ก็แนะนำให้ใช้อินเตอร์ล็อกทางกลคู่กับอินเตอร์ล็อกทางไฟฟ้าเพื่อความปลอดภัยสูงสุด มาตรฐาน IEC 60204-1 ของคณะกรรมาธิการไฟฟ้าระหว่างประเทศ (International Electrotechnical Commission, IEC) ข้อ 9.3.4 ว่าด้วยการอินเตอร์ล็อกการเคลื่อนที่ที่สวนทางกัน เช่นคอนแทกเตอร์สองตัวของสตาร์ตเตอร์กลับทาง ในทางปฏิบัติ อินเตอร์ล็อกทางไฟฟ้าคือขั้นต่ำที่ใช้กันทั่วไป รูปจากตำราอเมริกันในหน้านี้วาดแบบ NEMA (National Electrical Manufacturers Association สมาคมผู้ผลิตอุปกรณ์ไฟฟ้าของสหรัฐฯ) ส่วนภาพจำลองวาดวงจรเดียวกันใหม่เป็นแบบ IEC</p>
+        <p>รูป 9.6 เป็นอินเตอร์ล็อกทางกลระหว่างคอนแทกเตอร์สองตัวของสตาร์ตเตอร์กลับทาง: คานโลหะติดอยู่ระหว่างกลไกของคอนแทกเตอร์ทั้งสอง เมื่อตัวหนึ่งดูด คานถูกดันไปขวางไม่ให้อีกตัวปิดได้ ในแบบวงจร IEC วาดเป็นเส้นประเชื่อมคอยล์ทั้งสองกับสามเหลี่ยมเล็กตรงกลาง (สัญลักษณ์อินเตอร์ล็อกทางกลตาม IEC 60617) ใต้คอยล์ KM1 และ KM2 ในขั้นที่ 4 ของหัวข้อ A</p></div>
+      <div class="story-p" data-l="en"><p>Herman &amp; Seiler explain that interlocking in a reversing starter keeps both contactors from working at the same time, because if they did, two lines of the three-phase system would be shorted together (page 7.1, section B). They name three methods: mechanical interlocks, double-acting push buttons and normally closed auxiliary contacts, and sum up: “Many reversing controls use all three.” In EMC9, Herman recommends mechanical together with electrical interlocking for the greatest safety. IEC 60204-1 of the International Electrotechnical Commission (IEC), clause 9.3.4, deals with the interlocking of contrary motions, such as the two contactors of a reversing starter; in practice the electrical interlock is the usual minimum. The US figures on this page follow NEMA practice (the National Electrical Manufacturers Association); the simulators redraw the same circuits to IEC.</p>
+        <p>Fig. 9.6 shows the mechanical interlock between the two contactors of a reversing starter: a metal bar sits between the mechanisms of both contactors; when one pulls in, the bar is pushed across so that the other cannot close. An IEC drawing shows it as a dashed line joining the two coils with a small triangle in the middle (the IEC 60617 symbol for a mechanical interlock), under coils KM1 and KM2 in step 4 of section A.</p></div></div>
+    <div class="story-f">
+      <figure class="slide sm"><img src="img/book/umc5_fig9_6_mech_interlock.jpg?v=14" width="667" height="414" loading="lazy" decoding="async" alt="Photo of the mechanical interlock plate of a reversing starter: a metal bar with two plungers mounted between the two contactor positions.">
+        <figcaption data-l="th">รูป 9.6 อินเตอร์ล็อกทางกลระหว่างคอนแทกเตอร์สองตัวของสตาร์ตเตอร์กลับทาง · ที่มา: Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. (Cengage, 2025) บทที่ 9 หน้า 105 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 9.6, mechanical interlock between the two contactors of a reversing starter · source: Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed. (Cengage, 2025), ch. 9, p. 105 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">ประกอบวงจรทีละขั้น: ไม่มี → ทางไฟฟ้า → ปุ่มกด → ทางกล</h2><h2 data-l="en">Building it step by step: none → electrical → push-button → mechanical</h2>
+    <div class="src" data-l="th">UMC5 บทที่ 9 รูป 9.8–9.9 หน้า 106 · EMC9 หน่วยที่ 21 รูป 21-6 หน้า 167 · ตำราไทย บทที่ 6 หัวข้อ 6.2 รูป 6.16 หน้า 100</div><div class="src" data-l="en">UMC5 ch. 9, Figs 9.8–9.9, p. 106 · EMC9 unit 21, Fig. 21-6, p. 167 · Thai textbook ch. 6 §6.2, Fig. 6.16, p. 100</div></div></div>
+  <p class="lead" data-l="th">เลือกขั้นที่ 1 ถึง 4 อ่านว่าขั้นนั้นเพิ่มอะไร ตอบคำถามของขั้นนั้นก่อน แล้วลองที่หน้าตู้ใต้วงจร: S2 เดินหน้า S3 ถอยหลัง S1 หยุด (ปุ่มที่หน้าตู้กดค้างไว้ได้ และปุ่ม "S2 + S3 พร้อมกัน" ใต้หน้าตู้กดสองปุ่มในจังหวะเดียวกัน) ถ้า Q1 ตัดเพราะลัดวงจร คลิกที่ Q1 ในวงจรหรือปุ่ม Q1 เพื่อสับกลับ ผลทุกครั้งบันทึกลงตาราง และสรุปเปรียบเทียบสี่ขั้นอยู่ใต้ตาราง</p>
+  <p class="lead" data-l="en">Choose step 1 to 4, read what the step adds, answer its question first, then try it on the panel front under the circuit: S2 forward, S3 reverse, S1 stop (the panel buttons can be held, and the “S2 + S3 together” button under the panel presses both at the same instant). If Q1 trips on a short circuit, click Q1 in the drawing or the Q1 button to switch it on again. Every result is recorded in the table, and the summary under it compares the four steps.</p>
+  <div class="card solve"><div id="stepsA"></div><div id="infoA"></div></div>
+  <div class="card sim rlwrap rlscroll" id="boxA" style="padding:8px;margin-top:12px;--rlmin:640px"></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logA"></div><div id="sumA" style="margin-top:8px"></div></div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">หน้าสัมผัสค้างตัวเองคร่อมอะไร</h2><h2 data-l="en">What does the holding contact bridge?</h2>
+    <div class="src" data-l="th">UMC5 บทที่ 9 หน้า 104 · Senty บทที่ 14 วงจรที่ 29 รูป 14-29 หน้า 176 · EMC9 หน่วยที่ 21 รูป 21-6</div><div class="src" data-l="en">UMC5 ch. 9, p. 104 · Senty ch. 14, circuit 29, Fig. 14-29, p. 176 · EMC9 unit 21, Fig. 21-6</div></div></div>
+  <p class="lead" data-l="th">วงจรสองแบบนี้มีอุปกรณ์เหมือนกันทุกชิ้น ต่างกันเพียงจุดที่ปลายล่างของหน้าสัมผัสค้างตัวเองต่อลงไป แบบแรก KM1 13–14 คร่อมเฉพาะ S2 13–14 แบบที่สองคร่อม S2 13–14 และ S3 21–22 ไปด้วย (KM2 13–14 ก็ย้ายแบบเดียวกัน) ตอบคำถามก่อน แล้วลองกด S2 จากนั้นกด S3 ขณะมอเตอร์เดินหน้าในทั้งสองแบบ</p>
+  <p class="lead" data-l="en">The two circuits have exactly the same devices; they differ only in where the lower end of the holding contact lands. In the first, KM1 13–14 bridges only S2 13–14; in the second it bridges S2 13–14 and S3 21–22 together (KM2 13–14 is moved the same way). Answer the question first, then press S2 and, while the motor runs forward, S3, in both circuits.</p>
+  <div class="card solve"><div class="panel" id="mB" style="position:static;max-height:none"></div></div>
+  <div class="card sim rlwrap rlscroll" id="boxB" style="padding:8px;margin-top:12px;--rlmin:640px"></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pB" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logB"></div><div id="sumB" style="margin-top:8px"></div></div>
+  <div class="story n2" style="margin-top:12px">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>ตำราวางหน้าสัมผัสปกติปิดของปุ่มไว้ได้สองตำแหน่ง Herman &amp; Seiler (รูป 9.8) และ EMC9 (รูป 21-6) วางไว้ระหว่างจุดต่อของหน้าสัมผัสค้างกับคอยล์ เหมือนขั้นที่ 3 ของหัวข้อ A ส่วน Senty วงจรที่ 29 (รูป 14-29) วางหน้าสัมผัสปกติปิดของปุ่มทิศตรงข้ามทั้งสองสถานีไว้ก่อนชุดปุ่มเริ่มที่ต่อขนานกับหน้าสัมผัสค้าง ทั้งสองแบบกลับทางได้ทันทีเหมือนกัน เพราะหน้าสัมผัสค้างคร่อมเฉพาะปุ่มเริ่ม หน้าสัมผัสปกติปิดของปุ่มทิศตรงข้ามจึงยังอยู่อนุกรมกับคอยล์เสมอ</p>
+        <p>รูป 14-29 ยังแสดงวิธีเขียนของตำราอเมริกันอีกหลายอย่าง: เลขทางเดินกระแส 1–7 ทางซ้าย เลขสายในวงจร และตัวเลขในวงเล็บทางขวา (3, 6) ที่บอกว่าหน้าสัมผัสของคอนแทกเตอร์นั้นอยู่ทางเดินกระแสไหน เลขที่ขีดเส้นใต้คือหน้าสัมผัสปกติปิด เทียบได้กับตารางอ้างอิงใต้คอยล์ในแบบ IEC ของวิชานี้</p></div>
+      <div class="story-p" data-l="en"><p>Books put the button NC in one of two places. Herman &amp; Seiler (Fig. 9.8) and EMC9 (Fig. 21-6) place it between the holding-contact node and the coil, as in step 3 of section A. Senty’s circuit 29 (Fig. 14-29) places the NCs of the opposite-direction buttons of both stations ahead of the start buttons and the holding contact in parallel. Both give direct reversing, because the holding contact bridges only the start buttons, so the NC of the opposite button always stays in series with the coil.</p>
+        <p>Fig. 14-29 also shows several US drawing habits: path numbers 1–7 on the left, wire numbers in the circuit, and the numbers in brackets on the right, (3, 6), which tell in which paths that starter’s contacts are; an underlined number is a normally closed contact. That is the US version of the cross-reference under the coils in this course’s IEC drawings.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/senty_fig14_29_two_stations.jpg?v=14" width="1185" height="560" loading="lazy" decoding="async" alt="US ladder diagram, circuit 29: two Stop buttons in series, then the NC contacts of both Rev buttons ahead of two Fwd buttons in parallel with holding contact F, then R NC and coil F; the reverse rung mirrors it; path numbers 1 to 7 and cross-references (3, 6) and (2, 7).">
+        <figcaption data-l="th">รูป 14-29 วงจรที่ 29: สตาร์ตเตอร์กลับทางสั่งจากสองสถานี (แบบอเมริกัน หลักการเดียวกับแบบแรกในภาพจำลองที่วาดเป็นแบบ IEC) · ที่มา: Senty, <i>Motor Control Fundamentals</i> (Delmar Cengage, 2013) บทที่ 14 หน้า 176 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 14-29, circuit 29: reversing starter controlled from two stations (US ladder; the same idea as the first circuit in the simulator, drawn to IEC) · source: Senty, <i>Motor Control Fundamentals</i> (Delmar Cengage, 2013), ch. 14, p. 176 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="tD">
+  <div class="prob-head"><span class="prob-no">D</span><div><h2 data-l="th">อินเตอร์ล็อกแต่ละชั้นรู้อะไร: หน้าสัมผัสเชื่อมติดและคอยล์ที่ถูกล็อก</h2><h2 data-l="en">What each layer sees: a welded contactor and a blocked coil</h2>
+    <div class="src" data-l="th">EMC9 หน่วยที่ 21 รูป 21-4 หน้า 165–167 · UMC5 บทที่ 9 รูป 9.7 หน้า 105 · IEC 60947-4-1 ภาคผนวก F</div><div class="src" data-l="en">EMC9 unit 21, Fig. 21-4, pp. 165–167 · UMC5 ch. 9, Fig. 9.7, p. 105 · IEC 60947-4-1, Annex F</div></div></div>
+  <p class="lead" data-l="th">เลือกชุดอินเตอร์ล็อก แล้วลองสองเหตุการณ์ (1) กด S2 แล้วกด S3 ค้างไว้ขณะเดินหน้า (2) กด S2 แล้วกดปุ่ม "⚠ ทำให้หน้าสัมผัส KM1 เชื่อมติด" (เหมือนหน้าสัมผัสหลักไหม้ติดกันหลังตัดต่อกระแสสูงหลายครั้ง KM1 จึงค้างอยู่แม้คอยล์ไม่มีไฟ) แล้วกด S3 และ S1 ผลบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">Choose a set of interlocks and try two events: (1) press S2, then hold S3 while the motor runs forward; (2) press S2, then “⚠ Weld the KM1 contacts” (as when the main contacts have burnt together after switching high currents many times, so KM1 stays closed even with its coil off), then S3 and S1. The results are recorded in the table.</p>
+  <div class="card solve"><div class="panel" id="mD" style="position:static;max-height:none"></div></div>
+  <div class="card sim rlwrap rlscroll" id="boxD" style="padding:8px;margin-top:12px;--rlmin:640px"></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pD" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logD"></div><div id="sumD" style="margin-top:8px"></div></div>
+  <div class="duo" style="margin-top:12px">
+    <div class="card"><h3 data-l="th">หน้าสัมผัสมิเรอร์ (mirror contact)</h3><h3 data-l="en">The mirror contact</h3>
+      <p data-l="th">IEC 60947-4-1 ภาคผนวก F นิยามหน้าสัมผัสมิเรอร์ว่าเป็นหน้าสัมผัสช่วยปกติปิดที่ปิดพร้อมกับหน้าสัมผัสหลักปกติเปิดไม่ได้ ถ้าหน้าสัมผัสหลักขั้วใดเชื่อมติด หน้าสัมผัส 21–22 ก็ยังเปิดค้างอยู่ อินเตอร์ล็อกทางไฟฟ้าจึงตามสถานะจริงของคอนแทกเตอร์ แม้ในกรณีที่หน้าสัมผัสเชื่อมติด ใช้ได้เมื่อผู้ผลิตระบุว่าหน้าสัมผัสนั้นเป็นหน้าสัมผัสมิเรอร์ (ดูแผ่นข้อมูล) และเช่นเดียวกับอุปกรณ์ชิ้นเดียวใด ๆ ไม่ควรใช้เป็นมาตรการความปลอดภัยเพียงอย่างเดียว ปุ่มกดตามแค่คำสั่งของคน: กด S3 แล้ว S3 21–22 เปิด แต่ไม่รู้ว่า KM1 หลุดจริงหรือไม่</p>
+      <p data-l="en">IEC 60947-4-1, Annex F, defines a mirror contact as a normally closed auxiliary contact that cannot be closed at the same time as a normally open main contact. If a main pole welds, contact 21–22 stays open, so the electrical interlock follows the contactor’s real state even with a weld. This holds when the maker declares the contact a mirror contact (see the data sheet); like any single device, it should not be the only safety measure. A push button only follows the operator’s command: pressing S3 opens S3 21–22, but the button does not know whether KM1 has really dropped out.</p></div>
+    <div class="card"><h3 data-l="th">คอยล์ที่ถูกล็อกไว้ขณะมีไฟ</h3><h3 data-l="en">A coil held open while energised</h3>
+      <p data-l="th">คอยล์ของคอนแทกเตอร์ไฟสลับกินกระแสสูงตอนแกนเหล็กยังเปิดอยู่ แล้วกระแสลดลงเมื่อแกนดูดปิดสนิท เพราะความต้านทานเชิงความเหนี่ยวนำ (inductive reactance) ของคอยล์สูงขึ้น ถ้าอินเตอร์ล็อกทางกลค้ำไว้ไม่ให้แกนปิด กระแสสูงนั้นไหลต่อไปเรื่อย ๆ Herman เตือนว่าคอยล์จะเสียหาย อินเตอร์ล็อกทางกลจึงเป็นชั้นสำรอง ไม่ใช่ชั้นหลัก ให้มีอินเตอร์ล็อกทางไฟฟ้าตัดไฟคอยล์ที่ไม่ควรดูดไว้ด้วยเสมอ และปุ่มที่ยังกดค้างอยู่ยังสั่งงานอยู่: ถ้ายังกด S3 ค้างไว้ตอน KM1 หลุด (เช่นกด S1) KM2 จะดูดทันที</p>
+      <p data-l="en">An alternating-current (AC) contactor coil draws a high current while its iron core is open, and the current falls once the core has closed, because the coil’s inductive reactance rises. If the mechanical interlock holds the core open, that high current goes on flowing; Herman warns that the coil will be damaged. The mechanical interlock is therefore a back-up layer, not the main one: always keep an electrical interlock that cuts the supply to the coil that must not pull in. And a button that is still held keeps commanding: if S3 is still held when KM1 drops out (S1, for example), KM2 closes at once.</p></div>
+  </div>
+  <div class="story n2" style="margin-top:12px">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>รูป 21-4 ของ EMC9 และรูป 9.7 ของ Herman &amp; Seiler เป็นวงจรที่มีแต่อินเตอร์ล็อกทางกล (เส้นประจากคอยล์ F และ R ไปพบกันที่เส้นทึบ) ไม่มีหน้าสัมผัสปกติปิดในวงจรควบคุมเลย ผู้ใช้วงจรแบบนี้ต้องกด STOP ก่อนกลับทางเอง เพราะในวงจรควบคุมไม่มีอะไรกันไว้: ถ้ากด REV ขณะเดินหน้า คอยล์ R จะได้ไฟทันทีและถูกคานค้ำไว้ ซึ่งคือเหตุการณ์ที่ 1 ของชุด "อินเตอร์ล็อกทางกลอย่างเดียว" ในภาพจำลองด้านบน ทั้งสองรูปเป็นแบบ NEMA แนวนอน ภาพจำลองคือวงจรเดียวกันที่วาดใหม่เป็นแบบ IEC</p></div>
+      <div class="story-p" data-l="en"><p>EMC9 Fig. 21-4 and Herman &amp; Seiler’s Fig. 9.7 have the mechanical interlock only (dashed lines from coils F and R meeting at a solid line) and no NC contact in the control circuit. With such a circuit the operator has to press STOP before reversing, because nothing in the control circuit prevents it: press REV while running forward and coil R is energised at once and held off by the lever, which is event 1 of the “mechanical interlock only” set in the simulator above. Both are horizontal NEMA drawings; the simulator is the same circuit redrawn to IEC.</p></div></div>
+    <div class="story-f">
+      <figure class="slide sm"><img src="img/book/emc9_fig21_4_mech_only.jpg?v=14" width="675" height="376" loading="lazy" decoding="async" alt="NEMA ladder: STOP, then FWD with holding contact F to coil F, and REV with holding contact R to coil R; dashed lines from both coils meet at the mechanical interlock mark; overload contacts OL’S on the return side.">
+        <figcaption data-l="th">รูป 21-4 อินเตอร์ล็อกทางกลระหว่างคอยล์ (แบบ NEMA) · ที่มา: Herman, <i>Electric Motor Control</i> 9th ed. (Delmar Cengage, 2010) หน่วยที่ 21 หน้า 167 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 21-4, mechanical interlock between the coils (NEMA) · source: Herman, <i>Electric Motor Control</i>, 9th ed. (Delmar Cengage, 2010), unit 21, p. 167 · tap to enlarge</figcaption></figure>
+      <figure class="slide sm"><img src="img/book/umc5_fig9_7_mech_only.jpg?v=14" width="1200" height="666" loading="lazy" decoding="async" alt="NEMA ladder fed from a control transformer: STOP, FORWARD with holding contact F to coil F, REVERSE with holding contact R to coil R, overload contact OL; red dashed lines from coils F and R meet at a solid line.">
+        <figcaption data-l="th">รูป 9.7 อินเตอร์ล็อกทางกลวาดเป็นเส้นประจากคอยล์แต่ละตัว (แบบ NEMA) · ที่มา: Herman &amp; Seiler (2025) บทที่ 9 หน้า 105 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 9.7, mechanical interlocks drawn as dashed lines from each coil (NEMA) · source: Herman &amp; Seiler (2025), ch. 9, p. 105 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">จากวงจรเดินกระตุกสองทิศทางรูป 6.17 เป็นวงจรเดินค้างที่กลับทางทันทีได้</h2><h2 data-l="en">From the two-direction jog circuit of Fig. 6.17 to a run circuit with direct reversing</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · ตำราไทย บทที่ 6 หัวข้อ 6.2 รูป 6.17 หน้า 100</div><div class="src" data-l="en">Worked example · Thai textbook ch. 6 §6.2, Fig. 6.17, p. 100</div></div></div>
+  <div class="story in">
+    <div class="story-t">
+      <div class="given" data-l="th"><div class="gl">โจทย์</div><p>รูป 6.17 ของตำราไทยเป็นวงจรเดินกระตุกสองทิศทาง ใช้ชื่ออุปกรณ์แบบ DIN (Deutsches Institut für Normung สถาบันมาตรฐานเยอรมัน): K1 K2 คอนแทกเตอร์ F2 ฟิวส์วงจรควบคุม F3 โอเวอร์โหลด S2 S3 ปุ่มสองหน้าสัมผัส ไม่มีหน้าสัมผัสค้างตัวเอง มอเตอร์จึงหมุนเฉพาะขณะกดปุ่ม (ก) หน้าสัมผัสใดเป็นอินเตอร์ล็อกด้วยปุ่มกด และหน้าสัมผัสใดเป็นอินเตอร์ล็อกทางไฟฟ้า (ข) ต้องการให้เป็นวงจรเดินค้างที่กลับทางได้ทันที ต้องต่อหน้าสัมผัสค้างของ K1 (KM1 13–14) คร่อมอะไร (ค) ได้วงจรขั้นใดของหัวข้อ A</p></div>
+      <div class="given" data-l="en"><div class="gl">Problem</div><p>Thai textbook Fig. 6.17 jogs a motor in two directions, with device names after DIN (Deutsches Institut für Normung, the German standards body): K1 and K2 contactors, F2 control fuse, F3 overload relay, S2 and S3 double-contact buttons. There is no holding contact, so the motor turns only while a button is held. (a) Which contacts form the push-button interlock and which the electrical interlock? (b) To make it a run circuit with direct reversing, what must the holding contact of K1 (KM1 13–14) bridge? (c) Which step of section A do you get?</p></div></div>
+    <div class="story-f"><figure class="slide sm"><img src="img/book/book1_fig6_17_jog_two_ways.jpg?v=14" width="478" height="575" loading="lazy" decoding="async" alt="Thai textbook Fig. 6.17: control circuit for jogging in two directions; double-contact push buttons S2 and S3 and the NC contacts of K1 and K2 lock the two contactors out; overload contact F3 lights lamp H1.">
+      <figcaption data-l="th">รูป 6.17 วงจรควบคุมการเดินกระตุกสองทิศทาง · ที่มา: ธนภัทร ไพคำนาม, <i>การควบคุมมอเตอร์ไฟฟ้า</i> (2104-2009), บทที่ 6 หน้า 100 · แตะรูปเพื่อขยาย</figcaption>
+      <figcaption data-l="en">Fig. 6.17, control circuit for jogging in two directions · source: Thanaphat Phaikhamnam, <i>Motor Control</i> (2104-2009), ch. 6, p. 100 · tap to enlarge</figcaption></figure></div>
+  </div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">อินเตอร์ล็อกของวงจรกลับทางหมุน</div><div class="src" data-l="en">Interlocks of reversing circuits</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>หัวข้อ A: ในขั้นที่ 2 และขั้นที่ 3 กดปุ่ม "S2 + S3 พร้อมกัน" ค้างไว้แล้วปล่อย แต่ละขั้นเกิดอะไรขึ้น และทำไมจึงต่างกัน</li>
+      <li>หัวข้อ A: ในขั้นที่ 4 ลองคลิก F2 ขณะเดินหน้า หลอดใดติดบ้าง หลังรีเซ็ต F2 มอเตอร์เดินเองหรือไม่</li>
+      <li>หัวข้อ D: เลือก "อินเตอร์ล็อกด้วยปุ่มกดอย่างเดียว" ทำให้หน้าสัมผัส KM1 เชื่อมติด แล้วกด S1 มอเตอร์หยุดหรือไม่ จะหยุดมอเตอร์ได้อย่างไร</li>
+      <li>วาดวงจรขั้นที่ 4 ลงกระดาษ ใส่เลขขั้วทุกหน้าสัมผัส เลขทางเดินกระแส และตารางอ้างอิงใต้คอยล์ KM1 และ KM2 แล้วเทียบกับภาพจำลอง</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 6 หัวข้อ 6.2 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 9 · Herman, <i>Electric Motor Control</i> 9th ed. หน่วยที่ 21 · Senty, <i>Motor Control Fundamentals</i> บทที่ 14 วงจรที่ 18 และ 29 · IEC 60204-1 ข้อ 9.3.4 · IEC 60947-4-1 ภาคผนวก F · IEC 60617</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Section A: in step 2 and in step 3, hold “S2 + S3 together”, then release it. What happens in each step, and why do they differ?</li>
+      <li>Section A, step 4: click F2 while running forward. Which lamps light? After resetting F2, does the motor restart by itself?</li>
+      <li>Section D: choose “push-button interlock only”, weld the KM1 contacts, then press S1. Does the motor stop? How can it be stopped?</li>
+      <li>Draw the circuit of step 4 on paper with every terminal number, the path numbers and the cross-reference under coils KM1 and KM2, then compare it with the simulator.</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 6 §6.2 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 9 · Herman, <i>Electric Motor Control</i>, 9th ed., unit 21 · Senty, <i>Motor Control Fundamentals</i>, ch. 14, circuits 18 and 29 · IEC 60204-1, 9.3.4 · IEC 60947-4-1, Annex F · IEC 60617</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui, tt = ED.tt;
+  const hid = spec => new RL.Sim(document.createElement('div'), spec);   // hidden simulator for the summaries (same model as the page)
+  const fresh = box => { box.innerHTML = ''; const el = document.createElement('div'); box.appendChild(el); return el; };   // a fresh element drops the old listeners
+  const tap = (s, ...ids) => ids.forEach(id => { s.press(id, true); s.press(id, false); });
+  const ask = (el, q) => { el.innerHTML = `<p style="margin:0 0 6px"><b>${q}</b></p><div></div><div class="answer" hidden></div>`; return { box: el.children[1], ans: el.children[2] }; };
+  const DIR = d => (d === 'cw' ? t('เดินหน้า', 'forward') : d === 'ccw' ? t('ถอยหลัง', 'reverse') : t('หยุด', 'stopped'));
+  const OTHER = { S2: 'S3', S3: 'S2' }, KM = { S2: 'KM1', S3: 'KM2' };
+  /* what the circuit is in: direction, short circuit, blocked coils, Q1 */
+  const stOf = s => ({ d: s.dir(), sh: s.msg === 'pshort', bl: Object.keys(s.dev).filter(k => s.dev[k].blocked).join(', '), ch: Object.keys(s.dev).filter(k => s.dev[k].chatter).join(', '), q1: s.dev.Q1.on, k1: s.act('KM1'), k2: s.act('KM2') });
+  /* status line: two coils chattering together = the race after S2 and S3 at the same instant with the electrical interlock only */
+  const RACE = ['หน้าสัมผัส 21–22 ของแต่ละตัวตัดทางของอีกตัว จึงแข่งกัน ในภาพจำลองไม่มีตัวใดค้างอยู่ได้และทั้งคู่สั่นรัวตราบที่ยังกดอยู่ ในตู้จริงตัวที่ดูดเร็วกว่ามักชนะ อินเตอร์ล็อกด้วยปุ่มกด (ขั้นที่ 3) ตัดการแข่งนี้ออก', 'each one’s 21–22 opens the other’s path, so they race: in the simulator neither can stay in and both chatter for as long as the buttons are held; in a real panel the faster contactor usually wins. The push-button interlock (step 3) removes this race'];
+  const status72 = s => { const c = Object.keys(s.dev).filter(k => s.dev[k].chatter); return c.length > 1 ? [t('แข่งกัน', 'race'), t(`${c.join(' และ ')} ได้ไฟพร้อมกัน: `, `${c.join(' and ')} got voltage at the same instant: `) + tt(RACE), 'warn'] : C7.state(s); };
+  const kin = st => [st.k1 && 'KM1', st.k2 && 'KM2'].filter(Boolean).join(' + ') || '–';
+  const SHORT = () => `<span class="pill bad">${t('ลัดวงจร', 'short circuit')}</span>`;
+  /* one tracker per simulator (attached with sim.on, so presses on the panel front and clicks in the drawing both count): a log row for
+     every press, click and power cut, explained from the state before and after. o: { log, tag(), label(), why(id, s, A) → [html, kind] } */
+  const snap = s => { const o = { mains: String(s.mains) }; Object.values(s.dev).forEach(d => { o[d.id] = `${d.pressed}|${d.on}|${d.tripped}|${d.blown}|${!!d.welded}`; }); return o; };
+  const tracker = o => { let sim = null, last = null, lastSnap = null;
+    const attach = s => { sim = s; last = stOf(s); lastSnap = snap(s); s.on(ev); };
+    const ev = s => { if (s !== sim) return; const b = last, A = stOf(s), was = lastSnap, now = snap(s); last = A; lastSnap = now;
+      const ch = Object.keys(now).filter(k => now[k] !== was[k]), pick = ch.find(k => /^S[123]$/.test(k)) || ch.find(k => k === 'mains') || ch.find(k => k === 'Q1' || k === 'F2');
+      if (!pick || (pick === 'mains' && !s.mains)) return;
+      const act = pick === 'mains' ? 'cut' : /^S/.test(pick) ? (s.dev[pick].pressed ? 'press' : 'release') : 'toggle';
+      if (act === 'release' && !A.sh && A.bl === b.bl && A.d === b.d) return;
+      const two = ch.includes('S2') && ch.includes('S3'), btn = two ? 'S2 + S3' : pick;
+      const who = act === 'press' ? t(`กด ${btn}${two ? ' พร้อมกัน' : ''}`, `press ${btn}${two ? ' together' : ''}`) : act === 'release' ? t(`ปล่อย ${btn}`, `release ${btn}`) : act === 'cut' ? t('ไฟดับแล้วกลับมา', 'power fails and returns') : t(`คลิก ${pick}`, `click ${pick}`);
+      const add = (k, res, txt, kind) => o.log.add(`${o.tag()}|${k}`, [tt(o.label()), who, res, txt], kind);
+      if (A.sh && !b.sh) return add(`${pick}|short`, SHORT(), t('KM1 และ KM2 ต่อพร้อมกัน: L1 กับ L3 ลัดถึงกันผ่านหน้าสัมผัสหลัก Q1 ตัด และวงจรควบคุมหลัง Q1 ดับไปด้วย คลิกที่ Q1 เพื่อสับกลับ', 'KM1 and KM2 closed together: L1 and L3 are shorted through the main contacts; Q1 trips and the control circuit after Q1 goes dead too. Click Q1 to switch it on again'), 'bad');
+      if (A.bl && A.bl !== b.bl) return add(`${pick}|blocked`, `<span class="pill warn">${A.bl} ${t('ถูกล็อก', 'blocked')}</span>`, t(`คอยล์ ${A.bl} มีไฟ แต่คานของอินเตอร์ล็อกทางกลค้ำไว้ หน้าสัมผัสไม่เปลี่ยน มอเตอร์ยัง${DIR(A.d)} คอยล์กินกระแสสูงและร้อนขึ้นตราบที่ยังกดปุ่มอยู่ ไม่มีการลัดวงจร`, `coil ${A.bl} is energised but the mechanical interlock lever holds it open: its contacts stay put, the motor keeps running ${DIR(A.d)}, and the coil draws a high current and heats up for as long as the button is held. No short circuit`), 'warn');
+      if (A.ch && A.ch !== b.ch && A.ch.includes(',')) return add(`${pick}|race`, `<span class="pill warn">${t('แข่งกัน', 'race')}</span>`, t(`คอยล์ ${A.ch} ได้ไฟพร้อมกันในจังหวะเดียว `, `coils ${A.ch} get voltage at the same instant and `) + tt(RACE), 'warn');
+      if (act === 'cut') return add('cut', DIR(A.d), A.d ? t('มอเตอร์เดินขึ้นมาเองหลังไฟกลับ!', 'the motor restarted by itself after the power returned!') : t('คอนแทกเตอร์หลุดเมื่อไฟดับ และไม่ดูดเองเมื่อไฟกลับ ต้องกดปุ่มเริ่มใหม่', 'the contactors dropped out when the power failed and do not pull in again when it returns: a start button must be pressed again'), A.d ? 'bad' : 'ok');
+      if (pick === 'Q1') return add(`Q1|${A.q1}`, A.q1 ? DIR(A.d) : t('Q1 ปลด', 'Q1 off'), A.q1 ? (A.d ? t('สับ Q1 แล้วมอเตอร์เดินทันที: หน้าสัมผัสหลักค้างอยู่', 'Q1 on and the motor runs at once: main contacts stuck closed') : t('สับ Q1 กลับ ไม่มีอะไรเดินเอง', 'Q1 on again: nothing restarts by itself')) : t('ไม่มีไฟทั้งวงจรกำลังและวงจรควบคุม', 'no supply to the power or the control circuit'), A.q1 && A.d ? 'bad' : 'ok');
+      if (pick === 'F2') return add(`F2|${s.dev.F2.tripped}`, DIR(A.d), s.dev.F2.tripped ? (A.d ? t('F2 ตัด แต่มอเตอร์ยังหมุน: หน้าสัมผัสหลักค้างอยู่', 'F2 tripped but the motor still runs: main contacts stuck closed') : t('F2 95–96 เปิด คอนแทกเตอร์หลุด มอเตอร์หยุด', 'F2 95–96 opens, the contactor drops out, the motor stops')) : (A.d ? t('รีเซ็ตแล้วมอเตอร์เดินเอง!', 'reset and the motor restarted!') : t('รีเซ็ต F2 แล้วไม่มีอะไรเดินเอง', 'F2 reset: nothing restarts by itself')), A.d && !s.dev.F2.tripped ? 'bad' : 'ok');
+      if (pick === 'S1') { if (act !== 'press' || !b.d) return; return add(`S1|${A.d ? 1 : 0}`, DIR(A.d), A.d ? t('กด S1 แล้วมอเตอร์ยังหมุน: คอนแทกเตอร์ที่หน้าสัมผัสเชื่อมติดไม่ฟังคอยล์ หยุดได้ด้วย Q1 เท่านั้น', 'S1 pressed and the motor still runs: a welded contactor does not obey its coil; only Q1 can stop it') : t('S1 11–12 เปิด คอยล์ไม่มีไฟ หน้าสัมผัสค้างเปิด มอเตอร์หยุด', 'S1 11–12 opens, the coil loses its supply, the holding contact opens, the motor stops'), A.d ? 'bad' : 'ok'); }
+      if (act !== 'press') return;
+      const id = pick, held = s.dev[OTHER[id]] && s.dev[OTHER[id]].pressed;
+      if (!b.d && A.d) return add(`${id}|start|${A.d}`, DIR(A.d), t(`${kin(A)} ดูดและค้างตัวเองด้วย 13–14 มอเตอร์${DIR(A.d)}`, `${kin(A)} pulls in and holds itself through 13–14: ${DIR(A.d)}`), 'ok');
+      if (b.d && A.d && b.d !== A.d) return add(`${id}|direct`, DIR(A.d), t(`กลับทางทันที: ${id} 21–22 ตัด ${kin(b)} ก่อน แล้ว ${id} 13–14 สั่ง ${kin(A)} ขณะมอเตอร์ยังหมุน (การกลับเฟสขณะหมุน กระแสสูงมาก ดูหน้า 7.3)`, `direct reversing: ${id} 21–22 drops ${kin(b)} first, then ${id} 13–14 starts ${kin(A)} while the motor is still turning (plugging, a very high current: see page 7.3)`), 'ok');
+      if (b.d && !A.d) return add(`${id}|drop`, DIR(A.d), held ? t(`กดสองปุ่มพร้อมกัน: ${id} 21–22 ตัด ${kin(b)} และ ${OTHER[id]} 21–22 กันอีกตัวไว้ ไม่มีอะไรเดิน`, `both buttons pressed: ${id} 21–22 drops ${kin(b)} and ${OTHER[id]} 21–22 keeps the other off: nothing runs`) : t(`${kin(b)} หลุด`, `${kin(b)} drops out`), 'ok');
+      if (!b.d && !A.d) return add(`${id}|none|${held ? 1 : 0}`, DIR(A.d), held ? t('กดสองปุ่มพร้อมกัน: หน้าสัมผัสปกติปิดของแต่ละปุ่มตัดทางของอีกตัว ไม่มีอะไรเดิน', 'both buttons pressed: the NC contact of each button opens the other path: nothing runs') : `${t('ไม่มีอะไรเกิดขึ้น', 'nothing happens')}: ${C7.state(s)[1] || C7.state(s)[0]}`, held ? 'ok' : 'warn');
+      if (b.d && A.d === b.d && KM[id] !== kin(A)) { const w = o.why(id, s, A); return add(`${id}|blocked-by|${A.d}`, DIR(A.d), w[0], w[1]); } };
+    return { attach }; };
+  /* the reason why the other button does nothing while running (electrical interlock, or a hold that bridges the button NC) */
+  const whyElec = (id, s, A) => { const run = kin(A), other = KM[id];
+    if (s.dev[run] && s.dev[run].welded) return [t(`${id} ไม่มีผล: หน้าสัมผัสหลักของ ${run} เชื่อมติด ${run} 21–22 (หน้าสัมผัสมิเรอร์) จึงเปิดค้างและกัน ${other} ไว้ ไม่ลัดวงจร แต่ S1 ก็หยุดมอเตอร์ไม่ได้ ต้องปลด Q1`, `${id} does nothing: ${run}’s main contacts are welded, so ${run} 21–22 (a mirror contact) stays open and keeps ${other} off: no short. But S1 cannot stop the motor either: switch Q1 off`), 'ok'];
+    return [t(`${id} ไม่มีผล: ${run} 21–22 ในทางของ ${other} เปิดอยู่ ต้องกด S1 ก่อน (เดินหน้า–หยุด–ถอยหลัง)`, `${id} does nothing: ${run} 21–22 in the ${other} path is open; press S1 first (forward – stop – reverse)`), 'ok']; };
+  /* hold-to-press "S2 + S3 together": both buttons change in one update of the simulator (a mouse holds only one panel button at a time) */
+  const together = (pn, s) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = t('กด S2 + S3 พร้อมกัน (กดค้าง)', 'S2 + S3 together (hold)');
+    const set = v => { if (!!s.dev.S2.pressed === v && !!s.dev.S3.pressed === v) return; s.dev.S2.pressed = v; s.dev.S3.pressed = v; s.update(); };
+    b.addEventListener('pointerdown', e => { e.preventDefault(); set(true); });
+    ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, () => set(false)));
+    pn.row.appendChild(b); return b; };
+
+  /* figures of the four steps */
+  const FIG = {
+    u99: ['umc5_fig9_9_aux_interlock.jpg', 1200, 636, 'NEMA ladder from a control transformer: STOP, FORWARD with holding contact F, then the NC auxiliary contact R to coil F; REVERSE with holding contact R, then the NC contact F to coil R; mechanical interlock dashed between the coils; overload OL.',
+      'รูป 9.9 อินเตอร์ล็อกทางไฟฟ้าด้วยหน้าสัมผัสช่วยปกติปิด (แบบ NEMA วาดใหม่เป็นแบบ IEC ในขั้นที่ 2) · ที่มา: Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. (Cengage, 2025) บทที่ 9 หน้า 106 · แตะรูปเพื่อขยาย',
+      'Fig. 9.9, electrical interlocking with normally closed auxiliary contacts (NEMA; redrawn to IEC in step 2) · source: Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed. (Cengage, 2025), ch. 9, p. 106 · tap to enlarge'],
+    b616: ['book1_fig6_16_jog_elec.jpg', 495, 468, 'Thai textbook Fig. 6.16: control circuit L1 220 V, fuse F2, overload contact F3, stop S1, then S2 to the NC contact of K2 and coil K1, and S3 to the NC contact of K1 and coil K2; lamp H1 on the overload contact.',
+      'รูป 6.16 วงจรควบคุมการกลับทางหมุนแบบชั่วขณะ (มีแต่อินเตอร์ล็อกทางไฟฟ้า) · ที่มา: ธนภัทร ไพคำนาม, <i>การควบคุมมอเตอร์ไฟฟ้า</i> (2104-2009), บทที่ 6 หน้า 100 · แตะรูปเพื่อขยาย',
+      'Fig. 6.16, control circuit for reversing by jogging (electrical interlock only) · source: Thanaphat Phaikhamnam, <i>Motor Control</i> (2104-2009), ch. 6, p. 100 · tap to enlarge'],
+    u98: ['umc5_fig9_8_pb_interlock.jpg', 1188, 629, 'NEMA ladder from a control transformer: STOP, FORWARD NO with holding contact F, then the NC part of REVERSE to coil F; REVERSE NO with holding contact R, then the NC part of FORWARD to coil R; dashed links between the parts of each button; mechanical interlock between the coils.',
+      'รูป 9.8 อินเตอร์ล็อกด้วยปุ่มกดสองหน้าสัมผัส (แบบ NEMA วาดใหม่เป็นแบบ IEC ในขั้นที่ 3) · ที่มา: Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. (Cengage, 2025) บทที่ 9 หน้า 106 · แตะรูปเพื่อขยาย',
+      'Fig. 9.8, interlocking with double-acting push buttons (NEMA; redrawn to IEC in step 3) · source: Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed. (Cengage, 2025), ch. 9, p. 106 · tap to enlarge'],
+    e216: ['emc9_fig21_6_three_interlocks.jpg', 1200, 622, 'NEMA control circuit from a control transformer with fuse: Stop, Forward NO with holding contact F, the NC part of Reverse and the NC auxiliary contact R to coil F; the reverse rung mirrors it; dashed button links and the mechanical interlock between the coils; overload OL.',
+      'รูป 21-6 วงจรควบคุมของสตาร์ตเตอร์กลับทางที่มีอินเตอร์ล็อกครบทั้งสามแบบ (แบบ NEMA แสดงเฉพาะวงจรควบคุม วาดใหม่เป็นแบบ IEC ในขั้นที่ 4) · ที่มา: Herman, <i>Electric Motor Control</i> 9th ed. (Delmar Cengage, 2010) หน่วยที่ 21 หน้า 167 · แตะรูปเพื่อขยาย',
+      'Fig. 21-6, control circuit of a reversing starter with all three interlocks (NEMA, control part only; redrawn to IEC in step 4) · source: Herman, <i>Electric Motor Control</i>, 9th ed. (Delmar Cengage, 2010), unit 21, p. 167 · tap to enlarge'] };
+  const figHTML = id => { const f = FIG[id]; return `<figure class="slide ${f[1] > 800 ? 'md' : 'sm'}"><img src="img/book/${f[0]}?v=14" width="${f[1]}" height="${f[2]}" loading="lazy" decoding="async" alt="${f[3]}"><figcaption>${t(f[4], f[5])}</figcaption></figure>`; };
+
+  /* A: the four steps */
+  const STEPS = {
+    1: { f: C7.NONE, lab: ['ไม่มี', 'none'], title: ['ขั้นที่ 1: ไม่มีอินเตอร์ล็อก', 'Step 1: no interlock'],
+      add: ['สองทางเดินกระแสที่เหมือนกันใต้ F1, F2 95–96 และ S1: (S2 ∥ KM1 13–14) → KM1 และ (S3 ∥ KM2 13–14) → KM2 ไม่มีอะไรกันไม่ให้ทั้งสองทางทำงานพร้อมกัน', 'Two identical paths under F1, F2 95–96 and S1: (S2 ∥ KM1 13–14) → KM1 and (S3 ∥ KM2 13–14) → KM2. Nothing stops both working at once.'],
+      q: ['กด S2 แล้วกด S3 ขณะมอเตอร์เดินหน้า จะเกิดอะไรขึ้น', 'Press S2, then S3 while the motor runs forward. What happens?'],
+      opts: [['KM2 ดูดเพิ่ม L1 กับ L3 ลัดถึงกัน Q1 ตัด', 'KM2 pulls in as well: L1 and L3 short and Q1 trips'], ['มอเตอร์กลับทาง', 'the motor reverses'], ['ไม่มีอะไรเกิดขึ้น', 'nothing happens']], ans: 0,
+      why: ['KM1 ค้างอยู่ด้วยหน้าสัมผัสของตัวเอง กด S3 แล้ว KM2 ได้ไฟทันทีเพราะไม่มีอะไรขวาง หน้าสัมผัสหลักของทั้งสองตัวปิดพร้อมกัน L1 กับ L3 ลัดถึงกัน (หน้า 7.1) ในภาพจำลอง Q1 ตัดทันที ในงานจริงหน้าสัมผัสหลักอาจไหม้หรือเชื่อมติด', 'KM1 is held in by its own contact. Pressing S3 energises KM2 at once because nothing is in the way; the main contacts of both close, and L1 and L3 are shorted (page 7.1). In the simulator Q1 trips at once; in real life the main contacts may burn or weld.'],
+      side: ['ใน CADe SIMU วงจรนี้ทำให้การจำลองหยุดพร้อมคำเตือนการลัดวงจร ใบงานที่ 7 ขั้น 7A ให้บันทึกข้อความเตือนนั้นไว้ แล้วแก้ด้วยอินเตอร์ล็อก ไม่ใช่ลบสายทิ้ง', 'In CADe SIMU this circuit stops the simulation with a short-circuit warning. Lab sheet 7, step 7A, asks you to record that warning, then fix the circuit with interlocks, not by deleting wires.'] },
+    2: { f: C7.ELEC, lab: ['ทางไฟฟ้า', 'electrical'], title: ['ขั้นที่ 2: อินเตอร์ล็อกทางไฟฟ้า', 'Step 2: the electrical interlock'],
+      add: ['หน้าสัมผัสปกติปิด KM2 21–22 ต่ออนุกรมเหนือคอยล์ KM1 และ KM1 21–22 เหนือคอยล์ KM2 คอนแทกเตอร์ตัวที่ดูดอยู่จะเปิดทางของอีกตัว', 'NC contact KM2 21–22 goes in series just above coil KM1, and KM1 21–22 just above coil KM2: the contactor that is in opens the path of the other.'],
+      q: ['ขณะเดินหน้า กด S3 จะเกิดอะไรขึ้น', 'While the motor runs forward, S3 is pressed. What happens?'],
+      opts: [['ไม่มีอะไรเกิดขึ้น มอเตอร์เดินหน้าต่อ', 'nothing: the motor keeps running forward'], ['มอเตอร์กลับทางทันที', 'the motor reverses at once'], ['ลัดวงจร Q1 ตัด', 'a short circuit: Q1 trips']], ans: 0,
+      why: ['KM1 ดูดอยู่ KM1 21–22 ในทางของ KM2 จึงเปิด กด S3 แล้ว KM2 ไม่ได้ไฟ ต้องกด S1 ให้ KM1 หลุดก่อน KM1 21–22 จึงปิด แล้วจึงกด S3 ได้ วงจรแบบนี้เรียกว่าเดินหน้า–หยุด–ถอยหลัง (forward – stop – reverse) และยังให้มอเตอร์มีเวลาหมุนช้าลงก่อนกลับทาง (หน้า 7.3) รูป 9.9 ของ Herman &amp; Seiler และรูป 6.16 ของตำราไทยใช้อินเตอร์ล็อกแบบนี้ (รูป 6.16 ไม่มีหน้าสัมผัสค้าง จึงเป็นการเดินกระตุก)', 'KM1 is in, so KM1 21–22 in the KM2 path is open: pressing S3 cannot energise KM2. S1 must drop KM1 first; then KM1 21–22 closes and S3 works. This is called forward – stop – reverse, and it also gives the motor time to slow down before it reverses (page 7.3). Herman &amp; Seiler’s Fig. 9.9 and Thai textbook Fig. 6.16 use this interlock (Fig. 6.16 has no holding contacts, so it jogs).'],
+      figs: ['u99', 'b616'] },
+    3: { f: C7.PB, lab: ['+ ปุ่มกด', '+ push-button'], title: ['ขั้นที่ 3: เพิ่มอินเตอร์ล็อกด้วยปุ่มกด', 'Step 3: adding the push-button interlock'],
+      add: ['ใช้ปุ่มสองหน้าสัมผัส: S3 21–22 ต่ออนุกรมในทางของ KM1 และ S2 21–22 ในทางของ KM2 ระหว่างจุดต่อของหน้าสัมผัสค้างกับหน้าสัมผัส 21–22 ของคอนแทกเตอร์ (ชื่อ S3 ที่หน้าสัมผัสทั้งสองบอกว่าเป็นปุ่มเดียวกันและเคลื่อนที่พร้อมกัน ตำราอเมริกันวาดเส้นประเชื่อมหน้าสัมผัสของปุ่มเดียวกันไว้) อินเตอร์ล็อกทางไฟฟ้ายังอยู่ครบ', 'Double-contact buttons: S3 21–22 goes in series in the KM1 path and S2 21–22 in the KM2 path, between the holding-contact node and the contactor’s 21–22 (the name S3 on both contacts says they belong to one button and move together; US books join the contacts of one button with a dashed line). The electrical interlock stays.'],
+      q: ['ขณะเดินหน้า กด S3 จะเกิดอะไรขึ้น', 'While the motor runs forward, S3 is pressed. What happens?'],
+      opts: [['KM1 หลุด แล้ว KM2 ดูด มอเตอร์กลับทางทันที', 'KM1 drops out, then KM2 pulls in: the motor reverses at once'], ['ไม่มีอะไรเกิดขึ้น', 'nothing happens'], ['ลัดวงจร Q1 ตัด', 'a short circuit: Q1 trips']], ans: 0,
+      why: ['กด S3: หน้าสัมผัสปกติปิด S3 21–22 เปิดก่อน ตัดทางของ KM1 KM1 หลุด หน้าสัมผัส KM1 21–22 จึงปิด แล้ว S3 13–14 สั่ง KM2 ได้ เป็นการกลับทางทันที (direct reversing) ขณะมอเตอร์ยังหมุน คือการกลับเฟสขณะหมุน (plugging) ซึ่งกระแสสูงมาก (หน้า 7.3) ถ้ากดสองปุ่มพร้อมกัน หน้าสัมผัสปกติปิดของแต่ละปุ่มตัดทางของอีกตัว ไม่มีอะไรทำงาน Herman &amp; Seiler อธิบายว่าส่วนปกติปิดของปุ่มทำหน้าที่เหมือนปุ่มหยุดของอีกทิศ', 'Press S3: its NC 21–22 opens first and breaks the KM1 path, KM1 drops out and its 21–22 closes, and then S3 13–14 starts KM2. That is direct reversing while the motor is still turning, i.e. plugging, with a very high current (page 7.3). Pressing both buttons does nothing: the NC of each button opens the other path. Herman &amp; Seiler describe the NC part of the button as acting like a stop button for the other direction.'],
+      figs: ['u98'] },
+    4: { f: o => C7.TRIPLE(o), lab: ['+ ทางกล + หลอด', '+ mechanical + lamps'], title: ['ขั้นที่ 4: เพิ่มอินเตอร์ล็อกทางกลและหลอดสัญญาณ', 'Step 4: adding the mechanical interlock and the lamps'],
+      add: ['เพิ่มอินเตอร์ล็อกทางกล (เส้นประกับสามเหลี่ยมใต้คอยล์ KM1 และ KM2) และหลอดสัญญาณ: H1 เดินหน้า (KM1 53–54) และ H2 ถอยหลัง (KM2 53–54) สีเขียว H3 โอเวอร์โหลด (F2 97–98) สีเหลือง และ H4 หยุด (KM1 61–62 อนุกรมกับ KM2 61–62) สีขาว', 'The mechanical interlock (the dashed line with a triangle under coils KM1 and KM2) and the lamps: H1 FORWARD (KM1 53–54) and H2 REVERSE (KM2 53–54) green, H3 OVERLOAD (F2 97–98) yellow, and H4 STOPPED (KM1 61–62 in series with KM2 61–62) white.'],
+      q: ['มอเตอร์หยุดอยู่ กด S2 และ S3 พร้อมกัน จะเกิดอะไรขึ้น', 'The motor is stopped. S2 and S3 are pressed together. What happens?'],
+      opts: [['ไม่มีอะไรทำงาน', 'nothing runs'], ['KM1 ดูด เพราะ S2 อยู่ก่อน', 'KM1 pulls in because S2 comes first'], ['คอยล์ทั้งสองได้ไฟ แต่คานกันไว้', 'both coils are energised, but the lever holds them']], ans: 0,
+      why: ['หน้าสัมผัสปกติปิดของแต่ละปุ่มตัดทางของคอนแทกเตอร์อีกตัว จึงไม่มีคอยล์ใดได้ไฟ อินเตอร์ล็อกทางกลไม่ต้องทำงานเลย มันเป็นชั้นสำรองสำหรับกรณีที่ชั้นอื่นพลาด เช่นหน้าสัมผัสช่วยเสีย ต่อสายผิด หรือแรงสั่นสะเทือนทำให้กลไกของคอนแทกเตอร์ขยับ รูป 21-6 ของ EMC9 มีครบทั้งสามแบบเหมือนขั้นนี้ หลอด H4 สีขาวติดเฉพาะเมื่อคอนแทกเตอร์ทั้งสองหลุด', 'The NC of each button opens the path of the other contactor, so no coil is energised; the mechanical interlock does not have to act at all. It is the back-up layer for when the others fail: a faulty auxiliary contact, a wiring mistake, or a shock that moves a contactor’s mechanism. EMC9 Fig. 21-6 has all three, like this step. The white lamp H4 is lit only when both contactors are out.'],
+      figs: ['e216'] } };
+  let nA = 1, simA = null, pnA = null;
+  const infoA = $('infoA'), boxA = $('boxA'), pA = $('pA');
+  const logA = new ED.Log($('logA'), [['ขั้น', 'step'], ['สิ่งที่ทำ', 'action'], ['ผล', 'result'], ['ความหมาย', 'what it means']], { empty: ['ยังไม่มีผล กด S2 หรือ S3 ที่หน้าตู้', 'No results yet: press S2 or S3 on the panel front'] });
+  const labA = n => `${n} · ${tt(STEPS[n].lab)}`;
+  const trA = tracker({ log: logA, sim: () => simA, tag: () => `A${nA}`, label: () => [`ขั้นที่ ${nA}`, `step ${nA}`], why: whyElec });
+  const radA = ui.radio($('stepsA'), [1, 2, 3, 4].map(n => ({ id: `stepA${n}`, label: labA(n), on: n === 1 })), id => buildA(+id.slice(5)));
+  const navA = ui.buttons($('stepsA'), [{ id: 'aPrev', label: t('◀ ขั้นก่อน', '◀ Previous step'), onclick: () => buildA(Math.max(1, nA - 1)) }, { id: 'aNext', label: t('ขั้นถัดไป ▶', 'Next step ▶'), cls: 'on', onclick: () => buildA(Math.min(4, nA + 1)) }]);
+  function buildA(n) {
+    nA = n; radA.set(`stepA${n}`); navA.aPrev.disabled = n === 1; navA.aNext.disabled = n === 4; const S = STEPS[n];
+    const side = S.figs ? S.figs.map(figHTML).join('') : `<div class="callout"><b>CADe SIMU</b><p style="margin:6px 0 0">${tt(S.side)}</p></div>`;
+    infoA.innerHTML = `<div class="story in" style="margin-top:10px"><div class="story-t"><h3>${tt(S.title)}</h3><p><b>${t('สิ่งที่เพิ่ม', 'What is new')}:</b> ${tt(S.add)}</p>
+      <p style="margin:6px 0 2px"><b>${tt(S.q)}</b></p><div data-r="ask"></div>
+      <div class="toggles" style="margin-top:6px"><button type="button" class="btn" data-r="show">${t('อธิบายว่าเกิดอะไรขึ้น', 'Explain what happens')}</button></div><div class="answer" data-r="why" hidden>${tt(S.why)}</div></div>
+      <div class="story-f">${side}</div></div>`;
+    const why = infoA.querySelector('[data-r="why"]'), show = infoA.querySelector('[data-r="show"]'), open = () => { why.hidden = false; show.hidden = true; };
+    LS.choose(infoA.querySelector('[data-r="ask"]'), { labels: ['①', '②', '③'], options: S.opts.map(tt), answer: S.ans, onPick: (i, ok) => { if (ok) open(); } });
+    show.addEventListener('click', open);
+    simA = new RL.Sim(fresh(boxA), S.f({}), { max: 1200, label: `reversing control, interlock step ${n}` });
+    const vb = simA.el.querySelector('svg').viewBox.baseVal.width; simA.o.max = Math.round(1.15 * vb); simA.render();   // the same symbol size in every step
+    boxA.style.setProperty('--rlmin', `${Math.round(0.95 * vb)}px`);
+    pA.innerHTML = ''; ui.h2(pA, t('หน้าตู้และการสั่งงาน', 'Panel front and controls'));
+    pnA = C7.panel(pA, simA, { status: status72 }); together(pnA, simA); trA.attach(simA); }
+  buildA(1);
+  const anyBlocked = s => Object.values(s.dev).some(d => d.blocked);
+  LS.anim($('tA'), dt => { simA.step(dt); if (anyBlocked(simA)) pnA.refresh(); });
+  /* summary cells from hidden simulators */
+  const both = s => { s.dev.S2.pressed = true; s.dev.S3.pressed = true; s.update(); };   // S2 and S3 at the same instant, as the "together" button
+  const cell = s => (Object.values(s.dev).filter(d => d.chatter).length > 1 ? `<span class="rk-warn">${t('แข่งกัน: ', 'race: ')}${Object.keys(s.dev).filter(k => s.dev[k].chatter).join(', ')} ${t('สั่นรัว', 'chatter')}</span>` : s.msg === 'pshort' ? `<span class="rk-bad">${t('ลัดวงจร Q1 ตัด', 'short circuit, Q1 trips')}</span>` : anyBlocked(s) ? `<span class="rk-warn">${Object.keys(s.dev).filter(k => s.dev[k].blocked).join(', ')} ${t('ถูกล็อก คอยล์ร้อน', 'blocked, coil overheats')}</span>` + (s.dir() ? ` · ${DIR(s.dir())}` : '') : DIR(s.dir()));
+  const tests = f => {
+    const a = hid(f()); tap(a, 'S2', 'S3');   // S3 while forward
+    const b = hid(f()); both(b);   // both pressed from rest at the same instant (still held)
+    const c = hid(f()); c.dev.KM1.welded = true; c.update(); c.press('S3', true); c.step(1);   // KM1 welded, then S3 (held)
+    const d = hid(f()); tap(d, 'S2'); d.setMains(false); d.setMains(true);   // power cut while forward
+    return [a, b, c, d]; };
+  const fwdCell = s => (anyBlocked(s) || s.msg === 'pshort' ? cell(s) : s.dir() === 'ccw' ? `<span class="rk-ok">${t('กลับทางทันที', 'reverses at once')}</span>` : s.dir() === 'cw' ? t('ไม่มีผล เดินหน้าต่อ', 'nothing: keeps forward') : cell(s));
+  ED.summary($('sumA'), { intro: ['ผลจากแบบจำลองเดียวกับภาพจำลอง', 'Results from the same model as the simulator'],
+    head: [['ขั้น', 'step'], ['กด S3 ขณะเดินหน้า', 'S3 while forward'], ['กด S2 และ S3 พร้อมกัน (ขณะหยุด)', 'S2 and S3 together (from rest)'], ['หน้าสัมผัส KM1 เชื่อมติด แล้วกด S3', 'KM1 welded, then S3'], ['ไฟดับแล้วกลับมา', 'power fails and returns']],
+    rows: () => [1, 2, 3, 4].map(n => { const r = tests(STEPS[n].f); return [labA(n), fwdCell(r[0]), cell(r[1]), cell(r[2]), r[3].dir() ? `<span class="rk-bad">${t('เดินเอง', 'restarts')}</span>` : t('ไม่เดินเอง', 'no restart')]; }),
+    points: [['ขั้นที่ 1 ลัดวงจรทันทีที่กดปุ่มของอีกทิศ จึงใช้จริงไม่ได้', 'Step 1 shorts the moment the other button is pressed: it cannot be used.'],
+      ['ขั้นที่ 2 (ทางไฟฟ้า) กันการลัดวงจรได้แม้หน้าสัมผัส KM1 เชื่อมติด เพราะ KM1 21–22 เคลื่อนที่ไปกับหน้าสัมผัสหลัก แต่ต้องกด S1 ก่อนกลับทาง และถ้ากด S2 กับ S3 ในจังหวะเดียวกัน คอนแทกเตอร์ทั้งสองจะแข่งกัน', 'Step 2 (electrical) prevents the short even with welded KM1 contacts, because KM1 21–22 moves with the main contacts; but S1 is needed before reversing, and S2 and S3 pressed at the same instant make the two contactors race.'],
+      ['ขั้นที่ 3 (+ ปุ่มกด) กลับทางได้ทันทีและกดสองปุ่มพร้อมกันก็ไม่มีอะไรทำงาน ขั้นที่ 4 (+ ทางกล) เพิ่มชั้นสำรองทางกลและหลอดสัญญาณ', 'Step 3 (+ push-button) reverses at once and does nothing when both buttons are pressed. Step 4 (+ mechanical) adds the mechanical back-up and the lamps.'],
+      ['ทุกขั้นไม่เดินเองหลังไฟดับ เพราะคอนแทกเตอร์ค้างตัวเองด้วยหน้าสัมผัส 13–14 ของมันเอง (IEC 60204-1 ข้อ 7.5) และในทุกขั้น ถ้าหน้าสัมผัสหลักเชื่อมติด S1 หยุดมอเตอร์ไม่ได้ ต้องปลด Q1', 'No step restarts after a power failure, because each contactor holds itself through its own 13–14 (IEC 60204-1, 7.5). In every step, a contactor with welded main contacts cannot be stopped by S1: switch Q1 off.']] });
+
+  /* B: what the holding contact bridges (C7.PB with and without holdAbove) */
+  const HOLD = { ok: { f: () => C7.PB(), lab: ['KM1 13–14 คร่อมเฉพาะ S2 13–14', 'KM1 13–14 bridges only S2 13–14'] }, above: { f: () => C7.PB({ holdAbove: true }), lab: ['KM1 13–14 คร่อม S2 13–14 และ S3 21–22', 'KM1 13–14 bridges S2 13–14 and S3 21–22'] } };
+  let hB = 'ok', simB = null;
+  const mB = $('mB'), boxB = $('boxB'), pB = $('pB');
+  const qB = ask(mB, t('ในแบบที่สอง กด S3 ขณะเดินหน้า จะเกิดอะไรขึ้น', 'In the second circuit, S3 is pressed while the motor runs forward. What happens?'));
+  LS.choose(qB.box, { labels: ['①', '②', '③'], options: [t('ไม่มีผล มอเตอร์เดินหน้าต่อ', 'nothing: the motor keeps running forward'), t('มอเตอร์กลับทางทันที', 'the motor reverses at once'), t('ลัดวงจร Q1 ตัด', 'a short circuit: Q1 trips')], answer: 0,
+    onPick: (i, ok) => { if (!ok) return; qB.ans.hidden = false; qB.ans.innerHTML = t('เมื่อ KM1 ค้างแล้ว ไฟไปถึงคอยล์ KM1 ผ่าน KM1 13–14 โดยไม่ผ่าน S3 21–22 การกด S3 จึงเปิดหน้าสัมผัสที่ไม่มีกระแสไหลผ่าน KM1 ยังดูดอยู่ และ KM1 21–22 ยังกัน KM2 ไว้ ไม่มีการลัดวงจร แต่การกลับทางทันทีหายไป', 'Once KM1 is held, current reaches coil KM1 through KM1 13–14 without passing S3 21–22. Pressing S3 opens a contact that carries no current: KM1 stays in, and KM1 21–22 still keeps KM2 off. No short circuit, but direct reversing is lost.'); } });
+  ui.h2(mB, t('หน้าสัมผัสค้างตัวเองคร่อม', 'The holding contact bridges'));
+  ui.radio(mB, Object.keys(HOLD).map(k => ({ id: k, label: tt(HOLD[k].lab), on: k === hB })), id => { hB = id; buildB(); });
+  const logB = new ED.Log($('logB'), [['หน้าสัมผัสค้าง', 'holding contact'], ['สิ่งที่ทำ', 'action'], ['ผล', 'result'], ['ความหมาย', 'what it means']], { empty: ['ยังไม่มีผล กด S2 แล้วกด S3 ที่หน้าตู้', 'No results yet: press S2, then S3 on the panel front'] });
+  const whyHold = (id, s, A) => (hB === 'above' ? [t(`${id} ไม่มีผล: หน้าสัมผัสค้าง ${kin(A)} 13–14 คร่อม ${id} 21–22 ไว้ ${id} จึงตัด ${kin(A)} ไม่ได้ และ ${kin(A)} 21–22 กันอีกตัวไว้ การกลับทางทันทีหายไป`, `${id} does nothing: the holding contact ${kin(A)} 13–14 bridges ${id} 21–22, so ${id} cannot drop ${kin(A)}, and ${kin(A)} 21–22 keeps the other off: direct reversing is lost`), 'warn'] : whyElec(id, s, A));
+  const trB = tracker({ log: logB, sim: () => simB, tag: () => `B${hB}`, label: () => HOLD[hB].lab, why: whyHold });
+  function buildB() { simB = new RL.Sim(fresh(boxB), HOLD[hB].f(), { max: 820, label: 'reversing control: position of the holding contact' });
+    pB.innerHTML = ''; ui.h2(pB, t('หน้าตู้และการสั่งงาน', 'Panel front and controls')); together(C7.panel(pB, simB, { status: status72 }), simB); trB.attach(simB); }
+  buildB();
+  LS.anim($('tB'), dt => simB.step(dt));
+  ED.summary($('sumB'), { intro: ['ผลจากแบบจำลองเดียวกับภาพจำลอง', 'Results from the same model as the simulator'],
+    head: [['หน้าสัมผัสค้างตัวเอง', 'holding contact'], ['กด S3 ขณะเดินหน้า', 'S3 while forward'], ['กด S1 แล้วกด S3', 'S1, then S3'], ['กด S2 และ S3 พร้อมกัน (ขณะหยุด)', 'S2 and S3 together (from rest)']],
+    rows: () => Object.keys(HOLD).map(k => { const f = HOLD[k].f, a = hid(f()), b = hid(f()), c = hid(f()); tap(a, 'S2', 'S3'); tap(b, 'S2', 'S1', 'S3'); both(c);
+      return [tt(HOLD[k].lab), a.dir() === 'ccw' ? `<span class="rk-ok">${t('กลับทางทันที', 'reverses at once')}</span>` : `<span class="rk-warn">${t('ไม่มีผล เดินหน้าต่อ', 'nothing: keeps forward')}</span>`, DIR(b.dir()), cell(c)]; }),
+    points: [['แบบแรก: หน้าสัมผัสค้างคร่อมเฉพาะปุ่มเริ่ม S3 21–22 จึงอยู่อนุกรมกับคอยล์ KM1 เสมอ ตัด KM1 ได้ทุกเมื่อ กลับทางได้ทันที', 'First circuit: the holding contact bridges only the start button, so S3 21–22 is always in series with coil KM1 and can drop it at any time: direct reversing.'],
+      ['แบบที่สอง: เมื่อค้างตัวเองแล้ว อินเตอร์ล็อกของปุ่มถูกคร่อมหายไป วงจรจึงกลายเป็นเดินหน้า–หยุด–ถอยหลัง อินเตอร์ล็อกของปุ่มทำงานเฉพาะก่อนค้างตัวเอง เช่นตอนกดสองปุ่มพร้อมกัน', 'Second circuit: once latched, the button interlock is bridged out, so the circuit becomes forward – stop – reverse; the button interlock only acts before latching, e.g. when both buttons are pressed together.'],
+      ['ทั้งสองแบบไม่ลัดวงจร เพราะอินเตอร์ล็อกทางไฟฟ้ายังอยู่ เมื่ออ่านวงจรกลับทางใด ให้ถามเสมอว่าหน้าสัมผัสค้างคร่อมอะไร', 'Neither shorts, because the electrical interlock is still there. Whenever you read a reversing circuit, ask what the holding contact bridges.']] });
+
+  /* D: what each layer sees (a welded contactor and a blocked coil) */
+  const SETS = { pb: { f: () => C7.PB({ elec: false }), lab: ['อินเตอร์ล็อกด้วยปุ่มกดอย่างเดียว', 'push-button interlock only'] }, elec: { f: () => C7.ELEC(), lab: ['อินเตอร์ล็อกทางไฟฟ้าอย่างเดียว', 'electrical interlock only'] },
+    mech: { f: () => C7.MECH(), lab: ['อินเตอร์ล็อกทางกลอย่างเดียว', 'mechanical interlock only'] }, all: { f: () => C7.TRIPLE({ lamps: false }), lab: ['ครบทั้งสามแบบ', 'all three'] } };
+  let sD = 'pb', simD = null, pnD = null, weldBtn = null;
+  const mD = $('mD'), boxD = $('boxD'), pD = $('pD');
+  ui.h2(mD, t('ชุดอินเตอร์ล็อก', 'Set of interlocks'));
+  ui.radio(mD, Object.keys(SETS).map(k => ({ id: k, label: tt(SETS[k].lab), on: k === sD })), id => { sD = id; buildD(); });
+  const logD = new ED.Log($('logD'), [['ชุดอินเตอร์ล็อก', 'interlocks'], ['สิ่งที่ทำ', 'action'], ['ผล', 'result'], ['ความหมาย', 'what it means']], { empty: ['ยังไม่มีผล ลองเหตุการณ์ที่ 1 หรือ 2', 'No results yet: try event 1 or 2'] });
+  const whyD = (id, s, A) => (s.spec.els.some(e => e.k === 'NC' && (e.d === 'KM1' || e.d === 'KM2') && e.t[0] === '21') ? whyElec(id, s, A) : [t(`${id} ไม่มีผล`, `${id} does nothing`), 'ok']);
+  const trD = tracker({ log: logD, sim: () => simD, tag: () => `D${sD}`, label: () => SETS[sD].lab, why: whyD });
+  const hasElec = s => s.spec.els.some(e => e.k === 'NC' && (e.d === 'KM1' || e.d === 'KM2') && e.t[0] === '21');
+  const weldLab = () => { const d = simD && simD.dev.KM1; return d && d.welded ? t('⚠ หน้าสัมผัส KM1 เชื่อมติดอยู่ (คลิกเพื่อซ่อม)', '⚠ KM1 contacts are welded (click to repair)') : d && d.weldOnClose ? t('⚠ KM1 จะเชื่อมติดเมื่อดูดครั้งถัดไป (คลิกเพื่อยกเลิก)', '⚠ KM1 welds the next time it closes (click to cancel)') : t('⚠ ทำให้หน้าสัมผัส KM1 เชื่อมติด', '⚠ Weld the KM1 contacts'); };
+  /* weld KM1: at once while it is in, otherwise the next time it closes (contacts weld when they make a high current) */
+  const weld = () => { const s = simD, d = s.dev.KM1, k = `D${sD}|weld`, L = tt(SETS[sD].lab);
+    if (d.welded || d.weldOnClose) { d.welded = false; d.weldOnClose = false; s.update(); logD.add(`${k}|0`, [L, t('ซ่อม KM1', 'repair KM1'), DIR(s.dir()), t('KM1 กลับมาทำงานตามคอยล์', 'KM1 follows its coil again')], 'ok'); }
+    else if (s.act('KM1')) { d.welded = true; s.update(); logD.add(`${k}|1`, [L, t('KM1 เชื่อมติดขณะเดินหน้า', 'KM1 welds while running forward'), DIR(s.dir()), hasElec(s)
+      ? t('หน้าสัมผัสหลักของ KM1 ปิดค้างแม้คอยล์ไม่มีไฟ และ KM1 21–22 (หน้าสัมผัสมิเรอร์) เปิดค้าง ลองกด S3 แล้วกด S1', 'KM1’s main contacts stay closed even without coil current, and KM1 21–22 (a mirror contact) stays open. Now try S3, then S1')
+      : t('หน้าสัมผัสหลักของ KM1 ปิดค้างแม้คอยล์ไม่มีไฟ และวงจรนี้ไม่มีหน้าสัมผัส 21–22 ของ KM1 ในทางของ KM2 ลองกด S3', 'KM1’s main contacts stay closed even without coil current, and this circuit has no KM1 21–22 in the KM2 path. Now try S3')], 'warn'); }
+    else { d.weldOnClose = true; s.update(); logD.add(`${k}|arm`, [L, t('ตั้งให้ KM1 เชื่อมติด', 'set KM1 to weld'), DIR(s.dir()), t('หน้าสัมผัสมักเชื่อมติดตอนปิดรับกระแสสูง KM1 จะเชื่อมติดเมื่อดูดครั้งถัดไป กด S2', 'Contacts usually weld when they close on a high current: KM1 welds the next time it closes. Press S2')], 'warn'); }
+    pnD.refresh(); weldBtn.textContent = weldLab(); };
+  function buildD() { simD = new RL.Sim(fresh(boxD), SETS[sD].f(), { max: 820, label: 'reversing control: what each interlock layer sees' });
+    pD.innerHTML = ''; ui.h2(pD, t('หน้าตู้และการสั่งงาน', 'Panel front and controls')); pnD = C7.panel(pD, simD, { status: status72 });
+    together(pnD, simD); weldBtn = ui.buttons(pD, [{ id: 'weldD', label: weldLab(), onclick: weld }]).weldD; pD.insertBefore(weldBtn.parentNode, pnD.status); trD.attach(simD);
+    simD.on(s => { if (s === simD) { weldBtn.textContent = weldLab(); weldBtn.classList.toggle('danger', !!(s.dev.KM1.welded || s.dev.KM1.weldOnClose)); } }); }
+  buildD();
+  LS.anim($('tD'), dt => { simD.step(dt); if (anyBlocked(simD)) pnD.refresh(); });
+  ED.summary($('sumD'), { intro: ['ผลจากแบบจำลองเดียวกับภาพจำลอง (กด S3 ค้างไว้ 1 s ในสองคอลัมน์กลาง)', 'Results from the same model as the simulator (S3 held for 1 s in the two middle columns)'],
+    head: [['ชุดอินเตอร์ล็อก', 'interlocks'], ['กด S3 ขณะเดินหน้า', 'S3 while forward'], ['กด S3 ค้างขณะเดินหน้า', 'S3 held while forward'], ['หน้าสัมผัส KM1 เชื่อมติด แล้วกด S3', 'KM1 welded, then S3'], ['กด S2 และ S3 พร้อมกัน (ขณะหยุด)', 'S2 and S3 together (from rest)']],
+    rows: () => Object.keys(SETS).map(k => { const f = SETS[k].f, a = hid(f()), b = hid(f()), c = hid(f()), d = hid(f());
+      tap(a, 'S2', 'S3'); tap(b, 'S2'); b.press('S3', true); b.step(1); c.dev.KM1.welded = true; c.update(); c.press('S3', true); c.step(1); both(d);
+      return [tt(SETS[k].lab), fwdCell(a), fwdCell(b), cell(c), cell(d)]; }),
+    points: [['ปุ่มกดอย่างเดียว: กลับทางได้ทันที แต่ถ้า KM1 เชื่อมติด การกด S3 สั่ง KM2 ได้ทันทีและลัดวงจร เพราะปุ่มรู้แค่คำสั่ง ไม่รู้สถานะจริงของคอนแทกเตอร์', 'Push-button only: direct reversing works, but with KM1 welded, S3 energises KM2 and shorts the lines, because a button only knows the command, not the contactor’s real state.'],
+      ['ทางไฟฟ้าอย่างเดียว: KM1 21–22 เปิดค้างเมื่อหน้าสัมผัสหลักเชื่อมติด จึงไม่ลัดวงจร แต่ต้องกด S1 ก่อนกลับทาง', 'Electrical only: KM1 21–22 stays open when the main contacts are welded, so there is no short; but S1 is needed before reversing.'],
+      ['ทางกลอย่างเดียว: ไม่ลัดวงจร แต่การกด S3 ขณะเดินหน้าทำให้คอยล์ KM2 มีไฟค้างโดยดูดไม่ได้ คอยล์ร้อนและไหม้ได้', 'Mechanical only: no short, but pressing S3 while running forward leaves coil KM2 energised and unable to close: it overheats and may burn out.'],
+      ['ครบทั้งสามแบบ: แต่ละชั้นปิดจุดอ่อนของชั้นอื่น นี่คือเหตุผลที่สตาร์ตเตอร์กลับทางจริงจำนวนมากใช้ครบทั้งสามแบบ', 'All three: each layer covers the weak point of another. That is why many real reversing starters use all three.']] });
+
+  /* worked example 1: Fig. 6.17 to a run circuit */
+  const tmp = document.createElement('div');
+  new RL.Sim(tmp, C7.PB(), { print: true, noPower: true, max: 480, label: 'reversing control with electrical and push-button interlocks, redrawn to IEC' });
+  const svg1 = tmp.innerHTML.replace(/ data-dev="[^"]*" style="cursor:pointer"/g, '');
+  const q1 = ask($('ask1'), t('(ข) หน้าสัมผัสค้างของ K1 (KM1 13–14) ต้องคร่อมอะไร จึงยังกลับทางได้ทันที', '(b) What must the holding contact of K1 (KM1 13–14) bridge so that direct reversing still works?'));
+  LS.choose(q1.box, { labels: ['①', '②', '③'], options: [t('คร่อมเฉพาะ S2 13–14', 'only S2 13–14'), t('คร่อม S2 13–14 และ S3 21–22', 'S2 13–14 and S3 21–22'), t('ต่ออนุกรมกับ K2 21–22', 'in series with K2 21–22')], answer: 0 });
+  LS.stepper($('st1'), { steps: [
+    { why: t('(ก) อ่านรูป 6.17 ทีละทางเดินกระแส', '(a) Reading Fig. 6.17 path by path'), body: `<p>${t('ทางที่ 1: S2 ปกติเปิด → S3 ปกติปิด → K2 ปกติปิด → คอยล์ K1 · ทางที่ 2: S2 ปกติปิด → S3 ปกติเปิด → K1 ปกติปิด → คอยล์ K2', 'Path 1: S2 NO → S3 NC → K2 NC → coil K1 · path 2: S2 NC → S3 NO → K1 NC → coil K2')}</p>
+      <p>${t('อินเตอร์ล็อกด้วยปุ่มกด: S3 ปกติปิดในทางที่ 1 และ S2 ปกติปิดในทางที่ 2 · อินเตอร์ล็อกทางไฟฟ้า: K2 ปกติปิดในทางที่ 1 และ K1 ปกติปิดในทางที่ 2 · ชื่อของวิชา: K1 → KM1, K2 → KM2, F2 → F1, F3 → F2', 'Push-button interlock: S3 NC in path 1 and S2 NC in path 2 · electrical interlock: K2 NC in path 1 and K1 NC in path 2 · course names: K1 → KM1, K2 → KM2, F2 → F1, F3 → F2')}</p>` },
+    { why: t('(ข) วางหน้าสัมผัสค้าง', '(b) Placing the holding contacts'), body: `<p>${t('ต่อ KM1 13–14 ขนานกับ S2 13–14 เท่านั้น: ปลายบนที่จุดเหนือ S2 ปลายล่างที่จุดระหว่าง S2 กับ S3 21–22 หน้าสัมผัสปกติปิดของ S3 จึงยังอยู่อนุกรมกับคอยล์ KM1 หลังค้างตัวเอง กด S3 แล้ว KM1 หลุดได้ ทำแบบเดียวกันกับ KM2 13–14 ที่คร่อม S3 13–14 ถ้าลากปลายล่างลงไปใต้ S3 21–22 จะได้แบบที่สองของหัวข้อ B ซึ่งกลับทางทันทีไม่ได้', 'Connect KM1 13–14 across S2 13–14 only: top end at the node above S2, bottom end at the node between S2 and S3 21–22. Then S3’s NC stays in series with coil KM1 after latching, and S3 can drop KM1. Do the same with KM2 13–14 across S3 13–14. Taking the bottom end down below S3 21–22 gives the second circuit of section B, which cannot reverse directly.')}</p>` },
+    { why: t('(ค) วงจรที่ได้', '(c) The result'), body: `<div style="max-width:480px">${svg1}</div><p>${t('คือขั้นที่ 3 ของหัวข้อ A: อินเตอร์ล็อกทางไฟฟ้ากับอินเตอร์ล็อกด้วยปุ่มกด กลับทางได้ทันที เพิ่มอินเตอร์ล็อกทางกลและหลอดก็เป็นขั้นที่ 4', 'It is step 3 of section A: electrical and push-button interlocks with direct reversing. Add the mechanical interlock and the lamps and you have step 4.')}</p>` }],
+    answer: t('(ก) ปุ่มกด: S3 ปกติปิดในทางของ K1, S2 ปกติปิดในทางของ K2 · ทางไฟฟ้า: K2 ปกติปิดในทางของ K1, K1 ปกติปิดในทางของ K2 (ข) KM1 13–14 คร่อมเฉพาะ S2 13–14 และ KM2 13–14 คร่อมเฉพาะ S3 13–14 (ค) ขั้นที่ 3', '(a) push-button: S3 NC in the K1 path, S2 NC in the K2 path; electrical: K2 NC in the K1 path, K1 NC in the K2 path; (b) KM1 13–14 across S2 13–14 only, KM2 13–14 across S3 13–14 only; (c) step 3') });
+
+  /* C: practice */
+  ED.mcq('mcq', [
+    { q: t('1) อินเตอร์ล็อกแบบใดทำให้กลับทางได้โดยไม่ต้องกดปุ่มหยุดก่อน', '1) Which interlock lets the operator reverse without pressing STOP first?'), options: [t('อินเตอร์ล็อกทางไฟฟ้า (หน้าสัมผัส 21–22 ของคอนแทกเตอร์)', 'the electrical interlock (contactor 21–22)'), t('อินเตอร์ล็อกด้วยปุ่มกดสองหน้าสัมผัส', 'the push-button interlock (double-contact buttons)'), t('อินเตอร์ล็อกทางกล', 'the mechanical interlock'), t('ฟิวส์ F1', 'fuse F1')], answer: 1, why: t('หน้าสัมผัสปกติปิดของปุ่มตัดคอนแทกเตอร์ที่ดูดอยู่ก่อน แล้วหน้าสัมผัสปกติเปิดจึงสั่งอีกตัว', 'the NC of the button drops the running contactor first, then its NO starts the other') },
+    { q: t('2) ในอินเตอร์ล็อกทางไฟฟ้า หน้าสัมผัส KM1 21–22 ต่ออยู่ที่ใด', '2) In the electrical interlock, where is KM1 21–22?'), options: [t('อนุกรมกับคอยล์ KM1', 'in series with coil KM1'), t('ขนานกับ S2', 'across S2'), t('อนุกรมกับคอยล์ KM2', 'in series with coil KM2'), t('ในวงจรกำลัง', 'in the power circuit')], answer: 2, why: t('ถ้าต่อในทางของคอยล์ตัวเอง KM1 จะดูดแล้วตัดไฟตัวเองทันที คอยล์สั่นรัว', 'in its own coil path KM1 would switch itself off as soon as it pulls in: the coil chatters') },
+    { q: t('3) หน้าสัมผัสหลักของ KM1 เชื่อมติด อินเตอร์ล็อกแบบใดยังกัน KM2 ไม่ให้ดูดได้', '3) KM1’s main contacts are welded. Which interlock still keeps KM2 from pulling in?'), options: [t('อินเตอร์ล็อกด้วยปุ่มกด', 'the push-button interlock'), t('ไม่มีแบบใดกันได้', 'none of them'), t('ปุ่มหยุด S1', 'the stop button S1'), t('อินเตอร์ล็อกทางไฟฟ้า (KM1 21–22)', 'the electrical interlock (KM1 21–22)')], answer: 3, why: t('KM1 21–22 เคลื่อนที่ไปกับหน้าสัมผัสหลักของ KM1 จึงเปิดค้างเมื่อหน้าสัมผัสหลักเชื่อมติด (ถ้าเป็นหน้าสัมผัสมิเรอร์) ส่วนปุ่มรู้แค่คำสั่ง', 'KM1 21–22 moves with KM1’s main contacts, so it stays open when they weld (if it is a mirror contact); a button only knows the command') },
+    { q: t('4) วงจรมีแต่อินเตอร์ล็อกทางกล กด S3 ค้างไว้ขณะเดินหน้า จะเกิดอะไรขึ้น', '4) A circuit has the mechanical interlock only. S3 is held while the motor runs forward. What happens?'), options: [t('คอยล์ KM2 มีไฟแต่ดูดไม่ได้ กินกระแสสูงและร้อน', 'coil KM2 is energised but cannot close; it draws a high current and heats up'), t('มอเตอร์กลับทางทันที', 'the motor reverses at once'), t('ลัดวงจร Q1 ตัด', 'a short circuit: Q1 trips'), t('KM1 หลุด มอเตอร์หยุด', 'KM1 drops out and the motor stops')], answer: 0, why: t('คานค้ำแกนเหล็กของ KM2 ไว้ คอยล์ไฟสลับที่แกนเปิดอยู่กินกระแสสูง จึงต้องมีอินเตอร์ล็อกทางไฟฟ้าด้วย', 'the lever holds KM2’s core open, and an AC coil with an open core draws a high current: keep the electrical interlock too') },
+    { q: t('5) หน้าสัมผัสค้าง KM1 13–14 คร่อมทั้ง S2 13–14 และ S3 21–22 กด S3 ขณะเดินหน้า จะเกิดอะไรขึ้น', '5) The holding contact KM1 13–14 bridges both S2 13–14 and S3 21–22. S3 is pressed while running forward. What happens?'), options: [t('มอเตอร์กลับทางทันที', 'the motor reverses at once'), t('ไม่มีผล มอเตอร์เดินหน้าต่อ', 'nothing: the motor keeps running forward'), t('ลัดวงจร', 'a short circuit'), t('มอเตอร์หยุด', 'the motor stops')], answer: 1, why: t('กระแสไปถึงคอยล์ KM1 ผ่าน KM1 13–14 โดยไม่ผ่าน S3 21–22 และ KM1 21–22 กัน KM2 ไว้', 'current reaches coil KM1 through KM1 13–14 without passing S3 21–22, and KM1 21–22 keeps KM2 off') },
+    { q: t('6) ในขั้นที่ 4 หลอด H4 สีขาว (KM1 61–62 อนุกรมกับ KM2 61–62) ติดเมื่อใด', '6) In step 4, when is the white lamp H4 (KM1 61–62 in series with KM2 61–62) lit?'), options: [t('เมื่อเดินหน้า', 'when running forward'), t('เมื่อถอยหลัง', 'when running in reverse'), t('เมื่อคอนแทกเตอร์ทั้งสองหลุด', 'when both contactors are out'), t('เมื่อปลด Q1', 'when Q1 is switched off')], answer: 2, why: t('หน้าสัมผัสปกติปิดทั้งสองต้องปิด คือ KM1 และ KM2 หลุดทั้งคู่ (รวมถึงตอนที่ F2 ตัด เพราะหลอดรับไฟก่อน 95–96) สีขาวหมายถึงหยุดหรือพร้อม เมื่อปลด Q1 วงจรควบคุมไม่มีไฟ หลอดทุกดวงดับ', 'both NC contacts must be closed, i.e. KM1 and KM2 both out (also while F2 has tripped, since the lamps are fed ahead of 95–96); white means stopped or ready. With Q1 off the control circuit is dead and every lamp is out') }]);
+});
+</script>
+</body>
+</html>

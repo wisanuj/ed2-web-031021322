@@ -8,12 +8,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=13"><link rel="stylesheet" href="assets/ed2.css?v=13">
-<link rel="stylesheet" href="assets/wiring.css?v=13">
-<script src="assets/stops.js?v=13"></script><script src="assets/shell.js?v=13"></script>
-<script src="assets/lesson.js?v=13"></script><script src="assets/draw.js?v=13"></script><script src="assets/ed.js?v=13"></script><script src="assets/sym.js?v=13"></script><script src="assets/iec.js?v=13"></script><script src="assets/relay.js?v=13"></script><script src="assets/ch2.js?v=13"></script><script src="assets/ch3.js?v=13"></script><script src="assets/ch4.js?v=13"></script>
-<script src="assets/panel.js?v=13"></script><script src="assets/ch5.js?v=13"></script>
-<script src="assets/wiring.js?v=13"></script><script src="assets/devdata.js?v=13"></script><script src="assets/dev.js?v=13"></script>
+<link rel="stylesheet" href="assets/ee.css?v=14"><link rel="stylesheet" href="assets/ed2.css?v=14">
+<link rel="stylesheet" href="assets/wiring.css?v=14">
+<script src="assets/stops.js?v=14"></script><script src="assets/shell.js?v=14"></script>
+<script src="assets/lesson.js?v=14"></script><script src="assets/draw.js?v=14"></script><script src="assets/ed.js?v=14"></script><script src="assets/sym.js?v=14"></script><script src="assets/iec.js?v=14"></script><script src="assets/relay.js?v=14"></script><script src="assets/ch2.js?v=14"></script><script src="assets/ch3.js?v=14"></script><script src="assets/ch4.js?v=14"></script>
+<script src="assets/panel.js?v=14"></script><script src="assets/ch5.js?v=14"></script>
+<script src="assets/wiring.js?v=14"></script><script src="assets/devdata.js?v=14"></script><script src="assets/dev.js?v=14"></script>
 </head>
 <body>
 <div class="wrap">
@@ -58,7 +58,7 @@
         <p>The figure is a US (National Electrical Manufacturers Association, NEMA) drawing with horizontal rungs. Redrawn to IEC it is step 5 above: the book's wire 1 is the point from F1 terminal 2 to S1 terminal 11; its wire 2 is the point where S1 terminal 12 meets S2 terminal 13 and KM1 terminal 13; its wire 3 is the point where S2 terminal 14 meets KM1 terminal 14 and coil terminal A1. The course uses the same rule, one number per junction, but makes the top rail after Q1 wire 1, so in the course drawing these three points are wires 2, 3 and 4. You will number wires like this yourself on page 5.6.</p>
         <p>The books use different words. EMC9 calls two-wire control "no-voltage (low-voltage) release": the coil drops out when the power fails and picks up again when it returns. It calls three-wire control "no-voltage protection": no restart until a button is pressed. UMC5 ch. 3, however, uses "low-voltage release" for a device that does not restart after a power failure. This course therefore uses the IEC 60204-1 clause 7.5 idea directly: prevent an automatic or unexpected restart when the power returns.</p></div></div>
     <div class="story-f">
-      <figure class="slide sm"><img src="img/book/emc9_fig5_5_three_wire.jpg?v=13" width="740" height="1131" loading="lazy" decoding="async" alt="US textbook figure: elementary diagram of a three-wire start-stop circuit above, and below the wiring diagram of the same starter, with three wires numbered 1, 2 and 3 running from the start-stop push-button station to the starter.">
+      <figure class="slide sm"><img src="img/book/emc9_fig5_5_three_wire.jpg?v=14" width="740" height="1131" loading="lazy" decoding="async" alt="US textbook figure: elementary diagram of a three-wire start-stop circuit above, and below the wiring diagram of the same starter, with three wires numbered 1, 2 and 3 running from the start-stop push-button station to the starter.">
         <figcaption data-l="th">รูป 5-5 แผนภาพวงจรและแบบการเดินสายของวงจร 3 สาย (แบบ NEMA) · ที่มา: Herman, <i>Electric Motor Control</i> 9th ed. (Delmar Cengage, 2010) หน่วยที่ 5 หน้า 67 · แตะรูปเพื่อขยาย</figcaption>
         <figcaption data-l="en">Fig. 5-5, elementary and wiring diagram of three-wire control (NEMA) · source: Herman, <i>Electric Motor Control</i>, 9th ed. (Delmar Cengage, 2010), unit 5, p. 67 · tap to enlarge</figcaption></figure>
     </div>
@@ -96,7 +96,7 @@
           <tr><td data-h="Thai textbook">M</td><td data-h="Course drawing"><b>M1</b></td><td data-h="Device">motor</td></tr></table>
         <p>The F3 contact in the figure is a changeover: its NC side feeds S1, its NO side feeds lamp H2, which lights when the overload trips; lamp H1 is in parallel with the coil. In the course drawing these become F2 95–96 and 97–98, wired step by step on page 5.2. The course drawing carries every terminal number, the current-path numbers and the contact cross-reference under the coil, which you will write yourself in worked example 1.</p></div></div>
     <div class="story-f">
-      <figure class="slide md"><img src="img/book/book1_fig1_2_dol.jpg?v=13" width="925" height="630" loading="lazy" decoding="async" alt="Thai textbook Fig. 1.2: direct-on-line starter in DIN letters. Power circuit: L1 L2 L3, fuses F1, contactor K1, thermal overload F3, motor M 3~ with U1 V1 W1. Control circuit: fuse F2, overload changeover contact F3, stop S1, start S2 with holding contact K1, coil K1 with run lamp H1 in parallel, trip lamp H2, neutral N, current paths 1 to 3.">
+      <figure class="slide md"><img src="img/book/book1_fig1_2_dol.jpg?v=14" width="925" height="630" loading="lazy" decoding="async" alt="Thai textbook Fig. 1.2: direct-on-line starter in DIN letters. Power circuit: L1 L2 L3, fuses F1, contactor K1, thermal overload F3, motor M 3~ with U1 V1 W1. Control circuit: fuse F2, overload changeover contact F3, stop S1, start S2 with holding contact K1, coil K1 with run lamp H1 in parallel, trip lamp H2, neutral N, current paths 1 to 3.">
         <figcaption data-l="th">รูป 1.2 วงจรเริ่มเดินโดยตรงในตำราไทย (อักษรแบบ DIN) · ที่มา: ธนภัทร ไพคำนาม, <i>การควบคุมมอเตอร์ไฟฟ้า</i> (2104-2009), บทที่ 1 หน้า 9 · แตะรูปเพื่อขยาย</figcaption>
         <figcaption data-l="en">Fig. 1.2, DOL circuit in the Thai textbook (DIN letters) · source: Thanaphat Phaikhamnam, <i>Motor Control</i> (2104-2009), ch. 1, p. 9 · tap to enlarge</figcaption></figure>
     </div>
@@ -108,10 +108,10 @@
       <div class="story-p" data-l="en"><p>UMC5 Fig. 7.1 is the US start–stop push-button circuit: horizontal rungs between two control lines, coil M near the end of the rung followed by the overload contact OL, and a control transformer that lowers the voltage for the control circuit. Fig. 7.2 shows the current when START is pressed: the book redraws the M contacts that have closed as closed contacts and marks the current path with red arrows, which matches step 2 of the walk-through above.</p>
         <p>Redrawn to IEC it is the circuit above: current paths run vertically from L1 (top) to N (bottom) with the coil at the bottom, every symbol is always drawn de-energised, and colour and moving dashes show which parts are live and where the current flows, as CADe SIMU does. The OL contact becomes F2 95–96 at the top of the control circuit (page 5.2).</p></div></div>
     <div class="story-f">
-      <figure class="slide md"><img src="img/book/umc5_fig7_1_start_stop.jpg?v=13" width="1200" height="688" loading="lazy" decoding="async" alt="US textbook figure: three-phase motor with contacts M and overload heaters OL, a control transformer, and a horizontal control rung with STOP, START with holding contact M in parallel, coil M and overload contact OL.">
+      <figure class="slide md"><img src="img/book/umc5_fig7_1_start_stop.jpg?v=14" width="1200" height="688" loading="lazy" decoding="async" alt="US textbook figure: three-phase motor with contacts M and overload heaters OL, a control transformer, and a horizontal control rung with STOP, START with holding contact M in parallel, coil M and overload contact OL.">
         <figcaption data-l="th">รูป 7.1 วงจรปุ่มเริ่ม–หยุดพื้นฐาน (แบบ NEMA) · ที่มา: Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. (Cengage, 2025) บทที่ 7 หน้า 85 · แตะรูปเพื่อขยาย</figcaption>
         <figcaption data-l="en">Fig. 7.1, basic start–stop push-button circuit (NEMA) · source: Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed. (Cengage, 2025), ch. 7, p. 85 · tap to enlarge</figcaption></figure>
-      <figure class="slide md"><img src="img/book/umc5_fig7_2_start_pressed.jpg?v=13" width="1200" height="691" loading="lazy" decoding="async" alt="The same US circuit with START pressed: red arrows trace the current from the transformer through STOP, START, coil M and the overload contact; the closed M contacts are redrawn.">
+      <figure class="slide md"><img src="img/book/umc5_fig7_2_start_pressed.jpg?v=14" width="1200" height="691" loading="lazy" decoding="async" alt="The same US circuit with START pressed: red arrows trace the current from the transformer through STOP, START, coil M and the overload contact; the closed M contacts are redrawn.">
         <figcaption data-l="th">รูป 7.2 กด START แล้วกระแสไหลเข้าคอยล์ M (แบบ NEMA) · ที่มา: Herman &amp; Seiler (2025) บทที่ 7 หน้า 85 · แตะรูปเพื่อขยาย</figcaption>
         <figcaption data-l="en">Fig. 7.2, START pressed: current flows through coil M (NEMA) · source: Herman &amp; Seiler (2025), ch. 7, p. 85 · tap to enlarge</figcaption></figure>
     </div>

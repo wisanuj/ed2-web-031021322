@@ -29,15 +29,19 @@ PN.Door = class {
     this.ctl = Object.keys(D).filter(id => ['pb', 'sel', 'msel'].includes(D[id].type) && want(id));
     this.lmp = o.lamps === false ? [] : Object.keys(D).filter(id => D[id].type === 'lamp' && (!Array.isArray(o.lamps) || o.lamps.includes(id)));
     this.box = document.createElement('div'); this.box.className = 'pn-door'; el.appendChild(this.box);
-    this.onUp = () => this.up(); this.box.addEventListener('pointerdown', e => this.down(e)); window.addEventListener('pointerup', this.onUp); this.box.addEventListener('pointercancel', this.onUp);
+    this.held = new Map();   // pointerId → push button held by that pointer (two fingers can hold two buttons)
+    this.onUp = e => this.up(e); this.box.addEventListener('pointerdown', e => this.down(e)); window.addEventListener('pointerup', this.onUp); this.box.addEventListener('pointercancel', this.onUp);
     this.box.addEventListener('click', e => this.click(e));
     sim.on(() => this.draw()); this.draw(); }
   name(id) { return (this.o.names && this.o.names[id]) || this.sim.dev[id].name; }
   act(id, a, before) { if (this.o.onAct) this.o.onAct({ id, act: a, before, after: this.sim.running() }); }
   down(e) { if (e.button) return; const g = e.target.closest('[data-pb]'); if (!g) return; e.preventDefault(); const id = g.dataset.pb, d = this.sim.dev[id], before = this.sim.running();
     if (PN.role(this.sim, id).mush) { this.sim.press(id, !d.pressed); this.act(id, d.pressed ? 'press' : 'release', before); return; }   // latching mushroom
-    this.held = id; this.sim.press(id, true); this.act(id, 'press', before); }
-  up() { if (!this.box.isConnected) { window.removeEventListener('pointerup', this.onUp); return; } if (!this.held) return; const id = this.held, before = this.sim.running(); this.held = null; this.sim.press(id, false); this.act(id, 'release', before); }
+    if (this.held.has(e.pointerId)) this.up(e);   // the same pointer cannot hold two buttons
+    this.held.set(e.pointerId, id); this.sim.press(id, true); this.act(id, 'press', before); }
+  up(e) { if (!this.box.isConnected) { window.removeEventListener('pointerup', this.onUp); return; }
+    const ks = e && e.pointerId !== undefined ? (this.held.has(e.pointerId) ? [e.pointerId] : []) : [...this.held.keys()];   // release only the button of the pointer that went up
+    ks.forEach(k => { const id = this.held.get(k), before = this.sim.running(); this.held.delete(k); if ([...this.held.values()].includes(id)) return; this.sim.press(id, false); this.act(id, 'release', before); }); }
   click(e) { const g = e.target.closest('[data-pos]'), k = e.target.closest('[data-knob]'); if (!g && !k) return; const id = g ? g.dataset.sel : k.dataset.knob, d = this.sim.dev[id], before = this.sim.running();
     if (!g) this.sim.toggle(id);   // a click on the knob body steps to the next position
     else if (d.type === 'msel') this.sim.setPos(id, g.dataset.pos); else if (String(d.on) !== g.dataset.pos) this.sim.toggle(id); this.act(id, d.type === 'msel' ? 'set' : 'toggle', before); }

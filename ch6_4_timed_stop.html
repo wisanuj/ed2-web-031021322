@@ -8,12 +8,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=13"><link rel="stylesheet" href="assets/ed2.css?v=13">
-<link rel="stylesheet" href="assets/wiring.css?v=13">
-<script src="assets/stops.js?v=13"></script><script src="assets/shell.js?v=13"></script>
-<script src="assets/lesson.js?v=13"></script><script src="assets/draw.js?v=13"></script><script src="assets/ed.js?v=13"></script><script src="assets/sym.js?v=13"></script><script src="assets/iec.js?v=13"></script><script src="assets/relay.js?v=13"></script><script src="assets/ch2.js?v=13"></script><script src="assets/ch3.js?v=13"></script><script src="assets/ch4.js?v=13"></script>
-<script src="assets/panel.js?v=13"></script><script src="assets/ch5.js?v=13"></script><script src="assets/ch6.js?v=13"></script>
-<script src="assets/wiring.js?v=13"></script><script src="assets/devdata.js?v=13"></script><script src="assets/dev.js?v=13"></script>
+<link rel="stylesheet" href="assets/ee.css?v=14"><link rel="stylesheet" href="assets/ed2.css?v=14">
+<link rel="stylesheet" href="assets/wiring.css?v=14">
+<script src="assets/stops.js?v=14"></script><script src="assets/shell.js?v=14"></script>
+<script src="assets/lesson.js?v=14"></script><script src="assets/draw.js?v=14"></script><script src="assets/ed.js?v=14"></script><script src="assets/sym.js?v=14"></script><script src="assets/iec.js?v=14"></script><script src="assets/relay.js?v=14"></script><script src="assets/ch2.js?v=14"></script><script src="assets/ch3.js?v=14"></script><script src="assets/ch4.js?v=14"></script>
+<script src="assets/panel.js?v=14"></script><script src="assets/ch5.js?v=14"></script><script src="assets/ch6.js?v=14"></script>
+<script src="assets/wiring.js?v=14"></script><script src="assets/devdata.js?v=14"></script><script src="assets/dev.js?v=14"></script>
 </head>
 <body>
 <div class="wrap">
@@ -90,10 +90,10 @@
       <div class="story-p" data-l="en"><p>Herman &amp; Seiler's Fig. 12.13 is another timed start and stop circuit. A control relay CR holds itself through START and STOP, like our KA1. On-delay timers TR3 and TR4 are fed through contacts of M1 and M2 (as in Fig. 12.5 on page 6.3) and start M2 and M3; off-delay timers TR1 and TR2 are fed through contacts of M2 and M3 and hold M1 and M2 while the line stops. So the timer names are swapped against ours: the book's TR3 and TR4 are our KT1 and KT2, and its TR2 and TR1 are our KT3 and KT4. It starts and stops in the same order as the circuit above. The figure is a horizontal NEMA drawing with 5 s settings and the overload contacts in the common return; the circuit above is the same idea redrawn to IEC, with the seal contacts KM1 13–14 and KM2 13–14 added (step 6).</p>
         <p>Fig. Exp. 10.7 of exercise 10 replaces TR3 and TR4 with electronic timing relays, which need a permanent supply on their pins and start timing when the contact wired to their control input opens (an M3 contact triggers TR3, an M2 contact TR4). Many electronic off-delay relays are wired this way. The simulations on this page treat an off-delay timer as a slow-release (pneumatic-style) coil, so its coil A1–A2 is wired directly. When wiring a real panel, follow the pin diagram in the data sheet of the relay you use; the off-delay timer of CADe SIMU must be tested before it is used in the lab sheet (page 6.5).</p></div></div>
     <div class="story-f">
-      <figure class="slide md"><img src="img/book/umc5_fig12_13_timed_stop.jpg?v=13" width="1200" height="1245" loading="lazy" decoding="async" alt="NEMA schematic: control relay CR with STOP, START and holding contact; CR or off-delay contact TR1 feeds M1; an M1 contact feeds on-delay timer TR3; CR and the TR3 contact, or off-delay contact TR2, feed M2; M2 contacts feed off-delay TR1 and on-delay TR4; CR and the TR4 contact feed M3; an M3 contact feeds off-delay TR2; overload contacts in series on the return side; timers 5 seconds.">
+      <figure class="slide md"><img src="img/book/umc5_fig12_13_timed_stop.jpg?v=14" width="1200" height="1245" loading="lazy" decoding="async" alt="NEMA schematic: control relay CR with STOP, START and holding contact; CR or off-delay contact TR1 feeds M1; an M1 contact feeds on-delay timer TR3; CR and the TR3 contact, or off-delay contact TR2, feed M2; M2 contacts feed off-delay TR1 and on-delay TR4; CR and the TR4 contact feed M3; an M3 contact feeds off-delay TR2; overload contacts in series on the return side; timers 5 seconds.">
         <figcaption data-l="th">รูป 12.13 เริ่มและหยุดตามลำดับด้วยตัวตั้งเวลาสี่ตัว (แบบ NEMA) · ที่มา: Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. (Cengage, 2025) บทที่ 12 หน้า 143 · แตะรูปเพื่อขยาย</figcaption>
         <figcaption data-l="en">Fig. 12.13, timed start and timed stop with four timers (NEMA) · source: Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed. (Cengage, 2025), ch. 12, p. 143 · tap to enlarge</figcaption></figure>
-      <figure class="slide md"><img src="img/book/umc5_figexp10_7_electronic.jpg?v=13" width="1198" height="1046" loading="lazy" decoding="async" alt="NEMA schematic of the final exercise 10 circuit with control relays CR1 and CR2; off-delay timers TR3 and TR4 drawn as electronic relays with supply pins 2 and 10 connected permanently and control pins 5 and 6 switched by an M3 and an M2 contact; line numbers 1 to 11 with cross-references.">
+      <figure class="slide md"><img src="img/book/umc5_figexp10_7_electronic.jpg?v=14" width="1198" height="1046" loading="lazy" decoding="async" alt="NEMA schematic of the final exercise 10 circuit with control relays CR1 and CR2; off-delay timers TR3 and TR4 drawn as electronic relays with supply pins 2 and 10 connected permanently and control pins 5 and 6 switched by an M3 and an M2 contact; line numbers 1 to 11 with cross-references.">
         <figcaption data-l="th">รูป Exp. 10.7 เปลี่ยนตัวตั้งเวลาแบบลมเป็นแบบอิเล็กทรอนิกส์ที่มีไฟเลี้ยงและขาควบคุม (แบบ NEMA) · ที่มา: Herman &amp; Seiler (2025) แบบฝึกหัดที่ 10 หน้า 590 · แตะรูปเพื่อขยาย</figcaption>
         <figcaption data-l="en">Fig. Exp. 10.7, pneumatic timers changed for electronic ones with a supply and a control input (NEMA) · source: Herman &amp; Seiler (2025), exercise 10, p. 590 · tap to enlarge</figcaption></figure>
     </div>
@@ -225,7 +225,7 @@ document.addEventListener('mc:ready', () => {
       <div>${a}<div class="cap">${t('ขั้นที่ 5: KT4 67–68 อย่างเดียว', 'step 5: KT4 67–68 alone')}</div></div>
       <div>${b}<div class="cap">${t('ขั้นที่ 6: KT4 67–68 + KM1 13–14', 'step 6: KT4 67–68 + KM1 13–14')}</div></div></div>
     <div class="cap">${t('ทางเดินกระแสของ KM1 ก่อนและหลังเพิ่มหน้าสัมผัสค้างตัวเอง (KM2 กับ KT3 ต่อแบบเดียวกัน) วาดจากแบบจำลองของหน้านี้', 'The KM1 path before and after the seal contact (KM2 with KT3 is wired the same way), drawn from the model of this page')}</div></div>`; };
-  const figHTML = f => `<figure class="slide sm"><img src="img/book/${f[0]}?v=13" width="${f[1]}" height="${f[2]}" loading="lazy" decoding="async" alt="${f[6]}">
+  const figHTML = f => `<figure class="slide sm"><img src="img/book/${f[0]}?v=14" width="${f[1]}" height="${f[2]}" loading="lazy" decoding="async" alt="${f[6]}">
     <figcaption>${t(`รูป Exp. ${f[3]} ${f[5][0]} (แบบ NEMA) · ที่มา: Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. (Cengage, 2025) แบบฝึกหัดที่ 10 หน้า ${f[4]} · แตะรูปเพื่อขยาย`, `Fig. Exp. ${f[3]}, ${f[5][1]} (NEMA) · source: Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed. (Cengage, 2025), exercise 10, p. ${f[4]} · tap to enlarge`)}</figcaption></figure>`;
 
   /* one tracker per simulator: start times after S2 and stop times after S1, checked against the task (start 1 → 3, stop 3 → 1, T apart) */
