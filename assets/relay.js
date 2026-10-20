@@ -55,12 +55,75 @@
                  listed wins. spec.chatter: true = a coil that keeps switching itself off and on (e.g. its own NC in its own path) is
                  reported as chattering (dev.chatter, contacts at rest) instead of ending in an arbitrary state.
                  element option dop (NC/NO with op 'lim': the direct-opening mark of IEC 60947-5-1 Annex K on the link);
-                 sim.setOn(id, v) sets a sel/sen/fault device (no event when nothing changes) */
+                 sim.setOn(id, v) sets a sel/sen/fault device (no event when nothing changes)
+   drawing sheet (20 Oct 2026): option sheet (true, false or { title, no, part, of, rows, student }; default RL.SHEET_DEFAULT = true) draws
+                 the drawing as a document: a sheet frame with a reference band (ISO 5457 look, like the course's A4 sheet), column zones
+                 at the top and bottom, row zones A, B, C … at the left and right, and a compact title block at the bottom right
+                 (ISO 7200 look). The column zones of the control circuit ARE the current-path numbers (IEC 61082-1 grid used as path
+                 numbers): each numbered path gets its own zone, its number moves from under the N rail into the band, and the
+                 cross-reference under a coil ("13–14 ▸ 2") now points at zone 2. The power circuit at the left is one zone labelled
+                 with the word of its cross-reference ("กำลัง" / "power"); a multi-motor power circuit gets one zone per motor branch
+                 labelled M1, M2 … (its feeder contactors' cross-reference reads "1–2, 3–4, 5–6 ▸ M2"). With noPaths the control zones
+                 stay empty (students write the numbers). Title block: course 031021322, drawing title (sheet.title [th, en] or text;
+                 default the page title from stops.js), drawing no. (sheet.no; default ED2-<step>-<section badge><part>; part = sheet.part,
+                 else B1, B2 … in document order when one section holds several framed drawings), sheet (sheet.of '2/3' or [2, 3]; default 1/1); student: true adds an empty
+                 "drawn by / student ID" row for handwriting. rows = number of row zones (default 3). Print mode draws everything in
+                 the text colour (black on paper). The drawing itself is unchanged inside a nested <svg class="rl-in"> (same
+                 coordinates as without the sheet: sim.X()/Y() still apply there); the outer svg's viewBox is the whole sheet.
+                 sheet: false gives exactly the drawing of before (byte for byte). */
 (function (global) {
 'use strict';
 const RL = {}, IE = global.IEC;
 const COL = { live: '#ff6b6b', cur: '#ff4d4d', ncur: '#3fa9f5', nlive: '#3fa9f5', dead: 'currentColor' };
 const CLICK = ['pb', 'sel', 'sen', 'ol', 'cb', 'fuse', 'msel', 'fault'];
+RL.SHEET_DEFAULT = true;   // every RL.Sim drawing is framed as a drawing sheet unless the page passes sheet: false
+const SHEETS = new Map();  // section → hosts of framed drawings in it, in document order (drawing numbers B1, B2 … when there are several)
+const escT = v => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+/* width of a text in the drawing font (IBM Plex Mono 0.6 em; Thai fallback about 0.6 em per base character, combining marks take none) */
+const textW = (s, size) => { let n = 0; for (const ch of String(s)) { const c = ch.codePointAt(0); if (c === 0x0E31 || (c >= 0x0E34 && c <= 0x0E3A) || (c >= 0x0E47 && c <= 0x0E4E)) continue; n += c >= 0x0E00 && c <= 0x0E7F ? 0.62 : 0.6; } return n * size; };
+/* the text cut to fit a width (an ellipsis at the end when cut) */
+const fitT = (s, size, w) => { s = String(s); if (textW(s, size) <= w) return s; const a = [...s]; while (a.length && textW(a.join('') + '…', size) > w) a.pop(); return a.join('').replace(/[\s·:,–-]+$/, '') + '…'; };
+
+/* RL.sheetFrame(o) → svg string: any drawing on a drawing sheet (used by RL.Sim with the option sheet; pages and fig_render.html may frame
+   other drawings with it). o: body (svg markup of the drawing, content box W × H), W, H, title, no, of ('1/1'), student (adds an empty
+   "drawn by | student ID" row), rows (row zones, default 3), print (all in the text colour), label (aria), cls (extra svg classes), max
+   (px; maxScale k: at most k × the sheet width), cropT / cropR (blank content margin cut off at the top / right), zones ([{ a, b, at, lab }] column zones in content x, a/b null =
+   edge of the drawing area, at = label position, default the zone middle; default: o.cols evenly spaced zones numbered 1 … n, n =
+   round(W / 120)), occ ((xa, xb) => lowest drawn y between xa and xb, content coordinates; default H: the title block goes below the
+   drawing). The drawing keeps its own coordinates inside <svg class="rl-in" x y> (overflow visible). */
+RL.sheetFrame = o => {
+  const F = v => +(+v).toFixed(1), T = MC.t, W = o.W, H = o.H, pr = !!o.print, mut = pr ? undefined : 'var(--muted)';
+  const P = 3, B = 14, G = 4, cT = o.cropT || 0, cR = o.cropR || 0, dx = P + B + G, dy = P + B + G - cT, ix0 = P + B, iy0 = P + B;   // content (x, y) sits at (x + dx, y + dy)
+  const title = o.title === undefined || o.title === null ? '' : String(o.title), no = o.no === undefined || o.no === null ? '' : String(o.no), of = o.of === undefined || o.of === null ? '1/1' : String(o.of);
+  // title block: course · title · drawing no. | sheet (+ drawn by | student ID for handwriting)
+  const pad = 4, lab = [T('วิชา', 'course'), T('ชื่อแบบ', 'title'), T('เลขที่แบบ', 'drawing no.'), T('แผ่นที่', 'sheet'), T('ผู้เขียนแบบ', 'drawn by'), T('รหัสนักศึกษา', 'student ID')];
+  const course = T('031021322 เขียนแบบไฟฟ้า 2', '031021322 Electrical Drawing II'), lw = i => textW(lab[i], 7) + 4;
+  const wS = Math.max(pad + lw(3) + textW(of || '0/0', 9) + pad, o.student ? pad + lw(5) + 64 : 0);
+  let ix1 = dx + W - cR + G; const minW = 220; if (ix1 - ix0 < minW) ix1 = ix0 + minW;
+  const need = Math.max(pad + lw(0) + textW(course, 8.5) + pad, pad + lw(1) + textW(title, 9) + pad, pad + lw(2) + textW(no, 9) + pad + wS, o.student ? pad + lw(4) + 120 + wS : 0);
+  const tbW = Math.min(ix1 - ix0, Math.max(minW, need)), rh = o.student ? [15, 15, 15, 24] : [15, 15, 15], tbH = rh.reduce((a, b) => a + b, 0);
+  const tx0 = ix1 - tbW, low = o.occ ? o.occ(tx0 - dx - 4, ix1 - dx) : H, iy1 = Math.max(dy + H, dy + low + 6 + tbH), ty0 = iy1 - tbH, oy1 = iy1 + B, W2 = ix1 + B + P, H2 = oy1 + P;
+  // column zones
+  let zones = o.zones;
+  if (!zones) { const n = Math.max(1, o.cols || Math.round(W / 120)), w = (ix1 - ix0) / n; zones = Array.from({ length: n }, (_, i) => ({ a: ix0 + i * w - dx, b: ix0 + (i + 1) * w - dx, lab: String(i + 1) })); }
+  let f = `<rect x="${P}" y="${P}" width="${F(W2 - 2 * P)}" height="${F(H2 - 2 * P)}" stroke-width="1.6"/><rect x="${ix0}" y="${iy0}" width="${F(ix1 - ix0)}" height="${F(iy1 - iy0)}" stroke-width="0.8"/>`;
+  zones.forEach(z => { const a = z.a === null || z.a === undefined ? ix0 : z.a + dx, b = z.b === null || z.b === undefined ? ix1 : z.b + dx, at = z.at === undefined ? (a + b) / 2 : z.at + dx;
+    if (a > ix0 + 1 && a < ix1 - 1) f += IE.L(a, P, a, iy0, { w: 0.8 }) + IE.L(a, iy1, a, oy1, { w: 0.8 });
+    if (z.lab) { const q = { size: /^[0-9A-Z]+$/.test(z.lab) ? 9.5 : 8.5, anchor: 'middle', weight: 700 }; f += IE.T(escT(z.lab), at, P + B / 2 + 3.3, q) + IE.T(escT(z.lab), at, iy1 + B / 2 + 3.3, q); } });
+  // row zones A, B, C …
+  const nR = Math.max(1, Math.min(8, Math.round(o.rows) || 3)), rz = (iy1 - iy0) / nR;
+  for (let j = 0; j < nR; j++) { const y = iy0 + j * rz, yc = y + rz / 2 + 3.3, L = String.fromCharCode(65 + j), q = { size: 9.5, anchor: 'middle', weight: 700 };
+    if (j) f += IE.L(P, y, ix0, y, { w: 0.8 }) + IE.L(ix1, y, W2 - P, y, { w: 0.8 });
+    f += IE.T(L, P + B / 2, yc, q) + IE.T(L, ix1 + B / 2, yc, q); }
+  // the title block
+  const ys = rh.map((h, i) => ty0 + rh.slice(0, i).reduce((a, b) => a + b, 0)), xS = ix1 - wS;
+  f += `<rect x="${F(tx0)}" y="${F(ty0)}" width="${F(tbW)}" height="${tbH}" stroke-width="1.1"/>` + ys.slice(1).map(y => IE.L(tx0, y, ix1, y, { w: 0.6 })).join('') + IE.L(xS, ys[2], xS, iy1, { w: 0.6 });
+  const cell = (x, y, li, val, size, w) => { const yb = y + 10.8;   // label and value on one baseline (a tall row keeps its label at the top)
+    return IE.T(escT(lab[li]), x + pad, yb, { size: 7, col: mut }) + (val ? IE.T(escT(fitT(val, size, w - 2 * pad - lw(li))), x + pad + lw(li), yb, { size, weight: 700 }) : ''); };
+  f += cell(tx0, ys[0], 0, course, 8.5, tbW) + cell(tx0, ys[1], 1, title, 9, tbW) + cell(tx0, ys[2], 2, no, 9, tbW - wS) + cell(xS, ys[2], 3, of, 9, wS);
+  if (o.student) f += cell(tx0, ys[3], 4, '', 9, tbW - wS) + cell(xS, ys[3], 5, '', 9, wS);
+  const inner = `<svg class="rl-in" x="${F(dx)}" y="${F(dy)}" width="${F(W)}" height="${F(H)}" overflow="visible">${o.body}</svg>`;
+  return IE.svg(W2, H2, `<g class="rl-sheet">${f}</g>${inner}`, { cls: o.cls || 'rl-framed', label: o.label || 'drawing', max: o.maxScale ? Math.min(o.max || 1e9, Math.round(W2 * o.maxScale)) : o.max }); };
 
 RL.Sim = class {
   constructor(el, spec, o = {}) {
@@ -256,7 +319,8 @@ RL.Sim = class {
     const pw = S.power && !this.o.noPower ? (full ? (S.power.feeders ? this.feedW() : S.power.rev ? this.revW() : 172) : 170) : 0; this.ox = pw + 70 - x0 * this.DX; this.oy = 34;
     const rx = this.X(x0) - (full ? 70 : 30); this.railX0 = rx;   // full power drawing: the rails start further left, where the control supply comes in
     const W = ctl ? this.X(x1) + 90 : S.power && S.power.feeders && !this.o.noPower ? this.feedW() - 20 : S.power && S.power.rev && full ? this.revW() + 2 : (S.power && S.power.phases === 1 ? 144 : 140) + 34, xrefH = 16 + 12 * Math.max(2, ...Object.values(this.dev).filter(d => d.type === 'coil' || d.type === 'timer').map(d => this.xref(d.id).length + 1));
-    let H = ctl ? this.Y(S.rows) + 22 + xrefH : 0; let s = '';
+    const sh = this.sheetOpt();   // the drawing sheet: path numbers go into the reference band, the cross-reference moves up into their place
+    let H = ctl ? this.Y(S.rows) + 22 + xrefH - (sh ? 14 : 0) : 0; let s = '';
     const on = this.supplyOn() && !this.o.print, anyCur = this.cur.size > 0 && !this.o.print, hi = this.hiNo(), nos = this.o.wireNos || hi !== null ? this.wireNumbers() : null;
     const hiL = hi !== null && nos.get('L') === hi, hiN = hi === 0;
     // rails
@@ -296,13 +360,65 @@ RL.Sim = class {
     if (ctl && S.mech) s += this.renderMech();
     // current-path numbers and the cross-reference under each coil
     const cols = [...new Set(S.els.filter(e => e.k !== 'w').map(e => e.x))].sort((a, b) => a - b), yN = this.Y(S.rows);
-    if (ctl && !this.o.noPaths) cols.forEach(x => { s += IE.T(String(this.pathNo(x)), this.X(x), yN + 16, { size: 11, anchor: 'middle', weight: 700, col: 'var(--muted)' }); });
-    if (ctl && !this.o.noXref) S.els.filter(e => e.k === 'coil').forEach(e => { const list = this.xref(e.d); let yy = yN + 32;
+    if (ctl && !this.o.noPaths && !sh) cols.forEach(x => { s += IE.T(String(this.pathNo(x)), this.X(x), yN + 16, { size: 11, anchor: 'middle', weight: 700, col: 'var(--muted)' }); });
+    if (ctl && !this.o.noXref) S.els.filter(e => e.k === 'coil').forEach(e => { const list = this.xref(e.d); let yy = yN + (sh ? 18 : 32);
       list.forEach(l => { s += IE.T(l, this.X(e.x), yy, { size: 9, anchor: 'middle', col: 'var(--muted)' }); yy += 12; }); });
-    if (S.power && !this.o.noPower) { if (full) { const pf = this.renderPowerFull(hiL, hiN); s += pf.s; H = Math.max(H, pf.bottom + 18); } else s += this.renderPower(); }
-    const sv = IE.svg(W, H, s, { cls: 'rl', label: this.o.label || 'control circuit', max: ctl ? this.o.max : Math.min(this.o.max || 1e9, Math.round(W * 1.5)) });   // a power-only drawing is not blown up
+    if (S.power && !this.o.noPower) { if (full) { const pf = this.renderPowerFull(hiL, hiN); s += pf.s; H = Math.max(H, pf.bottom + 18); this.pBot = pf.bottom; } else s += this.renderPower(); }
+    const sv = sh ? this.sheetSVG(s, W, H, sh, { cols, pw, full }) : IE.svg(W, H, s, { cls: 'rl', label: this.o.label || 'control circuit', max: ctl ? this.o.max : Math.min(this.o.max || 1e9, Math.round(W * 1.5)) });   // a power-only drawing is not blown up
     this.el.innerHTML = sv + (this.msg === 'short' ? `<div class="badbox rl-msg">${MC.t('ลัดวงจร! ฟิวส์วงจรควบคุมขาด (หรือเบรกเกอร์ตัด) คลิกที่ฟิวส์เพื่อเปลี่ยนฟิวส์', 'Short circuit! The control fuse has blown (or the breaker tripped). Click the fuse to replace it.')}</div>` : this.msg === 'pshort' ? this.pshortMsg() : '');
   }
+  /* ---------------- drawing sheet (option sheet, 20 Oct 2026) ---------------- */
+  sheetOpt() { const v = this.o.sheet === undefined ? RL.SHEET_DEFAULT : this.o.sheet; return !v ? null : v === true ? {} : v; }
+  /* title, drawing number and sheet of the title block; defaults from the page (stops.js title and step, the badge of the section) */
+  sheetInfo(sh) {
+    const tt = p => (Array.isArray(p) ? MC.t(p[0], p[1]) : p === undefined || p === null ? '' : String(p)), el = this.el;
+    const here = typeof MC.here === 'function' ? MC.here() : null, sec = el && el.isConnected && el.closest ? el.closest('section.prob') : null, badge = sec && sec.querySelector('.prob-no');
+    let k = 0;
+    if (sec && sh.no === undefined && sh.part === undefined) {   // several framed drawings in one section: B1, B2 … in document order (the others are redrawn once)
+      const a = (SHEETS.get(sec) || []).filter(h => h.isConnected && h.closest('section.prob') === sec), fresh = !a.includes(el);
+      if (fresh) { a.push(el); a.sort((p, q) => (p.compareDocumentPosition(q) & 4 ? -1 : 1)); }
+      SHEETS.set(sec, a); el.rlSheetSim = this;
+      if (fresh && a.length > 1) setTimeout(() => a.forEach(h => { if (h !== el && h.isConnected && h.rlSheetSim) h.rlSheetSim.render(); }), 0);
+      k = a.length > 1 ? a.indexOf(el) + 1 : 0; }
+    let title = sh.title !== undefined ? tt(sh.title) : here ? MC.t(here.title, here.en) : '';
+    if (sh.title === undefined && !here && typeof document !== 'undefined' && document.querySelector) {
+      const h = document.querySelector(`h1[data-l="${MC.lang || 'th'}"]`) || document.querySelector('h1');
+      if (h) { const c = h.cloneNode(true); c.querySelectorAll('.en').forEach(x => x.remove()); title = c.textContent.replace(/\s+/g, ' ').trim(); } }
+    const part = sh.part !== undefined ? String(sh.part) : k ? String(k) : '';   // part: the drawing's own index inside its section (e.g. the case number)
+    const no = sh.no !== undefined ? tt(sh.no) : ['ED2', here && here.step, (badge ? badge.textContent.trim() : '') + part].filter(Boolean).join('-');
+    const of = sh.of !== undefined && sh.of !== null ? (Array.isArray(sh.of) ? sh.of.join('/') : String(sh.of)) : '1/1';
+    return { title, no, of }; }
+  /* right end of the control circuit drawing (content x) with every text that may appear there in any state (so the sheet keeps its width) */
+  rightExt() { const S = this.spec, xs = S.els.flatMap(e => (e.pts ? e.pts.map(p => p[0]) : [e.x])), xm = this.X(Math.max(...xs)), mech = new Set((S.mech || []).flat());
+    let r = xm + (this.o.wireNos && this.o.railNos ? 54 : 30);
+    S.els.forEach(e => { if (e.k === 'w') return; const x = this.X(e.x), d = this.dev[e.d] || {};
+      if (e.t) r = Math.max(r, x + 5 + Math.max(textW(e.t[0], 9), textW(e.t[1], 9)));
+      if (e.k === 'lamp' && d.code) r = Math.max(r, x + 18 + textW(d.code, 9));
+      if (e.pos) r = Math.max(r, x + 12 + textW(e.pos.join(' '), 10));
+      if (e.k === 'earth') r = Math.max(r, x + 10 + Math.max(textW(d.label || MC.t('ลัดลงดิน', 'earth fault'), 9), textW(MC.t('(แตะเพื่อจำลอง)', '(tap to make it)'), 8)));
+      if (e.k === 'coil' && (mech.has(e.d) || S.chatter)) r = Math.max(r, x + 15 + textW(MC.t('ถูกล็อก', 'blocked'), 8.5), x + 15 + textW(MC.t('สั่นรัว', 'chatters'), 8.5));
+      if (e.k === 'coil') { const l = this.xref(e.d); if (l.length) r = Math.max(r, x + Math.max(...l.map(q => textW(q, 9))) / 2); } });
+    return r; }
+  /* the drawing s (content box W × H) on a sheet: frame, reference band (column zones top and bottom = current paths, power zone(s),
+     row zones A, B, C … left and right) and the title block at the bottom right, placed under the lowest drawing in its width */
+  sheetSVG(s, W, H, sh, g) {
+    const S = this.spec, ctl = S.els.length > 0, yN = this.Y(S.rows), hasP = !!S.power && !this.o.noPower, inf = this.sheetInfo(sh);
+    // the lowest drawing between xa and xb (content coordinates): N rail, cross-reference lists (kept free even while hidden), power circuit
+    const occ = (xa, xb) => { let ob = 0;
+      if (ctl) { const xm = Math.max(...S.els.flatMap(e => (e.pts ? e.pts.map(p => p[0]) : [e.x]))), xr = this.X(xm) + (this.o.wireNos && this.o.railNos ? 54 : 30);
+        if (xr >= xa && this.railX0 <= xb) ob = Math.max(ob, yN + 6);
+        S.els.filter(e => e.k === 'coil').forEach(e => { const l = this.xref(e.d); if (!l.length) return; const hw = Math.max(...l.map(q => textW(q, 9))) / 2 + 2, xc = this.X(e.x);
+          if (xc + hw >= xa && xc - hw <= xb) ob = Math.max(ob, yN + 18 + 12 * (l.length - 1) + 4); }); }
+      if (hasP && g.pw >= xa) ob = Math.max(ob, g.full && this.pBot ? this.pBot : yN + 12);
+      return ob; };
+    // column zones: the power circuit (one zone, or one per motor branch), then one zone per numbered current path (null = edge of the drawing area)
+    const cols = ctl ? g.cols : [], zones = [], cb0 = hasP ? (cols.length ? Math.max(g.pw + 6, this.X(cols[0]) - 60) : g.pw + 6) : null;
+    if (hasP) { const pb = ctl ? cb0 : null, FD = S.power.feeders;
+      if (FD) { const FW = S.power.fw || 136; FD.forEach((f, i) => { const c = 66 + i * FW; zones.push({ a: i ? c - FW / 2 : null, b: i < FD.length - 1 ? c + FW / 2 : pb, at: c, lab: f.motor }); }); }
+      else zones.push({ a: null, b: pb, lab: MC.t('กำลัง', 'power') }); }
+    cols.forEach((c, i) => zones.push({ a: i ? this.X((cols[i - 1] + c) / 2) : cb0, b: i < cols.length - 1 ? this.X((c + cols[i + 1]) / 2) : null, at: this.X(c), lab: this.o.noPaths ? '' : String(this.pathNo(c)) }));
+    return RL.sheetFrame({ body: s, W, H, zones, occ, ...inf, student: sh.student, rows: sh.rows, print: this.o.print, cropT: 10, cropR: ctl ? Math.max(0, Math.min(20, W - this.rightExt() - 6)) : 0, cls: 'rl rl-framed',
+      label: this.o.label || 'control circuit', max: this.o.max, maxScale: ctl ? 0 : 1.5 }); }   // a power-only drawing is not blown up
   /* wire (potential) numbers: every node gets one number, read from top to bottom and left to right; L1 side = 1, N = 0 (shown as N) */
   wireNumbers() { const keys = new Set(); this.r.E.forEach(e => { [e.a, e.b].forEach(k => keys.add(k)); });
     // nodes joined by plain wires carry the same number

@@ -165,7 +165,7 @@ WD.Wiring = class {
   /* a tap on a wire number in the schematic: the engine's data-wire if present, else the nearest number badge (drawn at X(x) − 17, Y(y)) */
   simClick(e) { const s = this.sim; if (!s.o.wireNos || e.target.closest('[data-dev]')) return; const w = e.target.closest('[data-wire]');
     if (w) { const k = keyOf(w.dataset.wire); this.pick(k === this.hi ? null : k); return; }
-    const svg = s.el.querySelector('svg'), mx = svg && svg.getScreenCTM && svg.getScreenCTM(); if (!mx) return;
+    const svg = s.el.querySelector('svg.rl-in') || s.el.querySelector('svg'), mx = svg && svg.getScreenCTM && svg.getScreenCTM(); if (!mx) return;   // a framed drawing (sheet): the drawing's own coordinates are those of the inner svg
     const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(mx.inverse()); let best = null, bd = 13;
     const at = (x, y, v) => { const d = Math.hypot(p.x - x, p.y - y); if (d < bd) { bd = d; best = v; } }, nos = s.wireNumbers();
     nos.forEach((v, n) => { if (n === 'L' || n === 'N') return; const [x, y] = n.split(',').map(Number); at(s.X(x) - 17, s.Y(y) - 1.5, v); });

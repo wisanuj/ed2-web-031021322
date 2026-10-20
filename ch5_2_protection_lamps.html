@@ -8,12 +8,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=14"><link rel="stylesheet" href="assets/ed2.css?v=14">
-<link rel="stylesheet" href="assets/wiring.css?v=14">
-<script src="assets/stops.js?v=14"></script><script src="assets/shell.js?v=14"></script>
-<script src="assets/lesson.js?v=14"></script><script src="assets/draw.js?v=14"></script><script src="assets/ed.js?v=14"></script><script src="assets/sym.js?v=14"></script><script src="assets/iec.js?v=14"></script><script src="assets/relay.js?v=14"></script><script src="assets/ch2.js?v=14"></script><script src="assets/ch3.js?v=14"></script><script src="assets/ch4.js?v=14"></script>
-<script src="assets/panel.js?v=14"></script><script src="assets/ch5.js?v=14"></script>
-<script src="assets/wiring.js?v=14"></script><script src="assets/devdata.js?v=14"></script><script src="assets/dev.js?v=14"></script>
+<link rel="stylesheet" href="assets/ee.css?v=15"><link rel="stylesheet" href="assets/ed2.css?v=15">
+<link rel="stylesheet" href="assets/wiring.css?v=15">
+<script src="assets/stops.js?v=15"></script><script src="assets/shell.js?v=15"></script>
+<script src="assets/lesson.js?v=15"></script><script src="assets/draw.js?v=15"></script><script src="assets/ed.js?v=15"></script><script src="assets/sym.js?v=15"></script><script src="assets/iec.js?v=15"></script><script src="assets/relay.js?v=15"></script><script src="assets/ch2.js?v=15"></script><script src="assets/ch3.js?v=15"></script><script src="assets/ch4.js?v=15"></script>
+<script src="assets/panel.js?v=15"></script><script src="assets/ch5.js?v=15"></script>
+<script src="assets/wiring.js?v=15"></script><script src="assets/devdata.js?v=15"></script><script src="assets/dev.js?v=15"></script>
 </head>
 <body>
 <div class="wrap">
@@ -84,7 +84,7 @@
       <div class="story-p" data-l="en"><p>Senty's Fig. 14-5 is the same kind of starter as step 5, with IEC terminal numbers in small boxes: coil A1–A2, overload contact 95–96, the NO contact 53–54 of a front-mounted block switching the lamp on rung 3, and the NC contact 61–62 of the same block switching the lamp on rung 4. The small picture on the left is that block, with terminals 53 and 61 on top and 54 and 62 below. The book uses contacts of the contactor (not a lamp across the coil) so that the lamps report the contactor's real state, which is the same reason the course wires H1 through 53–54.</p>
         <p>The book uses US lamp colours: a red lamp (R) while the motor runs and a green lamp (G) while it is stopped and ready. Many panels use these colours, but IEC 60204-1 Table 4 makes green the normal state and white the neutral state, and keeps red for emergencies. The course therefore uses a green run lamp H1 and a white stopped lamp H3. Redrawn to IEC, the figure is step 5 above; the only difference is that the course's stopped lamp uses the built-in NC contact 21–22 instead of 61–62 on the block. Both are NC, because their second digits are 1–2.</p></div></div>
     <div class="story-f">
-      <figure class="slide md"><img src="img/book/senty_fig14_5_status_lamps.jpg?v=14" width="1186" height="456" loading="lazy" decoding="async" alt="US ladder diagram with IEC terminal numbers: rung 1 Stop, Start with holding contact, coil A1-A2 and overload contact 95-96; rung 3 contact 53-54 to a red lamp; rung 4 contact 61-62 to a green lamp; on the left a front-mounted auxiliary block with terminals 53, 61, 54 and 62.">
+      <figure class="slide md"><img src="img/book/senty_fig14_5_status_lamps.jpg?v=15" width="1186" height="456" loading="lazy" decoding="async" alt="US ladder diagram with IEC terminal numbers: rung 1 Stop, Start with holding contact, coil A1-A2 and overload contact 95-96; rung 3 contact 53-54 to a red lamp; rung 4 contact 61-62 to a green lamp; on the left a front-mounted auxiliary block with terminals 53, 61, 54 and 62.">
         <figcaption data-l="th">รูป 14-5 ชุดเริ่มเดินที่มีเลขขั้วแบบ IEC สั่งหลอดเดินและหลอดพร้อม (ทางเดินกระแสแบบอเมริกัน) · ที่มา: Senty, <i>Motor Control Fundamentals</i> (Delmar Cengage, 2013) บทที่ 14 หน้า 162 · แตะรูปเพื่อขยาย</figcaption>
         <figcaption data-l="en">Fig. 14-5, starter with IEC terminal numbers driving run and ready lamps (US ladder) · source: Senty, <i>Motor Control Fundamentals</i> (Delmar Cengage, 2013), ch. 14, p. 162 · tap to enlarge</figcaption></figure>
     </div>
@@ -129,10 +129,10 @@
         <p>Fig. 14-3 is a US (National Electrical Manufacturers Association, NEMA) drawing of a current monitor for a large motor, fed by three current transformers. Its NO contact 1 is in series with the STOP button in the coil circuit, and its NC contact 2 feeds an ALARM lamp: the same idea as F3 11–14 in series in the control circuit and 11–12 feeding a warning lamp. Redrawn to IEC, it is the control circuit above; the current transformers in the figure are the same idea as T1, which feeds ammeter P2.</p>
         <p>The name F3 follows the course's letter set, which uses F for protective relays. Strictly after IEC 81346-2, a relay that only monitors could be coded KF or put in class B. In IEC drawings the letter P is used for measuring and indicating devices, so the course keeps P1 and P2 for the meters and calls the phase-failure relay F3 (the name map against the lab file is on <a href="ch5_7_cadesimu.html">page 5.7</a>).</p></div></div>
     <div class="story-f">
-      <figure class="slide sm"><img src="img/book/emc9_fig14_2_phase_monitor.jpg?v=14" width="438" height="534" loading="lazy" decoding="async" alt="Photograph of a narrow solid-state phase monitor relay with screw terminals on its front and indicator labels ON, PHASE RVS and PHASE UNBAL.">
+      <figure class="slide sm"><img src="img/book/emc9_fig14_2_phase_monitor.jpg?v=15" width="438" height="534" loading="lazy" decoding="async" alt="Photograph of a narrow solid-state phase monitor relay with screw terminals on its front and indicator labels ON, PHASE RVS and PHASE UNBAL.">
         <figcaption data-l="th">รูป 14-2 รีเลย์ตรวจเฟสแบบโซลิดสเตต · ที่มา: Herman, <i>Electric Motor Control</i> 9th ed. (Delmar Cengage, 2010) หน่วยที่ 14 หน้า 136 (ภาพจาก Eaton Corporation) · แตะรูปเพื่อขยาย</figcaption>
         <figcaption data-l="en">Fig. 14-2, solid-state phase monitor relay · source: Herman, <i>Electric Motor Control</i>, 9th ed. (Delmar Cengage, 2010), unit 14, p. 136 (courtesy of Eaton Corporation) · tap to enlarge</figcaption></figure>
-      <figure class="slide sm"><img src="img/book/emc9_fig14_3_current_monitor.jpg?v=14" width="780" height="819" loading="lazy" decoding="async" alt="US wiring diagram: three-phase motor with a disconnect, fuses, contactor M and overloads; three current transformers feed a current monitor whose NO contact 1 is in series with the STOP and START buttons and coil M, and whose NC contact 2 feeds an alarm lamp.">
+      <figure class="slide sm"><img src="img/book/emc9_fig14_3_current_monitor.jpg?v=15" width="780" height="819" loading="lazy" decoding="async" alt="US wiring diagram: three-phase motor with a disconnect, fuses, contactor M and overloads; three current transformers feed a current monitor whose NO contact 1 is in series with the STOP and START buttons and coil M, and whose NC contact 2 feeds an alarm lamp.">
         <figcaption data-l="th">รูป 14-3 การต่อตัวตรวจกระแสของมอเตอร์ใหญ่ (แบบ NEMA) · ที่มา: Herman (2010) หน่วยที่ 14 หน้า 136 · แตะรูปเพื่อขยาย</figcaption>
         <figcaption data-l="en">Fig. 14-3, connections of a large-motor current monitor (NEMA) · source: Herman (2010), unit 14, p. 136 · tap to enlarge</figcaption></figure>
     </div>

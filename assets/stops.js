@@ -17,9 +17,6 @@ window.STAGES = {
   4: { title: 'บทที่ 11–13 มอเตอร์ไฟตรง อุปกรณ์อุตสาหกรรม และการเลือกขนาด', title_en: 'Chapters 11–13 — DC motors, industrial devices and sizing', short: 'บทที่ 11–13', short_en: 'Ch. 11–13',
        blurb: 'มอเตอร์ไฟฟ้ากระแสตรงและการเริ่มเดิน อุปกรณ์ในวงจรควบคุมอุตสาหกรรม (ลิมิตสวิตช์ สวิตช์ระดับ สวิตช์ความดัน พร็อกซิมิตี สวิตช์อุณหภูมิ) และการเลือกขนาดคอนแทกเตอร์กับอุปกรณ์ป้องกันกระแสเกิน',
        blurb_en: 'DC motors and how they are started; the devices of industrial control circuits (limit, level, pressure, proximity and temperature switches); and choosing contactors and overcurrent protection.' },
-  5: { title: 'โครงงาน: แบบชุดสมบูรณ์', title_en: 'Project — a complete drawing set', short: 'โครงงาน', short_en: 'Project',
-       blurb: 'เขียนแบบชุดสมบูรณ์ของงานจริงหนึ่งงาน: แบบวงจรกำลัง แบบวงจรควบคุมพร้อมตารางอ้างอิง แบบแผงขั้วต่อ รายการวัสดุพร้อมขนาด และไฟล์ CADe SIMU ที่จำลองผ่าน',
-       blurb_en: 'A complete drawing set for one real job: power circuit, control circuit with cross-references, terminal diagram, a sized bill of materials, and a CADe SIMU file that simulates correctly.' }
 };
 
 const BK = (th, en) => ({ book: th, book_en: en });
@@ -95,6 +92,14 @@ window.STOPS = [
     outcome: 'เขียนวงจรกำลังและวงจรควบคุมใน CADe SIMU ตามมาตรฐานครบทุกองค์ประกอบ', outcome_en: 'draw power and control circuits in CADe SIMU with every element the standard asks for',
     ...BK('คู่มือ CADe SIMU · ใบงานที่ 2', 'CADe SIMU manual · lab sheet 2'),
     tags: ['CADe SIMU', 'ใบงาน', 'ตั้งชื่ออุปกรณ์'], tags_en: ['CADe SIMU', 'lab sheet', 'device names'] },
+  { file: 'ch2_6_drawing_sheet.html', step: '2.6', stage: 1, ch: 2, type: 'sim',
+    title: 'แผ่นแบบ: กรอบ ช่องพิกัด และตารางรายการ', en: 'The drawing sheet: frame, grid zones and title block',
+    blurb: 'แบบไฟฟ้าเป็นเอกสารที่คนอื่นต้องอ่าน เก็บเข้าแฟ้ม ค้นหาอุปกรณ์ และตรวจ แผ่นแบบมาตรฐานจึงมีกรอบ ช่องพิกัดที่มีเลขและตัวอักษรรอบขอบ และตารางรายการที่มุมขวาล่าง แตะช่องบนแผ่น A4 ของวิชา ฝึกหาช่อง ใช้เลขช่องเขียนตารางอ้างอิงหน้าสัมผัส กรอกตารางรายการ แล้วดาวน์โหลดแผ่นแบบไปเขียนการบ้าน',
+    blurb_en: 'A drawing is a document that others must read, file, search and check, so a standard sheet has a frame, grid zones numbered and lettered round its edge, and a title block in the bottom right corner. Tap the zones of the course A4 sheet, practise finding zones, write contact cross-references with the zone numbers, fill in a title block, and download the sheet for your homework.',
+    outcome: 'บอกขนาดกระดาษ A4 และ A3 ส่วนต่าง ๆ ของกรอบ ช่องพิกัด และตารางรายการ ใช้เลขช่องเขียนตารางอ้างอิงหน้าสัมผัส และกรอกตารางรายการได้ครบและถูกต้อง',
+    outcome_en: 'name the A4 and A3 sizes and the parts of the frame, grid zones and title block, use the zone numbers in contact cross-references, and fill in a title block completely and correctly',
+    ...BK('ISO 216 · ISO 5457 · ISO 7200 · IEC 61082-1 · UMC5 บทที่ 21', 'ISO 216 · ISO 5457 · ISO 7200 · IEC 61082-1 · UMC5 ch. 21'),
+    tags: ['แผ่นแบบ A4', 'ช่องพิกัด', 'ตารางรายการ', 'การบ้าน'], tags_en: ['A4 drawing sheet', 'grid zones', 'title block', 'homework'] },
   { file: 'ch3_1_push_buttons.html', step: '3.1', stage: 1, ch: 3, type: 'sim',
     title: 'สวิตช์ปุ่มกด: ชนิด สี หน้าสัมผัส และปุ่มหยุดฉุกเฉิน', en: 'Push buttons: types, colours, contacts and the emergency stop',
     blurb: 'ผ่าปุ่มกดดูข้างใน กดช้า ๆ แล้วดูว่าหน้าสัมผัสปกติปิดเปิดก่อนหน้าสัมผัสปกติเปิดต่อ เลือกสีปุ่มตาม IEC 60204-1 และลองปุ่มหยุดฉุกเฉินที่กดแล้วค้างจนกว่าจะหมุนปลด พร้อมภาพถ่ายอุปกรณ์จริง',
@@ -330,8 +335,5 @@ window.STOPS = [
     blurb_en: 'Limit, level, pressure, proximity and temperature switches, and application circuits such as a tank-filling pump and an air compressor.' },
   { soon: true, stage: 4, ch: 13, title: 'การเลือกขนาดคอนแทกเตอร์และอุปกรณ์ป้องกันกระแสเกิน', en: 'Choosing contactors and overcurrent protection',
     blurb: 'ประเภทการใช้งาน AC-3 การตั้งโอเวอร์โหลด ฟิวส์ เบรกเกอร์ป้องกันมอเตอร์ ขนาดสาย และรายการวัสดุ',
-    blurb_en: 'Utilisation category AC-3, overload settings, fuses, motor protection circuit breakers, cable sizes and the bill of materials.' },
-  { soon: true, stage: 5, ch: 'P', title: 'โครงงาน: แบบชุดสมบูรณ์', en: 'Project: a complete drawing set',
-    blurb: 'เขียนแบบชุดสมบูรณ์และไฟล์ CADe SIMU ของงานจริงหนึ่งงาน แล้วนำเสนอ',
-    blurb_en: 'A complete drawing set and CADe SIMU file for one real job, then a presentation.' }
+    blurb_en: 'Utilisation category AC-3, overload settings, fuses, motor protection circuit breakers, cable sizes and the bill of materials.' }
 ];

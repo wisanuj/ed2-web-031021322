@@ -8,12 +8,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=14"><link rel="stylesheet" href="assets/ed2.css?v=14">
-<link rel="stylesheet" href="assets/wiring.css?v=14">
-<script src="assets/stops.js?v=14"></script><script src="assets/shell.js?v=14"></script>
-<script src="assets/lesson.js?v=14"></script><script src="assets/draw.js?v=14"></script><script src="assets/ed.js?v=14"></script><script src="assets/sym.js?v=14"></script><script src="assets/iec.js?v=14"></script><script src="assets/relay.js?v=14"></script><script src="assets/ch2.js?v=14"></script><script src="assets/ch3.js?v=14"></script><script src="assets/ch4.js?v=14"></script>
-<script src="assets/panel.js?v=14"></script><script src="assets/ch5.js?v=14"></script>
-<script src="assets/wiring.js?v=14"></script><script src="assets/devdata.js?v=14"></script><script src="assets/dev.js?v=14"></script>
+<link rel="stylesheet" href="assets/ee.css?v=15"><link rel="stylesheet" href="assets/ed2.css?v=15">
+<link rel="stylesheet" href="assets/wiring.css?v=15">
+<script src="assets/stops.js?v=15"></script><script src="assets/shell.js?v=15"></script>
+<script src="assets/lesson.js?v=15"></script><script src="assets/draw.js?v=15"></script><script src="assets/ed.js?v=15"></script><script src="assets/sym.js?v=15"></script><script src="assets/iec.js?v=15"></script><script src="assets/relay.js?v=15"></script><script src="assets/ch2.js?v=15"></script><script src="assets/ch3.js?v=15"></script><script src="assets/ch4.js?v=15"></script>
+<script src="assets/panel.js?v=15"></script><script src="assets/ch5.js?v=15"></script>
+<script src="assets/wiring.js?v=15"></script><script src="assets/devdata.js?v=15"></script><script src="assets/dev.js?v=15"></script>
 </head>
 <body>
 <div class="wrap">
@@ -35,8 +35,8 @@
   <li><b>Overload</b>: click the power contacts of F2 to trip it, and check that 95–96 opens, KM1 drops out and the yellow lamp H2 on 97–98 lights.</li>
   <li><b>Wire numbers</b>: the numbers the program shows are one per connected net, but not in current-path order; use them only to check that points are joined. The wire numbers of the drawing are written by you, by the potential-numbering rule of page 5.6.</li></ul></section>
 
-<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#tA"><b>A</b>ทำใน CADe SIMU อย่างไร</a><a href="#tN"><b>N</b>จุดผิดที่ทำให้ผลการจำลองผิด</a><a href="#tL"><b>L</b>ใบงานที่ 5</a></nav>
-<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#tA"><b>A</b>How to in CADe SIMU</a><a href="#tN"><b>N</b>Mistakes that spoil the result</a><a href="#tL"><b>L</b>Lab sheet 5</a></nav>
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#tA"><b>A</b>ทำใน CADe SIMU อย่างไร</a><a href="#tN"><b>N</b>จุดผิดที่ทำให้ผลการจำลองผิด</a><a href="#tS"><b>S</b>ทำบน Simurelay</a><a href="#tL"><b>L</b>ใบงานที่ 5</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#tA"><b>A</b>How to in CADe SIMU</a><a href="#tN"><b>N</b>Mistakes that spoil the result</a><a href="#tS"><b>S</b>In Simurelay</a><a href="#tL"><b>L</b>Lab sheet 5</a></nav>
 
 <section class="prob" id="tA">
   <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">ทำแต่ละอย่างใน CADe SIMU อย่างไร</h2><h2 data-l="en">How to do each item in CADe SIMU</h2>
@@ -65,6 +65,27 @@
   <div class="card" style="margin-top:12px"><div id="logN"></div><div id="sumN" style="margin-top:8px"></div></div>
 </section>
 
+<section class="prob" id="tS">
+  <div class="prob-head"><span class="prob-no">S</span><div><h2 data-l="th">ทำวงจรของบทนี้บน Simurelay</h2><h2 data-l="en">This chapter's circuit in Simurelay</h2>
+    <div class="src" data-l="th">แอป Simurelay บนโทรศัพท์ · วงจรเริ่มเดินโดยตรงครบชุด พร้อมหลอด H1 H2 H3</div><div class="src" data-l="en">The Simurelay phone app · the complete direct-on-line starter with lamps H1, H2, H3</div></div></div>
+  <p class="lead" data-l="th">ใบงานที่ 5A ทำใน CADe SIMU บนคอมพิวเตอร์ของห้องปฏิบัติการ และใบงานที่ 5B ทำบนกระดาษ ส่วน Simurelay ใช้ฝึกที่บ้านและใช้ทำงานจำลองวงจรท้ายบทได้ อ่านวิธีติดตั้ง ขั้นตอนทำงาน กฎของชื่อ และวิธีส่งงานใน<a href="ch1_4_cadesimu.html#tS">หน้า 1.4 ส่วน S</a> ก่อน แล้วทำวงจรนี้ตามลำดับ</p>
+  <p class="lead" data-l="en">Lab sheet 5A is done in CADe SIMU on the lab computers and lab sheet 5B on paper; Simurelay is for practice at home and may be used for the end-of-chapter simulation task. First read how to install it, the workflow, the naming rule and the hand-in on <a href="ch1_4_cadesimu.html#tS">page 1.4, section S</a>, then build this circuit step by step.</p>
+  <div class="card solve">
+    <ol data-l="th"><li><b>วงจรกำลัง</b>: Q1 → KM1 → F2 → M1 เหมือน<a href="ch2_5_cadesimu.html#tS">หน้า 2.5 ส่วน S</a> วงจรควบคุมรับไฟจากขั้ว 2 ของ Q1 (หลัง Q1) ไปที่ N</li>
+      <li><b>วงจรควบคุม</b>: F1 → F2 95–96 → S1 → S2 ขนานกับ KM1 13–14 → คอยล์ KM1 และจากขั้ว 2 ของ F1: หลอดเดิน H1 ผ่าน KM1 53–54 · หลอดโอเวอร์โหลด H2 ผ่าน F2 97–98 · หลอดหยุด H3 ผ่าน KM1 21–22</li>
+      <li><b>แก้ชื่อโอเวอร์โหลดเป็น F2 และตรวจ TAG ทุกตัว</b>: อุปกรณ์ที่วางใหม่ได้ชื่อและเลขลำดับอัตโนมัติ (โอเวอร์โหลดตัวใหม่ได้เลข F ถัดไป ซึ่งอาจชนกับฟิวส์ F1) เลือกอุปกรณ์ → Values → แก้ TAG ให้เป็น Q1 F1 F2 KM1 S1 S2 H1 H2 H3 M1 และตั้ง NUM1 กับ NUM2 ของหน้าสัมผัสช่วยเป็น 13–14, 53–54, 21–22 แทนเลขที่แอปตั้งไว้</li>
+      <li><b>สีหลอด</b>: ถ้าเลือกสีหลอดในแอปไม่ได้ (ลองในแอปของตัวเอง) ให้วางป้ายข้อความ (Others) เขียน GN, YE, WH ข้างหลอด</li>
+      <li><b>Play</b>: สับ Q1: H3 ติด → แตะ S2: มอเตอร์หมุน H1 ติด → <b>แตะ F2 เพื่อจำลองการตัด</b>: KM1 หลุด มอเตอร์หยุด H2 และ H3 ติด → รีเซ็ต F2 (วิธีรีเซ็ตลองในแอปของตัวเอง หรือออกจากโหมด Play แล้วเล่นใหม่) → ปลด Q1: หลอดดับหมด</li></ol>
+    <ol data-l="en"><li><b>Power circuit</b>: Q1 → KM1 → F2 → M1, as on <a href="ch2_5_cadesimu.html#tS">page 2.5, section S</a>; the control circuit takes its supply from Q1 terminal 2 (after Q1) to N.</li>
+      <li><b>Control circuit</b>: F1 → F2 95–96 → S1 → S2 in parallel with KM1 13–14 → coil KM1, and from F1 terminal 2: run lamp H1 through KM1 53–54 · overload lamp H2 through F2 97–98 · stop lamp H3 through KM1 21–22.</li>
+      <li><b>Rename the overload to F2 and check every TAG</b>: every new device gets an automatic name and number (a new overload gets the next F number, which may clash with fuse F1). Select each device → Values → set the TAG to Q1 F1 F2 KM1 S1 S2 H1 H2 H3 M1, and set NUM1 and NUM2 of the auxiliary contacts to 13–14, 53–54, 21–22 instead of the app's numbers.</li>
+      <li><b>Lamp colours</b>: if a lamp colour cannot be chosen (check in your app), add text labels (Others) GN, YE, WH beside the lamps.</li>
+      <li><b>Play</b>: switch Q1 on: H3 lights → tap S2: the motor runs, H1 lights → <b>tap F2 to simulate a trip</b>: KM1 drops out, the motor stops, H2 and H3 light → reset F2 (how: check in your app, or leave Play mode and play again) → switch Q1 off: every lamp goes out.</li></ol>
+  </div>
+  <div class="callout" data-l="th"><b>เบรกเกอร์ใน Simurelay ไม่ตัดเอง</b>: เบรกเกอร์และฟิวส์สวิตช์ทำงานเป็นหน้าสัมผัสธรรมดา ไม่ตัดเมื่อลัดวงจร แอปจึงไม่บอกว่าต่อสายผิดจนลัดวงจร ตรวจแบบให้ดีก่อนเล่น ส่วนการปลดแล้วสับ Q1 ใช้แทนไฟดับแล้วกลับมาได้ และการตัดของโอเวอร์โหลดทำได้โดยแตะ F2 เท่านั้น</div>
+  <div class="callout" data-l="en"><b>Breakers in Simurelay never trip by themselves</b>: breakers and fuse switches work as plain contacts and do not trip on a short circuit, so the app does not show a wiring mistake that shorts the supply; check the drawing before you play. Switching Q1 off and on stands for a power failure and return, and the overload trips only when you tap F2.</div>
+</section>
+
 <section class="prob" id="tL">
   <div class="prob-head"><span class="prob-no">L</span><div><h2 data-l="th">ใบงานที่ 5</h2><h2 data-l="en">Lab sheet 5</h2>
     <div class="src" data-l="th">5A สัปดาห์ที่ 5 · 5B สัปดาห์ที่ 6 · ครูแจกเป็นกระดาษ</div><div class="src" data-l="en">5A in week 5 · 5B in week 6 · handed out on paper</div></div></div>
@@ -75,6 +96,8 @@
     <p data-l="en"><b>Lab sheet 5B (week 6), wire numbers, terminal strips and wiring diagrams</b>: from the two-station DOL schematic, write the potential numbers, mark the location of each device (panel, panel door, second station, motor), fill in the terminal tables of X1 and X2, draw the wiring diagram with destination addresses on a printed outline, and check that every address has its mirror. In the CADe SIMU part, build strip X2 from boxed terminals and compare the program's wire numbers with your own (page 5.6).</p>
     <p class="simnote" data-l="th"><b>ใบงานที่ 5 ครูแจกเป็นกระดาษในคาบปฏิบัติ</b> ไม่มีให้ดาวน์โหลด เตรียมตัวโดยอ่านหน้า 5.1–5.6 และลองภาพจำลองทุกหน้าให้ครบก่อนมาเรียน</p>
     <p class="simnote" data-l="en"><b>Lab sheet 5 is handed out on paper in the practical session</b>; it is not available for download. Prepare by reading pages 5.1–5.6 and trying every simulation before class.</p>
+    <p class="simnote" data-l="th"><b>งานจำลองวงจรท้ายบทและการบ้าน:</b> ท้ายคาบสุดท้ายของบทนี้ (สัปดาห์ที่ 6) มี<b>งานจำลองวงจรท้ายบท</b> 10 คะแนน ประมาณ 20–25 นาที: ครูเลือกวงจร 1 วงจร ให้ต่อและจำลองใน CADe SIMU หรือ Simurelay (<a href="#tS">ส่วน S</a>) แล้วส่งไฟล์หรือภาพหน้าจอตามที่ครูบอก <b>การบ้าน</b> 10 คะแนน: เขียนวงจรเดียวกันนั้นด้วยมือบนแผ่นแบบ A4 ของวิชา (ดาวน์โหลดและดูวิธีใช้ใน<a href="ch2_6_drawing_sheet.html#tD">หน้า 2.6</a>) เลขที่แบบ <b>ED2-HW5</b> แล้วส่งในคาบถัดไป</p>
+    <p class="simnote" data-l="en"><b>End-of-chapter simulation task and homework:</b> at the end of the chapter's last session (week 6) comes the <b>end-of-chapter simulation task</b>, 10 points, about 20–25 minutes: one circuit chosen by the instructor, built and simulated in CADe SIMU or Simurelay (<a href="#tS">section S</a>), with the file or screenshots handed in as the instructor says. <b>Homework</b>, 10 points: draw the same circuit by hand on the course A4 drawing sheet (download it and see how to use it on <a href="ch2_6_drawing_sheet.html#tD">page 2.6</a>), drawing no. <b>ED2-HW5</b>, and hand it in at the next session.</p>
   </div>
   <div class="story">
     <div class="story-t">
@@ -89,7 +112,7 @@
           <li>Simulate and run the tests of the table: start, hold, stop, overload trip and reset, Q1 off and on.</li></ol>
         <p>If you also wire the picture side, do it in a separate file. On the picture push buttons use .1–.2 (the normally closed block) for the stop button and .3–.4 (normally open) for the start button; the picture contactor already has 13–14 and 21–22.</p></div></div>
     <div class="story-f">
-      <figure class="slide"><img src="img/lab/lab1_sheet9.jpg?v=14" width="1200" height="763" loading="lazy" decoding="async" alt="Lab sheet 9 in CADe SIMU before wiring: supply rails L1 L2 L3 N PE at the top; on the left IEC symbols of fuses, breakers, contactor KM1, an overload relay with its contacts, push buttons, a coil and two lamps; on the right the same devices as pictures; title block at the bottom.">
+      <figure class="slide"><img src="img/lab/lab1_sheet9.jpg?v=15" width="1200" height="763" loading="lazy" decoding="async" alt="Lab sheet 9 in CADe SIMU before wiring: supply rails L1 L2 L3 N PE at the top; on the left IEC symbols of fuses, breakers, contactor KM1, an overload relay with its contacts, push buttons, a coil and two lamps; on the right the same devices as pictures; title block at the bottom.">
         <figcaption data-l="th">ไฟล์ใบงานแผ่นที่ 9 ก่อนต่อสาย · ที่มา: ใบงาน 1 (ไฟล์ CADe SIMU) ของรายวิชา · แตะรูปเพื่อขยาย</figcaption><figcaption data-l="en">Lab sheet 9 before wiring · source: the course's lab sheet 1 (CADe SIMU file) · tap to enlarge</figcaption></figure>
     </div>
   </div>
@@ -177,7 +200,7 @@ document.addEventListener('mc:ready', () => {
     if (!sm.dev.Q1.on && c.energized) return [t('Q1 ปลด', 'Q1 off'), t('มอเตอร์หยุด แต่คอยล์ยังดูดค้าง เพราะวงจรควบคุมรับไฟก่อน Q1', 'the motor has stopped, but the coil is still in, because the control circuit is fed ahead of Q1'), 'warn'];
     return C5.state(sm); };
   const pN = $('pN');
-  const build = () => { sim = new RL.Sim($('simN'), MODES[mode].spec(), { max: 760, label: t('วงจรเริ่มเดินโดยตรง', 'DOL circuit') }); pN.innerHTML = ''; ui.h2(pN, t('สั่งงาน', 'Control'));
+  const build = () => { sim = new RL.Sim($('simN'), MODES[mode].spec(), { max: 760, label: t('วงจรเริ่มเดินโดยตรง', 'DOL circuit'), sheet: { title: ['ใบงานที่ 5: วงจรเริ่มเดินโดยตรง', 'Lab sheet 5: direct-on-line starter'] } }); pN.innerHTML = ''; ui.h2(pN, t('สั่งงาน', 'Control'));
     const p = C5.panel(pN, sim, { cut: false, status: statusN, onAct: a => { if (a.id === 'S2' && a.act === 'release') { R[mode] = { ...(R[mode] || {}), s2: sim.running(), h1: !!sim.dev.H1.energized }; record(); } } });
     const b = document.createElement('button'); b.type = 'button'; b.className = 'btn on'; b.textContent = t('⚡ Q1 ปลดแล้วสับ (แบบใน CADe SIMU)', '⚡ Q1 off, then on (as in CADe SIMU)'); const me = sim;
     b.addEventListener('click', () => { C5.powerCut(me, { via: 'Q1', ms: 1200, done: r => { if (me !== sim) return;

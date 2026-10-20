@@ -8,12 +8,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=14"><link rel="stylesheet" href="assets/ed2.css?v=14">
-<link rel="stylesheet" href="assets/wiring.css?v=14">
-<script src="assets/stops.js?v=14"></script><script src="assets/shell.js?v=14"></script>
-<script src="assets/lesson.js?v=14"></script><script src="assets/draw.js?v=14"></script><script src="assets/ed.js?v=14"></script><script src="assets/sym.js?v=14"></script><script src="assets/iec.js?v=14"></script><script src="assets/relay.js?v=14"></script><script src="assets/ch2.js?v=14"></script><script src="assets/ch3.js?v=14"></script><script src="assets/ch4.js?v=14"></script>
-<script src="assets/panel.js?v=14"></script><script src="assets/ch5.js?v=14"></script>
-<script src="assets/wiring.js?v=14"></script><script src="assets/devdata.js?v=14"></script><script src="assets/dev.js?v=14"></script>
+<link rel="stylesheet" href="assets/ee.css?v=15"><link rel="stylesheet" href="assets/ed2.css?v=15">
+<link rel="stylesheet" href="assets/wiring.css?v=15">
+<script src="assets/stops.js?v=15"></script><script src="assets/shell.js?v=15"></script>
+<script src="assets/lesson.js?v=15"></script><script src="assets/draw.js?v=15"></script><script src="assets/ed.js?v=15"></script><script src="assets/sym.js?v=15"></script><script src="assets/iec.js?v=15"></script><script src="assets/relay.js?v=15"></script><script src="assets/ch2.js?v=15"></script><script src="assets/ch3.js?v=15"></script><script src="assets/ch4.js?v=15"></script>
+<script src="assets/panel.js?v=15"></script><script src="assets/ch5.js?v=15"></script>
+<script src="assets/wiring.js?v=15"></script><script src="assets/devdata.js?v=15"></script><script src="assets/dev.js?v=15"></script>
 </head>
 <body>
 <div class="wrap">
@@ -58,10 +58,10 @@
           <li><b>Fix and test again</b> with the same test that showed the symptom, then run all five tests in the table below.</li></ol>
         <p>Both figures come from the chapter 8 review questions of Herman &amp; Seiler, which shade the wrong part: in Fig. 8.6 the stop buttons of two stations are in parallel, in Fig. 8.7 the start buttons are in series. Both are horizontal drawings in the style of the US National Electrical Manufacturers Association (NEMA), with a control transformer. Cases 3 and 4 of section A are these two circuits redrawn to the International Electrotechnical Commission (IEC) style, vertically, with the course names S1 S2 (station 1) and S3 S4 (station 2).</p></div></div>
     <div class="story-f">
-      <figure class="slide md"><img src="img/book/umc5_fig8_6_stops_parallel.jpg?v=14" width="1344" height="907" loading="lazy" decoding="async" alt="NEMA schematic with the stop buttons of two stations wired in parallel, the mistake shaded.">
+      <figure class="slide md"><img src="img/book/umc5_fig8_6_stops_parallel.jpg?v=15" width="1344" height="907" loading="lazy" decoding="async" alt="NEMA schematic with the stop buttons of two stations wired in parallel, the mistake shaded.">
         <figcaption data-l="th">รูป 8.6 ปุ่มหยุดของสองสถานีต่อขนาน (ต่อผิด) · ที่มา: Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. (Cengage, 2025) บทที่ 8 หน้า 101 · แตะรูปเพื่อขยาย</figcaption>
         <figcaption data-l="en">Fig. 8.6, the stop buttons of two stations in parallel (wrong) · source: Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed. (Cengage, 2025), ch. 8, p. 101 · tap to enlarge</figcaption></figure>
-      <figure class="slide md"><img src="img/book/umc5_fig8_7_starts_series.jpg?v=14" width="1344" height="801" loading="lazy" decoding="async" alt="NEMA schematic with the start buttons of two stations wired in series, the mistake shaded.">
+      <figure class="slide md"><img src="img/book/umc5_fig8_7_starts_series.jpg?v=15" width="1344" height="801" loading="lazy" decoding="async" alt="NEMA schematic with the start buttons of two stations wired in series, the mistake shaded.">
         <figcaption data-l="th">รูป 8.7 ปุ่มเริ่มของสองสถานีต่ออนุกรม (ต่อผิด) · ที่มา: Herman &amp; Seiler (2025) บทที่ 8 หน้า 101 · แตะรูปเพื่อขยาย</figcaption>
         <figcaption data-l="en">Fig. 8.7, the start buttons of two stations in series (wrong) · source: Herman &amp; Seiler (2025), ch. 8, p. 101 · tap to enlarge</figcaption></figure>
     </div>
@@ -116,10 +116,10 @@
       <div class="story-p" data-l="en"><p>The chapter 10 review questions of Herman &amp; Seiler show two jog circuits in which the double-contact jog button is wired wrongly, and ask what each circuit does. In Fig. 10.8 the two halves of the button swap jobs: the normally closed half is across the start button and the normally open half is in series with the holding contact. In Fig. 10.9 the normally closed half is in series with the start button and the normally open half is in parallel with the holding contact. Both are horizontal NEMA drawings (STOP, START and JOG buttons, a round coil M and the overload contact OL at the end of the path).</p>
         <p>Cases 11 and 12 below are these two figures redrawn to IEC, vertically, with the course names: S1 stop, S2 start, S3 jog button (13–14 normally open (NO), 21–22 normally closed (NC)), KM1, and F2 95–96 moved to the top of the path. Operate them and work out what each one does. The correct circuit shown is the relay jog of page 5.3, because even a double-contact jog button wired the right way round can still latch the motor on a fast release.</p></div></div>
     <div class="story-f">
-      <figure class="slide md"><img src="img/book/umc5_fig10_8_jog_wrong.jpg?v=14" width="1160" height="747" loading="lazy" decoding="async" alt="NEMA jog circuit in which the normally closed half of the jog button is across START and the normally open half is in series with the holding contact M.">
+      <figure class="slide md"><img src="img/book/umc5_fig10_8_jog_wrong.jpg?v=15" width="1160" height="747" loading="lazy" decoding="async" alt="NEMA jog circuit in which the normally closed half of the jog button is across START and the normally open half is in series with the holding contact M.">
         <figcaption data-l="th">รูป 10.8 ปุ่มเดินกระตุกต่อผิด (แบบ NEMA) · ที่มา: Herman &amp; Seiler (2025) บทที่ 10 หน้า 120 · แตะรูปเพื่อขยาย</figcaption>
         <figcaption data-l="en">Fig. 10.8, a jog button wired wrongly (NEMA) · source: Herman &amp; Seiler (2025), ch. 10, p. 120 · tap to enlarge</figcaption></figure>
-      <figure class="slide md"><img src="img/book/umc5_fig10_9_jog_wrong.jpg?v=14" width="1150" height="820" loading="lazy" decoding="async" alt="NEMA jog circuit in which the normally closed half of the jog button is in series with START and the normally open half is across the holding contact M.">
+      <figure class="slide md"><img src="img/book/umc5_fig10_9_jog_wrong.jpg?v=15" width="1150" height="820" loading="lazy" decoding="async" alt="NEMA jog circuit in which the normally closed half of the jog button is in series with START and the normally open half is across the holding contact M.">
         <figcaption data-l="th">รูป 10.9 ปุ่มเดินกระตุกต่อผิดอีกแบบ (แบบ NEMA) · ที่มา: Herman &amp; Seiler (2025) บทที่ 10 หน้า 121 · แตะรูปเพื่อขยาย</figcaption>
         <figcaption data-l="en">Fig. 10.9, another wrong jog-button connection (NEMA) · source: Herman &amp; Seiler (2025), ch. 10, p. 121 · tap to enlarge</figcaption></figure>
     </div>
@@ -201,11 +201,11 @@ document.addEventListener('mc:ready', () => {
           <div data-r="goodbox" hidden style="margin-top:10px"><div class="flab">${tt(c.goodLab || ['วงจรที่ถูก', 'The correct circuit'])}</div><div class="rlwrap rlscroll" style="--rlmin:440px" data-r="good"></div><div data-r="pgood"></div></div></div></div>
       <div data-r="ans" hidden></div>`;
     const q = r => box.querySelector(`[data-r="${r}"]`), pill = q('pill');
-    const bad = fit(new RL.Sim(q('bad'), c.spec(), { label: t('วงจรที่ต่อผิด', 'miswired circuit') })); C5.panel(q('pbad'), bad, { names: NAMES[c.id] });
+    const bad = fit(new RL.Sim(q('bad'), c.spec(), { label: t('วงจรที่ต่อผิด', 'miswired circuit'), sheet: { part: k, of: '1/2', title: [`หาจุดผิด กรณีที่ ${k}: วงจรที่ต่อไว้`, `Fault finding, case ${k}: as wired`] } })); C5.panel(q('pbad'), bad, { names: NAMES[c.id] });
     const P = perm(k), opts = P.map(i => tt(c.options[i]));
     const reveal = () => { if (!q('goodbox').hidden) return; if (!s.found) s.shown = true;
       q('right').classList.add('fgood'); q('goodbox').hidden = false; q('show').hidden = true;
-      const good = fit(new RL.Sim(q('good'), c.good(), { label: t('วงจรที่ถูก', 'correct circuit') })); C5.panel(q('pgood'), good, { names: NAMES[c.id] });
+      const good = fit(new RL.Sim(q('good'), c.good(), { label: t('วงจรที่ถูก', 'correct circuit'), sheet: { part: k, of: '2/2', title: [`หาจุดผิด กรณีที่ ${k}: วงจรที่ถูก`, `Fault finding, case ${k}: correct circuit`] } })); C5.panel(q('pgood'), good, { names: NAMES[c.id] });
       const a = q('ans'); a.hidden = false;
       a.innerHTML = `<div class="answer"><b>${t('สาเหตุ', 'Cause')}:</b> ${tt(c.title)}${t('', '.')} <b>${t('วิธีแก้', 'Fix')}:</b> ${tt(c.fix)}</div>
         <p style="margin:8px 0 4px"><b>${t('ทดสอบ', 'Test')}:</b> ${tt(c.test)}</p><div class="toggles"><button type="button" class="btn on" data-r="run">${t('▶ ทดสอบทั้งสองวงจร', '▶ Test both circuits')}</button></div><div data-r="res"></div>`;

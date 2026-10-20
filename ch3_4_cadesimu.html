@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=14"><link rel="stylesheet" href="assets/ed2.css?v=14">
-<script src="assets/stops.js?v=14"></script><script src="assets/shell.js?v=14"></script>
-<script src="assets/lesson.js?v=14"></script><script src="assets/draw.js?v=14"></script><script src="assets/ed.js?v=14"></script><script src="assets/sym.js?v=14"></script><script src="assets/iec.js?v=14"></script><script src="assets/relay.js?v=14"></script><script src="assets/panel.js?v=14"></script><script src="assets/ch2.js?v=14"></script><script src="assets/ch3.js?v=14"></script><script src="assets/devdata.js?v=14"></script><script src="assets/dev.js?v=14"></script>
+<link rel="stylesheet" href="assets/ee.css?v=15"><link rel="stylesheet" href="assets/ed2.css?v=15">
+<script src="assets/stops.js?v=15"></script><script src="assets/shell.js?v=15"></script>
+<script src="assets/lesson.js?v=15"></script><script src="assets/draw.js?v=15"></script><script src="assets/ed.js?v=15"></script><script src="assets/sym.js?v=15"></script><script src="assets/iec.js?v=15"></script><script src="assets/relay.js?v=15"></script><script src="assets/panel.js?v=15"></script><script src="assets/ch2.js?v=15"></script><script src="assets/ch3.js?v=15"></script><script src="assets/devdata.js?v=15"></script><script src="assets/dev.js?v=15"></script>
 </head>
 <body>
 <div class="wrap">
@@ -32,8 +32,8 @@
   <li><b>Unique names per station</b>: S1 S2 at station 1, S3 S4 at station 2; with a repeated name the two stations become one button in the simulation.</li>
   <li><b>Float switch</b>: CADe SIMU has no such symbol; use a limit switch or sensor instead, name it S6 and label it "float".</li></ul></section>
 
-<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#tA"><b>A</b>ทำใน CADe SIMU อย่างไร</a><a href="#tN"><b>N</b>ทดลองตั้งชื่อผิด</a><a href="#tL"><b>L</b>ใบงานที่ 3</a></nav>
-<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#tA"><b>A</b>How to in CADe SIMU</a><a href="#tN"><b>N</b>A wrong name on purpose</a><a href="#tL"><b>L</b>Lab sheet 3</a></nav>
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#tA"><b>A</b>ทำใน CADe SIMU อย่างไร</a><a href="#tN"><b>N</b>ทดลองตั้งชื่อผิด</a><a href="#tS"><b>S</b>ทำบน Simurelay</a><a href="#tL"><b>L</b>ใบงานที่ 3</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#tA"><b>A</b>How to in CADe SIMU</a><a href="#tN"><b>N</b>A wrong name on purpose</a><a href="#tS"><b>S</b>In Simurelay</a><a href="#tL"><b>L</b>Lab sheet 3</a></nav>
 
 <section class="prob" id="tA">
   <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">ทำแต่ละอย่างใน CADe SIMU อย่างไร</h2><h2 data-l="en">How to do each item in CADe SIMU</h2>
@@ -56,6 +56,25 @@
   <div class="card solve" style="margin-top:12px"><div class="panel" id="pN" style="position:static;max-height:none"></div></div>
 </section>
 
+<section class="prob" id="tS">
+  <div class="prob-head"><span class="prob-no">S</span><div><h2 data-l="th">ทำวงจรของบทนี้บน Simurelay</h2><h2 data-l="en">This chapter's circuit in Simurelay</h2>
+    <div class="src" data-l="th">แอป Simurelay บนโทรศัพท์ · สั่งเริ่มและหยุดมอเตอร์ได้จากสองจุด</div><div class="src" data-l="en">The Simurelay phone app · starting and stopping a motor from two stations</div></div></div>
+  <p class="lead" data-l="th">ใบงานที่ 3 ทำใน CADe SIMU บนคอมพิวเตอร์ของห้องปฏิบัติการ ส่วน Simurelay ใช้ฝึกที่บ้านและใช้ทำงานจำลองวงจรท้ายบทได้ อ่านวิธีติดตั้ง ขั้นตอนทำงาน กฎของชื่อ และวิธีส่งงานใน<a href="ch1_4_cadesimu.html#tS">หน้า 1.4 ส่วน S</a> ก่อน แล้วทำวงจรนี้ตามลำดับ</p>
+  <p class="lead" data-l="en">Lab sheet 3 is done in CADe SIMU on the lab computers; Simurelay is for practice at home and may be used for the end-of-chapter simulation task. First read how to install it, the workflow, the naming rule and the hand-in on <a href="ch1_4_cadesimu.html#tS">page 1.4, section S</a>, then build this circuit step by step.</p>
+  <div class="card solve">
+    <ol data-l="th"><li><b>วงจรกำลัง</b>: เหมือนวงจรเริ่มเดินโดยตรงของ<a href="ch2_5_cadesimu.html#tS">หน้า 2.5 ส่วน S</a>: Q1 → KM1 → F2 → M1</li>
+      <li><b>วงจรควบคุม</b>: F1 → F2 95–96 → ปุ่มหยุดสองจุด → ปุ่มเริ่มสองจุดกับหน้าสัมผัสค้าง KM1 13–14 → คอยล์ KM1 ต่อปุ่มหยุดและปุ่มเริ่มแบบอนุกรมหรือขนานตามหน้า 3.3</li>
+      <li><b>ปุ่มแต่ละตัวต้องมี TAG ของตัวเอง</b>: S1 หยุดจุดที่ 1 และ S3 หยุดจุดที่ 2 (11–12) · S2 เริ่มจุดที่ 1 และ S4 เริ่มจุดที่ 2 (13–14) แอปตั้งชื่อปุ่มใหม่ให้เองตามลำดับ จึงต้องตรวจและแก้ทุกตัว รวมทั้งโอเวอร์โหลด F2</li>
+      <li><b>Play</b>: สับ Q1 → แตะ S2: หมุน → แตะ S3: หยุด → แตะ S4: หมุน → แตะ S1: หยุด ปุ่มเริ่มหรือปุ่มหยุดตัวใดก็สั่งได้ ถ้าตัวใดใช้ไม่ได้ แปลว่าต่ออนุกรมกับขนานสลับกัน</li></ol>
+    <ol data-l="en"><li><b>Power circuit</b>: as the direct-on-line starter on <a href="ch2_5_cadesimu.html#tS">page 2.5, section S</a>: Q1 → KM1 → F2 → M1.</li>
+      <li><b>Control circuit</b>: F1 → F2 95–96 → the two stop buttons → the two start buttons with the holding contact KM1 13–14 → coil KM1. Connect the stops and the starts in series or in parallel as on page 3.3.</li>
+      <li><b>Every button needs a TAG of its own</b>: S1 stop at station 1 and S3 stop at station 2 (11–12) · S2 start at station 1 and S4 start at station 2 (13–14). The app numbers new buttons by itself, so check and rename every one, and the overload F2 too.</li>
+      <li><b>Play</b>: switch Q1 on → tap S2: runs → tap S3: stops → tap S4: runs → tap S1: stops. Any start and any stop button must work; if one does not, the series and parallel connections are swapped.</li></ol>
+  </div>
+  <div class="callout" data-l="th"><b>สองหน้าสัมผัสชื่อเดียวกันใน Simurelay ไม่ใช่ปุ่มเดียวกัน</b>: ใน CADe SIMU ปุ่มกดสองหน้าสัมผัสคือสัญลักษณ์สองตัวที่ตั้งชื่อเดียวกัน (ส่วน A) แต่ใน Simurelay <b>สวิตช์สองตัวที่มี TAG เดียวกันไม่ขยับพร้อมกัน</b> ปุ่มสองหน้าสัมผัสและสวิตช์เลือกที่วาดเป็นหลายหน้าสัมผัสจึงเป็นสวิตช์แยกกันที่ต้องแตะทีละตัว ตอนที่ใช้ปุ่มสองหน้าสัมผัสของใบงานที่ 3 จึงตรวจการทำงานจริงใน CADe SIMU สวิตช์ลูกลอย: Simurelay รุ่น 3.0 เพิ่มสวิตช์ระดับ (level switch) แล้ว ลองหาในแอปของตัวเอง ถ้าไม่มีให้ใช้สวิตช์ธรรมดาตั้งชื่อ S6 พร้อมป้ายข้อความ</div>
+  <div class="callout" data-l="en"><b>Two contacts with one name in Simurelay are not one button</b>: in CADe SIMU a two-contact push button is two symbols given the same name (section A), but in Simurelay <b>two switches with the same TAG do not move together</b>. A two-contact button, or a selector drawn as several contacts, is therefore a set of separate switches to be tapped one at a time, so the two-contact parts of lab sheet 3 are checked in CADe SIMU. Float switch: Simurelay 3.0 added a level switch; look for it in your app, and if it is not there use a plain switch named S6 with a text label.</div>
+</section>
+
 <section class="prob" id="tL">
   <div class="prob-head"><span class="prob-no">L</span><div><h2 data-l="th">ใบงานที่ 3</h2><h2 data-l="en">Lab sheet 3</h2>
     <div class="src" data-l="th">เวลา 2 ชั่วโมง · 100 คะแนน</div><div class="src" data-l="en">2 hours · 100 points</div></div></div>
@@ -64,6 +83,8 @@
     <p data-l="en"><b>Control circuits with switches and push buttons</b>, in four parts: (1) name the parts on photographs of real devices and, if a kit is available, check the contacts with an ohmmeter; (2) draw a circuit from a selector's contact chart; (3) draw and simulate in CADe SIMU a two-contact button, a three-position selector, a motor from two stations including the wrong wirings, and hand-off-auto control; (4) questions. Review pages 3.1–3.3 first.</p>
     <p class="simnote" data-l="th"><b>ใบงานที่ 3 ครูแจกเป็นกระดาษในคาบปฏิบัติ</b> ไม่มีให้ดาวน์โหลด เตรียมตัวโดยอ่านหน้า 3.1–3.3 และลองภาพจำลองทุกหน้าให้ครบก่อนมาเรียน</p>
     <p class="simnote" data-l="en"><b>Lab sheet 3 is handed out on paper in the practical session</b>; it is not available for download. Prepare by reading pages 3.1–3.3 and trying every simulation before class.</p>
+    <p class="simnote" data-l="th"><b>งานจำลองวงจรท้ายบทและการบ้าน:</b> ท้ายคาบสุดท้ายของบทนี้ มี<b>งานจำลองวงจรท้ายบท</b> 10 คะแนน ประมาณ 20–25 นาที: ครูเลือกวงจร 1 วงจร ให้ต่อและจำลองใน CADe SIMU หรือ Simurelay (<a href="#tS">ส่วน S</a>) แล้วส่งไฟล์หรือภาพหน้าจอตามที่ครูบอก <b>การบ้าน</b> 10 คะแนน: เขียนวงจรเดียวกันนั้นด้วยมือบนแผ่นแบบ A4 ของวิชา (ดาวน์โหลดและดูวิธีใช้ใน<a href="ch2_6_drawing_sheet.html#tD">หน้า 2.6</a>) เลขที่แบบ <b>ED2-HW3</b> แล้วส่งในคาบถัดไป</p>
+    <p class="simnote" data-l="en"><b>End-of-chapter simulation task and homework:</b> at the end of the chapter's last session comes the <b>end-of-chapter simulation task</b>, 10 points, about 20–25 minutes: one circuit chosen by the instructor, built and simulated in CADe SIMU or Simurelay (<a href="#tS">section S</a>), with the file or screenshots handed in as the instructor says. <b>Homework</b>, 10 points: draw the same circuit by hand on the course A4 drawing sheet (download it and see how to use it on <a href="ch2_6_drawing_sheet.html#tD">page 2.6</a>), drawing no. <b>ED2-HW3</b>, and hand it in at the next session.</p>
   </div>
 </section>
 
@@ -85,7 +106,7 @@ document.addEventListener('mc:ready', () => {
   /* panel door: the program now sees two buttons; same plain cap and no I/O legend on both (they are not a start and a stop) */
   Object.assign(spec.devices.S1, { cap: 'white', legend: '' }); Object.assign(spec.devices.S2, { cap: 'white', legend: '' });
   Object.assign(spec.devices.H1, { code: 'RD' }); Object.assign(spec.devices.H2, { code: 'GN' });
-  const sim = new RL.Sim($('simN'), spec, { max: 420 }), pN = $('pN'); ui.h2(pN, t('สั่งงาน (กดค้าง)', 'Control (hold)'));
+  const sim = new RL.Sim($('simN'), spec, { max: 420, sheet: { title: ['ปุ่มกดเดียวกันแต่ตั้งชื่อสองชื่อ', 'One push button given two names'] } }), pN = $('pN'); ui.h2(pN, t('สั่งงาน (กดค้าง)', 'Control (hold)'));
   PN.door(pN, sim, { title: ['ประตูตู้: โปรแกรมเห็นเป็นสองปุ่ม (กดค้างได้)', 'Panel door: the program sees two buttons (hold)'],
     names: { S1: ['S1 ปกติปิด', 'S1 NC'], S2: ['S2 ชื่อผิด', 'S2 wrong name'], H1: ['H1 ผ่าน 11–12', 'H1 via 11–12'], H2: ['H2 ผ่าน 23–24', 'H2 via 23–24'] } });
   const st = ui.status(pN); const show = () => { const h1 = sim.dev.H1.energized, h2 = sim.dev.H2.energized;

@@ -77,6 +77,7 @@ figure.video figcaption{font-size:14px;color:var(--muted);margin-top:6px;line-he
 .rlwrap{overflow-x:auto}
 svg.rl{max-width:100%;touch-action:none;user-select:none}
 svg.rl text{font-family:"IBM Plex Mono",monospace}
+svg.rl-framed g.rl-sheet text{font-family:"IBM Plex Sans Thai","IBM Plex Mono",sans-serif}   /* drawing sheet (relay.js option sheet): band and title block in the page font */
 svg.rl .rl-cur polyline, svg.rl g.rl-cur > line, svg.rl .rl-cur line{stroke-dasharray:7 5;animation:rlflow .7s linear infinite}
 @keyframes rlflow{to{stroke-dashoffset:-12}}
 svg.rl .rl-spin{animation:rlspin 1.2s linear infinite}

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="2.6 — The drawing sheet">2.6 — แผ่นแบบ: กรอบ ช่องพิกัด และตารางรายการ</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=15"><link rel="stylesheet" href="assets/ed2.css?v=15">
+<script src="assets/stops.js?v=15"></script><script src="assets/shell.js?v=15"></script>
+<script src="assets/lesson.js?v=15"></script><script src="assets/draw.js?v=15"></script><script src="assets/ed.js?v=15"></script><script src="assets/sym.js?v=15"></script><script src="assets/iec.js?v=15"></script><script src="assets/relay.js?v=15"></script><script src="assets/ch2.js?v=15"></script>
+<style>
+/* page 2.6 only: the interactive A4 sheet (section A), the A-size picture (section 0), the fill-in title block (section C), the download box (section D) */
+svg.a4{width:100%;height:auto;display:block;margin:0 auto;touch-action:manipulation;cursor:pointer;user-select:none;-webkit-user-select:none}
+svg.a4 text,svg.asz text{font-family:"IBM Plex Sans Thai","IBM Plex Mono",sans-serif}
+svg.a4 .paper{fill:var(--panel);stroke:var(--muted);stroke-opacity:.55}
+svg.a4{filter:drop-shadow(0 1px 4px rgba(0,0,0,.18))}
+svg.a4 .hz{fill:var(--accent);fill-opacity:.16;stroke:var(--accent);stroke-width:2}
+svg.a4 .hb{fill:var(--accent);fill-opacity:.32;stroke:none}
+svg.a4 .hok{fill:var(--good);fill-opacity:.22;stroke:var(--good);stroke-width:2.6}
+svg.a4 .hno{fill:var(--bad);fill-opacity:.16;stroke:var(--bad);stroke-width:2.6}
+svg.a4 .hdev{fill:none;stroke:var(--good);stroke-width:2.4;stroke-dasharray:6 4}
+.tbk{display:grid;grid-template-columns:repeat(36,minmax(0,1fr));border:2px solid var(--ink);border-radius:4px;overflow:hidden;background:var(--panel)}
+.tbk .c{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:4px 6px 6px;min-width:0;display:flex;flex-direction:column;gap:3px}
+.tbk .c .l{font-size:12.5px;color:var(--muted);line-height:1.25}
+.tbk .c .v{font-size:14.5px;font-weight:600;line-height:1.3}
+.tbk input{width:100%;min-width:0;box-sizing:border-box;font:inherit;font-size:15px;padding:3px 6px;border:1px solid var(--line);border-radius:6px;background:var(--panel2);color:var(--ink)}
+.tbk input.ok{border-color:var(--good);box-shadow:0 0 0 1px var(--good)}
+.tbk input.no{border-color:var(--bad);box-shadow:0 0 0 1px var(--bad)}
+.tbk .pair{display:flex;align-items:center;gap:6px}.tbk .pair input{width:3.2em}
+@media (max-width:640px){.tbk{grid-template-columns:1fr 1fr}.tbk .c{grid-column:span 2 !important}.tbk .c.h{grid-column:span 1 !important}}
+.tbres{margin:8px 0 0;padding-left:1.2em}.tbres li{margin:3px 0}
+.dlbox{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 10px}
+.dlbox a.btn{display:inline-flex;align-items:center;gap:8px;font-size:15.5px;padding:9px 14px;text-decoration:none}
+.dlbox a.btn svg{flex:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">แผ่นแบบ: กรอบ ช่องพิกัด และตารางรายการ <span class="en">The drawing sheet: frame, grid zones and title block</span></h1>
+<h1 data-l="en">The drawing sheet <span class="en">Frame, grid zones and title block</span></h1>
+
+<p class="sub" data-l="th">แบบไฟฟ้าไม่ได้เขียนให้ผู้เขียนอ่านคนเดียว ช่างที่ประกอบตู้ ช่างซ่อมบำรุง และครูที่ตรวจงานต้องอ่านแบบ เก็บเข้าแฟ้ม หาอุปกรณ์ในแบบให้เจอ และรู้ว่าแบบแผ่นนี้คืออะไร ใครเขียน แก้ไขล่าสุดเมื่อไร แผ่นแบบมาตรฐานจึงมีสามส่วนเสมอ: <b>กรอบ</b> (frame) <b>ช่องพิกัด</b> (grid reference zones) ที่มีเลขและตัวอักษรเรียงรอบขอบ และ<b>ตารางรายการ</b> (title block ในหน้า 1.4 และ 2.5 เรียกว่ากรอบชื่อแบบ) ที่มุมขวาล่าง หน้านี้ใช้แผ่นแบบ A4 ของวิชา ซึ่งดาวน์โหลดได้ในส่วน D เพื่อใช้เขียนการบ้านทุกบท</p>
+<p class="sub" data-l="en">A drawing is not written for its author alone: the panel builder, the maintenance electrician and the teacher who marks it must read it, file it, find devices in it, and know what it is, who drew it and when it was last changed. So a standard drawing sheet always has three parts: a <b>frame</b>, <b>grid reference zones</b> numbered and lettered round its edge, and a <b>title block</b> in the bottom right corner. This page uses the course A4 sheet, which you download in section D for the homework of every chapter.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>ขนาดกระดาษ</b> ตาม ISO 216: A4 = 210 × 297 mm และ A3 = 297 × 420 mm (A3 พับครึ่งได้ A4) ในงานจริงแบบวงจรของตู้ควบคุมมักเขียนบน A3 แนวนอน วิชานี้ใช้ A4 เพราะพิมพ์ได้ทุกเครื่อง</li>
+  <li><b>กรอบ</b> ตาม ISO 5457: ขอบซ้ายเว้น 20 mm ไว้เจาะรูหรือเย็บเข้าแฟ้ม ขอบอื่นเว้น 10 mm และมีขีดกึ่งกลาง (centring marks) ที่กลางขอบทั้งสี่ด้าน</li>
+  <li><b>ช่องพิกัด</b>: เลขเรียงตามขอบบนและขอบล่าง ตัวอักษรตัวใหญ่เรียงตามขอบซ้ายและขวา ช่องหนึ่งเรียกด้วยตัวอักษรกับเลข เช่น C4 ในวงจรควบคุมเลขคอลัมน์ใช้เป็นเลขทางเดินกระแส ตารางอ้างอิงหน้าสัมผัส "13–14 ▸ 4" จึงชี้ไปที่คอลัมน์ 4 (IEC 61082-1)</li>
+  <li><b>ตารางรายการ</b> ตาม ISO 7200 อยู่มุมขวาล่าง กว้างไม่เกิน 180 mm บอกชื่อแบบ เลขที่แบบ ผู้เขียน วันที่ แผ่นที่ … จาก … และครั้งที่แก้ไข ช่องผู้ตรวจและคะแนนเป็นของครู</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>Paper sizes</b> to ISO 216: A4 = 210 × 297 mm and A3 = 297 × 420 mm (A3 folded in half is A4). Real panel circuit diagrams are often drawn on A3 landscape; this course uses A4 because every printer takes it.</li>
+  <li>The <b>frame</b> to ISO 5457: a 20 mm margin on the left for punching or binding into a file, 10 mm on the other edges, and centring marks in the middle of all four edges.</li>
+  <li><b>Grid zones</b>: numbers along the top and bottom edges, capital letters along the left and right edges; a zone is named by its letter and number, e.g. C4. In a control circuit the column numbers serve as current-path numbers, so the contact cross-reference "13–14 ▸ 4" points at column 4 (IEC 61082-1).</li>
+  <li>The <b>title block</b> to ISO 7200 sits in the bottom right corner, at most 180 mm wide: drawing title, drawing number, drawn by, date, sheet … of … and the revision. The "checked by" and "score" fields belong to the teacher.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>ทำไมต้องมีแผ่นแบบมาตรฐาน</a><a href="#tA"><b>A</b>แตะแผ่นแบบ A4</a><a href="#tB"><b>B</b>ช่องพิกัดในแบบวงจร</a><a href="#tC"><b>C</b>ตารางรายการ</a><a href="#tD"><b>D</b>ดาวน์โหลดและการบ้าน</a><a href="#tE"><b>E</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>Why a standard sheet</a><a href="#tA"><b>A</b>Tap the A4 sheet</a><a href="#tB"><b>B</b>Grid zones in circuit diagrams</a><a href="#tC"><b>C</b>The title block</a><a href="#tD"><b>D</b>Download and homework</a><a href="#tE"><b>E</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">ทำไมต้องมีแผ่นแบบมาตรฐาน</h2><h2 data-l="en">Why a standard sheet</h2>
+    <div class="src" data-l="th">ISO 216 · ISO 5457 · ISO 7200 · IEC 61082-1</div><div class="src" data-l="en">ISO 216 · ISO 5457 · ISO 7200 · IEC 61082-1</div></div></div>
+  <div class="duo">
+    <div class="card solve">
+      <p data-l="th">แบบไฟฟ้าเป็น<b>เอกสาร</b> ไม่ใช่ภาพร่าง แบบจะถูกส่งต่อให้คนอื่นอ่าน ถ่ายสำเนา เก็บเข้าแฟ้ม และหยิบมาใช้อีกหลายปีตอนซ่อม คนอ่านต้องหาอุปกรณ์ในแบบให้เจอเร็ว และต้องรู้ว่าแบบที่ถืออยู่เป็นฉบับล่าสุดหรือไม่ มาตรฐานสากลจึงกำหนดแผ่นแบบให้เหมือนกันทั่วโลก ใครเปิดแบบของใครก็อ่านได้ทันที</p>
+      <p data-l="th">กระดาษชุด A ตาม ISO 216 เริ่มจาก A0 ที่มีพื้นที่ 1 m² แล้วตัดครึ่งด้านยาวไปเรื่อย ๆ: A0 → A1 → A2 → A3 → A4 ด้านยาวหารด้านสั้นได้ \(\sqrt{2} \approx 1.414\) เสมอ (297 ÷ 210 = 1.414) ตัดครึ่งแล้วรูปร่างจึงเหมือนเดิม แบบ A3 จึงพับครึ่งเก็บในแฟ้ม A4 ได้พอดี และย่อ A3 ลงพิมพ์บน A4 ได้โดยรูปไม่บิด</p>
+      <p data-l="en">A drawing is a <b>document</b>, not a sketch: it is passed on to others, copied, filed, and taken out again years later for repairs. Its readers must find devices in it quickly and know whether the copy in their hands is the latest. International standards therefore make drawing sheets the same everywhere, so anyone can read anyone's drawing at once.</p>
+      <p data-l="en">The ISO 216 A series starts with A0, 1 m² in area, and halves the long side again and again: A0 → A1 → A2 → A3 → A4. The long side divided by the short side is always \(\sqrt{2} \approx 1.414\) (297 ÷ 210 = 1.414), so halving keeps the shape: an A3 drawing folds in half into an A4 file, and A3 can be printed reduced on A4 without distortion.</p>
+    </div>
+    <div class="card" style="padding:12px;display:flex;align-items:center;justify-content:center"><div id="asz" style="width:100%;max-width:420px"></div></div>
+  </div>
+  <div class="card solve" style="margin-top:12px;overflow-x:auto"><table class="tbl stack" id="parts"></table></div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">แผ่นแบบ A4 ของวิชา: แตะดูทีละส่วน แล้วฝึกหาช่อง</h2><h2 data-l="en">The course A4 sheet: tap each part, then find zones</h2>
+    <div class="src" data-l="th">แผ่นแบบที่ดาวน์โหลดได้ในส่วน D · ISO 5457 · ISO 7200</div><div class="src" data-l="en">The sheet you download in section D · ISO 5457 · ISO 7200</div></div></div>
+  <p class="lead" data-l="th">ภาพนี้คือแผ่นแบบ A4 ที่ดาวน์โหลดได้ในส่วน D: แนวนอนมี 8 คอลัมน์ × 4 แถว (A–D) แนวตั้งมี 6 คอลัมน์ × 8 แถว (A–H) ช่องละ 28–45 mm (ในช่วง 25–75 mm ที่มาตรฐานแนะนำ) บนแผ่นแนวนอนวางวงจรเริ่มเดินมอเตอร์โดยตรงของหน้า 2.3 ไว้ให้ดูว่าใช้จริงอย่างไร: วงจรกำลังอยู่คอลัมน์ 2 และวงจรควบคุมวางทางเดินกระแสละหนึ่งคอลัมน์ตั้งแต่คอลัมน์ 3 แตะที่ใดก็ได้: ในพื้นที่เขียนแบบจะบอกชื่อช่อง เช่น C4 และอุปกรณ์ที่อยู่ในช่องนั้น แตะแถบตัวเลขหรือตัวอักษร ขอบกระดาษ หรือช่องในตารางรายการ จะบอกว่าส่วนนั้นคืออะไร แล้วกด "เริ่มฝึกหาช่อง" เพื่อทดสอบตัวเอง 6 ข้อ</p>
+  <p class="lead" data-l="en">This is the A4 sheet you download in section D: landscape has 8 columns × 4 rows (A–D), portrait 6 columns × 8 rows (A–H), each zone 28–45 mm (within the 25–75 mm the standard recommends). The landscape sheet carries the direct-on-line starter of page 2.3 to show how the sheet is used: the power circuit in column 2, and the control circuit with one current path per column from column 3. Tap anywhere: in the drawing area you get the zone name, e.g. C4, and the devices in that zone; tap the number or letter band, the margin or a title-block field to see what that part is. Then press "Start the zone quiz" to test yourself with 6 questions.</p>
+  <div class="card sim" style="padding:10px"><div id="sheetA"></div></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">ช่องพิกัดในแบบวงจร: เลขคอลัมน์คือที่อยู่ของหน้าสัมผัส</h2><h2 data-l="en">Grid zones in circuit diagrams: the column number is the contact's address</h2>
+    <div class="src" data-l="th">IEC 61082-1 · IEC 81346-1 · UMC5 บทที่ 21 รูป 21.6 · ตำราไทย รูป 1.2 วาดใหม่ตาม IEC</div><div class="src" data-l="en">IEC 61082-1 · IEC 81346-1 · UMC5 ch. 21, Fig. 21.6 · Thai textbook Fig. 1.2 redrawn to IEC</div></div></div>
+  <p class="lead" data-l="th">ในแบบวงจรควบคุมที่วาดแนวตั้ง แต่ละทางเดินกระแสวางในคอลัมน์ของตัวเอง เลขคอลัมน์ในแถบช่องพิกัดจึงเป็นเลขทางเดินกระแสไปในตัว และตารางอ้างอิงหน้าสัมผัสใต้คอยล์ก็เขียนเลขคอลัมน์ที่หน้าสัมผัสแต่ละตัวอยู่ เช่น "13–14 ▸ 2" อ่านว่า หน้าสัมผัสปกติเปิด (normally open, NO) 13–14 ของคอยล์นี้อยู่คอลัมน์ 2 ส่วนแถว A–C ใช้บอกตำแหน่งให้ละเอียดขึ้นเมื่อจำเป็น เช่น "คอยล์ KM1 อยู่ช่อง C1" ชื่ออุปกรณ์ตาม IEC 81346 บอกว่า<b>อะไร</b> (KM1 คือคอนแทกเตอร์ตัวที่ 1) ส่วนช่องพิกัดบอกว่า<b>อยู่ตรงไหน</b>ในแบบ</p>
+  <p class="lead" data-l="en">In a control circuit drawn vertically, each current path sits in its own column, so the column numbers of the zone band are the current-path numbers as well, and the contact cross-reference under a coil gives the column of each contact: "13–14 ▸ 2" reads "this coil's normally open (NO) contact 13–14 is in column 2". Rows A–C give a finer position when needed, e.g. "coil KM1 is in zone C1". The device name after IEC 81346 says <b>what</b> a thing is (KM1 is contactor number 1); the zone says <b>where</b> it is on the drawing.</p>
+  <div class="duo">
+    <div class="card solve"><p data-l="th"><b>แบบในเว็บนี้</b>ทุกรูปมีกรอบที่ตัดให้พอดีกับวงจร ช่องพิกัดจึงตรงกับทางเดินกระแสพอดี: คอลัมน์ 1, 2, 3 … คือทางเดินกระแส 1, 2, 3 … ส่วนวงจรกำลังได้ช่องของตัวเองชื่อ "กำลัง" ตรงกับคำที่ตารางอ้างอิงใช้ ("1–2, 3–4, 5–6 ▸ กำลัง") ถ้ามีมอเตอร์หลายตัว (บทที่ 6) แต่ละสาขาได้ช่อง M1, M2, M3 ตารางรายการเล็ก ๆ ที่มุมขวาล่างบอกวิชา ชื่อแบบ เลขที่แบบ และแผ่นที่ เลขที่แบบของเว็บคือ ED2-หน้า-ส่วน เช่น ED2-2.6-B คือแบบในส่วน B ของหน้านี้</p>
+      <p data-l="en"><b>Every drawing on this website</b> has a frame cut to fit its circuit, so the zones follow the current paths exactly: columns 1, 2, 3 … are paths 1, 2, 3 …, and the power circuit gets a zone of its own labelled "power", the word the cross-reference uses ("1–2, 3–4, 5–6 ▸ power"). With several motors (chapter 6) each branch gets a zone M1, M2, M3. The small title block in the bottom right corner gives the course, title, drawing number and sheet. The site numbers its drawings ED2-page-section: ED2-2.6-B is the drawing of section B on this page.</p></div>
+    <div class="card solve"><p data-l="th"><b>แผ่น A4 ที่พิมพ์ไว้แล้ว</b>มีเลขคอลัมน์ตายตัว 1–8 วาดทางเดินกระแสละหนึ่งคอลัมน์ แล้วใช้เลขที่พิมพ์ไว้เป็นเลขทางเดินกระแส ไม่จำเป็นต้องเริ่มที่ 1 ในส่วน A วงจรเดียวกันนี้มีวงจรกำลังอยู่คอลัมน์ 2 และวงจรควบคุมเริ่มคอลัมน์ 3 ตารางอ้างอิงใต้ KM1 จึงเป็น "13–14 ▸ 4" และ "23–24 ▸ 5" ตัวเลขต่างจากแบบในเว็บ แต่หลักเดียวกัน: <b>เลขในตารางอ้างอิงคือช่องที่หน้าสัมผัสอยู่บนแผ่นนั้น</b></p>
+      <p data-l="en"><b>The printed A4 sheet</b> has fixed column numbers 1–8. Draw one current path per column and use the printed numbers as path numbers; they need not start at 1. In section A the same circuit has its power circuit in column 2 and its control circuit from column 3, so the cross-reference under KM1 reads "13–14 ▸ 4" and "23–24 ▸ 5". The numbers differ from the website drawing, but the rule is the same: <b>the number in a cross-reference is the zone where the contact is on that sheet</b>.</p></div>
+  </div>
+  <div class="given" data-l="th" style="margin-top:12px"><div class="gl">โจทย์ตัวอย่าง</div><p>แบบด้านล่างคือวงจรเริ่มเดินโดยตรงของหน้า 2.3 บนกรอบแบบของเว็บ แต่ซ่อนตารางอ้างอิงใต้คอยล์ KM1 ไว้ ใช้แถบช่องพิกัดเขียนตารางอ้างอิงของ KM1: (ก) หน้าสัมผัส 13–14 อยู่ช่องไหน (ข) หน้าสัมผัส 23–24 อยู่ช่องไหน (ค) หน้าสัมผัสหลัก 1–2, 3–4, 5–6 อยู่ช่องไหน แตะที่ใดก็ได้ในแบบเพื่อดูว่าจุดนั้นอยู่ช่องไหน</p></div>
+  <div class="given" data-l="en" style="margin-top:12px"><div class="gl">Worked example</div><p>The drawing below is the direct-on-line starter of page 2.3 on the website's frame, with the cross-reference under coil KM1 hidden. Use the zone band to write KM1's cross-reference: (a) in which zone is contact 13–14? (b) in which zone is contact 23–24? (c) in which zone are the main contacts 1–2, 3–4, 5–6? Tap anywhere in the drawing to see which zone that point is in.</p></div>
+  <div class="card sim rlwrap" id="simB" style="padding:8px"></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pB" style="position:static;max-height:none"></div><div id="askB" style="margin-top:8px"></div><div id="stB"></div></div>
+  <div class="story" style="margin-top:12px">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p><b>แบบหลายแผ่น</b> แบบชุดใหญ่มีหลายแผ่น หน้าสัมผัสอาจอยู่คนละแผ่นกับคอยล์ ที่อยู่จึงต้องบอกแผ่นด้วย โดยเขียนเลขแผ่นนำหน้า เช่น "/3.4" คือแผ่นที่ 3 คอลัมน์ 4 ถ้าวาดวงจรกำลังไว้แผ่นที่ 1 คอลัมน์ 3 ตารางอ้างอิงใต้ KM1 ในแผ่นวงจรควบคุมจะเขียนว่า "1–2, 3–4, 5–6 ▸ /1.3"</p>
+        <p>รูป 21.6 ของ Herman &amp; Seiler เป็นแบบอเมริกันที่วาดทางเดินกระแสแนวนอน จึงอ้างเลขบรรทัด (line) แทนคอลัมน์ ตัวเลขในวงกลมทางขวาของคอยล์ CR-7 บอกว่าหน้าสัมผัสของรีเลย์ตัวนี้อยู่บรรทัด 14 และ 08 ของแบบแผ่นนี้ และบรรทัด 156 ของแบบเลขที่ EP12248 แนวคิดเดียวกับของเรา ต่างกันแค่ทิศที่วาด หนังสือเล่มนี้ขีดเส้นใต้เลขบรรทัดของหน้าสัมผัสปกติปิด (normally closed, NC) ส่วนแบบ IEC ของวิชาเขียนเลขขั้วไว้หน้าลูกศรแทน (21–22 ▸ 3) จึงรู้ชนิดหน้าสัมผัสทันที</p></div>
+      <div class="story-p" data-l="en"><p><b>Several sheets.</b> A large drawing set has many sheets, and a contact may be on a different sheet from its coil, so the address must name the sheet too: the sheet number is written in front, e.g. "/3.4" = sheet 3, column 4. If the power circuit is drawn in column 3 of sheet 1, the cross-reference under KM1 on the control-circuit sheet reads "1–2, 3–4, 5–6 ▸ /1.3".</p>
+        <p>Herman &amp; Seiler's Fig. 21.6 is a US drawing with horizontal current paths, so it refers to line numbers instead of columns. The numbers in the circle to the right of coil CR-7 say that this relay's contacts are on lines 14 and 08 of this sheet and on line 156 of drawing EP12248: the same idea as ours, drawn the other way round. The book underlines the line number of a normally closed (NC) contact; the course's IEC drawings write the terminal numbers in front of the arrow instead (21–22 ▸ 3), so the kind of contact is clear at once.</p></div></div>
+    <div class="story-f">
+      <figure class="slide md"><img src="img/book/umc5_fig21_6_multipage_xref.jpg?v=15" width="1006" height="813" loading="lazy" decoding="async" alt="US ladder diagram section: coils CR-8 and CR-7 with boxed pin numbers 2 and 10, two selector-switch contact charts, a dashed line around components located in the relay cabinet, and contact references at the right margin: 08, 24, 14 for CR-8, and 14, 08 plus line 156 of drawing EP12248 for CR-7, circled and explained in a red note.">
+        <figcaption data-l="th">รูป 21.6 แบบหลายแผ่นบอกว่าหน้าสัมผัสของรีเลย์อยู่บรรทัดไหนและแผ่นไหน (แบบสหรัฐอเมริกา) · ที่มา: Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. (Cengage, 2025) บทที่ 21 หน้า 212 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 21.6, a multi-sheet drawing shows on which line and sheet a relay's contacts are (US style) · source: Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed. (Cengage, 2025), ch. 21, p. 212 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ตารางรายการ: เขียนอะไรในแต่ละช่อง</h2><h2 data-l="en">The title block: what goes in each field</h2>
+    <div class="src" data-l="th">ISO 7200 · แผ่นแบบ A4 ของวิชา</div><div class="src" data-l="en">ISO 7200 · the course A4 sheet</div></div></div>
+  <p class="lead" data-l="th">ตารางรายการของแผ่น A4 มี 12 ช่อง สองช่องพิมพ์ไว้แล้ว (วิชา และมาตรฐาน) สองช่องเป็นของครู (ผู้ตรวจ และคะแนน) ที่เหลือผู้เขียนแบบกรอกเองทุกแผ่น ในงานจริง ISO 7200 กำหนดข้อมูลที่ตารางรายการควรมี เช่น เจ้าของแบบ ชื่อแบบ เลขที่แบบ ครั้งที่แก้ไข วันที่ออกแบบ ผู้เขียน และผู้อนุมัติ แผ่นของวิชาเลือกเฉพาะช่องที่ใช้ในห้องเรียน</p>
+  <p class="lead" data-l="en">The title block of the A4 sheet has 12 fields: two are printed (course and standard), two belong to the teacher (checked by and score), and the drafter fills in the rest on every sheet. In industry, ISO 7200 lists the data a title block carries, such as the owner, title, drawing number, revision, date of issue, creator and approver; the course sheet keeps only the fields a classroom needs.</p>
+  <div class="card solve" style="overflow-x:auto"><table class="tbl stack" id="fields"></table></div>
+  <div class="callout" data-l="th"><b>เลขที่แบบของการบ้าน</b>: ED2-HW ตามด้วยเลขบท เช่น ED2-HW5 คือการบ้านของบทที่ 5 (วงจรของงานจำลองวงจรท้ายบทที่ 5) แบบเดียวที่ยาวหลายแผ่นใช้เลขที่แบบเดียวกันทุกแผ่น ต่างกันที่ช่อง "แผ่นที่" (1 / 2 และ 2 / 2) ส่วนใน CADe SIMU ช่องเดียวกันอยู่ในกรอบด้านล่างที่เป็นภาษาสเปน: Título = ชื่อแบบ, Dibujado = ผู้เขียนแบบ, Fecha = วันที่, Núm. = เลขที่ (หน้า 2.5) และพิมพ์ได้เฉพาะตัวอักษรละติน</div>
+  <div class="callout" data-l="en"><b>Homework drawing numbers</b>: ED2-HW followed by the chapter number, e.g. ED2-HW5 is the homework of chapter 5 (the circuit of the chapter 5 end-of-chapter simulation task). One drawing that runs over several sheets keeps the same number on every sheet; only the "sheet" field changes (1 / 2 and 2 / 2). In CADe SIMU the same fields are in the frame at the bottom, in Spanish: Título = title, Dibujado = drawn by, Fecha = date, Núm. = number (page 2.5), and they accept Latin letters only.</div>
+  <div class="given" data-l="th"><div class="gl">แบบฝึกหัด: กรอกตารางรายการ</div><p>สมมติว่างานจำลองวงจรท้ายบทของบทที่ 7 ให้จำลองวงจรกลับทางหมุนมอเตอร์ครบชุด ทั้งวงจรกำลังและวงจรควบคุม พร้อมอินเตอร์ล็อกและหลอดแสดง (หน้า 7.3) นายสมชาย ใจดี รหัสนักศึกษา 6702041000123 นำวงจรนี้กลับไปเขียนเป็นการบ้านบนแผ่น A4 แนวนอน วงจรยาวเกินแผ่นเดียว จึงเขียนวงจรกำลังในแผ่นแรก และวงจรควบคุมในแผ่นที่สอง เขียนเสร็จวันที่ 27 ตุลาคม 2569 นี่คือการบ้านของบทที่ 7 และเป็นการส่งครั้งแรก สถานศึกษาคือ มจพ. (มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ) กรอกตารางรายการของ<b>แผ่นวงจรควบคุม</b> แล้วกด "ตรวจ"</p></div>
+  <div class="given" data-l="en"><div class="gl">Exercise: fill in the title block</div><p>Suppose the chapter 7 end-of-chapter simulation task asked for the complete reversing starter, power and control circuits, with interlocks and pilot lamps (page 7.3). Somchai Jaidee, student ID 6702041000123, takes it home and draws it on the landscape A4 sheet. The circuit does not fit on one sheet, so the power circuit goes on the first sheet and the control circuit on the second. He finishes on 27 October 2026. It is the chapter 7 homework and its first issue. The institution is King Mongkut's University of Technology North Bangkok (KMUTNB). Fill in the title block of the <b>control-circuit sheet</b>, then press "Check".</p></div>
+  <div class="card solve"><div id="tbC"></div></div>
+</section>
+
+<section class="prob" id="tD">
+  <div class="prob-head"><span class="prob-no">D</span><div><h2 data-l="th">ดาวน์โหลดแผ่นแบบ และการบ้าน</h2><h2 data-l="en">Download the sheet, and the homework</h2>
+    <div class="src" data-l="th">ไฟล์เดียวที่ดาวน์โหลดได้ในเว็บนี้ (ใบงานและแบบทดสอบครูแจกเป็นกระดาษ)</div><div class="src" data-l="en">The only files to download on this site (lab sheets and tests are handed out on paper)</div></div></div>
+  <div class="card solve">
+    <div class="dlbox" data-l="th">
+      <a class="btn on" href="sheets/ed2_sheet_A4_landscape.pdf" target="_blank" rel="noopener"><svg width="22" height="16" viewBox="0 0 22 16" aria-hidden="true"><rect x="1" y="1" width="20" height="14" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="12" y="10" width="8" height="4" fill="currentColor"/></svg>แผ่นแบบ A4 แนวนอน (PDF)</a>
+      <a class="btn on" href="sheets/ed2_sheet_A4_portrait.pdf" target="_blank" rel="noopener"><svg width="16" height="22" viewBox="0 0 16 22" aria-hidden="true"><rect x="1" y="1" width="14" height="20" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="5" y="16" width="9" height="4" fill="currentColor"/></svg>แผ่นแบบ A4 แนวตั้ง (PDF)</a></div>
+    <div class="dlbox" data-l="en">
+      <a class="btn on" href="sheets/ed2_sheet_A4_landscape.pdf" target="_blank" rel="noopener"><svg width="22" height="16" viewBox="0 0 22 16" aria-hidden="true"><rect x="1" y="1" width="20" height="14" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="12" y="10" width="8" height="4" fill="currentColor"/></svg>A4 sheet, landscape (PDF)</a>
+      <a class="btn on" href="sheets/ed2_sheet_A4_portrait.pdf" target="_blank" rel="noopener"><svg width="16" height="22" viewBox="0 0 16 22" aria-hidden="true"><rect x="1" y="1" width="14" height="20" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="5" y="16" width="9" height="4" fill="currentColor"/></svg>A4 sheet, portrait (PDF)</a></div>
+    <p data-l="th"><b>วิธีพิมพ์</b>: พิมพ์บนกระดาษ A4 ที่<b>ขนาดจริง 100 %</b> (เลือก "ขนาดจริง" หรือ "Actual size" ห้ามเลือก "พอดีหน้า" หรือ "Fit to page") แล้วตรวจด้วยไม้บรรทัด: จากขอบซ้ายของกระดาษถึงเส้นกรอบต้องได้ 20 mm และขอบอื่น 10 mm ถ้าไม่ได้แปลว่าเครื่องพิมพ์ย่อหรือขยายแบบ ช่องพิกัดจะไม่ตรงขนาด แผ่นแบบเปล่าใช้ซ้ำได้ทุกบท พิมพ์เก็บไว้หลายแผ่น</p>
+    <p data-l="en"><b>How to print</b>: print on A4 paper at <b>actual size, 100 %</b> (choose "Actual size", never "Fit to page"), then check with a ruler: from the left edge of the paper to the frame line must be 20 mm, and 10 mm on the other edges. If not, the printer has shrunk or enlarged the sheet and the zones are off size. The blank sheet serves every chapter, so print several.</p>
+    <p data-l="th"><b>เลือกแผ่นไหน</b>: แนวนอนสำหรับวงจรที่มีทั้งวงจรกำลังและวงจรควบคุม: วงจรกำลังที่คอลัมน์ 1–2 วงจรควบคุมเริ่มคอลัมน์ 3 ทางเดินกระแสละหนึ่งคอลัมน์ ถ้าวงจรควบคุมมีมากกว่า 6 ทางเดินกระแส ให้เขียนวงจรกำลังในแผ่นที่ 1 และวงจรควบคุมในแผ่นที่ 2 (คอลัมน์ 1–8) แล้วอ้างข้ามแผ่นแบบ "/1.3" แนวตั้งสำหรับวงจรกำลังอย่างเดียว เช่น การต่อมอเตอร์ในบทที่ 1 ตารางรายการทั้งสองแบบอยู่มุมขวาล่าง อย่าวาดทับ</p>
+    <p data-l="en"><b>Which sheet</b>: landscape for a circuit with both power and control circuits: the power circuit in columns 1–2, the control circuit from column 3, one current path per column. If the control circuit has more than 6 current paths, draw the power circuit on sheet 1 and the control circuit on sheet 2 (columns 1–8), and refer across sheets like "/1.3". Portrait for a power circuit alone, such as the motor connections of chapter 1. On both, the title block is in the bottom right corner: do not draw over it.</p>
+  </div>
+  <div class="card solve" style="margin-top:12px">
+    <h3 data-l="th" style="margin-top:0">การบ้านทุกบท: จำลองก่อน แล้วจึงเขียน</h3><h3 data-l="en" style="margin-top:0">Homework in every chapter: simulate first, then draw</h3>
+    <p data-l="th">ทุกบทจบด้วย<b>งานจำลองวงจรท้ายบท</b>: ต่อและจำลองวงจร 1 วงจรที่ครูกำหนดใน CADe SIMU หรือแอป Simurelay บนโทรศัพท์ (<a href="ch1_4_cadesimu.html#tS">หน้า 1.4 ส่วน S</a>) แล้วส่งไฟล์ .cad หรือภาพหน้าจอ Simurelay นำวงจรเดียวกันนั้นกลับไปเขียนด้วยมือบนแผ่นแบบ A4 นี้ เลขที่แบบ <b>ED2-HW</b> ตามด้วยเลขบท (เช่น ED2-HW5): สัญลักษณ์ ชื่ออุปกรณ์ เลขขั้ว เลขทางเดินกระแสตามแถบช่องพิกัด ตารางอ้างอิงใต้คอยล์ทุกตัว และตารางรายการครบทุกช่องของผู้เขียน แล้วส่งต้นคาบถัดไป ครูเทียบแบบกับไฟล์ .cad หรือภาพหน้าจอที่ส่งไว้ วงจรที่เขียนลงกระดาษจึงเป็นวงจรที่จำลองแล้วว่าทำงานได้จริง งานที่เหลือคือฝึกเขียนให้ครบตามมาตรฐาน</p>
+    <p data-l="en">Every chapter ends with the <b>end-of-chapter simulation task</b>: one circuit, named by the teacher, built and simulated in CADe SIMU or in the Simurelay phone app (<a href="ch1_4_cadesimu.html#tS">page 1.4, section S</a>), handed in as the .cad file or the Simurelay screenshots. Take that same circuit home and draw it by hand on this A4 sheet, drawing no. <b>ED2-HW</b> followed by the chapter number (e.g. ED2-HW5): symbols, device names, terminal numbers, current-path numbers in the zone band, the cross-reference under every coil and every drafter's field of the title block; hand it in at the start of the next session. The teacher compares it with the .cad file or the screenshots you handed in. So the circuit you put on paper is one you have already seen working in simulation, and what is left is drawing it completely to the standard.</p>
+    <div style="overflow-x:auto"><table class="tbl stack" id="rubric"></table></div>
+  </div>
+</section>
+
+<section class="prob" id="tE">
+  <div class="prob-head"><span class="prob-no">E</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">แผ่นแบบ ช่องพิกัด และตารางรายการ</div><div class="src" data-l="en">Sheet, zones and title block</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>ในส่วน A แตะขอบซ้ายและขอบขวาของกระดาษ แล้ววัดบนแผ่นที่พิมพ์ว่าต่างกันจริง (20 mm กับ 10 mm)</li>
+    <li>ในส่วน B กดเปิดตารางอ้างอิง แล้วเทียบกับวงจรเดียวกันบนแผ่น A4 ในส่วน A: เลขต่างกันเพราะอะไร</li>
+    <li>เปิดไฟล์ .cad ของใบงานที่ผ่านมา แล้วกรอกกรอบด้านล่างของ CADe SIMU ให้ครบ (Título, Dibujado, Fecha, Núm.)</li></ol>
+    <div class="book">ISO 216 (ขนาดกระดาษ) · ISO 5457 (กรอบและช่องพิกัด) · ISO 7200 (ตารางรายการ) · IEC 61082-1 (การเขียนแบบไฟฟ้า ช่องพิกัด และการอ้างอิง) · IEC 81346-1 (ชื่ออุปกรณ์) · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 21 · Senty, <i>Motor Control Fundamentals</i> บทที่ 11</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>In section A, tap the left and the right margin, then measure on the printed sheet that they really differ (20 mm and 10 mm).</li>
+    <li>In section B, show the cross-reference and compare it with the same circuit on the A4 sheet of section A: why do the numbers differ?</li>
+    <li>Open the .cad file of your last lab sheet and fill in the CADe SIMU frame at the bottom completely (Título, Dibujado, Fecha, Núm.).</li></ol>
+    <div class="book">ISO 216 (paper sizes) · ISO 5457 (frame and grid zones) · ISO 7200 (title block) · IEC 61082-1 (electrical documents, grid zones and references) · IEC 81346-1 (reference designations) · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 21 · Senty, <i>Motor Control Fundamentals</i>, ch. 11</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui, IE = IEC;
+  const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const L2 = (th, en) => MC.lang === 'en' ? en : `${th} / ${en}`;   // sheet labels: Thai mode shows both languages, as the printed sheet does
+
+  /* ---------- 0: the A sizes (A3 = two A4 = four A5), drawn to scale, and the parts of a sheet ---------- */
+  { const s = 0.8, X = v => 10 + v * s, Y = v => 10 + v * s, q = { size: 13, anchor: 'middle', weight: 700 }, m = { size: 10.5, anchor: 'middle', col: 'var(--muted)' };
+    let g = `<rect x="${X(0)}" y="${Y(0)}" width="${420 * s}" height="${297 * s}" stroke-width="2"/>` + IE.L(X(210), Y(0), X(210), Y(297), { w: 1.4 }) + IE.L(X(210), Y(148.5), X(420), Y(148.5), { w: 1.2, dash: '5 4' });
+    g += IE.T('A4', X(105), Y(140), q) + IE.T('210 × 297', X(105), Y(160), m) + IE.T('A5', X(315), Y(78), q) + IE.T('148 × 210', X(315), Y(96), m) + IE.T('A5', X(315), Y(226), q);
+    g += IE.T(t('A3 = 297 × 420 mm (พับครึ่งได้ A4)', 'A3 = 297 × 420 mm (folds in half to A4)'), X(210), Y(297) + 22, { size: 12, anchor: 'middle', weight: 600 });
+    $('asz').innerHTML = IE.svg(10 + 420 * s + 10, 10 + 297 * s + 34, g, { cls: 'asz', label: t('ขนาดกระดาษ A3 A4 A5', 'paper sizes A3, A4, A5') }); }
+  $('parts').innerHTML = `<tr><th>${t('ส่วนของแผ่นแบบ', 'part of the sheet')}</th><th>${t('มาตรฐาน', 'standard')}</th><th>${t('มีไว้ทำอะไร', 'what it is for')}</th></tr>` +
+    [[t('ขนาดกระดาษ A4, A3', 'paper size A4, A3'), 'ISO 216', t('ขนาดเดียวกันทั่วโลก แต่ละขนาดเป็นครึ่งหนึ่งของขนาดก่อนหน้า จึงพับเก็บในแฟ้ม A4 ได้', 'the same sizes worldwide; each size is half the one before, so drawings fold into an A4 file')],
+     [t('กรอบและขอบกระดาษ', 'frame and margins'), 'ISO 5457', t('ขอบซ้าย 20 mm สำหรับเจาะรูหรือเย็บเข้าแฟ้ม ขอบอื่น 10 mm กันเส้นแบบหายเมื่อพิมพ์หรือถ่ายสำเนา ขีดกึ่งกลางช่วยวางแผ่นให้ตรงเมื่อถ่ายสำเนาหรือสแกน', 'a 20 mm left margin for punching or binding, 10 mm elsewhere so no line is lost in printing or copying; centring marks to line the sheet up when it is copied or scanned')],
+     [t('ช่องพิกัด', 'grid zones'), 'ISO 5457 · IEC 61082-1', t('บอกตำแหน่งในแบบ เช่น "คอยล์ KM1 อยู่ช่อง C3" และเป็นที่อยู่ในตารางอ้างอิงหน้าสัมผัส ("13–14 ▸ 4")', 'give positions on the drawing, e.g. "coil KM1 is in zone C3", and are the addresses in the contact cross-reference ("13–14 ▸ 4")')],
+     [t('ตารางรายการ', 'title block'), 'ISO 7200', t('บอกว่าแบบนี้คืออะไร เลขที่เท่าไร ใครเขียน ใครตรวจ วันที่ แผ่นที่ … จาก … และแก้ไขครั้งที่เท่าไร อยู่มุมขวาล่างจึงเห็นเสมอแม้แบบถูกพับ', 'says what the drawing is, its number, who drew and who checked it, the date, sheet … of … and the revision; in the bottom right corner it stays visible even when the drawing is folded')]]
+      .map(r => `<tr><td data-h="${t('ส่วน', 'part')}"><b>${r[0]}</b></td><td data-h="${t('มาตรฐาน', 'standard')}">${r[1]}</td><td data-h="${t('มีไว้ทำอะไร', 'what it is for')}">${r[2]}</td></tr>`).join('');
+
+  /* ---------- A: the course A4 sheet, the same layout as Docs/make_sheet.py (frame 20/10 mm, 5 mm band, title block 180 × 34 mm) ---------- */
+  const K = 3, u = v => +(v * K).toFixed(1);   // svg units per mm
+  const geo = (W, H, cols, rows) => { const g = { W, H, cols, rows, x0: 20, y0: 10, x1: W - 10, y1: H - 10 }; g.ix0 = g.x0 + 5; g.iy0 = g.y0 + 5; g.ix1 = g.x1 - 5; g.iy1 = g.y1 - 5;
+    g.cw = (g.ix1 - g.ix0) / cols; g.rh = (g.iy1 - g.iy0) / rows; g.tw = Math.min(180, g.ix1 - g.ix0); g.th = 34; g.bx = g.ix1 - g.tw; g.by = g.iy1 - g.th; g.k = g.tw / 180; return g; };
+  const SHEETS = { land: geo(297, 210, 8, 4), port: geo(210, 297, 6, 8) };
+  const RL_ = j => String.fromCharCode(65 + j);
+  /* title-block fields: row, from–to in mm of a 180 mm block, labels, what to write, who fills it in (p printed, s student, t teacher) */
+  const TB_Y = [0, 7, 16, 25, 34];
+  const FIELDS = [
+    { f: 'course', r: 0, a: 0, b: 110, th: 'วิชา', en: 'Course', who: 'p', h: ['พิมพ์ไว้แล้ว: รหัสและชื่อวิชา 031021322 เขียนแบบไฟฟ้า 2', 'printed: the course code and name, 031021322 Electrical Drawing II'] },
+    { f: 'inst', r: 0, a: 110, b: 180, th: 'สถานศึกษา', en: 'Institution', who: 's', h: ['ชื่อสถานศึกษา (ในงานจริงคือบริษัทที่เป็นเจ้าของแบบ)', 'your school (in industry: the company that owns the drawing)'] },
+    { f: 'title', r: 1, a: 0, b: 130, th: 'ชื่อแบบ', en: 'Drawing title', who: 's', h: ['บอกว่าแบบนี้เป็นวงจรอะไร เช่น "วงจรเริ่มเดินมอเตอร์โดยตรง" ไม่ใช่ "การบ้าน"', 'what the drawing shows, e.g. "Direct-on-line starter", not "homework"'] },
+    { f: 'no', r: 1, a: 130, b: 180, th: 'เลขที่แบบ', en: 'Drawing no.', who: 's', h: ['เลขประจำแบบที่ไม่ซ้ำกับแบบอื่น การบ้านของวิชาใช้ ED2-HW ตามด้วยเลขบท เช่น ED2-HW5', 'a number no other drawing has; the course homework uses ED2-HW plus the chapter number, e.g. ED2-HW5'] },
+    { f: 'name', r: 2, a: 0, b: 80, th: 'ผู้เขียนแบบ (ชื่อ-สกุล)', en: 'Drawn by (name)', who: 's', h: ['ชื่อและนามสกุลของผู้เขียนแบบ', 'the first name and surname of whoever drew it'] },
+    { f: 'id', r: 2, a: 80, b: 115, th: 'รหัสนักศึกษา', en: 'Student ID', who: 's', h: ['รหัสนักศึกษาของผู้เขียนแบบ', 'the drafter\'s student ID'] },
+    { f: 'date', r: 2, a: 115, b: 145, th: 'วันที่', en: 'Date', who: 's', h: ['วันที่เขียนเสร็จ เขียนวัน เดือน และปีเต็ม 4 หลัก', 'the day the drawing was finished: day, month and the full four-digit year'] },
+    { f: 'sheet', r: 2, a: 145, b: 180, th: 'แผ่นที่', en: 'Sheet', who: 's', h: ['แผ่นที่ … จากทั้งหมด … แผ่น เช่น 2 / 2 ทุกแผ่นของแบบเดียวกันใช้เลขที่แบบเดียวกัน', 'sheet … of …, e.g. 2 / 2; all sheets of one drawing share its drawing number'] },
+    { f: 'checked', r: 3, a: 0, b: 80, th: 'ผู้ตรวจ', en: 'Checked by', who: 't', h: ['ครูหรือวิศวกรที่ตรวจแบบเซ็นชื่อ นักศึกษาเว้นว่าง', 'the teacher or engineer who checks the drawing signs here; students leave it empty'] },
+    { f: 'score', r: 3, a: 80, b: 115, th: 'คะแนน', en: 'Score', who: 't', h: ['ครูกรอก (ตารางรายการในงานจริงมีช่องผู้อนุมัติแทน)', 'filled in by the teacher (a real title block has an approval field instead)'] },
+    { f: 'rev', r: 3, a: 115, b: 145, th: 'แก้ไขครั้งที่', en: 'Revision', who: 's', h: ['ส่งครั้งแรกใส่ 0 แก้ตามที่ตรวจแล้วส่งใหม่เพิ่มทีละ 1 คนอ่านจึงรู้ว่าถือฉบับล่าสุดอยู่หรือไม่', '0 for the first issue, plus 1 each time it is corrected and issued again, so readers know whether they hold the latest version'] },
+    { f: 'std', r: 3, a: 145, b: 180, th: 'มาตรฐาน', en: 'Standard', who: 'p', h: ['พิมพ์ไว้แล้ว: ใช้สัญลักษณ์ตาม IEC 60617 และเขียนตามกฎของ IEC 61082', 'printed: symbols to IEC 60617, drawn to the rules of IEC 61082'] }];
+  const WHO = { p: ['พิมพ์ไว้แล้ว', 'printed'], s: ['ผู้เขียนแบบกรอก', 'filled in by the drafter'], t: ['ครูกรอก', 'filled in by the teacher'] };
+  const cellBox = (g, F) => ({ x: g.bx + F.a * g.k, y: g.by + TB_Y[F.r], w: (F.b - F.a) * g.k, h: TB_Y[F.r + 1] - TB_Y[F.r] });
+
+  /* the example circuit on the landscape sheet: C2.DOL (page 2.3) by hand, power circuit in column 2, one control path per column from column 3 */
+  const G = SHEETS.land, cx = c => G.ix0 + G.cw * (c - 0.5), RY = r => 24 + 19 * r;   // control rows: L1 rail at 24 mm, N rail at RY(6) = 138 mm
+  const DEVS = [   // name, centre (mm), what (for the zone list and the quiz)
+    { n: 'Q1', x: 73, y: 39, w: ['เบรกเกอร์ Q1', 'breaker Q1'] }, { n: 'KM1 main', x: 73, y: 71, w: ['หน้าสัมผัสหลัก KM1', 'KM1 main contacts'] },
+    { n: 'F2 therm', x: 73, y: 118, w: ['ตัวโอเวอร์โหลด F2 ในวงจรกำลัง', 'overload element F2 in the power circuit'] }, { n: 'M1', x: 73, y: 160, w: ['มอเตอร์ M1', 'motor M1'] },
+    { n: 'F1', x: cx(3), y: RY(0.5), w: ['ฟิวส์ F1', 'fuse F1'] }, { n: 'F2 95–96', x: cx(3), y: RY(1.5), w: ['หน้าสัมผัส F2 95–96', 'contact F2 95–96'] },
+    { n: 'S1', x: cx(3), y: RY(2.5), w: ['ปุ่มหยุด S1', 'stop button S1'] }, { n: 'S2', x: cx(3), y: RY(3.5), w: ['ปุ่มเริ่ม S2', 'start button S2'] },
+    { n: 'KM1 coil', x: cx(3), y: RY(5.5), w: ['คอยล์ KM1', 'coil KM1'] }, { n: 'KM1 13–14', x: cx(4), y: RY(3.5), w: ['หน้าสัมผัสค้าง KM1 13–14', 'holding contact KM1 13–14'] },
+    { n: 'KM1 23–24', x: cx(5), y: RY(4.5), w: ['หน้าสัมผัส KM1 23–24', 'contact KM1 23–24'] }, { n: 'H1', x: cx(5), y: RY(5.5), w: ['หลอด H1 มอเตอร์เดิน', 'lamp H1 running'] },
+    { n: 'F2 97–98', x: cx(6), y: RY(4.5), w: ['หน้าสัมผัส F2 97–98', 'contact F2 97–98'] }, { n: 'H2', x: cx(6), y: RY(5.5), w: ['หลอด H2 โอเวอร์โหลด', 'lamp H2 overload'] }];
+  const zoneOf = (g, x, y) => { const c = Math.floor((x - g.ix0) / g.cw), r = Math.floor((y - g.iy0) / g.rh); return c < 0 || r < 0 || c >= g.cols || r >= g.rows ? null : { c: c + 1, r, name: RL_(r) + (c + 1) }; };
+  const exampleSVG = () => {
+    const L = (x1, y1, x2, y2, o) => IE.L(u(x1), u(y1), u(x2), u(y2), o), T = (s, x, y, o = {}) => IE.T(esc(s), u(x), u(y), { size: +(K * (o.size || 3)).toFixed(1), anchor: o.anchor, weight: o.weight, col: o.col });
+    const dot = (x, y) => `<circle cx="${u(x)}" cy="${u(y)}" r="3" fill="currentColor" stroke="none"/>`, lab = (s, x, y) => T(s, x, y, { size: 3.4, anchor: 'end', weight: 700 });
+    const tn = (a, b, x, y0, y1) => T(a, x + 2, y0 + 3.4, { size: 2.6, col: 'var(--muted)' }) + T(b, x + 2, y1 - 1, { size: 2.6, col: 'var(--muted)' });   // terminal numbers on the right of an element
+    let s = '';
+    /* power circuit: L1 L2 L3 → Q1 → KM1 → F2 → M1, poles at 64 / 73 / 82 mm (column 2) */
+    const P = [64, 73, 82];
+    P.forEach((x, i) => { s += T(['L1', 'L2', 'L3'][i], x, 21, { size: 3, anchor: 'middle', weight: 700 }) + L(x, 23, x, 31) + IE.cb(u(x), u(31), u(47)) + L(x, 47, x, 63) + IE.mainNO(u(x), u(63), u(79)) + L(x, 79, x, 110) + IE.therm(u(x), u(110), u(126)) + L(x, 126, x, 144); });
+    s += L(P[0] - 4, 39, P[2], 39, { dash: '4 3' }) + L(P[0] - 4, 71, P[2], 71, { dash: '4 3' });
+    s += lab('Q1', 58, 40) + lab('KM1', 58, 72) + lab('F2', 58, 119) + lab('M1', 62, 161);
+    const tp = (y0, y1) => P.map((x, i) => T(String(2 * i + 1), x + 1.4, y0 + 3.2, { size: 2.3, col: 'var(--muted)' }) + T(String(2 * i + 2), x + 1.4, y1 - 1, { size: 2.3, col: 'var(--muted)' })).join('');
+    s += tp(31, 47) + tp(63, 79) + tp(110, 126);
+    s += L(64, 144, 67.5, 152.5) + L(73, 144, 73, 151) + L(82, 144, 78.5, 152.5) + IE.motor(u(73), u(160), u(9));
+    /* control circuit */
+    const x3 = cx(3), x4 = cx(4), x5 = cx(5), x6 = cx(6), yN = RY(6);
+    s += L(x3 - 8, RY(0), x6 + 10, RY(0), { w: 2 }) + lab('L1', x3 - 10, RY(0) + 1.2) + L(x3 - 8, yN, x6 + 10, yN, { w: 2 }) + lab('N', x3 - 10, yN + 1.2);
+    s += IE.fuse(u(x3), u(RY(0)), u(RY(1))) + lab('F1', x3 - 5, RY(0.5) + 1.2) + tn('1', '2', x3, RY(0), RY(1));
+    s += IE.contact(true, u(x3), u(RY(1)), u(RY(2)), { op: 'thr' }) + lab('F2', x3 - 12.5, RY(1.5) + 1.2) + tn('95', '96', x3, RY(1), RY(2));
+    s += IE.contact(true, u(x3), u(RY(2)), u(RY(3)), { op: 'pb' }) + lab('S1', x3 - 12.5, RY(2.5) + 1.2) + tn('11', '12', x3, RY(2), RY(3));
+    s += IE.contact(false, u(x3), u(RY(3)), u(RY(4)), { op: 'pb' }) + lab('S2', x3 - 12.5, RY(3.5) + 1.2) + tn('13', '14', x3, RY(3), RY(4));
+    s += L(x3, RY(4), x3, RY(5)) + IE.coil(u(x3), u(RY(5)), u(yN)) + lab('KM1', x3 - 5.5, RY(5.5) + 1.2) + tn('A1', 'A2', x3, RY(5), yN);
+    s += L(x3, RY(3), x4, RY(3)) + dot(x3, RY(3)) + IE.contact(false, u(x4), u(RY(3)), u(RY(4))) + lab('KM1', x4 - 5, RY(3.5) + 1.2) + tn('13', '14', x4, RY(3), RY(4)) + L(x4, RY(4), x3, RY(4)) + dot(x3, RY(4));
+    s += L(x3, RY(1), x6, RY(1)) + dot(x3, RY(1)) + dot(x5, RY(1)) + L(x5, RY(1), x5, RY(4)) + L(x6, RY(1), x6, RY(4));
+    s += IE.contact(false, u(x5), u(RY(4)), u(RY(5))) + lab('KM1', x5 - 5, RY(4.5) + 1.2) + tn('23', '24', x5, RY(4), RY(5)) + IE.lamp(u(x5), u(RY(5)), u(yN)) + lab('H1', x5 - 5, RY(5.5) + 1.2) + tn('X1', 'X2', x5, RY(5), yN);
+    s += IE.contact(false, u(x6), u(RY(4)), u(RY(5)), { op: 'thr' }) + lab('F2', x6 - 12.5, RY(4.5) + 1.2) + tn('97', '98', x6, RY(4), RY(5)) + IE.lamp(u(x6), u(RY(5)), u(yN)) + lab('H2', x6 - 5, RY(5.5) + 1.2) + tn('X1', 'X2', x6, RY(5), yN);
+    s += [dot(x3, yN), dot(x5, yN), dot(x6, yN)].join('');
+    /* cross-reference under coil KM1: the zone (column) of each contact on THIS sheet */
+    s += L(x3 - 9, yN + 2.5, x3 + 13, yN + 2.5, { w: 0.8 }) + [`1–2, 3–4, 5–6 ▸ 2`, `13–14 ▸ 4`, `23–24 ▸ 5`].map((q, i) => T(q, x3 - 9, yN + 6.2 + i * 3.6, { size: 2.7 })).join('');
+    return `<g class="ex">${s}</g>`; };
+
+  /* the sheet itself (mm × K units); ex: draw the example circuit and a filled-in title */
+  const sheetSVG = (g, ex) => {
+    const L = (x1, y1, x2, y2, w) => IE.L(u(x1), u(y1), u(x2), u(y2), { w }), T = (s, x, y, o = {}) => IE.T(esc(s), u(x), u(y), { size: +(K * (o.size || 3)).toFixed(1), anchor: o.anchor || 'middle', weight: o.weight, col: o.col });
+    let s = `<rect class="paper" x="0" y="0" width="${u(g.W)}" height="${u(g.H)}" stroke-width="1"/>`;
+    s += `<rect x="${u(g.x0)}" y="${u(g.y0)}" width="${u(g.x1 - g.x0)}" height="${u(g.y1 - g.y0)}" stroke-width="2.1"/><rect x="${u(g.ix0)}" y="${u(g.iy0)}" width="${u(g.ix1 - g.ix0)}" height="${u(g.iy1 - g.iy0)}" stroke-width="1.05"/>`;
+    for (let i = 0; i < g.cols; i++) { const x = g.ix0 + i * g.cw; if (i) s += L(x, g.y0, x, g.iy0, 0.75) + L(x, g.iy1, x, g.y1, 0.75);
+      s += T(String(i + 1), x + g.cw / 2, g.y0 + 3.7, { size: 3.4, weight: 700 }) + T(String(i + 1), x + g.cw / 2, g.y1 - 1.3, { size: 3.4, weight: 700 }); }
+    for (let j = 0; j < g.rows; j++) { const y = g.iy0 + j * g.rh; if (j) s += L(g.x0, y, g.ix0, y, 0.75) + L(g.ix1, y, g.x1, y, 0.75);
+      s += T(RL_(j), g.x0 + 2.5, y + g.rh / 2 + 1.2, { size: 3.4, weight: 700 }) + T(RL_(j), g.x1 - 2.5, y + g.rh / 2 + 1.2, { size: 3.4, weight: 700 }); }
+    s += L(g.W / 2, 0, g.W / 2, g.y0, 2.1) + L(g.W / 2, g.H, g.W / 2, g.y1, 2.1) + L(0, g.H / 2, g.x0, g.H / 2, 2.1) + L(g.W, g.H / 2, g.x1, g.H / 2, 2.1);   // centring marks
+    /* title block */
+    s += `<rect x="${u(g.bx)}" y="${u(g.by)}" width="${u(g.tw)}" height="${u(g.th)}" fill="var(--panel)" stroke-width="1.5"/>` + TB_Y.slice(1, 4).map(y => L(g.bx, g.by + y, g.ix1, g.by + y, 1.05)).join('');
+    const val = { course: t('031021322 เขียนแบบไฟฟ้า 2 · Electrical Drawing II', '031021322 Electrical Drawing II'), std: 'IEC 60617 · IEC 61082', sheet: '      /' };
+    if (ex) Object.assign(val, { title: t('วงจรเริ่มเดินมอเตอร์โดยตรง (ตัวอย่างหน้า 2.6)', 'Direct-on-line starter (example, page 2.6)'), no: 'ED2-HW2', sheet: '1 / 1' });
+    FIELDS.forEach(F => { const c = cellBox(g, F); if (F.a > 0) s += L(c.x, c.y, c.x, c.y + c.h, 1.05);
+      s += T(L2(F.th, F.en), c.x + 1.2, c.y + 2.6, { size: 2.05, anchor: 'start', col: 'var(--muted)' });
+      if (val[F.f]) s += T(val[F.f], c.x + 1.2, c.y + c.h - 1.5, { size: F.f === 'course' ? 2.7 : F.f === 'std' ? 2.3 : 3, anchor: 'start', weight: F.f === 'std' ? 400 : 600 }); });
+    s += '<g class="hl"></g>';   // highlights sit under the example circuit, so its lines and labels stay on top
+    if (ex) s += exampleSVG();
+    const land = g.W > g.H;
+    return `<svg class="a4" viewBox="0 0 ${u(g.W)} ${u(g.H)}" style="max-width:${land ? 920 : 560}px" role="img" aria-label="${t('แผ่นแบบ A4 ของวิชา', 'the course A4 drawing sheet')} ${land ? t('แนวนอน', 'landscape') : t('แนวตั้ง', 'portrait')}" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round">${s}</svg>`; };
+  /* where a tap lands (mm): title-block field, zone, number/letter band, centring mark, filing margin or other margin */
+  const classify = (g, x, y) => {
+    if (x < 0 || y < 0 || x > g.W || y > g.H) return null;
+    if (x >= g.bx && x <= g.ix1 && y >= g.by && y <= g.iy1) return { k: 'tb', F: FIELDS.find(F => { const c = cellBox(g, F); return x >= c.x && x <= c.x + c.w && y >= c.y && y <= c.y + c.h; }) || FIELDS[0] };
+    if (x >= g.ix0 && x <= g.ix1 && y >= g.iy0 && y <= g.iy1) return { k: 'zone', z: zoneOf(g, Math.min(x, g.ix1 - 1e-6), Math.min(y, g.iy1 - 1e-6)) };
+    if (x >= g.x0 && x <= g.x1 && y >= g.y0 && y <= g.y1) {
+      if (x >= g.ix0 && x <= g.ix1) return { k: 'col', c: Math.min(g.cols, Math.floor((x - g.ix0) / g.cw) + 1) };
+      if (y >= g.iy0 && y <= g.iy1) return { k: 'row', r: Math.min(g.rows - 1, Math.floor((y - g.iy0) / g.rh)) };
+      return { k: 'corner' }; }
+    if ((Math.abs(x - g.W / 2) < 4 && (y < g.y0 || y > g.y1)) || (Math.abs(y - g.H / 2) < 4 && (x < g.x0 || x > g.x1))) return { k: 'mark' };
+    return { k: x < g.x0 ? 'filing' : 'margin' }; };
+  const tbCovers = (g, r, c) => g.ix0 + c * g.cw > g.bx + 0.5 && g.iy0 + (r + 1) * g.rh > g.by + 0.5;   // zone (row r, column c, 0-based) partly under the title block
+  const hostA = $('sheetA'), pA = $('pA'); let ori = 'land', ex = true, quiz = null;
+  const geoA = () => SHEETS[ori], exOn = () => ori === 'land' && ex;
+  const hlEl = () => hostA.querySelector('svg.a4 g.hl');
+  const zoneRect = (g, r, c, cls) => { const x = g.ix0 + c * g.cw, y = g.iy0 + r * g.rh;   // the zone and its four band cells
+    return `<rect class="${cls}" x="${u(x)}" y="${u(y)}" width="${u(g.cw)}" height="${u(g.rh)}"/>` + (cls === 'hz' ? [[x, g.y0, g.cw, 5], [x, g.iy1, g.cw, 5], [g.x0, y, 5, g.rh], [g.ix1, y, 5, g.rh]].map(b => `<rect class="hb" x="${u(b[0])}" y="${u(b[1])}" width="${u(b[2])}" height="${u(b[3])}"/>`).join('') : ''); };
+  const devRing = d => `<circle class="hdev" cx="${u(d.x)}" cy="${u(d.y)}" r="${u(d.n === 'M1' ? 13 : 7)}"/>`;
+  const devsIn = (g, z) => exOn() ? DEVS.filter(d => { const q = zoneOf(g, d.x, d.y); return q && q.name === z.name; }) : [];
+  ui.h2(pA, t('แผ่นแบบ', 'The sheet'));
+  ui.radio(pA, [{ id: 'land', label: t('A4 แนวนอน (8 × 4 ช่อง)', 'A4 landscape (8 × 4 zones)'), on: true }, { id: 'port', label: t('A4 แนวตั้ง (6 × 8 ช่อง)', 'A4 portrait (6 × 8 zones)') }], id => { ori = id; drawA(); });
+  const exB = ui.buttons(pA, [{ id: 'ex', label: t('แสดงวงจรตัวอย่าง (แผ่นแนวนอน)', 'Show the example circuit (landscape)'), on: true, onclick: el => { ex = !ex; el.classList.toggle('on', ex); drawA(); } }]);
+  const stA = ui.status(pA);
+  const idle = () => ui.setStatus(stA, t('แตะแผ่นแบบ', 'tap the sheet'), t('แตะช่องในพื้นที่เขียนแบบ แถบตัวเลขหรือตัวอักษร ขอบกระดาษ หรือช่องในตารางรายการ', 'tap a zone of the drawing area, the number or letter band, the margin or a title-block field'), 'wait');
+  ui.h2(pA, t('ฝึกหาช่อง', 'Zone quiz'));
+  const qB = ui.buttons(pA, [{ id: 'go', label: t('เริ่มฝึกหาช่อง (6 ข้อ)', 'Start the zone quiz (6 questions)'), onclick: () => startQuiz() }, { id: 'next', label: t('ข้อต่อไป', 'Next question'), onclick: () => nextQ() }]);
+  const stQ = ui.status(pA);
+  const quizIdle = () => { qB.next.disabled = true; ui.setStatus(stQ, t('ยังไม่เริ่ม', 'not started'), exOn() ? t('3 ข้อให้แตะช่องที่บอก และ 3 ข้อให้หาอุปกรณ์ในวงจรตัวอย่าง', '3 questions name a zone to tap, 3 ask for a device of the example circuit') : t('6 ข้อให้แตะช่องที่บอก (เปิดวงจรตัวอย่างบนแผ่นแนวนอนเพื่อฝึกหาอุปกรณ์ด้วย)', '6 questions name a zone to tap (show the example circuit on the landscape sheet to practise finding devices too)'), 'wait'); };
+  const drawA = () => { hostA.innerHTML = sheetSVG(geoA(), exOn()); exB.ex.disabled = ori !== 'land'; quiz = null; qB.go.textContent = t('เริ่มฝึกหาช่อง (6 ข้อ)', 'Start the zone quiz (6 questions)'); idle(); quizIdle(); };
+  /* explore: say what was tapped */
+  const explore = (g, h) => {
+    const hl = hlEl(); if (!hl) return;
+    if (h.k === 'zone') { const z = h.z, ds = devsIn(g, z); hl.innerHTML = zoneRect(g, z.r, z.c - 1, 'hz') + ds.map(devRing).join('');
+      ui.setStatus(stA, t(`ช่อง ${z.name}`, `zone ${z.name}`), t(`แถว ${RL_(z.r)} (ตัวอักษรที่ขอบซ้ายและขวา) คอลัมน์ ${z.c} (เลขที่ขอบบนและล่าง)`, `row ${RL_(z.r)} (the letter at the left and right edges), column ${z.c} (the number at the top and bottom edges)`) +
+        (exOn() ? (ds.length ? t(' · ในช่องนี้มี: ', ' · in this zone: ') + ds.map(d => t(d.w[0], d.w[1])).join(', ') : t(' · ช่องนี้ว่าง', ' · nothing drawn here')) : ''), 'ok'); return; }
+    if (h.k === 'col') { hl.innerHTML = `<rect class="hb" x="${u(g.ix0 + (h.c - 1) * g.cw)}" y="${u(g.y0)}" width="${u(g.cw)}" height="${u(5)}"/><rect class="hb" x="${u(g.ix0 + (h.c - 1) * g.cw)}" y="${u(g.iy1)}" width="${u(g.cw)}" height="${u(5)}"/>`;
+      ui.setStatus(stA, t(`คอลัมน์ ${h.c}`, `column ${h.c}`), t('แถบช่องพิกัด: เลขเดียวกันพิมพ์ทั้งขอบบนและขอบล่าง ในวงจรควบคุมวาดทางเดินกระแสละหนึ่งคอลัมน์ เลขนี้จึงเป็นเลขทางเดินกระแสด้วย', 'zone band: the same number is printed at the top and the bottom; a control circuit puts one current path in each column, so this number is the current-path number too'), 'ok'); return; }
+    if (h.k === 'row') { hl.innerHTML = `<rect class="hb" x="${u(g.x0)}" y="${u(g.iy0 + h.r * g.rh)}" width="${u(5)}" height="${u(g.rh)}"/><rect class="hb" x="${u(g.ix1)}" y="${u(g.iy0 + h.r * g.rh)}" width="${u(5)}" height="${u(g.rh)}"/>`;
+      ui.setStatus(stA, t(`แถว ${RL_(h.r)}`, `row ${RL_(h.r)}`), t('แถบช่องพิกัด: ตัวอักษรเดียวกันพิมพ์ทั้งขอบซ้ายและขอบขวา ใช้คู่กับเลขคอลัมน์เป็นชื่อช่อง เช่น ', 'zone band: the same letter is printed at the left and the right; with a column number it names a zone, e.g. ') + RL_(h.r) + '4', 'ok'); return; }
+    hl.innerHTML = '';
+    if (h.k === 'tb') { const c = cellBox(g, h.F); hl.innerHTML = `<rect class="hz" x="${u(c.x)}" y="${u(c.y)}" width="${u(c.w)}" height="${u(c.h)}"/>`;
+      ui.setStatus(stA, t(h.F.th, h.F.en), `${t(h.F.h[0], h.F.h[1])} (${t(WHO[h.F.who][0], WHO[h.F.who][1])})`, h.F.who === 't' ? 'warn' : 'ok'); return; }
+    const M = { corner: [['มุมของแถบช่องพิกัด', 'corner of the zone band'], ['แถบกว้าง 5 mm ล้อมพื้นที่เขียนแบบ มุมนี้ไม่มีเลขหรือตัวอักษร', 'the 5 mm band round the drawing area; the corner carries no number or letter']],
+      mark: [['ขีดกึ่งกลาง', 'centring mark'], ['บอกกึ่งกลางของขอบกระดาษ ใช้วางแผ่นให้ตรงเมื่อถ่ายสำเนาหรือสแกน (ISO 5457)', 'marks the middle of the edge, to line the sheet up when it is copied or scanned (ISO 5457)']],
+      filing: [['ขอบเย็บแฟ้ม 20 mm', 'filing margin, 20 mm'], ['ขอบซ้ายกว้างกว่าด้านอื่น เว้นไว้เจาะรูหรือเย็บเข้าแฟ้ม ห้ามเขียนแบบในส่วนนี้ (ISO 5457)', 'wider than the other margins, left free for punching or binding; never draw here (ISO 5457)']],
+      margin: [['ขอบกระดาษ 10 mm', 'margin, 10 mm'], ['กันเส้นแบบหายเมื่อพิมพ์หรือถ่ายสำเนา เครื่องพิมพ์ส่วนใหญ่พิมพ์ชิดขอบกระดาษไม่ได้ (ISO 5457)', 'keeps lines from being lost in printing or copying; most printers cannot print right to the paper edge (ISO 5457)']] }[h.k];
+    ui.setStatus(stA, t(M[0][0], M[0][1]), t(M[1][0], M[1][1]), 'ok'); };
+  /* the quiz: tap the named zone, or find a device of the example circuit */
+  const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const startQuiz = () => { const g = geoA(), free = [];
+    for (let r = 0; r < g.rows; r++) for (let c = 0; c < g.cols; c++) if (!tbCovers(g, r, c)) free.push({ r, c: c + 1, name: RL_(r) + (c + 1) });
+    const nd = exOn() ? 3 : 0, devs = shuffle(DEVS.slice()).slice(0, nd).map(d => ({ k: 'dev', d, z: zoneOf(g, d.x, d.y) }));
+    const zs = shuffle(free).slice(0, 6 - nd).map(z => ({ k: 'zone', z }));
+    quiz = { qs: shuffle(devs.concat(zs)), i: 0, ok: 0, wait: false }; qB.go.textContent = t('เริ่มใหม่', 'Start again'); idle(); askQ(); };
+  const qText = q => q.k === 'zone' ? t(`แตะช่อง ${q.z.name}`, `Tap zone ${q.z.name}`) : t(`${q.d.w[0]} อยู่ช่องไหน แตะช่องนั้น`, `In which zone is the ${q.d.w[1]}? Tap that zone.`);
+  const askQ = () => { const q = quiz.qs[quiz.i]; quiz.wait = false; qB.next.disabled = true; const hl = hlEl(); if (hl) hl.innerHTML = '';
+    ui.setStatus(stQ, t(`ข้อ ${quiz.i + 1} / ${quiz.qs.length}`, `question ${quiz.i + 1} / ${quiz.qs.length}`), qText(q), 'wait'); };
+  const nextQ = () => { if (!quiz || !quiz.wait) return; quiz.i++; if (quiz.i < quiz.qs.length) askQ(); else { const n = quiz.qs.length;
+    ui.setStatus(stQ, t(`ได้ ${quiz.ok} / ${n}`, `${quiz.ok} / ${n} right`), quiz.ok === n ? t('ถูกทุกข้อ หาช่องได้คล่องแล้ว', 'all right: you find zones with ease') : t('กด "เริ่มใหม่" เพื่อฝึกอีกรอบ (โจทย์สุ่มใหม่ทุกครั้ง)', 'press "Start again" for another round (new questions each time)'), quiz.ok >= n - 1 ? 'good' : 'warn');
+    qB.next.disabled = true; quiz = null; } };
+  const answer = (g, x, y) => {
+    const z = x >= g.ix0 && x <= g.ix1 && y >= g.iy0 && y <= g.iy1 ? zoneOf(g, Math.min(x, g.ix1 - 1e-6), Math.min(y, g.iy1 - 1e-6)) : null, q = quiz.qs[quiz.i];
+    if (!z) { ui.setStatus(stQ, t(`ข้อ ${quiz.i + 1} / ${quiz.qs.length}`, `question ${quiz.i + 1} / ${quiz.qs.length}`), qText(q) + t(' (แตะในพื้นที่เขียนแบบ)', ' (tap inside the drawing area)'), 'wait'); return; }
+    const ok = z.name === q.z.name, hl = hlEl(); quiz.wait = true; if (ok) quiz.ok++; qB.next.disabled = false;
+    if (hl) hl.innerHTML = (ok ? '' : zoneRect(g, z.r, z.c - 1, 'hno')) + zoneRect(g, q.z.r, q.z.c - 1, 'hok') + (q.k === 'dev' ? devRing(q.d) : '');
+    const msg = ok ? t(`ถูกต้อง: ช่อง ${q.z.name}`, `right: zone ${q.z.name}`) : t(`ยังไม่ใช่: แตะช่อง ${z.name} แต่คำตอบคือ ${q.z.name} (แถว ${RL_(q.z.r)} คอลัมน์ ${q.z.c})`, `not quite: you tapped ${z.name}, the answer is ${q.z.name} (row ${RL_(q.z.r)}, column ${q.z.c})`);
+    ui.setStatus(stQ, ok ? '✓' : '✗', msg + (quiz.i + 1 < quiz.qs.length ? t(' · กด "ข้อต่อไป"', ' · press "Next question"') : t(' · กด "ข้อต่อไป" เพื่อดูคะแนน', ' · press "Next question" for the score')), ok ? 'good' : 'bad'); };
+  hostA.addEventListener('click', e => { const sv = hostA.querySelector('svg.a4'), m = sv && sv.getScreenCTM(); if (!m) return;
+    const p = sv.createSVGPoint(); p.x = e.clientX; p.y = e.clientY; const q = p.matrixTransform(m.inverse()), g = geoA(), x = q.x / K, y = q.y / K;
+    if (quiz) { if (!quiz.wait) answer(g, x, y); return; }
+    const h = classify(g, x, y); if (h) explore(g, h); });
+  drawA();
+  /* ---------- B: the DOL of page 2.3 on the website frame (relay.js option sheet, default number ED2-2.6-B); KM1's cross-reference hidden at first ---------- */
+  const simB = new RL.Sim($('simB'), C2.DOL(), { max: 880, noXref: true, sheet: { title: ['วงจรเริ่มเดินมอเตอร์โดยตรง', 'Direct-on-line starter'] } });
+  const pB = $('pB'); ui.h2(pB, t('อ่านช่องในแบบ', 'Read the zones of the drawing'));
+  let xOn = false;
+  const xB = ui.buttons(pB, [{ id: 'x', label: t('แสดงตารางอ้างอิงใต้ KM1', 'Show the cross-reference under KM1'), onclick: () => setX(!xOn) }]);
+  const setX = v => { xOn = v; simB.o.noXref = !v; simB.render(); xB.x.classList.toggle('on', v); xB.x.textContent = v ? t('ซ่อนตารางอ้างอิง', 'Hide the cross-reference') : t('แสดงตารางอ้างอิงใต้ KM1', 'Show the cross-reference under KM1'); };
+  const stB = ui.status(pB);
+  ui.setStatus(stB, t('แตะแบบ', 'tap the drawing'), t('แตะที่ใดก็ได้ในแบบ แล้วดูว่าจุดนั้นอยู่ช่องไหน (ปุ่ม S1 S2 และโอเวอร์โหลด F2 ในแบบกดได้ด้วย)', 'tap anywhere in the drawing to see which zone that point is in (the S1 and S2 buttons and overload F2 in the drawing work too)'), 'wait');
+  /* the zones of a framed drawing, read from its frame (g.rl-sheet: rect 1 = drawing area, rect 2 = title block, band lines and labels) */
+  const frameZones = sv => { const g = sv.querySelector('g.rl-sheet'); if (!g) return null; const R = g.querySelectorAll('rect'); if (R.length < 3) return null;
+    const box = r => ({ x0: +r.getAttribute('x'), y0: +r.getAttribute('y'), x1: +r.getAttribute('x') + +r.getAttribute('width'), y1: +r.getAttribute('y') + +r.getAttribute('height') });
+    const A = box(R[1]), TB = box(R[2]), lines = [...g.querySelectorAll('line')], texts = [...g.querySelectorAll('text')];
+    const cuts = [A.x0, ...lines.filter(l => l.getAttribute('x1') === l.getAttribute('x2') && +l.getAttribute('y1') < A.y0 && Math.abs(+l.getAttribute('y2') - A.y0) < 0.6).map(l => +l.getAttribute('x1')).sort((a, b) => a - b), A.x1];
+    const tops = texts.filter(e => +e.getAttribute('y') < A.y0);
+    const cols = cuts.slice(0, -1).map((a, i) => { const b = cuts[i + 1], e = tops.find(e => +e.getAttribute('x') > a && +e.getAttribute('x') < b); return { a, b, lab: e ? e.textContent : '' }; });
+    const rows = texts.filter(e => +e.getAttribute('x') < A.x0 && +e.getAttribute('y') > A.y0 && +e.getAttribute('y') < A.y1).length || 3;
+    return { A, TB, cols, rows }; };
+  $('simB').addEventListener('click', e => {
+    const sv = $('simB').querySelector('svg.rl-framed'), m = sv && sv.getScreenCTM(), Z = sv && frameZones(sv); if (!m || !Z) return;
+    const p = sv.createSVGPoint(); p.x = e.clientX; p.y = e.clientY; const q = p.matrixTransform(m.inverse()), A = Z.A;
+    if (q.x < A.x0 || q.x > A.x1 || q.y < A.y0 || q.y > A.y1) { ui.setStatus(stB, t('นอกพื้นที่เขียนแบบ', 'outside the drawing area'), t('นี่คือแถบช่องพิกัดหรือขอบ แตะในกรอบด้านใน', 'that is the zone band or the margin; tap inside the inner frame'), 'wait'); return; }
+    if (q.x >= Z.TB.x0 && q.y >= Z.TB.y0) { ui.setStatus(stB, t('ตารางรายการ', 'title block'), t('วิชา ชื่อแบบ เลขที่แบบ ED2-2.6-B และแผ่นที่ 1/1 (แบบในเว็บไม่มีช่องผู้เขียนและผู้ตรวจ)', 'course, title, drawing number ED2-2.6-B and sheet 1/1 (website drawings have no drafter or checker fields)'), 'ok'); return; }
+    const c = Z.cols.find(z => q.x >= z.a && q.x <= z.b) || Z.cols[0], row = String.fromCharCode(65 + Math.min(Z.rows - 1, Math.floor((q.y - A.y0) / ((A.y1 - A.y0) / Z.rows))));
+    const num = /^[0-9]+$/.test(c.lab), name = row + c.lab;
+    if (!num) { ui.setStatus(stB, c.lab ? t(`ช่อง "${c.lab}" แถว ${row}`, `zone "${c.lab}", row ${row}`) : t(`แถว ${row}`, `row ${row}`), c.lab ? t('วงจรกำลังได้ช่องของตัวเอง ตารางอ้างอิงจึงชี้มาที่นี่ด้วยคำว่า "▸ กำลัง"', 'the power circuit has a zone of its own, so the cross-reference points here with the word "▸ power"') : '', 'ok'); return; }
+    ui.setStatus(stB, t(`ช่อง ${name}`, `zone ${name}`), t(`คอลัมน์ ${c.lab} = ทางเดินกระแสที่ ${c.lab} · แถว ${row}`, `column ${c.lab} = current path ${c.lab} · row ${row}`), 'ok'); });
+  /* worked example: KM1's cross-reference from the zone band */
+  LS.ask($('askB'), { fields: [{ label: '13–14 ▸', ok: v => v === 2, w: 3, aria: 'zone of 13-14' }, { label: '23–24 ▸', ok: v => v === 3, w: 3, aria: 'zone of 23-24' }],
+    check: v => (v[0] === 4 || v[1] === 5) ? t('นั่นคือเลขบนแผ่น A4 ในส่วน A ที่นี่ให้อ่านแถบของแบบนี้', 'those are the numbers of the A4 sheet in section A; here read the band of this drawing') : (v[0] === 3 && v[1] === 2) ? t('สลับกัน: 13–14 ขนานกับ S2 ส่วน 23–24 ต่อหลอด H1', 'swapped: 13–14 is beside S2, 23–24 feeds lamp H1') : '',
+    onOk: () => setX(true) });
+  LS.stepper($('stB'), { steps: [
+    { why: t('หาหน้าสัมผัสทุกตัวที่ชื่อ KM1', 'Find every contact named KM1'),
+      body: `<p>${t('KM1 อยู่สามที่: หน้าสัมผัสหลัก 3 ขั้วในวงจรกำลังทางซ้าย หน้าสัมผัสค้าง 13–14 ที่ขนานกับปุ่ม S2 และหน้าสัมผัส 23–24 ที่ต่อหลอด H1 ส่วน 97–98 ที่ต่อหลอด H2 เป็นของโอเวอร์โหลด F2 ไม่ใช่ของ KM1', 'KM1 appears in three places: the three main contacts in the power circuit on the left, the holding contact 13–14 beside push button S2, and contact 23–24 feeding lamp H1. Contact 97–98 feeding lamp H2 belongs to overload F2, not to KM1.')}</p>` },
+    { why: t('อ่านเลขในแถบเหนือ (หรือใต้) หน้าสัมผัสแต่ละตัว', 'Read the band number above (or below) each contact'),
+      body: `<p>${t('13–14 อยู่ใต้เลข 2 → "13–14 ▸ 2" · 23–24 อยู่ใต้เลข 3 → "23–24 ▸ 3" ตัวคอยล์เองอยู่คอลัมน์ 1 แถว C (ช่อง C1)', '13–14 is under number 2 → "13–14 ▸ 2" · 23–24 is under number 3 → "23–24 ▸ 3". The coil itself is in column 1, row C (zone C1).')}</p>` },
+    { why: t('หน้าสัมผัสหลักอยู่ช่อง "กำลัง"', 'The main contacts are in the "power" zone'),
+      body: `<p>${t('วงจรกำลังได้ช่องของตัวเองที่ขอบบนเขียนว่า "กำลัง" จึงเขียน "1–2, 3–4, 5–6 ▸ กำลัง" บนแผ่น A4 ของส่วน A วงจรกำลังอยู่คอลัมน์ 2 จึงเขียน "▸ 2" แทน', 'The power circuit has its own zone, labelled "power" in the band, so write "1–2, 3–4, 5–6 ▸ power". On the A4 sheet of section A the power circuit is in column 2, so it reads "▸ 2" there.')}</p>` },
+    { why: t('เขียนรายการใต้คอยล์ แล้วเทียบกับแบบ', 'Write the list under the coil and compare it with the drawing'),
+      body: `<p>${t('เปิดตารางอ้างอิงในแบบแล้ว: ใต้คอยล์ KM1 มีครบสามบรรทัด ถ้าวันหนึ่งย้ายหลอด H1 ไปคอลัมน์อื่น ต้องแก้ตารางอ้างอิงตามด้วย เพราะเลขในตารางคือที่อยู่ของหน้าสัมผัส', 'The cross-reference is now shown in the drawing: all three lines are under coil KM1. If lamp H1 ever moves to another column, the cross-reference must change with it, because its numbers are the contacts\' addresses.')}</p>`,
+      onShow: () => setX(true) }],
+    answer: t('ใต้คอยล์ KM1: 1–2, 3–4, 5–6 ▸ กำลัง · 13–14 ▸ 2 · 23–24 ▸ 3', 'Under coil KM1: 1–2, 3–4, 5–6 ▸ power · 13–14 ▸ 2 · 23–24 ▸ 3') });
+
+  /* ---------- C: the title-block fields, and the fill-in exercise ---------- */
+  $('fields').innerHTML = `<tr><th>${t('ช่อง', 'field')}</th><th>${t('เขียนอะไร', 'what to write')}</th><th>${t('ใครกรอก', 'who fills it in')}</th></tr>` +
+    FIELDS.map(F => `<tr><td data-h="${t('ช่อง', 'field')}"><b>${esc(L2(F.th, F.en))}</b></td><td data-h="${t('เขียนอะไร', 'what to write')}">${esc(t(F.h[0], F.h[1]))}</td><td data-h="${t('ใครกรอก', 'who')}">${t(WHO[F.who][0], WHO[F.who][1])}</td></tr>`).join('');
+  const SPAN = { course: 22, inst: 14, title: 26, no: 10, name: 16, id: 7, date: 6, sheet: 7, checked: 16, score: 7, rev: 6, std: 7 }, HALF = ['id', 'date', 'sheet', 'checked', 'score', 'rev'];
+  const tbC = $('tbC');
+  tbC.innerHTML = `<div class="tbk">${FIELDS.map(F => `<div class="c${HALF.includes(F.f) ? ' h' : ''}" style="grid-column:span ${SPAN[F.f]}"><span class="l">${esc(L2(F.th, F.en))}</span>` +
+    (F.f === 'course' ? `<span class="v">${t('031021322 เขียนแบบไฟฟ้า 2 · Electrical Drawing II', '031021322 Electrical Drawing II')}</span>` : F.f === 'std' ? '<span class="v">IEC 60617 · IEC 61082</span>' :
+     F.f === 'sheet' ? `<span class="pair"><input id="tb-sx" inputmode="numeric" autocomplete="off" aria-label="sheet number"> / <input id="tb-sy" inputmode="numeric" autocomplete="off" aria-label="number of sheets"></span>` :
+     `<input id="tb-${F.f}" autocomplete="off" aria-label="${F.en}">`) + '</div>').join('')}</div>` +
+    `<div class="toggles" style="margin-top:10px"><button type="button" class="btn on" id="tb-check">${t('ตรวจ', 'Check')}</button><button type="button" class="btn" id="tb-model">${t('ดูตัวอย่างคำตอบ', 'Show a model answer')}</button><button type="button" class="btn" id="tb-clear">${t('ล้าง', 'Clear')}</button></div><div id="tb-res"></div>`;
+  const tv = id => { const e = $('tb-' + id); return e ? e.value.normalize('NFC').replace(/[‐-―−]/g, '-').replace(/\s+/g, ' ').trim() : ''; };
+  const MON = [['ม.ค', 'มกรา', 'jan'], ['ก.พ', 'กุมภา', 'feb'], ['มี.ค', 'มีนา', 'mar'], ['เม.ย', 'เมษา', 'apr'], ['พ.ค', 'พฤษภา', 'may'], ['มิ.ย', 'มิถุนา', 'jun'], ['ก.ค', 'กรกฎา', 'jul'], ['ส.ค', 'สิงหา', 'aug'], ['ก.ย', 'กันยา', 'sep'], ['ต.ค', 'ตุลา', 'oct'], ['พ.ย', 'พฤศจิกา', 'nov'], ['ธ.ค', 'ธันวา', 'dec']];
+  const parseDate = v => { let m;
+    if ((m = v.match(/^(\d{4})\s*-\s*(\d{1,2})\s*-\s*(\d{1,2})$/))) return { y: +m[1], mo: +m[2], d: +m[3] };
+    if ((m = v.match(/^(\d{1,2})\s*[/.-]\s*(\d{1,2})\s*[/.-]\s*(\d{2,4})$/))) return { d: +m[1], mo: +m[2], y: +m[3], short: m[3].length < 4 };
+    const lo = v.toLowerCase(), mo = MON.findIndex(k => k.some(w => lo.includes(w))), y = lo.match(/(?:^|\D)(\d{4})(?:\D|$)/), d = lo.replace(y ? y[1] : '#', ' ').match(/(?:^|\D)(\d{1,2})(?:\D|$)/);
+    if (mo >= 0 && d) return { d: +d[1], mo: mo + 1, y: y ? +y[1] : 0, short: !y };
+    return null; };
+  const RULES = {
+    inst: v => v ? [1] : [0, t('เขียนชื่อสถานศึกษา (มจพ.)', 'write the institution (KMUTNB)')],
+    title: v => !v ? [0, t('ชื่อแบบว่างอยู่', 'the title is empty')] : /^(การบ้าน|homework|ใบงาน|lab|แบบ|drawing|วงจร|circuit)(\s*(ที่|no\.?)?\s*\d*)$/i.test(v) ? [0, t('ชื่อแบบต้องบอกว่าเป็นวงจรอะไร ไม่ใช่บอกว่าเป็นการบ้าน', 'a title says what circuit it is, not that it is homework')] :
+      /(กลับทาง|reversing|reverse|forward)/i.test(v) ? (/(ควบคุม|control)/i.test(v) ? [1] : [1, t('ถูก ถ้าเติมคำว่า "วงจรควบคุม" คนอ่านจะรู้ทันทีว่าแผ่นนี้ต่างจากแผ่นวงจรกำลังอย่างไร', 'right; adding "control circuit" tells the reader at once how this sheet differs from the power-circuit sheet')]) : [0, t('บอกชื่อวงจรให้ชัด เช่น "วงจรควบคุมการกลับทางหมุนมอเตอร์"', 'name the circuit, e.g. "Reversing starter: control circuit"')],
+    no: v => { const w = v.replace(/\s/g, '').toUpperCase(); return w === 'ED2-HW7' ? [1] : /^ED2-?HW-?0*7$/.test(w) ? [0, t('เขียนให้ตรงแบบของวิชา: ED2-HW7', 'write it exactly in the course form: ED2-HW7')] : /^ED2-0?7-0?1$/.test(w) ? [0, t('การบ้านไม่ใช้เลขบท-ลำดับ ใช้ ED2-HW ตามด้วยเลขบท: ED2-HW7', 'homework does not use chapter-sequence numbers; it is ED2-HW plus the chapter number: ED2-HW7')] : [0, t('การบ้านใช้ ED2-HW ตามด้วยเลขบท: บทที่ 7 → ED2-HW7 (ทั้งสองแผ่นใช้เลขเดียวกัน)', 'homework uses ED2-HW plus the chapter number: chapter 7 → ED2-HW7 (both sheets share it)')]; },
+    name: v => v.length >= 2 ? [1] : [0, t('เขียนชื่อและนามสกุลผู้เขียนแบบ', 'write the drafter\'s name')],
+    id: v => /^\d{5,15}$/.test(v.replace(/[\s-]/g, '')) ? [1] : [0, t('รหัสนักศึกษาเป็นตัวเลข (6702041000123)', 'a student ID is digits (6702041000123)')],
+    date: v => { const d = parseDate(v); if (!v) return [0, t('วันที่ว่างอยู่', 'the date is empty')]; if (!d) return [0, t('เขียนวัน เดือน ปี เช่น 27/10/2569 หรือ 2026-10-27', 'write day, month and year, e.g. 2026-10-27 or 27/10/2026')];
+      if (d.short) return [0, t('เขียนปีเต็ม 4 หลัก (2569 หรือ 2026) เลข 2 หลักอ่านได้หลายแบบ', 'write the year in full (2026); two digits can be read more than one way')];
+      return d.d === 27 && d.mo === 10 && (d.y === 2026 || d.y === 2569) ? [1] : [0, t('วันที่ตามโจทย์คือ 27 ตุลาคม 2569', 'the date in the problem is 27 October 2026')]; },
+    sheet: () => { const x = tv('sx'), y = tv('sy'); return x === '2' && y === '2' ? [1] : (x === '1' && y === '2') ? [0, t('นี่คือแผ่นวงจรควบคุม ซึ่งเป็นแผ่นที่สอง: 2 / 2', 'this is the control-circuit sheet, the second one: 2 / 2')] : [0, t('แบบนี้มี 2 แผ่น แผ่นวงจรควบคุมคือแผ่นที่ 2 → 2 / 2', 'the drawing has 2 sheets and the control circuit is the second → 2 / 2')]; },
+    checked: v => !v ? [1] : [0, t('ช่องนี้ครูเซ็นเมื่อตรวจ นักศึกษาเว้นว่าง', 'the teacher signs this field after checking; students leave it empty')],
+    score: v => !v ? [1] : [0, t('ช่องนี้ครูกรอก นักศึกษาเว้นว่าง', 'the teacher fills in this field; students leave it empty')],
+    rev: v => ['', '0', '00', '-'].includes(v) ? [1] : [0, t('ส่งครั้งแรกยังไม่เคยแก้ไข: ใส่ 0', 'a first issue has no revision yet: write 0')] };
+  const runTB = () => { const res = []; let n = 0, ok = 0;
+    FIELDS.filter(F => RULES[F.f]).forEach(F => { const r = RULES[F.f](tv(F.f)); n++; if (r[0]) ok++;
+      (F.f === 'sheet' ? ['sx', 'sy'] : [F.f]).forEach(id => { const e = $('tb-' + id); e.classList.toggle('ok', !!r[0]); e.classList.toggle('no', !r[0]); });
+      if (r[1]) res.push(`<li>${r[0] ? '<span class="pill good">✓</span>' : '<span class="pill bad">✗</span>'} <b>${esc(t(F.th, F.en))}</b>: ${r[1]}</li>`); });
+    $('tb-res').innerHTML = `<p style="margin:10px 0 0"><span class="pill ${ok === n ? 'good' : 'warn'}">${ok} / ${n}</span> ${ok === n ? t('ครบและถูกทุกช่อง ตารางรายการนี้ส่งได้', 'every field complete and right: this title block can be handed in') : t('ช่องที่กรอบแดงยังไม่ถูก อ่านคำแนะนำด้านล่าง', 'the fields outlined in red are not right yet; see the hints below')}</p>` + (res.length ? `<ul class="tbres">${res.join('')}</ul>` : ''); };
+  const MODEL = { inst: t('มจพ.', 'KMUTNB'), title: t('วงจรควบคุมการกลับทางหมุนมอเตอร์ พร้อมอินเตอร์ล็อกและหลอดแสดง', 'Reversing starter with interlocks and pilot lamps: control circuit'), no: 'ED2-HW7',
+    name: t('สมชาย ใจดี', 'Somchai Jaidee'), id: '6702041000123', date: t('27/10/2569', '2026-10-27'), sx: '2', sy: '2', checked: '', score: '', rev: '0' };
+  $('tb-check').addEventListener('click', runTB);
+  $('tb-model').addEventListener('click', () => { Object.entries(MODEL).forEach(([k, v]) => { $('tb-' + k).value = v; }); runTB(); });
+  $('tb-clear').addEventListener('click', () => { tbC.querySelectorAll('input').forEach(e => { e.value = ''; e.classList.remove('ok', 'no'); }); $('tb-res').innerHTML = ''; });
+  tbC.querySelectorAll('input').forEach(e => e.addEventListener('keydown', ev => { if (ev.key === 'Enter') runTB(); }));
+
+  /* ---------- D: homework rubric (10 points) ---------- */
+  $('rubric').innerHTML = `<tr><th>${t('หัวข้อ', 'item')}</th><th>${t('ครูดูอะไร', 'what the teacher looks for')}</th><th>${t('คะแนน', 'points')}</th></tr>` +
+    [[t('สัญลักษณ์และชื่ออุปกรณ์', 'symbols and device names'), t('สัญลักษณ์ IEC 60617 วาดในสภาวะปกติ ชื่ออุปกรณ์ตามรหัสของวิชาครบทุกตัว', 'IEC 60617 symbols in the normal state; every device named with the course codes'), 3],
+     [t('เลขขั้วและเลขทางเดินกระแส', 'terminal and current-path numbers'), t('เลขขั้วทุกหน้าสัมผัสและคอยล์ ทางเดินกระแสละหนึ่งคอลัมน์ตามแถบช่องพิกัด', 'terminal numbers on every contact and coil; one current path per column of the zone band'), 2],
+     [t('ตารางอ้างอิงหน้าสัมผัส', 'contact cross-reference'), t('ใต้คอยล์ทุกตัว เลขชี้ไปที่คอลัมน์ที่หน้าสัมผัสอยู่จริง', 'under every coil, each number pointing at the column where the contact really is'), 1],
+     [t('ตรงกับวงจรที่จำลอง', 'matches the simulated circuit'), t('วงจรบนกระดาษเหมือนวงจรที่จำลองผ่านแล้วในงานจำลองวงจรท้ายบท (เทียบกับไฟล์ .cad หรือภาพหน้าจอ Simurelay ที่ส่งไว้)', 'the circuit on paper is the one simulated successfully in the end-of-chapter simulation task (compared with the .cad file or the Simurelay screenshots handed in)'), 2],
+     [t('ตารางรายการครบและเรียบร้อย', 'title block complete, drawing neat'), t('ช่องของผู้เขียนครบทุกช่อง (ส่วน C) เส้นตรง ตัวหนังสืออ่านง่าย', 'every drafter\'s field filled in (section C); straight lines, legible lettering'), 2]]
+      .map(r => `<tr><td data-h="${t('หัวข้อ', 'item')}"><b>${r[0]}</b></td><td data-h="${t('ครูดูอะไร', 'looks for')}">${r[1]}</td><td data-h="${t('คะแนน', 'points')}">${r[2]}</td></tr>`).join('') +
+    `<tr><td><b>${t('รวม', 'total')}</b></td><td></td><td><b>10</b></td></tr>`;
+
+  /* ---------- E: practice ---------- */
+  ED.mcq('mcq', [
+    { q: t('1) แผ่นแบบ A4 มีขนาดเท่าไร', '1) What size is an A4 sheet?'), options: ['297 × 420 mm', '210 × 297 mm', '148 × 210 mm'], answer: 1, why: t('A3 = 297 × 420 mm พับครึ่งได้ A4 = 210 × 297 mm', 'A3 = 297 × 420 mm folds in half to A4 = 210 × 297 mm') },
+    { q: t('2) ทำไมขอบซ้ายของแผ่นแบบกว้าง 20 mm แต่ขอบอื่น 10 mm', '2) Why is the left margin 20 mm and the others only 10 mm?'), options: [t('ไว้เขียนชื่อผู้เขียนแบบ', 'for the drafter\'s name'), t('ให้ภาพดูสมดุล', 'so the picture looks balanced'), t('เว้นไว้เจาะรูหรือเย็บเข้าแฟ้ม', 'it is left free for punching or binding into a file')], answer: 2 },
+    { q: t('3) "ช่อง C4" หมายถึงอะไร', '3) What does "zone C4" mean?'), options: [t('แถว C คอลัมน์ 4', 'row C, column 4'), t('คอลัมน์ C แถว 4', 'column C, row 4'), t('แผ่นที่ 4 ของแบบ C', 'sheet 4 of drawing C')], answer: 0, why: t('ตัวอักษรอยู่ขอบซ้ายและขวา (แถว) เลขอยู่ขอบบนและล่าง (คอลัมน์)', 'letters run down the left and right edges (rows), numbers along the top and bottom (columns)') },
+    { q: t('4) บนแผ่น A4 ใต้คอยล์ KM1 เขียนว่า "13–14 ▸ 4" ต้องไปหาหน้าสัมผัสที่ไหน', '4) On the A4 sheet, coil KM1 has "13–14 ▸ 4" under it. Where do you look for the contact?'), options: [t('แถว D', 'row D'), t('คอลัมน์ 4 (เลข 4 ในแถบบนและล่าง)', 'column 4 (number 4 in the top and bottom band)'), t('แผ่นที่ 4', 'sheet 4')], answer: 1 },
+    { q: t('5) ในแบบหลายแผ่น "/3.4" หมายถึงอะไร', '5) In a set of several sheets, what does "/3.4" mean?'), options: [t('คอลัมน์ 3 แถว 4', 'column 3, row 4'), t('แก้ไขครั้งที่ 3 แผ่นที่ 4', 'revision 3, sheet 4'), t('แผ่นที่ 3 คอลัมน์ 4', 'sheet 3, column 4')], answer: 2 },
+    { q: t('6) ช่องใดในตารางรายการที่นักศึกษาต้องเว้นว่าง', '6) Which title-block fields does the student leave empty?'), options: [t('ผู้ตรวจ และคะแนน', 'checked by, and score'), t('ชื่อแบบ และเลขที่แบบ', 'title, and drawing number'), t('วันที่ และแผ่นที่', 'date, and sheet')], answer: 0 },
+    { q: t('7) แบบหนึ่งเขียนเป็น 2 แผ่น อะไรเหมือนกันและอะไรต่างกัน', '7) One drawing takes 2 sheets. What is the same and what differs?'), options: [t('เลขที่แบบต่างกัน แผ่นที่เหมือนกัน', 'different drawing numbers, the same sheet number'), t('เลขที่แบบเหมือนกัน แผ่นที่ต่างกัน (1 / 2 และ 2 / 2)', 'the same drawing number, different sheet numbers (1 / 2 and 2 / 2)'), t('เหมือนกันทุกช่อง', 'every field is the same')], answer: 1 },
+    { q: t('8) พิมพ์แผ่นแบบแล้ววัดขอบซ้ายได้ 18 mm แปลว่าอะไร', '8) You print the sheet and the left margin measures 18 mm. What does it mean?'), options: [t('ถูกต้อง ขอบซ้ายไม่ต้องเท่ากับ 20 mm', 'fine, the left margin need not be 20 mm'), t('เครื่องพิมพ์ย่อแบบ ต้องพิมพ์ใหม่ที่ขนาดจริง 100 %', 'the printer shrank it: print again at actual size, 100 %'), t('กระดาษเป็น A3', 'the paper is A3')], answer: 1 }]);
+});
+</script>
+</body>
+</html>

@@ -8,12 +8,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=14"><link rel="stylesheet" href="assets/ed2.css?v=14">
-<link rel="stylesheet" href="assets/wiring.css?v=14">
-<script src="assets/stops.js?v=14"></script><script src="assets/shell.js?v=14"></script>
-<script src="assets/lesson.js?v=14"></script><script src="assets/draw.js?v=14"></script><script src="assets/ed.js?v=14"></script><script src="assets/sym.js?v=14"></script><script src="assets/iec.js?v=14"></script><script src="assets/relay.js?v=14"></script><script src="assets/ch2.js?v=14"></script><script src="assets/ch3.js?v=14"></script><script src="assets/ch4.js?v=14"></script>
-<script src="assets/panel.js?v=14"></script><script src="assets/ch5.js?v=14"></script><script src="assets/ch6.js?v=14"></script>
-<script src="assets/wiring.js?v=14"></script><script src="assets/devdata.js?v=14"></script><script src="assets/dev.js?v=14"></script>
+<link rel="stylesheet" href="assets/ee.css?v=15"><link rel="stylesheet" href="assets/ed2.css?v=15">
+<link rel="stylesheet" href="assets/wiring.css?v=15">
+<script src="assets/stops.js?v=15"></script><script src="assets/shell.js?v=15"></script>
+<script src="assets/lesson.js?v=15"></script><script src="assets/draw.js?v=15"></script><script src="assets/ed.js?v=15"></script><script src="assets/sym.js?v=15"></script><script src="assets/iec.js?v=15"></script><script src="assets/relay.js?v=15"></script><script src="assets/ch2.js?v=15"></script><script src="assets/ch3.js?v=15"></script><script src="assets/ch4.js?v=15"></script>
+<script src="assets/panel.js?v=15"></script><script src="assets/ch5.js?v=15"></script><script src="assets/ch6.js?v=15"></script>
+<script src="assets/wiring.js?v=15"></script><script src="assets/devdata.js?v=15"></script><script src="assets/dev.js?v=15"></script>
 </head>
 <body>
 <div class="wrap">
@@ -35,8 +35,8 @@
   <li><b>Where the auxiliary contacts go</b>: the permissive contact KM1 83–84 (normally open, NO) sits outside the holding contact of KM2, and the reverse-order contact KM2 83–84 goes across S1 only, never across F21, F1 or the emergency stop S0.</li>
   <li><b>Timers</b>: first set the simulation speed to real time with a stopwatch, then time M2 starting 3 s after M1 and M3 6 s after M1. The off-delay timers of part 6D must be tried in the program by the instructor before class.</li></ul></section>
 
-<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#tA"><b>A</b>ทำใน CADe SIMU อย่างไร</a><a href="#tN"><b>N</b>จุดผิดที่ผ่านการทดสอบบางข้อ</a><a href="#tL"><b>L</b>ใบงานที่ 6</a><a href="#tC"><b>C</b>ทบทวนก่อนเข้าคาบ</a></nav>
-<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#tA"><b>A</b>How to in CADe SIMU</a><a href="#tN"><b>N</b>Mistakes that pass some tests</a><a href="#tL"><b>L</b>Lab sheet 6</a><a href="#tC"><b>C</b>Check yourself</a></nav>
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#tA"><b>A</b>ทำใน CADe SIMU อย่างไร</a><a href="#tN"><b>N</b>จุดผิดที่ผ่านการทดสอบบางข้อ</a><a href="#tS"><b>S</b>ทำบน Simurelay</a><a href="#tL"><b>L</b>ใบงานที่ 6</a><a href="#tC"><b>C</b>ทบทวนก่อนเข้าคาบ</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#tA"><b>A</b>How to in CADe SIMU</a><a href="#tN"><b>N</b>Mistakes that pass some tests</a><a href="#tS"><b>S</b>In Simurelay</a><a href="#tL"><b>L</b>Lab sheet 6</a><a href="#tC"><b>C</b>Check yourself</a></nav>
 
 <section class="prob" id="tA">
   <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">ทำแต่ละอย่างใน CADe SIMU อย่างไร</h2><h2 data-l="en">How to do each item in CADe SIMU</h2>
@@ -63,6 +63,27 @@
   <div class="card" style="margin-top:12px"><div id="logN"></div><div id="sumN" style="margin-top:8px"></div></div>
 </section>
 
+<section class="prob" id="tS">
+  <div class="prob-head"><span class="prob-no">S</span><div><h2 data-l="th">ทำวงจรของบทนี้บน Simurelay</h2><h2 data-l="en">This chapter's circuits in Simurelay</h2>
+    <div class="src" data-l="th">แอป Simurelay บนโทรศัพท์ · สายพานสองชุดเรียงลำดับ · รุ่นฟรีไม่มีตัวตั้งเวลา</div><div class="src" data-l="en">The Simurelay phone app · two belts in sequence · the free version has no timers</div></div></div>
+  <p class="lead" data-l="th">ใบงานที่ 6 ทำใน CADe SIMU บนคอมพิวเตอร์ของห้องปฏิบัติการ ส่วน Simurelay ใช้ฝึกตอน 6A และ 6B ที่บ้าน และใช้ทำงานจำลองวงจรท้ายบทได้ ได้ อ่านวิธีติดตั้ง ขั้นตอนทำงาน กฎของชื่อ และวิธีส่งงานใน<a href="ch1_4_cadesimu.html#tS">หน้า 1.4 ส่วน S</a> ก่อน <b>ตอน 6C และ 6D ใช้ตัวตั้งเวลา</b> ซึ่ง Simurelay รุ่นฟรีไม่มี จึงทำใน CADe SIMU (หรือใน Simurelay ที่ซื้อส่วนเสริมตัวตั้งเวลาแล้ว)</p>
+  <p class="lead" data-l="en">Lab sheet 6 is done in CADe SIMU on the lab computers; Simurelay is for practising parts 6A and 6B at home and may be used for the end-of-chapter simulation task. First read how to install it, the workflow, the naming rule and the hand-in on <a href="ch1_4_cadesimu.html#tS">page 1.4, section S</a>. <b>Parts 6C and 6D use timers</b>, which the free version of Simurelay does not have, so they are done in CADe SIMU (or in Simurelay with the timer add-on).</p>
+  <div class="card solve">
+    <ol data-l="th"><li><b>ทาง KM1</b>: F1 → F21 95–96 → S1 → S2 ขนานกับ KM1 13–14 → คอยล์ KM1</li>
+      <li><b>ทาง KM2</b> แยกจากจุดหลังขั้ว 96 ของ F21: หน้าสัมผัสยินยอม KM1 83–84 → F22 95–96 → S3 → S4 ขนานกับ KM2 13–14 → คอยล์ KM2 ถ้าทำตอน 6A ครบ ให้เพิ่มวงจรกำลัง Q1, Q11, Q12, KM1, KM2, F21, F22, M1, M2 และสายดินป้องกัน PE</li>
+      <li><b>ตรวจ TAG ทุกตัว</b>: แอปตั้งเลขโอเวอร์โหลดให้เองตามลำดับที่วาง ให้แก้เป็น <b>F21</b> และ <b>F22</b> ด้วย TAG ปุ่มทั้งสี่ตัวต้องชื่อไม่ซ้ำ (S1 S2 S3 S4) และตั้ง NUM1 กับ NUM2 ของหน้าสัมผัสยินยอมเป็น 83 กับ 84 ถ้าแอปของตัวเองต้องวางรีเลย์โอเวอร์โหลดทั้งตัวจึงจะได้หน้าสัมผัส 95–96 ก็วางได้ (ลองในแอปของตัวเอง)</li>
+      <li><b>Play</b>: แตะ S4 ก่อน: ไม่มีอะไรทำงาน → แตะ S2: KM1 ดูด → แตะ S4: KM2 ดูด → แตะ S3: หยุดเฉพาะ KM2 → แตะ F21: หยุดทั้งคู่ → เริ่มใหม่แล้วแตะ F22: หยุดเฉพาะ KM2</li>
+      <li><b>ตอน 6B</b>: ต่อ KM2 83–84 คร่อม S1 แล้วแตะ S1 ขณะ KM2 ดูดอยู่: KM1 ต้องยังไม่หลุด (หยุดย้อนลำดับ หน้า 6.2)</li></ol>
+    <ol data-l="en"><li><b>The KM1 path</b>: F1 → F21 95–96 → S1 → S2 in parallel with KM1 13–14 → coil KM1.</li>
+      <li><b>The KM2 path</b> branches from the point after F21 terminal 96: permissive contact KM1 83–84 → F22 95–96 → S3 → S4 in parallel with KM2 13–14 → coil KM2. For the whole of part 6A, add the power circuit Q1, Q11, Q12, KM1, KM2, F21, F22, M1, M2 and the protective earth PE.</li>
+      <li><b>Check every TAG</b>: the app numbers the overload relays by itself in the order you place them; rename them <b>F21</b> and <b>F22</b> with TAG. The four buttons need four different names (S1 S2 S3 S4), and NUM1 and NUM2 of the permissive contact are 83 and 84. If your app gives contacts 95–96 only with a whole overload relay, place the whole relay (check in your app).</li>
+      <li><b>Play</b>: tap S4 first: nothing runs → tap S2: KM1 pulls in → tap S4: KM2 pulls in → tap S3: only KM2 stops → tap F21: both stop → start again and tap F22: only KM2 stops.</li>
+      <li><b>Part 6B</b>: connect KM2 83–84 across S1 and tap S1 while KM2 is in: KM1 must not drop out (stopping in reverse order, page 6.2).</li></ol>
+  </div>
+  <div class="callout" data-l="th"><b>ตัวตั้งเวลาทำใน CADe SIMU</b>: สายพานสามชุดที่เริ่มเองด้วย KT1 และ KT2 (ตอน 6C) และการเริ่มและหยุดแบบหน่วงเวลา (ตอน 6D) ต้องใช้ตัวตั้งเวลา ทำบนคอมพิวเตอร์ของห้องปฏิบัติการ แม้มีส่วนเสริมตัวตั้งเวลาแล้ว รีวิวของรุ่น 3.0 ยังบอกว่าตัวตั้งเวลาทำงานไม่แน่นอน จับเวลาใน CADe SIMU ตามใบงาน ส่วนเบรกเกอร์ใน Simurelay ไม่ตัดเอง การตัดของโอเวอร์โหลดทำได้โดยแตะ F21 หรือ F22 ในโหมด Play</div>
+  <div class="callout" data-l="en"><b>Timers are done in CADe SIMU</b>: the three conveyors started by KT1 and KT2 (part 6C) and the timed start and stop (part 6D) need timers, so they are done on the lab computers. Even with the timer add-on, reviews of version 3.0 say the timers are unreliable, so time them in CADe SIMU as the lab sheet says. Breakers in Simurelay never trip by themselves; an overload trips when you tap F21 or F22 in Play mode.</div>
+</section>
+
 <section class="prob" id="tL">
   <div class="prob-head"><span class="prob-no">L</span><div><h2 data-l="th">ใบงานที่ 6</h2><h2 data-l="en">Lab sheet 6</h2>
     <div class="src" data-l="th">สัปดาห์ที่ 7 · ครูแจกเป็นกระดาษ · UMC5 แบบฝึกหัดที่ 5 รูป Exp. 5.5</div><div class="src" data-l="en">Week 7 · handed out on paper · UMC5 exercise 5, Fig. Exp. 5.5</div></div></div>
@@ -71,6 +92,8 @@
     <p data-l="en"><b>Lab sheet 6 (week 7), sequence starting</b>, in five parts: <b>6A</b> two motors with the power circuit (Q1, Q11, Q12, KM1, KM2, F21, F22, M1, M2 and the protective earth, PE), a control circuit with the permissive contact, a stop button and an overload relay for each motor, and green and yellow lamps; then fill in the test table: S4 first → nothing runs · S2 then S4 → both run · S3 → only M2 stops · F21 trips → both stop · F22 trips → only M2 stops · Q1 off and on → nothing restarts. <b>6B</b> add the reverse-order stop (KM2 83–84 across S1) and test S1 while M2 runs. <b>6C</b> three conveyors started automatically with KT1 = KT2 = 3 s (page 6.3): set the simulation speed first, time the starts with a stopwatch, and trip one overload relay at a time to see which belts stop. <b>6D</b> (extension) timed start and timed stop (page 6.4) with the seal contacts KM1 13–14 and KM2 13–14, tested so that nothing restarts after S0 is released or an overload is reset. <b>Part 5</b>: design a three-motor reverse-order stop in the box on the sheet (how many NO contacts KM2 needs: see page 6.2). Every part needs path numbers, contact numbers and the cross-reference under every coil.</p>
     <p class="simnote" data-l="th"><b>ใบงานที่ 6 ครูแจกเป็นกระดาษในคาบปฏิบัติ</b> ไม่มีให้ดาวน์โหลด เตรียมตัวโดยอ่านหน้า 6.1–6.4 และลองภาพจำลองทุกหน้าให้ครบก่อนมาเรียน</p>
     <p class="simnote" data-l="en"><b>Lab sheet 6 is handed out on paper in the practical session</b>; it is not available for download. Prepare by reading pages 6.1–6.4 and trying every simulation before class.</p>
+    <p class="simnote" data-l="th"><b>งานจำลองวงจรท้ายบทและการบ้าน:</b> ท้ายคาบสุดท้ายของบทนี้ มี<b>งานจำลองวงจรท้ายบท</b> 10 คะแนน ประมาณ 20–25 นาที: ครูเลือกวงจร 1 วงจร ให้ต่อและจำลองใน CADe SIMU หรือ Simurelay (<a href="#tS">ส่วน S</a>) แล้วส่งไฟล์หรือภาพหน้าจอตามที่ครูบอก <b>การบ้าน</b> 10 คะแนน: เขียนวงจรเดียวกันนั้นด้วยมือบนแผ่นแบบ A4 ของวิชา (ดาวน์โหลดและดูวิธีใช้ใน<a href="ch2_6_drawing_sheet.html#tD">หน้า 2.6</a>) เลขที่แบบ <b>ED2-HW6</b> แล้วส่งในคาบถัดไป</p>
+    <p class="simnote" data-l="en"><b>End-of-chapter simulation task and homework:</b> at the end of the chapter's last session comes the <b>end-of-chapter simulation task</b>, 10 points, about 20–25 minutes: one circuit chosen by the instructor, built and simulated in CADe SIMU or Simurelay (<a href="#tS">section S</a>), with the file or screenshots handed in as the instructor says. <b>Homework</b>, 10 points: draw the same circuit by hand on the course A4 drawing sheet (download it and see how to use it on <a href="ch2_6_drawing_sheet.html#tD">page 2.6</a>), drawing no. <b>ED2-HW6</b>, and hand it in at the next session.</p>
   </div>
   <div class="story">
     <div class="story-t">
@@ -85,7 +108,7 @@
           <li>Contact M1 (29–30) comes after the point where start button 2 and the holding contact of M2 meet, so the holding contact does not bridge it: the same rule as the permissive contact KM1 83–84 on page 6.1.</li>
           <li>The overload contacts OL1, OL2 and OL3 are in series in the return line: this exercise wants any overload to stop every motor. Lab 6A gives each motor its own 95–96 at the top of its own path (on the L side), so an F22 trip stops M2 alone.</li></ul></div></div>
     <div class="story-f">
-      <figure class="slide md"><img src="img/book/umc5_figexp5_5_numbered.jpg?v=14" width="1064" height="1234" loading="lazy" decoding="async" alt="American ladder diagram of three motors started in sequence: the power lines L1 L2 L3 feed three motors through contacts M1, M2 and M3 and their overload heaters; a control transformer feeds the control rungs: stop, start 1 with its holding contact to coil M1, start 2 with its holding contact and an M1 contact to coil M2, start 3 with its holding contact and an M2 contact to coil M3, and overload contacts OL1, OL2, OL3 in series in the return line. Every wire carries a blue number, the rungs are numbered 1 to 6 on the left, and the line numbers of each coil's contacts are written on the right.">
+      <figure class="slide md"><img src="img/book/umc5_figexp5_5_numbered.jpg?v=15" width="1064" height="1234" loading="lazy" decoding="async" alt="American ladder diagram of three motors started in sequence: the power lines L1 L2 L3 feed three motors through contacts M1, M2 and M3 and their overload heaters; a control transformer feeds the control rungs: stop, start 1 with its holding contact to coil M1, start 2 with its holding contact and an M1 contact to coil M2, start 3 with its holding contact and an M2 contact to coil M3, and overload contacts OL1, OL2, OL3 in series in the return line. Every wire carries a blue number, the rungs are numbered 1 to 6 on the left, and the line numbers of each coil's contacts are written on the right.">
         <figcaption data-l="th">รูป Exp. 5.5 แบบวงจรเริ่มเดินมอเตอร์ 3 ตัวตามลำดับพร้อมเลขสาย เลขทางเดินกระแส และตารางอ้างอิง (แบบอเมริกัน) · ที่มา: Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. (Cengage, 2025) แบบฝึกหัดที่ 5 หน้า 547 · แตะรูปเพื่อขยาย</figcaption>
         <figcaption data-l="en">Fig. Exp. 5.5, three motors started in sequence, with wire numbers, path numbers and the cross-reference (American drawing) · source: Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed. (Cengage, 2025), exercise 5, p. 547 · tap to enlarge</figcaption></figure>
     </div>
@@ -187,7 +210,7 @@ document.addEventListener('mc:ready', () => {
       if (prev.Q1 && !n.Q1) q1run = prev.M1 || prev.M2; if (!prev.Q1 && n.Q1) { if (q1run) record('q1', n.M1 || n.M2); q1run = null; }
       prev = n; }); };
   const pN = $('pN');
-  const build = () => { sim = new RL.Sim($('simN'), MODES[mode].spec(), { max: 1030, label: t('วงจร 6A มอเตอร์สองตัว', 'circuit 6A, two motors') }); watch(sim);
+  const build = () => { sim = new RL.Sim($('simN'), MODES[mode].spec(), { max: 1030, label: t('วงจร 6A มอเตอร์สองตัว', 'circuit 6A, two motors'), sheet: { title: ['ใบงานที่ 6: วงจร 6A มอเตอร์สองตัว', 'Lab sheet 6: circuit 6A, two motors'] } }); watch(sim);
     pN.innerHTML = ''; ui.h2(pN, t('สั่งงาน', 'Control'));
     const p = C6.panel(pN, sim, { cut: false, skip: ['Q11', 'Q12'] });
     const b = document.createElement('button'); b.type = 'button'; b.className = 'btn on'; b.textContent = t('⚡ Q1 ปลดแล้วสับ (แบบใน CADe SIMU)', '⚡ Q1 off, then on (as in CADe SIMU)'); const me = sim;
