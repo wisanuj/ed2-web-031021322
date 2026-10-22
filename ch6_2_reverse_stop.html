@@ -8,12 +8,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=15"><link rel="stylesheet" href="assets/ed2.css?v=15">
-<link rel="stylesheet" href="assets/wiring.css?v=15">
-<script src="assets/stops.js?v=15"></script><script src="assets/shell.js?v=15"></script>
-<script src="assets/lesson.js?v=15"></script><script src="assets/draw.js?v=15"></script><script src="assets/ed.js?v=15"></script><script src="assets/sym.js?v=15"></script><script src="assets/iec.js?v=15"></script><script src="assets/relay.js?v=15"></script><script src="assets/ch2.js?v=15"></script><script src="assets/ch3.js?v=15"></script><script src="assets/ch4.js?v=15"></script>
-<script src="assets/panel.js?v=15"></script><script src="assets/ch5.js?v=15"></script><script src="assets/ch6.js?v=15"></script>
-<script src="assets/wiring.js?v=15"></script><script src="assets/devdata.js?v=15"></script><script src="assets/dev.js?v=15"></script>
+<link rel="stylesheet" href="assets/ee.css?v=16"><link rel="stylesheet" href="assets/ed2.css?v=16">
+<link rel="stylesheet" href="assets/wiring.css?v=16">
+<script src="assets/stops.js?v=16"></script><script src="assets/shell.js?v=16"></script>
+<script src="assets/lesson.js?v=16"></script><script src="assets/draw.js?v=16"></script><script src="assets/ed.js?v=16"></script><script src="assets/sym.js?v=16"></script><script src="assets/iec.js?v=16"></script><script src="assets/relay.js?v=16"></script><script src="assets/ch2.js?v=16"></script><script src="assets/ch3.js?v=16"></script><script src="assets/ch4.js?v=16"></script>
+<script src="assets/panel.js?v=16"></script><script src="assets/ch5.js?v=16"></script><script src="assets/ch6.js?v=16"></script>
+<script src="assets/wiring.js?v=16"></script><script src="assets/devdata.js?v=16"></script><script src="assets/dev.js?v=16"></script>
 </head>
 <body>
 <div class="wrap">
@@ -86,7 +86,7 @@
       <div class="story-p" data-l="en"><p>EMC9 Fig. 22-4 draws three ways of placing the overload contacts of two motors. SERIES: the ends of coils M1 and M2 are joined and then pass the overload contacts (OL'S) of M1 and M2 in series, so either trip stops both. COMMON: each coil passes its own overload contacts to the common line, so each stops only its own motor. The book's word COMMON means "joined to the common line", not a shared overload, so this page calls it "separate" (each motor its own). CASCADING: coil M2 passes M2's overload and then joins the end of coil M1 ahead of M1's overload, so M1's overload stops both while M2's stops only M2. The book sums up that practically any overload arrangement can be made.</p>
         <p>The figure is a US (National Electrical Manufacturers Association, NEMA) drawing with the overload contacts on the return side. Redrawn to IEC, every 95–96 sits on the L side and the cascading arrangement becomes a tree: KM2's path branches off after F21 and KM3's path after F22. The circuit above has three motors with M1 at the discharge end, so M1's overload must stop every belt while M3's (the feed end) stops only M3. UMC5 ch. 12 uses the series arrangement in every figure (any overload stops all motors), while one of UMC5's review questions asks for a redesign in which an overload stops only its own motor. Which one fits depends on the machine; for a conveyor line it is the cascade.</p></div></div>
     <div class="story-f">
-      <figure class="slide sm"><img src="img/book/emc9_fig22_4_overloads.jpg?v=15" width="767" height="934" loading="lazy" decoding="async" alt="US line diagrams of two coils M1 and M2 with three overload arrangements: SERIES, both coils joined and returned through the overload contacts of M1 and M2 in series; COMMON, each coil through its own overload contact to the line; CASCADING, coil M2 through M2's overload into the node after coil M1, then through M1's overload.">
+      <figure class="slide sm"><img src="img/book/emc9_fig22_4_overloads.jpg?v=16" width="767" height="934" loading="lazy" decoding="async" alt="US line diagrams of two coils M1 and M2 with three overload arrangements: SERIES, both coils joined and returned through the overload contacts of M1 and M2 in series; COMMON, each coil through its own overload contact to the line; CASCADING, coil M2 through M2's overload into the node after coil M1, then through M1's overload.">
         <figcaption data-l="th">รูป 22-4 การวางหน้าสัมผัสโอเวอร์โหลดสามแบบ (แบบ NEMA) · ที่มา: Herman, <i>Electric Motor Control</i> 9th ed. (Delmar Cengage, 2010) หน่วยที่ 22 หน้า 175 · แตะรูปเพื่อขยาย</figcaption>
         <figcaption data-l="en">Fig. 22-4, three overload arrangements (NEMA) · source: Herman, <i>Electric Motor Control</i>, 9th ed. (Delmar Cengage, 2010), unit 22, p. 175 · tap to enlarge</figcaption></figure>
     </div>
@@ -107,7 +107,7 @@
         <p>EMC9 Fig. 48-9 puts a speed switch (the book calls it a plugging switch) on the shaft of the main conveyor motor. Its contact F closes only while the main conveyor really turns. The feeder coil F takes its supply through auxiliary contact M and the speed-switch contact in series, so the feeder can start only once the main conveyor turns, and stops as soon as it slows down. In this figure the feeder's overload contacts (F OL'S) sit in the main conveyor's rung too, so a feeder overload stops both conveyors; the course circuits let the discharge belt run on to clear (rule 3).</p>
         <p>Redrawn to IEC, the speed-switch contact is an NO contact with the speed-actuator symbol in series with KM1 83–84 in KM2's path. CADe SIMU has no speed switch, so this is background knowledge, not part of the lab sheet.</p></div></div>
     <div class="story-f">
-      <figure class="slide md"><img src="img/book/emc9_fig48_9_speed_switch.jpg?v=15" width="1034" height="502" loading="lazy" decoding="async" alt="US ladder diagram: main motor rung from L1 through STOP and RUN with holding contact M to coil M, then the overload contacts of M and of F to L2; feeder rung from L1 through an M contact and the contact of speed switch F, linked by a dashed line to the main motor, to coil F.">
+      <figure class="slide md"><img src="img/book/emc9_fig48_9_speed_switch.jpg?v=16" width="1034" height="502" loading="lazy" decoding="async" alt="US ladder diagram: main motor rung from L1 through STOP and RUN with holding contact M to coil M, then the overload contacts of M and of F to L2; feeder rung from L1 through an M contact and the contact of speed switch F, linked by a dashed line to the main motor, to coil F.">
         <figcaption data-l="th">รูป 48-9 สายพานป้อนเริ่มได้เมื่อสายพานหลักหมุนจริง ตรวจด้วยสวิตช์ความเร็ว (แบบ NEMA) · ที่มา: Herman (2010) หน่วยที่ 48 หน้า 340 · แตะรูปเพื่อขยาย</figcaption>
         <figcaption data-l="en">Fig. 48-9, the feeder starts only once the main conveyor really turns, proven by a speed switch (NEMA) · source: Herman (2010), unit 48, p. 340 · tap to enlarge</figcaption></figure>
     </div>

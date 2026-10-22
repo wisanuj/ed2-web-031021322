@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="Week 2 — Symbols and the real devices on the trainer">สัปดาห์ 2 — สัญลักษณ์กับอุปกรณ์จริงบนแผงฝึก</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=16"><link rel="stylesheet" href="assets/ed2.css?v=16">
+<link rel="stylesheet" href="assets/wiring.css?v=16"><link rel="stylesheet" href="assets/mcp.css?v=16">
+<script src="assets/stops.js?v=16"></script><script src="assets/shell.js?v=16"></script>
+<script src="assets/lesson.js?v=16"></script><script src="assets/draw.js?v=16"></script><script src="assets/ed.js?v=16"></script><script src="assets/sym.js?v=16"></script><script src="assets/iec.js?v=16"></script><script src="assets/relay.js?v=16"></script><script src="assets/ch2.js?v=16"></script><script src="assets/ch3.js?v=16"></script><script src="assets/ch4.js?v=16"></script>
+<script src="assets/panel.js?v=16"></script><script src="assets/ch5.js?v=16"></script><script src="assets/ch6.js?v=16"></script><script src="assets/ch7.js?v=16"></script>
+<script src="assets/wiring.js?v=16"></script><script src="assets/devdata.js?v=16"></script><script src="assets/dev.js?v=16"></script>
+<script src="assets/mcp.js?v=16"></script>
+<style>
+/* page-local widgets of week 2: the bench (unknown terminals found with an ohmmeter) and the task lists */
+.w2-bench{display:grid;grid-template-columns:minmax(0,1fr) 170px;gap:12px;align-items:start}
+@media (max-width:640px){.w2-bench{grid-template-columns:1fr}}
+.w2-bench svg{display:block;width:100%;height:auto;max-width:400px;margin:0 auto;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.w2-bench .w2-mini{max-width:170px}
+@media (max-width:640px){.w2-bench .w2-mini{max-width:150px;margin:0 auto}}
+.w2-ans{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;margin:8px 0}
+.w2-ans label{display:flex;flex-direction:column;gap:4px;font-size:14px}
+.w2-ans select{font:inherit;font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink)}
+.w2-tasks{margin:6px 0 0 22px;padding:0;font-size:14px;line-height:1.55}
+.w2-tasks li{margin:2px 0}
+.w2-tasks li.ok{color:var(--good)}
+.w2-tasks li.ok::after{content:" ✓";font-weight:700}
+.w2-tasks li.now{font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">สัญลักษณ์กับอุปกรณ์จริงบนแผงฝึก: หาเลขขั้วและไล่วงจรครั้งแรก <span class="en">Symbols and the real devices on the trainer</span></h1>
+<h1 data-l="en">Symbols and the real devices on the trainer <span class="en">Finding terminal numbers and a first tracing</span></h1>
+
+<p class="sub" data-l="th">แบบวงจรใช้สัญลักษณ์ แต่บนแผงฝึกมีแต่อุปกรณ์จริงกับขั้วสกรู สัปดาห์นี้ฝึกเชื่อมสองอย่างนี้เข้าหากัน: ชี้อุปกรณ์จริงจากสัญลักษณ์ในแบบ หาว่าคู่ขั้วไหนเป็นหน้าสัมผัสปกติเปิด (normally open, NO) คู่ไหนเป็นหน้าสัมผัสปกติปิด (normally closed, NC) ด้วยมิเตอร์เมื่อตัวเลขบนอุปกรณ์อ่านไม่ออก ทดสอบปุ่มกด สวิตช์เลือก และหลอดแสดงผลก่อนนำไปใช้ แล้วไล่ทางเดินกระแสของวงจรควบคุมแบบสองสายและสามสาย ทั้งในแบบและด้วยการวัดแรงดัน ทฤษฎีของสัญลักษณ์ เลขขั้ว และวงจรควบคุมอยู่ในบทที่ 2–3 ของวิชาเขียนแบบไฟฟ้า 2 หน้านี้มีเฉพาะงานปฏิบัติ</p>
+<p class="sub" data-l="en">A drawing uses symbols, but the trainer has only real devices and screw terminals. This week links the two: point to the real device for each symbol in a drawing; find which pair of terminals is a normally open (NO) contact and which a normally closed (NC) one with the meter when the numbers on the device cannot be read; test push buttons, selector switches and pilot lamps before using them; then trace the current paths of two-wire and three-wire control circuits, first in the drawing and then by measuring voltage. The theory of symbols, terminal numbers and control circuits is in chapters 2–3 of Electrical Drawing II; this page holds only the practice.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>สัญลักษณ์กับอุปกรณ์</b>: อุปกรณ์ตัวเดียวอาจถูกวาดกระจายหลายที่ในแบบ (คอยล์ KM1 อยู่ทางเดินกระแสหนึ่ง หน้าสัมผัส KM1 13–14 อยู่อีกทาง หน้าสัมผัสหลักอยู่ในวงจรกำลัง) แต่บนแผงฝึกเป็นกล่องเดียว ชื่ออุปกรณ์และเลขขั้วคือตัวเชื่อมแบบกับของจริง</li>
+  <li><b>เลขขั้ว</b>: หลักแรกบอกตำแหน่งของชุดหน้าสัมผัส หลักที่สองบอกหน้าที่: 1–2 ปกติปิด 3–4 ปกติเปิด หลอดแสดงผล X1–X2 คอยล์ A1–A2 (หน้า 2.2)</li>
+  <li><b>หาเลขขั้วด้วยมิเตอร์</b>: ตัดไฟ ใช้ย่านตรวจความต่อเนื่อง วัดคู่ขั้วของชุดหน้าสัมผัสเดียวกันทั้งตอนปล่อยและตอนกด (หรือทุกตำแหน่งของสวิตช์เลือก): ต่อตอนปล่อย = NC ต่อตอนกด = NO</li>
+  <li><b>ไล่วงจร</b>: เริ่มที่ราว L1 ผ่านหน้าสัมผัสที่ต่ออยู่ในสภาวะนั้น ผ่านโหลดได้หนึ่งตัว แล้วไปจบที่ N เมื่อวงจรมีไฟ วางสายดำไว้ที่ N แล้วเลื่อนสายแดงไปตามทางเดินกระแส: ไฟหยุดที่หน้าสัมผัสตัวแรกที่เปิด</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>Symbols and devices</b>: one device may be drawn in several places (coil KM1 in one current path, contact KM1 13–14 in another, the main contacts in the power circuit), but on the trainer it is one box. The device name and the terminal numbers link the drawing to the real thing.</li>
+  <li><b>Terminal numbers</b>: the first digit gives the position of the contact element, the second its function: 1–2 normally closed, 3–4 normally open; pilot lamps X1–X2, coils A1–A2 (page 2.2).</li>
+  <li><b>Finding terminals with the meter</b>: power off, continuity range, measure each pair of one contact element both released and pressed (or in every position of a selector): closed when released = NC, closed when pressed = NO.</li>
+  <li><b>Tracing</b>: start at the L1 rail, pass only contacts that are closed in the present state, go through exactly one load and end at N. On a live circuit, keep the black probe on N and move the red one along the path: the voltage stops at the first open contact.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>อ่านและลองก่อนเรียน</a><a href="#tA"><b>A</b>สัญลักษณ์กับอุปกรณ์จริง</a><a href="#tM"><b>M</b>หาเลขขั้วด้วยมิเตอร์</a><a href="#ex1"><b>1</b>ปุ่มเริ่มต่อผิดขั้ว</a><a href="#tB"><b>B</b>ไล่วงจรครั้งแรก</a><a href="#tD"><b>D</b>วัดแรงดันตามทางเดินกระแส</a><a href="#tF"><b>F</b>ใบงาน</a><a href="#tQ"><b>Q</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>Read and try before class</a><a href="#tA"><b>A</b>Symbols and real devices</a><a href="#tM"><b>M</b>Finding terminals with the meter</a><a href="#ex1"><b>1</b>A start button on the wrong contact</a><a href="#tB"><b>B</b>A first tracing</a><a href="#tD"><b>D</b>Voltage along the current path</a><a href="#tF"><b>F</b>Practice sheet</a><a href="#tQ"><b>Q</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">อ่านและลองก่อนเรียน</h2><h2 data-l="en">Read and try before class</h2>
+    <div class="src" data-l="th">เขียนแบบไฟฟ้า 2 บทที่ 2–3</div><div class="src" data-l="en">Electrical Drawing II, chapters 2–3</div></div></div>
+  <p class="lead" data-l="th">อ่านและลองภาพจำลองในหน้าเหล่านี้ของวิชาเขียนแบบไฟฟ้า 2 ก่อนเข้าห้องปฏิบัติการ ลิงก์จะเปิดหน้าในบริบทของวิชานี้ และมีปุ่มกลับมาที่สัปดาห์ที่ 2 แต่ละบรรทัดบอกว่าควรดูอะไรเป็นพิเศษ</p>
+  <p class="lead" data-l="en">Read these pages of Electrical Drawing II and try their simulations before you come to the workshop. The links open them in the context of this course, with a button back to week 2. Each line says what to look at in particular.</p>
+  <div class="card" id="prep"></div>
+  <div class="callout" data-l="th" style="margin-top:12px"><b>ทบทวนจากสัปดาห์ที่ 1</b>: ทุกงานในหน้านี้ที่แตะขั้วสกรูหรือถอดอุปกรณ์ ทำหลังตัดไฟ ล็อก และทดสอบว่าไม่มีไฟแล้วเท่านั้น (<a href="mcp_1_safety_meter.html#tS">สัปดาห์ 1 หัวข้อ S</a>) ส่วนการวัดแรงดันขณะมีไฟในหัวข้อ D ทำบนชุดฝึกจริงเมื่อครูอยู่ด้วย</div>
+  <div class="callout" data-l="en" style="margin-top:12px"><b>From week 1</b>: every task on this page that touches a screw terminal or removes a device is done only after switching off, locking out and testing for dead (<a href="mcp_1_safety_meter.html#tS">week 1, section S</a>). The live voltage measurements of section D are done on the real trainer only with the teacher present.</div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">สัญลักษณ์กับอุปกรณ์จริง</h2><h2 data-l="en">Symbols and the real devices</h2>
+    <div class="src" data-l="th">หน้า 2.1 และ 2.2 · IEC 60617 (สัญลักษณ์) · IEC 81346-2 (รหัสอุปกรณ์)</div><div class="src" data-l="en">pages 2.1 and 2.2 · IEC 60617 (symbols) · IEC 81346-2 (device codes)</div></div></div>
+  <div class="story n0">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>บนแผงฝึก อุปกรณ์แต่ละตัวมีป้ายชื่อ (Q1, F1, KM1, S1, H1 …) ตรงกับชื่อในแบบ ช่างที่อ่านแบบเป็นจะชี้ได้ทันทีว่าสัญลักษณ์แต่ละตัวคือกล่องไหนบนแผงและขั้วไหน ความยากมีสองแบบ แบบแรก อุปกรณ์ตัวเดียวปรากฏในแบบหลายที่: คอยล์ KM1 อยู่ในทางเดินกระแสหนึ่ง หน้าสัมผัสค้าง 13–14 อยู่อีกทางหนึ่ง และหน้าสัมผัสหลักอยู่ในวงจรกำลัง แต่ทั้งหมดอยู่ในคอนแทกเตอร์ตัวเดียว ตารางอ้างอิงใต้คอยล์บอกว่าหน้าสัมผัสแต่ละคู่ไปอยู่ทางเดินกระแสไหน แบบที่สอง ปุ่มกดหรือสวิตช์เลือกตัวเดียวมีได้หลายชุดหน้าสัมผัส ในแบบวาดเป็นสัญลักษณ์แยกกันที่มีชื่อเดียวกัน</p>
+        <p>แบบฝึกข้างล่างแสดงสัญลักษณ์ของอุปกรณ์ทีละตัว ให้เลือกภาพอุปกรณ์จริง ชื่อ และเลขขั้ว ถูกตั้งแต่ครั้งแรกได้ข้อละ 1 คะแนน ใต้แบบฝึกเป็นการ์ดของอุปกรณ์สามชนิดที่ใช้ในสัปดาห์นี้: ปุ่มกด สวิตช์เลือก และหลอดแสดงผล แตะหมายเลขบนภาพเพื่อดูว่าชี้ส่วนไหน ภาพถ่ายมาจาก Wikimedia Commons ชุดฝึกของสาขาอาจใช้อุปกรณ์ต่างรุ่น แต่สัญลักษณ์และเลขขั้วเป็นแบบเดียวกัน</p></div>
+      <div class="story-p" data-l="en"><p>On the trainer every device carries a name label (Q1, F1, KM1, S1, H1 …) that matches the name in the drawing. Someone who reads drawings well points at once to the box and the terminal for each symbol. There are two difficulties. First, one device appears in several places in the drawing: coil KM1 is in one current path, holding contact 13–14 in another and the main contacts in the power circuit, yet all of them are in one contactor; the cross-reference under the coil says which path each contact is in. Second, one push button or selector can carry several contact elements, drawn as separate symbols with the same name.</p>
+        <p>The drill below shows the symbol of one device at a time: pick the photo of the real device, its name and its terminal numbers. A right first pick scores 1 point. Under the drill are the cards of this week's three devices: push button, selector switch and pilot lamp. Tap a number on a photo to see what it points at. The photos come from Wikimedia Commons; the department's trainer may use other models, but the symbols and terminal numbers are the same.</p></div></div>
+  </div>
+  <div class="card" style="margin-top:12px"><div id="drA"></div></div>
+  <p class="lead" data-l="th" style="margin-top:14px">อุปกรณ์ของสัปดาห์นี้ แตะหมายเลขเพื่อดูว่าชี้ส่วนไหน</p>
+  <p class="lead" data-l="en" style="margin-top:14px">This week's devices: tap a number to see what it points at.</p>
+  <div id="devA"></div>
+</section>
+
+<section class="prob" id="tM">
+  <div class="prob-head"><span class="prob-no">M</span><div><h2 data-l="th">หาเลขขั้วด้วยมิเตอร์</h2><h2 data-l="en">Finding terminal numbers with the meter</h2>
+    <div class="src" data-l="th">หน้า 2.2, 3.1 และ 3.2 · IEC 60947-5-1 (อุปกรณ์ในวงจรควบคุม)</div><div class="src" data-l="en">pages 2.2, 3.1 and 3.2 · IEC 60947-5-1 (control circuit devices)</div></div></div>
+  <div class="story n0">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>ตัวเลขบนชุดหน้าสัมผัสของอุปกรณ์ที่ใช้มานานมักลบเลือน และบางครั้งชุดหน้าสัมผัสถูกถอดสลับตำแหน่ง ก่อนต่อสายต้องรู้ให้แน่ว่าคู่ขั้วไหนเป็น NC คู่ไหนเป็น NO วิธีของช่างคือ ตัดไฟหรือถอดอุปกรณ์ออกมาวัดบนโต๊ะ ตั้งมิเตอร์ย่านตรวจความต่อเนื่อง (มีเสียงเตือนเมื่อต่อถึงกัน) แตะคู่ขั้วของชุดหน้าสัมผัสเดียวกัน แล้ววัดสองครั้ง คือตอนปล่อยและตอนกดค้าง (สวิตช์เลือกวัดทุกตำแหน่ง):</p>
+        <ul><li>ต่อตอนปล่อย ขาดตอนกด คือ NC เลขขั้ว x1–x2</li>
+          <li>ขาดตอนปล่อย ต่อตอนกด คือ NO เลขขั้ว x3–x4</li>
+          <li>หลักแรก x คือตำแหน่งของชุดหน้าสัมผัสบนตัวจับ ซึ่งผู้ผลิตพิมพ์ไว้ (ในหน้านี้: ชุดซ้าย = 1 ชุดขวา = 2)</li>
+          <li>ขั้วของชุดหน้าสัมผัสต่างกันต้องอ่านได้ OL (over limit: เกินย่านวัด คือไม่ต่อถึงกัน) เสมอ</li></ul>
+        <p>หลอดแสดงผลแบบหลอดไส้วัดได้ความต้านทานต่ำเพราะไส้หลอดยังเย็น ไส้หลอดขาดอ่านได้ OL ส่วนหลอดไดโอดเปล่งแสง (light-emitting diode, LED) ที่มีวงจรในตัวมักอ่านได้ OL หรือค่าที่เปลี่ยนเมื่อสลับสายวัด จึงทดสอบด้วยการป้อนแรงดันพิกัดบนชุดฝึกที่ครูตรวจแล้วแทน หลอดในหน้านี้เป็นหลอดไส้ ค่าความต้านทานเป็นค่าตัวอย่าง</p></div>
+      <div class="story-p" data-l="en"><p>The numbers on the contact elements of a well-used device are often worn off, and sometimes elements have been moved to other positions. Before wiring, you must know for sure which pair is NC and which is NO. The electrician's way: switch off, or take the device out and measure it on the bench; set the meter to the continuity range (it beeps on a connection); put the probes on the two terminals of one contact element and measure twice, released and held pressed (a selector in every position):</p>
+        <ul><li>closed when released, open when pressed: NC, terminals x1–x2;</li>
+          <li>open when released, closed when pressed: NO, terminals x3–x4;</li>
+          <li>the first digit x is the position of the element on the holder, printed by the maker (on this page: left element = 1, right element = 2);</li>
+          <li>terminals of two different elements must always read OL (over limit: no connection).</li></ul>
+        <p>A filament pilot lamp reads a low resistance because the filament is cold; a broken filament reads OL. A light-emitting diode (LED) lamp with built-in electronics often reads OL or a value that changes when you swap the probes, so it is tested by applying its rated voltage on a trainer the teacher has checked. The lamp on this page is a filament lamp; its resistance is an example value.</p></div></div>
+  </div>
+  <p class="lead" data-l="th" style="margin-top:12px">เลือกอุปกรณ์บนโต๊ะ ขั้วสกรูมีแค่ตัวอักษร a b c d เพราะตัวเลขลบเลือน แตะขั้วสองขั้วเพื่อวางสายวัด (ขั้วแรกสายแดง ขั้วที่สองสายดำ ต่อจากนั้นแตะเพื่อย้ายสายแดง) กดปุ่มหรือหมุนสวิตช์ด้วยปุ่มในกรอบ แล้วเลือกเลขขั้วของแต่ละชุดและกดตรวจ ทุกการวัดและทุกคำตอบบันทึกลงตาราง ปุ่ม "อุปกรณ์ตัวใหม่" สุ่มอุปกรณ์อีกตัวที่จัดชุดหน้าสัมผัสต่างออกไป</p>
+  <p class="lead" data-l="en" style="margin-top:12px">Choose a device on the bench. Its screw terminals carry only the letters a b c d because the numbers are worn off. Tap two terminals to place the probes (red first, then black; after that each tap moves the red probe), press the button or turn the selector with the controls in the panel, then choose the terminal numbers of each element and check. Every measurement and every answer goes into the table. "Another device" gives you one with its elements arranged differently.</p>
+  <div class="card sim"><div class="w2-bench"><div id="benchM"></div><div class="w2-mini" id="dmmM"></div></div></div>
+  <div class="duo" style="margin-top:12px">
+    <div class="card solve"><div class="panel" id="pM" style="position:static;max-height:none"></div></div>
+    <div class="card"><div id="logM"></div><div id="sumM" style="margin-top:8px"></div></div>
+  </div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">ปุ่มเริ่มต่อผิดชุดหน้าสัมผัส</h2><h2 data-l="en">A start button wired on the wrong contact</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · หน้า 2.4 และ 3.1</div><div class="src" data-l="en">Worked example · pages 2.4 and 3.1</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>แบบวงจรควบคุมแบบสามสายต้องการปุ่มเริ่ม S2 ที่ขั้ว 13–14 (NO) ต่อขนานกับหน้าสัมผัสค้าง KM1 13–14 ปุ่มบนแผงฝึกมีสองชุดหน้าสัมผัส ขั้ว 13 14 21 22 ผู้เรียนคนหนึ่งต่อสายเข้าขั้ว 21–22 โดยไม่ได้ดูเลข เมื่อครูสับ Q1 จะเกิดอะไรขึ้น และควรจับจุดผิดนี้ได้ก่อนจ่ายไฟอย่างไร</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>The three-wire control drawing wants start button S2 on terminals 13–14 (NO), in parallel with holding contact KM1 13–14. The button on the trainer has two contact elements, terminals 13 14 21 22. A student lands the wires on 21–22 without reading the numbers. What happens when the teacher switches Q1 on, and how should this mistake be caught before power-on?</p></div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+  <p class="lead" data-l="th" style="margin-top:12px">ลองเองกับวงจรที่ต่อผิดนี้: เริ่มจาก Q1 ปลดอยู่ คลิก Q1 ในแบบเพื่อสับ แล้วลองกด S1 และ S2 (กดค้างที่ปุ่มในแบบ)</p>
+  <p class="lead" data-l="en" style="margin-top:12px">Try the miswired circuit yourself: Q1 starts off; click Q1 in the drawing to switch it on, then try S1 and S2 (hold the buttons in the drawing).</p>
+  <div class="card sim rlwrap rlscroll" style="padding:8px;--rlmin:560px"><div id="simX"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logX"></div></div>
+</section>
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">ไล่วงจรครั้งแรก: สองสาย สามสาย และสองจุดควบคุม</h2><h2 data-l="en">A first tracing: two-wire, three-wire and two stations</h2>
+    <div class="src" data-l="th">หน้า 2.4 และ 3.3 · ทางเดินกระแสและตารางอ้างอิง</div><div class="src" data-l="en">pages 2.4 and 3.3 · current paths and the cross-reference</div></div></div>
+  <div class="story n0">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>ไล่วงจรคืออ่านแบบเหมือนกระแสเดิน: เริ่มที่ราว L1 ไปตามสาย ผ่านอุปกรณ์ทีละตัว และถามทุกหน้าสัมผัสว่า "ตอนนี้ต่อหรือเปิด" ซึ่งดูจากสภาวะ (ปุ่มถูกกดอยู่ไหม สวิตช์อยู่ตำแหน่งไหน คอนแทกเตอร์ดูดหรือยัง) ทางเดินกระแสผ่านโหลดได้หนึ่งตัวแล้วต้องไปจบที่ N ถ้าเจอหน้าสัมผัสที่เปิด ทางนั้นไม่มีกระแส ในงานต่อสายและซ่อม ทางเดินกระแสที่ไล่ได้คือรายการขั้วที่ต้องตรวจ: ขั้วไหนต่อกับขั้วไหน และต้องวัดที่จุดไหน (หัวข้อ D)</p>
+        <p>ในโหมดไล่วงจร แบบไม่แสดงสีของสายที่มีไฟ ต้องคิดเอง แตะอุปกรณ์ทีละตัวตามลำดับจากราว L1 สายระหว่างอุปกรณ์ที่แตะจะเติมให้เอง แตะผิดจะบอกเหตุผล (เช่น หน้าสัมผัสนั้นเปิดอยู่ หรือเป็นโหลดอีกตัว) ถ้าติดจริง ๆ กด "ดูเฉลย" แต่ข้อนั้นจะไม่นับ วงจรทั้งสามมาจากหน้า 2.4 และ 3.3 วงจรแรกควบคุมแบบสองสายด้วยสวิตช์ค้างตำแหน่ง S3 วงจรที่สองแบบสามสายมีปุ่มหยุด S1 ปุ่มเริ่ม S2 และหน้าสัมผัสค้าง วงจรที่สามมีสองจุดควบคุม</p></div>
+      <div class="story-p" data-l="en"><p>Tracing means reading the drawing the way the current goes: start at the L1 rail, follow the wire, pass one device at a time and ask every contact "closed or open right now?", which depends on the state (is the button held, which position is the selector in, has the contactor pulled in?). A current path goes through one load and must end at N. If it meets an open contact, that path carries no current. In wiring and repair work, the traced path is the list of terminals to check: which terminal joins which, and where to measure (section D).</p>
+        <p>In trace mode the drawing shows no live colours: you work it out. Tap the devices one after the other from the L1 rail; the wires between them fill in by themselves. A wrong tap tells you why (the contact is open, or it is another load). If you are really stuck, press "Show me the path", but that task does not count. The three circuits come from pages 2.4 and 3.3: two-wire control with a maintained switch S3, three-wire control with stop S1, start S2 and a holding contact, and a circuit with two control stations.</p></div></div>
+  </div>
+  <h3 data-l="th" style="margin-top:14px">วงจรที่ 1: ควบคุมแบบสองสาย</h3><h3 data-l="en" style="margin-top:14px">Circuit 1: two-wire control</h3>
+  <div class="card sim rlwrap rlscroll mcp-wide" style="padding:8px"><div id="simB1"></div></div>
+  <div class="card" style="margin-top:10px"><div id="trB1"></div></div>
+  <h3 data-l="th" style="margin-top:18px">วงจรที่ 2: ควบคุมแบบสามสาย</h3><h3 data-l="en" style="margin-top:18px">Circuit 2: three-wire control</h3>
+  <div class="card sim rlwrap rlscroll mcp-wide" style="padding:8px"><div id="simB2"></div></div>
+  <div class="card" style="margin-top:10px"><div id="trB2"></div></div>
+  <h3 data-l="th" style="margin-top:18px">วงจรที่ 3: สองจุดควบคุม</h3><h3 data-l="en" style="margin-top:18px">Circuit 3: two control stations</h3>
+  <div class="card sim rlwrap rlscroll mcp-wide" style="padding:8px"><div id="simB3"></div></div>
+  <div class="card" style="margin-top:10px"><div id="trB3"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logB"></div><div id="sumB" style="margin-top:8px"></div></div>
+</section>
+
+<section class="prob" id="tD">
+  <div class="prob-head"><span class="prob-no">D</span><div><h2 data-l="th">วัดแรงดันตามทางเดินกระแส</h2><h2 data-l="en">Voltage along the current path</h2>
+    <div class="src" data-l="th">วงจรที่ 2 ของหัวข้อ B · หน้า 5.5 (หาจุดผิดเป็นขั้นตอน)</div><div class="src" data-l="en">circuit 2 of section B · page 5.5 (fault finding step by step)</div></div></div>
+  <div class="story n0">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>เมื่อวงจรมีไฟ ช่างหาว่าไฟไปหยุดที่ไหนด้วยการวัดแรงดันเทียบกับ N: วางสายดำไว้ที่ N แล้วเลื่อนสายแดงไปตามทางเดินกระแสที่ไล่ได้ในหัวข้อ B ทุกจุดก่อนหน้าสัมผัสที่เปิดอ่านได้ 230 V จุดหลังหน้าสัมผัสที่เปิด (ด้านคอยล์) อ่านได้ 0 V เพราะต่อถึง N ผ่านคอยล์ ถ้าวัดคร่อมหน้าสัมผัส หน้าสัมผัสที่ต่ออยู่อ่านได้ 0 V ส่วนหน้าสัมผัสที่เปิดอยู่ในทางที่มีโหลดอ่านได้ 230 V วิธีนี้เป็นพื้นฐานของการหาจุดผิดในสัปดาห์ต่อ ๆ ไป</p>
+        <p>บนชุดฝึกจริง การวัดขณะมีไฟทำเมื่อครูอยู่ด้วยเท่านั้น ใช้มิเตอร์ที่มีพิกัดประเภทการวัด (measurement category) CAT III ถือสายวัดหลังที่กันนิ้ว และวางสายดำไว้ที่ N ก่อนเสมอ (สัปดาห์ 1 หัวข้อ S)</p></div>
+      <div class="story-p" data-l="en"><p>On a live circuit, the electrician finds where the voltage stops by measuring against N: keep the black probe on N and move the red one along the path traced in section B. Every point ahead of an open contact reads 230 V; a point after the open contact (on the coil side) reads 0 V, because it reaches N through the coil. Across a contact: a closed one reads 0 V, an open one in a path with a load reads 230 V. This method is the basis of fault finding in the coming weeks.</p>
+        <p>On the real trainer, live measurements are made only with the teacher present, with a meter rated measurement category CAT III, holding the probes behind their finger guards, and always placing the black probe on N first (week 1, section S).</p></div></div>
+  </div>
+  <p class="lead" data-l="th" style="margin-top:12px">แบบข้างล่างคือวงจรที่ 2 ที่มีไฟ วางสายวัดบนขั้วในแบบ (ขั้วแรกสายแดง ขั้วที่สองสายดำ จากนั้นสายดำอยู่กับที่) ใช้ปุ่ม S2 และ S1 ในกรอบงานวัดเพื่อเริ่มและหยุดมอเตอร์ (หรือกดปุ่มในแบบ) งานแต่ละข้อติ๊กเองเมื่อวัดถูกจุดและถูกสภาวะ</p>
+  <p class="lead" data-l="en" style="margin-top:12px">The drawing below is circuit 2, live. Put the probes on terminals in the drawing (red first, then black; after that the black probe stays put). Use the S2 and S1 buttons in the task panel to start and stop the motor (or press the buttons in the drawing). Each task ticks itself when you measure at the right points in the right state.</p>
+  <div class="card sim rlwrap rlscroll mcp-wide" style="padding:8px"><div id="simD"></div></div>
+  <div class="duo" style="margin-top:12px">
+    <div class="card solve"><div class="panel" id="pD" style="position:static;max-height:none"></div></div>
+    <div class="card"><div id="mD"></div></div>
+  </div>
+  <div class="card" style="margin-top:12px"><div id="sumD"></div></div>
+</section>
+
+<section class="prob" id="tF">
+  <div class="prob-head"><span class="prob-no">F</span><div><h2 data-l="th">ใบงานสัปดาห์ที่ 2</h2><h2 data-l="en">Practice sheet, week 2</h2>
+    <div class="src" data-l="th">ใบงานกระดาษ</div><div class="src" data-l="en">paper sheet</div></div></div>
+  <div class="callout" data-l="th"><b>ใบงานครูแจกเป็นกระดาษ</b> ในห้องปฏิบัติการ ไม่มีไฟล์ให้ดาวน์โหลด สัปดาห์นี้ทำงานกับอุปกรณ์จริงบนแผงฝึก: ชี้อุปกรณ์จากแบบ หาและเขียนเลขขั้วจากการวัด ทดสอบปุ่มกด สวิตช์เลือก และหลอดแสดงผล แล้วไล่ทางเดินกระแสบนแบบที่ครูให้ กรอกค่าที่วัดได้จากอุปกรณ์จริง ไม่ใช่ค่าตัวอย่างจากหน้านี้</div>
+  <div class="callout" data-l="en"><b>The practice sheet is handed out on paper</b> in the workshop; there is no file to download. This week works with the real devices on the trainer: point to the device for each symbol, find and write down terminal numbers from your measurements, test push buttons, selectors and pilot lamps, and trace current paths on the drawing the teacher gives you. Write the values you measure on the real devices, not the example values of this page.</div>
+</section>
+
+<section class="prob" id="tQ">
+  <div class="prob-head"><span class="prob-no">Q</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">สัญลักษณ์ เลขขั้ว และการไล่วงจร</div><div class="src" data-l="en">Symbols, terminal numbers and tracing</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>หัวข้อ M: เลือกปุ่มกด แล้วหาว่าชุดไหนเป็น NC ด้วยการวัดน้อยที่สุดกี่ครั้ง เขียนลำดับการวัดของตัวเอง</li>
+      <li>หัวข้อ B วงจรที่ 2: ไล่ทางเดินกระแสของ KM1 ตอนกด S2 ค้าง แล้วตอนปล่อย ต่างกันที่อุปกรณ์ตัวไหน</li>
+      <li>หัวข้อ D: ก่อนกด S2 วัดคร่อม S1 (11–12) ได้เท่าไร หลังกด S2 แล้วได้เท่าไร อธิบายว่าทำไมเท่ากันหรือต่างกัน</li></ol>
+    <div class="book">IEC 60617 · IEC 81346-2 · IEC 60947-5-1 · เขียนแบบไฟฟ้า 2 หน้า 2.1–2.4 และ 3.1–3.3 · สัปดาห์ 1 หัวข้อ S (ความปลอดภัย)</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Section M: choose the push button and find which element is NC with as few measurements as you can. Write down your own measuring order.</li>
+      <li>Section B, circuit 2: trace the path of KM1 with S2 held, then released. Which device makes the difference?</li>
+      <li>Section D: what does the meter read across S1 (11–12) before S2 is pressed, and after? Explain why the readings are the same or different.</li></ol>
+    <div class="book">IEC 60617 · IEC 81346-2 · IEC 60947-5-1 · Electrical Drawing II, pages 2.1–2.4 and 3.1–3.3 · week 1, section S (safety)</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui, tt = ED.tt, esc = MCP.esc;
+  const hid = spec => new RL.Sim(document.createElement('div'), spec, { sheet: false });   // hidden simulator: the same model as the drawings
+  const W2 = window.W2 = {};   // handles for the headless checks
+
+  /* 0: the ED2 pages to prepare (MCP_WEEKS[].prepare), opened in the MCP context of this week */
+  const PREP = {
+    'ch2_1_symbols.html': ['หัวข้อ A และ B: สัญลักษณ์ที่ใช้บ่อยและรหัสอุปกรณ์ (Q F KM S H) ใช้ในแบบฝึกจับคู่ของหัวข้อ A', 'sections A and B: the common symbols and the device codes (Q F KM S H), used in the matching drill of section A'],
+    'ch2_2_terminal_numbers.html': ['หน้าสำคัญที่สุดของสัปดาห์นี้: เลขขั้วบนอุปกรณ์จริง ชุดหน้าสัมผัสเสริม และปุ่มกดสองชุดหน้าสัมผัส', 'the key page this week: terminal numbers on real devices, the add-on contact block and the two-element push button'],
+    'ch2_3_drawings.html': ['หัวข้อ B: วงจรกำลังกับวงจรควบคุมวาดแยกกัน และหัวข้อ W: แบบสายไฟ', 'section B: power and control circuits drawn apart, and section W: the wiring diagram'],
+    'ch2_4_control_types.html': ['ควบคุมแบบสองสายกับสามสายและการทดลองไฟดับ: เป็นวงจรที่ไล่ทางเดินกระแสในหัวข้อ B', 'two-wire and three-wire control and the power-failure trial: the circuits you trace in section B'],
+    'ch3_1_push_buttons.html': ['ข้างในปุ่มกดและการกดช้า ๆ: หน้าสัมผัส NC เปิดก่อนที่ NO จะต่อ', 'inside a push button and pressing slowly: the NC opens before the NO closes'],
+    'ch3_2_selectors.html': ['การอ่านตารางหน้าสัมผัสของสวิตช์เลือก (โจทย์ตัวอย่าง 1): ใช้ตอนหาเลขขั้วของสวิตช์เลือกในหัวข้อ M', 'reading a selector\'s contact chart (worked example 1): you need it for the selector in section M'],
+    'ch3_3_multi_station.html': ['สองจุดควบคุม: ปุ่มหยุดต่ออนุกรม ปุ่มเริ่มต่อขนาน (วงจรที่ 3 ของหัวข้อ B)', 'two stations: stops in series, starts in parallel (circuit 3 of section B)'] };
+  const prep = (el, map) => { const w = MC.mcpHere(), wk = MC.mcpWeek(), vis = MC.visited(); if (!w || !el) return;
+    el.innerHTML = `<ul style="margin:0 0 0 18px;padding:0;line-height:1.6">${w.prepare.map(f => { const s = (window.STOPS || []).find(x => x.file === f); if (!s) return '';
+      return `<li><a href="${MC.mcpLink(f, wk)}"><b>${t('หน้า', 'Page')} ${s.step}</b> ${esc(MC.stopTitle(s))}</a>${vis[f] ? ` <span class="rk-ok" title="${t('เปิดดูแล้ว', 'visited')}">✓</span>` : ''}: ${tt(map[f] || ['', ''])}</li>`; }).join('')}</ul>`; };
+  prep($('prep'), PREP);
+
+  /* A: symbol drill on the devdata.js cards (Commons photos) and the cards of this week's devices */
+  const drill = W2.drill = new MCP.SymbolDrill($('drA'), ['pb', 'sel', 'lamp', 'mcb', 'fuse', 'km', 'ol', 'ka', 'kt', 'motor', 'term'], { seed: 2 });
+  DEV.mount($('devA'), ['pb', 'sel', 'lamp']);
+
+  /* M: the bench. A push button with two contact elements (one NC, one NO, in random positions), a selector I–0–II with two NO elements
+     (one closes in I, the other in II) or a filament pilot lamp (good or open). Screws a–b = element 1 (left), c–d = element 2 (right);
+     the student measures with an ohmmeter, operates the device and names the terminal numbers. */
+  const RLAMP = MCP.TRAINER.R.lamp, rnd2 = () => (Math.random() < 0.5 ? 0 : 1);
+  const B = { dev: 'pb', nc: rnd2(), selI: rnd2(), lampOk: Math.random() < 0.5, pressed: false, pos: '0', red: null, black: null, next: 'red', n: 0, sig: '', solved: false, an: 0 };
+  const SCR = { pb: { a: [150, 150], b: [150, 248], c: [290, 150], d: [290, 248] }, lamp: { a: [170, 226], b: [270, 226] } }; SCR.sel = SCR.pb;
+  const DEVLAB = { pb: ['ปุ่มกดสองชุดหน้าสัมผัส', 'push button, two contact elements'], sel: ['สวิตช์เลือก I–0–II สองชุดหน้าสัมผัส', 'selector switch I–0–II, two contact elements'], lamp: ['หลอดแสดงผล (หลอดไส้)', 'pilot lamp (filament)'] };
+  const elOf = s => (s === 'a' || s === 'b' ? 0 : 1);
+  const closedEl = (i, c = B) => (c.dev === 'pb' ? (i === c.nc ? !c.pressed : c.pressed) : c.dev === 'sel' ? c.pos === (i === c.selI ? 'I' : 'II') : false);
+  const ohmB = (p, q, c = B) => { if (p === q) return 0; if (c.dev === 'lamp') return c.lampOk ? RLAMP : Infinity; if (elOf(p) !== elOf(q)) return Infinity; return closedEl(elOf(p), c) ? 0 : Infinity; };
+  const numOf = (i, c = B) => (c.dev === 'pb' ? (i === c.nc ? [`${i + 1}1`, `${i + 1}2`] : [`${i + 1}3`, `${i + 1}4`]) : [`${i + 1}3`, `${i + 1}4`]);
+  const labOf = s => { if (B.dev === 'lamp') return s === 'a' ? 'X1' : 'X2'; if (!B.solved) return s; const i = elOf(s), n = numOf(i); return s === 'a' || s === 'c' ? n[0] : n[1]; };
+  const stateTxt = (c = B) => (c.dev === 'pb' ? (c.pressed ? t('กดค้าง', 'held pressed') : t('ปล่อย', 'released')) : c.dev === 'sel' ? t(`ตำแหน่ง ${c.pos}`, `position ${c.pos}`) : '–');
+  const benchSVG = () => { const T = (s, x, y, o) => IEC.T(s, x, y, o), S = SCR[B.dev]; let s = '';
+    if (B.dev === 'lamp') { s += `<circle cx="220" cy="78" r="44" fill="#b9bec4" stroke="#80868f" stroke-width="2"/><circle cx="220" cy="78" r="33" fill="#5f8f6a" stroke="#3b424d"/>` + T(t('เลนส์สีเขียว', 'green lens'), 220, 140, { size: 11, anchor: 'middle', col: '#4a515c' });
+      s += `<rect x="130" y="176" width="180" height="96" rx="10" fill="#dfe2e6" stroke="#6f767f" stroke-width="1.6"/>` + T(t('ขั้วหลอด', 'lamp base'), 220, 260, { size: 10, anchor: 'middle', col: '#4a515c' }); }
+    else { const cx = 220, cy = 62;
+      if (B.dev === 'pb') s += `<circle cx="${cx}" cy="${cy}" r="38" fill="#b9bec4" stroke="#80868f" stroke-width="2"/><circle cx="${cx}" cy="${cy}" r="${B.pressed ? 23 : 28}" fill="#f4f6f8" stroke="#59607e" stroke-width="2"/>` + (B.pressed ? T(t('กดอยู่', 'pressed'), cx, cy + 3.5, { size: 9, anchor: 'middle', weight: 700, col: '#a31d17' }) : '');
+      else { const a = B.pos === 'I' ? -45 : B.pos === 'II' ? 45 : 0; s += `<circle cx="${cx}" cy="${cy}" r="36" fill="#2a2f36" stroke="#59607e" stroke-width="2"/><rect x="${cx - 6}" y="${cy - 34}" width="12" height="46" rx="4" fill="#e9ecef" stroke="none" transform="rotate(${a} ${cx} ${cy})"/>` +
+        [['I', -45], ['0', 0], ['II', 45]].map(([p, d]) => T(p, cx + 52 * Math.sin(d * Math.PI / 180), cy - 52 * Math.cos(d * Math.PI / 180) + 4, { size: 12, anchor: 'middle', weight: 700, col: p === B.pos ? '#d83a34' : '#4a515c' })).join(''); }
+      s += `<line x1="${cx}" y1="${cy + 38}" x2="${cx}" y2="116" stroke="#59607e" stroke-width="4"/><rect x="96" y="114" width="248" height="178" rx="10" fill="#dfe2e6" stroke="#6f767f" stroke-width="1.6"/>`;
+      [0, 1].forEach(i => { const x = i ? 290 : 150; s += `<rect x="${x - 40}" y="124" width="80" height="150" rx="6" fill="#f4f6f8" stroke="#80868f"/>` + T(String(i + 1), x, 289, { size: 11, anchor: 'middle', weight: 700, col: '#4a515c' });
+        if (B.solved) s += IEC.contact(B.dev === 'pb' && i === B.nc, x, 172, 226, { act: closedEl(i) !== (B.dev === 'pb' && i === B.nc), op: B.dev === 'pb' ? 'pb' : 'sel', col: '#1f2328' }); });
+      s += T(t('ตำแหน่งบนตัวจับ: 1 ซ้าย · 2 ขวา', 'position on the holder: 1 left · 2 right'), 220, 306, { size: 10, anchor: 'middle', col: 'var(--muted)' }); }
+    Object.entries(S).forEach(([k, [x, y]]) => { s += `<g data-sc="${k}" style="cursor:pointer"><circle cx="${x}" cy="${y}" r="14" fill="#c8933f" stroke="#7a5520" stroke-width="1.5"/><circle cx="${x}" cy="${y}" r="5.5" fill="#e9ecef" stroke="#59607e"/><circle cx="${x}" cy="${y}" r="22" fill="rgba(0,0,0,0)" stroke="none"/></g>` +
+      T(labOf(k), x + (B.dev === 'lamp' ? 0 : 26), B.dev === 'lamp' ? y - 22 : y + 5, { size: 13, anchor: B.dev === 'lamp' ? 'middle' : 'start', weight: 700, col: B.solved || B.dev === 'lamp' ? '#1f65a8' : '#2a2f36' }); });
+    [['black', '#2a2f36', 'COM'], ['red', '#d83a34', '+']].forEach(([c, col, lab]) => { const k = B[c]; if (!k || !S[k]) return; const [x, y] = S[k], dy = c === 'red' ? -1 : 1;
+      s += `<line x1="${x}" y1="${y}" x2="${x - 22}" y2="${y + dy * 24}" stroke="${col}" stroke-width="3.5" stroke-linecap="round"/><circle cx="${x}" cy="${y}" r="6" fill="${col}" stroke="#ffffff" stroke-width="1.5"/><rect x="${x - 26 - lab.length * 7}" y="${y + dy * 24 - 8}" width="${lab.length * 7 + 9}" height="15" rx="3" fill="${col}" stroke="none"/>` + T(lab, x - 22 - lab.length * 7, y + dy * 24 + 3.5, { size: 10, weight: 700, col: '#ffffff' }); });
+    return IEC.svg(300, 314, `<g transform="translate(-70 0)">${s}</g>`, { label: 'device on the bench' }); };   // content drawn on x 70–370
+  const dmmSVG = (txt, beep) => { let s = `<rect x="4" y="4" width="152" height="150" rx="16" fill="#f2c230" stroke="#b8901c" stroke-width="2"/><rect x="16" y="14" width="128" height="128" rx="10" fill="#2f343b" stroke="none"/>`;
+    s += `<rect x="26" y="26" width="108" height="50" rx="5" fill="#c9d6b8" stroke="#1f2328"/>` + IEC.T(esc(txt), 128, 60, { size: txt.length > 7 ? 19 : 23, anchor: 'end', weight: 700, col: '#1f2328' }) + IEC.T('Ω', 32, 38, { size: 9, weight: 700, col: '#1f2328' }) + (beep ? IEC.T('♪', 34, 70, { size: 12, col: '#1f2328' }) : '');
+    s += IEC.T(t('ย่าน Ω', 'Ω range'), 80, 104, { size: 11, anchor: 'middle', weight: 700, col: '#f2c230' }) + IEC.T(t('ไม่มีไฟ', 'no supply'), 80, 124, { size: 9.5, anchor: 'middle', col: '#e9ecef' });
+    return IEC.svg(160, 158, s, { max: 170, label: `ohmmeter ${txt}` }); };
+  const logM = new ED.Log($('logM'), [['ครั้งที่', 'no.'], ['อุปกรณ์', 'device'], ['สภาวะ', 'state'], ['สายแดง', 'red'], ['สายดำ', 'black'], ['ผล', 'result']],
+    { title: ['การวัดและคำตอบบนโต๊ะ (บันทึกอัตโนมัติ)', 'Measurements and answers on the bench (recorded automatically)'], empty: ['ยังไม่ได้วัด แตะขั้วสกรูสองขั้วของอุปกรณ์', 'No measurements yet: tap two screw terminals of the device'] });
+  const devShort = () => tt({ pb: ['ปุ่มกด', 'push button'], sel: ['สวิตช์เลือก', 'selector'], lamp: ['หลอด', 'lamp'] }[B.dev]);
+  const measB = () => { if (!B.red || !B.black) return null; const r = ohmB(B.red, B.black), txt = MCP.fmtR(r), sig = [B.dev, B.an, stateTxt(), ...[B.red, B.black].sort()].join('|');
+    if (sig !== B.sig) { B.sig = sig; B.n++; logM.add(sig, [String(B.n), devShort(), stateTxt(), labOf(B.red), labOf(B.black), `<b>${txt}</b>`], r === Infinity ? 'warn' : 'ok'); }
+    return { r, txt }; };
+  const drawBench = () => { $('benchM').innerHTML = benchSVG(); const m = measB(); $('dmmM').innerHTML = dmmSVG(m ? m.txt : 'OL', m && m.r === 0);
+    $('benchM').querySelectorAll('[data-sc]').forEach(g => g.addEventListener('click', () => tapB(g.getAttribute('data-sc')))); };
+  const tapB = k => { if ((B.next === 'black' && B.red === k) || (B.next === 'red' && B.black === k)) return null; B[B.next] = k; B.next = B.black ? 'red' : 'black'; drawBench(); return B.red && B.black ? MCP.fmtR(ohmB(B.red, B.black)) : null; };
+  /* the panel: device, controls, answer */
+  const pM = $('pM'); ui.h2(pM, t('อุปกรณ์บนโต๊ะ', 'Device on the bench'));
+  const rDev = ui.radio(pM, Object.keys(DEVLAB).map(k => ({ id: k, label: tt(DEVLAB[k]), on: k === 'pb' })), id => setDev(id));
+  ui.buttons(pM, [{ id: 'new', label: t('อุปกรณ์ตัวใหม่', 'Another device'), onclick: () => newDev() }]);
+  const ctl = document.createElement('div'), ans = document.createElement('div'); pM.appendChild(ctl); pM.appendChild(ans);
+  const OPTS = { pb: ['11–12', '13–14', '21–22', '23–24'], sel: ['13–14 · I', '13–14 · II', '23–24 · I', '23–24 · II'] };
+  const rightAns = i => (B.dev === 'pb' ? numOf(i).join('–') : `${numOf(i).join('–')} · ${i === B.selI ? 'I' : 'II'}`);
+  const drawCtl = () => { ctl.innerHTML = ''; ui.h2(ctl, t('ใช้งานอุปกรณ์', 'Operate the device'));
+    if (B.dev === 'pb') ui.buttons(ctl, [{ id: 'p', label: B.pressed ? t('ปล่อยปุ่ม', 'release the button') : t('กดปุ่มค้างไว้', 'hold the button pressed'), on: B.pressed, onclick: () => setPress(!B.pressed) }]);
+    else if (B.dev === 'sel') ui.radio(ctl, ['I', '0', 'II'].map(p => ({ id: p, label: t(`ตำแหน่ง ${p}`, `position ${p}`), on: B.pos === p })), p => setPos(p));
+    else ui.html(ctl, t('หลอดไม่มีส่วนให้กด วัดระหว่าง X1 กับ X2', 'A lamp has nothing to operate: measure between X1 and X2'), 'hint'); };
+  const drawAns = () => { ans.innerHTML = ''; ui.h2(ans, t('คำตอบ', 'Your answer'));
+    const box = document.createElement('div'); box.className = 'w2-ans'; ans.appendChild(box);
+    if (B.dev === 'lamp') box.innerHTML = `<label>${t('สภาพของหลอด', 'state of the lamp')}<select data-a="0"><option value="">–</option><option value="ok">${t('หลอดดี', 'good')}</option><option value="open">${t('ไส้หลอดขาด', 'open filament')}</option></select></label>`;
+    else box.innerHTML = [0, 1].map(i => `<label>${t(`ชุดที่ ${i + 1} (ขั้ว ${i ? 'c–d' : 'a–b'})`, `element ${i + 1} (screws ${i ? 'c–d' : 'a–b'})`)}<select data-a="${i}"><option value="">–</option>${OPTS[B.dev].map(o => `<option value="${o}">${o.replace('·', t('ต่อในตำแหน่ง', 'closes in'))}</option>`).join('')}</select></label>`).join('');
+    ui.buttons(ans, [{ id: 'chk', label: t('ตรวจคำตอบ', 'Check the answer'), onclick: () => checkB() }]);
+    const st = ui.status(ans); st.id = 'stM'; ui.setStatus(st, '?', t('วัดก่อน แล้วเลือกคำตอบ', 'Measure first, then choose'), 'wait');
+    const ch = document.createElement('div'); ch.id = 'chartM'; ans.appendChild(ch); };
+  const answer = vals => { ans.querySelectorAll('select[data-a]').forEach((s, i) => { if (vals[i] !== undefined) s.value = vals[i]; }); return checkB(); };
+  const checkB = () => { const v = [...ans.querySelectorAll('select[data-a]')].map(s => s.value); if (v.some(x => !x)) { ui.setStatus($('stM'), '?', t('เลือกคำตอบให้ครบทุกช่อง', 'Choose an answer in every box'), 'warn'); return null; }
+    const ok = B.dev === 'lamp' ? (v[0] === 'ok') === B.lampOk : v.every((x, i) => x === rightAns(i)); B.an++;
+    logM.add('ans' + B.n + '-' + B.an, [String(++B.n), devShort(), t('คำตอบ', 'answer'), '–', '–', `${esc(v.join(', '))} ${ok ? '✓' : '✗'}`], ok ? 'ok' : 'bad');
+    if (ok) { B.solved = B.dev !== 'lamp'; drawBench();
+      ui.setStatus($('stM'), '✓', B.dev === 'lamp' ? (B.lampOk ? t(`ถูก: อ่านได้ ${MCP.fmtR(RLAMP)} (ค่าตัวอย่าง) ไส้หลอดต่อครบ`, `Right: ${MCP.fmtR(RLAMP)} (example value), the filament is whole`) : t('ถูก: OL คือไส้หลอดขาด เปลี่ยนหลอด', 'Right: OL means an open filament; replace the lamp'))
+        : t('ถูก เลขขั้วจริงแสดงบนอุปกรณ์แล้ว พร้อมสัญลักษณ์ของแต่ละชุด', 'Right: the real numbers are now shown on the device, with the symbol of each element'), 'good');
+      if (B.dev === 'sel') C3.chart($('chartM'), { positions: ['I', '0', 'II'], at: B.pos, contacts: [0, 1].map(i => ({ name: `S ${numOf(i).join('–')}`, closed: [i === B.selI ? 'I' : 'II'] })) }); }
+    else ui.setStatus($('stM'), '✗', B.dev === 'pb' ? t('ยังไม่ถูก วัด a–b และ c–d ทั้งตอนปล่อยและตอนกด: ต่อตอนปล่อยคือ NC (x1–x2) หลักแรกคือตำแหน่งบนตัวจับ', 'Not yet: measure a–b and c–d released and pressed; closed when released is NC (x1–x2), the first digit is the position on the holder')
+      : B.dev === 'sel' ? t('ยังไม่ถูก วัด a–b และ c–d ในตำแหน่ง I และ II ชุดที่ 1 เป็น 13–14 ชุดที่ 2 เป็น 23–24', 'Not yet: measure a–b and c–d in positions I and II; element 1 is 13–14, element 2 is 23–24')
+        : t('ยังไม่ถูก วัด X1–X2: หลอดดีอ่านได้ค่าไม่กี่กิโลโอห์ม ไส้หลอดขาดอ่าน OL', 'Not yet: measure X1–X2; a good lamp reads a few kilohms, an open filament OL'), 'bad');
+    return ok; };
+  const setDev = id => { B.dev = id; B.red = B.black = null; B.next = 'red'; B.solved = false; B.pressed = false; B.pos = '0'; drawCtl(); drawAns(); drawBench(); };
+  const newDev = () => { B.nc = rnd2(); B.selI = rnd2(); B.lampOk = Math.random() < 0.5; B.an++; setDev(B.dev); };
+  const setPress = v => { B.pressed = !!v; drawCtl(); drawBench(); }, setPos = p => { B.pos = p; drawBench(); if (B.solved && B.dev === 'sel') C3.chart($('chartM'), { positions: ['I', '0', 'II'], at: B.pos, contacts: [0, 1].map(i => ({ name: `S ${numOf(i).join('–')}`, closed: [i === B.selI ? 'I' : 'II'] })) }); };
+  drawCtl(); drawAns(); drawBench();
+  ED.summary($('sumM'), { title: ['สิ่งที่มิเตอร์บอก (ตัวอย่าง: ปุ่มกดที่ชุดที่ 1 เป็น NC)', 'What the meter tells you (example: push button with element 1 NC)'],
+    head: [['คู่ขั้ว', 'pair'], ['ปล่อย', 'released'], ['กดค้าง', 'pressed'], ['จึงเป็น', 'so it is']],
+    rows: () => { const c = { dev: 'pb', nc: 0, pressed: false }, p = { ...c, pressed: true };
+      return [['a', 'b'], ['c', 'd'], ['a', 'c']].map(([x, y]) => [`${x}–${y}`, MCP.fmtR(ohmB(x, y, c)), MCP.fmtR(ohmB(x, y, p)), elOf(x) !== elOf(y) ? t('คนละชุด: OL เสมอ', 'two elements: always OL') : closedEl(elOf(x), c) ? t(`NC → ${numOf(elOf(x), c).join('–')}`, `NC → ${numOf(elOf(x), c).join('–')}`) : t(`NO → ${numOf(elOf(x), c).join('–')}`, `NO → ${numOf(elOf(x), c).join('–')}`)]); },
+    points: [['ต่อตอนปล่อย = NC (x1–x2) ต่อตอนกด = NO (x3–x4) หลักแรกคือตำแหน่งของชุดบนตัวจับ', 'Closed when released = NC (x1–x2), closed when pressed = NO (x3–x4); the first digit is the element\'s position on the holder'],
+      ['สวิตช์เลือกวัดทุกตำแหน่ง แล้วเขียนเป็นตารางหน้าสัมผัส (หน้า 3.2)', 'Measure a selector in every position and write the result as a contact chart (page 3.2)'],
+      ['หลอดไส้: ค่าไม่กี่กิโลโอห์ม = ดี, OL = ไส้ขาด หลอด LED ทดสอบด้วยแรงดันพิกัด', 'Filament lamp: a few kilohms = good, OL = open filament; an LED lamp is tested with its rated voltage']] });
+  W2.B = B; W2.tapB = tapB; W2.setDev = id => { rDev.set(id); setDev(id); }; W2.setPress = setPress; W2.setPos = setPos; W2.answer = answer; W2.rightAns = rightAns; W2.newDev = newDev;
+
+  /* worked example 1: S2 landed on its NC element 21–22 in the three-wire circuit (C2.THREE): KM1 pulls in as soon as Q1 is on */
+  const wrongS2 = () => { const s = C2.THREE(); s.devices.Q1 = { ...s.devices.Q1, on: false }; s.els = s.els.map(e => (e.d === 'S2' && e.k === 'NO' ? { ...e, k: 'NC', t: ['21', '22'] } : e)); return s; };
+  LS.choose($('ask1'), { options: [t('KM1 ดูดทันทีที่สับ Q1 มอเตอร์เดินเอง และ S1 หยุดได้เฉพาะขณะกดค้าง', 'KM1 pulls in the moment Q1 is switched on; the motor starts by itself and S1 stops it only while held'),
+    t('ไม่มีอะไรทำงานเลย กด S2 ก็ไม่ติด', 'nothing works at all, not even with S2'), t('ทำงานปกติเหมือนต่อที่ 13–14', 'it works normally, as on 13–14'), t('Q1 ตัดทันทีเพราะลัดวงจร', 'Q1 trips at once on a short circuit')], answer: 0 });
+  LS.stepper($('st1'), { steps: [
+    { why: t('ตอนปล่อย ขั้ว 21–22 ของ S2 ต่ออยู่', 'Released, S2 21–22 is closed'), body: `<p>${t('ทางเดินกระแส L1 → F1 → F2 95–96 → S1 11–12 → S2 21–22 → KM1 A1–A2 → N ครบทันทีที่สับ Q1 คอนแทกเตอร์ดูดโดยไม่มีใครกดปุ่ม', 'The path L1 → F1 → F2 95–96 → S1 11–12 → S2 21–22 → KM1 A1–A2 → N is complete the moment Q1 is switched on: the contactor pulls in with nobody pressing a button.')}</p>` },
+    { why: t('KM1 13–14 ต่อขนานกับ S2 และค้างไว้', 'KM1 13–14 closes in parallel with S2 and holds'), body: `<p>${t('กด S2 แล้ว 21–22 เปิด แต่ KM1 13–14 ยังต่ออยู่ จึงไม่มีอะไรเปลี่ยน', 'Pressing S2 opens 21–22, but KM1 13–14 is still closed, so nothing changes.')}</p>` },
+    { why: t('กด S1: หยุด ปล่อย S1: เดินเองอีก', 'Press S1: it stops; release S1: it starts again by itself'), body: `<p>${t('ปล่อย S1 แล้ว S2 21–22 ยังต่ออยู่ มอเตอร์จึงเริ่มเดินเองทันที นี่คือการเริ่มเดินที่ไม่คาดคิด ซึ่งอันตรายต่อคนที่ทำงานกับเครื่องจักร', 'When S1 is released, S2 21–22 is still closed, so the motor starts again at once: an unexpected start, dangerous for anyone working at the machine.')}</p>` },
+    { why: t('จับได้ก่อนจ่ายไฟด้วยการวัดคร่อม S2 ขณะตัดไฟ', 'Catch it before power-on by measuring across S2 with the power off'), body: `<p>${t('ปุ่มเริ่มต้องอ่านได้ OL ตอนปล่อย และ 0 Ω ตอนกด ถ้าอ่านได้ 0 Ω ตอนปล่อยแปลว่าต่อชุด NC ผิด (หัวข้อ M) อ่านเลขขั้วก่อนขันสกรูทุกครั้ง', 'A start button must read OL released and 0 Ω pressed. 0 Ω when released means the NC element was used (section M). Read the terminal number before tightening every screw.')}</p>` }],
+    answer: t('ข้อ (ก): KM1 ดูดทันทีที่สับ Q1 S1 หยุดได้เฉพาะขณะกด จับได้ก่อนจ่ายไฟด้วยการวัดคร่อม S2: ตอนปล่อยต้องได้ OL', '(a): KM1 pulls in as soon as Q1 is on and S1 stops it only while held; catch it before power-on by measuring across S2, which must read OL when released') });
+  const sX = W2.sX = new RL.Sim($('simX'), wrongS2(), { max: 640, sheet: { no: 'MCP2-1', title: ['สามสาย: S2 ต่อผิดที่ 21–22 (ตามที่ต่อจริง)', 'Three-wire: S2 wrongly on 21–22 (as wired)'] } });
+  const logX = new ED.Log($('logX'), [['สภาวะ', 'state'], ['KM1', 'KM1'], ['ความหมาย', 'what it means']], { empty: ['ยังไม่มีผล สับ Q1 ในแบบ แล้วลองกด S1 และ S2', 'No results yet: switch Q1 on in the drawing, then try S1 and S2'] });
+  sX.on(s => { const q = !!s.dev.Q1.on, p1 = !!s.dev.S1.pressed, p2 = !!s.dev.S2.pressed, km = !!s.dev.KM1.energized; if (!q) return;
+    const st = [p1 ? t('กด S1', 'S1 held') : '', p2 ? t('กด S2', 'S2 held') : ''].filter(Boolean).join(' + ') || t('ไม่ได้กดปุ่มใด', 'no button pressed');
+    const why = !p1 && !p2 && km ? t('เดินเองโดยไม่มีใครกดปุ่ม: อันตราย', 'running with no button pressed: dangerous') : p1 && !km ? t('หยุดเฉพาะขณะกด S1', 'stopped only while S1 is held') : p2 && km ? t('กด S2 แล้วไม่มีอะไรเปลี่ยน', 'pressing S2 changes nothing') : '–';
+    logX.add(`${p1}${p2}${km}`, [`Q1 ON · ${st}`, km ? t('ดูด', 'in') : t('ไม่ดูด', 'out'), why], !p1 && !p2 && km ? 'bad' : 'warn'); });
+
+  /* B: tracing the two-wire, three-wire and two-station circuits (C2.TWO, C2.THREE, C3.STATION) */
+  const TR = [
+    { el: 'B1', spec: () => C2.TWO(), no: 'MCP2-B1', title: ['ควบคุมแบบสองสาย (สวิตช์ค้างตำแหน่ง S3)', 'Two-wire control (maintained switch S3)'], name: ['สองสาย', 'two-wire'], tasks: [
+      { ask: ['S3 อยู่ในตำแหน่งเปิดเครื่อง (ต่อ): ไล่ทางเดินกระแสที่ทำให้คอยล์ KM1 มีไฟ', 'S3 switched on (closed): trace the path that energises coil KM1'], setup: [['toggle', 'S3']], load: 'KM1' },
+      { ask: ['S3 ยังต่ออยู่: ไล่ทางเดินกระแสของหลอดเดิน H1', 'S3 still on: trace the path of run lamp H1'], setup: [['toggle', 'S3']], load: 'H1' }] },
+    { el: 'B2', spec: () => C2.THREE(), no: 'MCP2-B2', title: ['ควบคุมแบบสามสาย (S1 หยุด S2 เริ่ม)', 'Three-wire control (S1 stop, S2 start)'], name: ['สามสาย', 'three-wire'], tasks: [
+      { ask: ['กด S2 ค้างไว้: ไล่ทางเดินกระแสที่ทำให้คอยล์ KM1 มีไฟ', 'S2 held: trace the path that energises coil KM1'], setup: [['hold', 'S2']], load: 'KM1' },
+      { ask: ['ปล่อย S2 แล้ว (KM1 ค้างตัวเอง): ไล่ทางเดินกระแสของ KM1', 'S2 released, KM1 holding: trace the path of KM1'], setup: [['tap', 'S2']], load: 'KM1', hint: ['S2 เปิดแล้ว กระแสต้องผ่านทางอื่นที่ขนานกับมัน', 'S2 is open now: the current must take another way, in parallel with it'] },
+      { ask: ['มอเตอร์เดินอยู่: ไล่ทางเดินกระแสของหลอดเดิน H1', 'Motor running: trace the path of run lamp H1'], setup: [['tap', 'S2']], load: 'H1' }] },
+    { el: 'B3', spec: () => C3.STATION(), no: 'MCP2-B3', title: ['สองจุดควบคุม (S1 S2 จุดที่ 1 · S3 S4 จุดที่ 2)', 'Two control stations (S1 S2 at station 1 · S3 S4 at station 2)'], name: ['สองจุดควบคุม', 'two stations'], tasks: [
+      { ask: ['กด S4 (ปุ่มเริ่มของจุดที่ 2) ค้างไว้: ไล่ทางเดินกระแสของ KM1', 'S4 (start at station 2) held: trace the path of KM1'], setup: [['hold', 'S4']], load: 'KM1' },
+      { ask: ['ปล่อย S4 แล้ว: ไล่ทางเดินกระแสของ KM1', 'S4 released: trace the path of KM1'], setup: [['tap', 'S4']], load: 'KM1' }] }];
+  const logB = new ED.Log($('logB'), [['วงจร', 'circuit'], ['ข้อ', 'task'], ['แตะผิด', 'wrong taps'], ['ผล', 'result']], { empty: ['ยังไม่มีผล ไล่ทางเดินกระแสข้อใดก็ได้ให้ครบ แล้วผลจะมาเรียงในตารางนี้', 'No results yet: complete any tracing task and it will be listed here'] });
+  W2.tr = TR.map(c => { const sim = new RL.Sim($('sim' + c.el), c.spec(), { max: 700, sheet: { no: c.no, title: c.title } });
+    return new MCP.Trace($('tr' + c.el), sim, c.tasks, { onDone: (k, miss, shown) => logB.add(`${c.el}-${k}`, [tt(c.name), String(k + 1), shown ? '–' : String(miss), shown ? t('ดูเฉลย', 'answer shown') : miss ? t('ครบ (มีแตะผิด)', 'complete, with wrong taps') : t('ครบ ไม่ผิดเลย', 'complete, no mistake')], shown ? 'bad' : miss ? 'warn' : 'ok') }); });
+  ED.summary($('sumB'), { title: ['ทางเดินกระแสที่ถูก (จากแบบจำลองเดียวกัน)', 'The right current paths (from the same model)'], head: [['วงจร', 'circuit'], ['ข้อ', 'task'], ['ทางเดินกระแส', 'current path']],
+    rows: () => TR.flatMap(c => { const h = new MCP.Trace(null, hid(c.spec()), c.tasks); return c.tasks.map((x, k) => { h.go(k); const sol = h.solution() || [];
+      return [tt(c.name), String(k + 1), esc(['L1', ...sol.filter(q => q.ed.e.k !== 'w').map(q => h.lab(q.ed)), 'N'].join(' → '))]; }); }),
+    points: [['ทางเดินกระแสผ่านเฉพาะหน้าสัมผัสที่ต่ออยู่ในสภาวะนั้น และผ่านโหลดได้ตัวเดียว', 'A current path passes only the contacts that are closed in that state, and exactly one load'],
+      ['ในวงจรสามสาย ตอนกด S2 กระแสผ่าน S2 ตอนปล่อยกระแสผ่าน KM1 13–14 ที่ต่อขนานกับมัน', 'In three-wire control the current flows through S2 while it is held, and through KM1 13–14 in parallel with it after release'],
+      ['สองจุดควบคุม: ปุ่มเริ่มตัวไหนก็ได้ที่ขนานกันพากระแสไปถึงคอยล์ ปุ่มหยุดทุกตัวต้องต่ออยู่', 'Two stations: any one of the parallel start buttons carries the current to the coil; every stop button must be closed']] });
+
+  /* D: voltage along the path of the three-wire circuit, black probe on N (a task list ticked by the meter) */
+  const specD = () => C2.THREE();
+  const sD = W2.sD = new RL.Sim($('simD'), specD(), { max: 700, sheet: { no: 'MCP2-D', title: ['ควบคุมแบบสามสาย: วัดแรงดันขณะมีไฟ', 'Three-wire control: live voltage measurements'] } });
+  const term = s => { const x = MCP.findEl(sD, s); return `t:${x.i}:${x.j}`; }, run = () => !!sD.dev.KM1.energized, stop = () => !run();
+  const TD = [
+    { s: ['มอเตอร์หยุด: ราว L1 กับ N', 'Motor stopped: the L1 rail to N'], mode: 'V', a: 'c:L', ax: 1, b: 'c:N', need: stop, why: ['แหล่งจ่ายของวงจรควบคุม', 'the supply of the control circuit'] },
+    { s: ['มอเตอร์หยุด: S2:13 กับ N', 'Motor stopped: S2:13 to N'], mode: 'V', a: term('S2:13'), ax: 1, b: 'c:N', need: stop, why: ['ไฟผ่าน F1 F2 และ S1 มาถึงปุ่มเริ่ม', 'the voltage has come through F1, F2 and S1 to the start button'] },
+    { s: ['มอเตอร์หยุด: S2:14 กับ N', 'Motor stopped: S2:14 to N'], mode: 'V', a: term('S2:14'), ax: 1, b: 'c:N', need: stop, why: ['หลังหน้าสัมผัสที่เปิด ต่อถึง N ผ่านคอยล์', 'after the open contact: tied to N through the coil'] },
+    { s: ['มอเตอร์หยุด: คร่อม S2 (13–14)', 'Motor stopped: across S2 (13–14)'], mode: 'V', a: term('S2:13'), ax: 1, b: term('S2:14'), bx: 1, need: stop, why: ['คร่อมหน้าสัมผัสที่เปิดในทางที่มีโหลด ได้แรงดันเต็ม', 'across an open contact in a path with a load: the full voltage'] },
+    { s: ['แตะ S2 ให้เดิน: S2:14 กับ N', 'Tap S2 to start: S2:14 to N'], mode: 'V', a: term('S2:14'), ax: 1, b: 'c:N', ops: [['tap', 'S2']], need: run, needMsg: ['ค่าถูก แต่ต้องให้มอเตอร์เดินก่อน (แตะ S2)', 'right reading, but start the motor first (tap S2)'], why: ['ไฟมาถึงด้วยทาง KM1 13–14', 'the voltage now arrives through KM1 13–14'] },
+    { s: ['มอเตอร์เดิน: คร่อม S2 (13–14)', 'Motor running: across S2 (13–14)'], mode: 'V', a: term('S2:13'), ax: 1, b: term('S2:14'), bx: 1, ops: [['tap', 'S2']], need: run, needMsg: ['ให้มอเตอร์เดินก่อน (แตะ S2)', 'start the motor first (tap S2)'], why: ['KM1 13–14 คร่อม S2 ไว้ สองข้างของ S2 จึงศักย์เท่ากัน', 'KM1 13–14 bridges S2, so both sides of S2 are at the same potential'] },
+    { s: ['มอเตอร์เดิน: คร่อมคอยล์ KM1 (A1–A2)', 'Motor running: across coil KM1 (A1–A2)'], mode: 'V', a: term('KM1:A1'), ax: 1, b: term('KM1:A2'), ops: [['tap', 'S2']], need: run, needMsg: ['ให้มอเตอร์เดินก่อน (แตะ S2)', 'start the motor first (tap S2)'], why: ['คอยล์ได้แรงดันเต็ม 230 V', 'the coil gets the full 230 V'] }];
+  const keysOf = p => (p.keys ? p.keys.map(k => 'p:' + k) : [p.v]);
+  const tasks = (el, sim, spec, list, title) => {
+    list.forEach(x => { const h = hid(spec()); MCP.run(h, x.ops); x.want = MCP.measure(h, x.a, x.b, x.mode).text; });
+    ui.h2(el, title); const ol = document.createElement('ol'); ol.className = 'w2-tasks'; el.appendChild(ol); const st = ui.status(el), done = list.map(() => false);
+    const draw = () => { const k = done.indexOf(false); ol.innerHTML = list.map((x, i) => `<li class="${done[i] ? 'ok' : i === k ? 'now' : ''}">${tt(x.s)} <span class="hint">· ${t(`ควรได้ ${x.want}`, `expect ${x.want}`)}</span></li>`).join(''); };
+    const check = rec => { const r = rec.res, f = MCP.voltages(sim).group; let hit = -1, needM = null;
+      const same = (p, v, exact) => (exact ? keysOf(p).includes(v) : f(p.v) === f(v));
+      list.forEach((x, i) => { if (hit >= 0 || done[i] || x.mode !== rec.mode || r.text !== x.want) return;
+        const ok = (same(rec.red, x.a, x.ax) && same(rec.black, x.b, x.bx)) || (same(rec.red, x.b, x.bx) && same(rec.black, x.a, x.ax)); if (!ok) return;
+        if (x.need && !x.need()) { needM = needM || x.needMsg; return; } hit = i; });
+      if (hit >= 0) { done[hit] = true; draw(); const n = done.filter(Boolean).length; ui.setStatus(st, `${n}/${list.length}`, n === list.length ? t('ครบทุกข้อ', 'all tasks done') : `${t('ถูก', 'Right')}: ${tt(list[hit].why)}`, 'good'); }
+      else if (needM) ui.setStatus(st, '!', tt(needM), 'warn'); };
+    draw(); ui.setStatus(st, `0/${list.length}`, t('ทำตามลำดับ: ข้อ 1–4 ตอนมอเตอร์หยุด ข้อ 5–7 หลังแตะ S2', 'In order: tasks 1–4 with the motor stopped, 5–7 after tapping S2'), 'wait');
+    return { check, done, list }; };
+  const pD = $('pD'); ui.buttons(pD, [{ id: 's2', label: t('S2 เริ่ม (แตะ)', 'S2 start (tap)'), onclick: () => MCP.run(sD, [['tap', 'S2']]) }, { id: 's1', label: t('S1 หยุด (แตะ)', 'S1 stop (tap)'), onclick: () => MCP.run(sD, [['tap', 'S1']]) }]);
+  const tkD = W2.tkD = tasks(pD, sD, specD, TD, t('วัดแรงดันตามทางเดินกระแส', 'Voltage along the current path'));
+  W2.mD = new MCP.Meter($('mD'), sD, { onMeasure: rec => tkD.check(rec) });
+  ED.summary($('sumD'), { title: ['ค่าที่ควรวัดได้ (จากแบบจำลองเดียวกัน)', 'The readings you should get (from the same model)'], head: [['การวัด', 'measurement'], ['ค่าที่ควรได้', 'expected'], ['บอกอะไร', 'what it shows']],
+    rows: () => TD.map(x => [tt(x.s), `<b>${x.want}</b>`, tt(x.why)]),
+    points: [['สายดำอยู่ที่ N สายแดงเลื่อนตามทางเดินกระแส: ไฟหยุดที่หน้าสัมผัสตัวแรกที่เปิด', 'Black on N, red moving along the path: the voltage stops at the first open contact'],
+      ['คร่อมหน้าสัมผัสที่ต่ออยู่ได้ 0 V คร่อมหน้าสัมผัสที่เปิด (ในทางที่มีโหลด) ได้ 230 V', 'Across a closed contact 0 V; across an open contact in a path with a load 230 V']] });
+
+  /* Q: practice */
+  ED.mcq('mcq', [
+    { q: t('1) ในแบบ คอยล์ KM1 อยู่ทางเดินกระแสที่ 1 และหน้าสัมผัส KM1 13–14 อยู่ทางที่ 2 บนแผงฝึกเป็นอย่างไร', '1) In the drawing coil KM1 is in path 1 and contact KM1 13–14 in path 2. What is it on the trainer?'), options: [t('คอนแทกเตอร์สองตัว', 'two contactors'), t('คอนแทกเตอร์ตัวเดียว: คอยล์ A1–A2 และหน้าสัมผัส 13–14 อยู่บนตัวเดียวกัน', 'one contactor: coil A1–A2 and contact 13–14 are on the same device'), t('รีเลย์หนึ่งตัวกับคอนแทกเตอร์หนึ่งตัว', 'one relay and one contactor'), t('ขึ้นกับว่าวาดไว้ห่างกันแค่ไหน', 'it depends on how far apart they are drawn')], answer: 1, why: t('ชื่อเดียวกันคืออุปกรณ์ตัวเดียวกัน ตารางอ้างอิงใต้คอยล์บอกว่าหน้าสัมผัสอยู่ทางไหน', 'the same name means the same device; the cross-reference under the coil says where its contacts are') },
+    { q: t('2) วัดคู่ขั้วของชุดหน้าสัมผัสหนึ่ง: ตอนปล่อยได้ 0.0 Ω ตอนกดได้ OL ชุดนี้อยู่ตำแหน่งที่ 2 เลขขั้วคืออะไร', '2) One contact element reads 0.0 Ω released and OL pressed. It is in position 2. What are its numbers?'), options: ['13–14', '21–22', '23–24', '11–12'], answer: 1, why: t('ต่อตอนปล่อย = NC (x1–x2) ตำแหน่ง 2 → 21–22', 'closed when released = NC (x1–x2), position 2 → 21–22') },
+    { q: t('3) หลอดแสดงผลแบบหลอดไส้ วัด X1–X2 ได้ OL หมายความว่าอะไร', '3) A filament pilot lamp reads OL between X1 and X2. What does it mean?'), options: [t('หลอดดี', 'the lamp is good'), t('ไส้หลอดขาด', 'the filament is open'), t('หลอดลัดวงจร', 'the lamp is short-circuited'), t('ต้องวัดตอนมีไฟเท่านั้น', 'it can only be measured live')], answer: 1, why: t('หลอดไส้ที่ดีอ่านได้ค่าไม่กี่กิโลโอห์มเพราะไส้หลอดเย็น', 'a good filament lamp reads a few kilohms because the filament is cold') },
+    { q: t('4) วงจรสามสาย กด S2 แล้วปล่อย KM1 ยังดูดอยู่ ตอนนี้กระแสของคอยล์ผ่านอะไรแทน S2', '4) Three-wire control: S2 has been pressed and released and KM1 is still in. What carries the coil current instead of S2?'), options: ['S1 11–12', 'KM1 13–14', 'F1', 'H1'], answer: 1, why: t('หน้าสัมผัสค้างต่อขนานกับ S2', 'the holding contact, in parallel with S2') },
+    { q: t('5) มอเตอร์หยุดอยู่ สายดำที่ N สายแดงที่ S2:14 (ด้านคอยล์) อ่านได้เท่าไร', '5) Motor stopped, black probe on N, red probe on S2:14 (coil side). What does the meter read?'), options: ['0 V', '115 V', '230 V', '400 V'], answer: 0, why: t('S2 เปิด จุดนี้ต่อถึง N ผ่านคอยล์ จึงเป็นศักย์ของ N', 'S2 is open; this point reaches N through the coil, so it is at the potential of N') },
+    { q: t('6) มอเตอร์เดินอยู่ วัดคร่อม S2 (13–14) ได้เท่าไร', '6) Motor running: what does the meter read across S2 (13–14)?'), options: ['0 V', '230 V', '400 V', 'OL'], answer: 0, why: t('KM1 13–14 คร่อม S2 อยู่ สองข้างจึงศักย์เท่ากัน', 'KM1 13–14 bridges S2, so both sides are at the same potential') },
+    { q: t('7) สองจุดควบคุม ปุ่มหยุด S1 และ S3 ต้องต่ออย่างไร', '7) Two control stations: how must stop buttons S1 and S3 be connected?'), options: [t('อนุกรมกัน', 'in series'), t('ขนานกัน', 'in parallel'), t('ขนานกับ KM1 13–14', 'in parallel with KM1 13–14'), t('ต่อที่ N', 'in the N conductor')], answer: 0, why: t('ปุ่มหยุดตัวไหนก็ต้องตัดทางเดินกระแสได้ (หน้า 3.3)', 'any stop button must be able to break the path (page 3.3)') }]);
+});
+</script>
+</body>
+</html>

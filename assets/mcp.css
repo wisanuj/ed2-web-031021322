@@ -1,0 +1,72 @@
+/* mcp.css — the tools of the Motor Control Practice course (assets/mcp.js): trace mode, multimeter and fault cards, the virtual
+   trainer, the symbol drill. Theme colours from ee.css (--ink --muted --line --panel --panel2 --accent --good --warn --bad); the meter
+   face and the trainer are drawn in fixed "real device" colours, like the panel door of panel.js. */
+
+/* overlays drawn into a relay-simulator drawing */
+svg g.mcp-ov text{font-family:"IBM Plex Mono",monospace}
+.rlwrap.rlscroll.mcp-wide svg.rl{--rlmin:720px}
+
+/* trace mode */
+.mcp-trace .mcp-ask .lead{margin:6px 0 4px}
+.mcp-trace .mcp-path{margin:6px 0;font-size:14px;line-height:1.5}
+.mcp-chain{display:inline-block;padding:4px 8px;border-radius:8px;background:color-mix(in srgb,var(--accent) 10%,var(--panel));border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));font-family:"IBM Plex Mono",monospace;font-size:13px;word-break:break-word}
+.mcp-score{margin-top:6px;font-size:14px}
+
+/* multimeter */
+.mcp-mtop{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.mcp-dmm{flex:none;width:150px;max-width:40vw;cursor:default}
+.mcp-dmm svg{display:block;width:100%;height:auto}
+.mcp-mside{flex:1 1 220px;min-width:0}
+.mcp-mside .toggles{margin:0 0 6px}
+.mcp-dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:-1px;border:1px solid rgba(0,0,0,.35)}
+.mcp-dot.red{background:#d83a34}.mcp-dot.black{background:#2a2f36}
+.mcp-pp{font-family:"IBM Plex Mono",monospace;font-size:13px}
+.mcp-live{color:var(--bad);font-weight:700}
+.mcp-mnote .simnote{margin:6px 0}
+.mcp-mlog{margin-top:8px}
+
+/* fault cards */
+.mcp-cards .mcp-card h3{margin:0 0 6px}
+.mcp-lim{margin:6px 0;font-size:14px}
+.mcp-over{color:var(--bad)}
+.mcp-holds{margin:6px 0}
+.mcp-ans .answer{margin-top:8px}
+
+/* the virtual trainer */
+.mcp-trbar,.mcp-trlead{margin:4px 0}
+.mcp-tl{font-size:13px;color:var(--muted);align-self:center;margin-right:4px}
+.mcp-trscroll{overflow:auto;max-height:78vh;border:1px solid var(--line);border-radius:10px;background:var(--panel2);-webkit-overflow-scrolling:touch}
+.mcp-trsvg svg{display:block;height:auto;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+svg.mcp-trv text{font-family:"IBM Plex Sans Thai","IBM Plex Mono",sans-serif}
+svg.mcp-trv g.mcp-trd.unused{opacity:.55}
+.mcp-trst{margin-top:8px}
+.mcp-trres{margin-top:8px}
+.mcp-trres ul{margin:4px 0 8px 18px;padding:0}
+.mcp-ok{border-color:color-mix(in srgb,var(--good) 50%,var(--line))}
+.mcp-trcl,.mcp-trdev{margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:6px 10px;background:var(--panel)}
+.mcp-trcl summary,.mcp-trdev summary,.mcp-dcred summary{cursor:pointer;font-weight:600}
+.mcp-trlist{margin:6px 0 4px 20px;padding:0;font-size:14px;line-height:1.55}
+.mcp-trlist li{font-family:"IBM Plex Mono","IBM Plex Sans Thai",monospace;font-size:13px;word-break:break-word}
+.mcp-trlist li.done{color:var(--good)}
+.mcp-trtab table{font-size:13px}
+
+/* symbol drill */
+.mcp-dhead{margin-bottom:6px;font-size:15px}
+.mcp-dbody{display:grid;grid-template-columns:minmax(150px,240px) 1fr;gap:12px;align-items:start}
+@media (max-width:640px){.mcp-dbody{grid-template-columns:1fr}}
+.mcp-dsyms{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+.mcp-dsyms svg{width:84px;height:auto}
+.mcp-dpic img{width:100%;height:auto;border-radius:8px;border:1px solid var(--line);background:#fff}
+.mcp-dpic{margin:0}
+.mcp-dgot{margin:6px 0 0;font-size:13px;color:var(--good)}
+.mcp-dmini{width:64px;height:auto;vertical-align:middle;border-radius:4px;border:1px solid var(--line)}
+.mcp-dsy svg{width:60px;height:auto;vertical-align:middle}
+.mcp-dopts{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.mcp-dopts.photo{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+.mcp-dopt{display:flex;align-items:center;justify-content:center;min-height:52px;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);font:inherit;font-size:14px;line-height:1.35;cursor:pointer;text-align:left}
+.mcp-dopt:hover{border-color:var(--accent)}
+.mcp-dopt img{width:100%;height:auto;max-height:150px;object-fit:contain;border-radius:6px;background:#fff}
+.mcp-dopt.bad{border-color:var(--bad);opacity:.55;cursor:default}
+.mcp-dnav{margin-top:8px}
+.mcp-dcred{margin-top:8px;font-size:12px;color:var(--muted)}
+.mcp-dcred ul{margin:4px 0 0 18px;padding:0}

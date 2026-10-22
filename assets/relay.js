@@ -64,13 +64,19 @@
                  cross-reference under a coil ("13–14 ▸ 2") now points at zone 2. The power circuit at the left is one zone labelled
                  with the word of its cross-reference ("กำลัง" / "power"); a multi-motor power circuit gets one zone per motor branch
                  labelled M1, M2 … (its feeder contactors' cross-reference reads "1–2, 3–4, 5–6 ▸ M2"). With noPaths the control zones
-                 stay empty (students write the numbers). Title block: course 031021322, drawing title (sheet.title [th, en] or text;
+                 stay empty (students write the numbers). Title block: course 031021322 (on a Motor Control Practice page, i.e.
+                 MC.mcpHere(), 031021223 from COURSES.mcp; sheet.course [th, en] or text overrides both), drawing title (sheet.title [th, en] or text;
                  default the page title from stops.js), drawing no. (sheet.no; default ED2-<step>-<section badge><part>; part = sheet.part,
                  else B1, B2 … in document order when one section holds several framed drawings), sheet (sheet.of '2/3' or [2, 3]; default 1/1); student: true adds an empty
                  "drawn by / student ID" row for handwriting. rows = number of row zones (default 3). Print mode draws everything in
                  the text colour (black on paper). The drawing itself is unchanged inside a nested <svg class="rl-in"> (same
                  coordinates as without the sheet: sim.X()/Y() still apply there); the outer svg's viewBox is the whole sheet.
-                 sheet: false gives exactly the drawing of before (byte for byte). */
+                 sheet: false gives exactly the drawing of before (byte for byte).
+   hooks for mcp.js (21 Oct 2026; nothing changes while they are unused): sim.fx = edges => edges (fault injection: return copies of the
+                 graph edges with e replaced, e.g. { ...e, open: true } or { ...e, welded: true }, or an end moved to another node or to a
+                 private node '~…' that gets no wire number), sim.afterRender = [fn(sim), …] (called after every render, for overlays drawn
+                 into svg.rl-in), sim.pT = { 'Q1:1': [x, y], 'KM1:2': …, 'M1:U1': …, 'SUP:L1': … } (the power-circuit terminals of the last
+                 render, inner drawing coordinates; sim.pin(k, x, y) records one). */
 (function (global) {
 'use strict';
 const RL = {}, IE = global.IEC;
@@ -97,7 +103,7 @@ RL.sheetFrame = o => {
   const title = o.title === undefined || o.title === null ? '' : String(o.title), no = o.no === undefined || o.no === null ? '' : String(o.no), of = o.of === undefined || o.of === null ? '1/1' : String(o.of);
   // title block: course · title · drawing no. | sheet (+ drawn by | student ID for handwriting)
   const pad = 4, lab = [T('วิชา', 'course'), T('ชื่อแบบ', 'title'), T('เลขที่แบบ', 'drawing no.'), T('แผ่นที่', 'sheet'), T('ผู้เขียนแบบ', 'drawn by'), T('รหัสนักศึกษา', 'student ID')];
-  const course = T('031021322 เขียนแบบไฟฟ้า 2', '031021322 Electrical Drawing II'), lw = i => textW(lab[i], 7) + 4;
+  const course = o.course ? String(o.course) : T('031021322 เขียนแบบไฟฟ้า 2', '031021322 Electrical Drawing II'), lw = i => textW(lab[i], 7) + 4;
   const wS = Math.max(pad + lw(3) + textW(of || '0/0', 9) + pad, o.student ? pad + lw(5) + 64 : 0);
   let ix1 = dx + W - cR + G; const minW = 220; if (ix1 - ix0 < minW) ix1 = ix0 + minW;
   const need = Math.max(pad + lw(0) + textW(course, 8.5) + pad, pad + lw(1) + textW(title, 9) + pad, pad + lw(2) + textW(no, 9) + pad + wS, o.student ? pad + lw(4) + 120 + wS : 0);
@@ -163,7 +169,7 @@ RL.Sim = class {
           ((p[1] === q[1] && r[1] === p[1] && r[0] > Math.min(p[0], q[0]) && r[0] < Math.max(p[0], q[0])) || (p[0] === q[0] && r[0] === p[0] && r[1] > Math.min(p[1], q[1]) && r[1] < Math.max(p[1], q[1]))));
         const chain = [p, ...on.sort((u, v) => (Math.abs(u[0] - p[0]) + Math.abs(u[1] - p[1])) - (Math.abs(v[0] - p[0]) + Math.abs(v[1] - p[1]))), q];
         for (let j = 1; j < chain.length; j++) { const a = this.nodeKey(...chain[j - 1]), b = this.nodeKey(...chain[j]); out.push({ i, e, a, b, pa: chain[j - 1], pb: chain[j] }); } }); });
-    return out; }
+    return this.fx ? this.fx(out) : out; }   // mcp.js: sim.fx(edges) injects faults (see the header)
   solveOnce() {
     const E = this.edges(), on = this.supplyOn(), adj = new Map(), add = (u, v, ed) => { if (!adj.has(u)) adj.set(u, []); adj.get(u).push([v, ed]); };
     E.forEach(ed => { ed.load = this.isLoad(ed.e) && !ed.e.open; ed.cond = !ed.load && !ed.e.open && this.conducts(ed.e); if (ed.cond) { add(ed.a, ed.b, ed); add(ed.b, ed.a, ed); } });
@@ -315,6 +321,7 @@ RL.Sim = class {
   full() { const P = this.spec.power; return !!P && !this.o.noPower && (P.full || P.phases === 1 || !!P.feeders); }
   hiNo() { const h = this.o.hiWire; return h === undefined || h === null || h === '' ? null : h === 'N' ? 0 : +h; }
   render() {
+    this.pT = {};   // positions of the power-circuit terminals (inner drawing coordinates), filled by the power renderers for mcp.js
     const S = this.spec, ctl = S.els.length > 0, xs = ctl ? S.els.flatMap(e => (e.pts ? e.pts.map(p => p[0]) : [e.x])) : [0], x0 = Math.min(...xs), x1 = Math.max(...xs), full = this.full();
     const pw = S.power && !this.o.noPower ? (full ? (S.power.feeders ? this.feedW() : S.power.rev ? this.revW() : 172) : 170) : 0; this.ox = pw + 70 - x0 * this.DX; this.oy = 34;
     const rx = this.X(x0) - (full ? 70 : 30); this.railX0 = rx;   // full power drawing: the rails start further left, where the control supply comes in
@@ -366,7 +373,10 @@ RL.Sim = class {
     if (S.power && !this.o.noPower) { if (full) { const pf = this.renderPowerFull(hiL, hiN); s += pf.s; H = Math.max(H, pf.bottom + 18); this.pBot = pf.bottom; } else s += this.renderPower(); }
     const sv = sh ? this.sheetSVG(s, W, H, sh, { cols, pw, full }) : IE.svg(W, H, s, { cls: 'rl', label: this.o.label || 'control circuit', max: ctl ? this.o.max : Math.min(this.o.max || 1e9, Math.round(W * 1.5)) });   // a power-only drawing is not blown up
     this.el.innerHTML = sv + (this.msg === 'short' ? `<div class="badbox rl-msg">${MC.t('ลัดวงจร! ฟิวส์วงจรควบคุมขาด (หรือเบรกเกอร์ตัด) คลิกที่ฟิวส์เพื่อเปลี่ยนฟิวส์', 'Short circuit! The control fuse has blown (or the breaker tripped). Click the fuse to replace it.')}</div>` : this.msg === 'pshort' ? this.pshortMsg() : '');
+    if (this.afterRender) this.afterRender.forEach(fn => fn(this));   // mcp.js overlays (trace, meter probes) are drawn again after every render
   }
+  /* a power-circuit terminal at (x, y) of the inner drawing: 'Q1:1', 'KM2:6', 'M1:U1', 'SUP:L1' (no effect on the drawing) */
+  pin(k, x, y) { if (this.pT) this.pT[k] = [+(+x).toFixed(1), +(+y).toFixed(1)]; }
   /* ---------------- drawing sheet (option sheet, 20 Oct 2026) ---------------- */
   sheetOpt() { const v = this.o.sheet === undefined ? RL.SHEET_DEFAULT : this.o.sheet; return !v ? null : v === true ? {} : v; }
   /* title, drawing number and sheet of the title block; defaults from the page (stops.js title and step, the badge of the section) */
@@ -387,7 +397,9 @@ RL.Sim = class {
     const part = sh.part !== undefined ? String(sh.part) : k ? String(k) : '';   // part: the drawing's own index inside its section (e.g. the case number)
     const no = sh.no !== undefined ? tt(sh.no) : ['ED2', here && here.step, (badge ? badge.textContent.trim() : '') + part].filter(Boolean).join('-');
     const of = sh.of !== undefined && sh.of !== null ? (Array.isArray(sh.of) ? sh.of.join('/') : String(sh.of)) : '1/1';
-    return { title, no, of }; }
+    const mc = typeof MC.mcpHere === 'function' && MC.mcpHere() && typeof window !== 'undefined' && window.COURSES ? window.COURSES.mcp : null;   // an MCP page: its own course in the title block
+    const course = sh.course !== undefined ? tt(sh.course) : mc ? `${mc.code} ${MC.t(mc.title, mc.en)}` : undefined;
+    return { title, no, of, course }; }
   /* right end of the control circuit drawing (content x) with every text that may appear there in any state (so the sheet keeps its width) */
   rightExt() { const S = this.spec, xs = S.els.flatMap(e => (e.pts ? e.pts.map(p => p[0]) : [e.x])), xm = this.X(Math.max(...xs)), mech = new Set((S.mech || []).flat());
     let r = xm + (this.o.wireNos && this.o.railNos ? 54 : 30);
@@ -420,10 +432,10 @@ RL.Sim = class {
     return RL.sheetFrame({ body: s, W, H, zones, occ, ...inf, student: sh.student, rows: sh.rows, print: this.o.print, cropT: 10, cropR: ctl ? Math.max(0, Math.min(20, W - this.rightExt() - 6)) : 0, cls: 'rl rl-framed',
       label: this.o.label || 'control circuit', max: this.o.max, maxScale: ctl ? 0 : 1.5 }); }   // a power-only drawing is not blown up
   /* wire (potential) numbers: every node gets one number, read from top to bottom and left to right; L1 side = 1, N = 0 (shown as N) */
-  wireNumbers() { const keys = new Set(); this.r.E.forEach(e => { [e.a, e.b].forEach(k => keys.add(k)); });
+  wireNumbers() { const keys = new Set(); this.r.E.forEach(e => { [e.a, e.b].forEach(k => { if (k[0] !== '~') keys.add(k); }); });   // '~…' = a private node of the fault hook (no number)
     // nodes joined by plain wires carry the same number
     const par = {}; keys.forEach(k => { par[k] = k; }); const f = k => (par[k] === k ? k : (par[k] = f(par[k])));
-    this.r.E.filter(e => e.e.k === 'w').forEach(e => { par[f(e.a)] = f(e.b); });
+    this.r.E.filter(e => e.e.k === 'w' && e.a[0] !== '~' && e.b[0] !== '~').forEach(e => { par[f(e.a)] = f(e.b); });
     const groups = new Map(); keys.forEach(k => { const g = f(k); if (!groups.has(g)) groups.set(g, []); groups.get(g).push(k); });
     const pos = k => (k === 'L' ? [-1, 0] : k === 'N' ? [99, 99] : k.split(',').map(Number)), out = new Map();
     const order = [...groups.values()].map(ks => ({ ks, p: ks.map(pos).sort((a, b) => a[1] - b[1] || a[0] - b[0])[0] })).sort((a, b) => a.p[1] - b.p[1] || a.p[0] - b.p[0]);
@@ -439,7 +451,7 @@ RL.Sim = class {
     return [...new Set(out)]; }
   renderWireNos(nos = this.wireNumbers(), hi = this.hiNo()) { let s = ''; const done = new Set(), box = (x, y, no) => { const h = hi !== null && no === hi;
       return `<g><rect x="${x - 9}" y="${y - 8}" width="18" height="13" rx="3" fill="${h ? 'var(--accent)' : 'var(--panel)'}" stroke="var(--accent)"/>` + IE.T(this.wireLabel(no), x, y + 2, { size: 9, anchor: 'middle', col: h ? 'var(--panel)' : 'var(--accent)', weight: 700 }) + '</g>'; };
-    if (this.o.wireNos) this.r.E.forEach(e => { [[e.a, e.pa || null], [e.b, e.pb || null]].forEach(([k]) => { if (k === 'L' || k === 'N' || done.has(k)) return; done.add(k); const [x, y] = k.split(',').map(Number);
+    if (this.o.wireNos) this.r.E.forEach(e => { [[e.a, e.pa || null], [e.b, e.pb || null]].forEach(([k]) => { if (k === 'L' || k === 'N' || k[0] === '~' || done.has(k)) return; done.add(k); const [x, y] = k.split(',').map(Number);
         s += box(this.X(x) - 17, this.Y(y), nos.get(k)); }); });
     if (this.o.wireNos && this.o.railNos) { const xe = this.X(Math.max(...this.spec.els.flatMap(e => (e.pts ? e.pts.map(p => p[0]) : [e.x])))) + 44; s += box(xe, this.Y(0), nos.get('L')) + box(xe, this.Y(this.spec.rows), 0); }   // at the right ends of the rails
     if (hi !== null) this.nodesOf(hi).forEach(k => { if (k === 'L' || k === 'N') return; const [x, y] = k.split(',').map(Number); s += `<circle cx="${this.X(x)}" cy="${this.Y(y)}" r="4.2" fill="var(--accent)" stroke="none" opacity=".85"/>`; });
@@ -456,10 +468,10 @@ RL.Sim = class {
   /* simple three-phase power circuit to the left: rails L1 L2 L3, stages (cb / mainNO / therm), motor */
   renderPower() { const P = this.spec.power, x0 = 52, dx = 20, yT = this.Y(0), n = P.stages.length, step = (this.Y(this.spec.rows) - yT - 70) / (n + 0.6), run = this.running();
     let s = '', live = this.dev[P.stages[0].d] ? true : false; let col = COL.live;
-    ['L1', 'L2', 'L3'].forEach((l, k) => { s += IE.T(l, x0 + k * dx, yT - 8, { size: 10, anchor: 'middle', weight: 700 }); });
+    ['L1', 'L2', 'L3'].forEach((l, k) => { this.pin(`SUP:${l}`, x0 + k * dx, yT); s += IE.T(l, x0 + k * dx, yT - 8, { size: 10, anchor: 'middle', weight: 700 }); });
     let y = yT, ok = true;
     P.stages.forEach((st, j) => { const y0 = y, y1 = y + step, closed = st.k === 'cb' ? this.dev[st.d].on : st.k === 'mainNO' ? this.act(st.d) : true, c = ok && !this.o.print ? (run ? COL.cur : COL.live) : null;
-      for (let k = 0; k < 3; k++) { const x = x0 + k * dx; s += `<g${c ? ` stroke="${c}"` : ''}${ok && run ? ' class="rl-cur"' : ''}>${IE.draw(st.k, x, y0, y1, { act: closed })}</g>`; }
+      for (let k = 0; k < 3; k++) { const x = x0 + k * dx; this.pin(`${st.d}:${2 * k + 1}`, x, y0); this.pin(`${st.d}:${2 * k + 2}`, x, y1); s += `<g${c ? ` stroke="${c}"` : ''}${ok && run ? ' class="rl-cur"' : ''}>${IE.draw(st.k, x, y0, y1, { act: closed })}</g>`; }
       s += IE.T(st.d, x0 - 10, (y0 + y1) / 2 + 4, { anchor: 'end', size: 11, weight: 700 });
       if (st.k !== 'therm') s += IE.L(x0 - 8, (y0 + y1) / 2, x0 + 2 * dx - 8, (y0 + y1) / 2, { dash: '3 2' });
       ok = ok && closed; y = y1; });
@@ -481,14 +493,14 @@ RL.Sim = class {
     const g = (c, cur, body) => `<g${c ? ` stroke="${c}"` : ''}${cur ? ' class="rl-cur"' : ''}>${body}</g>`;
     const lc = okk => (pr || !okk ? null : run ? COL.cur : COL.live), nc = okk => (pr || !okk || !run ? null : COL.ncur);   // N is coloured only while motor current flows in it
     let s = '', y = y0s, ok = live0, nOk = live0, xOut = LX[0];
-    [...(one ? ['L1'] : ['L1', 'L2', 'L3']).map((l, k) => [l, LX[k]]), ['N', NX], ['PE', PX]].forEach(([l, x]) => { s += IE.T(l, x, yT - 8, { size: 10, anchor: 'middle', weight: 700 }); });
+    [...(one ? ['L1'] : ['L1', 'L2', 'L3']).map((l, k) => [l, LX[k]]), ['N', NX], ['PE', PX]].forEach(([l, x]) => { this.pin(`SUP:${l}`, x, yT); s += IE.T(l, x, yT - 8, { size: 10, anchor: 'middle', weight: 700 }); });
     LX.forEach(x => { s += g(lc(ok), ok && run, IE.L(x, yT, x, y)); });
     if (one) s += g(nc(nOk), nOk && run, IE.L(NX, yT, NX, y));
     else if (tap) s += `<g stroke="${hiN ? 'var(--accent)' : railN}"${anyCur ? ' class="rl-cur"' : ''}>${IE.L(NX, yT, NX, tap[1], { w: hiN ? 3.4 : undefined })}</g>`;   // N of a three-phase starter serves only the control circuit
     st.forEach(t => { const y1 = y + step, dv = this.dev[t.d] || {}, closed = t.k === 'cb' ? !!dv.on : t.k === 'mainNO' ? this.act(t.d) : true, ym = (y + y1) / 2;
       const hit = !pr && (dv.type === 'cb' || dv.type === 'ol') && !dv.noClick, poles = one ? (t.k === 'therm' ? [36, 58, 80] : [36, NX]) : LX;
       let b = hit ? `<rect x="${LX[0] - 34}" y="${F(y + 4)}" width="${poles[poles.length - 1] - LX[0] + 46}" height="${step - 8}" fill="transparent" stroke="none"/>` : '';
-      poles.forEach((x, k) => { const isN = one && t.k !== 'therm' && k === 1, c = isN ? nc(nOk) : lc(ok), cur = (isN ? nOk : ok) && run;
+      poles.forEach((x, k) => { const isN = one && t.k !== 'therm' && k === 1, c = isN ? nc(nOk) : lc(ok), cur = (isN ? nOk : ok) && run; this.pin(`${t.d}:${2 * k + 1}`, x, y); this.pin(`${t.d}:${2 * k + 2}`, x, y1);
         b += g(c, cur, IE.draw(t.k, x, y, y1, { act: closed, trip: t.k === 'therm' && dv.tripped })) + IE.T(String(2 * k + 1), x + 5, y + 11, { size: 8 }) + IE.T(String(2 * k + 2), x + 5, y1 - 3, { size: 8 });
         if (one && t.k === 'therm' && k < 2) b += g(c, cur, `<path d="M ${x} ${F(y1)} L ${x} ${F(y1 + 5)} L ${x + 11} ${F(y1 + 5)} L ${x + 11} ${F(y - 5)} L ${x + 22} ${F(y - 5)} L ${x + 22} ${F(y)}" fill="none"/>`); });   // motor current looped through the three poles
       if (one && t.k === 'therm') { s += g(nc(nOk), nOk && run, IE.L(NX, y, NX, y1)); xOut = 80; }   // N passes the overload relay
@@ -505,14 +517,15 @@ RL.Sim = class {
     // motor
     const cM = lc(ok), curM = ok && run, mName = P.motor || 'M1'; let bottom;
     if (!one) { const yt2 = y + 18, cy = y + 56, cx = 66, r = 22;
-      LX.forEach((x, k) => { s += g(cM, curM, IE.L(x, y, x, yt2) + IE.L(x, yt2, cx + (k - 1) * 13, cy - (k === 1 ? r : 17.5))) + `<circle cx="${x}" cy="${yt2}" r="2.4" fill="var(--panel)" stroke="currentColor"/>` + IE.T(['U1', 'V1', 'W1'][k], x + 4, yt2 - 3, { size: 8, weight: 700 }); });
-      s += IE.motor(cx, cy, r) + IE.T(mName, LX[0] - 10, cy + 4, { anchor: 'end', size: 11, weight: 700 });
+      LX.forEach((x, k) => { this.pin(`${mName}:${['U1', 'V1', 'W1'][k]}`, x, yt2); s += g(cM, curM, IE.L(x, y, x, yt2) + IE.L(x, yt2, cx + (k - 1) * 13, cy - (k === 1 ? r : 17.5))) + `<circle cx="${x}" cy="${yt2}" r="2.4" fill="var(--panel)" stroke="currentColor"/>` + IE.T(['U1', 'V1', 'W1'][k], x + 4, yt2 - 3, { size: 8, weight: 700 }); });
+      this.pin(`${mName}:PE`, PX, cy); s += IE.motor(cx, cy, r) + IE.T(mName, LX[0] - 10, cy + 4, { anchor: 'end', size: 11, weight: 700 });
       s += IE.L(PX, yT, PX, cy) + IE.L(PX, cy, cx + r, cy) + IE.T('PE', PX - 4, cy - 4, { size: 8, anchor: 'end', weight: 700 });
       if (run) s += `<g class="rl-spin" style="transform-origin:${cx}px ${cy}px"><path d="M ${cx + r + 6} ${cy + 4} A 28 28 0 0 1 ${cx + 4} ${cy + r + 6}" stroke="${COL.cur}" fill="none" stroke-width="2"/><path d="M ${cx} ${cy + r + 2} L ${cx + 4} ${cy + r + 6} L ${cx} ${cy + r + 10}" stroke="${COL.cur}" fill="none" stroke-width="2"/></g>`;
       bottom = cy + r + 12; }
     else { const xr = 44, xs = 96, start = !!P.start, yb0 = y + 18, yb1 = yb0 + (start ? 100 : 70), cs = this.cs && start, cSt = curM && cs, xe = start ? xs : xOut, bx = 66, by = start ? yb0 + 80 : (yb0 + yb1) / 2;
       const cLo = cSt ? COL.cur : null;   // below an open centrifugal switch the start winding sits at N potential
       s += g(cM, curM, IE.L(xOut, y, xOut, yb0) + IE.L(xr, yb0, xOut, yb0) + IE.L(xr, yb0, xr, yb0 + 8)) + (start ? g(cSt ? COL.cur : cM, cSt, IE.L(xOut, yb0, xe, yb0)) : '') + `<circle cx="${xOut}" cy="${yb0}" r="2.6" fill="currentColor" stroke="none"/>`;
+      this.pin(`${mName}:U1`, xr, yb0 + 8); this.pin(`${mName}:U2`, xr, yb1 - 10); if (start) { this.pin(`${mName}:Z1`, xs, yb0 + 58); this.pin(`${mName}:Z2`, xs, yb1 - 10); } this.pin(`${mName}:PE`, PX, yb1 + 16);
       s += `<circle cx="${xr}" cy="${yb0 + 8}" r="2.2" fill="var(--panel)" stroke="currentColor"/>` + IE.T('U1', xr - 5, yb0 + 12, { size: 8, anchor: 'end', weight: 700 });
       s += g(cM, curM, IE.wind(xr, yb0 + 10, yb1 - 12)) + `<circle cx="${xr}" cy="${yb1 - 10}" r="2.2" fill="var(--panel)" stroke="currentColor"/>` + IE.T('U2', xr - 5, yb1 - 6, { size: 8, anchor: 'end', weight: 700 });
       s += g(nc(nOk && ok), nOk && curM, IE.L(xr, yb1 - 8, xr, yb1) + IE.L(xr, yb1, NX, yb1)) + `<circle cx="${NX}" cy="${yb1}" r="2.6" fill="currentColor" stroke="none"/>`;
@@ -541,13 +554,13 @@ RL.Sim = class {
     const stage = (t, px, y, ok, run) => { const y1 = y + step, dv = this.dev[t.d] || {}, closed = t.k === 'cb' ? !!dv.on : t.k === 'mainNO' ? this.act(t.d) : true, ym = (y + y1) / 2;
       const hit = !pr && (dv.type === 'cb' || dv.type === 'ol') && !dv.noClick;
       let b = hit ? `<rect x="${px[0] - 34}" y="${F(y + 4)}" width="${px[2] - px[0] + 46}" height="${step - 8}" fill="transparent" stroke="none"/>` : '';
-      px.forEach((x, k) => { b += g(lc(ok, run), ok && run, IE.draw(t.k, x, y, y1, { act: closed, trip: t.k === 'therm' && dv.tripped })) + IE.T(String(2 * k + 1), x + 5, y + 11, { size: 8 }) + IE.T(String(2 * k + 2), x + 5, y1 - 3, { size: 8 }); });
+      px.forEach((x, k) => { this.pin(`${t.d}:${2 * k + 1}`, x, y); this.pin(`${t.d}:${2 * k + 2}`, x, y1); b += g(lc(ok, run), ok && run, IE.draw(t.k, x, y, y1, { act: closed, trip: t.k === 'therm' && dv.tripped })) + IE.T(String(2 * k + 1), x + 5, y + 11, { size: 8 }) + IE.T(String(2 * k + 2), x + 5, y1 - 3, { size: 8 }); });
       b += IE.T(dv.label || t.d, px[0] - 10, ym + 4, { anchor: 'end', size: 11, weight: 700 });
       if (t.k !== 'therm') b += IE.L(px[0] - 8, ym, px[2] - 8, ym, { dash: '3 2' });
       if (dv.tripped && t.k === 'therm') b += IE.T('!', px[0] - 10, ym + 16, { anchor: 'end', size: 11, weight: 700, col: 'var(--bad)' });
       return { s: hit ? `<g data-dev="${t.d}" style="cursor:pointer">${b}</g>` : b, ok: ok && closed }; };
     let s = '', y = y0s, ok = live0;
-    [['L1', LX[0]], ['L2', LX[1]], ['L3', LX[2]], ['N', NX], ['PE', PX]].forEach(([l, x]) => { s += IE.T(l, x, yT - 8, { size: 10, anchor: 'middle', weight: 700 }); });
+    [['L1', LX[0]], ['L2', LX[1]], ['L3', LX[2]], ['N', NX], ['PE', PX]].forEach(([l, x]) => { this.pin(`SUP:${l}`, x, yT); s += IE.T(l, x, yT - 8, { size: 10, anchor: 'middle', weight: 700 }); });
     // geometry of the branches first, so that PE can be drawn underneath everything
     const yQ = y0s + this.mainSt().length * step, yB = [yQ + 14, yQ + 22, yQ + 30], tapA = ctl && P.tap !== 'before', yF = yB[2] + 12;
     const mot = FD.map((f, i) => { const cy = yF + f.stages.length * step + 56; return [xs(i) + 26 - 15.6, cy + 15.6, cy]; });   // PE terminal at the lower left of each motor
@@ -571,7 +584,7 @@ RL.Sim = class {
       px.forEach((x, k) => { s += g(lc(okf, run), okf && run, IE.L(x, yB[k], x, yy)) + (n > 1 && (i < n - 1 || (k === 0 && tapA)) ? dot(x, yB[k]) : ''); });
       f.stages.forEach(t => { const r = stage(t, px, yy, okf, run); s += r.s; okf = r.ok; yy += step; });
       const yt2 = yy + 18, cy = yy + 56, cx = x0 + 26, r = 22;
-      px.forEach((x, k) => { s += g(lc(okf, run), okf && run, IE.L(x, yy, x, yt2) + IE.L(x, yt2, cx + (k - 1) * 13, cy - (k === 1 ? r : 17.5))) + `<circle cx="${x}" cy="${yt2}" r="2.4" fill="var(--panel)" stroke="currentColor"/>` + IE.T(['U1', 'V1', 'W1'][k], x + 4, yt2 - 3, { size: 8, weight: 700 }); });
+      px.forEach((x, k) => { this.pin(`${f.motor}:${['U1', 'V1', 'W1'][k]}`, x, yt2); s += g(lc(okf, run), okf && run, IE.L(x, yy, x, yt2) + IE.L(x, yt2, cx + (k - 1) * 13, cy - (k === 1 ? r : 17.5))) + `<circle cx="${x}" cy="${yt2}" r="2.4" fill="var(--panel)" stroke="currentColor"/>` + IE.T(['U1', 'V1', 'W1'][k], x + 4, yt2 - 3, { size: 8, weight: 700 }); });
       s += IE.motor(cx, cy, r) + IE.T(f.motor, x0 - 10, cy + 4, { anchor: 'end', size: 11, weight: 700 });
       if (run) s += `<g class="rl-spin" style="transform-origin:${cx}px ${cy}px"><path d="M ${cx + r + 6} ${cy + 4} A 28 28 0 0 1 ${cx + 4} ${cy + r + 6}" stroke="${COL.cur}" fill="none" stroke-width="2"/><path d="M ${cx} ${cy + r + 2} L ${cx + 4} ${cy + r + 6} L ${cx} ${cy + r + 10}" stroke="${COL.cur}" fill="none" stroke-width="2"/></g>`; });
     return { s, bottom: yPE + 12 }; }
@@ -598,7 +611,7 @@ RL.Sim = class {
   stageRow(t, px, y, ok, run, step) { const y1 = y + step, dv = this.dev[t.d] || {}, closed = t.k === 'cb' ? !!dv.on : t.k === 'mainNO' ? this.act(t.d) : true, ym = (y + y1) / 2, pr = !!this.o.print;
     const hit = !pr && (dv.type === 'cb' || dv.type === 'ol') && !dv.noClick, c = pr || !ok ? null : run ? COL.cur : COL.live, last = px[px.length - 1];
     let b = hit ? `<rect x="${px[0] - 34}" y="${+(y + 4).toFixed(1)}" width="${last - px[0] + 46}" height="${step - 8}" fill="transparent" stroke="none"/>` : '';
-    px.forEach((x, k) => { b += `<g${c ? ` stroke="${c}"` : ''}${ok && run ? ' class="rl-cur"' : ''}>${IE.draw(t.k, x, y, y1, { act: closed, trip: t.k === 'therm' && dv.tripped })}</g>` + IE.T(String(2 * k + 1), x + 5, y + 11, { size: 8 }) + IE.T(String(2 * k + 2), x + 5, y1 - 3, { size: 8 }); });
+    px.forEach((x, k) => { this.pin(`${t.d}:${2 * k + 1}`, x, y); this.pin(`${t.d}:${2 * k + 2}`, x, y1); b += `<g${c ? ` stroke="${c}"` : ''}${ok && run ? ' class="rl-cur"' : ''}>${IE.draw(t.k, x, y, y1, { act: closed, trip: t.k === 'therm' && dv.tripped })}</g>` + IE.T(String(2 * k + 1), x + 5, y + 11, { size: 8 }) + IE.T(String(2 * k + 2), x + 5, y1 - 3, { size: 8 }); });
     b += IE.T(dv.label || t.d, px[0] - 10, ym + 4, { anchor: 'end', size: 11, weight: 700 });
     if (t.k !== 'therm') b += IE.L(px[0] - 8, ym, last - 8, ym, { dash: '3 2' });
     if (dv.tripped && t.k === 'therm') b += IE.T('!', px[0] - 10, ym + 16, { anchor: 'end', size: 11, weight: 700, col: 'var(--bad)' });
@@ -622,7 +635,7 @@ RL.Sim = class {
     const [railL, railN, anyCur] = this.railCol, g = (c, cur, body) => `<g${c ? ` stroke="${c}"` : ''}${cur ? ' class="rl-cur"' : ''}>${body}</g>`, dot = (x, y) => `<circle cx="${F(x)}" cy="${F(y)}" r="2.8" fill="currentColor" stroke="none"/>`;
     const lc = (okk, cur) => (pr || !okk ? null : cur ? COL.cur : COL.live), fIn = this.act(R.fwd), rIn = this.act(R.rev), fC = fIn && run, rC = rIn && run;
     let s = '', y = y0s, ok = this.mains !== false && !pr;
-    [['L1', LX[0]], ['L2', LX[1]], ['L3', LX[2]], ['N', NX], ['PE', PX]].forEach(([l, x]) => { s += IE.T(l, x, yT - 8, { size: 10, anchor: 'middle', weight: 700 }); });
+    [['L1', LX[0]], ['L2', LX[1]], ['L3', LX[2]], ['N', NX], ['PE', PX]].forEach(([l, x]) => { this.pin(`SUP:${l}`, x, yT); s += IE.T(l, x, yT - 8, { size: 10, anchor: 'middle', weight: 700 }); });
     LX.forEach(x => { s += g(lc(ok, run), ok && run, IE.L(x, yT, x, y)); });
     let first = -1; R.pre.forEach((t, j) => { if (first < 0 && t.k === 'cb') first = j; const r = this.stageRow(t, LX, y, ok, run, step); s += r.s; ok = r.ok; y += step; });
     const yQ = y, yB = [yQ + 24, yQ + 32, yQ + 40], yX0 = yQ + 54, yK = yQ + 80, yE = yK + step, yJ = [yE + 12, yE + 20, yE + 28], yF = yE + 40;
@@ -635,7 +648,7 @@ RL.Sim = class {
     s += cross(LX, R.fmap, fC) + cross(K2, R.map, rC);
     // the two contactors
     const kRow = (id, X, closed, cur) => { const ym = (yK + yE) / 2, dv = this.dev[id] || {}; let b = '';
-      X.forEach((x, k) => { b += g(lc(ok, cur), ok && cur, IE.draw('mainNO', x, yK, yE, { act: closed })) + IE.T(String(2 * k + 1), x + 5, yK + 11, { size: 8 }) + IE.T(String(2 * k + 2), x + 5, yE - 3, { size: 8 }); });
+      X.forEach((x, k) => { this.pin(`${id}:${2 * k + 1}`, x, yK); this.pin(`${id}:${2 * k + 2}`, x, yE); b += g(lc(ok, cur), ok && cur, IE.draw('mainNO', x, yK, yE, { act: closed })) + IE.T(String(2 * k + 1), x + 5, yK + 11, { size: 8 }) + IE.T(String(2 * k + 2), x + 5, yE - 3, { size: 8 }); });
       return b + IE.T(dv.label || id, X[0] - 10, ym + 4, { anchor: 'end', size: 11, weight: 700 }) + IE.L(X[0] - 8, ym, X[2] - 8, ym, { dash: '3 2' }); };
     s += kRow(R.fwd, LX, fIn, fC) + kRow(R.rev, K2, rIn, rC);
     // outputs: KM2 joins KM1 on each motor conductor
@@ -654,9 +667,9 @@ RL.Sim = class {
       s += `<g stroke="${cN}"${cu}>${IE.L(NX, tap[1], xv, tap[1], { w: wN })}${IE.L(xv, tap[1], xv, yR, { w: wN })}${IE.L(xv, yR, xr, yR, { w: wN })}</g>`; }
     // motor
     const yt2 = y + 18, cy = y + 56, cx = 66, r = 22, cM = lc(ok, run);
-    LX.forEach((x, k) => { s += g(cM, ok && run, IE.L(x, y, x, yt2) + IE.L(x, yt2, cx + (k - 1) * 13, cy - (k === 1 ? r : 17.5))) + `<circle cx="${x}" cy="${yt2}" r="2.4" fill="var(--panel)" stroke="currentColor"/>` + IE.T(['U1', 'V1', 'W1'][k], x + 4, yt2 - 3, { size: 8, weight: 700 }); });
+    LX.forEach((x, k) => { this.pin(`${P.motor || 'M1'}:${['U1', 'V1', 'W1'][k]}`, x, yt2); s += g(cM, ok && run, IE.L(x, y, x, yt2) + IE.L(x, yt2, cx + (k - 1) * 13, cy - (k === 1 ? r : 17.5))) + `<circle cx="${x}" cy="${yt2}" r="2.4" fill="var(--panel)" stroke="currentColor"/>` + IE.T(['U1', 'V1', 'W1'][k], x + 4, yt2 - 3, { size: 8, weight: 700 }); });
     s += IE.motor(cx, cy, r) + IE.T(P.motor || 'M1', LX[0] - 10, cy + 4, { anchor: 'end', size: 11, weight: 700 });
-    s += IE.L(PX, yT, PX, cy) + IE.L(PX, cy, cx + r, cy) + IE.T('PE', PX - 4, cy - 4, { size: 8, anchor: 'end', weight: 700 });
+    this.pin(`${P.motor || 'M1'}:PE`, PX, cy); s += IE.L(PX, yT, PX, cy) + IE.L(PX, cy, cx + r, cy) + IE.T('PE', PX - 4, cy - 4, { size: 8, anchor: 'end', weight: 700 });
     if (run) s += this.spinArrow(cx, cy, r, dir) + IE.T(this.dirLabel(dir), cx, cy + r + 24, { size: 9, anchor: 'middle', weight: 700, col: pr ? undefined : COL.cur });
     return { s, bottom: cy + r + 30 }; }
   /* single-phase reversing power circuit (power.phases 1 + rev): L1 N PE, Q1 two-pole, F2 with the line current through its three
@@ -670,13 +683,13 @@ RL.Sim = class {
     const lc = (okk, cur) => (pr || !okk ? null : cur ? COL.cur : COL.live), nc = (okk, cur) => (pr || !okk || !cur ? null : COL.ncur);
     const closed = { [R.fwd]: this.act(R.fwd), [R.rev]: this.act(R.rev) };
     let s = '', y = y0s, ok = this.mains !== false && !pr, nOk = ok, xL = LX, first = -1, yTap = null;
-    [['L1', LX], ['N', NX], ['PE', G.PX]].forEach(([l, x]) => { s += IE.T(l, x, yT - 8, { size: 10, anchor: 'middle', weight: 700 }); });
+    [['L1', LX], ['N', NX], ['PE', G.PX]].forEach(([l, x]) => { this.pin(`SUP:${l}`, x, yT); s += IE.T(l, x, yT - 8, { size: 10, anchor: 'middle', weight: 700 }); });
     s += g(lc(ok, run), ok && run, IE.L(LX, yT, LX, y)) + g(nc(nOk, run), nOk && run, IE.L(NX, yT, NX, y));
     R.pre.forEach((t, j) => { if (first < 0 && t.k === 'cb') first = j;
       const y1 = y + step, dv = this.dev[t.d] || {}, cl = t.k === 'cb' ? !!dv.on : t.k === 'mainNO' ? this.act(t.d) : true, ym = (y + y1) / 2, th = t.k === 'therm';
       const hit = !pr && (dv.type === 'cb' || dv.type === 'ol') && !dv.noClick, poles = th ? [36, 58, 80] : [36, NX];
       let b = hit ? `<rect x="${LX - 34}" y="${F(y + 4)}" width="${poles[poles.length - 1] - LX + 46}" height="${step - 8}" fill="transparent" stroke="none"/>` : '';
-      poles.forEach((x, k) => { const isN = !th && k === 1, c = isN ? nc(nOk, run) : lc(ok, run), cur = (isN ? nOk : ok) && run;
+      poles.forEach((x, k) => { const isN = !th && k === 1, c = isN ? nc(nOk, run) : lc(ok, run), cur = (isN ? nOk : ok) && run; this.pin(`${t.d}:${2 * k + 1}`, x, y); this.pin(`${t.d}:${2 * k + 2}`, x, y1);
         b += g(c, cur, IE.draw(t.k, x, y, y1, { act: cl, trip: th && dv.tripped })) + IE.T(String(2 * k + 1), x + 5, y + 11, { size: 8 }) + IE.T(String(2 * k + 2), x + 5, y1 - 3, { size: 8 });
         if (th && k < 2) b += g(c, cur, `<path d="M ${x} ${F(y1)} L ${x} ${F(y1 + 5)} L ${x + 11} ${F(y1 + 5)} L ${x + 11} ${F(y - 5)} L ${x + 22} ${F(y - 5)} L ${x + 22} ${F(y)}" fill="none"/>`); });   // line current through the three poles
       if (th) { s += g(nc(nOk, run), nOk && run, IE.L(NX, y, NX, y1)); xL = 80; }
@@ -693,7 +706,7 @@ RL.Sim = class {
     s += g(nc(nOk, run), nOk && run, IE.L(NX, yA, NX, yNb) + (nx.length ? IE.L(NX, yNb, Math.max(...nx), yNb) : '')) + nx.filter(x => x < Math.max(...nx)).map(x => dot(x, yNb)).join('') + (nDown && nx.length ? dot(NX, yNb) : '');
     feeds.forEach(f => { const cur = closed[f.id] && run, isN = f.src === 'N'; s += g(isN ? nc(nOk, cur) : lc(ok, cur), (isN ? nOk : ok) && cur, IE.L(f.x, isN ? yNb : yLb, f.x, yK)); });
     [[R.fwd, G.K1], [R.rev, G.K2]].forEach(([id, X]) => { const cl = closed[id], ym = (yK + yE) / 2, dv = this.dev[id] || {}, n = R.poles[id].length;
-      R.poles[id].forEach(([src, t], i) => { const x = X[i], isN = src === 'N', cur = cl && run;
+      R.poles[id].forEach(([src, t], i) => { const x = X[i], isN = src === 'N', cur = cl && run; this.pin(`${id}:${2 * i + 1}`, x, yK); this.pin(`${id}:${2 * i + 2}`, x, yE);
         s += g(isN ? nc(nOk, cur) : lc(ok, cur), (isN ? nOk : ok) && cur, IE.draw('mainNO', x, yK, yE, { act: cl })) + IE.T(String(2 * i + 1), x + 5, yK + 11, { size: 8 }) + IE.T(String(2 * i + 2), x + 5, yE - 3, { size: 8 }); });
       s += IE.T(dv.label || id, X[0] - 10, ym + 4, { anchor: 'end', size: 11, weight: 700 }) + IE.L(X[0] - 8, ym, X[n - 1] - 8, ym, { dash: '3 2' }); });
     // one row per motor terminal; the source each terminal has now (L, N, X = both: a short)
@@ -718,7 +731,7 @@ RL.Sim = class {
     // motor 1~ drawn as its terminal board
     const cs = this.cs !== false, w = this.w || 0, pol = (a, b) => !!src[a] && !!src[b] && src[a] !== 'X' && src[b] !== 'X' && src[a] !== src[b];
     const runW = run && pol('U1', 'U2'), stW = runW && cs && pol('Z1', 'Z2'), cR = pr || !runW ? null : COL.cur, cS = pr || !stW ? null : COL.cur, bx = 156;
-    TS.forEach(t => { const x = G.tx[t]; s += `<circle cx="${x}" cy="${yM}" r="2.4" fill="var(--panel)" stroke="currentColor"/>` + IE.T(t, x + 4, yM - 3, { size: 8, weight: 700 }); });
+    TS.forEach(t => { const x = G.tx[t]; this.pin(`${P.motor || 'M1'}:${t}`, x, yM); s += `<circle cx="${x}" cy="${yM}" r="2.4" fill="var(--panel)" stroke="currentColor"/>` + IE.T(t, x + 4, yM - 3, { size: 8, weight: 700 }); });
     s += g(cR, runW, IE.L(36, yM + 2, 36, yM + 6) + IE.wind(36, yM + 6, yM + 62) + IE.L(36, yM + 62, 36, yM + 76) + IE.L(36, yM + 76, 130, yM + 76) + IE.L(130, yM + 76, 130, yM + 2));
     s += g(cS, stW, IE.cap(80, yM + 2, yM + 26) + IE.contact(true, 80, yM + 26, yM + 56, { act: !cs, op: 'spd' }) + IE.L(80, yM + 56, 80, yM + 66) + IE.L(80, yM + 66, 104, yM + 66) + IE.wind(104, yM + 8, yM + 66) + IE.L(104, yM + 2, 104, yM + 8));
     s += IE.T('C', 91, yM + 18, { size: 9, weight: 700 }) + `<rect x="20" y="${yM - 9}" width="${bx + 26 - 20}" height="93" rx="6" fill="none" stroke="var(--muted)" stroke-dasharray="4 3"/>` +

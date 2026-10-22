@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="Week 5 — Terminal strips, two stations, jogging and fault finding">สัปดาห์ 5 — แผงขั้วต่อ สองจุดควบคุม เดินกระตุก และหาจุดผิด</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=16"><link rel="stylesheet" href="assets/ed2.css?v=16">
+<link rel="stylesheet" href="assets/wiring.css?v=16"><link rel="stylesheet" href="assets/mcp.css?v=16">
+<script src="assets/stops.js?v=16"></script><script src="assets/shell.js?v=16"></script>
+<script src="assets/lesson.js?v=16"></script><script src="assets/draw.js?v=16"></script><script src="assets/ed.js?v=16"></script><script src="assets/sym.js?v=16"></script><script src="assets/iec.js?v=16"></script><script src="assets/relay.js?v=16"></script><script src="assets/ch2.js?v=16"></script><script src="assets/ch3.js?v=16"></script><script src="assets/ch4.js?v=16"></script>
+<script src="assets/panel.js?v=16"></script><script src="assets/ch5.js?v=16"></script><script src="assets/ch6.js?v=16"></script><script src="assets/ch7.js?v=16"></script>
+<script src="assets/wiring.js?v=16"></script><script src="assets/devdata.js?v=16"></script><script src="assets/dev.js?v=16"></script>
+<script src="assets/mcp.js?v=16"></script>
+<style>
+.mcp-prep{margin:6px 0 0 20px;padding:0;line-height:1.55}.mcp-prep li{margin:4px 0}.mcp-prep .pk{color:var(--muted);font-size:14px}
+.ttab td.rd{font-family:"IBM Plex Mono",monospace;font-weight:600}.ttab tr.cur td{background:color-mix(in srgb,var(--accent) 9%,transparent)}
+.ttab td.rd::before{font-family:"IBM Plex Sans Thai",sans-serif;font-weight:400}.ttab td.ok{color:var(--good);font-weight:600}.ttab td.bad{color:var(--bad);font-weight:600}.mono{font-family:"IBM Plex Mono",monospace}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">เริ่มเดินโดยตรง (ต่อ): แผงขั้วต่อ สองจุดควบคุม เดินกระตุก รีเลย์ป้องกันเฟส และหาจุดผิดครั้งแรก <span class="en">Direct-on-line continued: terminal strips, two stations, jogging, the phase-failure relay and a first fault finding</span></h1>
+<h1 data-l="en">Terminal strips, two stations, jogging and fault finding <span class="en">The DOL starter continued, then the first faults to find with the meter</span></h1>
+
+<p class="sub" data-l="th">สัปดาห์นี้ต่อยอดวงจรเริ่มเดินโดยตรง (direct-on-line, DOL) ของสัปดาห์ที่แล้ว: อ่านตารางแผงขั้วต่อ -X1 และ -X2 ว่าสายไหนออกจากแผ่นยึดอุปกรณ์ไปที่ประตูตู้และมอเตอร์ ต่อวงจรสองจุดควบคุม วงจรเดินกระตุกแบบรีเลย์ช่วย และรีเลย์ป้องกันเฟส F3 ตามใบงานของครูแผ่นที่ 10–11 บนแผงฝึก แล้วจ่ายไฟทดสอบตามตาราง ครึ่งหลังของสัปดาห์เป็นการหาจุดผิดครั้งแรก: ครูทำจุดเสียไว้ในวงจรครบชุดโดยดูจากภายนอกไม่ออก ให้ดูอาการแล้วใช้มิเตอร์หาจุดเสียให้ได้ในจำนวนครั้งที่กำหนด หลักการของวงจรอยู่ในหน้า 5.3–5.6 ของวิชาเขียนแบบไฟฟ้า 2</p>
+<p class="sub" data-l="en">This week builds on last week's direct-on-line (DOL) starter. Read the -X1 and -X2 terminal tables to see which wires leave the mounting plate for the door and the motor, then wire two control stations, a relay jog circuit and phase-failure relay F3 (the instructor's sheets 10–11) on the trainer and test each with power. The second half of the week is your first fault finding: the teacher has set hidden faults in the complete circuit; read the symptom, then find the fault with the meter in a limited number of measurements. How the circuits work is on pages 5.3–5.6 of Electrical Drawing II.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>แผงขั้วต่อ</b>: สายทุกเส้นที่ออกจากแผ่นยึดอุปกรณ์ไปประตูตู้ สถานีควบคุมที่ 2 หรือมอเตอร์ ต้องลงขั้วของแผงขั้วต่อ -X1 คือสายกำลังและมอเตอร์ -X2 คือสายควบคุม สายเลขเดียวกันใช้ขั้วเดียวกัน สายดินป้องกัน (protective earth, PE) และ N มีขั้วของตัวเอง</li>
+  <li><b>สองจุดควบคุม</b>: ปุ่มหยุดทุกตัวต่ออนุกรม ปุ่มเริ่มทุกตัวต่อขนานกับหน้าสัมผัสค้างตัวเอง (หน้า 3.3 และ 5.6) ปุ่มหยุดตัวใดก็หยุดมอเตอร์ได้ ปุ่มเริ่มตัวใดก็เริ่มได้</li>
+  <li><b>เดินกระตุกแบบรีเลย์ช่วย</b>: ปุ่มเริ่ม S2 สั่งรีเลย์ KA1 ซึ่งค้างตัวเองแล้วสั่ง KM1 ส่วนปุ่มเดินกระตุก S3 ป้อนคอยล์ KM1 ตรงและไม่ไปถึงทางค้างตัวเองเลย บนแผงฝึก KA1 เป็นรีเลย์แบบเสียบ ขั้ว 13–14 ในแบบจึงเป็น 11–14 บนตัวรีเลย์</li>
+  <li><b>หาจุดผิดด้วยการวัด</b>: ดูอาการ หาทางเดินกระแสที่เกี่ยวข้อง แล้ววัดแรงดันโดยวางสายวัดดำไว้ที่ N และเลื่อนสายวัดแดงไปตามทางเดินกระแส จุดที่แรงดันหายไปอยู่ระหว่างจุดที่วัดได้ 230 V กับจุดที่วัดได้ 0 V (หน้า 5.5)</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>Terminal strips</b>: every wire that leaves the mounting plate for the door, the second station or the motor lands on a strip terminal: -X1 for the power and motor wires, -X2 for the control wires. One wire number uses one terminal; the protective earth (PE) and N have terminals of their own.</li>
+  <li><b>Two stations</b>: all stop buttons in series, all start buttons in parallel with the holding contact (pages 3.3 and 5.6). Any stop button stops the motor and any start button starts it.</li>
+  <li><b>Relay jogging</b>: start button S2 drives relay KA1, which holds itself and drives KM1; jog button S3 feeds coil KM1 directly and never reaches a holding path. On the trainer KA1 is a plug-in relay, so 13–14 in the drawing is 11–14 on the relay.</li>
+  <li><b>Fault finding by measuring</b>: read the symptom, find the current path involved, then measure voltage with the black probe left on N while the red probe moves along the path. The fault lies between the last point that reads 230 V and the first that reads 0 V (page 5.5).</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>อ่านและลองก่อนเรียน</a><a href="#tA"><b>A</b>แผงขั้วต่อ -X1 และ -X2</a><a href="#tB"><b>B</b>ไล่ทางเดินกระแส</a><a href="#tC"><b>C</b>ต่อสายบนแผงฝึก</a><a href="#tD"><b>D</b>ทดสอบหลังจ่ายไฟ</a><a href="#ex1"><b>1</b>อ่านค่าแรงดันหาจุดเสีย</a><a href="#tE"><b>E</b>การ์ดหาจุดผิด</a><a href="#tF"><b>F</b>ใบงาน</a><a href="#tQ"><b>Q</b>ทบทวน</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>Read and try before class</a><a href="#tA"><b>A</b>Terminal strips -X1 and -X2</a><a href="#tB"><b>B</b>Tracing</a><a href="#tC"><b>C</b>Wiring the trainer</a><a href="#tD"><b>D</b>Tests after power</a><a href="#ex1"><b>1</b>Reading voltages to find a fault</a><a href="#tE"><b>E</b>Fault cards</a><a href="#tF"><b>F</b>Practice sheet</a><a href="#tQ"><b>Q</b>Review</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">อ่านและลองก่อนเรียน</h2><h2 data-l="en">Read and try before class</h2>
+    <div class="src" data-l="th">วิชาเขียนแบบไฟฟ้า 2 หน้า 5.3–5.6 · สัปดาห์ที่ 4 ของวิชานี้</div><div class="src" data-l="en">Electrical Drawing II, pages 5.3–5.6 · week 4 of this course</div></div></div>
+  <p class="lead" data-l="th">เปิดหน้าของวิชาเขียนแบบไฟฟ้า 2 ข้างล่างนี้ก่อนเข้าห้อง แต่ละข้อบอกว่าควรดูอะไร และต้องต่อวงจรครบชุดของ<a href="mcp_4_dol_wiring.html">สัปดาห์ที่ 4</a> ได้แล้ว เพราะวงจรของสัปดาห์นี้แก้ต่อจากวงจรนั้น</p>
+  <p class="lead" data-l="en">Open the Electrical Drawing II pages below before the lab; each line says what to look at. You should already be able to wire the complete circuit of <a href="mcp_4_dol_wiring.html">week 4</a>, because this week's circuits are changed from it.</p>
+  <div class="card"><ol class="mcp-prep" id="prep"></ol></div>
+  <div class="warnbox" data-l="th" style="margin-top:12px"><b>ความปลอดภัยของงานวันนี้</b>: การหาจุดผิดด้วยการวัดแรงดันทำขณะวงจรมีไฟ ใช้สายวัดที่มีปลอกกันนิ้วและปลายเข็มสั้น วางสายวัดดำไว้ที่จุดเดียวแล้วเลื่อนสายวัดแดงด้วยมือเดียว ห้ามแตะโลหะของขั้ว ทำเฉพาะต่อหน้าครู และก่อนวัดโอห์ม เปลี่ยนสาย หรือแก้จุดเสีย ต้องตัดไฟ ล็อก แขวนป้าย และวัดยืนยันว่าไม่มีไฟทุกครั้ง ระหว่างทดสอบรีเลย์ป้องกันเฟส ห้ามถอดสายเฟสขณะมีไฟ ครูเป็นผู้จำลองเฟสขาดด้วยวิธีที่ปลอดภัย</div>
+  <div class="warnbox" data-l="en" style="margin-top:12px"><b>Safety for today</b>: fault finding with the voltage range is done on a live circuit. Use shrouded probes with short tips, keep the black probe on one point and move the red one with one hand, never touch the metal of a terminal, and do it only with the teacher present. Before measuring ohms, changing a lead or repairing a fault, switch off, lock out, tag and prove dead every time. When testing the phase-failure relay, never pull a phase wire while live: the teacher simulates the lost phase in a safe way.</div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">แผงขั้วต่อ -X1 และ -X2 บนแผงฝึก</h2><h2 data-l="en">Terminal strips -X1 and -X2 on the trainer</h2>
+    <div class="src" data-l="th">หน้า 5.6 · IEC 61666 (ชื่อขั้ว) · IEC 60204-1 ข้อ 13</div><div class="src" data-l="en">Page 5.6 · IEC 61666 (terminal designations) · IEC 60204-1, 13</div></div></div>
+  <p class="lead" data-l="th">ตารางนี้สร้างจากการเดินสายอ้างอิงของวงจรสองจุดควบคุมบนแผงฝึก: แต่ละขั้วของ -X2 รับสายเลขอะไร ด้านในต่อกับอุปกรณ์ตัวไหนบนแผ่นยึดอุปกรณ์ และด้านนอกต่อกับอุปกรณ์ตัวไหนบนประตูตู้ ส่วน -X1 ขั้ว 1–5 รับไฟเข้าจากสวิตช์แยกวงจรซึ่งต่อไว้แล้ว ขั้ว 6–9 ไปมอเตอร์ M1 และขั้ว 10–13 ไปมอเตอร์ M2 เวลาต่อจริงให้ถือตารางนี้ไว้ข้างแบบ และติ๊กทีละขั้ว</p>
+  <p class="lead" data-l="en">This table comes from the reference wiring of the two-station circuit on the trainer: which wire number each -X2 terminal carries, which device on the mounting plate it reaches on the inside, and which device on the door it reaches on the outside. On -X1, terminals 1–5 bring the supply in from the isolator (pre-wired), 6–9 go to motor M1 and 10–13 to motor M2. When you wire for real, keep this table beside the drawing and tick it terminal by terminal.</p>
+  <div class="card solve" style="overflow-x:auto"><div id="xA"></div></div>
+  <div class="callout" data-l="th"><b>ทำไมสถานีที่ 2 จึงอยู่บนประตูตู้</b>: แผงฝึกมีปุ่มเริ่มสองตัวและปุ่มหยุดสองตัวบนประตูตู้ ชุดที่ 2 (ปุ่มหยุดสีแดง S3 และปุ่มเริ่มสีเขียว S4) จึงใช้แทนสถานีควบคุมที่ 2 สายระหว่างปุ่มที่อยู่ที่เดียวกัน เช่น S1 ขั้ว 12 ไป S3 ขั้ว 11 ต่อที่ประตูตู้โดยตรง ไม่ต้องผ่าน -X2 แต่ในโรงงาน สถานีที่ 2 เป็นกล่องแยกที่เครื่องจักร สายทุกเส้นของมันจึงต้องลงขั้วของ -X2 ตามแบบสายไฟของหน้า 5.6</div>
+  <div class="callout" data-l="en"><b>Why the second station is on the door</b>: the trainer has two start and two stop buttons on its door, so the second pair (red stop S3 and green start S4) stands in for the second control station. A wire between two buttons at the same place, e.g. S1 terminal 12 to S3 terminal 11, is linked on the door itself without going through -X2. In a factory the second station is a separate box at the machine, so every one of its wires lands on -X2, as in the wiring diagram of page 5.6.</div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">ไล่ทางเดินกระแสของวงจรสัปดาห์นี้</h2><h2 data-l="en">Trace the current paths of this week's circuits</h2>
+    <div class="src" data-l="th">หน้า 3.3, 5.2, 5.3 และ 5.6 · ใบงานของครูแผ่นที่ 10–11</div><div class="src" data-l="en">Pages 3.3, 5.2, 5.3 and 5.6 · the instructor's sheets 10–11</div></div></div>
+  <p class="lead" data-l="th">เลือกวงจร แล้วแตะอุปกรณ์ในแบบทีละตัวจากราว L1 ไปจนถึงโหลดที่โจทย์ถาม แล้วลงไปที่ N ข้อของวงจรเดินกระตุกถามว่าทางเดินกระแสของ KM1 ผ่านอะไรเมื่อกดปุ่มเดินกระตุก และผ่านอะไรเมื่อเดินต่อเนื่อง ซึ่งเป็นเหตุผลที่วงจรนี้ปลอดภัยกว่าปุ่มสองหน้าสัมผัส</p>
+  <p class="lead" data-l="en">Choose a circuit, then tap the devices in the drawing one at a time from the L1 rail to the load the task asks for, and on to N. The jog-circuit tasks ask what the path of KM1 passes through while jogging and while running continuously, which is why this circuit is safer than a double-contact button.</p>
+  <div class="card solve"><div class="panel" id="pB" style="position:static;max-height:none"></div></div>
+  <div class="card sim rlwrap rlscroll mcp-wide" style="padding:8px;margin-top:12px"><div id="simB"></div></div>
+  <div class="card" style="margin-top:12px"><div id="trB"></div></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ต่อสายบนแผงฝึก: สองจุดควบคุม เดินกระตุก และรีเลย์ป้องกันเฟส</h2><h2 data-l="en">Wiring the trainer: two stations, jogging and the phase-failure relay</h2>
+    <div class="src" data-l="th">ใบงานของครูแผ่นที่ 10–11 · หน้า 5.2, 5.3 และ 5.6</div><div class="src" data-l="en">The instructor's sheets 10–11 · pages 5.2, 5.3 and 5.6</div></div></div>
+  <p class="lead" data-l="th">เลือกวงจรหนึ่งในสามวงจร อ่านว่าต่างจากวงจรครบชุดของสัปดาห์ที่ 4 อย่างไร แล้วต่อสายบนแผงฝึก ลำดับการต่อเหมือนสัปดาห์ที่ 4: วงจรกำลังและ PE ก่อน แล้ววงจรควบคุมตามเลขสาย และ N เป็นอย่างสุดท้าย ถ้าเปิด "เก็บสายเดิมไว้เมื่อเปลี่ยนวงจร" สายที่ต่อไว้จะอยู่ต่อ และผลการตรวจจะบอกว่าต้องเพิ่มหรือย้ายเส้นไหน ทดสอบก่อนจ่ายไฟแบบเดียวกับหัวข้อ D1 ของสัปดาห์ที่ 4 แล้วจึงจ่ายไฟและทำตารางในหัวข้อ D</p>
+  <p class="lead" data-l="en">Choose one of the three circuits, read how it differs from the complete circuit of week 4, and wire the trainer. The order is that of week 4: the power circuit and PE first, then the control circuit in wire-number order, and N last. With "keep my leads when I change the circuit" on, the leads you placed stay, and the check tells you which to add or move. Test before power as in section D1 of week 4, then power up and work through the table in section D.</p>
+  <div class="card solve"><div class="panel" id="pC" style="position:static;max-height:none"></div></div>
+  <div class="card" style="padding:8px;margin-top:12px"><div id="trnC"></div></div>
+  <p class="lead" data-l="th" style="margin-top:12px">แบบวงจรที่เลือก (เปิดเลขสายไว้ให้ตรงกับรายการเดินสาย) เมื่อจ่ายไฟแล้ว แบบจะแสดงสายที่มีไฟเป็นสีแดง</p>
+  <p class="lead" data-l="en" style="margin-top:12px">The chosen drawing (wire numbers on, to match the checklist). Once the trainer is powered, live wires show in red.</p>
+  <div class="card sim rlwrap rlscroll mcp-wide" style="padding:8px"><div id="simC"></div></div>
+</section>
+
+<section class="prob" id="tD">
+  <div class="prob-head"><span class="prob-no">D</span><div><h2 data-l="th">จ่ายไฟแล้วทำตารางทดสอบ</h2><h2 data-l="en">Power up and work through the test table</h2>
+    <div class="src" data-l="th">หน้า 5.2, 5.3 และ 5.6 · ขั้นตอนทดสอบของแผนก</div><div class="src" data-l="en">Pages 5.2, 5.3 and 5.6 · the department's test routine</div></div></div>
+  <p class="lead" data-l="th">หลังครูตรวจและกด "จ่ายไฟ" ที่แผงฝึกในหัวข้อ C แล้ว ปุ่มและสวิตช์ด้านล่างคือหน้าตู้ของแผงฝึกชุดเดียวกัน ทำตามตารางทีละแถว แถวจะติ๊กเองเมื่อแผงฝึกอยู่ในสภาพที่แถวนั้นถาม ตารางเปลี่ยนตามวงจรที่เลือกในหัวข้อ C</p>
+  <p class="lead" data-l="en">Once the teacher has checked and you have pressed "power on" on the trainer in section C, the buttons and switches below are the door of that same trainer. Work through the table row by row; a row ticks itself when the trainer is in the state it asks for. The table follows the circuit chosen in section C.</p>
+  <div class="card solve"><div class="panel" id="pD" style="position:static;max-height:none"></div></div>
+  <div class="card solve" style="overflow-x:auto;margin-top:12px"><div id="ttD"></div></div>
+  <div class="callout" data-l="th"><b>รีเลย์ป้องกันเฟส</b>: ในหน้านี้กดปุ่ม F3 เพื่อจำลองว่าเฟสขาดหรือลำดับเฟสผิด บนแผงฝึกจริงครูเป็นผู้จำลองด้วยวิธีที่ปลอดภัย F3 ต่อกลับเองเมื่อไฟกลับมาปกติ แต่มอเตอร์ต้องไม่หมุนเอง เพราะหน้าสัมผัสค้างตัวเองเปิดไปแล้ว (หน้า 5.2)</div>
+  <div class="callout" data-l="en"><b>The phase-failure relay</b>: on this page, press the F3 button to simulate a lost phase or a wrong sequence; on the real trainer the teacher simulates it in a safe way. F3 closes again by itself once the supply is healthy, but the motor must not restart, because the holding contact has already opened (page 5.2).</div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">อ่านค่าแรงดันหาจุดเสีย</h2><h2 data-l="en">Reading voltages to find a fault</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · วงจรครบชุดของสัปดาห์ที่ 4 · หน้า 5.5</div><div class="src" data-l="en">Worked example · the complete circuit of week 4 · page 5.5</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>วงจรครบชุดของสัปดาห์ที่ 4 สับ Q1 แล้วหลอดขาว H3 ติด แต่กด S2 ค้างไว้ KM1 ไม่ดูด นักเรียนวางสายวัดดำไว้ที่ N แล้วเลื่อนสายวัดแดงไปตามทางเดินกระแสของคอยล์ขณะเพื่อนกด S2 ค้างไว้ อ่านได้ดังนี้: -F1:2 = 230 V · -F2:96 = 230 V · -S1:11 = 230 V · -S1:12 = 0 V · -S2:14 = 0 V · -KM1:A1 = 0 V (ก) จุดเสียอยู่ตรงไหน (ข) วัดอะไรอีกเพื่อยืนยัน (ค) ทำไมไม่ใช่คอยล์ขาด</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>The complete circuit of week 4: with Q1 on, white lamp H3 lights, but holding S2 does not pull KM1 in. A student keeps the black probe on N and moves the red one along the coil's current path while a classmate holds S2. The readings are: -F1:2 = 230 V · -F2:96 = 230 V · -S1:11 = 230 V · -S1:12 = 0 V · -S2:14 = 0 V · -KM1:A1 = 0 V. (a) Where is the fault? (b) What else do you measure to confirm it? (c) Why is it not an open coil?</p></div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="tE">
+  <div class="prob-head"><span class="prob-no">E</span><div><h2 data-l="th">การ์ดหาจุดผิด: วัดให้น้อยครั้งที่สุด</h2><h2 data-l="en">Fault cards: find it in as few measurements as you can</h2>
+    <div class="src" data-l="th">หน้า 5.5 · วงจรครบชุดของสัปดาห์ที่ 4</div><div class="src" data-l="en">Page 5.5 · the complete circuit of week 4</div></div></div>
+  <div class="story n0">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>การ์ดแต่ละใบมีจุดเสียหนึ่งจุดที่ครูทำไว้ แบบวงจรยังดูถูกต้องทุกอย่างและไม่แสดงสีของสายที่มีไฟ เหมือนแผงฝึกจริงที่มองไม่เห็นว่าสายไหนมีไฟ ขั้นตอนเหมือนหน้า 5.5: (1) ใช้งานวงจรดูอาการ ปุ่ม "กด S2 ค้าง" ช่วยกดปุ่มให้ขณะที่มือทั้งสองถือสายวัด (2) หาทางเดินกระแสที่เกี่ยวข้องในแบบ (3) วัดแรงดันโดยวางสายวัดดำที่ N แล้วแตะสายวัดแดงไล่ไปตามทาง ถ้าเลือกจุดกึ่งกลางของทางก่อน จะตัดทางทิ้งได้ครึ่งหนึ่งทุกครั้งที่วัด (4) เมื่อแน่ใจแล้วกด "เจอแล้ว" แล้วแตะขั้ว อุปกรณ์ หรือสายที่เสียในแบบ</p>
+        <p>คะแนน: 3 = เจอภายในจำนวนครั้งที่กำหนดโดยไม่ตอบผิด 2 = เกินมาไม่เกินสองครั้งและตอบผิดไม่เกินหนึ่งครั้ง 1 = เจอแต่ใช้การวัดมากกว่านั้น 0 = เปิดดูเฉลย ปุ่มแหล่งจ่ายของมิเตอร์ใช้ตัดไฟเมื่อจะวัดโอห์ม ค่าที่มีโหลดเป็นค่าตัวอย่าง</p></div>
+      <div class="story-p" data-l="en"><p>Each card hides one fault set by the teacher. The drawing still looks correct and shows no live colours, just as on the real trainer you cannot see which wire is live. The routine is that of page 5.5: (1) operate the circuit and read the symptom; the "hold S2" button keeps a button pressed while both your hands hold the probes. (2) Find the current path involved in the drawing. (3) Measure voltage with the black probe on N, touching the red probe along the path; start in the middle of the path and every measurement rules out half of it. (4) When you are sure, press "Found it" and tap the faulty terminal, device or wire in the drawing.</p>
+        <p>Points: 3 = found within the allowed number of measurements with no wrong answer; 2 = up to two more measurements and at most one wrong answer; 1 = found with more measurements than that; 0 = answer shown. The meter's supply button isolates the circuit when you want to measure ohms; readings through loads are example values.</p></div></div>
+  </div>
+  <div class="card sim rlwrap rlscroll mcp-wide" style="padding:8px"><div id="simE"></div></div>
+  <div class="card" style="margin-top:12px"><div id="mE"></div></div>
+  <div class="card" style="margin-top:12px"><div id="fcE"></div></div>
+</section>
+
+<section class="prob" id="tF">
+  <div class="prob-head"><span class="prob-no">F</span><div><h2 data-l="th">ใบงานสัปดาห์ที่ 5 (กระดาษ)</h2><h2 data-l="en">Practice sheet for week 5 (paper)</h2>
+    <div class="src" data-l="th">ใบงานครูแจกเป็นกระดาษ</div><div class="src" data-l="en">Handed out on paper by the teacher</div></div></div>
+  <div class="callout" data-l="th">ใบงานครูแจกเป็นกระดาษในห้องปฏิบัติ หน้านี้ไม่มีไฟล์ให้ดาวน์โหลด ในใบงานมีตารางแผงขั้วต่อให้กรอก แบบวงจรของงานที่ครูกำหนดให้เขียนเลขสาย ตารางทดสอบก่อนและหลังจ่ายไฟ ช่องให้ครูลงชื่อก่อนจ่ายไฟ และงานหาจุดผิดที่ครูทำไว้บนแผงฝึกจริง: เขียนอาการ จุดที่วัดพร้อมค่าที่อ่านได้ตามลำดับ จุดเสียที่พบ และวิธีแก้</div>
+  <div class="callout" data-l="en">The practice sheet is handed out on paper in the lab; there is no file to download on this page. It has a terminal table to fill in, the drawing of the job the teacher sets for you to number, the before-power and after-power test tables, a box for the teacher's signature before power-on, and a fault-finding task the teacher sets on the real trainer: write the symptom, each point you measured with its reading in order, the fault you found and the repair.</div>
+</section>
+
+<section class="prob" id="tQ">
+  <div class="prob-head"><span class="prob-no">Q</span><div><h2 data-l="th">ทบทวน</h2><h2 data-l="en">Review</h2>
+    <div class="src" data-l="th">แผงขั้วต่อ สองจุดควบคุม เดินกระตุก และหาจุดผิด</div><div class="src" data-l="en">Terminal strips, two stations, jogging and fault finding</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>หัวข้อ C: ต่อวงจรสองจุดควบคุมให้ผ่าน แล้วเปลี่ยนเป็นวงจรรีเลย์ป้องกันเฟสโดยเก็บสายเดิมไว้ ดูว่าต้องเพิ่มสายเส้นไหนบ้าง</li>
+    <li>หัวข้อ D วงจรเดินกระตุก: กด S3 ขณะมอเตอร์เดินต่อเนื่องแล้วปล่อย มอเตอร์หยุดหรือไม่ เพราะอะไร</li>
+    <li>หัวข้อ E: ทำการ์ดทุกใบให้ได้ 3 คะแนน แล้วเขียนลำดับจุดที่วัดของการ์ดที่ยากที่สุดลงในใบงาน</li></ol>
+    <div class="book">วิชาเขียนแบบไฟฟ้า 2 หน้า 3.3, 5.2, 5.3, 5.4, 5.5 และ 5.6 · ใบงานของครู (ไฟล์ CADe SIMU) แผ่นที่ 10–11 · IEC 60204-1 ข้อ 7.5, 7.8 และ 13 · IEC 61666 · IEC 61082-1</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Section C: get the two-station circuit to pass, then change to the phase-failure circuit keeping your leads, and see which leads you have to add.</li>
+    <li>Section D, jog circuit: press and release S3 while the motor runs continuously. Does the motor stop? Why?</li>
+    <li>Section E: get 3 points on every card, then write the sequence of points you measured on the hardest card on your practice sheet.</li></ol>
+    <div class="book">Electrical Drawing II, pages 3.3, 5.2, 5.3, 5.4, 5.5 and 5.6 · the instructor's sheets (CADe SIMU file) 10–11 · IEC 60204-1, 7.5, 7.8 and 13 · IEC 61666 · IEC 61082-1</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui, tt = ED.tt, esc = MCP.esc;
+  /* 0: the ED2 pages to prepare, each opened in the MCP context of this week, with what to look at */
+  const WK = (MC.mcpWeek && MC.mcpWeek()) || 5;
+  const LOOK = {
+    'ch5_3_jogging.html': ['วงจรเดินกระตุกแบบรีเลย์ช่วย J2 ที่จะต่อในหัวข้อ C และเหตุผลที่ปุ่มสองหน้าสัมผัสในทางค้างตัวเองอันตราย', 'the relay jog circuit (J2) you will wire in section C, and why a double-contact button in the holding path is dangerous'],
+    'ch5_4_single_phase.html': ['อ่านอย่างเดียว: แผงฝึกในหน้านี้ยังไม่มีมอเตอร์ 1 เฟส ดูว่าทำไม Q1 และ KM1 ต้องตัดทั้ง L และ N', 'read only: the trainer on this site has no single-phase motor yet; see why Q1 and KM1 must open both L and N'],
+    'ch5_5_fault_finding.html': ['ขั้นตอนหาจุดผิดจากอาการ และการทดสอบห้าข้อที่จับจุดผิดได้เกือบทุกกรณี ใช้ในหัวข้อ E', 'the routine for finding a fault from its symptom and the five tests that catch almost every fault, used in section E'],
+    'ch5_6_wiring.html': ['เลขสายแบบเลขศักย์ ตารางแผงขั้วต่อ -X1 และ -X2 และแบบสายไฟของวงจรสองจุดควบคุม', 'potential wire numbers, the -X1 and -X2 terminal tables, and the wiring diagram of the two-station circuit'] };
+  (() => { const w = (MC.mcpHere && MC.mcpHere()) || (window.MCP_WEEKS || []).find(x => x.wk === 5) || { prepare: Object.keys(LOOK) };
+    $('prep').innerHTML = (w.prepare || []).map(f => { const s = (window.STOPS || []).find(x => x.file === f) || {}, lk = LOOK[f], href = MC.mcpLink ? MC.mcpLink(f, WK) : f;
+      return `<li><a href="${href}"><b>${s.step || ''}</b> ${esc(t(s.title || f, s.en || f))}</a>${lk ? `<br><span class="pk">${t('ดู', 'Look at')}: ${esc(t(lk[0], lk[1]))}</span>` : ''}</li>`; }).join(''); })();
+  const on = (sim, id) => !!(sim.dev[id] && sim.dev[id].energized);
+  const CIRC = { st: { f: () => C5.STATIONS(), lab: ['สองจุดควบคุม', 'two stations'], title: ['วงจรสองจุดควบคุม', 'Two-station circuit'], no: 'ST' },
+    jog: { f: () => C5.J2(), lab: ['เดินกระตุกแบบรีเลย์', 'relay jog'], title: ['วงจรเดินกระตุกแบบรีเลย์ช่วย', 'Relay jog circuit'], no: 'JOG' },
+    ph: { f: () => C5.PHASE(), lab: ['รีเลย์ป้องกันเฟส (แผ่นที่ 10)', 'phase-failure relay (sheet 10)'], title: ['วงจรเริ่มเดินโดยตรงกับรีเลย์ป้องกันเฟส F3', 'DOL with phase-failure relay F3'], no: 'F3' } };
+  /* a narrow drawing is not stretched; a wide one keeps a legible width on phones and scrolls inside its card */
+  const fitBox = (sim, card, k = 1.3) => { const svg = sim.el.querySelector('svg'), W = svg && svg.viewBox && svg.viewBox.baseVal ? svg.viewBox.baseVal.width : 700;
+    sim.o.max = Math.round(W * k); sim.render(); sim.el.style.maxWidth = `${Math.round(W * k)}px`; sim.el.style.margin = '0 auto';
+    if (card) { card.classList.toggle('mcp-wide', W >= 640); card.classList.toggle('rlscroll', W >= 380); card.style.setProperty('--rlmin', `${Math.round(Math.min(W, 720))}px`); } return W; };
+  const fresh = id => { const b = $(id), e = document.createElement('div'); b.innerHTML = ''; b.appendChild(e); return e; };
+
+  /* A: the -X2 terminal table of the two-station circuit, from the trainer's reference wiring (MCP.trRef): per terminal the wire key,
+     the devices reached inside (mounting plate) and outside (door) */
+  (() => { const sim = new RL.Sim(document.createElement('div'), C5.STATIONS(), { sheet: false }), ref = MCP.trRef(sim), asg = ref.asg, D = sim.spec.devices;
+    const door = sk => { const id = asg.rev[sk.split(':')[0]]; return !!id && ['pb', 'sel', 'msel', 'lamp'].includes((D[id] || {}).type); };
+    const X = {}; ref.pairs.forEach(p => [[p.a, p.b], [p.b, p.a]].forEach(([x, o]) => { if (!/^X2:/.test(x)) return; const r = X[x] || (X[x] = { key: p.key, inn: [], out: [] }); (door(o) ? r.out : r.inn).push(ref.label(o)); }));
+    const H = [t('ขั้ว', 'terminal'), t('สาย', 'wire'), t('ด้านใน (แผ่นยึดอุปกรณ์)', 'inside (mounting plate)'), t('ด้านนอก (ประตูตู้)', 'outside (door)')];
+    const rows = Object.keys(X).sort((a, b) => +a.split(':')[1] - +b.split(':')[1]);
+    $('xA').innerHTML = `<table class="tbl stack"><thead><tr>${H.map(x => `<th>${x}</th>`).join('')}</tr></thead>${rows.map(k => { const r = X[k];
+      return `<tr><td data-h="${H[0]}"><b class="mono">-${esc(k)}</b></td><td data-h="${H[1]}">${esc(ref.keyLab(r.key))}</td><td data-h="${H[2]}"><span class="mono">${esc(r.inn.join(', ') || '—')}</span></td><td data-h="${H[3]}"><span class="mono">${esc(r.out.join(', ') || '—')}</span></td></tr>`; }).join('')}</table>` +
+      `<p class="simnote">${t('สายเลขเดียวกันใช้ขั้วเดียวกันของ -X2 แม้จะไปถึงอุปกรณ์หลายตัว เช่น สาย 5 จาก -KM1:13 ไปทั้ง -S3:12, -S2:13 และ -S4:13 บนประตูตู้ ขั้วสุดท้ายของ -X2 เป็น N ไปขั้ว X2 ของหลอด', 'One wire number uses one -X2 terminal even when it reaches several devices, e.g. wire 5 from -KM1:13 goes to -S3:12, -S2:13 and -S4:13 on the door. The last -X2 terminal is N, to the lamps\' X2 terminals')}${t('', '.')}</p>`; })();
+
+  /* B: trace, one circuit at a time (a fresh simulator for each choice) */
+  const TASKS = {
+    st: [{ ask: ['กด S4 (ปุ่มเริ่มของสถานีที่ 2) ค้างไว้: ไล่ทางเดินกระแสของคอยล์ KM1', 'S4 (start of the second station) held: trace the path of coil KM1'], setup: [['hold', 'S4']], load: 'KM1' },
+      { ask: ['มอเตอร์หมุนอยู่หลังปล่อย S4: ไล่ทางเดินกระแสของ KM1 ผ่านหน้าสัมผัสค้างตัวเอง', 'The motor runs after S4 is released: trace the path of KM1 through its holding contact'], setup: [['tap', 'S4']], load: 'KM1', hint: ['ปุ่มหยุดทั้งสองตัวอยู่ในทางนี้', 'both stop buttons are on this path'] },
+      { ask: ['F2 ตัดแล้ว: ไล่ทางเดินกระแสของหลอดโอเวอร์โหลด H2', 'F2 has tripped: trace the path of overload lamp H2'], setup: [['tap', 'S2'], ['set', 'F2', true]], load: 'H2' }],
+    jog: [{ ask: ['กดปุ่มเดินกระตุก S3 ค้างไว้: ไล่ทางเดินกระแสของ KM1', 'Jog button S3 held: trace the path of KM1'], setup: [['hold', 'S3']], load: 'KM1', hint: ['ทางนี้ไม่ผ่านหน้าสัมผัสของ KA1 เลย', 'this path does not pass any KA1 contact'] },
+      { ask: ['กด S2 แล้วปล่อย: ไล่ทางเดินกระแสที่ทำให้รีเลย์ KA1 ค้างตัวเอง', 'S2 tapped: trace the path that keeps relay KA1 in'], setup: [['tap', 'S2']], load: 'KA1' },
+      { ask: ['เดินต่อเนื่อง (กด S2 แล้ว): ไล่ทางเดินกระแสของ KM1', 'Running continuously (S2 tapped): trace the path of KM1'], setup: [['tap', 'S2']], load: 'KM1' }],
+    ph: [{ ask: ['กด S2 ค้างไว้: ไล่ทางเดินกระแสของคอยล์ KM1 ผ่านหน้าสัมผัสของ F3', 'S2 held: trace the path of coil KM1 through the contact of F3'], setup: [['hold', 'S2']], load: 'KM1' },
+      { ask: ['มอเตอร์หยุด: ไล่ทางเดินกระแสของหลอดหยุด H3', 'The motor is stopped: trace the path of stopped lamp H3'], setup: [], load: 'H3' }] };
+  let cb = 'st';
+  const buildB = () => { const c = CIRC[cb], el = fresh('simB'), sim = new RL.Sim(el, c.f(), { max: 900, sheet: { no: `MCP5-B-${c.no}`, title: c.title } }); fitBox(sim, $('simB').parentElement);
+    new MCP.Trace(fresh('trB'), sim, TASKS[cb]); };
+  ui.h2($('pB'), t('วงจร', 'Circuit'));
+  ui.radio($('pB'), Object.keys(CIRC).map(k => ({ id: k, label: tt(CIRC[k].lab), on: k === cb })), id => { cb = id; buildB(); });
+  buildB();
+
+  /* after-power table (as on pages mcp_3 and mcp_4): rows done in order on the live trainer, each ticking when the simulator is in the state it asks for */
+  class AfterPower {
+    constructor(el, sim, trainer, rows) { this.el = el; this.sim = sim; this.tr = trainer; this.rows = rows; this.done = rows.map(() => false); sim.on(() => this.check()); this.draw(); }
+    seen() { const s = this.sim, lit = Object.keys(s.dev).filter(id => s.dev[id].type === 'lamp' && s.dev[id].energized), km = Object.keys(s.dev).filter(id => s.dev[id].type === 'coil' && s.dev[id].energized);
+      if (!this.tr.live) return t('แผงฝึกยังไม่มีไฟ', 'the trainer is not powered');
+      return [km.length ? t(`ดูด: ${km.join(', ')}`, `pulled in: ${km.join(', ')}`) : t('ไม่มีคอนแทกเตอร์หรือรีเลย์ดูด', 'no contactor or relay in'), s.spec.power ? (s.running() ? t('มอเตอร์หมุน', 'motor running') : t('มอเตอร์หยุด', 'motor stopped')) : '',
+        lit.length ? t(`หลอดติด: ${lit.join(', ')}`, `lamps lit: ${lit.join(', ')}`) : t('ไม่มีหลอดติด', 'no lamp lit')].filter(Boolean).join(' · '); }
+    check() { if (this.tr.live) { const k = this.done.indexOf(false); if (k >= 0 && this.rows[k].ok(this.sim)) { this.done[k] = true; this.check(); return; } } this.draw(); }
+    draw() { const k = this.done.indexOf(false), H = [t('ขั้น', 'step'), t('ทำ', 'do'), t('ต้องเห็น', 'you should see'), t('ผล', 'result')];
+      let h = `<table class="tbl stack ttab"><thead><tr>${H.map(x => `<th>${x}</th>`).join('')}</tr></thead>`;
+      this.rows.forEach((r, i) => { h += `<tr class="${i === k ? 'cur' : ''}"><td data-h="${H[0]}">${i + 1}</td><td data-h="${H[1]}">${esc(tt(r.do))}</td><td data-h="${H[2]}">${esc(tt(r.see))}</td><td data-h="${H[3]}" class="${this.done[i] ? 'ok' : ''}">${this.done[i] ? '✓' : i === k ? `<span class="hint">${esc(this.seen())}</span>` : '…'}</td></tr>`; });
+      const n = this.done.filter(Boolean).length;
+      this.el.innerHTML = h + `</table><p class="simnote">${n === this.rows.length ? t('ครบทุกขั้น: วงจรทำงานตามแบบ ลงผลในใบงานแล้วตัดไฟ', 'All steps done: the circuit works as drawn. Write the results on your sheet and switch off') : t(`ผ่าน ${n}/${this.rows.length} ขั้น · ทำแถวที่ไฮไลต์อยู่บนแผงฝึก`, `${n}/${this.rows.length} steps passed · do the highlighted row on the trainer`)}</p>`; } }
+
+  /* C: the three circuits on the trainer; a new choice rebuilds the trainer (leads carried over when "keep" is on), its drawing and
+     the table of section D */
+  const cs = { c: 'st', keep: true, trn: null, sim: null }; let dT = null;
+  const NOTE = { st: ['ปุ่มหยุดของสถานีที่ 2 (S3 สีแดง) ต่ออนุกรมกับ S1 และปุ่มเริ่มของสถานีที่ 2 (S4 สีเขียว) ต่อขนานกับ S2 และ KM1 13–14 ส่วนหลอดหยุด H3 ไม่มีในวงจรนี้', 'the second station\'s stop (red S3) is in series with S1 and its start (green S4) in parallel with S2 and KM1 13–14; there is no stopped lamp H3 in this circuit'],
+    jog: ['S2 สั่งรีเลย์ KA1 ซึ่งค้างตัวเองด้วย 13–14 (บนรีเลย์คือ 11–14) แล้วสั่ง KM1 ผ่าน 23–24 (บนรีเลย์คือ 21–24) ปุ่มเดินกระตุก S3 สีเทาป้อน KM1 ตรง รายการเดินสายแสดงเลขขั้วบนตัวรีเลย์แล้ว', 'S2 drives relay KA1, which holds itself with 13–14 (11–14 on the relay) and drives KM1 through 23–24 (21–24 on the relay); the grey jog button S3 feeds KM1 directly. The checklist already shows the relay\'s own terminal numbers'],
+    ph: ['F3 วัดไฟ L1 L2 L3 หลัง Q1 และหน้าสัมผัส 11–14 ต่ออนุกรมบนสุดของวงจรควบคุมถัดจาก F1 ตามใบงานแผ่นที่ 10 ส่วนหลอดแสดงเฟสและมิเตอร์ของแผ่นที่ 11 ยังไม่มีบนแผงฝึกในหน้านี้', 'F3 measures L1 L2 L3 after Q1, and its contact 11–14 is in series at the top of the control circuit right after F1, as on sheet 10; the phase lamps and meters of sheet 11 are not on the trainer on this site yet'] };
+  const pC = $('pC'); ui.h2(pC, t('วงจร', 'Circuit'));
+  ui.radio(pC, Object.keys(CIRC).map(k => ({ id: k, label: tt(CIRC[k].lab), on: k === cs.c })), id => { cs.c = id; buildC(); });
+  const infoC = document.createElement('div'); pC.appendChild(infoC);
+  ui.buttons(pC, [{ id: 'keep', label: t('เก็บสายเดิมไว้เมื่อเปลี่ยนวงจร', 'keep my leads when I change the circuit'), on: true, onclick: b => { cs.keep = !cs.keep; b.classList.toggle('on', cs.keep); } }]);
+  const buildC = () => { const wires = cs.keep && cs.trn ? cs.trn.wires.map(w => ({ ...w })) : []; if (cs.trn && cs.trn.live) cs.trn.power(false);
+    const c = CIRC[cs.c], el = fresh('trnC'), se = fresh('simC');
+    cs.sim = new RL.Sim(se, c.f(), { max: 900, wireNos: true, sheet: { no: `MCP5-C-${c.no}`, title: c.title } }); fitBox(cs.sim, $('simC').parentElement);
+    cs.trn = new MCP.Trainer(el, cs.sim, { demo: true, wires, onChange: () => { if (dT) dT.check(); } });
+    infoC.innerHTML = `<p class="simnote"><b>${esc(tt(c.title))}</b>: ${esc(tt(NOTE[cs.c]))}${wires.length ? t(` · เก็บสายเดิมไว้ ${wires.length} เส้น กด "ตรวจการเดินสาย" เพื่อดูว่าต้องแก้เส้นไหน`, ` · ${wires.length} leads kept: press "check the wiring" to see which to change`) : ''}</p>`;
+    buildD(); };
+
+  /* D: after-power rows of each circuit, with the trainer's door as a panel (C5.panel without the power-cut button) */
+  const ROWS = {
+    st: () => [
+      { do: ['สับ Q1', 'switch Q1 on'], see: ['KM1 ไม่ดูด มอเตอร์หยุด', 'KM1 out, the motor stopped'], ok: s => s.dev.Q1.on && !on(s, 'KM1') },
+      { do: ['กด S2 (ประตูตู้) แล้วปล่อย', 'tap S2 (door)'], see: ['มอเตอร์หมุนค้าง หลอดเขียว H1 ติด', 'the motor keeps running, green lamp H1 lit'], ok: s => !s.dev.S2.pressed && on(s, 'KM1') && s.running() && on(s, 'H1') },
+      { do: ['กด S3 (หยุด สถานีที่ 2)', 'press S3 (stop, second station)'], see: ['มอเตอร์หยุด H1 ดับ', 'the motor stops, H1 out'], ok: s => !on(s, 'KM1') && !on(s, 'H1') },
+      { do: ['กด S4 (เริ่ม สถานีที่ 2) แล้วปล่อย', 'tap S4 (start, second station)'], see: ['มอเตอร์หมุนค้าง', 'the motor keeps running'], ok: s => !s.dev.S4.pressed && on(s, 'KM1') && s.running() },
+      { do: ['กด S1 (หยุด ประตูตู้)', 'press S1 (stop, door)'], see: ['มอเตอร์หยุด', 'the motor stops'], ok: s => !on(s, 'KM1') },
+      { do: ['กด S4 ให้มอเตอร์หมุน แล้วทำให้ F2 ตัด (แตะปุ่ม R บน F2)', 'tap S4 so the motor runs, then trip F2 (tap the R button on F2)'], see: ['มอเตอร์หยุด หลอดเหลือง H2 ติด', 'the motor stops, yellow lamp H2 lit'], ok: s => s.dev.F2.tripped && !on(s, 'KM1') && on(s, 'H2') },
+      { do: ['รีเซ็ต F2', 'reset F2'], see: ['มอเตอร์ไม่หมุนเอง H2 ดับ', 'the motor does not restart, H2 out'], ok: s => !s.dev.F2.tripped && !on(s, 'KM1') && !on(s, 'H2') }],
+    jog: () => [
+      { do: ['สับ Q1', 'switch Q1 on'], see: ['KA1 และ KM1 ไม่ดูด', 'KA1 and KM1 out'], ok: s => s.dev.Q1.on && !on(s, 'KM1') && !on(s, 'KA1') },
+      { do: ['กดปุ่มเดินกระตุก S3 ค้างไว้', 'hold jog button S3'], see: ['KM1 ดูด มอเตอร์หมุน แต่ KA1 ไม่ดูด', 'KM1 pulls in and the motor runs, but KA1 stays out'], ok: s => s.dev.S3.pressed && on(s, 'KM1') && s.running() && !on(s, 'KA1') },
+      { do: ['ปล่อย S3', 'release S3'], see: ['มอเตอร์หยุดทันที', 'the motor stops at once'], ok: s => !s.dev.S3.pressed && !on(s, 'KM1') },
+      { do: ['กด S2 แล้วปล่อย', 'tap S2'], see: ['KA1 ค้างตัวเอง KM1 ดูด มอเตอร์เดินต่อเนื่อง', 'KA1 holds itself, KM1 pulls in, the motor runs continuously'], ok: s => !s.dev.S2.pressed && on(s, 'KA1') && on(s, 'KM1') && s.running() },
+      { do: ['กด S1', 'press S1'], see: ['KA1 และ KM1 หลุด มอเตอร์หยุด', 'KA1 and KM1 drop out, the motor stops'], ok: s => !on(s, 'KA1') && !on(s, 'KM1') },
+      { do: ['กด S3 ค้างไว้แล้วปล่อยอีกครั้ง', 'hold S3 and release it again'], see: ['มอเตอร์หมุนเฉพาะขณะกด S3', 'the motor runs only while S3 is held'], ok: s => !s.dev.S3.pressed && !on(s, 'KM1') && s.mcpJogSeen } ],
+    ph: () => [
+      { do: ['สับ Q1', 'switch Q1 on'], see: ['KM1 ไม่ดูด หลอดขาว H3 ติด', 'KM1 out, white lamp H3 lit'], ok: s => s.dev.Q1.on && !on(s, 'KM1') && on(s, 'H3') },
+      { do: ['กด S2 แล้วปล่อย', 'tap S2'], see: ['มอเตอร์หมุนค้าง H1 ติด', 'the motor keeps running, H1 lit'], ok: s => !s.dev.S2.pressed && on(s, 'KM1') && s.running() && on(s, 'H1') },
+      { do: ['กดปุ่ม F3 (จำลองเฟสขาด)', 'press the F3 button (simulate a lost phase)'], see: ['F3 เปิด 11–14 KM1 หลุด มอเตอร์หยุด', 'F3 opens 11–14, KM1 drops out, the motor stops'], ok: s => !s.dev.F3.on && !on(s, 'KM1') },
+      { do: ['กดปุ่ม F3 อีกครั้ง (ไฟกลับมาปกติ)', 'press F3 again (the supply is healthy)'], see: ['F3 ต่อกลับเอง แต่มอเตอร์ไม่หมุนเอง H3 ติด', 'F3 closes again by itself, but the motor does not restart; H3 lit'], ok: s => s.dev.F3.on && !on(s, 'KM1') && on(s, 'H3') },
+      { do: ['กด S2 แล้วปล่อย', 'tap S2'], see: ['มอเตอร์หมุนอีกครั้ง', 'the motor runs again'], ok: s => on(s, 'KM1') && s.running() },
+      { do: ['กด S1', 'press S1'], see: ['มอเตอร์หยุด', 'the motor stops'], ok: s => !on(s, 'KM1') }] };
+  const buildD = () => { const pe = fresh('pD');
+    C5.panel(pe, cs.sim, { cut: false, status: s => (cs.trn && cs.trn.live ? C5.state(s) : [t('ไม่มีไฟ', 'no supply'), t('แผงฝึกยังไม่ได้จ่ายไฟ: ตรวจการเดินสาย ให้ครูตรวจ แล้วกด "จ่ายไฟ" ที่แผงฝึกในหัวข้อ C', 'The trainer is not powered yet: check the wiring, let the teacher check, then press "power on" on the trainer in section C'), 'wait']) });
+    const rows = ROWS[cs.c]().concat([{ do: ['ปลด Q1 แล้วตัดไฟ', 'switch Q1 off and isolate'], see: ['ทุกอย่างดับ', 'everything is off'], ok: s => !s.dev.Q1.on && !on(s, 'KM1') }]);
+    const sim = cs.sim; sim.mcpJogSeen = false;
+    if (cs.c === 'jog') sim.on(s => { if (dT && dT.done.indexOf(false) === 5 && s.dev.S3.pressed && on(s, 'KM1') && !on(s, 'KA1')) s.mcpJogSeen = true; });
+    dT = new AfterPower($('ttD'), sim, cs.trn, rows); };
+  buildC();
+
+  /* worked example 1: voltage readings with the black probe on N (S1 11–12 does not close) */
+  LS.choose($('ask1'), { options: [t('ระหว่าง -S1:11 กับ -S1:12: หน้าสัมผัสปกติปิดของ S1 ไม่ต่อ', 'between -S1:11 and -S1:12: the NC contact of S1 does not close'), t('คอยล์ KM1 ขาด', 'coil KM1 is open'), t('F1 ขาด', 'F1 has blown')], answer: 0 });
+  LS.stepper($('st1'), { steps: [
+    { why: t('230 V แปลว่าไฟมาถึงจุดนั้น', '230 V means the supply reaches that point'), body: `<p>${t('สายวัดดำอยู่ที่ N จุดที่อ่านได้ 230 V จึงต่อถึงแหล่งจ่ายอยู่ -F1:2, -F2:96 และ -S1:11 อ่านได้ 230 V ทุกจุด ทางจาก F1 ผ่าน F2 95–96 และสายเส้นที่ 3 ผ่าน -X2 ไปถึงขั้ว 11 ของ S1 จึงดี F1 ไม่ได้ขาด และหลอด H3 ที่ติดอยู่ก็ยืนยันเรื่องนี้', 'With the black probe on N, a point that reads 230 V is connected to the supply. -F1:2, -F2:96 and -S1:11 all read 230 V, so the path from F1 through F2 95–96 and wire 3 via -X2 to terminal 11 of S1 is good, and F1 has not blown, as the lit H3 also shows')}</p>` },
+    { why: t('0 V ที่ -S1:12 แปลว่าไฟไม่ข้าม S1', '0 V at -S1:12 means the supply does not get across S1'), body: `<p>${t('ขณะกด S2 ขั้ว -S1:12 ต่อถึง N ผ่าน S2 และคอยล์ จึงอ่านได้ 0 V เมื่อไฟข้าม S1 ไม่ได้ จุดเสียจึงอยู่ระหว่างจุดสุดท้ายที่ได้ 230 V (-S1:11) กับจุดแรกที่ได้ 0 V (-S1:12) คือหน้าสัมผัส 11–12 ของ S1 เอง หรือชุดหน้าสัมผัสที่หลุดจากหัวปุ่ม', 'While S2 is held, -S1:12 reaches N through S2 and the coil, so it reads 0 V when the supply cannot get across S1. The fault is between the last point at 230 V (-S1:11) and the first at 0 V (-S1:12): contact 11–12 of S1 itself, or a contact block that has come off the button head')}</p>` },
+    { why: t('ยืนยันสองวิธี', 'Confirm it two ways'), body: `<p>${t('ขณะมีไฟ วัดคร่อม -S1:11 กับ -S1:12 จะได้ 230 V เพราะหน้าสัมผัสที่เปิดอยู่มีไฟด้านหนึ่งและต่อถึง N ผ่านคอยล์อีกด้านหนึ่ง แล้วตัดไฟ ล็อก แขวนป้าย วัดยืนยันว่าไม่มีไฟ ถอดสายออกจาก S1 แล้ววัดโอห์ม 11–12 ขณะไม่กด: อ่านได้ OL (ไม่มีทางต่อถึงกัน) แปลว่าชุดหน้าสัมผัสเสีย ให้เปลี่ยน แล้วทดสอบตามตารางหลังจ่ายไฟอีกครั้ง', 'With the supply on, measure across -S1:11 and -S1:12: 230 V, because an open contact has the supply on one side and N through the coil on the other. Then switch off, lock out, tag, prove dead, take the wires off S1 and measure 11–12 in ohms, not pressed: OL (no path at all) means the contact block is faulty. Replace it and run the after-power test table again')}</p>` },
+    { why: t('ทำไมไม่ใช่คอยล์ขาด', 'Why it is not an open coil'), body: `<p>${t('ถ้าคอยล์ขาด ไฟจะผ่าน S1 และ S2 ไปถึง A1 ได้ แต่ไม่มีทางลง N ขั้ว -S1:12, -S2:14 และ -KM1:A1 จึงจะอ่านได้ 230 V ทุกจุด ไม่ใช่ 0 V แบบที่วัดได้', 'If the coil were open, the supply would get through S1 and S2 to A1 but have no way down to N, so -S1:12, -S2:14 and -KM1:A1 would all read 230 V, not the 0 V measured')}</p>` }],
+    answer: t('(ก) ระหว่าง -S1:11 กับ -S1:12 คือหน้าสัมผัส 11–12 ของ S1 ไม่ต่อ (ข) วัดคร่อม S1 ขณะมีไฟได้ 230 V แล้วตัดไฟวัดโอห์ม 11–12 ได้ OL (ค) ถ้าคอยล์ขาด จุดหลัง S1 จะอ่านได้ 230 V', '(a) Between -S1:11 and -S1:12: contact 11–12 of S1 does not close. (b) Across S1 with the supply on: 230 V; then dead, 11–12 in ohms: OL. (c) With an open coil the points after S1 would read 230 V') });
+
+  /* E: fault cards on the complete DOL circuit of week 4 (C5.DOL5), the meter on its own simulator; faults hidden in the drawing */
+  const sE = new RL.Sim($('simE'), C5.DOL5(), { max: 900, sheet: { no: 'MCP5-E', title: ['วงจรเริ่มเดินโดยตรงแบบครบชุด', 'Complete DOL circuit'] } });
+  const mE = new MCP.Meter($('mE'), sE, {});
+  new MCP.FaultCards($('fcE'), mE, [
+    { title: ['มอเตอร์ไม่เริ่มเดิน', 'The motor does not start'], fault: { k: 'open', t: 'S1:11' }, symptom: ['สับ Q1 แล้วหลอดขาว H3 ติด แต่กด S2 แล้ว KM1 ไม่ดูด', 'With Q1 on, white lamp H3 lights, but pressing S2 does not pull KM1 in'], max: 4,
+      hint: ['กด S2 ค้างไว้ วางสายวัดดำที่ N แล้วไล่สายวัดแดงตามทางเดินกระแสของคอยล์', 'hold S2, black probe on N, and move the red probe along the coil path'], fix: ['เปลี่ยนชุดหน้าสัมผัสของ S1', 'replace the contact block of S1'] },
+    { title: ['ค้างตัวเองไม่ได้', 'No self-holding'], fault: { k: 'wire', a: [0, 3], b: [1, 3] }, symptom: ['มอเตอร์หมุนเฉพาะขณะกด S2 ปล่อยแล้วหยุด', 'The motor runs only while S2 is held and stops when it is released'], max: 3,
+      hint: ['กด S2 ค้างไว้ให้ KM1 13–14 ต่อ แล้ววัดแรงดันที่ปลายทั้งสองของสายจาก -S2:13 ไป -KM1:13', 'hold S2 so that KM1 13–14 is closed, then measure the voltage at both ends of the lead from -S2:13 to -KM1:13'], fix: ['ต่อสายเส้นที่ขาดใหม่และขันขั้วให้แน่น', 'replace the broken lead and tighten its terminals'] },
+    { title: ['ไม่มีอะไรทำงานเลย', 'Nothing works at all'], fault: { k: 'fuse', d: 'F1' }, symptom: ['สับ Q1 แล้วหลอดทุกดวงดับ กด S2 ก็ไม่มีอะไรเกิดขึ้น', 'Q1 is on, but every lamp is dark and S2 does nothing'], max: 3,
+      hint: ['เริ่มที่ต้นทางของวงจรควบคุม', 'start at the source end of the control circuit'], fix: ['หาสาเหตุที่ F1 ตัดก่อน (สายลัดวงจร) แล้วจึงเปลี่ยนหรือสับ F1', 'find why F1 operated first (a short circuit), then replace or reset F1'] },
+    { title: ['หลอดเดินไม่ติด', 'The run lamp stays dark'], fault: { k: 'open', t: 'H1:X1' }, symptom: ['กด S2 แล้วมอเตอร์หมุนค้างตามปกติ H3 ดับ แต่หลอดเขียว H1 ไม่ติด', 'Pressing S2 runs the motor and it holds as it should, H3 goes out, but green lamp H1 does not light'], max: 3,
+      hint: ['ให้มอเตอร์หมุน แล้ววัดคร่อมหลอด H1 (X1 กับ X2)', 'let the motor run, then measure across lamp H1 (X1 to X2)'], fix: ['เปลี่ยนหลอดหรือชุดหลอดของ H1', 'replace the bulb or the lamp unit of H1'] },
+    { title: ['เริ่มเดินไม่ได้ และหลอดเหลืองไม่ติด', 'No start, and the yellow lamp is dark'], fault: { k: 'loose', t: 'F2:96' }, symptom: ['H3 ติด H2 ไม่ติด (โอเวอร์โหลดไม่ได้ตัด) แต่กด S2 แล้ว KM1 ไม่ดูด', 'H3 is lit and H2 is not (the overload has not tripped), but pressing S2 does not pull KM1 in'], max: 4,
+      hint: ['ไฟผ่าน F1 ได้เพราะ H3 ติด เริ่มวัดที่ F2', 'the supply gets past F1, since H3 is lit; start measuring at F2'], fix: ['ขันขั้ว -F2:96 ให้แน่นแล้วทดสอบใหม่', 'tighten terminal -F2:96 and test again'] }]);
+
+  /* review questions */
+  ED.mcq('mcq', [
+    { q: t('1) วงจรสองจุดควบคุม ต่อปุ่มหยุดและปุ่มเริ่มอย่างไร', '1) In a two-station circuit, how are the stop and start buttons connected?'), options: [t('ปุ่มหยุดอนุกรมกัน ปุ่มเริ่มขนานกันและขนานกับหน้าสัมผัสค้างตัวเอง', 'stops in series; starts in parallel with each other and with the holding contact'), t('ปุ่มหยุดขนานกัน ปุ่มเริ่มอนุกรมกัน', 'stops in parallel; starts in series'), t('ทุกปุ่มอนุกรมกัน', 'all in series'), t('ทุกปุ่มขนานกัน', 'all in parallel')], answer: 0 },
+    { q: t('2) ปุ่มสองตัวบนประตูตู้ที่ใช้สายเลขเดียวกัน ต่อถึงกันอย่างไร', '2) Two buttons on the door share one wire number. How are they linked?'), options: [t('ต่อถึงกันที่ประตูตู้ แล้วใช้ขั้วของ -X2 ขั้วเดียว', 'linked on the door, using one -X2 terminal'), t('แต่ละปุ่มใช้ขั้วของ -X2 แยกกันคนละขั้ว', 'each button gets its own -X2 terminal'), t('ต่อตรงไปที่คอนแทกเตอร์ไม่ต้องผ่านแผงขั้วต่อ', 'straight to the contactor without the strip'), t('ต่อผ่าน -X1', 'through -X1')], answer: 0, why: t('สายเลขเดียวกันเป็นจุดศักย์เดียวกัน จึงใช้ขั้วเดียวของแผงขั้วต่อต่อสถานที่หนึ่งแห่ง (หน้า 5.6)', 'One wire number is one potential, so it uses one strip terminal per location (page 5.6)') },
+    { q: t('3) วงจรเดินกระตุกแบบรีเลย์: กดปุ่มเดินกระตุก S3 ค้าง อะไรดูด', '3) Relay jog circuit: with jog button S3 held, what is pulled in?'), options: [t('KM1 อย่างเดียว', 'KM1 only'), t('KA1 อย่างเดียว', 'KA1 only'), t('KA1 และ KM1', 'KA1 and KM1'), t('ไม่มีอะไรดูด', 'nothing')], answer: 0, why: t('S3 ป้อนคอยล์ KM1 ตรง ไม่ผ่านทางค้างตัวเองของ KA1 ปล่อยแล้วจึงหยุดทันที', 'S3 feeds coil KM1 directly, not through KA1\'s holding path, so the motor stops as soon as it is released') },
+    { q: t('4) บนแผงฝึก ขั้ว 13–14 ของ KA1 ในแบบ อยู่ที่ขั้วไหนของรีเลย์แบบเสียบ', '4) On the trainer, where is KA1 13–14 of the drawing on the plug-in relay?'), options: ['11–14', '11–12', '13–14', 'A1–A2'], answer: 0, why: t('รีเลย์แบบเสียบพิมพ์เลขหน้าสัมผัสสลับ: 11 ขั้วร่วม 12 ปกติปิด 14 ปกติเปิด', 'A plug-in relay prints changeover numbers: 11 common, 12 NC, 14 NO') },
+    { q: t('5) สายวัดดำอยู่ที่ N ขณะกด S2 ค้าง ไล่สายวัดแดงไปตามทางได้ 230 V, 230 V, 0 V จุดเสียอยู่ที่ไหน', '5) Black probe on N, S2 held, the red probe along the path reads 230 V, 230 V, 0 V. Where is the fault?'), options: [t('ระหว่างจุดที่ 2 กับจุดที่ 3', 'between the second and the third point'), t('ก่อนจุดที่ 1', 'before the first point'), t('หลังจุดที่ 3', 'after the third point'), t('ที่ N', 'at N')], answer: 0 },
+    { q: t('6) หลอดเขียว H1 ไม่ติดทั้งที่มอเตอร์หมุน วัดคร่อม H1 ได้ 230 V แปลว่าอะไร', '6) Green lamp H1 is dark although the motor runs; across H1 you read 230 V. What does it mean?'), options: [t('หลอด H1 เสีย', 'lamp H1 is faulty'), t('หน้าสัมผัส KM1 53–54 ไม่ต่อ', 'contact KM1 53–54 does not close'), t('F1 ขาด', 'F1 has blown'), t('สาย N ของหลอดขาด', 'the lamp\'s N lead is broken')], answer: 0, why: t('ไฟถึงขั้ว X1 และ X2 ต่อถึง N แล้ว แต่หลอดไม่ติด หลอดจึงเสีย ถ้า 53–54 ไม่ต่อหรือสาย N ขาด จะวัดคร่อมหลอดได้ 0 V', 'The supply reaches X1 and X2 reaches N, yet the lamp is dark, so the lamp is faulty. If 53–54 did not close or the N lead were broken, you would read 0 V across the lamp') }], { id: 'mcp5' });
+});
+</script>
+</body>
+</html>

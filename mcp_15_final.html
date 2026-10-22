@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="Week 15 — Practical final">สัปดาห์ 15 — สอบปฏิบัติปลายภาค</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=16"><link rel="stylesheet" href="assets/ed2.css?v=16">
+<link rel="stylesheet" href="assets/wiring.css?v=16"><link rel="stylesheet" href="assets/mcp.css?v=16">
+<script src="assets/stops.js?v=16"></script><script src="assets/shell.js?v=16"></script>
+<script src="assets/lesson.js?v=16"></script><script src="assets/draw.js?v=16"></script><script src="assets/ed.js?v=16"></script><script src="assets/sym.js?v=16"></script><script src="assets/iec.js?v=16"></script><script src="assets/relay.js?v=16"></script><script src="assets/ch2.js?v=16"></script><script src="assets/ch3.js?v=16"></script><script src="assets/ch4.js?v=16"></script>
+<script src="assets/panel.js?v=16"></script><script src="assets/ch5.js?v=16"></script><script src="assets/ch6.js?v=16"></script><script src="assets/ch7.js?v=16"></script>
+<script src="assets/wiring.js?v=16"></script><script src="assets/devdata.js?v=16"></script><script src="assets/dev.js?v=16"></script>
+<script src="assets/mcp.js?v=16"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">สอบปฏิบัติปลายภาค <span class="en">Practical final</span></h1>
+<h1 data-l="en">Practical final <span class="en">How the exam works, the marking, and a practice task</span></h1>
+
+<p class="sub" data-l="th">สอบปลายภาควิชาปฏิบัติงานควบคุมมอเตอร์เป็นงานจริงบนแผงฝึก: รับแบบ วางแผน ต่อวงจรจากแบบ ทดสอบก่อนและหลังจ่ายไฟ แล้วหาจุดผิดที่ครูทำไว้ ภายในเวลาที่กำหนด วงจรมาจากทั้งภาคเรียน (สัปดาห์ที่ 4–7, 13 และ 14) หน้านี้อธิบายว่าสอบอย่างไร กติกาและกฎหยุดงานเพื่อความปลอดภัย เกณฑ์ให้คะแนน และมีโจทย์ฝึกแบบเดียวกันให้ลองจับเวลาบนแผงฝึกเสมือน โจทย์ฝึกไม่ใช่ข้อสอบจริง ข้อสอบจริงครูแจกเป็นกระดาษในวันสอบเท่านั้น</p>
+<p class="sub" data-l="en">The final of Motor Control Practice is a real job on the trainer: you get a drawing, plan, wire the circuit from the drawing, test it before and after power-on, then find faults the teacher has put in, all within a set time. The circuit can come from the whole term (weeks 4–7, 13 and 14). This page explains how the exam works, its rules and the safety stop rule, and the marking, and it has a practice task of the same kind to try against the clock on the virtual trainer. The practice task is not the real exam: the real exam is handed out on paper on the day only.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>สี่ส่วน</b>: วางแผนบนกระดาษ ต่อวงจรจากแบบ ทดสอบก่อนและหลังจ่ายไฟ และหาจุดผิดสองจุด เหมือนสอบกลางภาคแต่วงจรมาจากทั้งภาค และมีหาจุดผิดด้วยการวัดตามสัปดาห์ที่ 13</li>
+  <li><b>ความปลอดภัยมาก่อนคะแนน</b>: จ่ายไฟได้หลังครูตรวจและอนุญาตเท่านั้น ทำงานที่มีไฟ ข้ามอุปกรณ์ป้องกัน หรือจ่ายไฟเอง ครูหยุดงานทันทีตามกฎหยุดงาน</li>
+  <li><b>รู้เกณฑ์ก่อนสอบ</b>: คะแนนส่วนใหญ่อยู่ที่การเดินสายถูกตามแบบ รองลงมาคือการหาจุดผิดที่มีการวัดบันทึกไว้ ฝีมือการเดินสาย และตารางทดสอบ ลองให้คะแนนตัวเองด้วยตารางในหัวข้อ C หลังฝึก</li>
+  <li><b>ฝึกแบบจับเวลา</b>: โจทย์ฝึกในหัวข้อ D และ E มีนาฬิกาจับเวลาแต่ละส่วน ฝึกจนทำได้ภายในเวลา แล้วฝึกบนแผงจริงในคาบที่ครูเปิดให้</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>Four parts</b>: plan on paper, wire the circuit from the drawing, test before and after power-on, and find two faults. It is like the midterm, but the circuit comes from the whole term and the fault finding is done by measuring, as in week 13.</li>
+  <li><b>Safety comes before marks</b>: power-on only after the teacher has checked and allowed it. Working live, bypassing a protective device or switching on yourself makes the teacher stop the work at once under the safety stop rule.</li>
+  <li><b>Know the marking before the exam</b>: most marks are for wiring that matches the drawing, then for fault finding with recorded measurements, workmanship and the test tables. Score yourself with the table in section C after practising.</li>
+  <li><b>Practise against the clock</b>: the practice task of sections D and E has a timer for each part. Practise until you finish within the time, then practise on the real trainer in the sessions the teacher opens.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>ทบทวนก่อนสอบ</a><a href="#tA"><b>A</b>สอบอย่างไร</a><a href="#tB"><b>B</b>กติกาและกฎหยุดงาน</a><a href="#tC"><b>C</b>เกณฑ์ให้คะแนน</a><a href="#tD"><b>D</b>โจทย์ฝึก: ต่อและทดสอบ</a><a href="#tE"><b>E</b>โจทย์ฝึก: หาจุดผิด</a><a href="#tF"><b>F</b>เตรียมตัว</a><a href="#tG"><b>G</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>Review before the exam</a><a href="#tA"><b>A</b>How it works</a><a href="#tB"><b>B</b>Rules and the stop rule</a><a href="#tC"><b>C</b>Marking</a><a href="#tD"><b>D</b>Practice: wire and test</a><a href="#tE"><b>E</b>Practice: find faults</a><a href="#tF"><b>F</b>Getting ready</a><a href="#tG"><b>G</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">ทบทวนก่อนสอบ</h2><h2 data-l="en">Review before the exam</h2>
+    <div class="src" data-l="th">ทุกสัปดาห์ของภาคเรียน</div><div class="src" data-l="en">every week of the term</div></div></div>
+  <p class="lead" data-l="th">ข้อสอบใช้ทักษะของทุกสัปดาห์ ทบทวนหน้าปฏิบัติของแต่ละสัปดาห์ โดยเฉพาะตารางทดสอบและรายการเดินสาย:</p>
+  <p class="lead" data-l="en">The exam uses the skills of every week. Review each week's practice page, above all its test tables and wiring checklists:</p>
+  <div class="card"><ul id="prep" style="margin:4px 0 4px 18px;padding:0;line-height:1.6"></ul></div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">สอบอย่างไร</h2><h2 data-l="en">How the exam works</h2>
+    <div class="src" data-l="th">รูปแบบการสอบ (ครูยืนยันรายละเอียดในคาบก่อนสอบ)</div><div class="src" data-l="en">exam format (the teacher confirms the details in the session before the exam)</div></div></div>
+  <div class="story n0">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>แต่ละคนได้แผงฝึกหนึ่งชุด แบบหนึ่งชุด และใบสอบ แบบเป็นวงจรที่ฝึกมาแล้วแต่อาจเปลี่ยนรายละเอียด เช่น เพิ่มหลอด สลับปุ่ม หรือรวมสองเรื่องเข้าด้วยกัน ใบสอบมีตารางให้กรอกเหมือนใบงานประจำสัปดาห์: ตารางอุปกรณ์ ตารางทดสอบก่อนจ่ายไฟ ตารางทดสอบการทำงาน และรายงานหาจุดผิด ครูตรวจและลงชื่อทุกครั้งก่อนจ่ายไฟ เวลาในตารางข้างล่างเป็นรูปแบบที่วางไว้ ครูแจ้งเวลาจริงในใบสอบ</p></div>
+      <div class="story-p" data-l="en"><p>Each student gets one trainer, one drawing and the exam sheet. The drawing is a circuit you have practised, perhaps with changed details: an extra lamp, swapped buttons, or two topics combined. The exam sheet has the same tables as the weekly practice sheets: the device table, the before-power test table, the function test table and the fault report. The teacher checks and signs before every power-on. The times in the table below are the planned format; the teacher gives the real times on the exam sheet.</p></div></div>
+  </div>
+  <div class="card solve" style="margin-top:12px;overflow-x:auto">
+    <table class="tbl stack" data-l="th"><tr><th>ส่วน</th><th>ทำอะไร</th><th>เวลาโดยประมาณ</th><th>ส่งอะไร</th></tr>
+      <tr><td data-h="ส่วน"><b>1 วางแผน</b></td><td data-h="ทำอะไร">อ่านแบบ กรอกตารางอุปกรณ์ เลขขั้วที่เปลี่ยน ระบายทางเดินกระแสหลัก</td><td data-h="เวลาโดยประมาณ">15 นาที</td><td data-h="ส่งอะไร">ตารางอุปกรณ์ในใบสอบ</td></tr>
+      <tr><td data-h="ส่วน"><b>2 ต่อวงจร</b></td><td data-h="ทำอะไร">ต่อวงจรกำลังและวงจรควบคุมผ่าน -X1 และ -X2 ตามแบบ ขณะตัดไฟและล็อก</td><td data-h="เวลาโดยประมาณ">100 นาที</td><td data-h="ส่งอะไร">แผงฝึกที่ต่อเสร็จ</td></tr>
+      <tr><td data-h="ส่วน"><b>3 ทดสอบ</b></td><td data-h="ทำอะไร">วัดความต้านทานก่อนจ่ายไฟ ให้ครูตรวจ จ่ายไฟแล้วทดสอบการทำงาน</td><td data-h="เวลาโดยประมาณ">20 นาที</td><td data-h="ส่งอะไร">ตารางทดสอบทั้งสองตาราง ลายมือชื่อครู</td></tr>
+      <tr><td data-h="ส่วน"><b>4 หาจุดผิด</b></td><td data-h="ทำอะไร">ครูทำจุดผิดสองจุดในวงจรที่เตรียมไว้ หาด้วยการวัด ซ่อม และทดสอบซ้ำ</td><td data-h="เวลาโดยประมาณ">30 นาที (จุดละ 15)</td><td data-h="ส่งอะไร">รายงานหาจุดผิดหกช่องต่อหนึ่งจุด</td></tr>
+      <tr><td data-h="ส่วน"><b>ส่งมอบ</b></td><td data-h="ทำอะไร">ตัดไฟ ปลดล็อกของตัวเอง ถอดสาย เก็บเครื่องมือ</td><td data-h="เวลาโดยประมาณ">15 นาที</td><td data-h="ส่งอะไร">ใบสอบทั้งชุด</td></tr></table>
+    <table class="tbl stack" data-l="en"><tr><th>Part</th><th>What you do</th><th>Approximate time</th><th>What you hand in</th></tr>
+      <tr><td data-h="Part"><b>1 Plan</b></td><td data-h="What you do">read the drawing, fill in the device table and the changed terminal numbers, shade the main current paths</td><td data-h="Approximate time">15 min</td><td data-h="What you hand in">the device table on the exam sheet</td></tr>
+      <tr><td data-h="Part"><b>2 Wire</b></td><td data-h="What you do">wire the power and control circuits through -X1 and -X2 to the drawing, with the supply off and locked</td><td data-h="Approximate time">100 min</td><td data-h="What you hand in">the wired trainer</td></tr>
+      <tr><td data-h="Part"><b>3 Test</b></td><td data-h="What you do">resistance tests before power-on, the teacher's check, power on and function tests</td><td data-h="Approximate time">20 min</td><td data-h="What you hand in">both test tables, the teacher's signature</td></tr>
+      <tr><td data-h="Part"><b>4 Find faults</b></td><td data-h="What you do">the teacher puts two faults into a prepared circuit: find them by measuring, repair, retest</td><td data-h="Approximate time">30 min (15 each)</td><td data-h="What you hand in">a six-box fault report for each fault</td></tr>
+      <tr><td data-h="Part"><b>Hand-over</b></td><td data-h="What you do">switch off, remove your own lock, take the leads off, put the tools away</td><td data-h="Approximate time">15 min</td><td data-h="What you hand in">the complete exam sheet</td></tr></table>
+  </div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">กติกาและกฎหยุดงานเพื่อความปลอดภัย</h2><h2 data-l="en">Rules and the safety stop rule</h2>
+    <div class="src" data-l="th">กฎความปลอดภัยของแผนก · IEC 60204-1 · IEC 61010-1</div><div class="src" data-l="en">the department's safety rules · IEC 60204-1 · IEC 61010-1</div></div></div>
+  <div class="duo">
+    <div class="card"><h3 data-l="th">กติกาการสอบ</h3><h3 data-l="en">Exam rules</h3>
+      <ul data-l="th" style="margin:4px 0 0 18px;padding:0;line-height:1.6"><li>ใช้ได้เฉพาะแบบ ใบสอบ และเครื่องมือที่แผนกจัดให้ ทำงานคนเดียว</li><li>ต่อและแก้สายเฉพาะเมื่อตัดไฟและล็อกด้วยกุญแจของตัวเองแล้ว</li><li>ก่อนจ่ายไฟทุกครั้ง: ตารางทดสอบก่อนจ่ายไฟต้องครบ แล้วยกมือให้ครูตรวจ ครูเป็นผู้อนุญาต</li><li>ทดสอบไม่ผ่าน: ตัดไฟ ล็อก หาจุดผิด แก้ แล้วขอให้ครูตรวจใหม่ จำนวนครั้งที่แก้มีผลต่อคะแนนส่วนทดสอบ</li><li>ส่วนหาจุดผิด: บันทึกทุกการวัด คำตอบที่ไม่มีการวัดรองรับไม่ได้คะแนนส่วนการวัด</li><li>หมดเวลาแต่ละส่วน ครูให้คะแนนตามงานที่ทำได้ถึงตอนนั้น</li></ul>
+      <ul data-l="en" style="margin:4px 0 0 18px;padding:0;line-height:1.6"><li>Only the drawing, the exam sheet and the department's tools may be used; you work alone.</li><li>Wire and change leads only with the supply off and locked with your own lock.</li><li>Before every power-on, the before-power test table must be complete; raise your hand for the teacher's check, and the teacher gives the permission.</li><li>A test fails: switch off, lock off, find the fault, fix it, and ask for a new check; the number of fixes counts in the test marks.</li><li>Fault finding: record every measurement; an answer without the measurements behind it gets no marks for measuring.</li><li>When the time of a part is up, the teacher marks the work done so far.</li></ul></div>
+    <div class="card"><h3 data-l="th">กฎหยุดงาน</h3><h3 data-l="en">The safety stop rule</h3>
+      <p data-l="th" style="margin:4px 0">ครูหยุดงานทันทีเมื่อเห็นสิ่งใดต่อไปนี้ และคะแนนความปลอดภัยเป็นศูนย์ ครูตัดสินว่าจะให้ทำต่อหลังแก้ไขแล้วหรือไม่:</p>
+      <p data-l="en" style="margin:4px 0">The teacher stops the work at once on any of the following, the safety marks become zero, and the teacher decides whether you may go on once it has been put right:</p>
+      <ul data-l="th" style="margin:4px 0 0 18px;padding:0;line-height:1.6"><li>จ่ายไฟเองโดยครูยังไม่ได้อนุญาต</li><li>แตะ ต่อ หรือถอดสายขณะมีไฟ หรือวัดความต้านทานในวงจรที่มีไฟ</li><li>ข้ามหรือเปลี่ยนอุปกรณ์ป้องกัน เช่น ต่อคร่อม F2 95–96 หรือใส่ฟิวส์ขนาดใหญ่กว่าแบบ</li><li>ถอดล็อกของคนอื่น หรือทำงานโดยไม่ล็อก</li><li>กดคอนแทกเตอร์ด้วยมือหรือเครื่องมือขณะมีไฟ</li></ul>
+      <ul data-l="en" style="margin:4px 0 0 18px;padding:0;line-height:1.6"><li>switching on before the teacher has given permission;</li><li>touching, connecting or removing a lead while live, or measuring resistance on a live circuit;</li><li>bypassing or changing a protective device, such as bridging F2 95–96 or fitting a larger fuse than the drawing says;</li><li>removing someone else's lock, or working without a lock;</li><li>pushing a contactor in by hand or with a tool while live.</li></ul></div>
+  </div>
+  <div class="warnbox" data-l="th" style="margin-top:12px"><b>วัดแรงดันขณะมีไฟในส่วนหาจุดผิด:</b> ทำได้เมื่อครูอยู่ด้วย ด้วยมิเตอร์และสายวัดประเภทการวัด CAT III ตามมาตรฐาน IEC 61010-1 ของคณะกรรมาธิการไฟฟ้าระหว่างประเทศ (International Electrotechnical Commission, IEC) จับสายวัดหลังที่กันนิ้ว และใช้ย่านแรงดันไฟสลับเท่านั้น (สัปดาห์ที่ 13)</div>
+  <div class="warnbox" data-l="en" style="margin-top:12px"><b>Live voltage measurements during fault finding:</b> only with the teacher present, with a meter and probes of measurement category CAT III to IEC 61010-1 of the International Electrotechnical Commission (IEC), holding the probes behind the finger guards, on the alternating-current (AC) voltage range only (week 13).</div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">เกณฑ์ให้คะแนน</h2><h2 data-l="en">Marking</h2>
+    <div class="src" data-l="th">เกณฑ์ที่วางไว้ 100 คะแนน (ครูยืนยันในคาบก่อนสอบ)</div><div class="src" data-l="en">planned marking out of 100 (the teacher confirms it in the session before the exam)</div></div></div>
+  <p class="lead" data-l="th">ตารางนี้คือเกณฑ์ที่วางไว้ แต่ละข้อมีสามระดับ หลังฝึกโจทย์ในหัวข้อ D และ E ให้เลือกระดับที่ตรงกับงานของคุณเพื่อดูคะแนนโดยประมาณ ไม่มีการบันทึกหรือส่งผลไปที่ใด</p>
+  <p class="lead" data-l="en">This table is the planned marking, with three levels for each criterion. After the practice task of sections D and E, pick the level that matches your work to see an estimated score; nothing is stored or sent anywhere.</p>
+  <div class="card solve" style="overflow-x:auto"><div id="rubC"></div><p class="fscore" id="totC" style="margin:8px 0 0"></p></div>
+</section>
+
+<section class="prob" id="tD">
+  <div class="prob-head"><span class="prob-no">D</span><div><h2 data-l="th">โจทย์ฝึก ส่วนที่ 1–3: วางแผน ต่อวงจร และทดสอบ</h2><h2 data-l="en">Practice task, parts 1–3: plan, wire and test</h2>
+    <div class="src" data-l="th">โจทย์ฝึก (ไม่ใช่ข้อสอบจริง) · กลับทางหมุนทันที หน้า 7.3</div><div class="src" data-l="en">practice task (not the real exam) · direct reversing, page 7.3</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์ฝึก</div><p>ต่อวงจรกลับทางหมุนทันทีของมอเตอร์ M1 (ต่อแบบสตาร์) ตามแบบข้างล่าง: อินเตอร์ล็อกสองชั้นด้วยหน้าสัมผัสของคอนแทกเตอร์ (KM1 21–22, KM2 21–22) และของปุ่มกด (S2 21–22, S3 21–22) จึงกด S3 ขณะเดินหน้าแล้วกลับทางได้ทันที หลอด H1 เขียว FORWARD, H2 เขียว REVERSE, H3 เหลือง OVERLOAD, H4 ขาว STOPPED ต่อผ่าน -X1 และ -X2 ทำส่วนที่ 1–3 ให้เสร็จภายใน 135 นาที ใช้นาฬิกาจับเวลาข้างล่าง</p></div>
+  <div class="given" data-l="en"><div class="gl">Practice task</div><p>Wire the direct-reversing circuit of motor M1 (star connected) to the drawing below: a double interlock with contactor contacts (KM1 21–22, KM2 21–22) and push-button contacts (S2 21–22, S3 21–22), so that S3 pressed while running forward reverses at once. Lamps: H1 green FORWARD, H2 green REVERSE, H3 yellow OVERLOAD, H4 white STOPPED. Wire through -X1 and -X2. Finish parts 1–3 within 135 minutes, using the timer below.</p></div>
+  <div class="card solve" style="margin-top:10px"><div id="clkD"></div></div>
+  <div class="card sim rlwrap rlscroll mcp-wide" style="padding:8px;margin-top:10px"><div id="simP"></div></div>
+  <div class="card solve" style="margin-top:10px;overflow-x:auto"><div id="bomD"></div></div>
+  <div class="card" style="padding:8px;margin-top:10px"><div id="trnD"></div></div>
+  <div class="card sim rlwrap rlscroll mcp-wide" style="padding:8px;margin-top:10px"><div id="simD"></div></div>
+  <div class="card solve" style="margin-top:10px;overflow-x:auto"><h3 data-l="th">ตารางทดสอบการทำงานของโจทย์ฝึก</h3><h3 data-l="en">Function tests of the practice task</h3><div id="tstD"></div></div>
+</section>
+
+<section class="prob" id="tE">
+  <div class="prob-head"><span class="prob-no">E</span><div><h2 data-l="th">โจทย์ฝึก ส่วนที่ 4: หาจุดผิด</h2><h2 data-l="en">Practice task, part 4: find the faults</h2>
+    <div class="src" data-l="th">โจทย์ฝึก (ไม่ใช่ข้อสอบจริง) · วิธีหาจุดผิดหกขั้น สัปดาห์ที่ 13</div><div class="src" data-l="en">practice task (not the real exam) · the six steps of week 13</div></div></div>
+  <p class="lead" data-l="th">วงจรเดียวกับโจทย์ฝึก ครูทำจุดผิดไว้ สามการ์ดนี้ให้เลือกทำสองการ์ดเหมือนในวันสอบ ตั้งนาฬิกา 15 นาทีต่อหนึ่งการ์ด เขียนรายงานหกช่องลงกระดาษของคุณเองขณะทำ (อาการ ช่วงที่สงสัย การวัด จุดเสีย การซ่อม การทดสอบซ้ำ)</p>
+  <p class="lead" data-l="en">The same circuit as the practice task, with faults put in by the teacher. Do two of these three cards, as on the day. Set the timer to 15 minutes per card and write the six-box report on your own paper as you go (symptom, suspect section, measurements, faulty part, repair, retest).</p>
+  <div class="card solve"><div id="clkE"></div></div>
+  <div class="card" style="margin-top:10px"><div id="fcE"></div><div id="seeE" style="margin-top:8px"></div></div>
+  <div class="duo big-sim"><div class="card sim" style="padding:8px"><div class="rlwrap rlscroll mcp-wide" id="simE"></div><div class="simnote" style="margin:8px 4px 2px" id="rdE"></div></div><div class="card"><div id="mE"></div></div></div>
+</section>
+
+<section class="prob" id="tF">
+  <div class="prob-head"><span class="prob-no">F</span><div><h2 data-l="th">เตรียมตัวก่อนวันสอบ</h2><h2 data-l="en">Getting ready for the day</h2>
+    <div class="src" data-l="th">ข้อสอบจริงครูแจกเป็นกระดาษ</div><div class="src" data-l="en">the real exam is handed out on paper</div></div></div>
+  <div class="duo">
+    <div class="card"><h3 data-l="th">ก่อนวันสอบ</h3><h3 data-l="en">Before the day</h3>
+      <ul data-l="th" style="margin:4px 0 0 18px;padding:0;line-height:1.6"><li>ทำโจทย์ฝึกในหัวข้อ D และ E ให้ได้ภายในเวลา แล้วให้คะแนนตัวเองในหัวข้อ C</li><li>ทบทวนตารางทดสอบก่อนจ่ายไฟของทุกสัปดาห์: ระหว่างเฟสต้องได้ OL ขดลวดมอเตอร์ และค่าของวงจรควบคุมเมื่อกดแต่ละปุ่ม</li><li>ทบทวนเลขขั้วแบบหน้าสัมผัสสลับของรีเลย์เสียบและตัวตั้งเวลา (สัปดาห์ที่ 14)</li><li>ฝึกเขียนรายงานหาจุดผิดหกช่องจากการ์ดของสัปดาห์ที่ 13</li></ul>
+      <ul data-l="en" style="margin:4px 0 0 18px;padding:0;line-height:1.6"><li>Finish the practice task of sections D and E within the time, then score yourself in section C.</li><li>Review the before-power test tables of every week: OL between phases, the motor windings, and the control-circuit values with each button pressed.</li><li>Review the changeover terminal numbers of the plug-in relay and the timer (week 14).</li><li>Practise the six-box fault report on the cards of week 13.</li></ul></div>
+    <div class="card"><h3 data-l="th">ในวันสอบ</h3><h3 data-l="en">On the day</h3>
+      <ul data-l="th" style="margin:4px 0 0 18px;padding:0;line-height:1.6"><li>แต่งกายพร้อมทำงานไฟฟ้า รองเท้าหุ้มส้น ไม่สวมเครื่องประดับโลหะที่มือ</li><li>อ่านแบบทั้งแผ่นก่อนจับสาย แล้วกรอกตารางอุปกรณ์ให้เสร็จก่อน</li><li>ตรวจมิเตอร์กับจุดที่รู้ว่ามีไฟก่อนใช้ และตัดไฟ ล็อก พิสูจน์ว่าไม่มีไฟทุกครั้งก่อนแตะสาย</li><li>ติ๊กสายทีละเส้นบนแบบของคุณ อย่ารอตรวจทีเดียวตอนท้าย</li></ul>
+      <ul data-l="en" style="margin:4px 0 0 18px;padding:0;line-height:1.6"><li>Come dressed for electrical work: closed shoes, no metal jewellery on your hands.</li><li>Read the whole drawing before touching a lead, and finish the device table first.</li><li>Test the meter on a known live point before use, and switch off, lock off and prove dead every time before touching a lead.</li><li>Tick the leads one by one on your drawing; do not leave the checking to the end.</li></ul></div>
+  </div>
+  <div class="given" data-l="th" style="margin-top:12px"><div class="gl">ข้อสอบจริง</div><p>แบบ ใบสอบ และตารางทั้งหมดของการสอบจริงครูแจกเป็นกระดาษในวันสอบเท่านั้น ไม่มีบนเว็บไซต์และไม่มีให้ดาวน์โหลด โจทย์ฝึกในหน้านี้เป็นตัวอย่างของรูปแบบเท่านั้น</p></div>
+  <div class="given" data-l="en" style="margin-top:12px"><div class="gl">The real exam</div><p>The drawings, the exam sheet and all tables of the real exam are handed out on paper on the day only; they are not on this site and cannot be downloaded. The practice task on this page only shows the format.</p></div>
+</section>
+
+<section class="prob" id="tG">
+  <div class="prob-head"><span class="prob-no">G</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">กติกาและการทำงานอย่างปลอดภัย</div><div class="src" data-l="en">Rules and safe working</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>จับเวลาโจทย์ฝึกส่วนที่ 2 บนแผงฝึกเสมือน ถ้าเกิน 100 นาที ดูว่าช่วงไหนเสียเวลามากที่สุด และแก้ด้วยการวางแผนอย่างไร</li>
+      <li>ให้เพื่อนทำจุดผิดหนึ่งจุดในวงจรของสัปดาห์ใดก็ได้บนแผงจริง (ขณะตัดไฟ โดยมีครูอยู่ด้วย) แล้วหาด้วยการวัดภายใน 15 นาที</li>
+      <li>เขียนรายการว่าในส่วนที่ 3 ต้องวัดอะไรบ้างก่อนยกมือให้ครูตรวจ สำหรับวงจรของโจทย์ฝึก</li></ol>
+    <div class="book">กฎความปลอดภัยของแผนก · IEC 60204-1 ข้อ 7.5 และ 9.3 · IEC 61010-1 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 9 และ 42</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Time part 2 of the practice task on the virtual trainer. If it takes more than 100 minutes, find where the time went and how better planning would save it.</li>
+      <li>Have a classmate put one fault into a circuit of any week on the real trainer (with the supply off and the teacher present), then find it by measuring within 15 minutes.</li>
+      <li>List what you must measure in part 3 before raising your hand for the teacher's check, for the circuit of the practice task.</li></ol>
+    <div class="book">the department's safety rules · IEC 60204-1, 7.5 and 9.3 · IEC 61010-1 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 9 and 42</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui, tt = ED.tt;
+  const esc = MCP.esc, natural = (a, b) => a.localeCompare(b, 'en', { numeric: true });
+  const SPEC = () => C7.PB({ lamps: 'all' });   // practice task: direct reversing, contactor + push-button interlock, lamps H1–H4 (page 7.3)
+  const TITLE = ['โจทย์ฝึก: กลับทางหมุนทันที', 'Practice task: direct reversing'];
+  const hid = () => new RL.Sim(document.createElement('div'), SPEC(), { sheet: false });   // hidden simulator: the same model as the drawings
+  const sheet = (part, th, en, o = {}) => ({ no: `MCP15-${part}`, title: [`${TITLE[0]} ${th}`.trim(), `${TITLE[1]} ${en}`.trim()], ...o });
+  const vx = (sim, s) => { if (/^[ctp]:/.test(s)) return s; const x = MCP.findEl(sim, s); return x ? `t:${x.i}:${x.j}` : s; };
+
+  /* 0: every practice page of the term (MCP_WEEKS with a page, before this one) */
+  $('prep').innerHTML = MC.mcpWeeks().filter(w => w.page && w.wk < 15 && !w.soon).map(w => `<li><a href="${w.page}"><b>${t('สัปดาห์', 'Week')} ${w.wk}</b> ${esc(t(w.title, w.en))}</a>${w.outcome ? `: ${esc(t(w.outcome, w.outcome_en))}` : ''}</li>`).join('');
+
+  /* C: the planned marking with a self-check (three levels per criterion; nothing is stored) */
+  const CRIT = [
+    [['ความปลอดภัยและนิสัยการทำงาน', 'Safety and work habits'], [[15, ['ตัดไฟ ล็อก พิสูจน์ว่าไม่มีไฟทุกครั้ง ไม่จ่ายไฟเอง พื้นที่เรียบร้อย', 'switch off, lock off and prove dead every time, never switch on yourself, a tidy workplace']],
+      [8, ['ลืมหนึ่งครั้ง แก้ทันทีเมื่อครูเตือน', 'one slip, put right at once when the teacher points it out']], [0, ['ทำผิดกฎหยุดงาน', 'a breach of the safety stop rule']]]],
+    [['วางแผน: ตารางอุปกรณ์และเลขขั้ว', 'Plan: device table and terminal numbers'], [[5, ['ถูกครบ', 'complete and right']], [3, ['ผิด 1–2 แถว', '1–2 rows wrong']], [0, ['ไม่ได้ทำ', 'not done']]]],
+    [['เดินสายถูกตามแบบ', 'Wiring matches the drawing'], [[30, ['ถูกทุกเส้นตั้งแต่ครูตรวจครั้งแรก', 'every lead right at the teacher\'s first check']], [18, ['แก้ไม่เกินสองเส้นหลังครูตรวจ', 'at most two leads fixed after the check']], [0, ['ไม่เสร็จหรือแก้มากกว่านั้น', 'unfinished, or more fixes']]]],
+    [['ฝีมือการเดินสาย', 'Workmanship'], [[10, ['ปลอกหุ้มหัวสายและเลขสายครบ ขันแน่น ไม่เกินสองเส้นต่อขั้ว เดินในรางสาย', 'ferrules and markers on every lead, tight terminals, at most two leads per terminal, leads in the ducts']], [5, ['บกพร่อง 1–3 จุด', '1–3 defects']], [0, ['บกพร่องมากกว่านั้น', 'more defects']]]],
+    [['ทดสอบก่อนจ่ายไฟ', 'Tests before power-on'], [[10, ['ตารางครบและค่าถูก', 'table complete, readings right']], [5, ['ขาดหรือผิด 1–2 ข้อ', '1–2 rows missing or wrong']], [0, ['ไม่ได้ทำ (จ่ายไฟไม่ได้)', 'not done (no power-on)']]]],
+    [['ทดสอบการทำงาน', 'Function tests'], [[10, ['ผ่านทุกข้อตั้งแต่จ่ายไฟครั้งแรก', 'every test passes at the first power-on']], [6, ['ผ่านหลังแก้หนึ่งครั้ง', 'passes after one fix']], [0, ['ไม่ผ่าน', 'does not pass']]]],
+    [['หาจุดผิดสองจุด', 'Two faults found'], [[20, ['พบทั้งสองจุดด้วยการวัดที่บันทึกไว้ ซ่อมและทดสอบซ้ำผ่าน', 'both found with recorded measurements, repaired and retested']], [10, ['ครบเพียงจุดเดียว', 'one of them complete']], [0, ['ไม่พบ', 'none found']]]]];
+  const SEL = CRIT.map(() => null);
+  const rub = () => { const got = SEL.reduce((a, v, i) => a + (v === null ? 0 : CRIT[i][1][v][0]), 0), done = SEL.filter(v => v !== null).length;
+    $('totC').textContent = t(`คะแนนโดยประมาณ ${got}/100 (เลือกแล้ว ${done} จาก ${CRIT.length} ข้อ)`, `Estimated score ${got}/100 (${done} of ${CRIT.length} criteria picked)`); };
+  $('rubC').innerHTML = `<table class="tbl stack"><tr><th>${t('เกณฑ์', 'criterion')}</th><th>${t('เต็ม', 'full')}</th><th>${t('บางส่วน', 'part')}</th><th>${t('ไม่ได้', 'none')}</th></tr>` +
+    CRIT.map(([nm, lv], i) => `<tr><td data-h="${t('เกณฑ์', 'criterion')}"><b>${tt(nm)}</b> (${lv[0][0]})</td>` + lv.map(([p, d], k) => `<td data-h="${[t('เต็ม', 'full'), t('บางส่วน', 'part'), t('ไม่ได้', 'none')][k]}"><button type="button" class="btn" data-ci="${i}" data-lv="${k}" style="width:100%;text-align:left"><b>${p}</b> · ${tt(d)}</button></td>`).join('') + '</tr>').join('') +
+    `<tr><td data-h="${t('เกณฑ์', 'criterion')}"><b>${t('รวม', 'total')}</b></td><td colspan="3">100</td></tr></table>`;
+  $('rubC').addEventListener('click', e => { const b = e.target.closest('button[data-ci]'); if (!b) return; const i = +b.dataset.ci, k = +b.dataset.lv; SEL[i] = SEL[i] === k ? null : k;
+    $('rubC').querySelectorAll(`button[data-ci="${i}"]`).forEach(x => x.classList.toggle('on', SEL[i] !== null && +x.dataset.lv === SEL[i])); rub(); });
+  rub();
+
+  /* a practice timer: parts with their planned minutes, start / pause / reset, elapsed against the plan (real time, nothing stored) */
+  const clock = (el, parts) => { let part = parts[0], acc = 0, t0 = 0, iv = null;
+    const pick = document.createElement('div'); el.appendChild(pick); const row = document.createElement('div'); row.className = 'toggles'; el.appendChild(row); const st = ui.status(el);
+    const now = () => acc + (iv ? Date.now() - t0 : 0), mmss = ms => { const s = Math.floor(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+    const show = () => { const ms = now(), lim = part.min * 60000, f = ms / lim; ui.setStatus(st, `${mmss(ms)} / ${part.min}:00`, f >= 1 ? t('หมดเวลาตามแผนแล้ว: ครูจะให้คะแนนตามงานที่ทำได้ถึงตอนนี้', 'Time is up: the teacher would mark the work done so far') : iv ? t(`กำลังจับเวลา: ${tt(part.name)}`, `timing: ${tt(part.name)}`) : t('หยุดอยู่ กดเริ่มเพื่อจับเวลา', 'paused: press start to time yourself'), f >= 1 ? 'bad' : f >= 0.8 ? 'warn' : 'good'); };
+    const stop = () => { if (iv) { acc += Date.now() - t0; clearInterval(iv); iv = null; } };
+    ui.radio(pick, parts.map((p, i) => ({ id: String(i), label: `${tt(p.name)} · ${p.min} ${t('นาที', 'min')}`, on: i === 0 })), id => { stop(); part = parts[+id]; acc = 0; show(); });
+    MCP.btn(row, t('▶ เริ่ม', '▶ start'), () => { if (!iv) { t0 = Date.now(); iv = setInterval(show, 500); } show(); }, 'on');
+    MCP.btn(row, t('❚❚ หยุดชั่วคราว', '❚❚ pause'), () => { stop(); show(); });
+    MCP.btn(row, t('↺ เริ่มใหม่', '↺ reset'), () => { stop(); acc = 0; show(); });
+    show(); };
+  clock($('clkD'), [{ name: ['ส่วนที่ 1 วางแผน', 'part 1, plan'], min: 15 }, { name: ['ส่วนที่ 2 ต่อวงจร', 'part 2, wire'], min: 100 }, { name: ['ส่วนที่ 3 ทดสอบ', 'part 3, test'], min: 20 }, { name: ['ส่วนที่ 1–3 รวม', 'parts 1–3 together'], min: 135 }]);
+  clock($('clkE'), [{ name: ['จุดผิดหนึ่งจุด', 'one fault'], min: 15 }, { name: ['สองจุด', 'two faults'], min: 30 }]);
+
+  /* D: the practice drawing (printed look with the student's boxes), the device table, the trainer and the expected function tests */
+  new RL.Sim($('simP'), SPEC(), { max: 1000, print: true, label: tt(TITLE), sheet: sheet('P', '', '', { student: true }) }).setMains(false);   // a paper drawing: nothing live, devices de-energised
+  const h0 = hid(), asg = MCP.trAssign(h0), ref = MCP.trRef(h0, { asg }), TL = MCP.TRAINER, P0 = h0.spec.power;
+  const powerIds = new Set([...(P0.stages || []).map(s => s.d).filter(Boolean), P0.rev ? P0.rev.fwd : null, P0.rev ? P0.rev.rev : null]);
+  const exa = s => String(s).replace('(example)', t('(ตัวอย่าง)', '(example)'));
+  $('bomD').innerHTML = `<h3 style="margin:0 0 6px">${t('ส่วนที่ 1: ตารางอุปกรณ์ (เทียบกับของคุณหลังทำเสร็จ)', 'Part 1: device table (compare with yours when you have finished)')}</h3><details><summary style="cursor:pointer;font-weight:600">${t('เปิดดูตารางที่ถูก', 'show the right table')}</summary>` +
+    `<table class="tbl stack" style="margin-top:6px"><tr><th>${t('ในแบบ', 'drawing')}</th><th>${t('บนแผงฝึก', 'trainer')}</th><th>${t('อุปกรณ์', 'device')}</th><th>${t('รุ่น', 'model')}</th><th>${t('ขั้วที่ต่อ', 'terminals')}</th></tr>` +
+    Object.keys(asg.slot).sort(natural).map(id => { const sid = asg.slot[id], dv = TL.devices.find(d => d.id === sid) || {}, kd = TL.kinds[dv.kind] || {};
+      const terms = [...new Set(h0.spec.els.filter(e => e.d === id && e.t && e.k !== 'w').flatMap(e => e.t))].sort(natural);
+      const tx = terms.join(' ') + (powerIds.has(id) ? `${terms.length ? ' + ' : ''}${t('ขั้วกำลัง 1–6', 'power terminals 1–6')}` : '') + (id === 'M1' ? 'U1 V1 W1 · W2 U2 V2 · PE' : '');
+      return `<tr><td data-h="${t('ในแบบ', 'drawing')}"><b>${esc(id)}</b></td><td data-h="${t('บนแผงฝึก', 'trainer')}">${esc(dv.tag || sid)}</td><td data-h="${t('อุปกรณ์', 'device')}">${esc(tt(kd.name || ''))}</td><td data-h="${t('รุ่น', 'model')}">${esc(exa(tt(dv.model || '')))}</td><td data-h="${t('ขั้วที่ต่อ', 'terminals')}">${tx}</td></tr>`; }).join('') +
+    `</table><p style="margin:6px 0 0">${t(`สายที่ต้องต่อทั้งหมด ${ref.pairs.length} เส้น`, `${ref.pairs.length} leads in all`)}</p></details>`;
+  const simD = new RL.Sim($('simD'), SPEC(), { max: 1000, label: t('วงจรของแผงฝึก', 'the trainer\'s circuit'), sheet: sheet('D', '(แผงฝึก)', '(trainer)') });
+  new MCP.Trainer($('trnD'), simD, { box: 'star' });
+  LS.anim($('simD'), dt => simD.step(dt));
+  const stTxt = s => (s.msg === 'pshort' ? t('ลัดวงจร Q1 ตัด', 'short circuit, Q1 trips') : s.act('KM1') ? t('เดินหน้า (KM1)', 'forward (KM1)') : s.act('KM2') ? t('ถอยหลัง (KM2)', 'reverse (KM2)') : t('หยุด', 'stopped')) +
+    ` · ${['H1', 'H2', 'H3', 'H4'].filter(id => s.dev[id].energized).join(' ') || t('ไม่มีหลอดติด', 'no lamp lit')}`;
+  const TST = [[['เดินหน้าและค้าง', 'forward and hold'], ['กด S2 แล้วปล่อย', 'press and release S2'], [['tap', 'S2']]],
+    [['กลับทางทันที', 'direct reversing'], ['ขณะเดินหน้า กด S3 แล้วปล่อย', 'while forward, press and release S3'], [['tap', 'S2'], ['tap', 'S3']]],
+    [['กดสองปุ่มพร้อมกัน', 'both buttons together'], ['กด S2 และ S3 ค้างพร้อมกัน', 'hold S2 and S3 together'], [['hold', 'S2', 'S3']]],
+    [['หยุด', 'stop'], ['ขณะเดิน กด S1', 'while running, press S1'], [['tap', 'S2'], ['tap', 'S1']]],
+    [['โอเวอร์โหลด', 'overload'], ['ขณะถอยหลัง ทำให้ F2 ตัด', 'while in reverse, trip F2'], [['tap', 'S3'], ['set', 'F2', true]]],
+    [['ไฟดับแล้วกลับมา', 'power fails and returns'], ['ขณะเดินหน้า ตัดไฟแล้วจ่ายกลับ', 'while forward, cut the supply and restore it'], [['tap', 'S2'], ['mains', false], ['mains', true]]]];
+  $('tstD').innerHTML = `<table class="tbl stack"><tr><th>${t('ข้อ', 'no.')}</th><th>${t('การทดสอบ', 'test')}</th><th>${t('ทำอะไร', 'what you do')}</th><th>${t('ผลที่ถูก (จากแบบจำลอง)', 'right result (from the model)')}</th></tr>` +
+    TST.map(([nm, how, ops], k) => { const s = hid(); MCP.run(s, ops); return `<tr><td data-h="${t('ข้อ', 'no.')}">${k + 1}</td><td data-h="${t('การทดสอบ', 'test')}">${tt(nm)}</td><td data-h="${t('ทำอะไร', 'what you do')}">${tt(how)}</td><td data-h="${t('ผลที่ถูก (จากแบบจำลอง)', 'right result (from the model)')}">${stTxt(s)}</td></tr>`; }).join('') +
+    `</table><p class="simnote" style="margin-top:6px">${t('ทำตารางทดสอบก่อนจ่ายไฟแบบสัปดาห์ที่ 14 ก่อนเสมอ: ระหว่างเฟสหลัง Q1 ต้องได้ OL ขดลวดมอเตอร์ และค่าของวงจรควบคุมเมื่อกด S1 S2 S3', 'Always do a before-power table as in week 14 first: OL between the phases after Q1, the motor windings, and the control-circuit values with S1, S2 and S3 pressed.')}</p>`;
+
+  /* E: three fault cards on the same circuit (MCP.Meter + MCP.FaultCards), with what the student can see and hear, and the reading next to the drawing */
+  const CARDS = [
+    { title: ['หลอด STOPPED ไม่ติด', 'The STOPPED lamp stays dark'], fault: { k: 'open', t: 'KM2:61' }, max: 4,
+      symptom: ['สับ Q1 แล้ว มอเตอร์หยุดอยู่ แต่หลอด H4 (ขาว STOPPED) ไม่ติด เดินหน้าและถอยหลังทำงานปกติ หลอด H1 H2 ติดตามทิศ', 'Q1 is on and the motor is stopped, but lamp H4 (white, STOPPED) stays dark. Forward and reverse work normally and H1, H2 light with the direction'],
+      hint: ['H4 รับไฟผ่านหน้าสัมผัสปกติปิดสองตัวต่ออนุกรม วัดจุดระหว่างสองตัวนั้นก่อน', 'H4 is fed through two normally closed contacts in series: measure the point between them first'],
+      fix: ['KM2 ไม่ได้ดูด แต่ 61–62 ไม่ต่อ: เปลี่ยนชุดหน้าสัมผัสด้านหน้าของ KM2 แล้วทดสอบหลอดทุกดวงซ้ำ', 'KM2 is out but 61–62 stays open: replace the front block of KM2, then test every lamp again'] },
+    { title: ['เดินหน้าไม่ได้', 'Forward does not work'], fault: { k: 'loose', t: 'S3:22' }, max: 5,
+      symptom: ['กด S2 ค้างไว้ KM1 ไม่ดูด หลอด H4 ยังติด แต่ถอยหลัง (S3) ทำงานปกติ', 'Holding S2 does not pull KM1 in and H4 stays lit, but reverse (S3) works normally'],
+      hint: ['ถอยหลังได้ ส่วนที่ใช้ร่วมกันจึงปกติ ทางของ KM1 มี S2 13–14, S3 21–22, KM2 21–22 และคอยล์ กด S2 ค้างไว้ แล้ววัดทุกปลายของสายแต่ละเส้น', 'Reverse works, so the shared part is healthy. The KM1 path has S2 13–14, S3 21–22, KM2 21–22 and the coil: hold S2 and measure every end of each wire'],
+      fix: ['ขันขั้ว S3:22 ให้แน่น (ที่ประตูตู้ สายนี้ผ่าน -X2 ให้ตรวจขั้ว -X2 ด้วย) แล้วทดสอบเดินหน้า ถอยหลัง และกลับทางทันทีซ้ำ', 'tighten S3:22 (on the door this lead runs through -X2: check that terminal too), then test forward, reverse and direct reversing again'] },
+    { title: ['หลอด FORWARD ติดทั้งที่หยุดอยู่', 'The FORWARD lamp is lit at rest'], fault: { k: 'closed', t: 'KM1:53' }, max: 3,
+      symptom: ['มอเตอร์หยุดอยู่ หลอด H4 (STOPPED) ติด แต่หลอด H1 (FORWARD) ก็ติดด้วย และยังติดอยู่แม้มอเตอร์ถอยหลัง', 'The motor is stopped and H4 (STOPPED) is lit, but H1 (FORWARD) is lit too, and stays lit even when the motor runs in reverse'],
+      hint: ['KM1 ไม่ได้ดูด หน้าสัมผัสที่ป้อน H1 จึงต้องเปิด: วัดคร่อมมัน', 'KM1 is out, so the contact that feeds H1 must be open: measure across it'],
+      fix: ['53–54 ติดอยู่ (หน้าสัมผัสเชื่อมติด) ทั้งที่ KM1 ไม่ได้ดูด: เปลี่ยนชุดหน้าสัมผัสด้านหน้าของ KM1 หลอดที่บอกผิดทำให้ผู้ใช้เข้าใจสถานะเครื่องผิด', '53–54 is stuck closed (welded) although KM1 is out: replace the front block of KM1. A lamp that tells a lie misleads the user about the machine'] }];
+  const simE = new RL.Sim($('simE'), SPEC(), { max: 1000, label: t('วงจรสำหรับหาจุดผิด', 'circuit for fault finding'), sheet: sheet('E', '(หาจุดผิด)', '(fault finding)') });
+  const mE = new MCP.Meter($('mE'), simE, {});
+  const showE = mE.show.bind(mE); mE.show = () => { showE(); const r = mE.res, P = mE.p, dot = c => `<i class="mcp-dot ${c}"></i>`;
+    $('rdE').innerHTML = !P.red && !P.black ? t('แตะขั้วในแบบเพื่อวางสายวัด ค่าที่อ่านได้จะขึ้นที่นี่และบนมิเตอร์', 'Tap a terminal in the drawing to place a probe; the reading appears here and on the meter')
+      : `${dot('red')}${esc(mE.pl(P.red))} &nbsp; ${dot('black')}${esc(mE.pl(P.black))} &nbsp;→&nbsp; <b>${r ? esc(r.live ? t('ห้ามวัดความต้านทานขณะมีไฟ', 'no ohms on a live circuit') : r.text) : '…'}</b> <span style="color:var(--muted)">(${t(`วัดไป ${mE.n} ครั้ง`, `${mE.n} measured`)})</span>`; };
+  new MCP.FaultCards($('fcE'), mE, CARDS);
+  const seeE = () => { const s = simE, out = [];
+    if (s.mains === false) out.push(t('แหล่งจ่ายถูกตัด', 'supply isolated')); if (!s.dev.Q1.on) out.push(t('Q1 ปลดอยู่', 'Q1 off')); if (s.dev.F2.tripped) out.push(t('F2 ตัด', 'F2 tripped'));
+    ['KM1', 'KM2'].forEach(id => out.push(`${id} ${s.dev[id].energized ? t('ดูด', 'in') : t('ไม่ดูด', 'out')}`));
+    ['H1', 'H2', 'H3', 'H4'].forEach(id => out.push(`${id} ${s.dev[id].energized ? t('ติด', 'lit') : t('ดับ', 'dark')}`));
+    const d = s.dir(); out.push(d === 'cw' ? t('M1 หมุนเดินหน้า', 'M1 forward') : d === 'ccw' ? t('M1 หมุนถอยหลัง', 'M1 reverse') : t('M1 ไม่หมุน', 'M1 stopped'));
+    ui.setStatus($('seeE'), t('ที่เห็นและได้ยิน', 'you see and hear'), out.join(' · '), 'wait'); };
+  simE.on(seeE); seeE(); mE.show();
+
+  /* G: practice (answers spread over a–d) */
+  ED.mcq('mcq', [
+    { q: t('1) ต่อวงจรเสร็จและทดสอบก่อนจ่ายไฟครบแล้ว ขั้นต่อไปคืออะไร', '1) The circuit is wired and the before-power tests are complete. What comes next?'),
+      options: [t('สับ Q1 เพื่อทดสอบทันที', 'switch Q1 on to test at once'), t('ยกมือให้ครูตรวจและรอให้ครูอนุญาตก่อนจ่ายไฟ', 'raise your hand for the teacher\'s check and wait for permission before power-on'), t('ถอดล็อกแล้วจ่ายไฟ', 'remove the lock and switch on'), t('ข้ามไปหาจุดผิด', 'skip to the fault finding')], answer: 1,
+      why: t('จ่ายไฟเองเป็นข้อแรกของกฎหยุดงาน', 'Switching on yourself is the first item of the safety stop rule.') },
+    { q: t('2) จ่ายไฟแล้ว กด S2 แต่มอเตอร์ไม่เดิน ควรทำอะไร', '2) After power-on, S2 does not start the motor. What do you do?'),
+      options: [t('แก้สายที่น่าสงสัยทันทีขณะมีไฟ', 'change the suspect lead at once while live'), t('ดันคอนแทกเตอร์ด้วยไขควงดูว่าเดินไหม', 'push the contactor in with a screwdriver to see whether it runs'), t('ตัดไฟ ล็อก หาจุดผิดด้วยการวัด แก้ แล้วขอให้ครูตรวจใหม่', 'switch off, lock off, find the fault by measuring, fix it, and ask for a new check'), t('ต่อคร่อม F2 95–96', 'bridge F2 95–96')], answer: 2,
+      why: t('อีกสามตัวเลือกผิดกฎหยุดงานทั้งหมด', 'The other three options all break the safety stop rule.') },
+    { q: t('3) ข้อใดทำให้ครูหยุดงานตามกฎหยุดงาน', '3) Which of these makes the teacher stop the work under the safety stop rule?'),
+      options: [t('ใส่ฟิวส์ขนาดใหญ่กว่าแบบเพราะฟิวส์เดิมขาดบ่อย', 'fitting a larger fuse than the drawing says because the old one kept blowing'), t('ขอให้ครูตรวจก่อนจ่ายไฟ', 'asking for the teacher\'s check before power-on'), t('วัดแรงดันขณะครูอยู่ด้วย', 'measuring voltage with the teacher present'), t('ติ๊กสายในแบบทีละเส้น', 'ticking the leads on the drawing one by one')], answer: 0,
+      why: t('เปลี่ยนอุปกรณ์ป้องกันให้ใหญ่กว่าแบบคือการข้ามการป้องกัน', 'A larger protective device than the drawing says is a bypass of the protection.') },
+    { q: t('4) ในส่วนหาจุดผิด ทำไมต้องบันทึกทุกการวัด', '4) Why must every measurement be recorded in the fault-finding part?'),
+      options: [t('เพื่อให้ใบสอบดูเต็ม', 'to fill the sheet'), t('เพราะคะแนนส่วนการวัดให้จากการวัดที่บันทึกไว้ คำตอบที่เดาไม่มีหลักฐาน', 'because the measuring marks come from the recorded measurements: a guess has no evidence'), t('เพราะมิเตอร์จำค่าไม่ได้', 'because the meter cannot remember'), t('ไม่จำเป็นต้องบันทึก', 'it need not be recorded')], answer: 1,
+      why: t('การวัดที่บันทึกไว้แสดงเหตุผลจากอาการไปถึงจุดเสีย เหมือนรายงานหกช่องของสัปดาห์ที่ 13', 'The recorded measurements show the reasoning from the symptom to the faulty part, like the six-box report of week 13.') },
+    { q: t('5) หมดเวลาส่วนที่ 2 แต่ยังต่อไม่เสร็จ จะเป็นอย่างไร', '5) The time of part 2 is up and the wiring is unfinished. What happens?'),
+      options: [t('ได้เวลาเพิ่มอัตโนมัติ', 'extra time is given automatically'), t('สอบใหม่วันอื่น', 'the exam is repeated another day'), t('ได้คะแนนเต็มถ้าต่อเกินครึ่ง', 'full marks if more than half is wired'), t('ครูให้คะแนนตามงานที่ทำได้ถึงตอนนั้น', 'the teacher marks the work done so far')], answer: 3,
+      why: t('ฝึกจับเวลาด้วยโจทย์ฝึกในหัวข้อ D เพื่อให้เสร็จทันในวันสอบ', 'Practise against the clock with the task in section D so that you finish in time on the day.') }]);
+});
+</script>
+</body>
+</html>

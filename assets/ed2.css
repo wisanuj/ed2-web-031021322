@@ -234,3 +234,64 @@ svg.rl .rl-spin.rl-ccw{animation-direction:reverse}
 /* chapter 7 colours: supply phases as Thai wiring colours (L1 brown, L2 black = ink, L3 grey) and the two plugging curves, per theme */
 :root{--c7-l1:#a0522d;--c7-l3:#687083;--c7-stop:#2f6fd6;--c7-plug:#c0392b}
 :root[data-theme=dark]{--c7-l1:#e0a070;--c7-l3:#9aa6ba;--c7-stop:#79adff;--c7-plug:#ff7f70}
+
+/* two courses on one site (21 Oct 2026): course switch on the two roadmaps (shell.js courseSwitch, <nav id="mc-courses">), the badge on an
+   ED2 page opened from Motor Control Practice (shell.js mcpBadge) and the MCP roadmap mcp.html (week cards .mcpw: prepare links, practice
+   link, paper note; the "how the courses fit" card .mcp-fit). Course colours: ED2 = --accent, MCP = --good; exam weeks --bad */
+.cswitch{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;margin:10px 0 2px}
+.cswitch .cs-l{align-self:center;font-size:14px;font-weight:600;color:var(--muted);margin-right:2px}
+.cswitch a{display:flex;flex-direction:column;justify-content:center;text-decoration:none;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:6px 14px 5px;line-height:1.35;min-width:0;transition:border-color .14s ease}
+.cswitch a b{font-size:16px;font-weight:600}
+.cswitch a .cs-code{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--muted)}
+.cswitch a:hover{border-color:var(--accent)}
+.cswitch a.on{border:2px solid var(--accent);padding:5px 13px 4px;background:color-mix(in srgb,var(--accent) 9%,var(--panel));box-shadow:var(--shadow)}
+.cswitch a.on b{color:var(--accent)}
+.cswitch a.cs-mcp:hover{border-color:var(--good)}
+.cswitch a.cs-mcp.on{border-color:var(--good);background:color-mix(in srgb,var(--good) 9%,var(--panel))}
+.cswitch a.cs-mcp.on b{color:var(--good)}
+@media (max-width:520px){.cswitch .cs-l{flex:1 1 100%}.cswitch a{flex:1 1 140px;padding:6px 10px 5px}.cswitch a.on{padding:5px 9px 4px}.cswitch a b{font-size:15px}}
+.mcp-badge{display:flex;flex-wrap:wrap;align-items:center;gap:2px 14px;margin:4px 0 6px;padding:6px 12px;font-size:14.5px;line-height:1.5;
+  border:1px solid color-mix(in srgb,var(--good) 45%,var(--line));border-left:4px solid var(--good);border-radius:0 10px 10px 0;background:color-mix(in srgb,var(--good) 7%,var(--panel))}
+.mcp-badge .mb-t{color:var(--muted)} .mcp-badge .mb-t b{color:var(--ink);font-weight:600}
+.mcp-badge a{font-weight:600;text-decoration:none} .mcp-badge a:hover{text-decoration:underline}
+.mcp-badge .mb-x{margin-left:auto;font-weight:400;font-size:13.5px;color:var(--muted)}
+@media (max-width:520px){.mcp-badge .mb-x{margin-left:0}}
+/* mcp.html */
+.kicker.mcp{color:var(--good)}
+.mcp-fit{padding:12px 14px}
+.mcp-fit h2{font-size:17px;margin:0 0 8px}
+.mcp-fit ol{list-style:none;margin:0;padding:0;display:grid;gap:8px;counter-reset:fit}
+.mcp-fit li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:8px;align-items:start;font-size:15px;line-height:1.55}
+.mcp-fit li::before{counter-increment:fit;content:counter(fit);width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:14px;background:var(--chip);color:var(--accent);margin-top:1px}
+.mcp-fit li.f2::before{color:var(--good)} .mcp-fit li.f3::before{color:var(--purple)}
+.mcp-fit li b{color:var(--ink)}
+.mcp-fit .fit-n{font-size:14px;color:var(--muted);margin:10px 0 0;border-top:1px dashed var(--line);padding-top:6px;line-height:1.5}
+.road.mcp::before{background:linear-gradient(180deg,var(--good) 0%,var(--accent) 55%,var(--purple) 100%)}
+.node .stop.mcpw{display:block;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 18px 12px;position:relative;box-shadow:var(--shadow);scroll-margin-top:12px}
+.node.soon .stop.mcpw{background:var(--panel2);box-shadow:none;padding:9px 16px 8px}
+.node.mcp .dot{border-color:var(--good)} .node.mcp .step{color:var(--good)}
+.node.exam .dot{border-color:var(--bad)} .node.exam .step{color:var(--bad)}
+.node.task .dot{border-color:var(--purple)} .node.task .step{color:var(--purple)}
+.node.visited .dot{background:var(--good);border-color:var(--good)}
+.stop .type.prac{color:var(--good)} .stop .type.exam{color:var(--bad)} .stop .type.task{color:var(--purple)}
+.mcpw h3 a{color:inherit;text-decoration:none} .mcpw h3 a:hover{color:var(--accent)}
+.mcpw .prep{margin-top:8px;font-size:15px}
+.mcpw .prep .pl{font-weight:700;color:var(--purple)}
+.mcpw .prep ul{list-style:none;margin:4px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.mcpw .prep li{min-width:0}
+.mcpw .prep a{display:inline-flex;gap:6px;align-items:baseline;max-width:100%;text-decoration:none;color:var(--ink);background:var(--panel2);border:1px solid var(--line);
+  border-radius:999px;padding:2px 10px;font-size:14.5px;line-height:1.45}
+.mcpw .prep a b{flex:none;font-family:"IBM Plex Mono",monospace;font-size:13.5px;color:var(--accent)}
+.mcpw .prep a:hover{border-color:var(--accent)}
+.mcpw .prep a.visited::after{content:"✓";flex:none;color:var(--good);font-weight:700}
+.mcpw .prep .none{color:var(--muted)}
+.mcpw .go{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;margin-top:10px}
+.mcpw .go a.btn{font-size:15px;padding:5px 12px}
+.mcpw .go a.btn.on{background:var(--good);border-color:var(--good)}
+.node.exam .mcpw .go a.btn.on{background:var(--bad);border-color:var(--bad)}
+:root[data-theme=dark] .mcpw .go a.btn.on{color:#06202b}
+.mcpw .paper{font-size:14px;color:var(--muted);line-height:1.5}
+.mcpw .soonnote{margin-top:6px;font-size:14px;color:var(--muted);font-style:italic}
+@media (max-width:640px){.node .stop.mcpw{padding:12px 14px 10px}.mcpw .prep a{border-radius:10px}}

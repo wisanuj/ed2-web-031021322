@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="Week 1 — Factory supply, safety and the multimeter">สัปดาห์ 1 — ระบบไฟฟ้าในโรงงาน ความปลอดภัย และการใช้มัลติมิเตอร์</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=16"><link rel="stylesheet" href="assets/ed2.css?v=16">
+<link rel="stylesheet" href="assets/wiring.css?v=16"><link rel="stylesheet" href="assets/mcp.css?v=16">
+<script src="assets/stops.js?v=16"></script><script src="assets/shell.js?v=16"></script>
+<script src="assets/lesson.js?v=16"></script><script src="assets/draw.js?v=16"></script><script src="assets/ed.js?v=16"></script><script src="assets/sym.js?v=16"></script><script src="assets/iec.js?v=16"></script><script src="assets/relay.js?v=16"></script><script src="assets/ch2.js?v=16"></script><script src="assets/ch3.js?v=16"></script><script src="assets/ch4.js?v=16"></script>
+<script src="assets/panel.js?v=16"></script><script src="assets/ch5.js?v=16"></script><script src="assets/ch6.js?v=16"></script><script src="assets/ch7.js?v=16"></script>
+<script src="assets/wiring.js?v=16"></script><script src="assets/devdata.js?v=16"></script><script src="assets/dev.js?v=16"></script>
+<script src="assets/mcp.js?v=16"></script>
+<style>
+/* page-local widgets of week 1: the safe-isolation order drill, the task lists, the motor terminal box with its ohmmeter */
+.w1-ord{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;margin:8px 0}
+.w1-ord button{text-align:left;min-height:48px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);font:inherit;font-size:14px;cursor:pointer}
+.w1-ord button:hover{border-color:var(--accent)}
+.w1-ord button.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 10%,var(--panel))}
+.w1-done{margin:6px 0 0 20px;padding:0;font-size:14px;line-height:1.55}
+.w1-done li{color:var(--good)}
+.w1-tasks{margin:6px 0 0 22px;padding:0;font-size:14px;line-height:1.55}
+.w1-tasks li{margin:2px 0}
+.w1-tasks li.ok{color:var(--good)}
+.w1-tasks li.ok::after{content:" ✓";font-weight:700}
+.w1-tasks li.now{font-weight:600}
+.w1-box{display:grid;grid-template-columns:minmax(0,1fr) 170px;gap:12px;align-items:start}
+@media (max-width:640px){.w1-box{grid-template-columns:1fr}}
+.w1-box svg{display:block;width:100%;height:auto;max-width:460px;margin:0 auto;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.w1-box .w1-mini{max-width:170px}
+@media (max-width:640px){.w1-box .w1-mini{max-width:150px;margin:0 auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">ระบบไฟฟ้าในโรงงาน ความปลอดภัย และการใช้มัลติมิเตอร์ <span class="en">Factory supply, safety and the multimeter</span></h1>
+<h1 data-l="en">Factory supply, safety and the multimeter <span class="en">Motor Control Practice, week 1</span></h1>
+
+<p class="sub" data-l="th">สัปดาห์แรกของวิชาปฏิบัติงานควบคุมมอเตอร์ยังไม่ต่อวงจรควบคุม แต่ฝึกสิ่งที่ต้องทำทุกครั้งก่อนแตะชุดฝึก: รู้ว่าแหล่งจ่ายของโรงงานมีแรงดันเท่าไร ตัดไฟ ล็อก และติดป้ายให้ถูกขั้นตอน ทดสอบว่าไม่มีไฟด้วยเครื่องวัดที่ลองแล้วว่าใช้ได้ และใช้มัลติมิเตอร์วัดแรงดันและความต้านทานโดยไม่ทำให้ตัวเองหรือมิเตอร์เสียหาย จากนั้นเปิดกล่องขั้วมอเตอร์ วัดขดลวด วางสะพานให้ตรงกับป้ายพิกัด แล้วต่อมอเตอร์เข้ากับเบรกเกอร์ Q1 ตามใบงานของครูแผ่นที่ 1–2 ทฤษฎีของมอเตอร์อยู่ในบทที่ 1 ของวิชาเขียนแบบไฟฟ้า 2 หน้านี้มีเฉพาะงานปฏิบัติ</p>
+<p class="sub" data-l="en">The first week of Motor Control Practice wires no control circuit yet. It practises what you do every time before you touch the trainer: know the voltages of the factory supply, switch off, lock out and tag out in the right order, test for dead with a tester you have proved, and use a multimeter for voltage and resistance without hurting yourself or the meter. Then you open a motor terminal box, measure the windings, set the links to match the nameplate and connect the motor to breaker Q1 (the instructor's sheets 1–2). The motor theory is in chapter 1 of Electrical Drawing II; this page holds only the practice.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>แหล่งจ่ายของชุดฝึก</b>: ไฟ 3 เฟส 400/230 V 50 Hz มีสายเฟส L1 L2 L3 สายนิวทรัล (neutral, N) และสายดินป้องกัน (protective earth, PE) ระหว่างเฟสกับเฟสวัดได้ 400 V ระหว่างเฟสกับ N หรือกับ PE วัดได้ 230 V ระหว่าง N กับ PE ใกล้ 0 V</li>
+  <li><b>ตัดไฟให้ถูกขั้นตอน</b>: บอกครู ปลดสวิตช์แยกวงจร ล็อกด้วยแม่กุญแจของตัวเอง แขวนป้าย แล้วทดสอบว่าไม่มีไฟแบบ "ลอง–วัด–ลอง": ลองเครื่องวัดกับแหล่งที่รู้ว่ามีไฟ วัดทุกคู่ที่จุดทำงาน แล้วลองเครื่องวัดซ้ำ ปลดแค่ Q1 ไม่พอ เพราะด้านไฟเข้าของ Q1 ยังมีไฟ</li>
+  <li><b>มัลติมิเตอร์</b>: ย่านแรงดันไฟสลับ (V~) ใช้กับวงจรที่มีไฟ ย่านความต้านทาน (Ω) ใช้กับวงจรที่ตัดไฟแล้วเท่านั้น เลือกย่านก่อนแตะสายวัด เสียบสายวัดที่ COM และ VΩ (ห้ามใช้ช่องวัดกระแส A) และใช้มิเตอร์ที่มีพิกัดประเภทการวัด (measurement category) CAT III ขึ้นไป</li>
+  <li><b>กล่องขั้วมอเตอร์</b>: ขดลวดสามขดต้องวัดได้ค่าเท่ากัน ขดลวดกับโครงมอเตอร์ (PE) ต้องได้ OL (over limit: เกินย่านวัด คือไม่ต่อถึงกัน) วางสะพานแบบสตาร์หรือเดลตาตามป้ายพิกัด และต่อสาย PE ก่อนสายเฟสเสมอ</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>The trainer's supply</b>: three-phase 400/230 V 50 Hz with line conductors L1 L2 L3, a neutral (N) and a protective earth (PE). Line to line reads 400 V, line to N or to PE reads 230 V, and N to PE reads close to 0 V.</li>
+  <li><b>Switch off in the right order</b>: tell the teacher, switch off the isolator, lock it with your own padlock, hang a tag, then test for dead by "prove – test – prove": prove the tester on a known live source, test every pair at the work point, prove the tester again. Switching off Q1 alone is not enough: the line side of Q1 is still live.</li>
+  <li><b>The multimeter</b>: the AC voltage range (V~) is for live circuits, the resistance range (Ω) for dead circuits only. Choose the range before the probes touch anything, plug the leads into COM and VΩ (never the current jack A), and use a meter rated measurement category CAT III or higher.</li>
+  <li><b>The motor terminal box</b>: the three windings must read the same; a winding to the motor frame (PE) must read OL (over limit: no connection). Set the links in star or delta to match the nameplate, and always connect PE before the line conductors.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>อ่านและลองก่อนเรียน</a><a href="#tS"><b>S</b>ตัดไฟอย่างปลอดภัย</a><a href="#tM"><b>M</b>มัลติมิเตอร์บนแหล่งจ่าย</a><a href="#tA"><b>A</b>กล่องขั้วมอเตอร์</a><a href="#ex1"><b>1</b>สตาร์หรือเดลตา</a><a href="#tC"><b>C</b>ต่อมอเตอร์เข้ากับ Q1</a><a href="#tD"><b>D</b>ทดสอบก่อนและหลังจ่ายไฟ</a><a href="#tF"><b>F</b>ใบงาน</a><a href="#tQ"><b>Q</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>Read and try before class</a><a href="#tS"><b>S</b>Switching off safely</a><a href="#tM"><b>M</b>The multimeter on the supply</a><a href="#tA"><b>A</b>The motor terminal box</a><a href="#ex1"><b>1</b>Star or delta</a><a href="#tC"><b>C</b>Wiring the motor to Q1</a><a href="#tD"><b>D</b>Tests before and after power-on</a><a href="#tF"><b>F</b>Practice sheet</a><a href="#tQ"><b>Q</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">อ่านและลองก่อนเรียน</h2><h2 data-l="en">Read and try before class</h2>
+    <div class="src" data-l="th">เขียนแบบไฟฟ้า 2 บทที่ 1</div><div class="src" data-l="en">Electrical Drawing II, chapter 1</div></div></div>
+  <p class="lead" data-l="th">อ่านและลองภาพจำลองในสามหน้านี้ของวิชาเขียนแบบไฟฟ้า 2 ก่อนเข้าห้องปฏิบัติการ ลิงก์จะเปิดหน้าเหล่านั้นในบริบทของวิชานี้ และมีปุ่มกลับมาที่สัปดาห์ที่ 1 แต่ละบรรทัดบอกว่าควรดูอะไรเป็นพิเศษ</p>
+  <p class="lead" data-l="en">Read these three pages of Electrical Drawing II and try their simulations before you come to the workshop. The links open them in the context of this course, with a button back to week 1. Each line says what to look at in particular.</p>
+  <div class="card" id="prep"></div>
+  <div class="callout" data-l="th" style="margin-top:12px"><b>สิ่งที่ต้องเตรียมมา</b>: แต่งกายตามระเบียบโรงฝึก รองเท้าหุ้มส้น ถอดแหวน นาฬิกา และสร้อยข้อมือที่เป็นโลหะก่อนทำงาน แม่กุญแจส่วนตัวสำหรับล็อกสวิตช์แยกวงจร (ครูกำหนดแบบ) และดินสอสำหรับกรอกใบงาน</div>
+  <div class="callout" data-l="en" style="margin-top:12px"><b>Bring and wear</b>: workshop clothing and closed shoes; take off metal rings, watches and bracelets before work; your own padlock for locking out the isolator (the teacher says which kind); a pencil for the practice sheet.</div>
+</section>
+
+<section class="prob" id="tS">
+  <div class="prob-head"><span class="prob-no">S</span><div><h2 data-l="th">ตัดไฟ ล็อก ติดป้าย แล้วทดสอบก่อนแตะ</h2><h2 data-l="en">Switch off, lock out, tag out, then test before touch</h2>
+    <div class="src" data-l="th">กฎความปลอดภัย 5 ข้อ ตาม EN 50110-1 · IEC 60204-1 ข้อ 5 · ระเบียบโรงฝึก</div><div class="src" data-l="en">the five safety rules of EN 50110-1 · IEC 60204-1 clause 5 · workshop rules</div></div></div>
+  <div class="story n0">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>งานในวิชานี้ทำกับไฟ 400/230 V ซึ่งทำอันตรายถึงชีวิตได้ ช่างไฟฟ้าในเยอรมนีท่องจำ "กฎความปลอดภัย 5 ข้อ" (fünf Sicherheitsregeln) ซึ่งมาจากมาตรฐานยุโรป EN 50110-1 เรื่องการทำงานกับระบบไฟฟ้า ก่อนลงมือกับอุปกรณ์ที่ตัดไฟแล้วต้องทำให้ครบตามลำดับ: (1) ตัดไฟให้หมดทุกเฟส (2) ป้องกันไม่ให้ใครจ่ายไฟกลับ (3) ทดสอบว่าไม่มีไฟจริง (4) ต่อลงดินและลัดวงจร (5) ป้องกันหรือกั้นส่วนที่ยังมีไฟอยู่ใกล้ ๆ ข้อ 4 ใช้กับระบบแรงสูงและสายอากาศ บนชุดฝึกแรงต่ำของเราไม่ต้องทำ ส่วนข้อ 5 หมายถึงชุดฝึกโต๊ะข้าง ๆ ที่ยังมีไฟอยู่</p>
+        <p><b>ล็อกและติดป้าย</b> (lock-out/tag-out, LOTO) คือข้อ 2: อุปกรณ์ตัดวงจรจ่ายไฟของเครื่องจักรตามมาตรฐาน IEC 60204-1 ของคณะกรรมาธิการไฟฟ้าระหว่างประเทศ (International Electrotechnical Commission, IEC) ข้อ 5 ต้องล็อกในตำแหน่งปิดได้ แต่ละคนที่ทำงานกับชุดฝึกใช้แม่กุญแจของตัวเองและเก็บลูกกุญแจไว้กับตัว ป้ายเขียนชื่อ วันที่ และเหตุผล คนที่ล็อกเท่านั้นเป็นคนปลดล็อก ถ้ามีสองคนก็ล็อกสองตัว</p>
+        <p><b>ทดสอบก่อนแตะแบบ "ลอง–วัด–ลอง"</b> (prove–test–prove) คือข้อ 3: มิเตอร์ที่อ่านได้ 0 V อาจหมายถึงไม่มีไฟจริง หรือมิเตอร์เสีย แบตเตอรี่หมด สายวัดขาดใน ตั้งผิดย่าน หรือปลายสายวัดไม่แตะขั้ว ทุกกรณีจอแสดงเหมือนกัน จึงต้องลองเครื่องวัดกับแหล่งที่รู้ว่ามีไฟก่อน (เต้ารับที่มีไฟ หรือเครื่องลองไฟ proving unit) วัดทุกคู่ที่จุดทำงาน แล้วลองกับแหล่งที่มีไฟอีกครั้งเพื่อยืนยันว่าเครื่องยังใช้ได้ตลอดเวลาที่วัด ระบบ 3 เฟสที่มี N และ PE มีคู่ที่ต้องวัด 10 คู่: L1–L2 L2–L3 L3–L1 แต่ละเฟสกับ N แต่ละเฟสกับ PE และ N–PE</p></div>
+      <div class="story-p" data-l="en"><p>The work in this course is done on 400/230 V, which can kill. Electricians in Germany learn the "five safety rules" (fünf Sicherheitsregeln) by heart; they come from the European standard EN 50110-1 on the operation of electrical installations. Before working on equipment that has been switched off, do all of them, in this order: (1) disconnect completely, every phase; (2) secure against reconnection; (3) verify that it is dead; (4) earth and short-circuit; (5) cover or fence off neighbouring live parts. Rule 4 is for high-voltage systems and overhead lines and is not used on our low-voltage trainer; rule 5 means the trainer on the next bench, which may still be live.</p>
+        <p><b>Lock-out/tag-out (LOTO)</b> is rule 2: the supply disconnecting device of a machine must be lockable in the OFF position (clause 5 of IEC 60204-1, a standard of the International Electrotechnical Commission (IEC)). Everyone working on the trainer puts on their own padlock and keeps the key. The tag carries your name, the date and the reason. Only the person who locked it unlocks it; two people means two padlocks.</p>
+        <p><b>Test before touch by "prove – test – prove"</b> is rule 3: a meter reading 0 V may mean the circuit is dead, or that the meter is broken, its battery flat, a lead broken inside, the range wrong or a probe not touching the terminal. The display looks the same in every case. So prove the tester on a known live source first (a live socket or a proving unit), test every pair at the work point, then prove it again on the live source to show that it worked the whole time. A three-phase supply with N and PE has 10 pairs to test: L1–L2, L2–L3, L3–L1, each line to N, each line to PE, and N–PE.</p></div></div>
+  </div>
+  <p class="lead" data-l="th" style="margin-top:12px">เรียงขั้นตอน: แตะขั้นตอนที่ต้องทำต่อไปทีละข้อ ตั้งแต่ก่อนแตะชุดฝึกจนถึงเริ่มต่อสายได้ ถ้าแตะผิดลำดับ จะมีคำอธิบายว่าทำไมยังทำข้อนั้นไม่ได้ ผลบันทึกลงตารางด้านล่าง</p>
+  <p class="lead" data-l="en" style="margin-top:12px">Put the steps in order: tap the step that comes next, from before you touch the trainer until you may start wiring. A step tapped too early tells you why it cannot come yet. Your result is recorded in the table below.</p>
+  <div class="card solve"><div id="ordS"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logS"></div><div id="sumS" style="margin-top:8px"></div></div>
+  <div class="given" data-l="th" style="margin-top:12px"><div class="gl">สถานการณ์</div><p>เพื่อนทดสอบชุดฝึกที่ -X1 ครบ 10 คู่ ได้ 0 V ทุกคู่ แต่ตอนลองเครื่องวัดซ้ำกับเต้ารับที่มีไฟ มิเตอร์ก็อ่านได้ 0 V เช่นกัน ควรทำอย่างไร</p></div>
+  <div class="given" data-l="en" style="margin-top:12px"><div class="gl">Situation</div><p>A classmate tested all 10 pairs at -X1 and read 0 V on every pair. When proving the tester again on a live socket, it read 0 V there too. What now?</p></div>
+  <div class="card solve"><div id="askS"></div><div id="stS"></div></div>
+  <div class="warnbox" data-l="th" style="margin-top:12px"><b>กฎของห้องปฏิบัติการ</b>: ต่อ ถอด หรือแก้สายเฉพาะตอนที่ตัดไฟ ล็อก และทดสอบแล้วเท่านั้น จ่ายไฟได้หลังครูตรวจวงจรและอนุญาต การวัดแรงดันขณะมีไฟทำเมื่อครูอยู่ด้วย ถือสายวัดหลังที่กันนิ้ว และแตะทีละจุดอย่างมั่นคง</div>
+  <div class="warnbox" data-l="en" style="margin-top:12px"><b>Workshop rule</b>: connect, remove or change leads only when the trainer is switched off, locked out and tested. Power-on only after the teacher has checked the circuit and said yes. Live voltage measurements only with the teacher present, holding the probes behind their finger guards and placing each probe firmly, one at a time.</div>
+</section>
+
+<section class="prob" id="tM">
+  <div class="prob-head"><span class="prob-no">M</span><div><h2 data-l="th">มัลติมิเตอร์บนแหล่งจ่ายและวงจรมอเตอร์</h2><h2 data-l="en">The multimeter on the supply and a motor circuit</h2>
+    <div class="src" data-l="th">ใบงานของครูแผ่นที่ 2 · IEC 61010-1 (ประเภทการวัด) · มอก. 11-2553 (สีสาย)</div><div class="src" data-l="en">the instructor's sheet 2 · IEC 61010-1 (measurement categories) · TIS 11-2553 (conductor colours)</div></div></div>
+  <div class="story n0">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>แหล่งจ่ายของห้องปฏิบัติการเป็นระบบ TN-S: จุดนิวทรัลของหม้อแปลงต่อลงดิน (T) โครงโลหะของอุปกรณ์ต่อถึงจุดนั้นผ่านสาย PE (N) และสาย N กับสาย PE แยกกันตลอดทาง (S) ทั้งสองต่อถึงกันที่ต้นทางเท่านั้น จึงวัดระหว่าง N กับ PE ได้ใกล้ 0 V สีสายไฟของอาคารตามมาตรฐานผลิตภัณฑ์อุตสาหกรรม มอก. 11-2553: L1 สีน้ำตาล L2 สีดำ L3 สีเทา N สีฟ้า PE สีเขียวแถบเหลือง แรงดันระหว่างเฟส 400 V มาจากแรงดันเฟสกับ N 230 V ของสองเฟสที่ต่างมุมกัน 120° (√3 × 230 V ≈ 400 V)</p>
+        <p>กฎของการใช้มัลติมิเตอร์มีสี่ข้อ (1) ตั้งย่านก่อนแตะสายวัด (2) เสียบสายดำที่ COM และสายแดงที่ VΩ ช่อง A มีไว้วัดกระแสโดยต่ออนุกรมเท่านั้น ถ้าเสียบช่อง A แล้วแตะสองเฟส มิเตอร์จะกลายเป็นตัวลัดวงจร (3) มิเตอร์และสายวัดต้องมีพิกัดประเภทการวัด CAT III 600 V ขึ้นไป ซึ่งมาตรฐาน IEC 61010-1 กำหนดไว้สำหรับงานในตู้ไฟและเครื่องจักรที่ต่อถาวรกับระบบไฟของอาคาร (4) วัดความต้านทานเฉพาะเมื่อตัดไฟแล้ว ย่าน Ω ใช้กระแสเล็ก ๆ จากแบตเตอรี่ในมิเตอร์ ถ้าวงจรยังมีไฟ ค่าที่อ่านไม่มีความหมายและมิเตอร์อาจเสีย มิเตอร์ในภาพจำลองนี้จะไม่อ่านค่าและเตือนแทน</p></div>
+      <div class="story-p" data-l="en"><p>The workshop supply is a TN-S system: the transformer's neutral point is earthed (T), the metal parts of the equipment are connected to that point through the PE conductor (N), and the N and PE conductors are separate all the way (S). They are joined only at the source, so N to PE reads close to 0 V. The building wiring colours after the Thai industrial standard TIS 11-2553 are L1 brown, L2 black, L3 grey, N blue, PE green-yellow. The 400 V between two lines comes from two 230 V line-to-neutral voltages 120° apart (√3 × 230 V ≈ 400 V).</p>
+        <p>The multimeter has four rules. (1) Choose the range before the probes touch anything. (2) Black lead in COM, red lead in VΩ; the A jack is only for measuring current in series, and a lead left in it turns the meter into a short circuit when it touches two lines. (3) The meter and its leads must be rated measurement category CAT III 600 V or higher, which IEC 61010-1 gives for work in distribution boards and machines wired permanently to the building supply. (4) Measure resistance on a dead circuit only: the Ω range drives a small current from the meter's battery, so on a live circuit the reading means nothing and the meter can be damaged. The meter in this simulation refuses to read and warns you instead.</p></div></div>
+  </div>
+  <p class="lead" data-l="th" style="margin-top:12px">แบบข้างล่างคือวงจรกำลังของใบงานแผ่นที่ 2: แหล่งจ่าย L1 L2 L3 N PE ผ่าน Q1 ไปมอเตอร์ M1 วงกลมเล็กที่ขั้วคือจุดที่วางสายวัดได้ แตะขั้วหนึ่งเพื่อวางสายแดง แล้วแตะอีกขั้วเพื่อวางสายดำ หลังจากนั้นสายดำอยู่กับที่ และทุกครั้งที่แตะจะย้ายสายแดง (กดปุ่มสายวัดดำก่อนถ้าจะย้ายสายดำ) ปลดและสับ Q1 ด้วยปุ่มใต้แบบ ตัดหรือจ่ายไฟทั้งชุดด้วยปุ่มแหล่งจ่ายของมิเตอร์ งานแต่ละข้อติ๊กเองเมื่อวัดได้ถูก และทุกการวัดบันทึกในตารางใต้มิเตอร์</p>
+  <p class="lead" data-l="en" style="margin-top:12px">The drawing below is the power circuit of sheet 2: the supply L1 L2 L3 N PE through Q1 to motor M1. The small rings on the terminals are where a probe can go. Tap one terminal for the red probe and another for the black one; after that the black probe stays put and every tap moves the red one (press the black-probe button first to move black). Switch Q1 with the button under the drawing, and the whole supply with the meter's supply button. Each task ticks itself when your measurement is right, and every measurement goes into the table under the meter.</p>
+  <div class="duo">
+    <div class="card sim rlwrap rlscroll" style="padding:8px;--rlmin:320px"><div id="simM"></div></div>
+    <div class="card"><div id="mM"></div></div>
+  </div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pM" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="sumM"></div></div>
+  <p class="simnote" data-l="th" style="margin-top:8px">ค่าความต้านทานในหน้านี้เป็นค่าตัวอย่าง (ขดลวดละ 6.4 Ω) ค่าจริงขึ้นกับขนาดมอเตอร์ ให้วัดจากชุดฝึกของตัวเองและกรอกในใบงาน</p>
+  <p class="simnote" data-l="en" style="margin-top:8px">The resistances on this page are example values (6.4 Ω per winding). The real ones depend on the motor size: measure them on your own trainer and write them in the practice sheet.</p>
+</section>
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">กล่องขั้วมอเตอร์: วัดขดลวดแล้ววางสะพาน</h2><h2 data-l="en">The motor terminal box: measure the windings, then set the links</h2>
+    <div class="src" data-l="th">หน้า 1.2 · IEC 60034-8 (เครื่องหมายขั้ว) · IEC 60204-1 ข้อ 18 (การตรวจสอบ)</div><div class="src" data-l="en">page 1.2 · IEC 60034-8 (terminal markings) · IEC 60204-1 clause 18 (verification)</div></div></div>
+  <div class="story n0">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>เปิดฝากล่องขั้วหลังตัดไฟ ล็อก และทดสอบแล้วเท่านั้น ข้างในมีปลายขดลวดหกปลายเรียงสองแถวตามมาตรฐาน IEC 60034-8: แถวบน U1 V1 W1 แถวล่าง W2 U2 V2 แถวล่างเรียงเหลื่อมไว้เพื่อให้สะพานทองแดงสามอันวางแนวตั้งได้พอดีเมื่อต่อเดลตา และวางแนวนอนสองอันเมื่อต่อสตาร์ (เหตุผลและการคำนวณแรงดันอยู่ในหน้า 1.2) งานของช่างก่อนวางสะพานคือตรวจว่าขดลวดดี:</p>
+        <ul><li>ถอดสะพานออกก่อน แล้ววัดแต่ละขด (U1–U2 V1–V2 W1–W2) ต้องได้ค่าใกล้เคียงกันทั้งสามขด ขดที่อ่านได้ OL คือขดขาด</li>
+          <li>วัดระหว่างขดต่างกัน (เช่น U1–V1 ตอนถอดสะพาน) ต้องได้ OL</li>
+          <li>วัดขดลวดกับขั้ว PE หรือโครงมอเตอร์ ต้องได้ OL ค่า OL จากมัลติมิเตอร์เป็นการตรวจแบบหยาบ การทดสอบความต้านทานฉนวนจริงใช้เครื่องทดสอบฉนวน (insulation tester) ที่แรงดันไฟตรง 500 V ตามแนวทางการตรวจสอบของ IEC 60204-1 ข้อ 18 ซึ่งครูเป็นผู้ทำ</li>
+          <li>วางสะพานแล้ววัดซ้ำ: ต่อสตาร์ U1–V1 ได้สองขดอนุกรมกัน ต่อเดลตาได้หนึ่งขดขนานกับสองขดอนุกรม ค่าที่วัดได้จึงบอกได้ว่าสะพานวางถูกแบบหรือไม่</li></ul></div>
+      <div class="story-p" data-l="en"><p>Open the terminal box only after switching off, locking out and testing. Inside are the six winding ends in two rows, as IEC 60034-8 arranges them: U1 V1 W1 on top, W2 U2 V2 below. The bottom row is shifted so that three copper links fit vertically for delta and two fit horizontally for star (the reasons and the voltages are on page 1.2). Before setting the links, check that the windings are good:</p>
+        <ul><li>Remove the links, then measure each winding (U1–U2, V1–V2, W1–W2). The three readings must be close to each other; a winding that reads OL is broken.</li>
+          <li>Between two different windings (for example U1–V1 with the links removed) the meter must read OL.</li>
+          <li>From a winding to the PE terminal or the motor frame it must read OL. An OL from a multimeter is only a rough check: the real insulation resistance test uses an insulation tester at 500 V direct current (DC), as in the verification clause of IEC 60204-1 (clause 18), and the teacher does it.</li>
+          <li>Set the links and measure again: in star, U1–V1 is two windings in series; in delta it is one winding in parallel with two in series. The reading therefore tells you whether the links are in the right pattern.</li></ul></div></div>
+  </div>
+  <p class="lead" data-l="th" style="margin-top:12px">แตะขั้วสองขั้วในกล่องเพื่อวางสายวัดของโอห์มมิเตอร์ (ขั้วแรกสายแดง ขั้วที่สองสายดำ ต่อจากนั้นแตะเพื่อย้ายสายแดง) เลือกการวางสะพานด้วยปุ่ม งานแต่ละข้อติ๊กเองเมื่อวัดได้ถูก ปุ่ม "มอเตอร์จากชั้นซ่อม" เปลี่ยนเป็นมอเตอร์ที่มีขดลวดขาดหนึ่งขด ให้หาว่าขดไหน</p>
+  <p class="lead" data-l="en" style="margin-top:12px">Tap two terminals in the box to place the ohmmeter's probes (red first, then black; after that each tap moves the red probe). Choose the links with the buttons. Each task ticks itself when your measurement is right. "Motor from the repair shelf" swaps in a motor with one broken winding: find which one.</p>
+  <div class="card sim"><div class="w1-box"><div id="boxA"></div><div class="w1-mini" id="dmmA"></div></div></div>
+  <div class="duo" style="margin-top:12px">
+    <div class="card solve"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
+    <div class="card"><div id="logA"></div><div id="sumA" style="margin-top:8px"></div></div>
+  </div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">สตาร์หรือเดลตา: อ่านจากป้ายพิกัด</h2><h2 data-l="en">Star or delta: read it from the nameplate</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · หน้า 1.2 หัวข้อ A และ L</div><div class="src" data-l="en">Worked example · page 1.2, sections A and L</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>ห้องปฏิบัติการมีแหล่งจ่าย 3 เฟส 400 V และมีมอเตอร์สามตัว ป้ายพิกัดเขียนว่า (ก) 230/400 V Δ/Y (ข) 400/690 V Δ/Y (ค) 220 V, 380 V, 415 V 50 Hz โดยไม่มีเครื่องหมาย Δ/Y (มอเตอร์ของห้องปฏิบัติการในหน้า 1.2 หัวข้อ L) ต้องวางสะพานในกล่องขั้วของแต่ละตัวแบบใด</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>The workshop has a three-phase 400 V supply and three motors. Their nameplates say (a) 230/400 V Δ/Y, (b) 400/690 V Δ/Y, (c) 220 V, 380 V, 415 V 50 Hz with no Δ/Y mark (the department's lab motor on page 1.2, section L). How must the links be set in each terminal box?</p></div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ต่อมอเตอร์เข้ากับ Q1 บนชุดฝึก</h2><h2 data-l="en">Wiring the motor to Q1 on the trainer</h2>
+    <div class="src" data-l="th">ใบงานของครูแผ่นที่ 1–2 · หน้า 5.1 · IEC 60204-1 ข้อ 13.2 (สีสายและการระบุสาย)</div><div class="src" data-l="en">the instructor's sheets 1–2 · page 5.1 · IEC 60204-1, 13.2 (conductor colours and identification)</div></div></div>
+  <div class="story n0">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>ใบงานแผ่นที่ 1 ของครู (ไฟล์ CADe SIMU) ต่อมอเตอร์ตรงเข้ากับแหล่งจ่ายเพื่อให้เห็นวงจรกำลังที่ง่ายที่สุดหมุนในโปรแกรม แผ่นที่ 2 เพิ่มอุปกรณ์ป้องกัน ซึ่งในวิชานี้คือเบรกเกอร์หลัก Q1 (ใบงานของครูเรียกว่า CB) บนชุดฝึกจริงมอเตอร์ต้องรับไฟผ่าน Q1 เสมอ ลำดับการต่อสายที่ดีคือ:</p>
+        <ol><li>ชุดฝึกตัดไฟ ล็อก และทดสอบแล้ว (ป้ายมุมล่างขวาของชุดฝึกต้องเป็น "ไม่มีไฟ")</li>
+          <li>ต่อสาย PE ก่อน ด้วยสายสีเขียวแถบเหลือง: -X1:5 → บาร์ PE → -X1:9 → ขั้ว PE ของมอเตอร์ เพื่อให้โครงมอเตอร์ต่อลงดินก่อนที่จะมีสายเฟสเส้นใดเข้าไป</li>
+          <li>สายเฟสด้วยสายสีดำ: -X1:1–3 (L1 L2 L3) → ขั้วไฟเข้า 1 3 5 ของ Q1 (เลขคี่ = ไฟเข้า) แล้วขั้วไฟออก 2 4 6 → -X1:6–8 → U1 V1 W1 ของมอเตอร์</li>
+          <li>วางสะพานในกล่องขั้วตามป้ายพิกัด (โจทย์ตัวอย่าง 1)</li>
+          <li>กด "ตรวจการเดินสาย" แก้จนถูก ให้ครูตรวจ แล้วจึงจ่ายไฟ สับ Q1 ที่ชุดฝึก มอเตอร์ต้องหมุนตามเข็มนาฬิกาเมื่อมองจากปลายเพลา</li></ol>
+        <p>-X1 ของชุดฝึกนี้: ขั้ว 1–5 รับไฟเข้า L1 L2 L3 N PE (ต่อไว้แล้วจากสวิตช์แยกวงจร) ขั้ว 6–9 ไปมอเตอร์ M1 และขั้ว 10–13 ไปมอเตอร์ M2 ชุดฝึกที่ใช้ในหน้านี้เป็นแบบที่ออกแบบไว้ก่อน ตำแหน่งและรุ่นของอุปกรณ์จะปรับตามชุดฝึกจริงของสาขา</p></div>
+      <div class="story-p" data-l="en"><p>The instructor's sheet 1 (a CADe SIMU file) connects the motor straight to the supply, to see the simplest power circuit turn in the program. Sheet 2 adds the protective device, in this course main breaker Q1 (the instructor's sheets call it CB). On the real trainer a motor is always fed through Q1. A good wiring order:</p>
+        <ol><li>The trainer is switched off, locked out and tested (the label in its bottom right corner must say "no supply").</li>
+          <li>PE first, with green-yellow leads: -X1:5 → PE bar → -X1:9 → the motor's PE terminal, so that the motor frame is earthed before any line conductor reaches it.</li>
+          <li>The line conductors with black leads: -X1:1–3 (L1 L2 L3) → line terminals 1, 3, 5 of Q1 (odd = line side), then load terminals 2, 4, 6 → -X1:6–8 → motor U1 V1 W1.</li>
+          <li>Set the links in the terminal box to match the nameplate (worked example 1).</li>
+          <li>Press "check the wiring", correct it until it is right, let the teacher check, then power on. Switch Q1 on at the trainer: seen from the shaft end, the motor must turn clockwise.</li></ol>
+        <p>On this trainer, -X1 terminals 1–5 bring in L1 L2 L3 N PE (pre-wired from the isolator), terminals 6–9 go to motor M1 and 10–13 to motor M2. The trainer on this page is our design for now; positions and models will follow the department's real trainer.</p></div></div>
+  </div>
+  <p class="lead" data-l="th" style="margin-top:12px">แบบวงจรกำลังอยู่ด้านบน ชุดฝึกอยู่ด้านล่าง เลือกสีสายก่อน แล้วแตะเต้ารับสองจุดเพื่อเสียบสายหนึ่งเส้น แตะสายที่ต่อแล้วสองครั้งเพื่อถอดออก รายการเดินสายใต้ชุดฝึกติ๊กเองเมื่อแต่ละช่วงต่อครบ ปุ่มสตาร์และเดลตาเปลี่ยนแบบของมอเตอร์ (สายที่ต่อไว้จะถูกถอดออกทั้งหมด)</p>
+  <p class="lead" data-l="en" style="margin-top:12px">The power drawing is above, the trainer below. Choose a lead colour, then tap two sockets to plug in one lead; tap a lead twice to remove it. The wiring checklist under the trainer ticks itself as each link is joined. The star and delta buttons change the motor connection (all leads are removed when you change it).</p>
+  <div class="duo">
+    <div class="card sim rlwrap rlscroll" style="padding:8px;--rlmin:320px"><div id="simC"></div></div>
+    <div class="card solve"><div id="boxC"></div>
+      <p class="simnote" data-l="th">เมื่อจ่ายไฟแล้ว สับ Q1 ที่ชุดฝึก (คลิกคันโยกของ Q1) แบบด้านซ้ายจะแสดงทางเดินกระแสและมอเตอร์หมุนพร้อมกัน ขณะมีไฟ ชุดฝึกไม่ยอมให้ต่อหรือถอดสาย ต้องกด "ตัดไฟ" ก่อน เหมือนกฎของห้องปฏิบัติการ</p>
+      <p class="simnote" data-l="en">Once the trainer is powered, switch Q1 on at the trainer (click Q1's lever): the drawing beside it shows the current and the motor turning at the same time. While it is live the trainer refuses any change to the leads: press "switch the supply off" first, as the workshop rule says.</p></div>
+  </div>
+  <div class="card" style="margin-top:12px;padding:8px"><div id="trnC"></div></div>
+</section>
+
+<section class="prob" id="tD">
+  <div class="prob-head"><span class="prob-no">D</span><div><h2 data-l="th">ทดสอบก่อนจ่ายไฟและหลังจ่ายไฟ</h2><h2 data-l="en">Tests before and after power-on</h2>
+    <div class="src" data-l="th">IEC 60204-1 ข้อ 18 (การตรวจสอบ) · IEC 60034-8 (ทิศการหมุน)</div><div class="src" data-l="en">IEC 60204-1 clause 18 (verification) · IEC 60034-8 (direction of rotation)</div></div></div>
+  <p class="lead" data-l="th">ก่อนจ่ายไฟ วงจรที่ต่อเสร็จต้องผ่านการวัดความต่อเนื่องขณะตัดไฟ: วัดจากขั้วไฟเข้าของชุดฝึก (-X1:1–5) เพราะเป็นจุดที่ไฟจะเข้ามา แบบข้างล่างเป็นวงจรเดียวกับหัวข้อ C ตัดไฟที่สวิตช์แยกวงจรอยู่แล้ว ปลดและสับ Q1 ด้วยปุ่ม แล้ววัดตามงานแต่ละข้อ</p>
+  <p class="lead" data-l="en">Before power-on, the finished circuit must pass continuity tests with the supply off. Measure from the trainer's incoming terminals (-X1:1–5), because that is where the power will come in. The drawing below is the circuit of section C, already isolated at the isolator. Switch Q1 with the button and measure for each task.</p>
+  <div class="duo">
+    <div class="card sim rlwrap rlscroll" style="padding:8px;--rlmin:320px"><div id="simD"></div></div>
+    <div class="card"><div id="mD"></div></div>
+  </div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pD" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="sumD"></div></div>
+  <div class="card solve" style="margin-top:12px;overflow-x:auto">
+    <h3 data-l="th">ทดสอบหลังจ่ายไฟ (บนชุดฝึกจริง กรอกผลในใบงาน)</h3><h3 data-l="en">Tests after power-on (on the real trainer; write the results in the practice sheet)</h3>
+    <table class="tbl stack" data-l="th"><tr><th>ขั้น</th><th>ทำอย่างไร</th><th>ผลที่ถูก</th></tr>
+      <tr><td data-h="ขั้น"><b>1</b></td><td data-h="ทำอย่างไร">ครูตรวจการเดินสายและผลทดสอบก่อนจ่ายไฟ แล้วลงชื่อในใบงาน ทุกคนถอยออกจากชุดฝึก เจ้าของแม่กุญแจปลดล็อกของตัวเอง ครูสับสวิตช์แยกวงจร</td><td data-h="ผลที่ถูก">ชุดฝึกมีไฟ Q1 ยังปลดอยู่ มอเตอร์ไม่หมุน</td></tr>
+      <tr><td data-h="ขั้น"><b>2</b></td><td data-h="ทำอย่างไร">สับ Q1</td><td data-h="ผลที่ถูก">มอเตอร์เริ่มหมุนทันที เสียงเรียบสม่ำเสมอ ไม่ครางหรือสั่น Q1 ไม่ตัด</td></tr>
+      <tr><td data-h="ขั้น"><b>3</b></td><td data-h="ทำอย่างไร">ดูทิศการหมุนจากด้านปลายเพลา (ด้านขับ)</td><td data-h="ผลที่ถูก">ตามเข็มนาฬิกา เมื่อ L1 → U1, L2 → V1, L3 → W1 (IEC 60034-8) ถ้าหมุนทวน แสดงว่าลำดับเฟสของแหล่งจ่ายกลับกัน: ตัดไฟ ล็อก แล้วสลับสายสองเฟส (บทที่ 7)</td></tr>
+      <tr><td data-h="ขั้น"><b>4</b></td><td data-h="ทำอย่างไร">ครูวัดแรงดันที่ขั้วมอเตอร์ U1–V1, V1–W1, W1–U1</td><td data-h="ผลที่ถูก">ประมาณ 400 V เท่ากันทั้งสามคู่</td></tr>
+      <tr><td data-h="ขั้น"><b>5</b></td><td data-h="ทำอย่างไร">ปลด Q1</td><td data-h="ผลที่ถูก">มอเตอร์หมุนต่อด้วยความเฉื่อยแล้วหยุด</td></tr>
+      <tr><td data-h="ขั้น"><b>6</b></td><td data-h="ทำอย่างไร">ตัดไฟ ล็อก และทดสอบว่าไม่มีไฟ แล้วจึงถอดสาย</td><td data-h="ผลที่ถูก">ทดสอบครบ 10 คู่ที่ -X1 ได้ 0 V และลองเครื่องวัดก่อนและหลัง</td></tr></table>
+    <table class="tbl stack" data-l="en"><tr><th>Step</th><th>What you do</th><th>Correct result</th></tr>
+      <tr><td data-h="Step"><b>1</b></td><td data-h="What you do">the teacher checks the wiring and the results of the tests before power-on and signs the practice sheet; everyone steps back from the trainer; each padlock owner removes their own padlock; the teacher switches the isolator on</td><td data-h="Correct result">the trainer is live, Q1 still off, the motor at rest</td></tr>
+      <tr><td data-h="Step"><b>2</b></td><td data-h="What you do">switch Q1 on</td><td data-h="Correct result">the motor starts at once and runs smoothly with an even sound, no humming or shaking; Q1 does not trip</td></tr>
+      <tr><td data-h="Step"><b>3</b></td><td data-h="What you do">look at the direction of rotation from the shaft (drive) end</td><td data-h="Correct result">clockwise with L1 → U1, L2 → V1, L3 → W1 (IEC 60034-8). If it turns counter-clockwise, the supply's phase sequence is the other way round: switch off, lock out and swap two line conductors (chapter 7)</td></tr>
+      <tr><td data-h="Step"><b>4</b></td><td data-h="What you do">the teacher measures the voltage at the motor terminals U1–V1, V1–W1, W1–U1</td><td data-h="Correct result">about 400 V, the same on all three pairs</td></tr>
+      <tr><td data-h="Step"><b>5</b></td><td data-h="What you do">switch Q1 off</td><td data-h="Correct result">the motor coasts down and stops</td></tr>
+      <tr><td data-h="Step"><b>6</b></td><td data-h="What you do">switch off, lock out and test for dead, then remove the leads</td><td data-h="Correct result">all 10 pairs at -X1 read 0 V, with the tester proved before and after</td></tr></table>
+  </div>
+</section>
+
+<section class="prob" id="tF">
+  <div class="prob-head"><span class="prob-no">F</span><div><h2 data-l="th">ใบงานสัปดาห์ที่ 1</h2><h2 data-l="en">Practice sheet, week 1</h2>
+    <div class="src" data-l="th">ใบงานกระดาษ</div><div class="src" data-l="en">paper sheet</div></div></div>
+  <div class="callout" data-l="th"><b>ใบงานครูแจกเป็นกระดาษ</b> ในห้องปฏิบัติการ ไม่มีไฟล์ให้ดาวน์โหลด ใบงานมีงานที่ต้องทำ ตารางทดสอบก่อนและหลังจ่ายไฟ รายการตรวจความปลอดภัย และช่องลงชื่อของครูก่อนจ่ายไฟ กรอกค่าที่วัดได้จากชุดฝึกจริง ไม่ใช่ค่าตัวอย่างจากหน้านี้ หน้านี้ใช้ซ้อมก่อนเข้าห้องและทบทวนหลังเรียน</div>
+  <div class="callout" data-l="en"><b>The practice sheet is handed out on paper</b> in the workshop; there is no file to download. It holds the task, the tables of tests before and after power-on, a safety checklist and the teacher's signature before power-on. Write the values you measure on the real trainer, not the example values of this page. Use this page to rehearse before class and to review afterwards.</div>
+</section>
+
+<section class="prob" id="tQ">
+  <div class="prob-head"><span class="prob-no">Q</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">ความปลอดภัยและมัลติมิเตอร์</div><div class="src" data-l="en">Safety and the multimeter</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>หัวข้อ M: ปลด Q1 แล้ววัดแรงดันที่ขั้วไฟเข้าและขั้วไฟออกของ Q1 อธิบายด้วยคำของตัวเองว่าทำไมต้องตัดไฟที่สวิตช์แยกวงจร ไม่ใช่ที่ Q1</li>
+      <li>หัวข้อ A: ต่อสตาร์และเดลตา แล้ววัด U1–V1, V1–W1, W1–U1 ทั้งสองแบบ ค่าที่วัดได้บอกอะไรถ้ามีสะพานหายไปหนึ่งอัน</li>
+      <li>หัวข้อ D: ถ้าลืมสับ Q1 ระหว่างทดสอบก่อนจ่ายไฟ การวัด L1–L2 ที่ -X1 จะได้ค่าอะไร และสรุปผิดได้อย่างไร</li></ol>
+    <div class="book">EN 50110-1 (กฎความปลอดภัย 5 ข้อ) · IEC 60204-1 ข้อ 5, 13.2 และ 18 · IEC 60034-8 · IEC 61010-1 · มอก. 11-2553 · เขียนแบบไฟฟ้า 2 หน้า 1.1–1.3</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Section M: switch Q1 off and measure the voltage on its line terminals and on its load terminals. Explain in your own words why you isolate at the isolator, not at Q1.</li>
+      <li>Section A: set star and delta and measure U1–V1, V1–W1 and W1–U1 in both. What do the readings tell you when one link is missing?</li>
+      <li>Section D: if you forget to switch Q1 on during the tests before power-on, what does L1–L2 at -X1 read, and what wrong conclusion could you draw?</li></ol>
+    <div class="book">EN 50110-1 (the five safety rules) · IEC 60204-1, clauses 5, 13.2 and 18 · IEC 60034-8 · IEC 61010-1 · TIS 11-2553 · Electrical Drawing II, pages 1.1–1.3</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui, tt = ED.tt, esc = MCP.esc;
+  const hid = spec => new RL.Sim(document.createElement('div'), spec, { sheet: false });   // hidden simulator: the same model as the drawings
+  const W1 = window.W1 = {};   // handles for the headless checks
+
+  /* 0: the ED2 pages to prepare (MCP_WEEKS[].prepare), opened in the MCP context of this week */
+  const PREP = {
+    'ch1_1_three_phase.html': ['หัวข้อ A: สามเฟสทำให้เกิดสนามแม่เหล็กหมุนอย่างไร และทำไมสลับสองเฟสแล้วมอเตอร์กลับทาง (ใช้ตอนตรวจทิศการหมุนในหัวข้อ D)', 'section A: how three phases make a rotating field and why swapping two phases reverses the motor (you check the direction in section D)'],
+    'ch1_2_terminal_box.html': ['หน้าสำคัญที่สุดของสัปดาห์นี้: อ่านป้ายพิกัด (หัวข้อ A) วางสะพานในกล่องขั้วเอง (หัวข้อ B) และมอเตอร์ของห้องปฏิบัติการ (หัวข้อ L)', 'the key page this week: reading a nameplate (section A), placing the links yourself (section B) and the department\'s lab motor (section L)'],
+    'ch1_3_single_phase.html': ['รู้จักขั้ว U1–U2 และ Z1–Z2 ของมอเตอร์ 1 เฟส ชุดฝึกยังไม่มีมอเตอร์ 1 เฟส สัปดาห์นี้จึงฝึกกับมอเตอร์ 3 เฟส', 'get to know terminals U1–U2 and Z1–Z2 of a single-phase motor; the trainer has no single-phase motor yet, so this week practises on a three-phase motor'] };
+  const prep = (el, map) => { const w = MC.mcpHere(), wk = MC.mcpWeek(), vis = MC.visited(); if (!w || !el) return;
+    el.innerHTML = `<ul style="margin:0 0 0 18px;padding:0;line-height:1.6">${w.prepare.map(f => { const s = (window.STOPS || []).find(x => x.file === f); if (!s) return '';
+      return `<li><a href="${MC.mcpLink(f, wk)}"><b>${t('หน้า', 'Page')} ${s.step}</b> ${esc(MC.stopTitle(s))}</a>${vis[f] ? ` <span class="rk-ok" title="${t('เปิดดูแล้ว', 'visited')}">✓</span>` : ''}: ${tt(map[f] || ['', ''])}</li>`; }).join('')}</ul>`; };
+  prep($('prep'), PREP);
+
+  /* S: safe isolation, tap the steps in order (EN 50110-1 rules 1–3 and 5 on the trainer); each wrong tap says why that step cannot come yet */
+  const STEPS = [
+    { s: ['บอกครูและคนรอบข้าง ระบุชุดฝึกและสวิตช์แยกวงจรที่จะตัด', 'Tell the teacher and the people around; identify the trainer and its isolator'], why: ['', ''] },
+    { s: ['ปลดสวิตช์แยกวงจรของชุดฝึก (ตัดทุกเฟส)', 'Switch the trainer\'s isolator off (every phase)'], why: ['ต้องรู้ก่อนว่าจะตัดชุดไหน และให้ทุกคนรู้ว่ากำลังจะตัด ไม่อย่างนั้นอาจตัดผิดชุด หรือตัดไฟงานของคนอื่น', 'You must know which supply you switch off, and everyone must know: otherwise you may switch off the wrong trainer, or someone else\'s work'] },
+    { s: ['ล็อกสวิตช์แยกวงจรด้วยแม่กุญแจของตัวเอง เก็บลูกกุญแจไว้กับตัว', 'Lock the isolator with your own padlock and keep the key'], why: ['ล็อกได้เมื่อสวิตช์อยู่ในตำแหน่งปิดแล้วเท่านั้น', 'A padlock goes on only when the isolator is already OFF'] },
+    { s: ['แขวนป้าย: ชื่อ วันที่ เหตุผล', 'Hang the tag: name, date, reason'], why: ['ป้ายแขวนคู่กับแม่กุญแจ ป้ายอย่างเดียวไม่กันใครสับสวิตช์', 'The tag goes with the padlock: a tag alone stops nobody from switching on'] },
+    { s: ['ลองเครื่องวัดกับแหล่งที่รู้ว่ามีไฟ', 'Prove the tester on a known live source'], why: ['ตัดไฟ ล็อก และติดป้ายให้เรียบร้อยก่อน การทดสอบมีความหมายเมื่อไม่มีใครจ่ายไฟกลับได้แล้ว', 'Finish switching off, locking and tagging first: a test only means something once nobody can switch the supply back on'] },
+    { s: ['วัดทั้ง 10 คู่ที่จุดทำงาน (-X1:1–5) ต้องได้ 0 V ทุกคู่', 'Test all 10 pairs at the work point (-X1:1–5): every pair 0 V'], why: ['ยังไม่รู้ว่าเครื่องวัดใช้ได้: 0 V จากเครื่องวัดที่เสียดูเหมือน 0 V จริงทุกประการ', 'You do not know yet that the tester works: 0 V from a broken tester looks exactly like a real 0 V'] },
+    { s: ['ลองเครื่องวัดกับแหล่งที่มีไฟอีกครั้ง', 'Prove the tester again on the live source'], why: ['ต้องวัดจุดทำงานก่อน การลองซ้ำยืนยันว่าเครื่องวัดใช้ได้ตลอดเวลาที่วัด', 'Test the work point first: proving again shows that the tester worked during the test'] },
+    { s: ['เริ่มต่อสาย (ห้ามเอื้อมไปแตะชุดฝึกข้าง ๆ ที่มีไฟ)', 'Start wiring (keep clear of the neighbouring live trainer)'], why: ['ยังยืนยันไม่ได้ว่าไม่มีไฟ ทำ ลอง–วัด–ลอง ให้ครบก่อน', 'Absence of voltage is not verified yet: finish prove – test – prove'] }];
+  const ORDER = [4, 1, 6, 0, 3, 7, 2, 5];   // the buttons in a fixed mixed order
+  const logS = new ED.Log($('logS'), [['รอบที่', 'round'], ['แตะผิด', 'wrong taps'], ['ผล', 'result']],
+    { empty: ['ยังไม่มีผล เรียงขั้นตอนให้ครบหนึ่งรอบ แล้วผลจะมาอยู่ในตารางนี้', 'No results yet: put all the steps in order once and the result will appear here'] });
+  const ordS = { k: 0, miss: 0, round: 1 };
+  const drawOrd = () => { const el = $('ordS'), o = ordS, done = o.k >= STEPS.length;
+    el.innerHTML = `<p class="lead" style="margin:0 0 4px"><b>${t('ขั้นตอนที่ทำแล้ว', 'Steps done')}</b> (${o.k}/${STEPS.length})</p>` +
+      (o.k ? `<ol class="w1-done">${STEPS.slice(0, o.k).map(x => `<li>${tt(x.s)}</li>`).join('')}</ol>` : `<p class="hint" style="margin:0">${t('ยังไม่ได้เริ่ม: ขั้นแรกคืออะไร', 'Not started yet: what comes first?')}</p>`) +
+      (done ? '' : `<div class="w1-ord">${ORDER.filter(i => i >= o.k).map(i => `<button type="button" data-st="${i}">${tt(STEPS[i].s)}</button>`).join('')}</div>`) + '<div class="status" id="ordSt"></div>' +
+      (done ? `<div class="toggles"><button type="button" class="btn" id="ordAgain">${t('เรียงใหม่อีกรอบ', 'Do it again')}</button></div>` : '');
+    if (done) $('ordAgain').addEventListener('click', () => { o.k = 0; o.miss = 0; o.round++; drawOrd(); });
+    el.querySelectorAll('[data-st]').forEach(b => b.addEventListener('click', () => tapOrd(+b.getAttribute('data-st'), b)));
+    if (!done) ui.setStatus($('ordSt'), `${o.k + 1}/${STEPS.length}`, o.k ? t('ถูก ขั้นต่อไปคืออะไร', 'Right: what comes next?') : t('แตะขั้นตอนแรก', 'Tap the first step'), o.k ? 'good' : 'wait'); };
+  const tapOrd = (i, b) => { const o = ordS; if (o.k >= STEPS.length) return false;
+    if (i !== o.k) { o.miss++; if (b) b.classList.add('bad'); ui.setStatus($('ordSt'), '✗', tt(STEPS[i].why), 'bad'); return false; }
+    o.k++; drawOrd();
+    if (o.k >= STEPS.length) { ui.setStatus($('ordSt'), '✓', t(`ครบทุกขั้นตอน แตะผิด ${o.miss} ครั้ง`, `All steps in order, ${o.miss} wrong tap${o.miss === 1 ? '' : 's'}`), 'good');
+      logS.add(o.round, [String(o.round), String(o.miss), o.miss ? t('ครบ แต่ยังมีขั้นที่สลับ', 'complete, with steps out of order') : t('ถูกทั้งหมดตั้งแต่แรก', 'all right first time')], o.miss ? 'warn' : 'ok'); }
+    return true; };
+  drawOrd(); W1.tapOrd = i => tapOrd(i); W1.ordS = ordS;
+  ED.summary($('sumS'), { title: ['ลำดับที่ถูกและเหตุผล', 'The right order and why'], head: [['ขั้น', 'step'], ['ทำอะไร', 'what'], ['ทำไมต้องมาหลังขั้นก่อนหน้า', 'why it comes after the step before']],
+    rows: () => STEPS.map((x, i) => [String(i + 1), tt(x.s), i ? tt(x.why) : t('ขั้นแรก', 'the first step')]),
+    points: [['ตัดไฟ → ล็อกและติดป้าย → ทดสอบว่าไม่มีไฟ คือกฎข้อ 1–3 ของ EN 50110-1 ตามลำดับ', 'Switch off → lock and tag → verify dead are rules 1–3 of EN 50110-1, in that order'],
+      ['การทดสอบว่าไม่มีไฟคือ ลอง–วัด–ลอง: ผลวัดมีความหมายเมื่อเครื่องวัดใช้ได้ทั้งก่อนและหลัง', 'Verifying dead is prove – test – prove: the readings mean something only if the tester worked before and after']] });
+  LS.choose($('askS'), { options: [t('ชุดฝึกไม่มีไฟ เริ่มต่อสายได้', 'The trainer is dead: start wiring'), t('ผลวัด 10 คู่ไม่มีความหมาย ถือว่าชุดฝึกยังมีไฟ หาเครื่องวัดที่ใช้ได้แล้วทดสอบใหม่ทั้งหมด', 'The 10 readings mean nothing: treat the trainer as live, get a working tester and test everything again'),
+    t('เต้ารับที่ใช้ลองคงไม่มีไฟ เริ่มต่อสายได้', 'The socket must be dead: start wiring'), t('เปลี่ยนไปวัดความต้านทานแทน ถ้าได้ OL แปลว่าไม่มีไฟ', 'Switch to the resistance range instead: OL means dead')], answer: 1 });
+  LS.stepper($('stS'), { steps: [
+    { why: t('เครื่องวัดที่อ่าน 0 V บนแหล่งที่มีไฟ คือเครื่องวัดที่เสียไปแล้วในช่วงใดช่วงหนึ่ง', 'A tester that reads 0 V on a live source has failed at some point'), body: `<p>${t('สายวัดขาดใน ฟิวส์ในมิเตอร์ขาด แบตเตอรี่หมด หรือตั้งผิดย่าน ล้วนทำให้จออ่าน 0 V', 'A lead broken inside, a blown fuse in the meter, a flat battery or the wrong range all make the display read 0 V.')}</p>` },
+    { why: t('ไม่รู้ว่าเสียตอนไหน: ก่อนหรือหลังวัด 10 คู่', 'You cannot tell when it failed: before or after the 10 tests'), body: `<p>${t('ถ้าเสียตั้งแต่ก่อนวัด 0 V ทั้ง 10 คู่ไม่ได้บอกอะไรเลย ชุดฝึกอาจมีไฟอยู่', 'If it failed before the tests, the ten 0 V readings say nothing: the trainer may still be live.')}</p>` },
+    { why: t('ถือว่ายังมีไฟ เปลี่ยนเครื่องวัด แล้ว ลอง–วัด–ลอง ใหม่ทั้งหมด', 'Treat it as live, change the tester, and do prove – test – prove again from the start'), body: `<p>${t('ถ้าสงสัยว่าเต้ารับไม่มีไฟ ให้ใช้เครื่องลองไฟ (proving unit) หรือแหล่งอื่นที่แน่ใจ ไม่ว่ากรณีใดก็ต้องทดสอบใหม่', 'If you doubt the socket, use a proving unit or another source you are sure of; either way, the test must be done again.')}</p>` },
+    { why: t('ย่านความต้านทานไม่ใช่การทดสอบว่าไม่มีไฟ', 'The resistance range is not a test for dead'), body: `<p>${t('ย่าน Ω ไม่ได้ตรวจหาแรงดัน และอาจเสียหายถ้าวงจรมีไฟ', 'The Ω range does not look for voltage, and it can be damaged if the circuit is live.')}</p>` }],
+    answer: t('ข้อ (ข): ผลวัดไม่มีความหมาย ถือว่ายังมีไฟ หาเครื่องวัดที่ใช้ได้ แล้วลอง–วัด–ลองใหม่', '(b): the readings mean nothing; treat the trainer as live, get a working tester and prove – test – prove again') });
+
+  /* a list of measuring tasks ticked by a meter. task: { s: [th, en], mode 'V'|'R', a, b (vertices), exact (both probes on these very terminals,
+     else any point of the same conductor), live (an ohms try on a live circuit), ops (state of the hidden simulator that gives the expected
+     reading), need () → bool with needMsg, why: [th, en] }. The expected reading comes from the model (MCP.measure on a hidden simulator). */
+  const keysOf = p => (p.keys ? p.keys.map(k => 'p:' + k) : [p.v]);
+  const tasks = (el, sim, spec, list, title) => {
+    list.forEach(x => { if (x.live) { x.want = '- - -'; return; } const h = hid(spec()); MCP.run(h, x.ops); x.want = MCP.measure(h, x.a, x.b, x.mode).text; });
+    ui.h2(el, title); const ol = document.createElement('ol'); ol.className = 'w1-tasks'; el.appendChild(ol); const st = ui.status(el), done = list.map(() => false);
+    const draw = () => { const k = done.indexOf(false);
+      ol.innerHTML = list.map((x, i) => `<li class="${done[i] ? 'ok' : i === k ? 'now' : ''}">${tt(x.s)} <span class="hint">· ${x.live ? t('มิเตอร์ต้องไม่ยอมวัดและเตือน', 'the meter must refuse and warn') : t(`ควรได้ ${x.want}`, `expect ${x.want}`)}</span></li>`).join(''); };
+    const check = rec => { const r = rec.res, f = MCP.voltages(sim).group; let hit = -1, needM = null;
+      list.forEach((x, i) => { if (hit >= 0 || done[i] || x.mode !== rec.mode) return;
+        if (x.live) { if (r.live) hit = i; return; }
+        const pa = [keysOf(rec.red), keysOf(rec.black)], ok = x.exact ? (pa[0].includes(x.a) && pa[1].includes(x.b)) || (pa[0].includes(x.b) && pa[1].includes(x.a))
+          : (() => { const g = [f(rec.red.v), f(rec.black.v)], h = [f(x.a), f(x.b)]; return (g[0] === h[0] && g[1] === h[1]) || (g[0] === h[1] && g[1] === h[0]); })();
+        if (!ok || r.text !== x.want) return; if (x.need && !x.need()) { needM = needM || x.needMsg; return; } hit = i; });
+      if (hit >= 0) { done[hit] = true; draw(); const n = done.filter(Boolean).length;
+        ui.setStatus(st, `${n}/${list.length}`, n === list.length ? t('ครบทุกข้อ', 'all tasks done') : `${t('ถูก', 'Right')}: ${tt(list[hit].why)}`, 'good'); }
+      else if (needM) ui.setStatus(st, '!', tt(needM), 'warn'); };
+    draw(); ui.setStatus(st, `0/${list.length}`, t('วัดตามงานแต่ละข้อ ข้อไหนก่อนก็ได้', 'Measure for each task, in any order'), 'wait');
+    return { check, done, list }; };
+  const summary = (el, list, extra) => ED.summary(el, { title: ['ค่าที่ควรวัดได้ (จากแบบจำลองเดียวกัน)', 'The readings you should get (from the same model)'],
+    head: [['การวัด', 'measurement'], ['ค่าที่ควรได้', 'expected'], ['บอกอะไร', 'what it shows']],
+    rows: () => list.map(x => [tt(x.s), x.live ? t('ไม่อ่านค่า เตือนว่ามีไฟ', 'no reading: live warning') : `<b>${x.want}</b>`, tt(x.why)]), points: extra });
+
+  /* M: the meter on sheet 2 (supply, Q1, motor); the supply button of the meter = the trainer's isolator */
+  const specM = () => C5.SHEET(2);
+  const sM = new RL.Sim($('simM'), specM(), { max: 520, sheet: { no: 'MCP1-M', title: ['แหล่งจ่าย Q1 และมอเตอร์ (ใบงานแผ่นที่ 2)', 'Supply, Q1 and motor (sheet 2)'] } });
+  const q1Btn = (panel, sim) => { const b = ui.buttons(panel, [{ id: 'q1', label: 'Q1', onclick: () => MCP.run(sim, [['set', 'Q1', !sim.dev.Q1.on]]) }]).q1;
+    const lab = () => { b.textContent = sim.dev.Q1.on ? t('Q1 สับอยู่ (ON) · กดเพื่อปลด', 'Q1 is ON · tap to switch off') : t('Q1 ปลดอยู่ (OFF) · กดเพื่อสับ', 'Q1 is OFF · tap to switch on'); b.classList.toggle('on', !!sim.dev.Q1.on); };
+    sim.on(lab); lab(); return b; };
+  const TM = [
+    { s: ['มีไฟ Q1 สับ: L1–L2 ที่แหล่งจ่าย', 'Supply on, Q1 on: L1–L2 at the supply'], mode: 'V', a: 'p:SUP:L1', b: 'p:SUP:L2', why: ['แรงดันระหว่างเฟสกับเฟส', 'the line-to-line voltage'] },
+    { s: ['L1–N', 'L1–N'], mode: 'V', a: 'p:SUP:L1', b: 'p:SUP:N', why: ['แรงดันระหว่างเฟสกับนิวทรัล', 'the line-to-neutral voltage'] },
+    { s: ['L3–PE', 'L3–PE'], mode: 'V', a: 'p:SUP:L3', b: 'p:SUP:PE', why: ['เฟสกับสายดินป้องกันก็ได้ 230 V: โครงโลหะที่มีไฟรั่วจึงอันตรายเท่ากับสายเฟส', 'line to PE also reads 230 V: a metal frame with a fault is as dangerous as a line conductor'] },
+    { s: ['N–PE', 'N–PE'], mode: 'V', a: 'p:SUP:N', b: 'p:SUP:PE', why: ['ระบบ TN-S: N กับ PE ต่อถึงกันที่ต้นทาง', 'TN-S: N and PE are joined at the source'] },
+    { s: ['ปลด Q1: วัดสองเฟสด้านไฟออกของ Q1 หรือที่ขั้วมอเตอร์', 'Q1 off: two lines on the load side of Q1, or at the motor'], mode: 'V', a: 'p:Q1:2', b: 'p:Q1:4', ops: [['set', 'Q1', false]], why: ['ด้านไฟออกของ Q1 ไม่มีไฟแล้ว', 'the load side of Q1 is dead'] },
+    { s: ['Q1 ยังปลดอยู่: วัด Q1:1–Q1:3 (ขั้วไฟเข้าของ Q1)', 'Q1 still off: Q1:1–Q1:3 (the line terminals of Q1)'], mode: 'V', a: 'p:Q1:1', b: 'p:Q1:3', exact: true, ops: [['set', 'Q1', false]], why: ['ขั้วไฟเข้าของ Q1 ยังมีไฟเสมอ ปลด Q1 จึงไม่ใช่การตัดไฟเพื่อทำงาน', 'the line terminals of Q1 stay live: switching Q1 off is not isolation for work'] },
+    { s: ['ลองวัดความต้านทาน (Ω) ขณะแหล่งจ่ายยังมีไฟ', 'Try a resistance (Ω) measurement while the supply is on'], mode: 'R', live: true, why: ['ย่าน Ω ใช้กับวงจรที่ตัดไฟแล้วเท่านั้น', 'the Ω range is for dead circuits only'] },
+    { s: ['ตัดไฟที่สวิตช์แยกวงจร (ปุ่มแหล่งจ่าย) ปลด Q1 แล้ววัด Ω ระหว่าง U1–V1 ของมอเตอร์', 'Isolate (supply button), Q1 off, then Ω between motor U1 and V1'], mode: 'R', a: 'p:M1:U1', b: 'p:M1:V1', ops: [['set', 'Q1', false], ['mains', false]], need: () => sM.mains === false, needMsg: ['ค่าถูกแล้ว แต่ต้องตัดไฟที่สวิตช์แยกวงจรก่อน (ปุ่มแหล่งจ่าย) ปลด Q1 อย่างเดียวไม่ใช่การตัดไฟเพื่อทำงาน', 'Right reading, but isolate at the isolator first (supply button): Q1 off alone is not isolation for work'], why: ['ขดลวดสองขดอนุกรมกัน (มอเตอร์ต่อสตาร์ ค่าตัวอย่าง)', 'two windings in series (motor in star, example value)'] },
+    { s: ['ยังตัดไฟอยู่: วัด Ω ระหว่าง U1 ของมอเตอร์กับ PE', 'Still isolated: Ω between motor U1 and PE'], mode: 'R', a: 'p:M1:U1', b: 'p:SUP:PE', ops: [['set', 'Q1', false], ['mains', false]], need: () => sM.mains === false, needMsg: ['ตัดไฟที่สวิตช์แยกวงจรก่อน', 'Isolate at the isolator first'], why: ['ขดลวดไม่ต่อกับโครง (ตรวจแบบหยาบ)', 'the winding is not connected to the frame (a rough check)'] }];
+  const pM = $('pM'); q1Btn(pM, sM); const tkM = tasks(pM, sM, specM, TM, t('งานวัดของหัวข้อ M', 'Measuring tasks of section M'));
+  const mM = new MCP.Meter($('mM'), sM, { onMeasure: rec => tkM.check(rec) });
+  summary($('sumM'), TM, [['ปลด Q1 แล้วด้านไฟเข้าของ Q1 ยังมีไฟ: ตัดไฟเพื่อทำงานต้องตัดที่สวิตช์แยกวงจรและล็อก', 'With Q1 off its line side is still live: isolation for work is at the isolator, locked'],
+    ['มิเตอร์อ่าน 0 V ได้ทั้งเมื่อสองจุดเป็นสายเดียวกัน (N–PE) และเมื่อจุดหนึ่งไม่ได้ต่อกับอะไรเลย (ด้านไฟออกของ Q1 ที่ปลดแล้ว)', 'A meter reads 0 V both between two points of one conductor (N–PE) and on a point connected to nothing (the load side of an open Q1)']]);
+  W1.sM = sM; W1.mM = mM; W1.tkM = tkM;
+
+  /* A: the motor terminal box with its own ohmmeter. Windings U1–U2, V1–V2, W1–W2 of MCP.TRAINER.R.winding (example value), links as
+     0 Ω conductors, PE on the frame; readings from MCP.resistance on this little network. The repair-shelf motor has one open winding. */
+  const RW = MCP.TRAINER.R.winding, WIND = [['U1', 'U2'], ['V1', 'V2'], ['W1', 'W2']], WCOL = ['#b8322a', '#a8701a', '#1f65a8'];
+  const BOX = { U1: [110, 96], V1: [230, 96], W1: [350, 96], W2: [110, 206], U2: [230, 206], V2: [350, 206], PE: [438, 150] };
+  const LINKS = { none: [], star: [['W2', 'U2'], ['U2', 'V2']], delta: [['U1', 'W2'], ['V1', 'U2'], ['W1', 'V2']] };
+  const LLAB = { none: ['ถอดสะพาน', 'links off'], star: ['สตาร์', 'star'], delta: ['เดลตา', 'delta'] };
+  const bx = { links: 'none', motor: 'good', bad: 0, inside: false, red: null, black: null, next: 'red', n: 0, sig: '' };
+  const edgesOf = (links, open) => [...WIND.map((w, i) => ({ a: w[0], b: w[1], k: i === open ? 'o' : 'r', r: RW })), ...LINKS[links].map(([a, b]) => ({ a, b, k: 'c', r: 0 }))];
+  const ohm = (a, b, links = bx.links, open = bx.motor === 'repair' ? bx.bad : -1) => (a === b ? 0 : MCP.resistance(null, a, b, { model: { edges: edgesOf(links, open) } }).r);
+  const boxSVG = () => { const T = (s, x, y, o) => IEC.T(s, x, y, o), L = LINKS[bx.links]; let s = '';
+    s += `<rect x="24" y="34" width="384" height="232" rx="16" fill="#8f99a4" stroke="#5f6770" stroke-width="2"/><rect x="48" y="58" width="336" height="186" rx="8" fill="#e6e1d3" stroke="#a49f8e"/>`;
+    s += T(t('กล่องขั้ว M1 (มองจากด้านหน้า)', 'M1 terminal box (front view)'), 216, 26, { size: 12, anchor: 'middle', weight: 700, col: 'var(--ink)' });
+    if (bx.inside) WIND.forEach(([a, b], i) => { const [x1, y1] = BOX[a], [x2, y2] = BOX[b], mx = (x1 + x2) / 2, my = (y1 + y2) / 2, open = bx.motor === 'repair' && i === bx.bad;
+      s += `<path d="M ${x1} ${y1} L ${x2} ${y2}" stroke="${WCOL[i]}" stroke-width="3" stroke-dasharray="${open ? '6 26' : '7 5'}" opacity=".75" fill="none"/>` +
+        (open ? T('✗', mx, my + 6, { size: 18, anchor: 'middle', weight: 700, col: '#b8322a' }) : T(`${a[0]}`, mx + 10, my - 4, { size: 11, weight: 700, col: WCOL[i] })); });
+    Object.entries(BOX).forEach(([k, [x, y]]) => { const pe = k === 'PE';
+      s += `<g data-bt="${k}" style="cursor:pointer"><circle cx="${x}" cy="${y}" r="17" fill="${pe ? '#2fa84f' : '#c8933f'}" stroke="${pe ? '#f2c230' : '#7a5520'}" stroke-width="${pe ? 3 : 1.6}"/><circle cx="${x}" cy="${y}" r="6.5" fill="#e9ecef" stroke="#59607e"/><line x1="${x - 4}" y1="${y}" x2="${x + 4}" y2="${y}" stroke="#59607e" stroke-width="1.6"/><circle cx="${x}" cy="${y}" r="24" fill="rgba(0,0,0,0)" stroke="none"/></g>` +
+        T(k, x, pe ? y + 36 : y < 150 ? y - 26 : y + 38, { size: 13, anchor: 'middle', weight: 700, col: pe ? 'var(--ink)' : '#2a2f36' }); });
+    L.forEach(([a, b]) => { const [x1, y1] = BOX[a], [x2, y2] = BOX[b], hz = y1 === y2;
+      s += `<rect x="${Math.min(x1, x2) - 9}" y="${Math.min(y1, y2) - 9}" width="${hz ? Math.abs(x2 - x1) + 18 : 18}" height="${hz ? 18 : Math.abs(y2 - y1) + 18}" rx="5" fill="#d48b3a" stroke="#8a5a20" stroke-width="1.4" opacity=".93"/>` +
+        [[x1, y1], [x2, y2]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="6.5" fill="#e9ecef" stroke="#59607e"/>`).join(''); });
+    [['black', '#2a2f36', 'COM'], ['red', '#d83a34', '+']].forEach(([c, col, lab]) => { const k = bx[c]; if (!k) return; const [x, y] = BOX[k], dy = c === 'red' ? -1 : 1;
+      s += `<line x1="${x}" y1="${y}" x2="${x + 18}" y2="${y + dy * 26}" stroke="${col}" stroke-width="3.5" stroke-linecap="round"/><circle cx="${x}" cy="${y}" r="6" fill="${col}" stroke="#ffffff" stroke-width="1.5"/><rect x="${x + 13}" y="${y + dy * 26 - 8}" width="${lab.length * 7 + 9}" height="15" rx="3" fill="${col}" stroke="none"/>` + T(lab, x + 17, y + dy * 26 + 3.5, { size: 10, weight: 700, col: '#ffffff' }); });
+    s += T(t(`มอเตอร์: ${bx.motor === 'good' ? 'ตัวปกติ' : 'จากชั้นซ่อม'} · สะพาน: ${tt(LLAB[bx.links])}`, `motor: ${bx.motor === 'good' ? 'normal' : 'from the repair shelf'} · links: ${tt(LLAB[bx.links])}`), 216, 286, { size: 11, anchor: 'middle', col: 'var(--muted)' });
+    return IEC.svg(470, 296, s, { label: 'motor terminal box' }); };
+  const dmmSVG = (txt, beep) => { let s = `<rect x="4" y="4" width="152" height="150" rx="16" fill="#f2c230" stroke="#b8901c" stroke-width="2"/><rect x="16" y="14" width="128" height="128" rx="10" fill="#2f343b" stroke="none"/>`;
+    s += `<rect x="26" y="26" width="108" height="50" rx="5" fill="#c9d6b8" stroke="#1f2328"/>` + IEC.T(esc(txt), 128, 60, { size: txt.length > 7 ? 19 : 23, anchor: 'end', weight: 700, col: '#1f2328' }) + IEC.T('Ω', 32, 38, { size: 9, weight: 700, col: '#1f2328' }) + (beep ? IEC.T('♪', 34, 70, { size: 12, col: '#1f2328' }) : '');
+    s += IEC.T(t('ย่าน Ω', 'Ω range'), 80, 104, { size: 11, anchor: 'middle', weight: 700, col: '#f2c230' }) + IEC.T(t('ตัดไฟแล้ว', 'supply off'), 80, 124, { size: 9.5, anchor: 'middle', col: '#e9ecef' });
+    return IEC.svg(160, 158, s, { max: 170, label: `ohmmeter ${txt}` }); };
+  const BT = [
+    { s: ['ถอดสะพาน: วัด U1–U2', 'Links off: measure U1–U2'], L: 'none', pairs: [['U1', 'U2']], why: ['หนึ่งขดลวด', 'one winding'] },
+    { s: ['ถอดสะพาน: วัด V1–V2', 'Links off: measure V1–V2'], L: 'none', pairs: [['V1', 'V2']], why: ['ค่าเท่ากับขด U แปลว่าสมดุล', 'the same as winding U: balanced'] },
+    { s: ['ถอดสะพาน: วัด W1–W2', 'Links off: measure W1–W2'], L: 'none', pairs: [['W1', 'W2']], why: ['สามขดเท่ากัน ขดลวดดี', 'three equal windings: good'] },
+    { s: ['ถอดสะพาน: วัด U1–V1 (ขดต่างกัน)', 'Links off: U1–V1 (two different windings)'], L: 'none', pairs: [['U1', 'V1'], ['V1', 'W1'], ['W1', 'U1']], why: ['ขดต่างกันไม่ต่อถึงกัน', 'different windings are not connected'] },
+    { s: ['ขั้วใดก็ได้ของขดลวดกับ PE', 'Any winding terminal to PE'], L: null, pairs: ['U1', 'V1', 'W1', 'U2', 'V2', 'W2'].map(k => [k, 'PE']), why: ['ขดลวดไม่ต่อกับโครง (ตรวจแบบหยาบ)', 'no connection to the frame (a rough check)'] },
+    { s: ['ต่อสตาร์: วัดระหว่างขั้วไฟเข้าสองขั้ว เช่น U1–V1', 'Star links: between two line terminals, e.g. U1–V1'], L: 'star', pairs: [['U1', 'V1'], ['V1', 'W1'], ['W1', 'U1']], why: ['สองขดอนุกรมกัน', 'two windings in series'] },
+    { s: ['ต่อเดลตา: วัดระหว่างขั้วไฟเข้าสองขั้ว เช่น U1–V1', 'Delta links: between two line terminals, e.g. U1–V1'], L: 'delta', pairs: [['U1', 'V1'], ['V1', 'W1'], ['W1', 'U1']], why: ['หนึ่งขดขนานกับสองขดอนุกรม', 'one winding in parallel with two in series'] }];
+  BT.forEach(x => { x.want = MCP.fmtR(ohm(x.pairs[0][0], x.pairs[0][1], x.L || 'none', -1)); });
+  const pA = $('pA'); ui.h2(pA, t('สะพานในกล่องขั้ว', 'Links in the box'));
+  const rL = ui.radio(pA, Object.keys(LINKS).map(k => ({ id: k, label: tt(LLAB[k]), on: k === 'none' })), id => { bx.links = id; drawBox(); });
+  ui.h2(pA, t('มอเตอร์', 'Motor'));
+  const rMo = ui.radio(pA, [{ id: 'good', label: t('มอเตอร์ปกติ', 'normal motor'), on: true }, { id: 'repair', label: t('มอเตอร์จากชั้นซ่อม', 'motor from the repair shelf') }], id => { bx.motor = id; if (id === 'repair') bx.bad = Math.floor(Math.random() * 3); bx.red = bx.black = null; bx.next = 'red'; drawBox(); drawQ(); });
+  const bIn = ui.buttons(pA, [{ id: 'in', label: t('แสดงขดลวดข้างใน (เฉลย)', 'show the windings inside (answer)'), onclick: el => { bx.inside = !bx.inside; el.classList.toggle('on', bx.inside); drawBox(); } }]);
+  ui.h2(pA, t('งานวัด (มอเตอร์ปกติ)', 'Measuring tasks (normal motor)')); const olA = document.createElement('ol'); olA.className = 'w1-tasks'; pA.appendChild(olA);
+  const stA = ui.status(pA), doneA = BT.map(() => false), qA = document.createElement('div'); pA.appendChild(qA);
+  const drawTasksA = () => { const k = doneA.indexOf(false); olA.innerHTML = BT.map((x, i) => `<li class="${doneA[i] ? 'ok' : i === k ? 'now' : ''}">${tt(x.s)} <span class="hint">· ${t(`ควรได้ ${x.want}`, `expect ${x.want}`)}</span></li>`).join(''); };
+  let qAns = null; const drawQ = () => { if (bx.motor !== 'repair') { qA.innerHTML = ''; return; }
+    qA.innerHTML = `<p style="margin:10px 0 4px"><b>${t('มอเตอร์จากชั้นซ่อม: ขดไหนขาด', 'Repair-shelf motor: which winding is open?')}</b></p><div class="toggles">${['U1–U2', 'V1–V2', 'W1–W2', t('ไม่มีขดใดขาด', 'none is open')].map((l, i) => `<button type="button" class="btn" data-q="${i}">${l}</button>`).join('')}</div><div class="status" id="qASt"></div>`;
+    qA.querySelectorAll('[data-q]').forEach(b => b.addEventListener('click', () => answerQ(+b.getAttribute('data-q')))); };
+  const answerQ = i => { const ok = i === bx.bad; qAns = ok; const st = $('qASt');
+    if (ok) ui.setStatus(st, '✓', t(`ถูก: ขด ${WIND[i].join('–')} อ่านได้ OL ทั้งที่อีกสองขดอ่านได้ ${MCP.fmtR(RW)} มอเตอร์ตัวนี้ห้ามใช้ ติดป้ายแล้วส่งซ่อม`, `Right: winding ${WIND[i].join('–')} reads OL while the other two read ${MCP.fmtR(RW)}. Do not use this motor: tag it and send it for repair`), 'good');
+    else ui.setStatus(st, '✗', t('ยังไม่ใช่ ถอดสะพานออก แล้ววัดทีละขด ขดที่ขาดจะอ่านได้ OL', 'Not yet: take the links off and measure one winding at a time; the open one reads OL'), 'bad');
+    return ok; };
+  const logA = new ED.Log($('logA'), [['ครั้งที่', 'no.'], ['มอเตอร์', 'motor'], ['สะพาน', 'links'], ['สายแดง', 'red'], ['สายดำ', 'black'], ['ค่าที่อ่านได้', 'reading']],
+    { title: ['การวัดในกล่องขั้ว (บันทึกอัตโนมัติ)', 'Measurements in the terminal box (recorded automatically)'], empty: ['ยังไม่ได้วัด แตะขั้วสองขั้วในกล่อง', 'No measurements yet: tap two terminals in the box'] });
+  const measA = () => { if (!bx.red || !bx.black) return null; const r = ohm(bx.red, bx.black), txt = MCP.fmtR(r), sig = [bx.motor, bx.links, bx.red, bx.black].join('|');
+    if (sig !== bx.sig) { bx.sig = sig; bx.n++; logA.add(sig, [String(bx.n), bx.motor === 'good' ? t('ปกติ', 'normal') : t('ชั้นซ่อม', 'repair shelf'), tt(LLAB[bx.links]), bx.red, bx.black, `<b>${txt}</b>`], r === Infinity ? 'warn' : 'ok');
+      if (bx.motor === 'good') { const i = BT.findIndex((x, j) => !doneA[j] && (x.L === null || x.L === bx.links) && x.pairs.some(([a, b]) => (a === bx.red && b === bx.black) || (a === bx.black && b === bx.red)) && x.want === txt);
+        if (i >= 0) { doneA[i] = true; drawTasksA(); const n = doneA.filter(Boolean).length; ui.setStatus(stA, `${n}/${BT.length}`, n === BT.length ? t('ครบทุกข้อ', 'all tasks done') : `${t('ถูก', 'Right')}: ${tt(BT[i].why)}`, 'good'); } } }
+    return { r, txt }; };
+  const drawBox = () => { $('boxA').innerHTML = boxSVG(); const m = measA(); $('dmmA').innerHTML = dmmSVG(m ? m.txt : 'OL', m && m.r === 0);
+    $('boxA').querySelectorAll('[data-bt]').forEach(g => g.addEventListener('click', () => tapBox(g.getAttribute('data-bt')))); };
+  const tapBox = k => { if (bx.next === 'black' && bx.red === k) return; if (bx.next === 'red' && bx.black === k) return;
+    bx[bx.next] = k; bx.next = bx.black ? 'red' : 'black'; drawBox(); return bx.red && bx.black ? MCP.fmtR(ohm(bx.red, bx.black)) : null; };
+  drawTasksA(); drawBox(); ui.setStatus(stA, `0/${BT.length}`, t('เริ่มจากถอดสะพาน แล้ววัดทีละขด', 'Start with the links off and measure one winding at a time'), 'wait');
+  ED.summary($('sumA'), { title: ['ค่าที่ควรวัดได้ในกล่องขั้ว (มอเตอร์ปกติ ค่าตัวอย่าง)', 'Readings in the terminal box (normal motor, example values)'],
+    head: [['สะพาน', 'links'], ['U1–U2', 'U1–U2'], ['U1–V1', 'U1–V1'], ['W2–U2', 'W2–U2'], ['U1–PE', 'U1–PE']],
+    rows: () => Object.keys(LINKS).map(k => [tt(LLAB[k]), ...[['U1', 'U2'], ['U1', 'V1'], ['W2', 'U2'], ['U1', 'PE']].map(([a, b]) => MCP.fmtR(ohm(a, b, k, -1)))]),
+    points: [['ถอดสะพานแล้วสามขดต้องอ่านได้เท่ากัน ขดที่อ่าน OL คือขดขาด', 'With the links off the three windings must read the same; one reading OL is an open winding'],
+      ['ต่อสตาร์ U1–V1 เป็นสองเท่าของหนึ่งขด ต่อเดลตาเป็นสองในสามของหนึ่งขด ค่าที่วัดได้จึงบอกได้ว่าวางสะพานแบบไหน', 'In star U1–V1 is twice one winding, in delta two thirds of one winding, so the reading tells you which links are in'],
+      ['OL ถึง PE จากมัลติมิเตอร์เป็นการตรวจแบบหยาบ ความต้านทานฉนวนจริงวัดด้วยเครื่องทดสอบฉนวน', 'OL to PE from a multimeter is a rough check; the real insulation resistance is measured with an insulation tester']] });
+  W1.tapBox = tapBox; W1.bx = bx; W1.doneA = doneA; W1.answerQ = answerQ; W1.setLinks = id => { rL.set(id); bx.links = id; drawBox(); }; W1.setMotor = id => { rMo.set(id); bx.motor = id; if (id === 'repair') bx.bad = Math.floor(Math.random() * 3); drawBox(); drawQ(); };
+
+  /* worked example 1: star or delta from three nameplates on a 400 V supply */
+  const LAB = MC.lang === 'th' ? ['(ก)', '(ข)', '(ค)'] : ['(a)', '(b)', '(c)'];
+  LS.choose($('ask1'), { options: [t('(ก) สตาร์ (ข) เดลตา (ค) สตาร์', '(a) star, (b) delta, (c) star'), t('(ก) เดลตา (ข) สตาร์ (ค) เดลตา', '(a) delta, (b) star, (c) delta'), t('สตาร์ทั้งสามตัว', 'star for all three'), t('เดลตาทั้งสามตัว', 'delta for all three')], answer: 0 });
+  LS.stepper($('st1'), { steps: [
+    { why: t('แรงดันค่าต่ำบนป้ายพิกัดคือแรงดันที่ขดลวดหนึ่งขดทนได้', 'The lower voltage on the nameplate is what one winding is built for'), body: `<p>${t('ต่อเดลตา ขดลวดแต่ละขดรับแรงดันระหว่างเฟสเต็ม ๆ ต่อสตาร์ ขดลวดรับแรงดันระหว่างเฟสหารด้วย √3 กฎนี้อธิบายไว้ในหน้า 1.2', 'In delta each winding gets the full line-to-line voltage; in star it gets the line-to-line voltage divided by √3. Page 1.2 explains the rule.')}</p>` },
+    { why: t(`${LAB[0]} 230/400 V Δ/Y: ขดละ 230 V → ต่อสตาร์`, `${LAB[0]} 230/400 V Δ/Y: 230 V per winding → star`), body: `<p>${t('บนแหล่งจ่าย 400 V ต่อสตาร์ได้ 400/√3 ≈ 230 V ต่อขด พอดี ถ้าต่อเดลตา ขดจะได้ 400 V เกินพิกัดและไหม้', 'On a 400 V supply, star gives 400/√3 ≈ 230 V per winding, just right. Delta would put 400 V on a 230 V winding and burn it.')}</p>` },
+    { why: t(`${LAB[1]} 400/690 V Δ/Y: ขดละ 400 V → ต่อเดลตา`, `${LAB[1]} 400/690 V Δ/Y: 400 V per winding → delta`), body: `<p>${t('ต่อเดลตา ขดได้ 400 V ตามพิกัด ถ้าต่อสตาร์ ขดได้เพียง 230 V มอเตอร์หมุนได้แต่แรงบิดเหลือราวหนึ่งในสาม มอเตอร์แบบนี้เริ่มเดินแบบสตาร์–เดลตาได้ (บทที่ 8)', 'Delta gives each winding its rated 400 V. Star would give only 230 V: the motor turns but with about a third of the torque. This kind of motor can be started star–delta (chapter 8).')}</p>` },
+    { why: t(`${LAB[2]} 220 V, 380 V, 415 V: ค่าต่ำสุด 220 V คือแรงดันของขด → ต่อสตาร์`, `${LAB[2]} 220 V, 380 V, 415 V: the lowest, 220 V, is the winding voltage → star`), body: `<p>${t('380 V และ 415 V เป็นแรงดันระหว่างเฟสเมื่อต่อสตาร์ แหล่งจ่าย 400 V อยู่ระหว่างสองค่านี้ จึงต่อสตาร์ มอเตอร์ในชุดฝึกของหัวข้อ C เป็นแบบนี้', '380 V and 415 V are line-to-line voltages for star. Our 400 V supply lies between them, so: star. The motor on the trainer in section C is of this kind.')}</p>` }],
+    answer: t('(ก) สตาร์ (ข) เดลตา (ค) สตาร์', '(a) star, (b) delta, (c) star') });
+
+  /* C: wiring the motor to Q1 on the trainer (sheet 2): the drawing and the trainer share one simulator */
+  const sC = new RL.Sim($('simC'), C5.SHEET(2), { max: 520, sheet: { no: 'MCP1-C', title: ['มอเตอร์ต่อกับ Q1 (ใบงานแผ่นที่ 2)', 'Motor connected to Q1 (sheet 2)'] } });
+  let trn = null; const mkTrn = box => { $('trnC').innerHTML = ''; trn = W1.trn = new MCP.Trainer($('trnC'), sC, { box }); return trn; };
+  ui.h2($('boxC'), t('การต่อในกล่องขั้วของมอเตอร์บนชุดฝึก', 'Connection in the trainer motor\'s terminal box'));
+  ui.radio($('boxC'), [{ id: 'star', label: t('สตาร์: มอเตอร์แบบ (ค) ของโจทย์ตัวอย่าง', 'star: motor (c) of the worked example'), on: true }, { id: 'delta', label: t('เดลตา: มอเตอร์แบบ (ข)', 'delta: motor (b)') }], id => mkTrn(id));
+  mkTrn('star'); W1.sC = sC; W1.mkTrn = mkTrn;
+
+  /* D: tests before power-on, from the incoming terminals, with the supply isolated (no supply button on this meter) */
+  const specD = () => C5.SHEET(2);
+  const sD = new RL.Sim($('simD'), specD(), { max: 520, sheet: { no: 'MCP1-D', title: ['ทดสอบก่อนจ่ายไฟ: แหล่งจ่ายตัดอยู่', 'Tests before power-on: supply isolated'] } });
+  sD.setMains(false); MCP.run(sD, [['set', 'Q1', false]]);
+  const OFF = [['mains', false], ['set', 'Q1', false]], ON = [['mains', false]], q1on = () => !!sD.dev.Q1.on;
+  const TD = [
+    { s: ['Q1 ปลด: L1–L2 ที่ขั้วไฟเข้า', 'Q1 off: L1–L2 at the incoming terminals'], mode: 'R', a: 'p:SUP:L1', b: 'p:SUP:L2', ops: OFF, need: () => !q1on(), needMsg: ['ปลด Q1 ก่อน', 'switch Q1 off first'], why: ['ไม่มีอะไรลัดระหว่างเฟสก่อนถึง Q1', 'nothing shorts the lines ahead of Q1'] },
+    { s: ['Q1 สับ: L1–L2', 'Q1 on: L1–L2'], mode: 'R', a: 'p:SUP:L1', b: 'p:SUP:L2', ops: ON, why: ['Q1 ต่อจริง สายถึงมอเตอร์ ผ่านขดลวดสองขด', 'Q1 really closes and the leads reach the motor: two windings'] },
+    { s: ['Q1 สับ: L2–L3', 'Q1 on: L2–L3'], mode: 'R', a: 'p:SUP:L2', b: 'p:SUP:L3', ops: ON, why: ['ค่าเท่ากับ L1–L2', 'the same as L1–L2'] },
+    { s: ['Q1 สับ: L3–L1', 'Q1 on: L3–L1'], mode: 'R', a: 'p:SUP:L3', b: 'p:SUP:L1', ops: ON, why: ['สามคู่เท่ากัน: ไม่มีสายหลวมหรือขดขาด', 'three equal pairs: no loose lead, no open winding'] },
+    { s: ['Q1 สับ: L1–PE', 'Q1 on: L1–PE'], mode: 'R', a: 'p:SUP:L1', b: 'p:SUP:PE', ops: ON, need: q1on, needMsg: ['สับ Q1 ก่อน เพื่อให้การวัดรวมสายและมอเตอร์ด้วย', 'switch Q1 on first, so that the leads and the motor are included'], why: ['ไม่มีเฟสใดต่อถึงโครง (ตรวจแบบหยาบ)', 'no line touches the frame (a rough check)'] },
+    { s: ['PE ที่ขั้วไฟเข้า – PE ของมอเตอร์', 'Incoming PE – motor PE'], mode: 'R', a: 'p:SUP:PE', b: 'p:M1:PE', ops: OFF, why: ['สาย PE ต่อถึงโครงมอเตอร์ครบ', 'the PE conductor reaches the motor frame'] },
+    { s: ['Q1 สับ: L1–N', 'Q1 on: L1–N'], mode: 'R', a: 'p:SUP:L1', b: 'p:SUP:N', ops: ON, need: q1on, needMsg: ['สับ Q1 ก่อน', 'switch Q1 on first'], why: ['มอเตอร์ 3 เฟสไม่ใช้ N', 'a three-phase motor does not use N'] }];
+  const pD = $('pD'); q1Btn(pD, sD); const tkD = tasks(pD, sD, specD, TD, t('ตารางทดสอบก่อนจ่ายไฟ', 'Tests before power-on'));
+  const mD = new MCP.Meter($('mD'), sD, { mode: 'R', power: false, onMeasure: rec => tkD.check(rec) });
+  summary($('sumD'), TD, [['ทดสอบทั้งตอนปลดและสับ Q1: ปลดแล้วได้ OL แปลว่าไม่มีอะไรลัดก่อน Q1 สับแล้วได้ค่าของขดลวดแปลว่าสายต่อถึงมอเตอร์ครบ', 'Test with Q1 off and on: OL with Q1 off means nothing is shorted ahead of Q1; the winding value with Q1 on means the leads reach the motor'],
+    ['ค่าสามคู่ต้องเท่ากัน ถ้าคู่หนึ่งได้ OL แปลว่ามีสายหลุดหรือขั้วหลวมในเฟสนั้น', 'The three pairs must be equal; one pair reading OL means a lead is off or a terminal loose in that line']]);
+  W1.sD = sD; W1.mD = mD; W1.tkD = tkD;
+
+  /* Q: practice */
+  ED.mcq('mcq', [
+    { q: t('1) ทดสอบที่จุดทำงานได้ 0 V ครบ 10 คู่แล้ว ขั้นต่อไปคืออะไร', '1) All 10 pairs at the work point read 0 V. What comes next?'), options: [t('เริ่มต่อสายได้ทันที', 'start wiring at once'), t('ลองเครื่องวัดกับแหล่งที่รู้ว่ามีไฟอีกครั้ง', 'prove the tester again on a known live source'), t('สับ Q1 เพื่อดูว่ามอเตอร์หมุนไหม', 'switch Q1 on to see whether the motor turns'), t('วัดความต้านทานซ้ำอีกครั้ง', 'measure the resistance again')], answer: 1, why: t('ลอง–วัด–ลอง: การลองครั้งหลังยืนยันว่าเครื่องวัดใช้ได้ตลอดการวัด', 'Prove – test – prove: the second proof shows the tester worked during the test') },
+    { q: t('2) วัดระหว่าง L2 กับ L3 ของแหล่งจ่ายชุดฝึกควรได้เท่าไร', '2) What should you read between L2 and L3 of the trainer supply?'), options: ['0 V', '230 V', '400 V', '690 V'], answer: 2, why: t('แรงดันระหว่างเฟสกับเฟส √3 × 230 V ≈ 400 V', 'line to line: √3 × 230 V ≈ 400 V') },
+    { q: t('3) ทำไมปลดแค่ Q1 จึงยังไม่พอก่อนแก้สายบนชุดฝึก', '3) Why is switching Q1 off not enough before changing leads on the trainer?'), options: [t('Q1 อาจตัดช้า', 'Q1 may switch slowly'), t('ขั้วไฟเข้า 1 3 5 ของ Q1 และ -X1:1–5 ยังมีไฟ และใครก็สับ Q1 กลับได้', 'the line terminals 1, 3, 5 of Q1 and -X1:1–5 are still live, and anyone can switch Q1 back on'), t('Q1 ไม่ได้ตัด N', 'Q1 does not switch N'), t('จริง ๆ แล้วปลด Q1 อย่างเดียวก็พอ', 'it is enough, in fact')], answer: 1, why: t('ตัดไฟเพื่อทำงานต้องตัดที่สวิตช์แยกวงจรและล็อกไว้', 'isolation for work is at the isolator, locked off') },
+    { q: t('4) ย่าน Ω อ่านได้ OL ระหว่าง U1 ของมอเตอร์กับ PE หมายความว่าอะไร', '4) The Ω range reads OL between motor U1 and PE. What does it mean?'), options: [t('ขดลวด U ขาด', 'winding U is open'), t('ขดลวดไม่ต่อถึงโครง เป็นการตรวจฉนวนแบบหยาบ', 'the winding is not connected to the frame: a rough insulation check'), t('มอเตอร์ลัดวงจรลงดิน', 'the motor has an earth fault'), t('มิเตอร์ตั้งผิดย่าน', 'the meter is on the wrong range')], answer: 1, why: t('การทดสอบฉนวนจริงใช้เครื่องทดสอบฉนวนที่ไฟตรง 500 V', 'the real insulation test uses an insulation tester at 500 V DC') },
+    { q: t('5) ป้ายพิกัดเขียน 230/400 V Δ/Y แหล่งจ่าย 400 V ต้องต่อแบบใด', '5) The nameplate says 230/400 V Δ/Y and the supply is 400 V. Which connection?'), options: [t('สตาร์', 'star'), t('เดลตา', 'delta'), t('แบบใดก็ได้', 'either'), t('ต่อไม่ได้', 'it cannot be connected')], answer: 0, why: t('ขดละ 230 V: สตาร์ให้ 400/√3 ≈ 230 V ต่อขด', '230 V per winding: star gives 400/√3 ≈ 230 V per winding') },
+    { q: t('6) สายวัดสีแดงยังเสียบอยู่ที่ช่อง A แล้วไปแตะ L1 กับ L2 จะเกิดอะไร', '6) The red lead is still in the A jack and you touch L1 and L2. What happens?'), options: [t('อ่านได้ 400 V ตามปกติ', 'it reads 400 V as usual'), t('อ่านได้ 0 A', 'it reads 0 A'), t('มิเตอร์เป็นตัวลัดวงจรระหว่างสองเฟส ฟิวส์ในมิเตอร์ขาดหรือเกิดอาร์ก', 'the meter shorts the two lines: its fuse blows or an arc flashes'), t('มิเตอร์ตัดเองอย่างปลอดภัยเสมอ', 'the meter always switches off safely')], answer: 2, why: t('ช่อง A มีความต้านทานต่ำมาก วัดแรงดันต้องใช้ COM กับ VΩ', 'the A jack has almost no resistance: measure voltage with COM and VΩ') },
+    { q: t('7) ต่อสตาร์แล้ว ขดลวดขดละ 6.4 Ω (ค่าตัวอย่าง) วัด U1–V1 ได้เท่าไร', '7) Star links in, 6.4 Ω per winding (example value). What does U1–V1 read?'), options: ['3.2 Ω', '4.3 Ω', '6.4 Ω', '12.8 Ω'], answer: 3, why: t('สองขดอนุกรมกัน (4.3 Ω คือค่าของเดลตา)', 'two windings in series (4.3 Ω is the delta value)') }]);
+});
+</script>
+</body>
+</html>
