@@ -8,13 +8,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=16"><link rel="stylesheet" href="assets/ed2.css?v=16">
-<link rel="stylesheet" href="assets/wiring.css?v=16"><link rel="stylesheet" href="assets/mcp.css?v=16">
-<script src="assets/stops.js?v=16"></script><script src="assets/shell.js?v=16"></script>
-<script src="assets/lesson.js?v=16"></script><script src="assets/draw.js?v=16"></script><script src="assets/ed.js?v=16"></script><script src="assets/sym.js?v=16"></script><script src="assets/iec.js?v=16"></script><script src="assets/relay.js?v=16"></script><script src="assets/ch2.js?v=16"></script><script src="assets/ch3.js?v=16"></script><script src="assets/ch4.js?v=16"></script>
-<script src="assets/panel.js?v=16"></script><script src="assets/ch5.js?v=16"></script><script src="assets/ch6.js?v=16"></script><script src="assets/ch7.js?v=16"></script>
-<script src="assets/wiring.js?v=16"></script><script src="assets/devdata.js?v=16"></script><script src="assets/dev.js?v=16"></script>
-<script src="assets/mcp.js?v=16"></script>
+<link rel="stylesheet" href="assets/ee.css?v=17"><link rel="stylesheet" href="assets/ed2.css?v=17">
+<link rel="stylesheet" href="assets/wiring.css?v=17"><link rel="stylesheet" href="assets/mcp.css?v=17">
+<script src="assets/stops.js?v=17"></script><script src="assets/shell.js?v=17"></script>
+<script src="assets/lesson.js?v=17"></script><script src="assets/draw.js?v=17"></script><script src="assets/ed.js?v=17"></script><script src="assets/sym.js?v=17"></script><script src="assets/iec.js?v=17"></script><script src="assets/relay.js?v=17"></script><script src="assets/ch2.js?v=17"></script><script src="assets/ch3.js?v=17"></script><script src="assets/ch4.js?v=17"></script>
+<script src="assets/panel.js?v=17"></script><script src="assets/ch5.js?v=17"></script><script src="assets/ch6.js?v=17"></script><script src="assets/ch7.js?v=17"></script>
+<script src="assets/wiring.js?v=17"></script><script src="assets/devdata.js?v=17"></script><script src="assets/dev.js?v=17"></script>
+<script src="assets/mcp.js?v=17"></script>
 <style>
 /* page-local widgets of week 1: the safe-isolation order drill, the task lists, the motor terminal box with its ohmmeter */
 .w1-ord{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;margin:8px 0}
@@ -55,15 +55,17 @@
   <li><b>The multimeter</b>: the AC voltage range (V~) is for live circuits, the resistance range (Ω) for dead circuits only. Choose the range before the probes touch anything, plug the leads into COM and VΩ (never the current jack A), and use a meter rated measurement category CAT III or higher.</li>
   <li><b>The motor terminal box</b>: the three windings must read the same; a winding to the motor frame (PE) must read OL (over limit: no connection). Set the links in star or delta to match the nameplate, and always connect PE before the line conductors.</li></ul></section>
 
-<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>อ่านและลองก่อนเรียน</a><a href="#tS"><b>S</b>ตัดไฟอย่างปลอดภัย</a><a href="#tM"><b>M</b>มัลติมิเตอร์บนแหล่งจ่าย</a><a href="#tA"><b>A</b>กล่องขั้วมอเตอร์</a><a href="#ex1"><b>1</b>สตาร์หรือเดลตา</a><a href="#tC"><b>C</b>ต่อมอเตอร์เข้ากับ Q1</a><a href="#tD"><b>D</b>ทดสอบก่อนและหลังจ่ายไฟ</a><a href="#tF"><b>F</b>ใบงาน</a><a href="#tQ"><b>Q</b>ฝึกเพิ่ม</a></nav>
-<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>Read and try before class</a><a href="#tS"><b>S</b>Switching off safely</a><a href="#tM"><b>M</b>The multimeter on the supply</a><a href="#tA"><b>A</b>The motor terminal box</a><a href="#ex1"><b>1</b>Star or delta</a><a href="#tC"><b>C</b>Wiring the motor to Q1</a><a href="#tD"><b>D</b>Tests before and after power-on</a><a href="#tF"><b>F</b>Practice sheet</a><a href="#tQ"><b>Q</b>More practice</a></nav>
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>ภาคเช้าวันเดียวกัน</a><a href="#tS"><b>S</b>ตัดไฟอย่างปลอดภัย</a><a href="#tM"><b>M</b>มัลติมิเตอร์บนแหล่งจ่าย</a><a href="#tA"><b>A</b>กล่องขั้วมอเตอร์</a><a href="#ex1"><b>1</b>สตาร์หรือเดลตา</a><a href="#tC"><b>C</b>ต่อมอเตอร์เข้ากับ Q1</a><a href="#tD"><b>D</b>ทดสอบก่อนและหลังจ่ายไฟ</a><a href="#tF"><b>F</b>ใบงาน</a><a href="#tQ"><b>Q</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>This morning in Electrical Drawing II</a><a href="#tS"><b>S</b>Switching off safely</a><a href="#tM"><b>M</b>The multimeter on the supply</a><a href="#tA"><b>A</b>The motor terminal box</a><a href="#ex1"><b>1</b>Star or delta</a><a href="#tC"><b>C</b>Wiring the motor to Q1</a><a href="#tD"><b>D</b>Tests before and after power-on</a><a href="#tF"><b>F</b>Practice sheet</a><a href="#tQ"><b>Q</b>More practice</a></nav>
 
 <section class="prob" id="t0">
-  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">อ่านและลองก่อนเรียน</h2><h2 data-l="en">Read and try before class</h2>
-    <div class="src" data-l="th">เขียนแบบไฟฟ้า 2 บทที่ 1</div><div class="src" data-l="en">Electrical Drawing II, chapter 1</div></div></div>
-  <p class="lead" data-l="th">อ่านและลองภาพจำลองในสามหน้านี้ของวิชาเขียนแบบไฟฟ้า 2 ก่อนเข้าห้องปฏิบัติการ ลิงก์จะเปิดหน้าเหล่านั้นในบริบทของวิชานี้ และมีปุ่มกลับมาที่สัปดาห์ที่ 1 แต่ละบรรทัดบอกว่าควรดูอะไรเป็นพิเศษ</p>
-  <p class="lead" data-l="en">Read these three pages of Electrical Drawing II and try their simulations before you come to the workshop. The links open them in the context of this course, with a button back to week 1. Each line says what to look at in particular.</p>
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">ภาคเช้าวันเดียวกัน</h2><h2 data-l="en">This morning in Electrical Drawing II</h2>
+    <div class="src" data-l="th">เขียนแบบไฟฟ้า 2 สัปดาห์ที่ 1 ภาคเช้า · บทที่ 1 หน้า 1.1–1.4</div><div class="src" data-l="en">Electrical Drawing II, week 1 morning · chapter 1, pages 1.1–1.4</div></div></div>
+  <p class="lead" data-l="th">เช้าวันนี้วิชาเขียนแบบไฟฟ้า 2 เรียนบทที่ 1 (หน้า 1.1–1.4): มอเตอร์เหนี่ยวนำ 3 เฟส ป้ายพิกัดกับกล่องขั้ว มอเตอร์ 1 เฟส และเริ่มใช้ CADe SIMU บ่ายนี้ทำเรื่องเดียวกันกับของจริง: ตัดไฟอย่างปลอดภัย วัดแหล่งจ่าย วางสะพานในกล่องขั้ว และต่อมอเตอร์เข้ากับ Q1 ลิงก์ข้างล่างเปิดหน้าของภาคเช้าในบริบทของวิชานี้ และมีปุ่มกลับมาที่สัปดาห์ที่ 1 แต่ละบรรทัดบอกว่าบ่ายนี้ใช้อะไรจากหน้านั้น</p>
+  <p class="lead" data-l="en">This morning Electrical Drawing II covers chapter 1 (pages 1.1–1.4): the three-phase induction motor, the nameplate and the terminal box, single-phase motors and a first look at CADe SIMU. This afternoon you do the same on the real equipment: switch off safely, measure the supply, place the links in the terminal box and wire the motor to Q1. The links open the morning's pages in the context of this course, with a button back to week 1. Each line says what this afternoon uses from that page.</p>
   <div class="card" id="prep"></div>
+  <div class="callout" data-l="th" style="margin-top:12px"><b>นำมาจากภาคเช้า</b>: ค่าบนป้ายพิกัดของมอเตอร์ห้องปฏิบัติการที่อ่านในหน้า 1.2 หัวข้อ L กับคำตอบว่าต้องต่อสตาร์หรือเดลตากับแหล่งจ่าย 400 V และแบบใบงานที่ 1 ที่วาดใน CADe SIMU (แหล่งจ่าย 3 เฟส ฟิวส์ เบรกเกอร์ และมอเตอร์) ซึ่งเรียงอุปกรณ์แบบเดียวกับวงจรที่ต่อจริงในหัวข้อ C</div>
+  <div class="callout" data-l="en" style="margin-top:12px"><b>Bring from the morning</b>: the nameplate values of the lab motor you read on page 1.2 (section L) with your answer to star or delta on the 400 V supply, and your lab sheet 1 drawing from CADe SIMU (three-phase supply, fuses, a breaker and a motor), which has the devices in the same order as the circuit you wire for real in section C.</div>
   <div class="callout" data-l="th" style="margin-top:12px"><b>สิ่งที่ต้องเตรียมมา</b>: แต่งกายตามระเบียบโรงฝึก รองเท้าหุ้มส้น ถอดแหวน นาฬิกา และสร้อยข้อมือที่เป็นโลหะก่อนทำงาน แม่กุญแจส่วนตัวสำหรับล็อกสวิตช์แยกวงจร (ครูกำหนดแบบ) และดินสอสำหรับกรอกใบงาน</div>
   <div class="callout" data-l="en" style="margin-top:12px"><b>Bring and wear</b>: workshop clothing and closed shoes; take off metal rings, watches and bracelets before work; your own padlock for locking out the isolator (the teacher says which kind); a pencil for the practice sheet.</div>
 </section>
@@ -243,13 +245,14 @@ document.addEventListener('mc:ready', () => {
   const hid = spec => new RL.Sim(document.createElement('div'), spec, { sheet: false });   // hidden simulator: the same model as the drawings
   const W1 = window.W1 = {};   // handles for the headless checks
 
-  /* 0: the ED2 pages to prepare (MCP_WEEKS[].prepare), opened in the MCP context of this week */
+  /* 0: this morning's ED2 pages (the same week in MCP_WEEKS; this map's keys if the table has none), opened in the MCP context of this week */
   const PREP = {
     'ch1_1_three_phase.html': ['หัวข้อ A: สามเฟสทำให้เกิดสนามแม่เหล็กหมุนอย่างไร และทำไมสลับสองเฟสแล้วมอเตอร์กลับทาง (ใช้ตอนตรวจทิศการหมุนในหัวข้อ D)', 'section A: how three phases make a rotating field and why swapping two phases reverses the motor (you check the direction in section D)'],
     'ch1_2_terminal_box.html': ['หน้าสำคัญที่สุดของสัปดาห์นี้: อ่านป้ายพิกัด (หัวข้อ A) วางสะพานในกล่องขั้วเอง (หัวข้อ B) และมอเตอร์ของห้องปฏิบัติการ (หัวข้อ L)', 'the key page this week: reading a nameplate (section A), placing the links yourself (section B) and the department\'s lab motor (section L)'],
-    'ch1_3_single_phase.html': ['รู้จักขั้ว U1–U2 และ Z1–Z2 ของมอเตอร์ 1 เฟส ชุดฝึกยังไม่มีมอเตอร์ 1 เฟส สัปดาห์นี้จึงฝึกกับมอเตอร์ 3 เฟส', 'get to know terminals U1–U2 and Z1–Z2 of a single-phase motor; the trainer has no single-phase motor yet, so this week practises on a three-phase motor'] };
+    'ch1_3_single_phase.html': ['รู้จักขั้ว U1–U2 และ Z1–Z2 ของมอเตอร์ 1 เฟส ชุดฝึกยังไม่มีมอเตอร์ 1 เฟส สัปดาห์นี้จึงฝึกกับมอเตอร์ 3 เฟส', 'get to know terminals U1–U2 and Z1–Z2 of a single-phase motor; the trainer has no single-phase motor yet, so this week practises on a three-phase motor'],
+    'ch1_4_cadesimu.html': ['วงจรแรกใน CADe SIMU: แหล่งจ่าย ฟิวส์ เบรกเกอร์ และมอเตอร์ ดูลำดับอุปกรณ์จากแหล่งจ่ายถึงมอเตอร์ บ่ายนี้ต่อลำดับเดียวกันบนชุดฝึกในหัวข้อ C', 'the first circuit in CADe SIMU: supply, fuses, breaker and motor; note the order of the devices from the supply to the motor, because this afternoon you wire the same order on the trainer in section C'] };
   const prep = (el, map) => { const w = MC.mcpHere(), wk = MC.mcpWeek(), vis = MC.visited(); if (!w || !el) return;
-    el.innerHTML = `<ul style="margin:0 0 0 18px;padding:0;line-height:1.6">${w.prepare.map(f => { const s = (window.STOPS || []).find(x => x.file === f); if (!s) return '';
+    el.innerHTML = `<ul style="margin:0 0 0 18px;padding:0;line-height:1.6">${((w.prepare || []).length ? w.prepare : Object.keys(map)).map(f => { const s = (window.STOPS || []).find(x => x.file === f); if (!s) return '';
       return `<li><a href="${MC.mcpLink(f, wk)}"><b>${t('หน้า', 'Page')} ${s.step}</b> ${esc(MC.stopTitle(s))}</a>${vis[f] ? ` <span class="rk-ok" title="${t('เปิดดูแล้ว', 'visited')}">✓</span>` : ''}: ${tt(map[f] || ['', ''])}</li>`; }).join('')}</ul>`; };
   prep($('prep'), PREP);
 
@@ -322,7 +325,7 @@ document.addEventListener('mc:ready', () => {
   /* M: the meter on sheet 2 (supply, Q1, motor); the supply button of the meter = the trainer's isolator */
   const specM = () => C5.SHEET(2);
   const sM = new RL.Sim($('simM'), specM(), { max: 520, sheet: { no: 'MCP1-M', title: ['แหล่งจ่าย Q1 และมอเตอร์ (ใบงานแผ่นที่ 2)', 'Supply, Q1 and motor (sheet 2)'] } });
-  const q1Btn = (panel, sim) => { const b = ui.buttons(panel, [{ id: 'q1', label: 'Q1', onclick: () => MCP.run(sim, [['set', 'Q1', !sim.dev.Q1.on]]) }]).q1;
+  const q1Btn = (panel, sim) => { const qid = 'q1-' + panel.id, b = ui.buttons(panel, [{ id: qid, label: 'Q1', onclick: () => MCP.run(sim, [['set', 'Q1', !sim.dev.Q1.on]]) }])[qid];
     const lab = () => { b.textContent = sim.dev.Q1.on ? t('Q1 สับอยู่ (ON) · กดเพื่อปลด', 'Q1 is ON · tap to switch off') : t('Q1 ปลดอยู่ (OFF) · กดเพื่อสับ', 'Q1 is OFF · tap to switch on'); b.classList.toggle('on', !!sim.dev.Q1.on); };
     sim.on(lab); lab(); return b; };
   const TM = [
@@ -380,7 +383,7 @@ document.addEventListener('mc:ready', () => {
     { s: ['ต่อเดลตา: วัดระหว่างขั้วไฟเข้าสองขั้ว เช่น U1–V1', 'Delta links: between two line terminals, e.g. U1–V1'], L: 'delta', pairs: [['U1', 'V1'], ['V1', 'W1'], ['W1', 'U1']], why: ['หนึ่งขดขนานกับสองขดอนุกรม', 'one winding in parallel with two in series'] }];
   BT.forEach(x => { x.want = MCP.fmtR(ohm(x.pairs[0][0], x.pairs[0][1], x.L || 'none', -1)); });
   const pA = $('pA'); ui.h2(pA, t('สะพานในกล่องขั้ว', 'Links in the box'));
-  const rL = ui.radio(pA, Object.keys(LINKS).map(k => ({ id: k, label: tt(LLAB[k]), on: k === 'none' })), id => { bx.links = id; drawBox(); });
+  const rL = ui.radio(pA, Object.keys(LINKS).map(k => ({ id: 'A-' + k, label: tt(LLAB[k]), on: k === 'none' })), id => { bx.links = id.slice(2); drawBox(); });   // ids unique on the page (section C has star/delta too)
   ui.h2(pA, t('มอเตอร์', 'Motor'));
   const rMo = ui.radio(pA, [{ id: 'good', label: t('มอเตอร์ปกติ', 'normal motor'), on: true }, { id: 'repair', label: t('มอเตอร์จากชั้นซ่อม', 'motor from the repair shelf') }], id => { bx.motor = id; if (id === 'repair') bx.bad = Math.floor(Math.random() * 3); bx.red = bx.black = null; bx.next = 'red'; drawBox(); drawQ(); });
   const bIn = ui.buttons(pA, [{ id: 'in', label: t('แสดงขดลวดข้างใน (เฉลย)', 'show the windings inside (answer)'), onclick: el => { bx.inside = !bx.inside; el.classList.toggle('on', bx.inside); drawBox(); } }]);
@@ -412,7 +415,7 @@ document.addEventListener('mc:ready', () => {
     points: [['ถอดสะพานแล้วสามขดต้องอ่านได้เท่ากัน ขดที่อ่าน OL คือขดขาด', 'With the links off the three windings must read the same; one reading OL is an open winding'],
       ['ต่อสตาร์ U1–V1 เป็นสองเท่าของหนึ่งขด ต่อเดลตาเป็นสองในสามของหนึ่งขด ค่าที่วัดได้จึงบอกได้ว่าวางสะพานแบบไหน', 'In star U1–V1 is twice one winding, in delta two thirds of one winding, so the reading tells you which links are in'],
       ['OL ถึง PE จากมัลติมิเตอร์เป็นการตรวจแบบหยาบ ความต้านทานฉนวนจริงวัดด้วยเครื่องทดสอบฉนวน', 'OL to PE from a multimeter is a rough check; the real insulation resistance is measured with an insulation tester']] });
-  W1.tapBox = tapBox; W1.bx = bx; W1.doneA = doneA; W1.answerQ = answerQ; W1.setLinks = id => { rL.set(id); bx.links = id; drawBox(); }; W1.setMotor = id => { rMo.set(id); bx.motor = id; if (id === 'repair') bx.bad = Math.floor(Math.random() * 3); drawBox(); drawQ(); };
+  W1.tapBox = tapBox; W1.bx = bx; W1.doneA = doneA; W1.answerQ = answerQ; W1.setLinks = id => { rL.set('A-' + id); bx.links = id; drawBox(); }; W1.setMotor = id => { rMo.set(id); bx.motor = id; if (id === 'repair') bx.bad = Math.floor(Math.random() * 3); drawBox(); drawQ(); };
 
   /* worked example 1: star or delta from three nameplates on a 400 V supply */
   const LAB = MC.lang === 'th' ? ['(ก)', '(ข)', '(ค)'] : ['(a)', '(b)', '(c)'];

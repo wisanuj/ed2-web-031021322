@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="Week 5 — Wiring a direct-on-line starter and jogging on the trainer">สัปดาห์ 5 — ต่อวงจรเริ่มเดินโดยตรงและวงจรเดินกระตุกบนแผงฝึก</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=17"><link rel="stylesheet" href="assets/ed2.css?v=17">
+<link rel="stylesheet" href="assets/wiring.css?v=17"><link rel="stylesheet" href="assets/mcp.css?v=17">
+<script src="assets/stops.js?v=17"></script><script src="assets/shell.js?v=17"></script>
+<script src="assets/lesson.js?v=17"></script><script src="assets/draw.js?v=17"></script><script src="assets/ed.js?v=17"></script><script src="assets/sym.js?v=17"></script><script src="assets/iec.js?v=17"></script><script src="assets/relay.js?v=17"></script><script src="assets/ch2.js?v=17"></script><script src="assets/ch3.js?v=17"></script><script src="assets/ch4.js?v=17"></script>
+<script src="assets/panel.js?v=17"></script><script src="assets/ch5.js?v=17"></script><script src="assets/ch6.js?v=17"></script><script src="assets/ch7.js?v=17"></script>
+<script src="assets/wiring.js?v=17"></script><script src="assets/devdata.js?v=17"></script><script src="assets/dev.js?v=17"></script>
+<script src="assets/mcp.js?v=17"></script>
+<style>
+.mcp-prep{margin:6px 0 0 20px;padding:0;line-height:1.55}.mcp-prep li{margin:4px 0}.mcp-prep .pk{color:var(--muted);font-size:14px}
+.ttab td.rd{font-family:"IBM Plex Mono",monospace;font-weight:600}.ttab td.rd .hint{font-family:"IBM Plex Sans Thai",sans-serif;font-weight:400}.ttab tr.cur td{background:color-mix(in srgb,var(--accent) 9%,transparent)}
+.ttab td.rd::before{font-family:"IBM Plex Sans Thai",sans-serif;font-weight:400}.ttab td.ok{color:var(--good);font-weight:600}.ttab td.bad{color:var(--bad);font-weight:600}
+.worder{margin:6px 0 0 20px;padding:0;line-height:1.6}.worder li{margin:3px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">ต่อวงจรเริ่มเดินมอเตอร์โดยตรงบนแผงฝึก ตามใบงานของครูแผ่นที่ 3–9 และวงจรเดินกระตุก <span class="en">Wiring a direct-on-line starter on the trainer, following the instructor's sheets 3–9, and a jog circuit</span></h1>
+<h1 data-l="en">Wiring a direct-on-line starter on the trainer <span class="en">The instructor's sheets 3–9 and a jog circuit, wired, tested and powered</span></h1>
+
+<p class="sub" data-l="th">สัปดาห์นี้เป็นวงจรแรกที่ต่อเองทั้งวงจร คือวงจรเริ่มเดินมอเตอร์โดยตรง (direct-on-line, DOL) ตามใบงานของครูแผ่นที่ 3–9: เริ่มจากคอนแทกเตอร์ที่สั่งด้วยสวิตช์ ปุ่มกดอย่างเดียว วงจรค้างตัวเอง แล้วเพิ่มโอเวอร์โหลดรีเลย์และหลอดแสดงผลทีละขั้น ทุกขั้นทำตามลำดับเดียวกัน: ไล่ทางเดินกระแสในแบบ ต่อสายตามรายการเดินสาย ทดสอบความต่อเนื่องก่อนจ่ายไฟ ให้ครูตรวจ แล้วจึงจ่ายไฟและทำตารางทดสอบ ท้ายคาบต่อวงจรเดินกระตุกแบบรีเลย์ช่วยด้วยลำดับเดียวกัน (หัวข้อ E) หลักการของวงจรอยู่ในหน้า 5.1–5.3 ของวิชาเขียนแบบไฟฟ้า 2 ซึ่งเรียนในภาคเช้าวันเดียวกัน</p>
+<p class="sub" data-l="en">This week you wire a whole circuit yourself for the first time: the direct-on-line (DOL) starter of the instructor's sheets 3–9. It starts with a contactor switched by a switch, then a push button alone, then the self-holding circuit, and adds the overload relay and the pilot lamps one step at a time. Every step follows the same order: trace the current paths in the drawing, wire from the wiring checklist, test continuity before power, let the teacher check, then power up and work through the test table. The session ends with a relay jog circuit wired in the same order (section E). How the circuits work is on pages 5.1–5.3 of Electrical Drawing II, taught the same morning.</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>ลำดับการต่อสาย</b>: ต่อวงจรกำลังก่อน (L1 L2 L3 → Q1 → KM1 → F2 → -X1 → มอเตอร์ และสายดินป้องกัน PE) แล้วต่อวงจรควบคุมเรียงตามเลขสาย ต่อ N เป็นอย่างสุดท้าย ติ๊กทุกเส้นในรายการเมื่อต่อเสร็จ ขั้วหนึ่งรับสายได้ไม่เกินสองเส้น</li>
+  <li><b>ทดสอบก่อนจ่ายไฟ</b>: ปลด Q1 และตัดไฟ แล้ววัดคร่อมวงจรควบคุมจาก F1 ขั้ว 2 ถึง N: กด S2 ค่าต้องลดลงเท่ากับค่าของคอยล์ที่ขนานกับหลอด กด S1 ค่าต้องกลับ กดชุดหน้าสัมผัส KM1 ด้วยมือ คอยล์ต้องเข้ามาในทางผ่านหน้าสัมผัสค้างตัวเอง ระหว่างเฟสในวงจรกำลังต้องไม่อ่านได้ 0 Ω</li>
+  <li><b>ทดสอบหลังจ่ายไฟ</b>: กด S2 แล้วปล่อย มอเตอร์ต้องหมุนค้าง กด S1 ต้องหยุด โอเวอร์โหลดตัดต้องหยุดมอเตอร์และหลอดเหลืองติด รีเซ็ตแล้วมอเตอร์ต้องไม่หมุนเอง และเมื่อไฟดับแล้วกลับมา มอเตอร์ต้องไม่หมุนเอง</li>
+  <li><b>ชื่ออุปกรณ์</b>: หน้านี้ใช้ชื่อตามแบบของวิชา (Q1, F1, F2, S1, S2, KM1, H1–H3) ส่วนใบงานของครูบางแผ่นใช้ชื่อในไฟล์ CADe SIMU เช่น CB และ OVER ตารางเทียบชื่ออยู่ในหัวข้อ A</li>
+  <li><b>เดินกระตุกแบบรีเลย์ช่วย</b>: ปุ่มเริ่ม S2 สั่งรีเลย์ KA1 ซึ่งค้างตัวเองแล้วสั่ง KM1 ส่วนปุ่มเดินกระตุก S3 ป้อนคอยล์ KM1 ตรงและไม่ไปถึงทางค้างตัวเองเลย บนแผงฝึก KA1 เป็นรีเลย์แบบเสียบ ขั้ว 13–14 ในแบบจึงเป็น 11–14 บนตัวรีเลย์ (หัวข้อ E)</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>Wiring order</b>: the power circuit first (L1 L2 L3 → Q1 → KM1 → F2 → -X1 → motor, and the protective earth PE), then the control circuit in wire-number order, and N last. Tick every lead in the checklist as you finish it; no more than two wires per terminal.</li>
+  <li><b>Test before power</b>: Q1 off and the supply isolated, measure across the control circuit from F1 terminal 2 to N: with S2 pressed the reading must fall to the coil in parallel with the lamp; with S1 pressed it must come back; with the KM1 carrier pushed in by hand the coil must join the path through the holding contact. Between two phases of the power circuit there must never be 0 Ω.</li>
+  <li><b>Test after power</b>: tap S2 and the motor must keep running; press S1 and it must stop; an overload trip must stop the motor and light the yellow lamp; after the reset the motor must not restart by itself, nor after the supply fails and returns.</li>
+  <li><b>Device names</b>: this page uses the course names (Q1, F1, F2, S1, S2, KM1, H1–H3); some of the instructor's sheets use the names of the CADe SIMU file, such as CB and OVER. The name table is in section A.</li>
+  <li><b>Relay jogging</b>: start button S2 drives relay KA1, which holds itself and drives KM1; jog button S3 feeds coil KM1 directly and never reaches a holding path. On the trainer KA1 is a plug-in relay, so 13–14 in the drawing is 11–14 on the relay (section E).</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>ภาคเช้าวันเดียวกัน</a><a href="#tA"><b>A</b>อุปกรณ์ของวงจรบนแผงฝึก</a><a href="#tB"><b>B</b>ไล่ทางเดินกระแส</a><a href="#tC"><b>C</b>ต่อสายทีละแผ่น</a><a href="#tD"><b>D</b>ทดสอบก่อนและหลังจ่ายไฟ</a><a href="#ex1"><b>1</b>มอเตอร์หมุนเฉพาะขณะกด S2</a><a href="#tE"><b>E</b>เดินกระตุก</a><a href="#tF"><b>F</b>ใบงาน</a><a href="#tQ"><b>Q</b>ทบทวน</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>This morning in Electrical Drawing II</a><a href="#tA"><b>A</b>The circuit's devices on the trainer</a><a href="#tB"><b>B</b>Tracing</a><a href="#tC"><b>C</b>Wiring sheet by sheet</a><a href="#tD"><b>D</b>Tests before and after power</a><a href="#ex1"><b>1</b>The motor runs only while S2 is held</a><a href="#tE"><b>E</b>Jogging</a><a href="#tF"><b>F</b>Practice sheet</a><a href="#tQ"><b>Q</b>Review</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">ภาคเช้าวันเดียวกัน</h2><h2 data-l="en">This morning in Electrical Drawing II</h2>
+    <div class="src" data-l="th">เขียนแบบไฟฟ้า 2 สัปดาห์ที่ 5 ภาคเช้า · หน้า 5.1–5.5 · ใบงานที่ 5A</div><div class="src" data-l="en">Electrical Drawing II, week 5 morning · pages 5.1–5.5 · lab sheet 5A</div></div></div>
+  <p class="lead" data-l="th">เช้าวันนี้วิชาเขียนแบบไฟฟ้า 2 เรียนหน้า 5.1–5.5: วงจรค้างตัวเอง โอเวอร์โหลดกับหลอดแสดงผล วงจรเดินกระตุก มอเตอร์ 1 เฟส และการหาจุดผิด แล้วสร้างวงจรเริ่มเดินโดยตรงทีละขั้นตามใบงานของครูใน CADe SIMU (ใบงานที่ 5A) บ่ายนี้ต่อวงจรเดียวกันบนแผงฝึกจริง ลิงก์ข้างล่างเปิดหน้าของภาคเช้าในบริบทของวิชานี้ แต่ละข้อบอกว่าบ่ายนี้ใช้อะไรจากหน้านั้น และทบทวนการทดสอบอุปกรณ์จาก<a href="mcp_4_device_tests.html">สัปดาห์ที่ 4</a> เพราะทุกอุปกรณ์ต้องผ่านการทดสอบก่อนต่อเข้าวงจร</p>
+  <p class="lead" data-l="en">This morning Electrical Drawing II covers pages 5.1–5.5: the self-holding circuit, the overload and pilot lamps, jogging, the single-phase motor and fault finding, and builds the direct-on-line starter step by step in CADe SIMU after the instructor's sheets (lab sheet 5A). This afternoon you wire the same circuits on the real trainer. The links open the morning's pages in the context of this course, and each line says what this afternoon uses from that page. Also look back at the device tests of <a href="mcp_4_device_tests.html">week 4</a>, because every device must pass its test before it is wired in.</p>
+  <div class="card"><ol class="mcp-prep" id="prep"></ol></div>
+  <div class="callout" data-l="th" style="margin-top:12px"><b>นำมาจากภาคเช้า</b>: แบบวงจรของใบงานที่ 5A ที่วาดใน CADe SIMU ตามแผ่นที่ 3–9 ใช้เทียบกับแผ่นที่เลือกในหัวข้อ C เขียนเลขสายลงในแบบก่อนต่อ (ข้อ 1 ของลำดับการต่อสาย) และวงจรเดินกระตุกแบบรีเลย์ช่วย J2 ของหน้า 5.3 สำหรับหัวข้อ E</div>
+  <div class="callout" data-l="en" style="margin-top:12px"><b>Bring from the morning</b>: your lab sheet 5A drawings from CADe SIMU (sheets 3–9), to compare with the sheet you choose in section C, with the wire numbers written in before you wire (step 1 of the wiring order); and the relay jog circuit J2 of page 5.3 for section E.</div>
+  <div class="warnbox" data-l="th" style="margin-top:12px"><b>ความปลอดภัยของงานวันนี้</b>: ต่อและแก้สายเฉพาะเมื่อตัดไฟ ล็อก และแขวนป้ายแล้ว ห้ามต่อมอเตอร์เข้ากับเครื่องจักรขณะทดลอง ห้ามจ่ายไฟก่อนผ่านการทดสอบความต่อเนื่องและครูลงชื่อตรวจ ขณะแผงฝึกมีไฟใช้ได้เฉพาะปุ่มและสวิตช์หน้าตู้ ถ้ามีกลิ่นไหม้ เสียงผิดปกติ หรือมอเตอร์ไม่หมุนทั้งที่คอนแทกเตอร์ดูด ให้ปลด Q1 ทันทีแล้วเรียกครู</div>
+  <div class="warnbox" data-l="en" style="margin-top:12px"><b>Safety for today</b>: wire and change leads only with the supply switched off, locked out and tagged. Do not couple the motor to a machine while testing. Never power up before the continuity tests pass and the teacher has signed the check. While the trainer is live, use only the buttons and switches on the door. If you smell burning, hear an unusual noise, or the motor does not turn although the contactor has pulled in, switch Q1 off at once and call the teacher.</div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">อุปกรณ์ของวงจรบนแผงฝึก</h2><h2 data-l="en">The circuit's devices on the trainer</h2>
+    <div class="src" data-l="th">หน้า 5.2 และ 5.7 (ตารางเทียบชื่อ) · สัปดาห์ที่ 4</div><div class="src" data-l="en">Pages 5.2 and 5.7 (name table) · week 4</div></div></div>
+  <p class="lead" data-l="th">ตารางแรกบอกว่าอุปกรณ์แต่ละตัวในแบบวงจรเริ่มเดินโดยตรงแบบครบชุด ใช้อุปกรณ์ตัวไหนบนแผงฝึก และใช้ขั้วไหนบ้าง ตารางที่สองเทียบชื่อในใบงานของครู (ไฟล์ CADe SIMU) กับชื่อตามแบบของวิชา</p>
+  <p class="lead" data-l="en">The first table shows which device on the trainer each device of the complete DOL drawing uses, and which of its terminals. The second table compares the names in the instructor's sheets (the CADe SIMU file) with the course names.</p>
+  <div class="card solve" style="overflow-x:auto"><div id="devA"></div></div>
+  <div class="card solve" style="overflow-x:auto;margin-top:12px"><div id="nameA"></div></div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">ไล่ทางเดินกระแสก่อนต่อสาย</h2><h2 data-l="en">Trace the current paths before wiring</h2>
+    <div class="src" data-l="th">หน้า 5.1 และ 5.2 · วงจรเริ่มเดินโดยตรงแบบครบชุดของวิชา</div><div class="src" data-l="en">Pages 5.1 and 5.2 · the complete DOL circuit of the course</div></div></div>
+  <p class="lead" data-l="th">ช่างที่ไล่ทางเดินกระแสในแบบได้คล่องจะต่อสายได้ถูกและหาจุดผิดได้เร็ว แตะอุปกรณ์ในแบบทีละตัวจากราว L1 ผ่านหน้าสัมผัสไปจนถึงโหลดที่โจทย์ถาม แล้วลงไปที่ N ทั้งห้าข้อใช้วงจรครบชุดที่จะต่อในหัวข้อ C แบบไม่แสดงสีของสายที่มีไฟ ถ้าติดให้กด "ดูเฉลย"</p>
+  <p class="lead" data-l="en">An electrician who traces current paths fluently wires correctly and finds faults fast. Tap the devices in the drawing one at a time, from the L1 rail through the contacts to the load the task asks for, and on to N. All five tasks use the complete circuit you will wire in section C. The drawing shows no live colours; if you get stuck, press "Show me the path".</p>
+  <div class="card sim rlwrap rlscroll mcp-wide" style="padding:8px"><div id="simB"></div></div>
+  <div class="card" style="margin-top:12px"><div id="trB"></div></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ต่อสายบนแผงฝึกทีละแผ่นของใบงาน</h2><h2 data-l="en">Wiring the trainer sheet by sheet</h2>
+    <div class="src" data-l="th">ใบงานของครูแผ่นที่ 3–9 · หน้า 5.1, 5.2 และ 5.6 (เลขสายและแผงขั้วต่อ)</div><div class="src" data-l="en">The instructor's sheets 3–9 · pages 5.1, 5.2 and 5.6 (wire numbers and terminal strips)</div></div></div>
+  <div class="story n0">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>ลำดับการต่อสายที่ใช้ทุกครั้ง (รายการเดินสายใต้แผงฝึกเรียงตามลำดับนี้แล้ว):</p>
+        <ol class="worder"><li>ตรวจว่าอุปกรณ์ทุกตัวผ่านการทดสอบของสัปดาห์ที่ 4 แล้วเขียนเลขสายลงในแบบที่จะใช้ต่อ</li>
+          <li>วงจรกำลังด้วยสายสีดำ: -X1 ขั้ว 1–3 (L1 L2 L3) → Q1 → KM1 → F2 → -X1 ขั้ว 6–8 → มอเตอร์ U1 V1 W1</li>
+          <li>สายดินป้องกัน (protective earth, PE) ด้วยสายสีเขียว-เหลือง: -X1 ขั้ว 5 → บาร์ PE → -X1 ขั้ว 9 → ขั้ว PE ของมอเตอร์</li>
+          <li>กล่องขั้วมอเตอร์: วางสะพานต่อแบบสตาร์ (W2–U2–V2) ตามป้ายพิกัด (สัปดาห์ที่ 1)</li>
+          <li>วงจรควบคุมด้วยสายสีแดง เรียงตามเลขสาย ต่อสายเลขหนึ่งให้ครบทุกปลายก่อนไปเลขถัดไป อุปกรณ์บนประตูตู้ต่อผ่านแผงขั้วต่อ -X2</li>
+          <li>N ด้วยสายสีฟ้าเป็นอย่างสุดท้าย: -X1 ขั้ว 4 → A2 ของคอยล์ → -X2 → ขั้ว X2 ของหลอด</li>
+          <li>ดึงสายทุกเส้นเบา ๆ ว่าแน่น เทียบกับรายการ ขั้วหนึ่งไม่เกินสองเส้น แล้วจึงทำการทดสอบก่อนจ่ายไฟในหัวข้อ D และเรียกครูตรวจ</li></ol></div>
+      <div class="story-p" data-l="en"><p>The wiring order to use every time (the checklist under the trainer is already in this order):</p>
+        <ol class="worder"><li>Check that every device has passed its week 4 test, and write the wire numbers on the drawing you wire from.</li>
+          <li>The power circuit in black: -X1 terminals 1–3 (L1 L2 L3) → Q1 → KM1 → F2 → -X1 terminals 6–8 → motor U1 V1 W1.</li>
+          <li>The protective earth (PE) in green-yellow: -X1 terminal 5 → PE bar → -X1 terminal 9 → the motor's PE terminal.</li>
+          <li>The motor terminal box: set the links for star (W2–U2–V2) to match the nameplate (week 1).</li>
+          <li>The control circuit in red, in wire-number order: finish every end of one wire number before the next. Door devices are wired through terminal strip -X2.</li>
+          <li>N in blue, last: -X1 terminal 4 → coil terminal A2 → -X2 → lamp terminals X2.</li>
+          <li>Give every lead a gentle pull to check it is tight, compare with the checklist, no more than two wires per terminal; then do the before-power tests of section D and call the teacher.</li></ol></div></div>
+  </div>
+  <p class="lead" data-l="th">เลือกแผ่นของใบงาน อ่านว่าแผ่นนั้นเพิ่มอะไร แล้วต่อสายบนแผงฝึก ถ้าเปิด "เก็บสายเดิมไว้เมื่อเปลี่ยนแผ่น" สายที่ต่อไว้จะอยู่ต่อ และผลการตรวจจะบอกว่าต้องเพิ่ม ย้าย หรือถอดเส้นไหน เหมือนการแก้วงจรบนแผงฝึกจริงจากแผ่นหนึ่งไปอีกแผ่น หัวข้อ D ทดสอบวงจรของแผ่นที่เลือกไว้ตรงนี้</p>
+  <p class="lead" data-l="en">Choose a sheet, read what it adds, then wire the trainer. With "keep my leads when I change the sheet" on, the leads you placed stay, and the check tells you which ones to add, move or remove, just as you change the real trainer from one sheet to the next. Section D tests the circuit of the sheet chosen here.</p>
+  <div class="card solve"><div class="panel" id="pC" style="position:static;max-height:none"></div></div>
+  <div class="card" style="padding:8px;margin-top:12px"><div id="trnC"></div></div>
+  <p class="lead" data-l="th" style="margin-top:12px">แบบวงจรของแผ่นที่เลือก (เปิดเลขสายไว้ให้ตรงกับรายการเดินสาย) เมื่อจ่ายไฟแล้ว แบบจะแสดงสายที่มีไฟเป็นสีแดง</p>
+  <p class="lead" data-l="en" style="margin-top:12px">The drawing of the chosen sheet (wire numbers on, to match the checklist). Once the trainer is powered, live wires show in red.</p>
+  <div class="card sim rlwrap rlscroll mcp-wide" style="padding:8px"><div id="simC"></div></div>
+</section>
+
+<section class="prob" id="tD">
+  <div class="prob-head"><span class="prob-no">D</span><div><h2 data-l="th">ทดสอบก่อนจ่ายไฟและหลังจ่ายไฟ</h2><h2 data-l="en">Tests before and after power</h2>
+    <div class="src" data-l="th">หน้า 5.1, 5.2 และ 5.5 · ขั้นตอนทดสอบของแผนก</div><div class="src" data-l="en">Pages 5.1, 5.2 and 5.5 · the department's test routine</div></div></div>
+  <h3 data-l="th">D1 ทดสอบความต่อเนื่องก่อนจ่ายไฟ</h3><h3 data-l="en">D1 Continuity tests before power</h3>
+  <p class="lead" data-l="th">ฝึกวัดบนแบบของแผ่นที่เลือกในหัวข้อ C ก่อนไปวัดจริงบนแผงฝึก: Q1 ปลดอยู่และแหล่งจ่ายตัดแล้ว กด "ตั้งสภาพ" ของแถว วางสายวัดตามที่แถวบอก ค่าที่อ่านได้จะกรอกลงตารางเอง (OL คือมิเตอร์แสดงว่าเกินย่าน ไม่มีทางต่อถึงกัน) ถ้าแถวใดไม่ตรง บนแผงฝึกจริงแปลว่ามีสายผิด ขาด หรือหลวม ให้แก้ก่อนเรียกครู</p>
+  <p class="lead" data-l="en">Practise on the drawing of the sheet chosen in section C before measuring on the real trainer: Q1 is off and the supply is isolated. Press "set up" on a row and place the probes where the row says; the reading is written into the table by itself (OL is the meter's over-limit display: no path at all). On the real trainer, a row that does not match means a wrong, missing or loose lead: fix it before calling the teacher.</p>
+  <div class="card sim rlwrap rlscroll mcp-wide" style="padding:8px"><div id="simD1"></div></div>
+  <div class="card" style="margin-top:12px"><div id="mD1"></div></div>
+  <div class="card solve" style="overflow-x:auto;margin-top:12px"><div id="ttD1"></div></div>
+  <h3 data-l="th" style="margin-top:18px">D2 จ่ายไฟแล้วทำตารางทดสอบ</h3><h3 data-l="en" style="margin-top:18px">D2 Power up and work through the test table</h3>
+  <p class="lead" data-l="th">หลังครูตรวจและกด "จ่ายไฟ" ที่แผงฝึกในหัวข้อ C แล้ว ปุ่มและสวิตช์ด้านล่างคือหน้าตู้ของแผงฝึกชุดเดียวกัน (ใช้ปุ่มบนแผงฝึกเองก็ได้) ทำตามตารางทีละแถว แถวจะติ๊กเองเมื่อแผงฝึกอยู่ในสภาพที่แถวนั้นถาม ถ้าเปลี่ยนแผ่นในหัวข้อ C ตารางจะเปลี่ยนตาม</p>
+  <p class="lead" data-l="en">Once the teacher has checked and you have pressed "power on" on the trainer in section C, the buttons and switches below are the door of that same trainer (you may use the ones on the trainer as well). Work through the table row by row; a row ticks itself when the trainer is in the state it asks for. Changing the sheet in section C changes the table.</p>
+  <div class="card solve"><div class="panel" id="pD2" style="position:static;max-height:none"></div></div>
+  <div class="card solve" style="overflow-x:auto;margin-top:12px"><div id="ttD2"></div></div>
+  <div class="callout" data-l="th"><b>แถว "ไฟดับแล้วกลับมา"</b>: ปลด Q1 ขณะมอเตอร์หมุนแทนไฟดับ แล้วสับกลับ วงจรค้างตัวเอง (แผ่นที่ 5 ขึ้นไป) ต้องไม่หมุนเอง เพราะหน้าสัมผัสค้างตัวเอง KM1 13–14 เปิดไปแล้วตอนไฟดับ ส่วนแผ่นที่ 3 ซึ่งใช้สวิตช์ค้างตำแหน่งจะหมุนเองทันทีที่ไฟกลับมา นี่คือเหตุผลที่เครื่องจักรต้องใช้วงจร 3 สาย (หน้า 5.1)</div>
+  <div class="callout" data-l="en"><b>The "power fails and returns" rows</b>: switch Q1 off while the motor runs, in place of a power failure, then on again. A self-holding circuit (sheet 5 onwards) must not restart, because holding contact KM1 13–14 opened when the supply failed. Sheet 3, with its maintained switch, restarts the moment the supply returns: this is why machines need three-wire control (page 5.1).</div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">มอเตอร์หมุนเฉพาะขณะกด S2</h2><h2 data-l="en">The motor runs only while S2 is held</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · รายการเดินสายของวงจรครบชุด · หน้า 5.5</div><div class="src" data-l="en">Worked example · the wiring checklist of the complete circuit · page 5.5</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>นักเรียนต่อวงจรครบชุดบนแผงฝึก ผ่านการตรวจของครูแล้วจ่ายไฟ กด S2 มอเตอร์หมุนและหลอดเขียว H1 ติด แต่พอปล่อย S2 มอเตอร์หยุดทันที หลอดอื่นทำงานถูกทุกดวง (ก) สายเส้นไหนน่าจะหายหรือหลวมที่สุด (ข) ยืนยันด้วยการวัดขณะไม่มีไฟอย่างไร</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>A student wires the complete circuit on the trainer, passes the teacher's check and powers up. Pressing S2 runs the motor and lights green lamp H1, but the moment S2 is released the motor stops. Every other lamp behaves correctly. (a) Which lead is most likely missing or loose? (b) How do you confirm it by measuring with the circuit dead?</p></div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="tE">
+  <div class="prob-head"><span class="prob-no">E</span><div><h2 data-l="th">เดินกระตุกแบบรีเลย์ช่วย: ไล่วงจร ต่อสาย และทดสอบ</h2><h2 data-l="en">Relay jogging: trace, wire and test</h2>
+    <div class="src" data-l="th">หน้า 5.3 (วงจร J2) · ใบงานที่ 5A ภาคเช้า</div><div class="src" data-l="en">Page 5.3 (circuit J2) · lab sheet 5A this morning</div></div></div>
+  <p class="lead" data-l="th">วงจรเดินกระตุก (jogging หรือ inching) ให้มอเตอร์หมุนเฉพาะขณะกดปุ่ม ใช้ตอนตั้งเครื่องหรือเลื่อนชิ้นงานทีละน้อย วงจรที่หน้า 5.3 แนะนำใช้รีเลย์ช่วย KA1: ปุ่มเริ่ม S2 สั่ง KA1 ซึ่งค้างตัวเองแล้วสั่ง KM1 ส่วนปุ่มเดินกระตุก S3 สีเทาป้อนคอยล์ KM1 ตรงโดยไม่ผ่านทางค้างตัวเองเลย ทำสามขั้นตามลำดับเดิม: ไล่ทางเดินกระแส ต่อสาย แล้วจ่ายไฟทำตารางทดสอบ</p>
+  <p class="lead" data-l="en">A jog (inching) circuit runs the motor only while a button is held, for setting up a machine or moving the work a little at a time. The circuit page 5.3 recommends uses auxiliary relay KA1: start button S2 drives KA1, which holds itself and drives KM1, while the grey jog button S3 feeds coil KM1 directly and never reaches a holding path. Work in the usual three steps: trace the current paths, wire, then power up and work through the test table.</p>
+  <h3 data-l="th">E1 ไล่ทางเดินกระแส</h3><h3 data-l="en">E1 Trace the current paths</h3>
+  <p class="lead" data-l="th">แตะอุปกรณ์ในแบบทีละตัวจากราว L1 ไปจนถึงโหลดที่โจทย์ถาม แล้วลงไปที่ N ข้อเหล่านี้ถามว่าทางเดินกระแสของ KM1 ผ่านอะไรเมื่อกดปุ่มเดินกระตุก และผ่านอะไรเมื่อเดินต่อเนื่อง ซึ่งเป็นเหตุผลที่วงจรนี้ปลอดภัยกว่าปุ่มสองหน้าสัมผัส</p>
+  <p class="lead" data-l="en">Tap the devices in the drawing one at a time, from the L1 rail to the load the task asks for, and on to N. The tasks ask what the path of KM1 passes through while jogging and while running continuously, which is why this circuit is safer than a double-contact button.</p>
+  <div class="card sim rlwrap rlscroll mcp-wide" style="padding:8px"><div id="simE1"></div></div>
+  <div class="card" style="margin-top:12px"><div id="trE1"></div></div>
+  <h3 data-l="th" style="margin-top:18px">E2 ต่อสายบนแผงฝึก</h3><h3 data-l="en" style="margin-top:18px">E2 Wire the trainer</h3>
+  <p class="lead" data-l="th">ลำดับการต่อเหมือนหัวข้อ C: วงจรกำลังและ PE ก่อน แล้ววงจรควบคุมตามเลขสาย และ N เป็นอย่างสุดท้าย ปุ่ม "เริ่มจากสายที่ต่อไว้ในหัวข้อ C" นำสายของหัวข้อ C มาตั้งต้น แล้วผลการตรวจจะบอกว่าต้องเพิ่ม ย้าย หรือถอดเส้นไหน เหมือนการแก้วงจรครบชุดบนแผงฝึกจริงให้เป็นวงจรเดินกระตุก ทดสอบก่อนจ่ายไฟแบบเดียวกับหัวข้อ D1 แล้วจึงให้ครูตรวจ</p>
+  <p class="lead" data-l="en">The wiring order is that of section C: the power circuit and PE first, then the control circuit in wire-number order, and N last. "Start from the leads placed in section C" brings in the leads of section C, and the check then tells you which to add, move or remove, just as you change the complete circuit on the real trainer into the jog circuit. Test before power as in section D1, then call the teacher.</p>
+  <div class="card solve"><div class="panel" id="pE2" style="position:static;max-height:none"></div></div>
+  <div class="card" style="padding:8px;margin-top:12px"><div id="trnE"></div></div>
+  <p class="lead" data-l="th" style="margin-top:12px">แบบวงจรเดินกระตุก (เปิดเลขสายไว้ให้ตรงกับรายการเดินสาย) เมื่อจ่ายไฟแล้ว แบบจะแสดงสายที่มีไฟเป็นสีแดง</p>
+  <p class="lead" data-l="en" style="margin-top:12px">The jog circuit drawing (wire numbers on, to match the checklist). Once the trainer is powered, live wires show in red.</p>
+  <div class="card sim rlwrap rlscroll mcp-wide" style="padding:8px"><div id="simE2"></div></div>
+  <h3 data-l="th" style="margin-top:18px">E3 จ่ายไฟแล้วทำตารางทดสอบ</h3><h3 data-l="en" style="margin-top:18px">E3 Power up and work through the test table</h3>
+  <p class="lead" data-l="th">หลังครูตรวจและกด "จ่ายไฟ" ที่แผงฝึกในหัวข้อ E2 แล้ว ปุ่มและสวิตช์ด้านล่างคือหน้าตู้ของแผงฝึกชุดเดียวกัน ทำตามตารางทีละแถว แถวจะติ๊กเองเมื่อแผงฝึกอยู่ในสภาพที่แถวนั้นถาม</p>
+  <p class="lead" data-l="en">Once the teacher has checked and you have pressed "power on" on the trainer in section E2, the buttons and switches below are the door of that same trainer. Work through the table row by row; a row ticks itself when the trainer is in the state it asks for.</p>
+  <div class="card solve"><div class="panel" id="pE3" style="position:static;max-height:none"></div></div>
+  <div class="card solve" style="overflow-x:auto;margin-top:12px"><div id="ttE"></div></div>
+</section>
+
+<section class="prob" id="tF">
+  <div class="prob-head"><span class="prob-no">F</span><div><h2 data-l="th">ใบงานสัปดาห์ที่ 5 (กระดาษ)</h2><h2 data-l="en">Practice sheet for week 5 (paper)</h2>
+    <div class="src" data-l="th">ใบงานครูแจกเป็นกระดาษ</div><div class="src" data-l="en">Handed out on paper by the teacher</div></div></div>
+  <div class="callout" data-l="th">ใบงานครูแจกเป็นกระดาษในห้องปฏิบัติ หน้านี้ไม่มีไฟล์ให้ดาวน์โหลด ในใบงานมีแบบวงจรของแผ่นที่ครูกำหนดให้เขียนเลขสายเอง รายการเดินสายให้ติ๊ก ตารางทดสอบก่อนจ่ายไฟที่ต้องกรอกค่าที่วัดได้จริง ช่องให้ครูลงชื่อก่อนจ่ายไฟ และตารางทดสอบหลังจ่ายไฟ ค่าที่มีโหลดในหน้านี้เป็นค่าตัวอย่าง ให้กรอกค่าที่วัดได้จากแผงฝึกจริงเท่านั้น</div>
+  <div class="callout" data-l="en">The practice sheet is handed out on paper in the lab; there is no file to download on this page. It has the drawing of the sheet the teacher sets, for you to number; a wiring checklist to tick; a before-power test table to fill in with your real readings; a box for the teacher's signature before power-on; and the after-power test table. Readings through loads on this page are example values: write only what you measure on the real trainer.</div>
+</section>
+
+<section class="prob" id="tQ">
+  <div class="prob-head"><span class="prob-no">Q</span><div><h2 data-l="th">ทบทวน</h2><h2 data-l="en">Review</h2>
+    <div class="src" data-l="th">ต่อสายและทดสอบวงจรเริ่มเดินโดยตรง</div><div class="src" data-l="en">Wiring and testing a DOL starter</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>หัวข้อ C: ต่อแผ่นที่ 5 ให้ผ่าน แล้วเปลี่ยนเป็นแผ่นที่ 7 โดยเก็บสายเดิมไว้ ดูว่าผลการตรวจบอกให้ย้ายสายเส้นไหน และทำไมเลขสายจึงเลื่อนไปหนึ่งเลข</li>
+    <li>หัวข้อ D1 แผ่นที่ 9: เทียบค่าที่อ่านได้เมื่อกดชุดหน้าสัมผัส KM1 ด้วยมือ กับเมื่อกดด้วยมือพร้อมกด TEST ของ F2 แล้วอธิบายว่าหลอดดวงไหนเข้ามาในทาง</li>
+    <li>หัวข้อ D2: ทำตารางของแผ่นที่ 3 และแผ่นที่ 5 แล้วเทียบแถวไฟดับแล้วกลับมา</li>
+    <li>หัวข้อ E3: กด S3 ขณะมอเตอร์เดินต่อเนื่องแล้วปล่อย มอเตอร์หยุดหรือไม่ เพราะอะไร</li></ol>
+    <div class="book">วิชาเขียนแบบไฟฟ้า 2 หน้า 5.1, 5.2, 5.3, 5.5, 5.6 และ 5.7 · ใบงานของครู (ไฟล์ CADe SIMU) แผ่นที่ 3–9 · IEC 60204-1 ข้อ 7.5 (ไม่ให้เครื่องเริ่มเองหลังไฟกลับมา) และข้อ 13 (การเดินสาย) · IEC 60947-4-1</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Section C: get sheet 5 to pass, then change to sheet 7 keeping your leads. Which lead does the check tell you to move, and why do the wire numbers shift by one?</li>
+    <li>Section D1, sheet 9: compare the reading with the KM1 carrier pushed in by hand and with it pushed in while F2's TEST is pressed, and explain which lamp joins the path.</li>
+    <li>Section D2: work through the tables of sheet 3 and sheet 5 and compare their "power fails and returns" rows.</li>
+    <li>Section E3: press and release S3 while the motor runs continuously. Does the motor stop? Why?</li></ol>
+    <div class="book">Electrical Drawing II, pages 5.1, 5.2, 5.3, 5.5, 5.6 and 5.7 · the instructor's sheets (CADe SIMU file) 3–9 · IEC 60204-1, 7.5 (no automatic restart after the supply returns) and 13 (wiring practices) · IEC 60947-4-1</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui, tt = ED.tt, R = MCP.TRAINER.R, esc = MCP.esc;
+  const vC = MCP.fmtR(R.coil), vL = MCP.fmtR(R.lamp), vP = MCP.fmtR(1 / (1 / R.coil + 1 / R.lamp));   // example values, as the meter shows them
+  /* 0: this morning's ED2 pages (the same week in MCP_WEEKS; LOOK's keys if the table has none), each opened in the MCP context of this week, with what this afternoon uses */
+  const WK = (MC.mcpWeek && MC.mcpWeek()) || 5;
+  const LOOK = {
+    'ch5_1_self_holding.html': ['วงจรทีละขั้นตามแผ่นที่ 1–5 หน้าสัมผัสค้างตัวเอง KM1 13–14 ต่อคร่อม S2 และปุ่ม "ไฟดับแล้วกลับมา" ในทุกขั้น', 'the step-by-step circuits of sheets 1–5, holding contact KM1 13–14 across S2, and the "power fails and returns" button at every step'],
+    'ch5_2_protection_lamps.html': ['ทำไม F2 ในวงจรกำลังอย่างเดียวหยุดมอเตอร์ไม่ได้ ตำแหน่งของ 95–96 และ 97–98 หลอดเดิน หลอดโอเวอร์โหลด หลอดหยุด และสีตามมาตรฐาน', 'why F2 in the power circuit alone cannot stop the motor, where 95–96 and 97–98 go, the run, overload and stopped lamps and their standard colours'],
+    'ch5_3_jogging.html': ['วงจรเดินกระตุกแบบรีเลย์ช่วย J2 ที่จะต่อในหัวข้อ E และเหตุผลที่ปุ่มสองหน้าสัมผัสในทางค้างตัวเองอันตราย', 'the relay jog circuit (J2) you will wire in section E, and why a double-contact button in the holding path is dangerous'],
+    'ch5_4_single_phase.html': ['บ่ายนี้อ่านอย่างเดียว: แผงฝึกในหน้านี้ยังไม่มีมอเตอร์ 1 เฟส ดูว่าทำไม Q1 และ KM1 ต้องตัดทั้ง L และ N', 'read only for this afternoon: the trainer on this site has no single-phase motor yet; see why Q1 and KM1 must open both L and N'],
+    'ch5_5_fault_finding.html': ['ขั้นตอนหาจุดผิดจากอาการ ใช้ในตัวอย่างที่ 1 และใช้ต่อในการหาจุดผิดด้วยมิเตอร์ของสัปดาห์ที่ 6', 'the routine for finding a fault from its symptom, used in example 1 and again for fault finding with the meter in week 6'] };
+  (() => { const w = (MC.mcpHere && MC.mcpHere()) || (window.MCP_WEEKS || []).find(x => x.wk === 5) || {};
+    const files = (w.prepare || []).length ? w.prepare : Object.keys(LOOK);
+    $('prep').innerHTML = files.map(f => { const s = (window.STOPS || []).find(x => x.file === f) || {}, lk = LOOK[f], href = MC.mcpLink ? MC.mcpLink(f, WK) : f;
+      return `<li><a href="${href}"><b>${s.step || ''}</b> ${esc(t(s.title || f, s.en || f))}</a>${lk ? `<br><span class="pk">${t('ดู', 'Look at')}: ${esc(t(lk[0], lk[1]))}</span>` : ''}</li>`; }).join(''); })();
+  const on = (sim, id) => !!(sim.dev[id] && sim.dev[id].energized);
+  const SHEET = (n, run) => (n >= 10 ? C5.DOL5() : C5.SHEET(n, { run: run || 'coil' }));
+  const SH = (no, title) => ({ no, title });
+  /* drawing size: k × its natural width; a narrow drawing (early sheets) is not stretched, and only a wide one keeps a legible minimum
+     width on phones and scrolls inside its card (.rlscroll / .mcp-wide) */
+  const fitBox = (sim, card, k = 1.3) => { const svg = sim.el.querySelector('svg'), W = svg && svg.viewBox && svg.viewBox.baseVal ? svg.viewBox.baseVal.width : 700;
+    sim.o.max = Math.round(W * k); sim.render(); sim.el.style.maxWidth = `${Math.round(W * k)}px`; sim.el.style.margin = '0 auto';
+    if (card) { const wide = W >= 640; card.classList.toggle('mcp-wide', wide); card.classList.toggle('rlscroll', W >= 380); card.style.setProperty('--rlmin', `${Math.round(Math.min(W, 720))}px`); } return W; };
+
+  /* A: the devices of the complete circuit on the trainer (MCP.trAssign / MCP.trRef of C5.DOL5), and the lab-file names (C5.NAMEMAP) */
+  (() => { const sim = new RL.Sim(document.createElement('div'), C5.DOL5(), { sheet: false }), ref = MCP.trRef(sim), asg = ref.asg, L = MCP.TRAINER;
+    const H = [t('ในแบบ', 'in the drawing'), t('บนแผงฝึก', 'on the trainer'), t('ชนิด', 'kind'), t('ขั้วที่ใช้', 'terminals used')];
+    let h = `<table class="tbl stack"><thead><tr>${H.map(x => `<th>${x}</th>`).join('')}</tr></thead>`;
+    Object.keys(asg.slot).forEach(id => { const slot = asg.slot[id], dv = L.devices.find(d => d.id === slot) || {}, K = L.kinds[dv.kind] || {};
+      const used = [...new Set(ref.pairs.flatMap(p => [p.a, p.b]).filter(s => s.split(':')[0] === slot).map(s => s.split(':')[1]))].sort((a, b) => (parseInt(a, 10) || 999) - (parseInt(b, 10) || 999) || a.localeCompare(b));
+      h += `<tr><td data-h="${H[0]}"><b>${esc(MCP.name(sim, id))}</b></td><td data-h="${H[1]}">${esc(slot)}${dv.tag && dv.tag !== slot ? ` <span class="hint">(${t('พิมพ์ว่า', 'printed')} ${esc(dv.tag)})</span>` : ''}</td><td data-h="${H[2]}">${esc(tt(K.name || ['', '']))}</td><td data-h="${H[3]}"><span style="font-family:'IBM Plex Mono',monospace">${used.join(' ')}</span></td></tr>`; });
+    $('devA').innerHTML = h + `</table><p class="simnote">${t('หลอดบนแผงฝึกเลือกตามสี: หลอดเดิน H1 ใช้หลอดเขียว หลอดโอเวอร์โหลด H2 ใช้หลอดเหลือง และหลอดหยุด H3 ใช้หลอดขาว ปุ่มหยุด S1 ใช้ปุ่มดำ ปุ่มเริ่ม S2 ใช้ปุ่มขาว ตามสีใน IEC 60204-1 (IEC = International Electrotechnical Commission คณะกรรมาธิการไฟฟ้าระหว่างประเทศ) ตำแหน่งและรุ่นเป็นแบบที่ออกแบบไว้ก่อน จะปรับตามแผงฝึกจริง', 'Lamps on the trainer are chosen by colour: run lamp H1 uses a green light, overload lamp H2 the yellow one and stopped lamp H3 the white one; stop button S1 uses the black button and start button S2 the white one, as IEC 60204-1 (International Electrotechnical Commission, IEC) asks. Positions and models are our design for now and will follow the real trainer.')}</p>`;
+    const N = [t('ชื่อในใบงานของครู', "name in the instructor's sheets"), t('ชื่อตามแบบของวิชา', 'course name'), t('อุปกรณ์', 'device')];
+    $('nameA').innerHTML = `<table class="tbl stack"><thead><tr>${N.map(x => `<th>${x}</th>`).join('')}</tr></thead>${C5.NAMEMAP.map(r => `<tr><td data-h="${N[0]}"><span style="font-family:'IBM Plex Mono',monospace">${esc(r[0])}</span></td><td data-h="${N[1]}"><b>${esc(r[1])}</b></td><td data-h="${N[2]}">${esc(tt(r[2]))}</td></tr>`).join('')}</table>`; })();
+
+  /* B: trace on the complete circuit */
+  const sB = new RL.Sim($('simB'), C5.DOL5(), { max: 900, sheet: SH('MCP5-B', ['วงจรเริ่มเดินโดยตรงแบบครบชุด', 'Complete DOL circuit']) });
+  new MCP.Trace($('trB'), sB, [
+    { ask: ['กด S2 ค้างไว้: ไล่ทางเดินกระแสที่ทำให้คอยล์ KM1 มีไฟ', 'S2 held: trace the path that energises coil KM1'], setup: [['hold', 'S2']], load: 'KM1' },
+    { ask: ['ปล่อย S2 แล้ว มอเตอร์ยังหมุน: ไล่ทางเดินกระแสของ KM1 ผ่านหน้าสัมผัสค้างตัวเอง', 'S2 released, the motor still runs: trace the path of KM1 through its holding contact'], setup: [['tap', 'S2']], load: 'KM1' },
+    { ask: ['มอเตอร์หมุนอยู่: ไล่ทางเดินกระแสของหลอดเดิน H1', 'The motor is running: trace the path of run lamp H1'], setup: [['tap', 'S2']], load: 'H1', hint: ['H1 รับไฟจาก F1 ขั้ว 2 ผ่านเส้นป้อนหลอด แล้วผ่านหน้าสัมผัสของชุดเสริมด้านหน้า', 'H1 is fed from F1 terminal 2 along the lamp feed, then through a contact of the front block'] },
+    { ask: ['F2 ตัดแล้ว: ไล่ทางเดินกระแสของหลอดโอเวอร์โหลด H2', 'F2 has tripped: trace the path of overload lamp H2'], setup: [['tap', 'S2'], ['set', 'F2', true]], load: 'H2' },
+    { ask: ['มอเตอร์หยุด: ไล่ทางเดินกระแสของหลอดหยุด H3', 'The motor is stopped: trace the path of stopped lamp H3'], setup: [], load: 'H3' }]);
+
+  /* test tables (as on page mcp_4_device_tests): BeforePower = continuity rows on a dead circuit, the reading filled in when the meter's pair matches;
+     AfterPower = rows done in order on the live trainer, each ticking when the simulator is in the state it asks for */
+  const pushHand = sim => { const a0 = RL.Sim.prototype.act; sim.hand = null; sim.act = function (d) { return this.hand === d ? true : a0.call(this, d); }; };
+  const V = (sim, s) => { if (/^[ctp]:/.test(s)) return s; const x = MCP.findEl(sim, s); return x ? `t:${x.i}:${x.j}` : s; };
+  const DEAD = [['mains', false], ['set', 'Q1', false]];
+  class BeforePower {
+    constructor(el, sim, meter, rows) { this.el = el; this.sim = sim; this.m = meter; this.rows = rows; this.k = -1; this.got = rows.map(() => null);
+      const hid = new RL.Sim(document.createElement('div'), sim.spec, { sheet: false }); pushHand(hid);
+      rows.forEach(r => { this.setup(hid, r); r.exp = MCP.measure(hid, V(hid, r.a), V(hid, r.b), 'R').text; r.va = V(sim, r.a); r.vb = V(sim, r.b); });
+      const prev = meter.o.onMeasure; meter.o.onMeasure = rec => { if (prev) prev(rec); this.measured(rec); };
+      el.onclick = e => { const b = e.target.closest('[data-row]'); if (b) this.go(+b.getAttribute('data-row')); };
+      sim.hand = null; MCP.reset(sim); MCP.run(sim, DEAD); this.draw(); }
+    setup(sim, r) { sim.hand = null; MCP.reset(sim); MCP.run(sim, DEAD.concat(r.set || [])); sim.hand = r.hand || null; sim.update(); }
+    go(k) { this.k = k; this.setup(this.sim, this.rows[k]); this.m.clear(); this.m.setMode('R'); this.draw(); }
+    is(t0, v) { return t0 && (t0.v === v || (t0.keys && t0.keys.some(q => 'p:' + q === v))); }
+    measured(rec) { const r = this.rows[this.k]; if (!r || rec.mode !== 'R') return;
+      if ((this.is(rec.red, r.va) && this.is(rec.black, r.vb)) || (this.is(rec.red, r.vb) && this.is(rec.black, r.va))) { this.got[this.k] = rec.res.text; this.draw(); } }
+    draw() { const H = [t('ขั้น', 'step'), t('สภาพ', 'set up'), t('สายแดง – สายดำ', 'red – black'), t('ควรได้', 'expected'), t('ของคุณ', 'yours')];
+      let h = `<table class="tbl stack ttab"><thead><tr>${H.map(x => `<th>${x}</th>`).join('')}</tr></thead>`;
+      this.rows.forEach((r, i) => { const g = this.got[i];
+        h += `<tr class="${i === this.k ? 'cur' : ''}"><td data-h="${H[0]}">${i + 1}</td><td data-h="${H[1]}"><button type="button" class="btn${i === this.k ? ' on' : ''}" data-row="${i}">${t('ตั้งสภาพ', 'set up')}</button> ${esc(tt(r.st))}</td>` +
+          `<td data-h="${H[2]}" class="rd">${esc(r.pa)} – ${esc(r.pb)}</td><td data-h="${H[3]}" class="rd">${esc(r.exp)}${r.why ? `<br><span class="hint">${esc(tt(r.why))}</span>` : ''}</td>` +
+          `<td data-h="${H[4]}" class="rd ${g === null ? '' : g === r.exp ? 'ok' : 'bad'}">${g === null ? '…' : esc(g) + (g === r.exp ? ' ✓' : ' ✗')}</td></tr>`; });
+      const n = this.got.filter(g => g !== null).length;
+      this.el.innerHTML = h + `</table><p class="simnote">${t(`วัดแล้ว ${n}/${this.rows.length} ขั้น ค่าที่มีโหลดเป็นค่าตัวอย่าง`, `${n}/${this.rows.length} steps measured; readings through loads are example values`)}</p>`; } }
+  class AfterPower {
+    constructor(el, sim, trainer, rows) { this.el = el; this.sim = sim; this.tr = trainer; this.rows = rows; this.done = rows.map(() => false); sim.on(() => this.check()); this.draw(); }
+    seen() { const s = this.sim, lit = Object.keys(s.dev).filter(id => s.dev[id].type === 'lamp' && s.dev[id].energized), km = Object.keys(s.dev).filter(id => s.dev[id].type === 'coil' && s.dev[id].energized);
+      if (!this.tr.live) return t('แผงฝึกยังไม่มีไฟ', 'the trainer is not powered');
+      return [km.length ? t(`ดูด: ${km.join(', ')}`, `pulled in: ${km.join(', ')}`) : t('ไม่มีคอนแทกเตอร์หรือรีเลย์ดูด', 'no contactor or relay in'), s.spec.power ? (s.running() ? t('มอเตอร์หมุน', 'motor running') : t('มอเตอร์หยุด', 'motor stopped')) : '',
+        lit.length ? t(`หลอดติด: ${lit.join(', ')}`, `lamps lit: ${lit.join(', ')}`) : t('ไม่มีหลอดติด', 'no lamp lit')].filter(Boolean).join(' · '); }
+    check() { if (this.tr.live) { const k = this.done.indexOf(false); if (k >= 0 && this.rows[k].ok(this.sim)) { this.done[k] = true; this.check(); return; } } this.draw(); }
+    draw() { const k = this.done.indexOf(false), H = [t('ขั้น', 'step'), t('ทำ', 'do'), t('ต้องเห็น', 'you should see'), t('ผล', 'result')];
+      let h = `<table class="tbl stack ttab"><thead><tr>${H.map(x => `<th>${x}</th>`).join('')}</tr></thead>`;
+      this.rows.forEach((r, i) => { h += `<tr class="${i === k ? 'cur' : ''}"><td data-h="${H[0]}">${i + 1}</td><td data-h="${H[1]}">${esc(tt(r.do))}</td><td data-h="${H[2]}">${esc(tt(r.see))}</td><td data-h="${H[3]}" class="${this.done[i] ? 'ok' : ''}">${this.done[i] ? '✓' : i === k ? `<span class="hint">${esc(this.seen())}</span>` : '…'}</td></tr>`; });
+      const n = this.done.filter(Boolean).length;
+      this.el.innerHTML = h + `</table><p class="simnote">${n === this.rows.length ? t('ครบทุกขั้น: วงจรทำงานตามแบบ ลงผลในใบงานแล้วตัดไฟ', 'All steps done: the circuit works as drawn. Write the results on your sheet and switch off') : t(`ผ่าน ${n}/${this.rows.length} ขั้น · ทำแถวที่ไฮไลต์อยู่บนแผงฝึก`, `${n}/${this.rows.length} steps passed · do the highlighted row on the trainer`)}</p>`; } }
+
+  /* C: the instructor's sheets 3–9 and the course's complete circuit (10) on the trainer. A new sheet rebuilds the trainer (with the
+     leads carried over when "keep" is on), its drawing, and the tests of section D. Sheets 8–9: run lamp across the coil (as on the
+     sheet) or through KM1 53–54 (the course drawing of page 5.2). */
+  const cs = { n: 3, run: 'coil', keep: true, trn: null, sim: null };
+  const sheetLab = n => (n >= 10 ? t('ครบชุด', 'complete') : t(`แผ่น ${n}`, `sheet ${n}`));
+  const sheetTitle = n => (n >= 10 ? t('วงจรครบชุดของวิชา', "The course's complete circuit") : tt(C5.SHEETINFO[n].title));
+  const sheetAdds = n => (n >= 10 ? t('แผ่นที่ 9 กับหลอดเดิน H1 ผ่าน KM1 53–54 และเพิ่มหลอดหยุด H3 (ขาว) ผ่านหน้าสัมผัสปกติปิด KM1 21–22 ซึ่งวิชาเพิ่มเอง', 'sheet 9 with run lamp H1 through KM1 53–54, plus stopped lamp H3 (white) through the NC contact KM1 21–22, added by the course') : tt(C5.SHEETINFO[n].adds));
+  const dwgTitle = () => [`ใบงานแผ่นที่ ${cs.n}`, `Sheet ${cs.n}`];
+  const pC = $('pC'); ui.h2(pC, t('แผ่นของใบงาน', 'Sheet'));
+  ui.radio(pC, [3, 4, 5, 6, 7, 8, 9, 10].map(n => ({ id: String(n), label: sheetLab(n), on: n === cs.n })), id => { cs.n = +id; buildC(); });
+  const infoC = document.createElement('div'); pC.appendChild(infoC);
+  const runC = document.createElement('div'); pC.appendChild(runC);
+  ui.buttons(pC, [{ id: 'keep', label: t('เก็บสายเดิมไว้เมื่อเปลี่ยนแผ่น', 'keep my leads when I change the sheet'), on: true, onclick: b => { cs.keep = !cs.keep; b.classList.toggle('on', cs.keep); } }]);
+  let d1 = null, d2 = null;
+  const buildC = () => { const wires = cs.keep && cs.trn ? cs.trn.wires.map(w => ({ ...w })) : [];
+    if (cs.trn && cs.trn.live) cs.trn.power(false);
+    const box = $('trnC'), el = document.createElement('div'); box.innerHTML = ''; box.appendChild(el);
+    const sb = $('simC'), se = document.createElement('div'); sb.innerHTML = ''; sb.appendChild(se);
+    const n = cs.n, title = n >= 10 ? ['วงจรเริ่มเดินโดยตรงแบบครบชุด', 'Complete DOL circuit'] : dwgTitle();
+    cs.sim = new RL.Sim(se, SHEET(n, cs.run), { max: 900, wireNos: true, sheet: SH(n >= 10 ? 'MCP5-C' : `MCP5-C${n}`, title) });
+    fitBox(cs.sim, sb.parentElement);
+    cs.trn = new MCP.Trainer(el, cs.sim, { demo: true, wires, onChange: () => { if (d2) d2.check(); } });
+    infoC.innerHTML = `<p class="simnote"><b>${esc(sheetTitle(n))}</b>: ${esc(sheetAdds(n))}${wires.length ? t(` · เก็บสายเดิมไว้ ${wires.length} เส้น กด "ตรวจการเดินสาย" เพื่อดูว่าต้องแก้เส้นไหน`, ` · ${wires.length} leads kept: press "check the wiring" to see which to change`) : ''}</p>`;
+    runC.innerHTML = '';
+    if (n === 8 || n === 9) { ui.radio(runC, [{ id: 'coil', label: t('H1 คร่อมคอยล์ (ตามใบงาน)', 'H1 across the coil (as on the sheet)'), on: cs.run === 'coil' }, { id: 'aux', label: t('H1 ผ่าน KM1 53–54 (แบบของวิชา หน้า 5.2)', 'H1 through KM1 53–54 (course drawing, page 5.2)'), on: cs.run === 'aux' }], id => { cs.run = id; buildC(); });
+      ui.html(runC, t('หลอดที่ต่อคร่อมคอยล์บอกแค่ว่าคอยล์มีไฟ หลอดที่ต่อผ่าน 53–54 บอกว่าคอนแทกเตอร์ต่อจริง (หน้า 5.2)', 'A lamp across the coil only shows that the coil has voltage; a lamp through 53–54 shows that the contactor has really closed (page 5.2)'), 'hint'); }
+    buildD1(); buildD2(); };
+
+  /* D1: continuity rows for the chosen sheet; expected values from the same model (a hidden simulator in each set-up) */
+  const D1ROWS = () => { const n = cs.n, dv = SHEET(n, cs.run).devices, sel = dv.S2 && dv.S2.type === 'sel', A = 'F1:2', pa = '-F1:2', rows = [];
+    rows.push({ st: ['ไม่มีอะไรทำงาน', 'nothing operated'], a: A, b: 'c:N', pa, pb: 'N', why: ['OL ถ้าไม่มีโหลดใดมีทางต่อ หรือค่าของหลอดที่ต่ออยู่', 'OL if no load has a path, or the value of the lamp that is connected'] });
+    rows.push({ st: sel ? ['S2 ที่ I', 'S2 at I'] : ['กด S2 ค้าง', 'S2 held'], set: [sel ? ['set', 'S2', true] : ['hold', 'S2']], a: A, b: 'c:N', pa, pb: 'N', why: ['คอยล์ KM1 เข้ามาในทาง ค่าจึงลดลง', 'coil KM1 joins the path, so the reading falls'] });
+    if (dv.S1) rows.push({ st: ['กด S2 และ S1 ค้าง', 'S2 and S1 held'], set: [['hold', 'S2'], ['hold', 'S1']], a: A, b: 'c:N', pa, pb: 'N', why: ['S1 เปิด คอยล์หลุดออกจากทาง ค่ากลับเท่าแถวที่ 1', 'S1 opens: the coil leaves the path, back to row 1'] });
+    if (n >= 5) rows.push({ st: ['กดชุดหน้าสัมผัส KM1 ด้วยมือ', 'KM1 carrier pushed in by hand'], hand: 'KM1', a: A, b: 'c:N', pa, pb: 'N', why: ['หน้าสัมผัสค้างตัวเอง 13–14 ต่อ คอยล์อยู่ในทางโดยไม่ต้องกด S2 (หลอดที่ต่อผ่านหน้าสัมผัสของ KM1 เปลี่ยนตามด้วย)', 'holding contact 13–14 closes: the coil is in the path without S2 (lamps on KM1 contacts change too)'] });
+    if (n >= 7) rows.push({ st: ['KM1 ด้วยมือ และกด TEST ของ F2', 'KM1 by hand, F2 TEST pressed'], hand: 'KM1', set: [['set', 'F2', true]], a: A, b: 'c:N', pa, pb: 'N', why: ['95–96 เปิด คอยล์หลุดออกจากทาง ส่วน 97–98 ต่อหลอดโอเวอร์โหลดเข้ามา (ถ้ามี)', '95–96 opens: the coil leaves the path; 97–98 brings in the overload lamp (if there is one)'] });
+    rows.push({ st: ['ปกติ', 'as it is'], a: 'F1:1', b: 'F1:2', pa: '-F1:1', pb: '-F1:2', why: ['F1 สับอยู่ ต่อถึงกัน', 'F1 on: continuity'] });
+    rows.push({ st: ['KM1 ปล่อย', 'KM1 at rest'], a: 'p:Q1:2', b: 'p:Q1:4', pa: '-Q1:2', pb: '-Q1:4', why: ['ระหว่างเฟสต้องไม่ต่อถึงกัน', 'no path between two phases'] });
+    rows.push({ st: ['กดชุดหน้าสัมผัส KM1 ด้วยมือ', 'KM1 carrier pushed in by hand'], hand: 'KM1', a: 'p:Q1:2', b: 'p:Q1:4', pa: '-Q1:2', pb: '-Q1:4', why: ['ขดลวดมอเตอร์สองขดอนุกรม (สตาร์) ถ้าได้ 0 Ω แปลว่าลัดวงจร', 'two motor windings in series (star); 0 Ω here would be a short circuit'] });
+    rows.push({ st: ['ปกติ', 'as it is'], a: 'p:M1:U1', b: 'p:SUP:PE', pa: '-M1:U1', pb: 'PE', why: ['ขดลวดต้องไม่ต่อถึงโครงมอเตอร์ (การวัดฉนวนจริงใช้เครื่องวัดความต้านทานฉนวน ครูเป็นผู้วัด)', 'the winding must not reach the frame (a real insulation test uses an insulation tester; the teacher does it)'] });
+    return rows; };
+  const buildD1 = () => { const sb = $('simD1'), se = document.createElement('div'); sb.innerHTML = ''; sb.appendChild(se);
+    const mb = $('mD1'), me = document.createElement('div'); mb.innerHTML = ''; mb.appendChild(me);
+    const s = new RL.Sim(se, SHEET(cs.n, cs.run), { max: 900, sheet: SH(cs.n >= 10 ? 'MCP5-D1' : `MCP5-D1-${cs.n}`, cs.n >= 10 ? ['วงจรเริ่มเดินโดยตรงแบบครบชุด', 'Complete DOL circuit'] : dwgTitle()) }); pushHand(s); fitBox(s, sb.parentElement);
+    const m = new MCP.Meter(me, s, { mode: 'R' }); d1 = new BeforePower($('ttD1'), s, m, D1ROWS()); };
+
+  /* D2: the after-power table of the chosen sheet on the trainer's own simulator, with its door as a panel (C5.panel, no power-cut
+     button: the supply is the trainer's) */
+  const D2ROWS = () => { const n = cs.n, run = s => on(s, 'KM1') && s.running(), lit = (s, id) => !s.dev[id] || on(s, id), dark = (s, id) => !s.dev[id] || !on(s, id), r = [];
+    const H1 = n >= 8, H2 = n >= 9, H3 = n >= 10;
+    r.push({ do: ['สับ Q1', 'switch Q1 on'], see: [`KM1 ไม่ดูด มอเตอร์หยุด${H3 ? ' หลอดขาว H3 ติด' : ''}`, `KM1 out, the motor stopped${H3 ? ', white lamp H3 lit' : ''}`], ok: s => s.dev.Q1.on && !on(s, 'KM1') && lit(s, 'H3') });
+    if (n === 3) {
+      r.push({ do: ['หมุน S2 ไปที่ I', 'turn S2 to I'], see: ['KM1 ดูด มอเตอร์หมุน', 'KM1 pulls in, the motor runs'], ok: s => s.dev.S2.on && run(s) });
+      r.push({ do: ['ปลด Q1 (แทนไฟดับ)', 'switch Q1 off (a power failure)'], see: ['มอเตอร์หยุด', 'the motor stops'], ok: s => !s.dev.Q1.on && !on(s, 'KM1') });
+      r.push({ do: ['สับ Q1 อีกครั้ง (ไฟกลับมา)', 'switch Q1 on again (the supply returns)'], see: ['มอเตอร์หมุนเองทันที เพราะ S2 ยังอยู่ที่ I (วงจร 2 สาย)', 'the motor restarts at once, because S2 is still at I (two-wire control)'], ok: s => s.dev.Q1.on && run(s) });
+      r.push({ do: ['หมุน S2 กลับไปที่ 0', 'turn S2 back to 0'], see: ['มอเตอร์หยุด', 'the motor stops'], ok: s => !s.dev.S2.on && !on(s, 'KM1') });
+    } else if (n === 4) {
+      r.push({ do: ['กด S2 ค้างไว้', 'hold S2'], see: ['KM1 ดูด มอเตอร์หมุน', 'KM1 pulls in, the motor runs'], ok: s => s.dev.S2.pressed && run(s) });
+      r.push({ do: ['ปล่อย S2', 'release S2'], see: ['มอเตอร์หยุดทันที (ไม่มีหน้าสัมผัสค้างตัวเอง)', 'the motor stops at once (no holding contact)'], ok: s => !s.dev.S2.pressed && !on(s, 'KM1') });
+    } else {
+      r.push({ do: ['กด S2 แล้วปล่อย', 'tap S2'], see: [`มอเตอร์หมุนค้างหลังปล่อย S2${H1 ? ' หลอดเขียว H1 ติด' : ''}${H3 ? ' H3 ดับ' : ''}`, `the motor keeps running after S2 is released${H1 ? ', green lamp H1 lit' : ''}${H3 ? ', H3 out' : ''}`], ok: s => !s.dev.S2.pressed && run(s) && lit(s, 'H1') && dark(s, 'H3') });
+      r.push({ do: ['กด S1', 'press S1'], see: [`มอเตอร์หยุด${H1 ? ' H1 ดับ' : ''}${H3 ? ' H3 ติด' : ''}`, `the motor stops${H1 ? ', H1 out' : ''}${H3 ? ', H3 lit' : ''}`], ok: s => !on(s, 'KM1') && (!H1 || !on(s, 'H1')) && lit(s, 'H3') });
+      if (n >= 6) {
+        r.push({ do: ['กด S2 อีกครั้งให้มอเตอร์หมุน', 'tap S2 again so the motor runs'], see: ['มอเตอร์หมุน', 'the motor runs'], ok: s => !s.dev.S2.pressed && run(s) });
+        if (n === 6) {
+          r.push({ do: ['ทำให้ F2 ตัด (แตะปุ่ม R บน F2)', 'trip F2 (tap the R button on F2)'], see: ['KM1 ยังดูดอยู่: F2 ยังไม่มีหน้าสัมผัสในทางเดินกระแสของคอยล์ มอเตอร์จริงจะหมุนต่อจนร้อน', 'KM1 stays in: F2 has no contact in the coil path yet, so a real motor would run on and overheat'], ok: s => s.dev.F2.tripped && on(s, 'KM1') });
+          r.push({ do: ['รีเซ็ต F2 แล้วกด S1', 'reset F2, then press S1'], see: ['มอเตอร์หยุดด้วย S1 เท่านั้น', 'only S1 stops the motor'], ok: s => !s.dev.F2.tripped && !on(s, 'KM1') });
+        } else {
+          r.push({ do: ['ทำให้ F2 ตัด (แตะปุ่ม R บน F2)', 'trip F2 (tap the R button on F2)'], see: [`KM1 หลุด มอเตอร์หยุด${H2 ? ' หลอดเหลือง H2 ติด' : ''}`, `KM1 drops out, the motor stops${H2 ? ', yellow lamp H2 lit' : ''}`], ok: s => s.dev.F2.tripped && !on(s, 'KM1') && lit(s, 'H2') });
+          r.push({ do: ['รีเซ็ต F2 (แตะปุ่ม R อีกครั้ง)', 'reset F2 (tap R again)'], see: [`มอเตอร์ไม่หมุนเอง${H2 ? ' H2 ดับ' : ''}`, `the motor does not restart${H2 ? ', H2 out' : ''}`], ok: s => !s.dev.F2.tripped && !on(s, 'KM1') && dark(s, 'H2') });
+        } }
+      r.push({ do: ['กด S2 ให้มอเตอร์หมุน แล้วปลด Q1 (แทนไฟดับ)', 'tap S2 so the motor runs, then switch Q1 off (a power failure)'], see: ['ทุกอย่างดับ', 'everything goes off'], ok: s => !s.dev.Q1.on && !on(s, 'KM1'), pre: true });
+      r.push({ do: ['สับ Q1 อีกครั้ง (ไฟกลับมา)', 'switch Q1 on again (the supply returns)'], see: [`มอเตอร์ไม่หมุนเอง${H3 ? ' H3 ติด' : ''}`, `the motor does not restart${H3 ? ', H3 lit' : ''}`], ok: s => s.dev.Q1.on && !on(s, 'KM1') && lit(s, 'H3') });
+    }
+    r.push({ do: ['ปลด Q1 แล้วตัดไฟ', 'switch Q1 off and isolate'], see: ['ทุกอย่างดับ', 'everything is off'], ok: s => !s.dev.Q1.on && !on(s, 'KM1') });
+    return r; };
+  /* the power-failure row needs the motor to have run first: AfterPower checks rows in order, so a 'pre' row first waits for a run */
+  const buildD2 = () => { const pb = $('pD2'), pe = document.createElement('div'); pb.innerHTML = ''; pb.appendChild(pe);
+    C5.panel(pe, cs.sim, { cut: false, status: s => (cs.trn && cs.trn.live ? C5.state(s) : [t('ไม่มีไฟ', 'no supply'), t('แผงฝึกยังไม่ได้จ่ายไฟ: ตรวจการเดินสาย ให้ครูตรวจ แล้วกด "จ่ายไฟ" ที่แผงฝึกในหัวข้อ C', 'The trainer is not powered yet: check the wiring, let the teacher check, then press "power on" on the trainer in section C'), 'wait']) });
+    const rows = D2ROWS(), runSeen = { v: false };
+    rows.forEach(r => { if (r.pre) { const ok = r.ok; r.ok = s => { if (s.dev.Q1.on && on(s, 'KM1') && s.running()) runSeen.v = true; return runSeen.v && ok(s); }; } });
+    d2 = new AfterPower($('ttD2'), cs.sim, cs.trn, rows); };
+  buildC();
+
+  /* E: relay jogging (C5.J2, page 5.3; moved here from week 6 so that it matches this morning's lab sheet 5A): E1 trace, E2 the trainer
+     (optionally starting from the leads of section C), E3 the after-power table on the door of the E2 trainer */
+  const freshE = id => { const b = $(id), e = document.createElement('div'); b.innerHTML = ''; b.appendChild(e); return e; };
+  const JT = ['วงจรเดินกระตุกแบบรีเลย์ช่วย', 'Relay jog circuit'];
+  const JNOTE = ['S2 สั่งรีเลย์ KA1 ซึ่งค้างตัวเองด้วย 13–14 (บนรีเลย์คือ 11–14) แล้วสั่ง KM1 ผ่าน 23–24 (บนรีเลย์คือ 21–24) ปุ่มเดินกระตุก S3 สีเทาป้อน KM1 ตรง รายการเดินสายแสดงเลขขั้วบนตัวรีเลย์แล้ว', 'S2 drives relay KA1, which holds itself with 13–14 (11–14 on the relay) and drives KM1 through 23–24 (21–24 on the relay); the grey jog button S3 feeds KM1 directly. The checklist already shows the relay\'s own terminal numbers'];
+  const sE1 = new RL.Sim(freshE('simE1'), C5.J2(), { max: 900, sheet: SH('MCP5-E1', JT) }); fitBox(sE1, $('simE1').parentElement);
+  new MCP.Trace($('trE1'), sE1, [
+    { ask: ['กดปุ่มเดินกระตุก S3 ค้างไว้: ไล่ทางเดินกระแสของ KM1', 'Jog button S3 held: trace the path of KM1'], setup: [['hold', 'S3']], load: 'KM1', hint: ['ทางนี้ไม่ผ่านหน้าสัมผัสของ KA1 เลย', 'this path does not pass any KA1 contact'] },
+    { ask: ['กด S2 แล้วปล่อย: ไล่ทางเดินกระแสที่ทำให้รีเลย์ KA1 ค้างตัวเอง', 'S2 tapped: trace the path that keeps relay KA1 in'], setup: [['tap', 'S2']], load: 'KA1' },
+    { ask: ['เดินต่อเนื่อง (กด S2 แล้ว): ไล่ทางเดินกระแสของ KM1', 'Running continuously (S2 tapped): trace the path of KM1'], setup: [['tap', 'S2']], load: 'KM1' }]);
+  const je = { trn: null, sim: null }; let dE = null;
+  const pE2 = $('pE2'), infoE = document.createElement('div'); pE2.appendChild(infoE);
+  ui.buttons(pE2, [{ id: 'fromC', label: t('เริ่มจากสายที่ต่อไว้ในหัวข้อ C', 'start from the leads placed in section C'), onclick: () => buildE(cs.trn ? cs.trn.wires.map(w => ({ ...w })) : []) },
+    { id: 'empty', label: t('เริ่มใหม่จากแผงเปล่า', 'start again from an empty trainer'), onclick: () => buildE([]) }]);
+  const JROWS = () => [
+    { do: ['สับ Q1', 'switch Q1 on'], see: ['KA1 และ KM1 ไม่ดูด', 'KA1 and KM1 out'], ok: s => s.dev.Q1.on && !on(s, 'KM1') && !on(s, 'KA1') },
+    { do: ['กดปุ่มเดินกระตุก S3 ค้างไว้', 'hold jog button S3'], see: ['KM1 ดูด มอเตอร์หมุน แต่ KA1 ไม่ดูด', 'KM1 pulls in and the motor runs, but KA1 stays out'], ok: s => s.dev.S3.pressed && on(s, 'KM1') && s.running() && !on(s, 'KA1') },
+    { do: ['ปล่อย S3', 'release S3'], see: ['มอเตอร์หยุดทันที', 'the motor stops at once'], ok: s => !s.dev.S3.pressed && !on(s, 'KM1') },
+    { do: ['กด S2 แล้วปล่อย', 'tap S2'], see: ['KA1 ค้างตัวเอง KM1 ดูด มอเตอร์เดินต่อเนื่อง', 'KA1 holds itself, KM1 pulls in, the motor runs continuously'], ok: s => !s.dev.S2.pressed && on(s, 'KA1') && on(s, 'KM1') && s.running() },
+    { do: ['กด S1', 'press S1'], see: ['KA1 และ KM1 หลุด มอเตอร์หยุด', 'KA1 and KM1 drop out, the motor stops'], ok: s => !on(s, 'KA1') && !on(s, 'KM1') },
+    { do: ['กด S3 ค้างไว้แล้วปล่อยอีกครั้ง', 'hold S3 and release it again'], see: ['มอเตอร์หมุนเฉพาะขณะกด S3', 'the motor runs only while S3 is held'], ok: s => !s.dev.S3.pressed && !on(s, 'KM1') && s.mcpJogSeen },
+    { do: ['ปลด Q1 แล้วตัดไฟ', 'switch Q1 off and isolate'], see: ['ทุกอย่างดับ', 'everything is off'], ok: s => !s.dev.Q1.on && !on(s, 'KM1') }];
+  const buildE3 = () => { const pe = freshE('pE3'), sim = je.sim;
+    C5.panel(pe, sim, { cut: false, status: s => (je.trn && je.trn.live ? C5.state(s) : [t('ไม่มีไฟ', 'no supply'), t('แผงฝึกยังไม่ได้จ่ายไฟ: ตรวจการเดินสาย ให้ครูตรวจ แล้วกด "จ่ายไฟ" ที่แผงฝึกในหัวข้อ E2', 'The trainer is not powered yet: check the wiring, let the teacher check, then press "power on" on the trainer in section E2'), 'wait']) });
+    sim.mcpJogSeen = false;   /* row 6 needs a fresh jog: S3 held with KM1 in and KA1 out while row 6 is the current row */
+    sim.on(s => { if (dE && dE.done.indexOf(false) === 5 && s.dev.S3.pressed && on(s, 'KM1') && !on(s, 'KA1')) s.mcpJogSeen = true; });
+    dE = new AfterPower($('ttE'), sim, je.trn, JROWS()); };
+  const buildE = wires => { if (je.trn && je.trn.live) je.trn.power(false);
+    const el = freshE('trnE'), se = freshE('simE2');
+    je.sim = new RL.Sim(se, C5.J2(), { max: 900, wireNos: true, sheet: SH('MCP5-E2', JT) }); fitBox(je.sim, $('simE2').parentElement);
+    je.trn = new MCP.Trainer(el, je.sim, { demo: true, wires, onChange: () => { if (dE) dE.check(); } });
+    infoE.innerHTML = `<p class="simnote"><b>${esc(tt(JT))}</b>: ${esc(tt(JNOTE))}${wires.length ? t(` · เริ่มจากสายของหัวข้อ C ${wires.length} เส้น กด "ตรวจการเดินสาย" เพื่อดูว่าต้องแก้เส้นไหน`, ` · ${wires.length} leads from section C: press "check the wiring" to see which to change`) : ''}</p>`;
+    buildE3(); };
+  buildE([]);
+
+  /* worked example 1: the holding lead is missing (wire numbers of the complete circuit) */
+  LS.choose($('ask1'), { options: [t('สาย -KM1:13 → -X2:2 (สาย 4) ไปหน้าสัมผัสค้างตัวเองหายหรือหลวม', 'lead -KM1:13 → -X2:2 (wire 4) to the holding contact is missing or loose'), t('สาย -F2:96 → -X2:1 (สาย 3) ไปปุ่มหยุด S1 หาย', 'lead -F2:96 → -X2:1 (wire 3) to stop button S1 is missing'), t('สาย N ไปขั้ว A2 ของคอยล์หาย', 'the N lead to coil terminal A2 is missing')], answer: 0 });
+  LS.stepper($('st1'), { steps: [
+    { why: t('อาการบอกว่าทางผ่าน S2 ใช้ได้ทั้งทาง', 'The symptom says the path through S2 works all the way'), body: `<p>${t('ขณะกด S2 คอยล์มีไฟและหลอด H1 ติด ทางเดินกระแส F1 → F2 95–96 → S1 → S2 → คอยล์ KM1 → N จึงต่อครบ สาย 3 ไปปุ่มหยุดและสาย N ไปขั้ว A2 จึงไม่ได้หาย ถ้าหายจะไม่มีอะไรทำงานเลย', 'While S2 is held the coil has power and H1 lights, so the path F1 → F2 95–96 → S1 → S2 → coil KM1 → N is complete: wire 3 to the stop button and the N lead to A2 are not missing. If they were, nothing would work at all')}</p>` },
+    { why: t('ปล่อย S2 แล้วหยุด: ทางค้างตัวเองขาด', 'It stops when S2 is released: the holding path is broken'), body: `<p>${t('หลังปล่อย S2 คอยล์ต้องได้ไฟผ่านหน้าสัมผัส KM1 13–14 ที่ต่อคร่อม S2 ในรายการเดินสาย ปลาย 13 อยู่บนสาย 4 (-KM1:13 → -X2:2 → -S1:12 → -S2:13) และปลาย 14 อยู่บนสาย 5 (-KM1:A1 → -KM1:14 → -X2:3 → -S2:14) สายเส้นใดเส้นหนึ่งที่ไปถึง 13 หรือ 14 หายหรือหลวม หรือหน้าสัมผัส 13–14 เสียเหมือนกล่องครู 1 ของสัปดาห์ที่ 4', 'After S2 is released the coil must be fed through contact KM1 13–14 across S2. In the checklist, end 13 is on wire 4 (-KM1:13 → -X2:2 → -S1:12 → -S2:13) and end 14 on wire 5 (-KM1:A1 → -KM1:14 → -X2:3 → -S2:14). A lead reaching 13 or 14 is missing or loose, or contact 13–14 itself is faulty, like teacher\'s box 1 in week 4')}</p>` },
+    { why: t('ยืนยันขณะไม่มีไฟ', 'Confirm with the circuit dead'), body: `<p>${t(`ปลด Q1 ตัดไฟ ล็อก แล้ววัดจาก -F1:2 ถึง N ขณะกดชุดหน้าสัมผัส KM1 ด้วยมือ (แถวที่ 4 ของตาราง D1): วงจรที่ถูกอ่านได้ประมาณ ${vP} เพราะคอยล์ขนานกับหลอด แต่ถ้าทางค้างตัวเองขาด คอยล์ไม่อยู่ในทาง ค่าจะเหลือเท่าหลอดอย่างเดียว (${vL}) จากนั้นวัดทีละช่วงของสาย 4: -KM1:13 ถึง -X2:2 และ -X2:2 ถึง -S2:13 ช่วงที่อ่านได้ OL คือสายที่หายหรือหลวม`, `Switch Q1 off, isolate and lock, then measure from -F1:2 to N with the KM1 carrier pushed in by hand (row 4 of table D1): a correct circuit reads about ${vP}, the coil in parallel with a lamp; if the holding path is broken the coil is not in the path and only the lamp remains (${vL}). Then measure wire 4 link by link: -KM1:13 to -X2:2, and -X2:2 to -S2:13. The link that reads OL is the missing or loose lead`)}</p>` }],
+    answer: t('(ก) สายที่ไปหน้าสัมผัสค้างตัวเอง KM1 13–14 เช่น -KM1:13 → -X2:2 (สาย 4) (ข) ตัดไฟ กดชุดหน้าสัมผัส KM1 ด้วยมือ วัด -F1:2 ถึง N แล้ววัดทีละช่วงของสาย 4 และ 5 หาช่วงที่อ่านได้ OL', '(a) a lead to holding contact KM1 13–14, e.g. -KM1:13 → -X2:2 (wire 4); (b) with the circuit dead, push the KM1 carrier in by hand and measure -F1:2 to N, then measure wires 4 and 5 link by link for the one that reads OL') });
+
+  /* review questions */
+  ED.mcq('mcq', [
+    { q: t('1) ลำดับการต่อสายข้อใดถูก', '1) Which wiring order is right?'), options: [t('วงจรกำลังและ PE ก่อน แล้ววงจรควบคุมตามเลขสาย และ N เป็นอย่างสุดท้าย', 'the power circuit and PE first, then the control circuit in wire-number order, and N last'), t('N ก่อน แล้วสายอื่นตามสะดวก', 'N first, then the rest in any order'), t('วงจรควบคุมก่อน แล้วค่อยจ่ายไฟทดสอบก่อนต่อวงจรกำลัง', 'the control circuit first, then power it up before wiring the power circuit'), t('ต่ออุปกรณ์ทีละตัวจากซ้ายไปขวา', 'one device at a time from left to right')], answer: 0 },
+    { q: t('2) ขั้วหนึ่งของอุปกรณ์หรือแผงขั้วต่อ ควรมีสายไม่เกินกี่เส้น', '2) How many wires at most on one terminal of a device or terminal strip?'), options: ['1', '2', '3', t('ไม่จำกัด', 'no limit')], answer: 1, why: t('ไม่เกินสองเส้นต่อหนึ่งจุดต่อ ถ้าต้องต่อมากกว่านั้นให้เพิ่มขั้วที่แผงขั้วต่อแล้วต่อสะพาน (หน้า 5.6)', 'At most two per terminal point; if more are needed, add a strip terminal with a bridge (page 5.6)') },
+    { q: t('3) ทดสอบก่อนจ่ายไฟ: วัด -F1:2 ถึง N ขณะกด S2 ค่าที่อ่านได้ควรเป็นอย่างไรเทียบกับตอนไม่กด', '3) Before power: measuring -F1:2 to N with S2 held, how should the reading compare with S2 released?'), options: [t('ลดลง เพราะคอยล์เข้ามาในทาง', 'lower, because the coil joins the path'), t('เท่าเดิม', 'the same'), t('เป็น 0 Ω', '0 Ω'), t('เป็น OL', 'OL')], answer: 0 },
+    { q: t('4) วัดระหว่าง -Q1:2 กับ -Q1:4 ขณะกดชุดหน้าสัมผัส KM1 ด้วยมือ ได้ 0.0 Ω แปลว่าอะไร', '4) -Q1:2 to -Q1:4 reads 0.0 Ω with the KM1 carrier pushed in by hand. What does it mean?'), options: [t('ปกติ', 'normal'), t('มีการลัดวงจรระหว่างเฟส ห้ามจ่ายไฟ', 'a phase-to-phase short circuit: do not power up'), t('มอเตอร์ต่อแบบเดลตา', 'the motor is in delta'), t('F2 ตัดอยู่', 'F2 has tripped')], answer: 1, why: t(`ควรอ่านได้ค่าของขดลวดมอเตอร์สองขด (ค่าตัวอย่าง ${MCP.fmtR(2 * R.winding)}) 0 Ω แปลว่ามีสายลัดระหว่างเฟส`, `It should read two motor windings (example ${MCP.fmtR(2 * R.winding)}); 0 Ω means a lead shorts two phases`) },
+    { q: t('5) ในแผ่นที่ 6 F2 อยู่ในวงจรกำลังอย่างเดียว เมื่อ F2 ตัดจะเกิดอะไร', '5) On sheet 6, F2 is only in the power circuit. What happens when F2 trips?'), options: [t('KM1 หลุด มอเตอร์หยุด', 'KM1 drops out and the motor stops'), t('KM1 ยังดูด มอเตอร์หมุนต่อ', 'KM1 stays in and the motor runs on'), t('F1 ขาด', 'F1 blows'), t('หลอด H2 ติด', 'lamp H2 lights')], answer: 1, why: t('ต้องมีหน้าสัมผัส 95–96 ในทางเดินกระแสของคอยล์ (แผ่นที่ 7) F2 จึงจะหยุดมอเตอร์ได้', 'F2 can stop the motor only once its contact 95–96 is in the coil path (sheet 7)') },
+    { q: t('6) วงจรค้างตัวเอง: ไฟดับขณะมอเตอร์หมุนแล้วไฟกลับมา จะเกิดอะไร', '6) Self-holding circuit: the supply fails while the motor runs and then returns. What happens?'), options: [t('มอเตอร์หมุนต่อเอง', 'the motor restarts by itself'), t('มอเตอร์ไม่หมุนจนกว่าจะกด S2', 'the motor stays stopped until S2 is pressed'), t('F2 ตัด', 'F2 trips'), t('หลอดทุกดวงติด', 'every lamp lights')], answer: 1, why: t('หน้าสัมผัสค้างตัวเอง 13–14 เปิดตอนไฟดับ จึงไม่มีทางให้คอยล์ได้ไฟเมื่อไฟกลับมา (IEC 60204-1 ข้อ 7.5)', 'Holding contact 13–14 opened when the supply failed, so the coil has no path when it returns (IEC 60204-1, 7.5)') },
+    { q: t('7) วงจรเดินกระตุกแบบรีเลย์: กดปุ่มเดินกระตุก S3 ค้าง อะไรดูด', '7) Relay jog circuit: with jog button S3 held, what is pulled in?'), options: [t('KM1 อย่างเดียว', 'KM1 only'), t('KA1 อย่างเดียว', 'KA1 only'), t('KA1 และ KM1', 'KA1 and KM1'), t('ไม่มีอะไรดูด', 'nothing')], answer: 0, why: t('S3 ป้อนคอยล์ KM1 ตรง ไม่ผ่านทางค้างตัวเองของ KA1 ปล่อยแล้วจึงหยุดทันที', 'S3 feeds coil KM1 directly, not through KA1\'s holding path, so the motor stops as soon as it is released') },
+    { q: t('8) บนแผงฝึก ขั้ว 13–14 ของ KA1 ในแบบ อยู่ที่ขั้วไหนของรีเลย์แบบเสียบ', '8) On the trainer, where is KA1 13–14 of the drawing on the plug-in relay?'), options: ['11–14', '11–12', '13–14', 'A1–A2'], answer: 0, why: t('รีเลย์แบบเสียบพิมพ์เลขหน้าสัมผัสสลับ: 11 ขั้วร่วม 12 ปกติปิด 14 ปกติเปิด', 'A plug-in relay prints changeover numbers: 11 common, 12 NC, 14 NO') }], { id: 'mcp5' });
+});
+</script>
+</body>
+</html>

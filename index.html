@@ -9,9 +9,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=16"><link rel="stylesheet" href="assets/ed2.css?v=16">
-<script src="assets/stops.js?v=16"></script><script src="assets/shell.js?v=16"></script>
-<script src="assets/lesson.js?v=16"></script><script src="assets/draw.js?v=16"></script><script src="assets/ed.js?v=16"></script><script src="assets/sym.js?v=16"></script><script src="assets/ed1.js?v=16"></script>
+<link rel="stylesheet" href="assets/ee.css?v=17"><link rel="stylesheet" href="assets/ed2.css?v=17">
+<script src="assets/stops.js?v=17"></script><script src="assets/shell.js?v=17"></script>
+<script src="assets/lesson.js?v=17"></script><script src="assets/draw.js?v=17"></script><script src="assets/ed.js?v=17"></script><script src="assets/sym.js?v=17"></script><script src="assets/ed1.js?v=17"></script>
 </head>
 <body>
 <div class="wrap">
@@ -39,7 +39,9 @@
   <div class="howto" data-l="th"><b>วิธีใช้:</b> อ่านหน้าเว็บของแต่ละบทก่อนคาบ ลองภาพจำลองและโจทย์ แล้วทำใบงานใน CADe SIMU ในคาบปฏิบัติ (ครูแจกใบงานเป็นกระดาษในห้องเรียน) หน้าที่เปิดแล้วจะมีเครื่องหมายถูก (บันทึกในเบราว์เซอร์นี้)</div>
   <div class="howto" data-l="en"><b>How to use it:</b> read a chapter's pages before class, try the simulations and problems, then do the lab sheet in CADe SIMU in the practical session (lab sheets are handed out on paper in class). Visited pages are ticked (saved in this browser).</div>
 
+  <div class="vswitch" id="vsw" role="group"></div>   <!-- view switch: by chapter (#road) | by week (#weeks, WEEKS in stops.js); choice kept in localStorage 'ed2-view' -->
   <div class="road" id="road"></div>
+  <div class="wkview" id="weeks" hidden></div>
 
   <footer data-l="th">วิชา 031021322 เขียนแบบไฟฟ้า 2 (Electrical Drawing II) · หลักสูตร ปวช. เตรียมวิศวกรรมศาสตร์ไทย-เยอรมัน · ผศ.ดร.วิษณุ จิตวิริยะ · ตำรา: ธนภัทร ไพคำนาม, การควบคุมมอเตอร์ไฟฟ้า; Herman &amp; Seiler, <i>Understanding Motor Controls</i>; Herman, <i>Electric Motor Control</i> · โปรแกรม CADe SIMU (canalPLC)</footer>
   <footer data-l="en">Course 031021322 Electrical Drawing II · Thai-German pre-engineering programme · Asst. Prof. Dr. Wisanu Jitviriya · Textbooks: Thanaphat Phaikhamnam, <i>Motor Control</i> (in Thai); Herman &amp; Seiler, <i>Understanding Motor Controls</i>; Herman, <i>Electric Motor Control</i> · Drawing program: CADe SIMU (canalPLC)</footer>
@@ -72,7 +74,57 @@ document.addEventListener('mc:ready', () => {
     if (next) { nx.innerHTML = pick('หน้าต่อไป: ', 'Next up: ') + '<b>' + next.querySelector('h3').childNodes[0].textContent + '</b>'; nx.href = next.querySelector('a.stop').getAttribute('href'); }
     else { nx.innerHTML = '<b>' + pick('ทำครบทุกหน้าที่พร้อมแล้ว', 'All ready pages done') + '</b>'; nx.removeAttribute('href'); } }
   nodes.forEach(el => el.querySelector('a.stop').addEventListener('click', () => MC.markVisited(el.dataset.page)));
-  document.getElementById('pReset').addEventListener('click', () => { MC.resetVisited(); paint(); }); paint();
+  document.getElementById('pReset').addEventListener('click', () => { MC.resetVisited(); paint(); paintWeeks(); }); paint();
+
+  /* ---------- week view (22 Oct 2026): the 18 semester weeks of WEEKS (stops.js), morning ED2 | afternoon MCP of the same day ----------
+     #road (by chapter) stays exactly as it was; the switch shows one of the two and remembers the choice (localStorage 'ed2-view');
+     index.html#wk5 opens the week view at week 5 */
+  const VKEY = 'ed2-view', weeksEl = document.getElementById('weeks'), vsw = document.getElementById('vsw'), W = window.WEEKS || [];
+  const stopOf = f => stops.find(s => s.file === f && !s.soon), ed2n = MC.courseName('ed2'), mcpn = MC.courseName('mcp');
+  function weekCard(w) {
+    const e = w.ed2 || {}, m = w.mcp, pmLive = !!(m && m.page && !m.soon), pages = (e.pages || []).filter(stopOf);
+    let am = `<div class="wk-l"><b>${pick('เช้า', 'Morning')}</b> · ${esc(ed2n)}</div>`;
+    am += e.event ? `<h3>${esc(pick(e.title, e.en))}</h3>`
+      : `<h3>${pick('บทที่', 'Chapter')} ${e.ch} · ${esc(pick(e.title, e.en))}${e.soon ? ` <span class="soonx">(${pick('กำลังสร้าง', 'in preparation')})</span>` : ''}</h3>`;
+    if (pages.length) am += `<ul class="wk-pages">${pages.map(f => { const s = stopOf(f); return `<li><a href="${f}" data-page="${f}"><b>${esc(s.step)}</b><span>${esc(MC.stopTitle(s))}</span></a></li>`; }).join('')}</ul>`;
+    const tk = [];
+    if (e.pre) tk.push(esc(pick(`แบบทดสอบก่อนเรียนบทที่ ${e.pre} (ต้นคาบ${e.diag ? ' ใช้วินิจฉัย ไม่นับคะแนน' : ''})`, `Chapter ${e.pre} pre-test (start of the session${e.diag ? '; diagnostic, not scored' : ''})`)));
+    if (e.lab) { const lp = e.labPage && stopOf(e.labPage);
+      tk.push(esc(pick(`ใบงานที่ ${e.lab} (ครูแจกเป็นกระดาษ)`, `Lab sheet ${e.lab} (handed out on paper)`)) + (lp ? ` · <a href="${e.labPage}#tL">${pick('วิธีทำใน CADe SIMU: หน้า', 'how-to in CADe SIMU: page')} ${esc(lp.step)}</a>` : '')); }
+    if (e.sim) tk.push(esc(pick(`งานจำลองวงจรท้ายบทที่ ${e.sim} (ท้ายคาบ) · การบ้าน ED2-HW${e.sim} ส่งคาบถัดไป`, `Chapter ${e.sim} simulation task (end of the session) · homework ED2-HW${e.sim}, handed in next session`)));
+    if (tk.length) am += `<ul class="wk-tasks">${tk.map(x => `<li>${x}</li>`).join('')}</ul>`;
+    if (e.note) am += `<p class="wk-note">${esc(pick(e.note, e.note_en))}</p>`;
+    let pm = `<div class="wk-l"><b>${pick('บ่าย', 'Afternoon')}</b> · ${esc(mcpn)}</div>`;
+    if (!m) pm += `<p class="wk-pmd">${pick('ไม่มีคาบปฏิบัติ: สอบปฏิบัติปลายภาคจัดไปแล้วในบ่ายสัปดาห์ที่ 17', 'No practice session: the practical final was in the afternoon of week 17')}</p>`;
+    else if (!pmLive) { const ch = (m.ch || []).join('–');
+      pm += `<div class="wk-mcp soonx">${esc(pick(m.title, m.en))}</div><p class="wk-pmd">${esc(pick(`กำลังสร้าง: สร้างพร้อมบทที่ ${ch} ของวิชา${ed2n}`, `In preparation: built together with chapter ${ch} of ${ed2n}`))}</p>`; }
+    else pm += `<a class="wk-mcp" href="${m.page}?c=mcp" data-page="${m.page}">${esc(pick(m.title, m.en))} →</a>` +
+      `<p class="wk-pmd">${m.kind === 'exam' ? esc(pick('ข้อสอบจริงครูแจกเป็นกระดาษในห้องสอบ หน้านี้มีกติกาและโจทย์ฝึก', 'The real exam is handed out on paper; the page has the rules and a practice task'))
+        : `<b>${pick('จะทำได้:', 'You will be able to:')}</b> ${esc(pick(m.outcome, m.outcome_en))}`}</p>`;
+    const cls = `wk ${w.kind}${e.soon && !pmLive ? ' soon' : ''}`;
+    return `<section class="${cls}" id="wk${w.wk}"><div class="wk-h"><span class="wk-n">${pick('สัปดาห์', 'Week')} ${w.wk}</span><span class="wk-k">${esc(MC.weekKind(w))}</span></div>` +
+      `<div class="wk-cols"><div class="wk-am">${am}</div><div class="wk-pm">${pm}</div></div></section>`;
+  }
+  let wh = `<p class="vnote">${pick('สองวิชาเรียนวันเดียวกัน: <b>เช้า</b> วิชาเขียนแบบไฟฟ้า 2 เรียน เขียนแบบ และจำลองวงจรใน CADe SIMU · <b>บ่าย</b> วิชาปฏิบัติงานควบคุมมอเตอร์ ต่อวงจรเดียวกันบนแผงฝึกจริง ทดสอบ และหาจุดผิด แบบทดสอบ ใบงาน และข้อสอบครูแจกเป็นกระดาษในห้องเรียน',
+    'Both courses run on the same day: in the <b>morning</b> Electrical Drawing II (learn, draw and simulate a circuit in CADe SIMU), in the <b>afternoon</b> Motor Control Practice (wire the same circuit on the real trainer, test it and find faults). Tests, lab sheets and exams are handed out on paper in class.')}</p>`;
+  W.forEach(w => { if (w.wk === 1) wh += `<h2 class="wk-sep">${pick('สัปดาห์ 1–9: บทที่ 1–7 และสอบกลางภาค', 'Weeks 1–9 — Chapters 1–7 and the midterm')}</h2>`;
+    if (w.wk === 10) wh += `<h2 class="wk-sep">${pick('สัปดาห์ 10–18: บทที่ 8–13 และสอบปลายภาค', 'Weeks 10–18 — Chapters 8–13 and the final')}</h2>`;
+    wh += weekCard(w); });
+  weeksEl.innerHTML = wh;
+  const wlinks = [...weeksEl.querySelectorAll('a[data-page]')];
+  function paintWeeks() { const v = MC.visited(); wlinks.forEach(a => a.classList.toggle('visited', !!v[a.dataset.page])); }
+  wlinks.forEach(a => a.addEventListener('click', () => MC.markVisited(a.dataset.page))); paintWeeks();
+  window.addEventListener('pageshow', e => { if (e.persisted) { paint(); paintWeeks(); } });   // back from a page (bfcache): refresh the ticks
+  let view = 'ch'; try { const v = localStorage.getItem(VKEY); if (v === 'ch' || v === 'wk') view = v; } catch (e) {}
+  if (/^#wk\d+$/.test(location.hash)) view = 'wk';
+  vsw.setAttribute('aria-label', pick('มุมมองแผนที่การเรียน', 'Roadmap view'));
+  vsw.innerHTML = [['ch', pick('ตามบท', 'By chapter')], ['wk', pick('ตามสัปดาห์', 'By week')]].map(([k, l]) => `<button type="button" data-v="${k}" aria-pressed="false">${l}</button>`).join('');
+  function setView(v, save) { view = v; road.hidden = v !== 'ch'; weeksEl.hidden = v !== 'wk';
+    vsw.querySelectorAll('button').forEach(b => { const on = b.dataset.v === v; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
+    if (save) { try { localStorage.setItem(VKEY, v); } catch (e) {} } }
+  vsw.querySelectorAll('button').forEach(b => b.addEventListener('click', () => setView(b.dataset.v, true)));
+  setView(view, false);
+  if (view === 'wk' && /^#wk\d+$/.test(location.hash)) { const el = document.getElementById(location.hash.slice(1)); if (el) el.scrollIntoView(); }
   /* hero: the rotating field of page 1.1 */
   const F = new ED1.Field(document.getElementById('hero'), { motorOnly: true }); F.st.rate = 0.2; LS.anim(document.getElementById('hero'), dt => { F.step(dt); F.draw(); });
   window.addEventListener('resize', () => F.resize());

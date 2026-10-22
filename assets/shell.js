@@ -4,7 +4,9 @@
    Bilingual convention: static HTML uses data-l="th" / data-l="en" blocks (CSS hides the other);
    script strings use t('ไทย', 'English'). Switching the language reloads the page.
    Two courses share the site (21 Oct 2026): 031021322 Electrical Drawing II (STOPS, index.html) and 031021223 Motor Control Practice
-   (MCP_WEEKS, mcp.html); the course context (MC.course) picks the roadmap link, crumb, prev/next and the badge (see "two courses" below). */
+   (MCP_WEEKS, mcp.html); the course context (MC.course) picks the roadmap link, crumb, prev/next and the badge (see "two courses" below).
+   One weekly calendar for both (22 Oct 2026, WEEKS in stops.js): ED2 in the morning, MCP in the afternoon of the same week; ED2 crumbs
+   show the week, and the last ED2 page of a week ends with a card to that afternoon's MCP page (see "weekly calendar" below). */
 (function () {
 'use strict';
 const THEMES = { paper: ['กระดาษ', 'Paper'], warm: ['ครีม', 'Warm'], blue: ['ฟ้าอ่อน', 'Soft blue'], dark: ['มืด', 'Dark'] };
@@ -53,10 +55,21 @@ MC.course = () => { if (course) return course; const f = MC.file(), q = query('c
   else { try { s = localStorage.getItem(CKEY); } catch (e) {} course = s === 'mcp' ? 'mcp' : 'ed2'; }
   return course; };
 MC.setCourse = c => { if (c !== 'ed2' && c !== 'mcp') return; course = c; try { localStorage.setItem(CKEY, c); } catch (e) {} };
-MC.mcpWeeksOf = file => MC.mcpWeeks().filter(w => !w.soon && (w.prepare || []).includes(file));
+MC.mcpWeeksOf = file => MC.mcpWeeks().filter(w => !w.soon && ((w.prepare || []).includes(file) || (w.review || []).includes(file)));   // morning pages, then review pages
 MC.mcpWeekFor = file => { const ws = MC.mcpWeeksOf(file); if (!ws.length) return null; let s = null; try { s = localStorage.getItem(WKEY); } catch (e) {}
   const by = n => (n === null || n === undefined) ? null : ws.find(w => String(w.wk) === String(n)) || null; return by(query('w')) || by(s) || ws[0]; };
 MC.mcpLink = (file, wk) => `${file}?c=mcp${wk ? '&w=' + wk : ''}`;   // an ED2 page opened for MCP week wk
+
+/* ---------- weekly calendar (WEEKS in stops.js): the 18 semester weeks, ED2 morning + MCP afternoon of the same week ----------
+   MC.weeks() all rows; MC.week(n) one row or null; MC.weekOf(file) the row of an ED2 page (STOPS[].wk) or of an MCP page (its MCP_WEEKS
+   week), default the current page; MC.lastOfWeek(file) true on the last ED2 page of its morning (that page gets the afternoon card);
+   MC.weekKind(w) the kind in words. Row fields: see the WEEKS comment in stops.js (w.ed2.pages, w.ed2.range, w.mcp = MCP_WEEKS entry). */
+MC.weeks = () => window.WEEKS || [];
+MC.week = n => (n === null || n === undefined) ? null : MC.weeks().find(w => String(w.wk) === String(n)) || null;
+MC.weekOf = file => { const f = file || MC.file(), s = MC.live().find(x => x.file === f); if (s) return MC.week(s.wk);
+  const m = MC.mcpWeeks().find(x => x.page && x.page === f) || (!file ? MC.mcpHere() : null); return m ? MC.week(m.wk) : null; };
+MC.lastOfWeek = file => { const f = file || MC.file(), w = MC.weekOf(f), p = w && w.ed2 && w.ed2.pages; return !!(p && p.length && p[p.length - 1] === f); };
+MC.weekKind = w => { const k = window.WEEK_KINDS && w && window.WEEK_KINDS[w.kind]; return k ? MC.t(k[0], k[1]) : ''; };
 function courseInit() {   // store the context this page sets (and the MCP week) before the chrome is drawn; nothing for a plain ED2 visit
   const f = MC.file(), q = query('c'), mw = MC.mcpHere(), c = MC.course();
   if (f === 'mcp.html' || f === 'index.html' || mw || q === 'mcp' || q === 'ed2') MC.setCourse(c);
@@ -68,7 +81,8 @@ function courseInit() {   // store the context this page sets (and the MCP week)
 function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
 function topbar() {
   const el = document.getElementById('mc-top'); if (!el) return; const here = MC.here(), mcp = MC.course() === 'mcp', mw = mcp ? MC.mcpHere() : null;
-  const ed2c = here ? (here.crumb ? MC.t(here.crumb, here.crumb_en) : `${MC.t('บทที่', 'Chapter')} ${here.ch} · ${MC.t('หน้า', 'page')} ${here.step}`) : '';
+  const ed2c = here ? (here.crumb ? MC.t(here.crumb, here.crumb_en) : `${MC.t('บทที่', 'Chapter')} ${here.ch} · ${MC.t('หน้า', 'page')} ${here.step}`) +
+    (here.wk ? ` · ${MC.t('สัปดาห์', 'week')} ${here.wk}` : '') : '';   // "Chapter 5 · page 5.2 · week 5"
   const crumb = !mcp ? ed2c : mw ? `${MC.courseName('mcp')} · ${MC.t('สัปดาห์', 'week')} ${mw.wk}` : here ? `${MC.courseName('ed2')} · ${ed2c}` : '';   // MCP context: the course is named
   el.innerHTML = `<a class="hub" href="${mcp ? 'mcp.html' : 'index.html'}">← ${MC.t('แผนที่การเรียน', 'Roadmap')}</a>` +
     (crumb ? `<span class="crumb">· ${crumb}</span>` : '') +
@@ -94,7 +108,8 @@ function mcpNavbar(el) {
       (next ? `<a class="navlink next" href="${next.page}">${WK} ${next.wk}: ${esc(MC.t(next.title, next.en))} →</a>` : `<a class="navlink next" href="mcp.html">${MC.t('กลับไปแผนที่การเรียน', 'Back to the roadmap')} →</a>`);
     return true; }
   const here = MC.here(), w = here ? MC.mcpWeekFor(here.file) : null; if (!w) return false;
-  const stop = f => MC.live().find(s => s.file === f), seq = w.prepare.filter(stop), i = seq.indexOf(here.file), card = `mcp.html#w${w.wk}`;
+  const stop = f => MC.live().find(s => s.file === f), list = (w.prepare || []).includes(here.file) ? w.prepare : (w.review || []);
+  const seq = list.filter(stop), i = seq.indexOf(here.file), card = `mcp.html#w${w.wk}`;
   const ed2 = (f, cls) => { const s = stop(f); return cls === 'prev' ? `<a class="navlink prev" href="${MC.mcpLink(f, w.wk)}">← ${P} ${s.step}: ${esc(MC.stopTitle(s))}</a>`
     : `<a class="navlink next" href="${MC.mcpLink(f, w.wk)}">${P} ${s.step}: ${esc(MC.stopTitle(s))} →</a>`; };
   el.innerHTML = (i > 0 ? ed2(seq[i - 1], 'prev') : `<a class="navlink prev" href="${card}">← ${WK} ${w.wk} ${MC.t('ในแผนที่การเรียน', 'on the roadmap')}</a>`) +
@@ -112,6 +127,19 @@ function mcpBadge() {
        : `<a class="mb-back" href="mcp.html">← ${MC.t('กลับไปแผนที่วิชา', 'Back to the course roadmap')}</a>`) +
     `<a class="mb-x" href="${esc(MC.file())}?c=ed2">${MC.t('อ่านในวิชา', 'Read it in')} ${esc(MC.courseName('ed2'))}</a>`;
   top.parentNode.insertBefore(d, top.nextSibling);
+}
+/* ED2 context, last ED2 page of a week's morning: a card just above the navbar (and the feedback box) to the MCP practice of the same
+   afternoon, "บ่ายนี้: ปฏิบัติงานควบคุมมอเตอร์ สัปดาห์ N — …" / "This afternoon: Motor Control Practice week N — …" (link with ?c=mcp) */
+function afternoonCard() {
+  const here = MC.here(); if (MC.course() === 'mcp' || !here || !MC.lastOfWeek(here.file)) return;
+  const w = MC.weekOf(here.file), m = w && w.mcp, nav = document.getElementById('mc-nav'); if (!m || !nav || !nav.parentNode) return;
+  const T = MC.t, name = `${esc(MC.courseName('mcp'))} ${T('สัปดาห์', 'week')} ${m.wk} — ${esc(T(m.title, m.en))}`, d = document.createElement('aside');
+  d.className = 'pm-card'; d.id = 'mc-afternoon'; d.setAttribute('aria-label', T('ภาคบ่ายวันเดียวกัน', 'The same afternoon'));
+  d.innerHTML = `<span class="pm-k">${T('บ่ายนี้:', 'This afternoon:')}</span> ` +
+    (m.page && !m.soon ? `<a class="pm-t" href="${m.page}?c=mcp">${name} →</a>` : `<span class="pm-t">${name} (${T('กำลังสร้าง', 'in preparation')})</span>`) +
+    `<span class="pm-d">${T('วงจรของเช้านี้บนแผงฝึกจริง: ไล่วงจร ต่อสาย ทดสอบก่อนและหลังจ่ายไฟ และหาจุดผิด · นำแบบที่เขียนเมื่อเช้าไปด้วย',
+      'This morning\'s circuits on the real trainer: trace, wire, test before and after power-on, and find faults · bring the drawing you made this morning')}</span>`;
+  nav.parentNode.insertBefore(d, nav);
 }
 /* course switch on the two roadmaps, <nav id="mc-courses"></nav>: ED2 | MCP; the link also sets the context */
 function courseSwitch() {
@@ -197,7 +225,7 @@ function visitCounter() {
   sc.src = `${COUNTER.url}?page=${encodeURIComponent(file)}&p=${addP ? 1 : 0}&s=${addS ? 1 : 0}&callback=${cb}`; document.head.appendChild(sc);
 }
 MC.visitCounter = visitCounter;
-document.addEventListener('DOMContentLoaded', () => { courseInit(); pageTitle(); topbar(); mcpBadge(); courseSwitch(); navbar(); const here = MC.here(); if (here) MC.markVisited(here.file); else if (MC.mcpHere()) MC.markVisited(MC.file()); convBox(); feedbackBox(); visitCounter(); MC.renderMath(); document.dispatchEvent(new Event('mc:ready')); });
+document.addEventListener('DOMContentLoaded', () => { courseInit(); pageTitle(); topbar(); mcpBadge(); courseSwitch(); navbar(); afternoonCard(); const here = MC.here(); if (here) MC.markVisited(here.file); else if (MC.mcpHere()) MC.markVisited(MC.file()); convBox(); feedbackBox(); visitCounter(); MC.renderMath(); document.dispatchEvent(new Event('mc:ready')); });
 
 /* ---------- small UI builders for the control panel ---------- */
 const ui = {};
