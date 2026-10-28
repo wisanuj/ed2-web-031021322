@@ -21,7 +21,22 @@
       MCP.Trainer(el, sim, o)             the trainer view: tap two sockets = one lead; checklist; check; power on only when correct
    5) MCP.SymbolDrill(el, ids, o)         symbol ↔ photo ↔ name ↔ terminal numbers, scored
    Example values (coil 560 Ω, lamp 1.5 kΩ …) are labelled as such wherever they are shown. Test page (private):
-   scratchpad/mcp/engine_test.html. */
+   scratchpad/mcp/engine_test.html.
+   chapter 8 additions (22 Oct 2026, MCP week 10; circuits without power.sd behave and measure exactly as before):
+                  star-delta power circuits (relay.js power.sd, ch8.js): MCP.powerNet takes the edges of sim.sdNet() (wires, poles,
+                  windings R.winding, terminal-box links), so the ohmmeter reads 2R per line pair through KM1 + KM2 (star), 2R/3 through
+                  KM1 + KM3 (delta), open for a straight-through delta, R/2 + open for a transposition; the supply is power.sd.V
+                  (lab: 220 V line to line, 127 V to N). With V below 300 V (the trainer's low-voltage supply) the control circuit keeps
+                  its own 230 V L–N source, switched like the drawing's control supply (sim.supplyOn()), with N common.
+                  MCP.reset clears the star-delta state (speed, F2 heat, changeover); MCP.run hands the ch8.js ops ('weld', 'sd', 'T',
+                  'load', 'sdx' …) of a star-delta simulator to C8.runSeq. Faults: { k: 'sd', set: { order, in3, open, bridge, links,
+                  set, motorV }, at: ['KM3:2', …], text: [th, en] } = power-circuit wiring hidden in the drawing (the simulator and
+                  the meter follow it); { k: 'sub', t: 'KM1:13', d: 'KM2' } = the leads of that contact sit on another device's
+                  contact of the same numbers. Fault cards may be answered on power terminals ('answer' targets of an sd drawing).
+                  Trainer: six-lead motor without terminal-box links (the box option is ignored), -X1 6–8 U1 V1 W1, 9 PE, 10–12
+                  W2 U2 V2 (MCP.TRAINER.x1sd), power wiring from sim.sdWires() of the designed circuit, checklist keys L1–L3,
+                  U1 V1 W1, W2 U2 V2, 'Y' (the star bridge on KM2 2–4–6); KT1 = the multifunction timer with changeover contacts
+                  15–16/18 and 25–26/28. */
 (function (global) {
 'use strict';
 const MCP = {}, IE = global.IEC, T = (th, en) => MC.t(th, en), tt = p => (Array.isArray(p) ? MC.t(p[0], p[1]) : p === undefined || p === null ? '' : String(p));
@@ -40,7 +55,10 @@ MCP.reset = sim => {
     Object.assign(o, { id, ...d, on: d.on ?? (d.type === 'cb'), pressed: false, energized: false, tripped: false, blown: false, tOn: 0, hold: 0, mid: false, midLeft: 0,
       at: d.at ?? (d.positions ? d.positions[Math.floor(d.positions.length / 2)] : undefined) }); });
   sim.mains = true; sim.msg = ''; sim.spd = 0; sim.cs = true; sim.held = null; sim._cut = false; if (sim.w !== undefined) sim.w = 0; sim.pshort = null;
+  if (MCP.isSD(sim)) { sim.sdw = 0; sim.sdTh = 0; sim.sdF2 = 0; sim.sdIL = 0; sim.sdSw = null; sim.sdBlips = 0; sim.sdR = null; sim.sdCause = null; }   // chapter 8: motor at rest, F2 cold
   sim.update(); return sim; };
+/* a star-delta simulator (relay.js power.sd) */
+MCP.isSD = sim => !!(sim && sim.spec && sim.spec.power && sim.spec.power.sd && sim.sdNet);
 /* run a list of operations on a simulator (task setup, fault-card setup). ops: ['hold', id…] ['release', id…] ['tap', id…] (press and
    release) ['toggle', id…] ['set', id, v] (cb on/off, ol tripped, sel/sen/fault on, msel position) ['pos', id, at] ['mains', bool]
    ['wait', s] (step the timers in 0.02 s steps); any other op goes to C7.runSeq / C5.runSeq when loaded ('start', 'cut', 'fault' …) */
@@ -55,6 +73,7 @@ MCP.run = (sim, ops) => { (ops || []).forEach(([op, ...a]) => {
   else if (op === 'pos') sim.setPos(a[0], a[1]);
   else if (op === 'mains') sim.setMains(a[0] !== false);
   else if (op === 'wait') { let left = +a[0] || 0; while (left > 1e-9) { const d = Math.min(0.02, left); sim.step(d); left -= d; } }
+  else if (global.C8 && C8.runSeq && MCP.isSD(sim)) C8.runSeq(sim, [[op, ...a]]);   // chapter 8 ops (weld, T, load, sdx …), the rest through C7
   else if (global.C7 && C7.runSeq) C7.runSeq(sim, [[op, ...a]]); else if (global.C5 && C5.runSeq) C5.runSeq(sim, [[op, ...a]]); });
   return sim; };
 /* the drawing's own svg (inner svg.rl-in of a framed drawing, or the drawing itself) */
@@ -88,10 +107,13 @@ MCP.model = (sim, o = {}) => {
     const ta = `t:${x.i}:0`, tb = `t:${x.i}:1`; add(ta, 'c:' + x.a, 'c', 0, { link: x.i, j: 0 }); add(tb, 'c:' + x.b, 'c', 0, { link: x.i, j: 1 });
     if (x.load) add(ta, tb, 'r', Rof(x.e), { el: x.i }); else add(ta, tb, x.cond ? 'c' : 'o', 0, { el: x.i }); });
   const pw = MCP.powerNet(sim, add, R), src = {}, on = sim.mains !== false;
-  if (pw) { if (S.els.length) { add('c:L', pw.L, 'c', 0, { tap: 1 }); add('c:N', pw.N, 'c', 0, { tap: 1 }); }
+  if (pw && pw.sep) {   // chapter 8 lab: the power circuit on the trainer's low-voltage supply, the control circuit on its own 230 V (N common)
+    const A = pw.V / SQ3; if (S.els.length) { add('c:N', pw.N, 'c', 0, { tap: 1 }); if (sim.supplyOn()) src['c:L'] = [230, 0]; }
+    if (on) pw.sup.forEach(k => { const ph = k.slice(6); src[k] = ph === 'L1' ? [A, 0] : ph === 'L2' ? [-A / 2, -A / 2 * SQ3] : ph === 'L3' ? [-A / 2, A / 2 * SQ3] : [0, 0]; }); }
+  else if (pw) { if (S.els.length) { add('c:L', pw.L, 'c', 0, { tap: 1 }); add('c:N', pw.N, 'c', 0, { tap: 1 }); }
     if (on) pw.sup.forEach(k => { const ph = k.slice(6); src[k] = ph === 'L1' ? [230, 0] : ph === 'L2' ? [-115, -115 * SQ3] : ph === 'L3' ? [-115, 115 * SQ3] : [0, 0]; }); }
   else { if (sim.supplyOn()) src['c:L'] = [230, 0]; if (on) src['c:N'] = [0, 0]; }
-  return { edges, src, power: !!pw, R };
+  return { edges, src, power: !!pw, R, sep: !!(pw && pw.sep), V: pw && pw.V ? pw.V : 400 };
 };
 /* power-circuit edges from spec.power (single motor, feeders, three-phase reversing, single-phase DOL; single-phase reversing: none) */
 MCP.powerNet = (sim, add, R) => {
@@ -102,6 +124,14 @@ MCP.powerNet = (sim, add, R) => {
   const motor3 = (m, outs) => { outs.forEach((v, k) => { const t = `p:${m}:${UVW[k]}`; add(v, t, 'c', 0, { pw: 1 }); add(t, `p:${m}:*`, 'r', R.winding, { wind: m }); }); add('p:SUP:PE', `p:${m}:PE`, 'c', 0, { pe: 1 }); };
   const S3 = ['p:SUP:L1', 'p:SUP:L2', 'p:SUP:L3'], sup = [...S3, 'p:SUP:N', 'p:SUP:PE'], cb = st => (st || []).find(t => t.k === 'cb');
   const tapL = q => (P.tap === 'before' || !q ? 'p:SUP:L1' : `p:${q.d}:2`);
+  if (P.sd && sim.sdNet) {   // chapter 8: the netlist of relay.js (keys without 'p:'; junctions J:… are plain conductor points)
+    const N = sim.sdNet(), m = N.cfg.motor, V = +N.cfg.V || 400;
+    N.edges.forEach(e => { const a = 'p:' + e.a, b = 'p:' + e.b;
+      if (e.k === 'wind') add(a, b, 'r', R.winding, { wind: m, w: e.w });
+      else if (e.k === 'link') add(a, b, 'c', 0, { link: m });
+      else if (e.k === 'pole') add(a, b, e.cond ? 'c' : 'o', 0, { pole: e.d });
+      else add(a, b, e.cond ? 'c' : 'o', 0, { pw: 1, seg: e.seg }); });
+    return { L: 'p:' + N.tap.L, N: 'p:' + N.tap.N, sup, V, sep: V < 300 }; }
   if (P.phases === 1) { let L = 'p:SUP:L1', N = 'p:SUP:N'; const st = P.stages || [], m = P.motor || 'M1', q = cb(st);
     st.forEach(t => { if (t.k === 'therm') { [[1, 2], [3, 4], [5, 6]].forEach(([u, v]) => { const a = `p:${t.d}:${u}`, b = `p:${t.d}:${v}`; add(L, a, 'c', 0, { pw: 1 }); add(a, b, 'c', 0, { pole: t.d }); L = b; }); return; }
       const c = closed(t) ? 'c' : 'o'; add(L, `p:${t.d}:1`, 'c'); add(`p:${t.d}:1`, `p:${t.d}:2`, c, 0, { pole: t.d }); add(N, `p:${t.d}:3`, 'c'); add(`p:${t.d}:3`, `p:${t.d}:4`, c, 0, { pole: t.d }); L = `p:${t.d}:2`; N = `p:${t.d}:4`; });
@@ -158,7 +188,10 @@ MCP.resistance = (sim, a, b, o = {}) => {
    Returns { mode, v | r, live, float, text, note, loads } */
 MCP.measure = (sim, a, b, mode = 'V', o = {}) => {
   const sol = MCP.voltages(sim, o), Va = sol.V(a), Vb = sol.V(b), mag = (p, q) => Math.hypot((p ? p[0] : 0) - (q ? q[0] : 0), (p ? p[1] : 0) - (q ? q[1] : 0));
-  if (mode === 'V') { const fl = !Va || !Vb, v = fl ? 0 : mag(Va, Vb); return { mode, v, float: fl, text: MCP.fmtV(v), note: fl ? 'float' : '' }; }   // a point with no connection at all: the meter reads 0 V
+  if (mode === 'V') { const fl = !Va || !Vb, v = fl ? 0 : mag(Va, Vb), r = { mode, v, float: fl, text: MCP.fmtV(v), note: fl ? 'float' : '' };   // a point with no connection at all: the meter reads 0 V
+    if (sol.model.sep) { const side = k => (/^p:/.test(k) ? (/^p:(SUP:N|SUP:PE|M1:PE)$/.test(k) ? 0 : 1) : k === 'c:N' ? 0 : 2), A = side(a), B = side(b); r.lv = sol.model.V;   // chapter 8 lab: two supplies
+      if (A && B && A !== B && !fl && Math.hypot(Va[0], Va[1]) > 1 && Math.hypot(Vb[0], Vb[1]) > 1) r.two = true; }
+    return r; }
   // ohmmeter: refuse on a live circuit (any vertex joined to a probe through conductors or loads has voltage)
   const M = sol.model, all = M.edges.filter(e => e.k !== 'o'), g = groups(all.map(e => ({ ...e, k: 'c' }))), ga = g(a), gb = g(b);
   const live = M.edges.some(e => [e.a, e.b].some(k => { const p = sol.V(k); return p && Math.hypot(p[0], p[1]) > 1 && (g(k) === ga || g(k) === gb); }));
@@ -182,13 +215,26 @@ MCP.findEl = (sim, term) => { const [d, t] = String(term).split(':'), els = sim.
     if ((e.d === d || dv.label === d) && (t === undefined || (e.t && e.t.includes(t)))) return { i, j: t === undefined || !e.t ? 0 : e.t.indexOf(t), e }; }
   return null; };
 MCP.resolve = (sim, f) => { if (!f) return null; const r = { ...f };
+  if (f.k === 'sd') return MCP.isSD(sim) ? { ...r, at: (f.at || []).slice(), set: { ...(f.set || {}) } } : null;   // chapter 8: power-circuit wiring
   if (f.k === 'wire') { r.ok = !!sim.spec.els.find(e => e.k === 'w'); return r; }
   if (f.k === 'fuse') { const x = MCP.findEl(sim, f.d || f.t); if (!x) return null; r.i = x.i; return r; }
   if (f.k === 'swap') { const A = MCP.findEl(sim, f.t[0]), B = MCP.findEl(sim, f.t[1]); if (!A || !B) return null; r.A = A; r.B = B; return r; }
   const x = MCP.findEl(sim, f.t); if (!x) return null; r.i = x.i; r.j = x.j; return r; };
 const onSeg = (p, a, b) => (a[0] === b[0] ? p[0] === a[0] && p[1] >= Math.min(a[1], b[1]) && p[1] <= Math.max(a[1], b[1]) : a[1] === b[1] && p[1] === a[1] && p[0] >= Math.min(a[0], b[0]) && p[0] <= Math.max(a[0], b[0]));
+/* chapter 8: power-circuit wiring faults of a star-delta simulator. The simulator's own sdCfg() returns the faulty set-up (so the motor
+   model, the short-circuit trip, the netlist and the meter follow it) except while the drawing is rendered (renderSD sees the design) */
+const SDO = { A: ['W2', 'U2', 'V2'], B: ['V2', 'W2', 'U2'], straight: ['U2', 'V2', 'W2'] };
+const sdApply = (c, x) => { const o = { ...c };
+  if (x.order !== undefined) { o.map = Array.isArray(x.order) ? x.order.slice() : (SDO[x.order] || SDO.A).slice(); o.order = Array.isArray(x.order) ? 'custom' : x.order; }
+  ['in3', 'open', 'bridge'].forEach(k => { if (x[k]) o[k] = x[k].slice(); }); ['links', 'set', 'motorV'].forEach(k => { if (x[k] !== undefined) o[k] = x[k]; }); return o; };
+MCP.sdHook = sim => { if (sim.mcpSdHook || !MCP.isSD(sim)) return; const P = Object.getPrototypeOf(sim); sim.mcpSdHook = true;
+  sim.sdCfg = function () { const c = P.sdCfg.call(this), F = !this.mcpSdOff && c ? (this.mcpFaults || []).filter(f => f.k === 'sd') : []; return F.length ? F.reduce((o, f) => sdApply(o, f.set || {}), c) : c; };
+  sim.renderSD = function (...a) { this.mcpSdOff = true; try { return P.renderSD.apply(this, a); } finally { this.mcpSdOff = false; } };
+  sim.sdShortMsg = function () { if (!(this.mcpFaults || []).some(f => f.k === 'sd')) return P.sdShortMsg.call(this); const q = this.sdCfg().pre.find(t => t.k === 'cb');   // a hidden fault: the message must not name the cause
+    return `<div class="badbox rl-msg">${MC.t(`ลัดวงจรในวงจรกำลัง! ${q ? `${q.d} ตัดแล้ว ` : ''}หาสาเหตุก่อนสับกลับ`, `Short circuit in the power circuit! ${q ? `${q.d} has tripped. ` : ''}Find the cause before switching it on again.`)}</div>`; }; };
 MCP.setFaults = (sim, list) => {
   const L = [].concat(list || []).filter(Boolean).map(f => MCP.resolve(sim, f)).filter(Boolean); sim.mcpFaults = L;
+  if (L.some(f => f.k === 'sd')) MCP.sdHook(sim);
   if (!L.length) { delete sim.fx; sim.update(); return L; }
   sim.fx = E => { let out = E.slice();
     L.filter(f => f.k === 'swap').forEach(f => { const ka = (x => { const ed = out.find(q => q.i === x.i && q.e.k !== 'w'); return ed ? (x.j ? ed.b : ed.a) : null; }), a = ka(f.A), b = ka(f.B); if (a === null || b === null) return;
@@ -199,11 +245,14 @@ MCP.setFaults = (sim, list) => {
         if (best >= 0) out[best] = { ...out[best], e: { ...out[best].e, open: true } }; }
       else if (f.k === 'loose') out = out.map(ed => (ed.i === f.i && ed.e.k !== 'w' ? { ...ed, [f.j ? 'b' : 'a']: `~loose:${f.i}:${f.j}` } : ed));
       else if (f.k === 'open' || f.k === 'fuse') out = out.map(ed => (ed.i === f.i && ed.e.k !== 'w' ? { ...ed, e: { ...ed.e, open: true } } : ed));
-      else if (f.k === 'closed') out = out.map(ed => (ed.i === f.i && ed.e.k !== 'w' ? { ...ed, e: { ...ed.e, welded: true } } : ed)); });
+      else if (f.k === 'closed') out = out.map(ed => (ed.i === f.i && ed.e.k !== 'w' ? { ...ed, e: { ...ed.e, welded: true } } : ed));
+      else if (f.k === 'sub') out = out.map(ed => (ed.i === f.i && ed.e.k !== 'w' ? { ...ed, e: { ...ed.e, d: f.d } } : ed)); });   // the contact follows another device
     return out; };
   sim.update(); return L; };
 /* does a tap (hit = { kind: 'term', i, j } | { kind: 'el', i } | { kind: 'seg', i, pa, pb }) point at the fault f? */
 MCP.isFaultAt = (f, hit) => { if (!f || !hit) return false;
+  if (f.k === 'sd') return hit.kind === 'pterm' && (hit.keys || []).some(k => (f.at || []).includes(k));
+  if (hit.kind === 'pterm') return false;
   if (f.k === 'wire') return hit.kind === 'seg' && !!hit.pa && onSeg(hit.pa, f.a, f.b) && onSeg(hit.pb, f.a, f.b);
   if (f.k === 'swap') return hit.kind === 'term' && [f.A, f.B].some(x => x.i === hit.i && x.j === hit.j);
   if (f.k === 'loose') return (hit.kind === 'term' && hit.i === f.i && hit.j === f.j) || (hit.kind === 'el' && hit.i === f.i);
@@ -216,6 +265,8 @@ MCP.faultText = (sim, f) => { const e = f.i !== undefined ? sim.spec.els[f.i] : 
     case 'open': return e.k === 'coil' || e.k === 'lamp' ? [`${nm} ${tm} ขาดใน (ขดลวดหรือไส้หลอดขาด)`, `${nm} ${tm} is open inside (broken winding or filament)`] : [`หน้าสัมผัส ${nm} ${tm} ไม่ต่อ (ค้างเปิด)`, `contact ${nm} ${tm} does not close (stuck open)`];
     case 'closed': return [`หน้าสัมผัส ${nm} ${tm} ไม่เปิด (ค้างต่อ หน้าสัมผัสติด)`, `contact ${nm} ${tm} does not open (stuck closed, welded)`];
     case 'fuse': return [`ฟิวส์ ${nm} ขาด (ดูจากภายนอกไม่ออก)`, `fuse ${nm} has blown (you cannot see it from outside)`];
+    case 'sd': return f.text || ['วงจรกำลังต่อไม่ตรงตามแบบ', 'the power circuit is not wired as drawn'];
+    case 'sub': return [`สายที่ควรอยู่ที่ ${nm} ${tm} ไปต่ออยู่ที่ ${f.d} ${tm} แทน`, `the leads meant for ${nm} ${tm} sit on ${f.d} ${tm} instead`];
     case 'swap': { const a = sim.spec.els[f.A.i], b = sim.spec.els[f.B.i]; const A = `${MCP.name(sim, a.d)}:${a.t[f.A.j]}`, B = `${MCP.name(sim, b.d)}:${b.t[f.B.j]}`; return [`สายที่ขั้ว ${A} กับ ${B} สลับกัน`, `the wires on ${A} and ${B} are swapped`]; }
     default: return ['', '']; } };
 
@@ -235,7 +286,7 @@ MCP.targets = (sim, what = 'probe') => {
   if (ctl) { const xs = S.els.flatMap(e => (e.pts ? e.pts.map(p => p[0]) : [e.x])), xa = sim.railX0 !== undefined ? sim.railX0 : X(Math.min(...xs)) - 30, xb = X(Math.max(...xs)) + 30;
     out.push({ kind: 'rail', v: 'c:L', node: 'L', x1: xa, y1: Y(0), x2: xb, y2: Y(0), lab: T(`ราว ${S.railTop || 'L1'}`, `${S.railTop || 'L1'} rail`) },
       { kind: 'rail', v: 'c:N', node: 'N', x1: xa, y1: Y(S.rows), x2: xb, y2: Y(S.rows), lab: T(`ราว ${S.railBot || 'N'}`, `${S.railBot || 'N'} rail`) }); }
-  if (what === 'probe' && sim.pT && S.power && !(S.power.phases === 1 && S.power.rev)) { /* only power terminals the model knows (single-phase reversing: control circuit only) */ const at = new Map(); Object.entries(sim.pT).forEach(([k, p]) => { const id = `${p[0]},${p[1]}`; if (!at.has(id)) at.set(id, { x: p[0], y: p[1], keys: [] }); at.get(id).keys.push(k); });
+  if ((what === 'probe' || (what === 'answer' && MCP.isSD(sim))) && sim.pT && S.power && !(S.power.phases === 1 && S.power.rev)) {   /* chapter 8: an sd fault card is answered on the power terminals too */ /* only power terminals the model knows (single-phase reversing: control circuit only) */ const at = new Map(); Object.entries(sim.pT).forEach(([k, p]) => { const id = `${p[0]},${p[1]}`; if (!at.has(id)) at.set(id, { x: p[0], y: p[1], keys: [] }); at.get(id).keys.push(k); });
     at.forEach(q => out.push({ kind: 'pterm', v: 'p:' + q.keys[0], keys: q.keys, x: q.x, y: q.y, lab: q.keys.map(k => k.replace(/^SUP:/, '')).join(' / ') })); }
   return out; };
 /* nearest target to point p: points within r (default 15), then segments, boxes and rails within 9 */
@@ -408,13 +459,16 @@ MCP.Meter = class {
   explain(r) { if (!r) return '';
     if (r.mode === 'V') { if (r.float) return T('0 V: อย่างน้อยหนึ่งจุดไม่ได้ต่อกับแหล่งจ่ายและไม่ได้ต่อกับ N เลย (วงจรขาดทั้งสองด้าน หรือไม่มีไฟ)', '0 V: at least one point has no connection to the supply nor to N (the circuit is open on both sides, or there is no supply)');
       if (r.v < 0.5) return T('0 V: สองจุดมีศักย์เท่ากัน เป็นสายเดียวกัน หรือมีหน้าสัมผัสที่ต่ออยู่คั่น', '0 V: both points are at the same potential: the same wire, or a closed contact between them');
+      if (r.two) return T(`${r.text}: สองจุดนี้อยู่คนละแหล่งจ่าย (วงจรควบคุม 230 V กับแหล่งจ่ายแรงดันต่ำของวงจรกำลัง) ค่านี้ไม่มีความหมาย วัดเทียบกับจุดในวงจรเดียวกัน`, `${r.text}: these two points belong to two different supplies (the 230 V control circuit and the low-voltage power supply); the reading means nothing: measure against a point of the same circuit`);
+      if (r.lv && Math.abs(r.v - r.lv) < 3) return T(`${r.text}: ระหว่างสายของแหล่งจ่าย 3 เฟสแรงดันต่ำของชุดฝึก หรือคร่อมขดลวดหนึ่งขดในเดลตา`, `${r.text}: line to line of the trainer's low-voltage three-phase supply, or across one winding in delta`);
+      if (r.lv && Math.abs(r.v - r.lv / SQ3) < 3) return T(`${r.text}: ระหว่างเฟสกับ N ของแหล่งจ่ายแรงดันต่ำ หรือคร่อมขดลวดหนึ่งขดในสตาร์ (${Math.round(r.lv)}/√3)`, `${r.text}: phase to N of the low-voltage supply, or across one winding in star (${Math.round(r.lv)}/√3)`);
       if (Math.abs(r.v - 230 * SQ3) < 3) return T('400 V: ระหว่างเฟสกับเฟส (วงจรกำลัง)', '400 V: phase to phase (power circuit)');
       if (Math.abs(r.v - 230) < 3) return T('230 V: ระหว่างเฟสกับ N หรือคร่อมหน้าสัมผัสที่เปิดอยู่ ซึ่งด้านหนึ่งมีไฟ อีกด้านต่อถึง N ผ่านโหลด', '230 V: phase to N, or across an open contact that has the supply on one side and N through a load on the other');
       return T('แรงดันบางส่วน: สองจุดต่อถึงแหล่งจ่ายผ่านโหลดต่างกัน', 'part of the supply voltage: the two points reach the supply through different loads'); }
     if (r.live) return `<span class="mcp-live">${T('อันตราย: วงจรยังมีไฟ! ห้ามวัดความต้านทานขณะมีไฟ ตัดไฟ ล็อก แขวนป้าย แล้ววัดแรงดันยืนยันว่าไม่มีไฟก่อน', 'Danger: the circuit is live! Never measure resistance on a live circuit: switch off, lock out, tag, and prove it dead with the voltage range first')}</span>`;
     if (r.r === 0) return T('0.0 Ω มีเสียงบี๊บ: ต่อถึงกัน (สาย หรือหน้าสัมผัสที่ต่ออยู่)', '0.0 Ω with a beep: continuity (a wire, or a closed contact)');
     if (r.r === Infinity) return T('OL: ไม่มีทางต่อถึงกัน (หน้าสัมผัสเปิด สายขาด หรือฉนวน)', 'OL: no path at all (an open contact, a broken wire, or insulation)');
-    const nm = (r.loads || []).map(e => { const s = e.src || {}; if (s.el !== undefined) { const el = this.sim.spec.els[s.el]; return `${el.k === 'lamp' ? T('หลอด', 'lamp') : T('คอยล์', 'coil')} ${MCP.name(this.sim, el.d)}`; } return s.wind ? T(`ขดลวดมอเตอร์ ${s.wind}`, `winding of ${s.wind}`) : ''; }).filter(Boolean);
+    const nm = (r.loads || []).map(e => { const s = e.src || {}; if (s.el !== undefined) { const el = this.sim.spec.els[s.el]; return `${el.k === 'lamp' ? T('หลอด', 'lamp') : T('คอยล์', 'coil')} ${MCP.name(this.sim, el.d)}`; } return s.wind ? (s.w ? T(`ขดลวด ${s.w} ของมอเตอร์ ${s.wind}`, `winding ${s.w} of ${s.wind}`) : T(`ขดลวดมอเตอร์ ${s.wind}`, `winding of ${s.wind}`)) : ''; }).filter(Boolean);
     return T(`${r.text} (ค่าตัวอย่าง): มีโหลดอยู่ในทาง${nm.length === 1 ? ` คือ${nm[0]}` : nm.length ? ` (${nm.join(', ')} และทางขนาน)` : ' หรือทางขนานผ่านโหลดอื่น'} ค่าจริงให้วัดจากชุดฝึกของคุณ`,
       `${r.text} (example value): a load is in the path${nm.length === 1 ? `: the ${nm[0]}` : nm.length ? ` (${nm.join(', ')} and parallel paths)` : ', or a parallel path through other loads'}; read the real value on your own trainer`); }
   show() { const r = this.res, P = this.p, sim = this.sim;
@@ -484,7 +538,7 @@ MCP.FaultCards = class {
   holds() { Object.entries(this.hbs || {}).forEach(([id, b]) => { const on = !!this.sim.dev[id].pressed; b.classList.toggle('on', on); b.textContent = on ? T(`ปล่อย ${MCP.name(this.sim, id)}`, `release ${MCP.name(this.sim, id)}`) : T(`กด ${MCP.name(this.sim, id)} ค้างไว้`, `hold ${MCP.name(this.sim, id)} down`); }); }
   count() { const c = this.card(), max = c.max || 4, n = this.m.n; if (this.used) this.used.innerHTML = T(`วัดไปแล้ว ${n} ครั้ง`, `${n} measurement${n === 1 ? '' : 's'} so far`) + (n > max ? ` <b class="mcp-over">${T('เกินกำหนด', 'over the limit')}</b>` : ''); }
   ask() { if (this.found || this.revealed) return; this.answering = true; this.fb.classList.add('on'); status(this.cst, T('ตอบ', 'answer'), T('แตะขั้ว อุปกรณ์ หรือสายเส้นที่เสียในแบบ', 'Tap the faulty terminal, device or wire in the drawing'), 'warn'); this.draw(); }
-  answer(t) { const hit = t.kind === 'term' ? { kind: 'term', i: t.i, j: t.j } : t.kind === 'el' ? { kind: 'el', i: t.i } : t.kind === 'seg' ? { kind: 'seg', i: t.i, pa: t.pa, pb: t.pb } : null; if (!hit) return false;
+  answer(t) { const hit = t.kind === 'term' ? { kind: 'term', i: t.i, j: t.j } : t.kind === 'el' ? { kind: 'el', i: t.i } : t.kind === 'seg' ? { kind: 'seg', i: t.i, pa: t.pa, pb: t.pb } : t.kind === 'pterm' ? { kind: 'pterm', keys: t.keys } : null; if (!hit) return false;
     const ok = (this.faults || []).some(f => MCP.isFaultAt(f, hit));
     if (!ok) { this.wrong++; status(this.cst, '✗', T(`${t.lab || ''}: ไม่ใช่จุดนี้ วัดเพิ่มอีกหน่อยแล้วลองใหม่`, `${t.lab || ''}: not this one. Measure a little more and try again`), 'bad'); return false; }
     const c = this.card(), max = c.max || 4, n = this.m.n, first = this.pts[this.k], again = first !== null && first !== undefined;   // a card already answered or revealed keeps its first score
@@ -501,10 +555,11 @@ MCP.FaultCards = class {
   /* overlay: in answer mode a hit layer on every terminal, device and wire; after the answer a red ring where the fault is */
   svg() { const sim = this.sim; let s = ''; this.tg = this.answering ? MCP.targets(sim, 'answer') : [];
     if (this.found || this.revealed) (this.faults || []).forEach(f => { const X = v => sim.X(v), Y = v => sim.Y(v), ring = (x, y, r) => `<circle cx="${f1(x)}" cy="${f1(y)}" r="${r}" fill="none" stroke="var(--bad)" stroke-width="2.6" stroke-dasharray="4 3"/>`;
-      if (f.k === 'wire') s += ring((X(f.a[0]) + X(f.b[0])) / 2, (Y(f.a[1]) + Y(f.b[1])) / 2, 13);
+      if (f.k === 'sd') (f.at || []).forEach(k => { const p = sim.pT && sim.pT[k]; if (p) s += ring(p[0], p[1], 9); });
+      else if (f.k === 'wire') s += ring((X(f.a[0]) + X(f.b[0])) / 2, (Y(f.a[1]) + Y(f.b[1])) / 2, 13);
       else if (f.k === 'swap') [f.A, f.B].forEach(x => { const e = sim.spec.els[x.i]; s += ring(X(e.x), x.j ? Y(e.y + (e.h || 1)) - 8 : Y(e.y) + 8, 10); });
       else { const e = sim.spec.els[f.i]; if (f.k === 'loose') s += ring(X(e.x), f.j ? Y(e.y + (e.h || 1)) - 8 : Y(e.y) + 8, 10); else s += ring(X(e.x), (Y(e.y) + Y(e.y + (e.h || 1))) / 2, 22); } });
-    if (this.answering) s += this.tg.map(t => (t.kind === 'el' ? `<rect x="${f1(t.box[0])}" y="${f1(t.box[1])}" width="${t.box[2]}" height="${f1(t.box[3])}" rx="5" fill="var(--warn)" fill-opacity=".08" stroke="var(--warn)" stroke-opacity=".5" stroke-dasharray="3 3"/>` : '')).join('') + hitLayer(this.key, this.tg);
+    if (this.answering) s += this.tg.map(t => (t.kind === 'el' ? `<rect x="${f1(t.box[0])}" y="${f1(t.box[1])}" width="${t.box[2]}" height="${f1(t.box[3])}" rx="5" fill="var(--warn)" fill-opacity=".08" stroke="var(--warn)" stroke-opacity=".5" stroke-dasharray="3 3"/>` : t.kind === 'pterm' ? `<circle cx="${f1(t.x)}" cy="${f1(t.y)}" r="6" fill="var(--warn)" fill-opacity=".12" stroke="var(--warn)" stroke-opacity=".6" stroke-dasharray="2 2"/>` : '')).join('') + hitLayer(this.key, this.tg);
     return s; }
 };
 
@@ -561,7 +616,7 @@ MCP.TRAINER = {
     { id: 'OL1', kind: 'ol', x: 24, y: 362, tag: 'F21', model: 'thermal overload relay 1.0–1.6 A, class 10 (example, sized for the 0.4 kW lab motor)' },
     { id: 'OL2', kind: 'ol', x: 162, y: 362, tag: 'F22', model: 'thermal overload relay 1.0–1.6 A, class 10 (example, sized for the 0.4 kW lab motor)' },
     { id: 'OL3', kind: 'ol', x: 300, y: 362, tag: 'F23', model: 'thermal overload relay 1.0–1.6 A, class 10 (example, sized for the 0.4 kW lab motor)' },
-    { id: 'X1', kind: 'strip', x: 24, y: 478, n: 13, tag: '-X1', under: ['L1', 'L2', 'L3', 'N', 'PE', 'U1', 'V1', 'W1', 'PE', 'U1', 'V1', 'W1', 'PE'], model: 'power terminal strip: 1–5 supply in (pre-wired), 6–9 motor M1, 10–13 motor M2' },
+    { id: 'X1', kind: 'strip', x: 24, y: 478, n: 13, tag: '-X1', under: ['L1', 'L2', 'L3', 'N', 'PE', 'U1', 'V1', 'W1', 'PE', 'U1', 'V1', 'W1', 'PE'], underSd: ['L1', 'L2', 'L3', 'N', 'PE', 'U1', 'V1', 'W1', 'PE', 'W2', 'U2', 'V2', 'PE'], model: 'power terminal strip: 1–5 supply in (pre-wired), 6–9 motor M1, 10–13 motor M2' },   // star-delta (chapter 8): 10–12 = W2 U2 V2 of M1 (underSd, x1sd)
     { id: 'X2', kind: 'strip', x: 292, y: 478, n: 20, tag: '-X2', model: 'control terminal strip to the door and the field devices' },
     { id: 'PE', kind: 'pebar', x: 24, y: 536, n: 8, tag: 'PE', model: 'PE bar (all sockets joined)' },
     { id: 'H1', kind: 'lamp', x: 800, y: 40, tag: 'GREEN', code: 'GN', color: '#7ee787', model: 'pilot light 22 mm, green, 230 V (example)' },
@@ -587,7 +642,10 @@ MCP.TRAINER = {
     { id: 'M2', kind: 'motor', x: 598, y: 598, tag: 'M2', model: 'three-phase induction motor 0.4 kW, 220 V Δ / 380–415 V Y, about 1.2 A in Y (example, like the lab motor)' }],
   /* -X1: what each terminal carries; 1–5 come pre-wired from the supply isolator */
   x1: { L1: 1, L2: 2, L3: 3, N: 4, PE: 5, M1: { U1: 6, V1: 7, W1: 8, PE: 9 }, M2: { U1: 10, V1: 11, W1: 12, PE: 13 } },
+  /* chapter 8: a star-delta motor needs six leads + PE: M1 uses 6–9 and the M2 terminals 10–12 for W2 U2 V2 (M2 is not used then) */
+  x1sd: { M1: { U1: 6, V1: 7, W1: 8, PE: 9, W2: 10, U2: 11, V2: 12 } },
   supplyLab: ['จากสวิตช์แยกวงจรต้นทาง 3~ 400/230 V 50 Hz (ต่อไว้แล้ว)', 'from the supply isolator 3~ 400/230 V 50 Hz (pre-wired)'],
+  supplyLabLow: ['แหล่งจ่าย 3 เฟสแรงดันต่ำของชุดฝึก (ประมาณ 220 V ระหว่างสาย)|ครูเป็นผู้ต่อและตรวจ · วงจรควบคุม 230 V', "the trainer's low-voltage three-phase supply (about 220 V line to line)|connected and checked by the teacher · control 230 V"],   // chapter 8 (two lines)
   leads: { RD: ['แดง (วงจรควบคุม)', 'red (control)', '#d83a34'], BK: ['ดำ (วงจรกำลัง)', 'black (power)', '#2a2f36'], BU: ['ฟ้า (N)', 'blue (N)', '#2f6fd6'], GNYE: ['เขียว-เหลือง (PE)', 'green-yellow (PE)', '#2fa84f'] }
 };
 /* sockets of one trainer device: [{ id: 'KM1:A1', t: 'A1', x, y, up (label above) }] in drawing coordinates */
@@ -667,7 +725,19 @@ MCP.trRef = (sim, o = {}) => {
       const box = typeof o.box === 'object' ? o.box[m] || 'star' : o.box || 'star';
       (box === 'delta' ? [['U1', 'W2'], ['V1', 'U2'], ['W1', 'V2']] : [['W2', 'U2'], ['U2', 'V2']]).forEach(([a, b]) => pairs.push({ a: `${ms}:${a}`, b: `${ms}:${b}`, key: 'box', kind: 'box', box, m })); };
     add(`X1:${L.x1.PE}`, '_PE:1', 'PE', 'pe');
-    if (P.feeders) { let ins = chain([].concat(P.main || []), ph, PH);   // the busbar: the second branch is fed from the line terminals of the first (two leads per socket at most)
+    if (P.sd && sim.sdNet) {   // chapter 8: the designed star-delta wiring (sdWires of a fresh simulator), six motor leads + PE through -X1, no terminal-box links
+      const ps = new RL.Sim(document.createElement('div'), S, { sheet: false }), Nt = ps.sdNet(), C = Nt.cfg, m = C.motor, mx = (L.x1sd || {})[m] || null, ms = asg.slot[m];
+      const par = new Map(), f = k => { if (!par.has(k)) par.set(k, k); let r = k; while (par.get(r) !== r) r = par.get(r); par.set(k, r); return r; }, W = ps.sdWires(), nets = new Map();
+      W.forEach(([a, b]) => { const x = f(a), y = f(b); if (x !== y) par.set(x, y); });
+      W.forEach(pr => pr.forEach(k => { const r = f(k); if (!nets.has(r)) nets.set(r, []); if (!nets.get(r).includes(k)) nets.get(r).push(k); }));
+      const phOf = ks => { const e = Nt.edges.find(x => x.k === 'w' && x.ph !== undefined && (ks.includes(x.a) || ks.includes(x.b))); return e ? PH[e.ph] : 'L'; };
+      nets.forEach(ks => { const mt = ks.find(k => k.startsWith(m + ':')), t = mt ? mt.split(':')[1] : null;
+        if (t === 'PE') { if (mx) { add(`_PE:${peN++}`, `X1:${mx.PE}`, 'PE', 'pe'); add(`X1:${mx.PE}`, `${m}:PE`, 'PE', 'pe'); } return; }
+        const key = t || (ks.every(k => k.split(':')[0] === C.star) ? 'Y' : phOf(ks)), panel = ks.filter(k => k !== mt).map(k => (/^SUP:L[123]$/.test(k) ? `X1:${L.x1[k.slice(4)]}` : k));
+        for (let i = 1; i < panel.length; i++) add(panel[i - 1], panel[i], key, 'pow');
+        if (mt && mx && mx[t] && ms && panel.length) { add(panel[panel.length - 1], `X1:${mx[t]}`, key, 'pow'); add(`X1:${mx[t]}`, `${m}:${t}`, key, 'pow'); }
+        else if (mt) miss.push([`${m}:${t}: ไม่มีขั้วบน -X1 สำหรับมอเตอร์ 6 สาย`, `${m}:${t}: no -X1 terminal for a six-lead motor`]); }); }
+    else if (P.feeders) { let ins = chain([].concat(P.main || []), ph, PH);   // the busbar: the second branch is fed from the line terminals of the first (two leads per socket at most)
       P.feeders.forEach(f => { const st = (f.stages || []).filter(t => t.k !== 'rev'), outs = chain(st, ins, PH); if (st[0]) ins = [0, 1, 2].map(p => `${st[0].d}:${2 * p + 1}`); motorOut(f.motor, outs); }); }
     else if (P.rev) { const V = sim.revInfo(), bus = chain(V.pre, ph, PH);
       V.fmap.forEach((pp, k) => add(bus[pp - 1], `${V.fwd}:${2 * k + 1}`, PH[pp - 1], 'pow'));
@@ -681,7 +751,7 @@ MCP.trRef = (sim, o = {}) => {
   const fixed = [L.devices.filter(d => d.kind === 'pebar').flatMap(d => MCP.trSockets(d, L).map(s => s.id))];
   const label = sk => { const [s, t] = sk.split(':'), dv = L.devices.find(x => x.id === s) || {}; if (dv.kind === 'pebar') return T(`บาร์ PE (${t})`, `PE bar (${t})`); if (dv.kind === 'strip') return `${dv.tag || '-' + s}:${t}`;
     const id = asg.rev[s]; return `-${id ? MCP.name(sim, id) : dv.tag || s}:${t}`; };
-  const keyLab = k => (/^\d+$/.test(k) ? T(`สาย ${k}`, `wire ${k}`) : k === 'box' ? T('กล่องขั้วมอเตอร์', 'motor terminal box') : k === 'F3' ? T('อินพุตวัดของ F3', 'F3 measuring inputs') : k);
+  const keyLab = k => (/^\d+$/.test(k) ? T(`สาย ${k}`, `wire ${k}`) : k === 'box' ? T('กล่องขั้วมอเตอร์', 'motor terminal box') : k === 'F3' ? T('อินพุตวัดของ F3', 'F3 measuring inputs') : k === 'Y' ? T('สะพานสตาร์ (KM2 2–4–6)', 'star bridge (KM2 2–4–6)') : k);
   return { pairs, fixed, asg, miss, label, keyLab, terms: new Set(pairs.flatMap(p => [p.a, p.b])) };
 };
 /* the student's leads against the reference: { ok, missing: [pair], wrong: [{ w, keys }], extra: [{ w, t }], dup: [w], done: Set of
@@ -701,7 +771,7 @@ MCP.trCompare = (ref, wires) => {
 /* the reference leads in wiring order (power first, then the control wires by number, N, PE, the motor box), split into chains:
    [{ key, chain: [socket, …], idx: [pair indexes] }] */
 MCP.trChecklist = ref => {
-  const rank = k => (['L1', 'L2', 'L3'].includes(k) ? 0 : UVW.includes(k) ? 1 : k === 'F3' ? 2 : k === 'PE' ? 3 : k === 'box' ? 4 : /^\d+$/.test(k) ? 10 + +k : k === 'N' ? 9000 : 9999);
+  const rank = k => (['L1', 'L2', 'L3'].includes(k) ? 0 : UVW.includes(k) ? 1 : ['W2', 'U2', 'V2'].includes(k) ? 1.5 : k === 'Y' ? 1.7 : k === 'F3' ? 2 : k === 'PE' ? 3 : k === 'box' ? 4 : /^\d+$/.test(k) ? 10 + +k : k === 'N' ? 9000 : 9999);   // W2 U2 V2 and Y: star-delta (chapter 8)
   const keys = [...new Set(ref.pairs.map(p => p.key))].sort((a, b) => rank(a) - rank(b) || natural(a, b)), out = [];
   keys.forEach(k => { const idx = ref.pairs.map((p, i) => (p.key === k ? i : -1)).filter(i => i >= 0), left = new Set(idx);
     while (left.size) { const first = [...left][0], comp = new Set([first]), q = [first];
@@ -728,6 +798,7 @@ MCP.Trainer = class {
   constructor(el, sim, o = {}) {
     this.el = el; this.sim = sim; this.o = o; this.L = o.layout || MCP.TRAINER; this.key = 'tn' + (++UID);
     this.asg = MCP.trAssign(sim, o); this.ref = MCP.trRef(sim, { ...o, asg: this.asg }); this.cl = MCP.trChecklist(this.ref);
+    this.sd = MCP.isSD(sim); this.lowV = this.sd && +(sim.sdCfg().V || 400) < 300;   // chapter 8: six-lead motor; the lab's low-voltage supply
     this.wires = (o.wires || []).map(w => ({ ...w })); this.sel = null; this.selW = -1; this.col = 'RD'; this.live = false; this.shown = false;
     this.zoom = o.zoom || (typeof window !== 'undefined' && window.innerWidth < 760 ? 1 : null); this.cmp = MCP.trCompare(this.ref, this.wires);
     sim.setMains(false);
@@ -780,6 +851,8 @@ MCP.Trainer = class {
       if (c.wrong.length) parts.push(`<b>${T('ต่อผิด (สายนี้ไปรวมสายต่างเส้นกัน)', 'Wrong leads (they join two different wires)')}</b><ul>${li(c.wrong.map(x => `${lab(x.w.a)} — ${lab(x.w.b)}: ${kl(x.keys[0])} ${T('กับ', 'with')} ${kl(x.keys[1])}`))}</ul>`);
       if (c.extra.length) parts.push(`<b>${T('สายเกิน (ขั้วที่วงจรนี้ไม่ใช้)', 'Extra leads (a socket this circuit does not use)')}</b><ul>${li(c.extra.map(x => `${lab(x.w.a)} — ${lab(x.w.b)} (${lab(x.t)})`))}</ul>`);
       h += `<div class="warnbox">${parts.join('')}</div>`; }
+    if (this.sd) { const ms = this.asg.slot[this.sim.spec.power.motor || 'M1'], box = c.wrong.filter(x => [x.w.a, x.w.b].every(k => ms && k.split(':')[0] === ms));   // chapter 8: a link left in the terminal box
+      if (box.length) h += `<div class="badbox"><b>${T('ห้ามมีสะพานในกล่องขั้วมอเตอร์', 'No links in the motor terminal box')}</b>: ${box.map(x => `${lab(x.w.a)} — ${lab(x.w.b)}`).join(', ')}. ${T('สตาร์–เดลตาใช้คอนแทกเตอร์ต่อปลายขดลวด ถ้ามีสะพานค้าง KM2 หรือ KM3 จะลัดวงจร L1–L2–L3 ตอนเริ่มหรือตอนเปลี่ยนเป็นเดลตา', 'In star-delta the contactors join the winding ends: with a link left in, KM2 or KM3 shorts L1–L2–L3 at the start or at the change to delta')}</div>`; }
     const warn = [];
     if (c.dup.length) warn.push(T(`มีสายซ้ำ ${c.dup.length} เส้น (ต่อสองจุดเดิมซ้ำ)`, `${c.dup.length} duplicate lead${c.dup.length === 1 ? '' : 's'} (the same two sockets twice)`));
     const kOf = w => { const p = R.pairs.find(q => [q.a, q.b].includes(w.a) || [q.a, q.b].includes(w.b)); return p ? p.key : null; };
@@ -790,6 +863,7 @@ MCP.Trainer = class {
   /* ---------------- checklist and device table ---------------- */
   list() { const R = this.ref, c = this.cmp, tick = this.o.ticks !== false;
     const notes = [...this.asg.notes.map(n => esc(tt(n)))]; const box = R.pairs.find(p => p.kind === 'box'); if (box) notes.push(box.box === 'delta' ? T('มอเตอร์ต่อเดลตา (230 V ต่อขด)', 'motor in delta') : T('มอเตอร์ต่อสตาร์ ใส่สะพาน W2–U2–V2 ในกล่องขั้ว', 'motor in star: bridge W2–U2–V2 in the terminal box'));
+    if (this.sd) notes.push(T('สตาร์–เดลตา: ถอดสะพานในกล่องขั้วมอเตอร์ออกทั้งหมด ต่อสาย 6 เส้น U1 V1 W1 W2 U2 V2 ผ่าน -X1:6–8 และ 10–12 กับ PE ที่ -X1:9', 'star-delta: remove every link from the motor terminal box; six leads U1 V1 W1 W2 U2 V2 through -X1:6–8 and 10–12, PE on -X1:9'));
     this.el.querySelector('.mcp-trnotes').innerHTML = notes.length ? `<p class="hint">${notes.join(' · ')}</p>` : '';
     this.ol.innerHTML = this.cl.map(g => { const ok = tick && g.idx.every(i => c.done.has(i)), s = g.chain ? g.chain.map(x => esc(R.label(x))).join(' → ') : g.pairs.map(p => `${esc(R.label(p.a))} → ${esc(R.label(p.b))}`).join('; ');
       return `<li class="${ok ? 'done' : ''}"><b>${esc(R.keyLab(g.key))}</b>: ${s}${ok ? ' ✓' : ''}</li>`; }).join(''); }
@@ -824,12 +898,15 @@ MCP.Trainer = class {
       s += this.face(dv, w, h, d, id) + IE.T(esc(tag), dv.x + w / 2, dv.y - 4, { size: dv.kind === 'strip' || dv.kind === 'pebar' ? 10 : 11, anchor: 'middle', weight: 700, col: id || dv.kind === 'strip' || dv.kind === 'pebar' ? '#16181b' : '#7d858f' }) + '</g>';
       MCP.trSockets(dv, L).forEach(k => { sock.push(k); const pe = (dv.kind === 'strip' && dv.under && dv.under[+k.t - 1] === 'PE') || dv.kind === 'pebar' || k.t === 'PE', n = dv.kind === 'strip' && dv.under && dv.under[+k.t - 1] === 'N';
         s += `<circle cx="${k.x}" cy="${k.y}" r="${R}" fill="${pe ? '#2fa84f' : n ? '#2f6fd6' : '#3b424d'}" stroke="${pe ? '#f2c230' : '#1f2328'}" stroke-width="${pe ? 2 : 1}"/><circle cx="${k.x}" cy="${k.y}" r="2.5" fill="#d9dde2"/>`;
-        if (dv.kind === 'strip') { s += IE.T(k.t, k.x, k.y - 10, { size: 7.5, anchor: 'middle', col: '#2a2f36' }); if (dv.under) s += IE.T(dv.under[+k.t - 1] || '', k.x, k.y + 16, { size: 7, anchor: 'middle', weight: 700, col: '#4a515c' }); }
+        if (dv.kind === 'strip') { const und = (this.sd && dv.underSd) || dv.under; s += IE.T(k.t, k.x, k.y - 10, { size: 7.5, anchor: 'middle', col: '#2a2f36' }); if (und) s += IE.T(und[+k.t - 1] || '', k.x, k.y + 16, { size: 7, anchor: 'middle', weight: 700, col: '#4a515c' }); }
         else if (dv.kind !== 'pebar') { s += IE.T(k.t, k.x, k.up ? k.y - 8.5 : k.y + 14.5, { size: 7.5, anchor: 'middle', weight: 700, col: '#2a2f36' });
           if (K.pins && K.pins[k.t]) s += IE.T(`(${K.pins[k.t]})`, k.x + 9, k.up ? k.y - 8.5 : k.y + 14.5, { size: 5.5, col: '#6f767f' }); } }); });
     // the supply comes in pre-wired on -X1:1–5
     const x1 = L.devices.find(d => d.id === 'X1'); if (x1) { const ss = MCP.trSockets(x1, L).slice(0, 5); ss.forEach(k => { s += `<path d="M ${k.x} ${k.y + 6} L ${k.x} ${x1.y + 50} L ${k.x - 8} 574" fill="none" stroke="${k.t === '5' ? '#2fa84f' : k.t === '4' ? '#2f6fd6' : '#5a4636'}" stroke-width="2.4" opacity=".75"/>`; });
-      s += IE.T(esc(tt(L.supplyLab)), x1.x + 104, 568, { size: 7.5, col: '#4a515c' }); }
+      if (this.lowV && L.supplyLabLow) { const q2 = tt(L.supplyLabLow).split('|'), wq = Math.min(L.zones[0].x + L.zones[0].w - x1.x - 176, Math.max(...q2.map(q => q.length)) * 4.3 + 10);   // chapter 8: the lab's low-voltage supply, on a light card so it reads over the plate
+        s += `<rect x="${x1.x + 167}" y="542" width="${f1(wq)}" height="${11 * q2.length + 4}" rx="3" fill="#fffaf0" fill-opacity=".94" stroke="#a31d17" stroke-width=".7"/>`;
+        q2.forEach((q, i) => { s += IE.T(esc(q), x1.x + 172, 551 + 11 * i, { size: 7.5, col: '#a31d17', weight: 700 }); }); }
+      else s += IE.T(esc(tt(L.supplyLab)), x1.x + 104, 568, { size: 7.5, col: '#4a515c' }); }
     // leads
     const pos = new Map(sock.map(k => [k.id, k])), nPer = new Map(); this.wires.forEach(w => [w.a, w.b].forEach(t => nPer.set(t, (nPer.get(t) || 0) + 1)));
     this.wires.forEach((w, i) => { const A = pos.get(w.a), B = pos.get(w.b); if (!A || !B) return; const d = Math.hypot(B.x - A.x, B.y - A.y), sg = Math.min(70, 14 + d * 0.2), c = (L.leads[w.col] || L.leads.RD)[2];
@@ -873,6 +950,8 @@ MCP.Trainer = class {
       case 'motor': { const run = id && (sim.runningM ? sim.runningM(id) : sim.running()), dir = run && sim.dir ? sim.dir(id) : 0;
         s += `<rect x="${x + 6}" y="${y + 28}" width="${w - 12}" height="62" rx="4" fill="#dfe2e6" stroke="#8f959d"/><circle cx="${x + w - 16}" cy="${y + 14}" r="10" fill="#7d858f" stroke="#3b424d"/>` + IE.T('M 3~', x + 10, y + 18, { size: 8, weight: 700, col: '#2a2f36' });
         if (run) s += IE.T(dir === 'ccw' ? '↺' : '↻', x + w - 16, y + 18, { size: 13, anchor: 'middle', weight: 700, col: '#d83a34' }) + IE.T(dir === 'ccw' ? T('ทวนเข็ม', 'anticlockwise') : T('ตามเข็ม', 'clockwise'), x + w - 30, y + 18, { size: 7, anchor: 'end', weight: 700, col: '#d83a34' });
+        if (id && this.sd && this.live) { const q = sim.sd(), lab = q === 'star' ? T('สตาร์ (Y)', 'star (Y)') : q === 'delta' ? T('เดลตา (Δ)', 'delta (Δ)') : q === 'fault:single' ? T('คราง!', 'hums!') : q === 'short' ? T('ลัดวงจร!', 'short!') : q && q !== 'open' ? T('ผิดปกติ', 'abnormal') : '';   // chapter 8
+          if (lab) s += IE.T(lab, x + w - 8, y + 40, { size: 8, anchor: 'end', weight: 700, col: q === 'star' || q === 'delta' ? '#1d8a4a' : '#a31d17' }); }
         break; }
       default: break; }
     return s; }

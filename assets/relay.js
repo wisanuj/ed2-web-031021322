@@ -56,6 +56,35 @@
                  reported as chattering (dev.chatter, contacts at rest) instead of ending in an arbitrary state.
                  element option dop (NC/NO with op 'lim': the direct-opening mark of IEC 60947-5-1 Annex K on the link);
                  sim.setOn(id, v) sets a sel/sen/fault device (no event when nothing changes)
+   chapter 8 additions (22 Oct 2026; old specs draw and behave exactly as before):
+                 power: { full: true, tap, sd: { main: 'KM1', star: 'KM2', delta: 'KM3', order: 'A' | 'B' | 'straight' | ['W2', 'U2', 'V2'],
+                 ol: 'winding' | 'line', feed: 'after' | 'line', in3: [1, 2, 3], open: [], bridge: [1, 2, 3], links: null | 'delta' | 'star',
+                 V: 400, motorV: 400, set, cls: '10' }, stages: [{ k: 'cb', d: 'Q1' }, { k: 'therm', d: 'F2' }], motor: 'M1' } = star-delta power
+                 circuit: Q1 → KM1 → (F2 when ol 'line') → split (dots) → F2 (ol 'winding', the course standard: it carries the winding current,
+                 set 0.58 × I_N) → U1 V1 W1; KM3 fed from the split after KM1 (feed 'line': split ahead of KM1, as Book_1 Fig 7.2) → W2 U2 V2
+                 by order (the bottom terminal each KM3 pole 1, 2, 3 lands on: A = W2 U2 V2 = U1–W2, V1–U2, W1–V2; B = V2 W2 U2; 'straight' =
+                 U2 V2 W2, the no-voltage fault; any other array = a transposition); in3 = the supply phase on KM3 poles 1–3 (two lines crossed
+                 at its input: [3, 2, 1]); open = KM3 poles whose output wire is loose; KM2 under the motor joins the KM2 output poles listed in
+                 bridge (the star point; [1, 2] = one link missing); links = terminal-box links left in; V = supply line voltage (lab 220),
+                 motorV = the motor's delta rating (a 230 V Δ / 400 V Y motor on 400 V: V 400, motorV 230); set = F2 dial in × I_N (default
+                 0.58 winding, 1.0 line). Six-lead motor drawn as a circle with U1 V1 W1 on top and W2 U2 V2 underneath (terminal-board order).
+                 Model (sdCalc, after every solve): windings = equal impedances on a balanced supply; nodal solution of the floating points;
+                 forward / backward field of the winding currents (axes 0°, 120°, 240°). sim.sd() = 0 (no supply on the windings) | 'open'
+                 (U1 V1 W1 live, the other ends not connected: the changeover gap) | 'star' | 'delta' | 'short' (KM2 + KM3 or links: the first
+                 cb ahead trips, sim.msg 'pshort', sim.pshort pairs, sim.sdCause 'pair' | 'links') | 'fault:none' (no voltage on any winding:
+                 straight-through delta, coasts) | 'fault:single' (pulsating field: transposition, star link missing; hums, no starting torque,
+                 heavy current) | 'fault:unbal' (runs, unbalanced: a loose KM3 output) | 'fault:over' (winding voltage above 1.1 × motorV) |
+                 'fault:rev' (not reachable with a correct KM1; no KM3 wiring reverses the motor). sim.running() = star, delta, unbal, over.
+                 While step() runs: speed sim.sdw (ED.motor torque with the field components, load sim.sdLoad = { J 2, TL 0.1, type 'fan' |
+                 'const' }), F2 heat with the class-10 model of ch. 4 (C4.tau, C4.KT; sim.sdx speeds the heating up, default 1) and an automatic
+                 F2 trip; sim.sdSw = { w, from } speed at the last change to delta; sim.sdBlips = delta pulses that dropped out in the same
+                 instant (KM3 without its hold). sim.sdInfo() = { state, cfg, wv { U, V, W } winding voltage / line voltage, iw winding
+                 currents and iLine [L1, L2, L3] (star line current = 1, same speed), fp, fn, dead [windings], over, k, speed, heat (1 = trip),
+                 iF2 and iL (× I_N), sw, blips, text, live [keys], V (node phasors) }; sim.sdText() = status lines; sim.sdNet() = the netlist
+                 { cfg, tap { L, N }, edges [{ id, k 'w' | 'pole' | 'wind' | 'link', a, b, cond, d, kind, seg, ph, q, j, open }] } with keys
+                 'SUP:L1', 'Q1:1', 'KM1:2', 'F2:3', 'KM3:6', 'KM2:5', 'M1:U1' … 'M1:V2', 'M1:PE' and junctions 'J:B1–3', 'J:T1–3', 'J:S';
+                 sim.sdOhm(a, b, closed) = resistance in windings (2 = star path, 2/3 = delta, Infinity = open), closed { Q1: false, KM1: true }
+                 overrides poles; sim.sdWires() = point-to-point pairs per conductor net; sim.pT holds every power terminal (also W2 U2 V2).
    drawing sheet (20 Oct 2026): option sheet (true, false or { title, no, part, of, rows, student }; default RL.SHEET_DEFAULT = true) draws
                  the drawing as a document: a sheet frame with a reference band (ISO 5457 look, like the course's A4 sheet), column zones
                  at the top and bottom, row zones A, B, C … at the left and right, and a compact title block at the bottom right
@@ -82,6 +111,16 @@
 const RL = {}, IE = global.IEC;
 const COL = { live: '#ff6b6b', cur: '#ff4d4d', ncur: '#3fa9f5', nlive: '#3fa9f5', dead: 'currentColor' };
 const CLICK = ['pb', 'sel', 'sen', 'ol', 'cb', 'fuse', 'msel', 'fault'];
+/* chapter 8, star-delta model: delta orders (the bottom terminal each KM3 pole 1–3 lands on), supply phasors (per unit of the phase
+   voltage, L1 → L2 → L3), winding axes a⁰ a¹ a², complex helpers and a small Gauss–Jordan elimination (A x = B, B with two columns) */
+const SQ3 = Math.sqrt(3), SD_ORDER = { A: ['W2', 'U2', 'V2'], B: ['V2', 'W2', 'U2'], straight: ['U2', 'V2', 'W2'] };
+const SD_SRC = { L1: [1, 0], L2: [-0.5, -SQ3 / 2], L3: [-0.5, SQ3 / 2] }, SD_AX = { U: [1, 0], V: [-0.5, SQ3 / 2], W: [-0.5, -SQ3 / 2] };
+const zA = (a, b) => [a[0] + b[0], a[1] + b[1]], zS = (a, b) => [a[0] - b[0], a[1] - b[1]], zM = (a, b) => [a[0] * b[0] - a[1] * b[1], a[0] * b[1] + a[1] * b[0]], zAbs = a => Math.hypot(a[0], a[1]);
+const sdGauss = (A, B) => { const n = A.length; A = A.map(r => r.slice()); B = B.map(r => r.slice());
+  for (let c = 0; c < n; c++) { let p = c; for (let r = c + 1; r < n; r++) if (Math.abs(A[r][c]) > Math.abs(A[p][c])) p = r; if (Math.abs(A[p][c]) < 1e-12) continue;
+    [A[c], A[p]] = [A[p], A[c]]; [B[c], B[p]] = [B[p], B[c]];
+    for (let r = 0; r < n; r++) { if (r === c) continue; const k = A[r][c] / A[c][c]; if (!k) continue; for (let j = c; j < n; j++) A[r][j] -= k * A[c][j]; for (let j = 0; j < B[r].length; j++) B[r][j] -= k * B[c][j]; } }
+  return B.map((row, i) => (Math.abs(A[i][i]) < 1e-12 ? row.map(() => 0) : row.map(v => v / A[i][i]))); };
 RL.SHEET_DEFAULT = true;   // every RL.Sim drawing is framed as a drawing sheet unless the page passes sheet: false
 const SHEETS = new Map();  // section → hosts of framed drawings in it, in document order (drawing numbers B1, B2 … when there are several)
 const escT = v => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -180,7 +219,8 @@ RL.Sim = class {
   }
   solve() {
     const osc = this.spec.chatter ? {} : null; if (osc) Object.values(this.dev).forEach(d => { if (d.chatter) d.chatter = false; });   // chapter 7: count how often each load switches
-    let r; for (let it = 0; it < 30; it++) { r = this.solveOnce();
+    const sdc = this.spec.power && this.spec.power.sd ? this.sdCfg() : null, sdWas = sdc ? this.act(sdc.delta) : false; let sdSeen = false;   // chapter 8: a delta pulse inside this solve
+    let r; for (let it = 0; it < 30; it++) { r = this.solveOnce(); if (sdc && !sdWas && this.act(sdc.delta)) sdSeen = true;
       if (r.short) { const fu = Object.values(this.dev).find(d => d.type === 'fuse' && !d.blown); if (fu) fu.blown = true; else if (this.spec.supply) this.dev[this.spec.supply].on = false;
         this.msg = 'short'; continue; }
       let changed = false; const en = {};
@@ -192,8 +232,10 @@ RL.Sim = class {
       if (this.spec.mech && this.mechStep()) changed = true;
       if (osc && changed) { const ch = Object.keys(osc).filter(id => osc[id] > 6);   // no stable state: the coil chatters, its contacts are shown at rest
         if (ch.length) { ch.forEach(id => { const d = this.dev[id]; d.chatter = true; d.energized = false; d.blocked = false; }); r = this.solveOnce(); break; } }
-      if (!changed) { if (this.spec.power && this.spec.power.rev && this.powerShort()) continue; break; } }
-    this.r = r; this.current(); }
+      if (!changed) { if (this.spec.power && (this.spec.power.rev ? this.powerShort() : sdc ? this.sdShort() : false)) continue; break; } }
+    this.r = r; this.current();
+    if (sdc) { const prev = this.sdR ? this.sdR.state : 0; this.sdR = this.sdCalc(); if (this.sdR.state === 'delta' && prev !== 'delta') this.sdSw = { w: this.sdw || 0, from: prev };
+      if (sdSeen && !this.act(sdc.delta)) this.sdBlips = (this.sdBlips || 0) + 1; } }
   /* chapter 7: mechanical interlock (spec.mech pairs). A coil that wants to close while its partner is closed is blocked (energised,
      contacts at rest); it closes as soon as the partner opens. Returns true when a blocked state changed. */
   mechStep() { let ch = false;
@@ -229,7 +271,7 @@ RL.Sim = class {
   powerShort() { const pr = this.pShortPairs(); if (!pr) return false; this.msg = 'pshort'; this.pshort = pr;
     const q = this.revInfo().pre.find(t => t.k === 'cb'); if (!q) return false; const d = this.dev[q.d]; d.on = false; d.shortTrip = true; return true; }
   /* direction of rotation, see the header; m = motor id (only for multi-motor drawings) */
-  dir(m) { const P = this.spec.power; if (!P || !this.running(m)) return 0; const R = this.revInfo(); if (!R) return 'cw';
+  dir(m) { const P = this.spec.power; if (!P || !this.running(m)) return 0; const R = this.revInfo(); if (!R) return P.sd && this.sd() === 'fault:rev' ? 'ccw' : 'cw';
     if (R.one) { const w = this.w || 0; return w > 0.02 ? 'cw' : w < -0.02 ? 'ccw' : this.drive1() < 0 ? 'ccw' : 'cw'; }
     const par = mp => { let n = 0; mp.forEach((a, i) => mp.slice(i + 1).forEach(b => { if (a > b) n++; })); return n % 2 ? 'ccw' : 'cw'; };
     return this.act(R.fwd) ? par(R.fmap) : par(R.map); }
@@ -263,6 +305,7 @@ RL.Sim = class {
       this.spd = run ? this.spd + (1 - this.spd) * Math.min(1, dt / 0.75) : Math.max(0, this.spd - dt / 2.5);
       if (cs && this.spd >= 0.75) this.cs = false; else if (!cs && this.spd < 0.6) this.cs = true;   // opens at 75 % speed, re-closes when it runs down
       if (this.cs !== cs && !ch) { this.render(); this.emit(); } }
+    else if (P && P.sd && dt > 0) { const q = this.stepSD(dt); if (q === 2) ch = true; else if (q === 1 && !ch) { this.render(); this.emit(); } }   // chapter 8: speed, F2 heat
     if (this.spec.mech) Object.values(this.dev).forEach(d => { if (d.blocked) d.blockT = (d.blockT || 0) + dt; else if (d.blockT) d.blockT = 0; });   // how long a coil has been held open
     if (ch) { this.solve(); this.render(); this.emit(); } }
   /* chapter 7, single-phase reversing: signed speed w (per unit, + = clockwise). Powered with the centrifugal switch closed, the start
@@ -302,6 +345,7 @@ RL.Sim = class {
   running(m) { const p = this.spec.power; if (!p || this.mains === false) return false;
     if (p.feeders) return m ? this.runningM(m) : p.feeders.some(f => this.runningM(f.motor));
     if (p.rev) { const R = this.revInfo(); if (!this.act(R.fwd) && !this.act(R.rev)) return false; }   // chapter 7: one of the pair closed
+    if (p.sd) return this.sdRun();   // chapter 8: the windings make a working connection
     return p.stages.every(s => (s.k === 'cb' ? this.dev[s.d].on : s.k === 'mainNO' ? this.act(s.d) : true)); }
   /* one motor of a multi-motor power circuit: the main stages and the motor's own branch closed (a 'therm' stage does not open it) */
   runningM(m) { const p = this.spec.power; if (!p || this.mains === false) return false;
@@ -318,14 +362,14 @@ RL.Sim = class {
   X(x) { return this.ox + x * this.DX; }
   Y(y) { return this.oy + y * this.DY; }
   pathNo(x) { return this.spec.pathNo ? this.spec.pathNo(x) : x + 1; }
-  full() { const P = this.spec.power; return !!P && !this.o.noPower && (P.full || P.phases === 1 || !!P.feeders); }
+  full() { const P = this.spec.power; return !!P && !this.o.noPower && (P.full || P.phases === 1 || !!P.feeders || !!P.sd); }
   hiNo() { const h = this.o.hiWire; return h === undefined || h === null || h === '' ? null : h === 'N' ? 0 : +h; }
   render() {
     this.pT = {};   // positions of the power-circuit terminals (inner drawing coordinates), filled by the power renderers for mcp.js
     const S = this.spec, ctl = S.els.length > 0, xs = ctl ? S.els.flatMap(e => (e.pts ? e.pts.map(p => p[0]) : [e.x])) : [0], x0 = Math.min(...xs), x1 = Math.max(...xs), full = this.full();
-    const pw = S.power && !this.o.noPower ? (full ? (S.power.feeders ? this.feedW() : S.power.rev ? this.revW() : 172) : 170) : 0; this.ox = pw + 70 - x0 * this.DX; this.oy = 34;
+    const pw = S.power && !this.o.noPower ? (full ? (S.power.feeders ? this.feedW() : S.power.rev ? this.revW() : S.power.sd ? this.sdW() : 172) : 170) : 0; this.ox = pw + 70 - x0 * this.DX; this.oy = 34;
     const rx = this.X(x0) - (full ? 70 : 30); this.railX0 = rx;   // full power drawing: the rails start further left, where the control supply comes in
-    const W = ctl ? this.X(x1) + 90 : S.power && S.power.feeders && !this.o.noPower ? this.feedW() - 20 : S.power && S.power.rev && full ? this.revW() + 2 : (S.power && S.power.phases === 1 ? 144 : 140) + 34, xrefH = 16 + 12 * Math.max(2, ...Object.values(this.dev).filter(d => d.type === 'coil' || d.type === 'timer').map(d => this.xref(d.id).length + 1));
+    const W = ctl ? this.X(x1) + 90 : S.power && S.power.feeders && !this.o.noPower ? this.feedW() - 20 : S.power && S.power.rev && full ? this.revW() + 2 : S.power && S.power.sd && full ? this.sdW() + 2 : (S.power && S.power.phases === 1 ? 144 : 140) + 34, xrefH = 16 + 12 * Math.max(2, ...Object.values(this.dev).filter(d => d.type === 'coil' || d.type === 'timer').map(d => this.xref(d.id).length + 1));
     const sh = this.sheetOpt();   // the drawing sheet: path numbers go into the reference band, the cross-reference moves up into their place
     let H = ctl ? this.Y(S.rows) + 22 + xrefH - (sh ? 14 : 0) : 0; let s = '';
     const on = this.supplyOn() && !this.o.print, anyCur = this.cur.size > 0 && !this.o.print, hi = this.hiNo(), nos = this.o.wireNos || hi !== null ? this.wireNumbers() : null;
@@ -463,6 +507,7 @@ RL.Sim = class {
     if (fd) no.unshift(`1–2, 3–4, 5–6 ▸ ${fd.motor}`);   // a feeder contactor: the motor branch its main contacts switch
     else if (S.power && S.power.rev && [this.revInfo().fwd, this.revInfo().rev].includes(id)) { const R = this.revInfo(), n = R.one ? R.poles[id].length : 3;   // chapter 7: the reversing pair
       no.unshift(`${Array.from({ length: n }, (_, k) => `${2 * k + 1}–${2 * k + 2}`).join(', ')} ▸ ${MC.t('กำลัง', 'power')}`); }
+    else if (S.power && S.power.sd && (c8 => [c8.main, c8.star, c8.delta].includes(id))(this.sdCfg())) no.unshift('1–2, 3–4, 5–6', `▸ ${MC.t('กำลัง', 'power')}`);   // chapter 8: KM1, KM2, KM3 (two lines: KM2 and KM3 sit in neighbouring columns)
     else if (S.power && this.mainSt().some(s => s.d === id && s.k === 'mainNO')) no.unshift(`${S.power.phases === 1 ? '1–2, 3–4' : '1–2, 3–4, 5–6'} ▸ ${MC.t('กำลัง', 'power')}`);
     if (no.length) { out.push('NO'); out.push(...no); } if (nc.length) { out.push('NC'); out.push(...nc); } return out; }
   /* simple three-phase power circuit to the left: rails L1 L2 L3, stages (cb / mainNO / therm), motor */
@@ -486,6 +531,7 @@ RL.Sim = class {
   renderPowerFull(hiL, hiN) {
     if (this.spec.power.feeders) return this.renderFeeders(hiL, hiN);
     if (this.spec.power.rev) return this.renderRev(hiL, hiN);
+    if (this.spec.power.sd) return this.renderSD(hiL, hiN);
     const P = this.spec.power, one = P.phases === 1, S = this.spec, ctl = S.els.length > 0, run = this.running(), pr = !!this.o.print, live0 = this.mains !== false && !pr;
     const LX = one ? [36] : [40, 66, 92], NX = one ? 122 : 118, PX = one ? 144 : 140, yT = this.Y(0), step = P.step || 54, st = P.stages, y0s = yT + 24;
     const [railL, railN, anyCur] = this.railCol, F = v => +(+v).toFixed(1), first = st.findIndex(t => t.k === 'cb');
@@ -599,7 +645,7 @@ RL.Sim = class {
         `<path d="M ${xm - 6.5} ${yl - 5.5} L ${xm + 6.5} ${yl - 5.5} L ${xm} ${yl + 5.5} Z" fill="${hot ? '#ff8c42' : 'var(--panel)'}"/>`; });
     return s; }
   /* the message under a drawing whose reversing pair shorted the supply */
-  pshortMsg() { const pr = (this.pshort || []).map(p => p.join(MC.t(' กับ ', '–'))).join(', '), R = this.revInfo(), q = R && R.pre.find(t => t.k === 'cb');
+  pshortMsg() { if (this.spec.power && this.spec.power.sd) return this.sdShortMsg(); const pr = (this.pshort || []).map(p => p.join(MC.t(' กับ ', '–'))).join(', '), R = this.revInfo(), q = R && R.pre.find(t => t.k === 'cb');
     return `<div class="badbox rl-msg">${MC.t(`ลัดวงจรในวงจรกำลัง! ${R.fwd} และ ${R.rev} ต่อพร้อมกัน ทำให้ ${pr} ลัดถึงกัน ${q ? `${q.d} ตัดแล้ว คลิกที่ ${q.d} เพื่อสับกลับ` : ''}`,
       `Short circuit in the power circuit! ${R.fwd} and ${R.rev} closed together and joined ${pr}. ${q ? `${q.d} has tripped: click ${q.d} to switch it on again.` : ''}`)}</div>`; }
   /* width of the reversing power drawing (the control rails start here) */
@@ -741,6 +787,219 @@ RL.Sim = class {
     const rot = Math.abs(w) > 0.02 ? (w > 0 ? 'cw' : 'ccw') : run ? this.dir() : 0;
     if (rot) s += this.spinArrow(bx, yM + 34, 12, rot) + IE.T(this.dirLabel(rot), 101, yM + 110, { size: 9, anchor: 'middle', weight: 700, col: pr ? undefined : COL.cur });
     return { s, bottom: yM + 118 }; }
+  /* ---------------- chapter 8: star-delta power circuit (power.sd), see the header ---------------- */
+  /* the normalised star-delta set-up of spec.power.sd (null without it) */
+  sdCfg() { const P = this.spec.power, v = P && P.sd; if (!v) return null;
+    const st = P.stages || [], th = st.find(t => t.k === 'therm') || null, ord = Array.isArray(v.order) ? null : (v.order || 'A');
+    const map = Array.isArray(v.order) ? v.order.slice() : (SD_ORDER[ord] || SD_ORDER.A).slice(), ol = v.ol === 'line' ? 'line' : 'winding';
+    return { main: v.main || 'KM1', star: v.star || 'KM2', delta: v.delta || 'KM3', order: ord || 'custom', map, in3: (v.in3 || [1, 2, 3]).slice(), open: (v.open || []).slice(),
+      bridge: (v.bridge || [1, 2, 3]).slice(), links: v.links === 'delta' || v.links === 'star' ? v.links : null, ol, feed: v.feed === 'line' ? 'line' : 'after',
+      pre: st.filter(t => t !== th), th, motor: P.motor || 'M1', V: v.V || 400, motorV: v.motorV || v.V || 400, set: v.set ?? (ol === 'line' ? 1 : 0.58), cls: v.cls || '10' }; }
+  /* a pole of the star-delta drawing conducts: breaker on, contactor actuated (a 'sel' device: pressed by hand), thermal element always */
+  sdPole(e) { const d = this.dev[e.d]; if (!d) return false; return e.kind === 'cb' ? !!d.on : e.kind === 'therm' ? true : !!this.act(e.d); }
+  /* the netlist of the star-delta power circuit: { cfg, tap: { L, N }, edges: [{ id, k: 'w'|'pole'|'wind'|'link', a, b, cond, … }] } with
+     terminal keys 'SUP:L1', 'Q1:1', 'KM1:2', 'F2:5', 'KM3:6', 'KM2:1', 'M1:U1' … 'M1:W2', 'M1:PE' and drawing junctions 'J:B1'…'J:B3'
+     (the split after KM1), 'J:T1'…'J:T3' (on the leads from W2, U2, V2), 'J:S' (star point). Wires carry seg ('in', 'bus', 'top', 'k3in',
+     'k3out', 'bot', 'k2in', 'bridge', 'pe') and ph (0–2), q (KM3 pole) or j (bottom position 0–2 = W2, U2, V2); open: true = a loose wire. */
+  sdNet() { const C = this.sdCfg(), E = [], m = C.motor, POS = ['W2', 'U2', 'V2'], UVW = ['U1', 'V1', 'W1']; let id = 0;
+    const w = (a, b, g = {}) => E.push({ id: id++, k: 'w', a, b, ...g }), prev = ['SUP:L1', 'SUP:L2', 'SUP:L3'];
+    const stage = (d, kind) => [0, 1, 2].forEach(k => { w(prev[k], `${d}:${2 * k + 1}`, { ph: k, seg: 'in' }); E.push({ id: id++, k: 'pole', d, kind, n: k, ph: k, a: `${d}:${2 * k + 1}`, b: `${d}:${2 * k + 2}` }); prev[k] = `${d}:${2 * k + 2}`; });
+    const split = () => [0, 1, 2].forEach(k => { w(prev[k], `J:B${k + 1}`, { ph: k, seg: 'bus' }); prev[k] = `J:B${k + 1}`; });
+    C.pre.forEach(t => stage(t.d, t.k));
+    if (C.feed === 'line') { if (C.th && C.ol === 'line') stage(C.th.d, 'therm'); split(); stage(C.main, 'mainNO'); if (C.th && C.ol === 'winding') stage(C.th.d, 'therm'); }
+    else { stage(C.main, 'mainNO'); if (C.th && C.ol === 'line') stage(C.th.d, 'therm'); split(); if (C.th && C.ol === 'winding') stage(C.th.d, 'therm'); }
+    [0, 1, 2].forEach(k => w(prev[k], `${m}:${UVW[k]}`, { ph: k, seg: 'top' }));
+    [0, 1, 2].forEach(q => { const ph = C.in3[q] - 1, j = POS.indexOf(C.map[q]);
+      w(`J:B${ph + 1}`, `${C.delta}:${2 * q + 1}`, { ph, q, seg: 'k3in' }); E.push({ id: id++, k: 'pole', d: C.delta, kind: 'mainNO', n: q, q, a: `${C.delta}:${2 * q + 1}`, b: `${C.delta}:${2 * q + 2}` });
+      w(`${C.delta}:${2 * q + 2}`, `J:T${j + 1}`, { q, j, seg: 'k3out', open: C.open.includes(q + 1) }); });
+    [0, 1, 2].forEach(j => { w(`${m}:${POS[j]}`, `J:T${j + 1}`, { j, seg: 'bot' }); w(`J:T${j + 1}`, `${C.star}:${2 * j + 1}`, { j, seg: 'k2in' });
+      E.push({ id: id++, k: 'pole', d: C.star, kind: 'mainNO', n: j, j, a: `${C.star}:${2 * j + 1}`, b: `${C.star}:${2 * j + 2}` });
+      if (C.bridge.includes(j + 1)) w(`${C.star}:${2 * j + 2}`, 'J:S', { j, seg: 'bridge' }); });
+    [['U', 'U1', 'U2'], ['V', 'V1', 'V2'], ['W', 'W1', 'W2']].forEach(([n, a, b]) => E.push({ id: id++, k: 'wind', w: n, a: `${m}:${a}`, b: `${m}:${b}` }));
+    if (C.links) (C.links === 'delta' ? [['U1', 'W2'], ['V1', 'U2'], ['W1', 'V2']] : [['W2', 'U2'], ['U2', 'V2']]).forEach(([a, b]) => E.push({ id: id++, k: 'link', a: `${m}:${a}`, b: `${m}:${b}` }));
+    w('SUP:PE', `${m}:PE`, { seg: 'pe' });
+    E.forEach(e => { e.cond = e.k === 'w' ? !e.open : e.k === 'link' ? true : e.k === 'pole' ? this.sdPole(e) : false; });
+    const q = C.pre.find(t => t.k === 'cb');
+    return { cfg: C, edges: E, tap: { L: this.spec.power.tap === 'before' || !q ? 'SUP:L1' : `${q.d}:2`, N: 'SUP:N' } }; }
+  /* the electrical state of the motor from the netlist (windings = equal impedances, supply L1 L2 L3 balanced): see sdInfo() in the header */
+  sdCalc() { const N = this.sdNet(), C = N.cfg, E = N.edges, on = this.mains !== false, par = new Map();
+    const f = k => { if (!par.has(k)) par.set(k, k); let r = k; while (par.get(r) !== r) r = par.get(r); par.set(k, r); return r; };
+    E.forEach(e => { f(e.a); f(e.b); if (e.cond) { const x = f(e.a), y = f(e.b); if (x !== y) par.set(x, y); } });
+    const res = { state: 0, short: null, cause: null, wv: { U: 0, V: 0, W: 0 }, iw: { U: 0, V: 0, W: 0 }, iLine: [0, 0, 0], fp: 0, fn: 0, k: C.V / C.motorV, dead: [], over: false, live: new Set(), cur: new Set(), V: new Map() };
+    const byR = new Map(); if (on) ['L1', 'L2', 'L3'].forEach(l => { const r = f('SUP:' + l); if (!byR.has(r)) byR.set(r, []); byR.get(r).push(l); });
+    const fixV = new Map(); byR.forEach((ls, r) => { fixV.set(r, SD_SRC[ls[0]]); if (ls.length > 1) { res.short = res.short || []; for (let i = 0; i < ls.length; i++) for (let j = i + 1; j < ls.length; j++) res.short.push([ls[i], ls[j]]); } });
+    if (res.short) { res.state = 'short'; res.cause = this.act(C.star) && this.act(C.delta) ? 'pair' : C.links ? 'links' : 'other'; par.forEach((x, k) => { if (fixV.has(f(k))) res.live.add(k); }); return res; }
+    const W = E.filter(e => e.k === 'wind'), roots = [...new Set([...par.keys()].map(f))], adj = new Map(roots.map(r => [r, []]));
+    W.forEach(w => { const a = f(w.a), b = f(w.b); if (a !== b) { adj.get(a).push(b); adj.get(b).push(a); } });
+    const comp = new Map(); let nc = 0; roots.forEach(r => { if (comp.has(r)) return; const q = [r]; comp.set(r, nc); while (q.length) { const u = q.pop(); adj.get(u).forEach(v => { if (!comp.has(v)) { comp.set(v, nc); q.push(v); } }); } nc++; });
+    const det = new Set([...fixV.keys()].map(r => comp.get(r))), unk = roots.filter(r => !fixV.has(r) && det.has(comp.get(r))), ix = new Map(unk.map((r, i) => [r, i]));
+    const A = unk.map(() => unk.map(() => 0)), B = unk.map(() => [0, 0]);
+    W.forEach(w => { const a = f(w.a), b = f(w.b); if (a === b) return; [[a, b], [b, a]].forEach(([p, q]) => { if (!ix.has(p)) return; const i = ix.get(p); A[i][i] += 1;
+      if (ix.has(q)) A[i][ix.get(q)] -= 1; else if (fixV.has(q)) { B[i][0] += fixV.get(q)[0]; B[i][1] += fixV.get(q)[1]; } }); });
+    const X = sdGauss(A, B), Vr = r => (fixV.has(r) ? fixV.get(r) : ix.has(r) ? X[ix.get(r)] : null);
+    let fp = [0, 0], fn = [0, 0]; const VW = {};
+    W.forEach(w => { const va = Vr(f(w.a)), vb = Vr(f(w.b)), v = va && vb ? zS(va, vb) : [0, 0], ax = SD_AX[w.w]; VW[w.w] = v; fp = zA(fp, zM(v, ax)); fn = zA(fn, zM(v, [ax[0], -ax[1]])); });
+    const FP = zAbs(fp) / 3, FN = zAbs(fn) / 3, mags = ['U', 'V', 'W'].map(n => zAbs(VW[n])), anyI = mags.some(x => x > 1e-6);
+    par.forEach((x, k) => { const r = f(k), v = Vr(r); if (v) res.V.set(k, v); if (fixV.has(r) || (v && zAbs(v) > 0.02)) res.live.add(k); });
+    const near = (x, y) => Math.abs(x - y) < 0.03 * y, liveW = W.filter(w => res.live.has(w.a) || res.live.has(w.b));
+    if (!anyI) res.state = !liveW.length ? 0 : liveW.every(w => fixV.has(f(w.a)) && fixV.has(f(w.b))) ? 'fault:none' : 'open';
+    else if (Math.abs(FP - FN) <= 0.03 * Math.max(FP, FN)) res.state = 'fault:single';
+    else if (FN > FP) res.state = 'fault:rev';
+    else if (FN < 0.01 * FP && mags.every(x => near(x, 1))) res.state = 'star';
+    else if (FN < 0.01 * FP && mags.every(x => near(x, SQ3))) res.state = 'delta';
+    else res.state = 'fault:unbal';
+    if (['fault:none', 'fault:single', 'fault:unbal'].includes(res.state)) res.dead = ['U', 'V', 'W'].filter((n, i) => mags[i] < 1e-6 && liveW.some(w => w.w === n));
+    if (['star', 'delta', 'fault:unbal'].includes(res.state) && Math.max(...mags) / SQ3 * res.k > 1.1) { res.over = true; res.state = 'fault:over'; }
+    res.fp = FP; res.fn = FN; ['U', 'V', 'W'].forEach((n, i) => { res.wv[n] = mags[i] / SQ3; res.iw[n] = mags[i]; });
+    // currents: what each winding draws from its two terminals, then the supply lines and every conductor that carries some of it
+    const kin = new Map(), add = (k, v) => kin.set(k, zA(kin.get(k) || [0, 0], v));
+    W.forEach(w => { const i = VW[w.w]; if (zAbs(i) < 1e-9) return; add(w.a, i); add(w.b, [-i[0], -i[1]]); });
+    res.iLine = ['L1', 'L2', 'L3'].map(l => { const r = f('SUP:' + l); if (!on || !fixV.has(r)) return 0; let s = [0, 0]; kin.forEach((v, k) => { if (f(k) === r) s = zA(s, v); }); return zAbs(s); });
+    const mem = new Map(), byRoot = new Map(); par.forEach((x, k) => { const r = f(k); if (!mem.has(r)) mem.set(r, []); mem.get(r).push(k); });
+    E.forEach(e => { if (!e.cond || e.k === 'wind') return; const r = f(e.a); if (!byRoot.has(r)) byRoot.set(r, []); byRoot.get(r).push(e); });
+    byRoot.forEach((es, r) => { if (!mem.get(r).some(k => kin.has(k))) return;
+      es.forEach(e => { const seen = new Set([e.a]), q = [e.a];
+        while (q.length) { const u = q.pop(); es.forEach(x => { if (x === e) return; const o = x.a === u ? x.b : x.b === u ? x.a : null; if (o !== null && !seen.has(o)) { seen.add(o); q.push(o); } }); }
+        if (seen.has(e.b)) { res.cur.add(e.id); return; }   // inside a loop: taken as carrying current
+        const side = [...seen].some(k => k.startsWith('SUP:')) ? mem.get(r).filter(k => !seen.has(k)) : [...seen];
+        if (zAbs(side.reduce((s, k) => zA(s, kin.get(k) || [0, 0]), [0, 0])) > 1e-6) res.cur.add(e.id); }); });
+    return res; }
+  /* inside solve(): a star-delta short circuit (KM2 + KM3, or terminal-box links) trips the first breaker ahead of it, as in chapter 7 */
+  sdShort() { const R = this.sdCalc(); if (!R.short) return false; this.msg = 'pshort'; this.pshort = R.short; this.sdCause = R.cause;
+    const q = this.sdCfg().pre.find(t => t.k === 'cb'); if (!q || !this.dev[q.d]) return false; const d = this.dev[q.d]; d.on = false; d.shortTrip = true; return true; }
+  /* motor state words: see the header */
+  sd() { if (this.msg === 'pshort') return 'short'; return this.sdR ? this.sdR.state : 0; }
+  sdRun() { const s = this.sd(); return s === 'star' || s === 'delta' || s === 'fault:unbal' || s === 'fault:over' || s === 'fault:rev'; }
+  /* motor model while step() runs: speed (sdw, per unit), F2 heat (sdTh, the class-10 model of ch. 4) and the automatic F2 trip;
+     returns 2 when F2 tripped, 1 when the shown speed changed (5 % steps), else 0 */
+  stepSD(dt) { const R = this.sdR; if (!R) return 0; const C = this.sdCfg(), L = this.sdLoad || {}, J = L.J ?? 2, TL = L.TL ?? 0.1, fan = (L.type || 'fan') === 'fan', tau = 0.12 * (1 + J);
+    const M = global.ED && global.ED.motor, C4 = global.C4, tc = C4 && C4.tau ? C4.tau(C.cls) : 286, KT2 = (C4 && C4.KT ? C4.KT : 1.12) ** 2, k2 = R.k * R.k, sx = this.sdx || 1;
+    const tl = v => (v > 0 ? (fan ? TL * v * v : TL) + 0.03 : 0), w0 = this.sdw || 0, f2 = C.th && this.dev[C.th.d], mxI = Math.max(...['U', 'V', 'W'].map(n => R.iw[n])), mxL = Math.max(...R.iLine);
+    let w = w0, th = this.sdTh || 0, left = dt, trip = false;
+    while (left > 1e-9) { const h = Math.min(0.002, left), s = Math.max(1e-4, 1 - w); let Tm = 0, iE = 0;
+      if (R.fp + R.fn > 1e-9) { if (M) { const a = M(s), b = M(2 - s); Tm = k2 * (R.fp * R.fp * a.T - R.fn * R.fn * b.T) / 3; iE = (R.fp * a.i + R.fn * b.i) / (R.fp + R.fn); }
+        else { Tm = k2 * (R.fp * R.fp - R.fn * R.fn) / 3 * 2 * (1 - w); iE = 1 + 5.5 * s; } }
+      const acc = (Tm - (w > 0 || Tm > tl(1e-9) ? tl(w) : Tm)) / tau; w = Math.min(1, Math.max(0, w + acc * h));
+      const sens = R.k * iE * (C.ol === 'line' ? mxL : mxI) / 3, r2 = (sens / C.set) ** 2;   // F2 current as a multiple of its dial (× I_N)
+      th += (r2 - th) * (1 - Math.exp(-h * sx / tc)); if (f2 && !f2.tripped && th >= KT2) trip = true; left -= h; }
+    const s1 = Math.max(1e-4, 1 - w), iE1 = R.fp + R.fn > 1e-9 ? (M ? (R.fp * M(s1).i + R.fn * M(2 - s1).i) / (R.fp + R.fn) : 1 + 5.5 * s1) : 0;
+    this.sdw = w < 1e-4 ? 0 : w; this.sdTh = th; this.sdF2 = R.k * iE1 * (C.ol === 'line' ? mxL : mxI) / 3; this.sdIL = R.k * iE1 * mxL / 3;
+    if (trip) { f2.tripped = true; return 2; }
+    return Math.round(w * 20) !== Math.round(w0 * 20) || (w > 0) !== (w0 > 0) ? 1 : 0; }
+  /* the two status lines under the motor: [[th, en] text, [th, en] text or null, kind 'good' | 'warn' | 'bad' | 'wait'] */
+  sdText() { const s = this.sd(), R = this.sdR || {}, C = this.sdCfg(), w = this.sdw || 0, dir = this.dir(), V = C.V, dl = (R.dead || []).join(' ');
+    const rot = dir === 'ccw' ? ['ทวนเข็มนาฬิกา', 'counter-clockwise'] : ['ตามเข็มนาฬิกา', 'clockwise'], cz = w > 0.02 ? ['มอเตอร์หมุนฟรี (ไม่มีแรงบิด)', 'the motor coasts (no torque)'] : null;
+    if (s === 'short') return [['ลัดวงจรในวงจรกำลัง', 'short circuit in the power circuit'], null, 'bad'];
+    if (s === 'star') return [[`สตาร์ (Y) · ${rot[0]}`, `star (Y) · ${rot[1]}`], [`ขดลวดละ ${Math.round(V / SQ3)} V (1/√3 ของ ${V} V)`, `${Math.round(V / SQ3)} V per winding (1/√3 of ${V} V)`], 'good'];
+    if (s === 'delta') return [[`เดลตา (Δ) · ${rot[0]}`, `delta (Δ) · ${rot[1]}`], [`ขดลวดละ ${V} V`, `${V} V per winding`], 'good'];
+    if (s === 'fault:over') return [[`ขดลวดได้ ${V} V = ${(V / C.motorV).toFixed(2)} × พิกัด ${C.motorV} V`, `windings get ${V} V = ${(V / C.motorV).toFixed(2)} × their ${C.motorV} V rating`], ['ขดลวดร้อนจัดและฉนวนเสื่อมเร็ว ห้ามใช้งานแบบนี้', 'the windings overheat and the insulation fails early: never run it like this'], 'bad'];
+    if (s === 'fault:none') return [[`ขดลวด ${dl} ไม่มีแรงดัน`, `no voltage on windings ${(R.dead || []).join(', ')}`], ['ไม่มีแรงบิด มอเตอร์หมุนฟรีจนหยุด', 'no torque: the motor coasts to a stop'], 'bad'];
+    if (s === 'fault:single') return [[`ขดลวด ${dl} ไม่มีแรงดัน`, `no voltage on winding ${(R.dead || []).join(', ')}`],
+      w > 0.25 ? ['มอเตอร์ครางเสียงดัง กระแสสูงไม่สมดุล ความเร็วตก', 'the motor hums, heavy unbalanced current, speed drops'] : ['มอเตอร์ครางแต่ไม่ออกตัว กระแสสูง', 'the motor hums but does not start; heavy current'], 'bad'];
+    if (s === 'fault:unbal') return [[`กระแสไม่สมดุล แรงบิดลดลง · ${rot[0]}`, `unbalanced currents, less torque · ${rot[1]}`], dl ? [`ขดลวด ${dl} ไม่มีกระแส`, `no current in winding ${(R.dead || []).join(', ')}`] : null, 'warn'];
+    if (s === 'fault:rev') return [[`หมุนกลับทาง · ${rot[0]}`, `turns the other way · ${rot[1]}`], null, 'warn'];
+    if (s === 'open') { const top = this.act(C.main) || !this.act(C.delta), fe = top ? 'U1 V1 W1' : 'W2 U2 V2', oe = top ? 'W2 U2 V2' : 'U1 V1 W1';   // which ends are fed: KM1's (U1 V1 W1) or, with KM3 fed from the line and KM1 open, KM3's
+      return [[`${fe} มีไฟ แต่ ${oe} ไม่ได้ต่อ`, `${fe} live, ${oe} not connected`], cz ? [`${cz[0]} · ${oe} มีไฟผ่านขดลวด`, `coasting, no torque · ${oe} live via the windings`] : [`ไม่มีกระแส · ${oe} มีไฟผ่านขดลวด`, `no current · ${oe} live via the windings`], 'wait']; }
+    return [cz || ['มอเตอร์หยุด', 'motor stopped'], null, 'wait']; }
+  /* details for pages and mcp.js (see the header) */
+  sdInfo() { const R = this.sdR || this.sdCalc(), C4 = global.C4, KT2 = (C4 && C4.KT ? C4.KT : 1.12) ** 2;
+    return { state: this.sd(), cfg: this.sdCfg(), wv: { ...R.wv }, iw: { ...R.iw }, iLine: R.iLine.slice(), fp: R.fp, fn: R.fn, dead: R.dead.slice(), over: R.over, k: R.k,
+      speed: this.sdw || 0, heat: (this.sdTh || 0) / KT2, iF2: this.sdF2 || 0, iL: this.sdIL || 0, sw: this.sdSw || null, blips: this.sdBlips || 0, text: this.sdText(), live: [...R.live], V: R.V }; }
+  /* ohmmeter between two terminal keys of the power circuit (multiples of one winding's resistance; Infinity = open, 0 = joined);
+     closed: { Q1: false, KM1: true, … } overrides the poles (default: their present state) */
+  sdOhm(a, b, closed = {}) { const E = this.sdNet().edges, par = new Map(), f = k => { if (!par.has(k)) par.set(k, k); let r = k; while (par.get(r) !== r) r = par.get(r); par.set(k, r); return r; };
+    E.forEach(e => { f(e.a); f(e.b); const c = e.k === 'w' ? !e.open : e.k === 'link' ? true : e.k === 'pole' ? (e.d in closed ? !!closed[e.d] : e.cond) : false; if (c) { const x = f(e.a), y = f(e.b); if (x !== y) par.set(x, y); } });
+    if (!par.has(a) || !par.has(b)) return NaN; const A = f(a), B = f(b); if (A === B) return 0;
+    const W = E.filter(e => e.k === 'wind').map(e => [f(e.a), f(e.b)]).filter(([p, q]) => p !== q), seen = new Set([A]), q = [A];
+    while (q.length) { const u = q.pop(); W.forEach(([p, r]) => { const o = p === u ? r : r === u ? p : null; if (o !== null && !seen.has(o)) { seen.add(o); q.push(o); } }); }
+    if (!seen.has(B)) return Infinity; const unk = [...seen].filter(r => r !== B), ix = new Map(unk.map((r, i) => [r, i])), M = unk.map(() => unk.map(() => 0)), rhs = unk.map(r => [r === A ? 1 : 0, 0]);
+    W.forEach(([p, r]) => { if (!seen.has(p)) return; [[p, r], [r, p]].forEach(([x, y]) => { if (!ix.has(x)) return; const i = ix.get(x); M[i][i] += 1; if (ix.has(y)) M[i][ix.get(y)] -= 1; }); });
+    const X = sdGauss(M, rhs); return +X[ix.get(A)][0].toFixed(6); }
+  /* the point-to-point wiring of the star-delta power circuit: [[keyA, keyB], …] chained per conductor net (junctions J:… removed) */
+  sdWires() { const E = this.sdNet().edges.filter(e => e.k === 'w'), par = new Map(), f = k => { if (!par.has(k)) par.set(k, k); let r = k; while (par.get(r) !== r) r = par.get(r); par.set(k, r); return r; };
+    E.forEach(e => { const x = f(e.a), y = f(e.b); if (x !== y) par.set(x, y); }); const nets = new Map();
+    E.forEach(e => [e.a, e.b].forEach(k => { if (k.startsWith('J:')) return; const r = f(k); if (!nets.has(r)) nets.set(r, []); if (!nets.get(r).includes(k)) nets.get(r).push(k); }));
+    const out = []; nets.forEach(ks => { for (let i = 1; i < ks.length; i++) out.push([ks[i - 1], ks[i]]); }); return out; }
+  sdW() { return 262; }
+  /* the message under a drawing whose star-delta circuit shorted the supply */
+  sdShortMsg() { const C = this.sdCfg(), ls = [...new Set((this.pshort || []).flat())].sort().join('–'), q = C.pre.find(t => t.k === 'cb'), lk = this.sdCause === 'links';
+    const why = lk ? MC.t(`สะพานต่อในกล่องขั้วมอเตอร์ยังไม่ได้ถอดออก จึงลัด ${ls} ถึงกัน`, `the links in the motor terminal box were left in and joined ${ls}`)
+      : MC.t(`${C.star} และ ${C.delta} ต่อพร้อมกัน สะพานสตาร์จึงลัด ${ls} ถึงกัน`, `${C.star} and ${C.delta} closed together, so the star bridge joined ${ls}`);
+    return `<div class="badbox rl-msg">${MC.t(`ลัดวงจรในวงจรกำลัง! ${why} ${q ? `${q.d} ตัดแล้ว คลิกที่ ${q.d} เพื่อสับกลับ` : ''}`, `Short circuit in the power circuit! ${why}. ${q ? `${q.d} has tripped: click ${q.d} to switch it on again.` : ''}`)}</div>`; }
+  /* star-delta power circuit (power.sd): L1 L2 L3 N PE, the stages ahead (Q1), KM1, the split to KM3 (dots), F2 (winding or line position),
+     the six-lead motor (U1 V1 W1 on top, W2 U2 V2 underneath, as on the terminal board), KM3 with its input and output crossover zones
+     (the bottom terminal each output lands on is printed under the zone), KM2 under the motor with the star bridge, PE, the control
+     supply tap, the motor arrow, speed and two status lines. Every conductor is coloured from sdCalc(). Returns { s, bottom }. */
+  renderSD(hiL, hiN) {
+    const S = this.spec, P = S.power, ctl = S.els.length > 0, pr = !!this.o.print, Nt = this.sdNet(), C = Nt.cfg, R = this.sdR || this.sdCalc(), m = C.motor;
+    const LX = [40, 66, 92], NX = 118, K3 = [150, 176, 202], PX = 232, yT = this.Y(0), step = P.step || 54, y0s = yT + 24, F = v => +(+v).toFixed(1), POS = ['W2', 'U2', 'V2'];
+    const [railL, railN, anyCur] = this.railCol, g = (c, cur, body) => `<g${c ? ` stroke="${c}"` : ''}${cur ? ' class="rl-cur"' : ''}>${body}</g>`, dot = (x, y) => `<circle cx="${F(x)}" cy="${F(y)}" r="2.8" fill="currentColor" stroke="none"/>`;
+    const live = k => !pr && R.live.has(k), ecur = e => !pr && R.cur.has(e.id), col = (lv, cu) => (pr ? null : cu ? COL.cur : lv ? COL.live : null);
+    const pl = pts => pts.slice(1).map((p, i) => IE.L(pts[i][0], pts[i][1], p[0], p[1])).join('');
+    // vertical plan: rows of the line conductors (stage id → y0), the split, the KM3 row, the motor, KM2, the bridge
+    const rowY = {}; let y = y0s;
+    C.pre.forEach(t => { rowY[t.d] = y; y += step; });
+    const before = C.feed === 'line' ? (C.th && C.ol === 'line' ? [C.th.d] : []) : [C.main, ...(C.th && C.ol === 'line' ? [C.th.d] : [])];
+    before.forEach(d => { rowY[d] = y; y += step; });
+    const yBus = y + (before.length ? 10 : 22), yS1 = yBus + 48, after = C.feed === 'line' ? [C.main, ...(C.th && C.ol === 'winding' ? [C.th.d] : [])] : (C.th && C.ol === 'winding' ? [C.th.d] : []);
+    after.forEach((d, i) => { rowY[d] = yS1 + i * step; });
+    const yR = yS1 + Math.max(0, after.length - 1) * step, yX0 = yR - 24, yE = yR + step; rowY[C.delta] = yR;
+    const yt2 = yE + 18, cy = yE + 58, cx = 66, r = 22, yb2 = cy + 40, yO0 = yE + 8, yO1 = yE + 30, yJ = [0, 1, 2].map(j => yb2 + 14 + 8 * j), yK2 = yJ[2] + 12, yK2e = yK2 + step, yS = yK2e + 12;
+    rowY[C.star] = yK2;
+    const busY = k => yBus + 8 * (2 - k);   // L3 on top: the rows to KM3 cross no KM3 conductor
+    // pin positions of every terminal key
+    const at = {}; ['L1', 'L2', 'L3'].forEach((l, k) => { at[`SUP:${l}`] = [LX[k], yT]; }); at['SUP:N'] = [NX, yT]; at['SUP:PE'] = [PX, yT];
+    Nt.edges.filter(e => e.k === 'pole').forEach(e => { const X = e.d === C.delta ? K3 : LX, y0 = rowY[e.d]; at[e.a] = [X[e.n], y0]; at[e.b] = [X[e.n], y0 + step]; });
+    [0, 1, 2].forEach(k => { at[`J:B${k + 1}`] = [LX[k], busY(k)]; at[`J:T${k + 1}`] = [LX[k], yJ[k]]; at[`${m}:${['U1', 'V1', 'W1'][k]}`] = [LX[k], yt2]; at[`${m}:${POS[k]}`] = [LX[k], yb2]; });
+    at['J:S'] = [LX[1], yS]; at[`${m}:PE`] = [PX, cy - 6];
+    Object.entries(at).forEach(([k, p]) => { if (!k.startsWith('J:')) this.pin(k, p[0], p[1]); });
+    let s = '';
+    [['L1', LX[0]], ['L2', LX[1]], ['L3', LX[2]], ['N', NX], ['PE', PX]].forEach(([l, x]) => { s += IE.T(l, x, yT - 8, { size: 10, anchor: 'middle', weight: 700 }); });
+    // conductors
+    Nt.edges.filter(e => e.k === 'w').forEach(e => { const A = at[e.a], B = at[e.b]; let pts;
+      if (e.seg === 'k3in') pts = [A, [K3[e.ph], A[1]], [K3[e.ph], yX0], B];
+      else if (e.seg === 'k3out') pts = [A, [A[0], yO0], [K3[e.j], yO1], [K3[e.j], B[1]], B];
+      else if (e.seg === 'bridge') pts = [A, [A[0], yS], B];
+      else if (e.seg === 'pe') pts = [A, [PX, cy - 6], [cx + Math.sqrt(r * r - 36), cy - 6]];
+      else pts = [A, B];
+      if (e.open) { s += g(col(live(e.a), false), false, pl(pts.slice(0, 2))) + g(col(live(e.b), false), false, pl(pts.slice(1))); return; }
+      const cu = ecur(e); s += g(col(live(e.a), cu), cu, pl(pts)); });
+    [0, 1, 2].forEach(k => { s += dot(LX[k], busY(k)) + dot(LX[k], yJ[k]); });
+    if (C.bridge.length === 3) s += dot(LX[1], yS);
+    // poles, terminal numbers, device names, the dashed link of each contactor or breaker; Q1, F2 (and hand-operated contactors) clickable
+    const rowsDone = new Set();
+    Nt.edges.filter(e => e.k === 'pole').forEach(e => { const [x, y0] = at[e.a], y1 = y0 + step, dv = this.dev[e.d] || {}, closed = e.cond, cu = ecur(e), c = col(live(e.a), cu);
+      s += g(c, cu, IE.draw(e.kind, x, y0, y1, { act: closed, trip: e.kind === 'therm' && dv.tripped })) + IE.T(String(2 * e.n + 1), x + 5, y0 + 11, { size: 8 }) + IE.T(String(2 * e.n + 2), x + 5, y1 - 3, { size: 8 }); });
+    Nt.edges.filter(e => e.k === 'pole').forEach(e => { if (rowsDone.has(e.d)) return; rowsDone.add(e.d); const X = e.d === C.delta ? K3 : LX, y0 = rowY[e.d], ym = y0 + step / 2, dv = this.dev[e.d] || {};
+      let b = IE.T(dv.label || e.d, X[0] - 10, ym + 4, { anchor: 'end', size: 11, weight: 700 }) + (e.kind !== 'therm' ? IE.L(X[0] - 8, ym, X[2] - 8, ym, { dash: '3 2' }) : '');
+      if (dv.tripped && e.kind === 'therm') b += IE.T('!', X[0] - 10, ym + 16, { anchor: 'end', size: 11, weight: 700, col: 'var(--bad)' });
+      const hit = !pr && CLICK.includes(dv.type) && dv.type !== 'pb' && !dv.noClick;
+      s += hit ? `<g data-dev="${e.d}" style="cursor:pointer"><rect x="${X[0] - 34}" y="${F(y0 + 4)}" width="${X[2] - X[0] + 46}" height="${step - 8}" fill="transparent" stroke="none"/>${b}</g>` : b; });
+    // where KM3's outputs land (printed under the output crossover zone)
+    POS.forEach((t, j) => { s += IE.T(t, K3[j] + 3, yO1 + 10, { size: 7.5, col: 'var(--muted)' }); });
+    if (C.in3.some((p, q) => p !== q + 1)) [0, 1, 2].forEach(k => { s += IE.T(`L${k + 1}`, K3[k] + 3, yX0 - 1, { size: 7.5, col: 'var(--muted)' }); });
+    // motor: circle with three leads to U1 V1 W1 and three to W2 U2 V2
+    const UVW = ['U1', 'V1', 'W1'], wOf = { U1: 'U', V1: 'V', W1: 'W', W2: 'W', U2: 'U', V2: 'V' }, wc = t => (!pr && R.iw[wOf[t]] > 1e-6 ? COL.cur : null);
+    [0, 1, 2].forEach(k => { const top = `${m}:${UVW[k]}`, bot = `${m}:${POS[k]}`, xm = cx + (k - 1) * 13, dy = k === 1 ? r : 17.5;
+      s += g(wc(UVW[k]) || col(live(top), false), !!wc(UVW[k]), IE.L(LX[k], yt2, xm, cy - dy)) + `<circle cx="${LX[k]}" cy="${yt2}" r="2.4" fill="var(--panel)" stroke="currentColor"/>` + IE.T(UVW[k], LX[k] + 4, yt2 - 3, { size: 8, weight: 700 });
+      s += g(wc(POS[k]) || col(live(bot), false), !!wc(POS[k]), IE.L(LX[k], yb2, xm, cy + dy)) + `<circle cx="${LX[k]}" cy="${yb2}" r="2.4" fill="var(--panel)" stroke="currentColor"/>` + IE.T(POS[k], LX[k] + 4, yb2 + 10, { size: 8, weight: 700 }); });
+    s += IE.motor(cx, cy, r) + IE.T(m, LX[0] - 10, cy + 4, { anchor: 'end', size: 11, weight: 700 }) + IE.T('PE', PX - 4, cy - 10, { size: 8, anchor: 'end', weight: 700 });
+    const w = this.sdw || 0, run = this.sdRun(), dir = this.dir();
+    if (w > 0.02) { const a = this.spinArrow(cx, cy, r, dir || 'cw'); s += run || pr ? a : a.split(COL.cur).join('var(--muted)'); }
+    if (!pr && (w > 0.005 || run)) s += IE.T(`n ${Math.round(w * 20) * 5} %`, cx + r + 10, cy + 14, { size: 8.5, col: 'var(--muted)' });
+    if (this.msg === 'pshort' && !pr) { const [fx, fy] = this.sdCause === 'links' ? [cx, cy] : [LX[1], yS];
+      s += `<circle cx="${fx}" cy="${fy}" r="10" fill="#ff6b6b" opacity=".3" stroke="none"/><path d="M ${fx - 4} ${fy - 9} L ${fx + 2} ${fy - 1} L ${fx - 2} ${fy + 1} L ${fx + 4} ${fy + 9}" stroke="var(--bad)" stroke-width="2.2" fill="none"/>`; }
+    // the control supply: L1 and N taken after (or ahead of) Q1
+    if (ctl) { const first = C.pre.findIndex(t => t.k === 'cb'), tap = P.tap === 'before' || first < 0 ? [yT + 8, yT + 15] : [y0s + (first + 1) * step + 7, y0s + (first + 1) * step + 14], xr = this.railX0, xv = xr - 8, yRl = this.Y(S.rows);
+      const cL = hiL ? 'var(--accent)' : railL, cN = hiN ? 'var(--accent)' : railN, wL = hiL ? 3.4 : 1.6, wN = hiN ? 3.4 : 1.6, cu = anyCur ? ' class="rl-cur"' : '';
+      s += `<g stroke="${hiN ? 'var(--accent)' : railN}"${cu}>${IE.L(NX, yT, NX, tap[1], { w: hiN ? 3.4 : undefined })}</g>`;
+      s += `<g stroke="${cL}"${cu}>${IE.L(LX[0], tap[0], xr, tap[0], { w: wL })}${IE.L(xr, tap[0], xr, this.Y(0), { w: wL })}</g>` + dot(LX[0], tap[0]);
+      s += `<g stroke="${cN}"${cu}>${IE.L(NX, tap[1], xv, tap[1], { w: wN })}${IE.L(xv, tap[1], xv, yRl, { w: wN })}${IE.L(xv, yRl, xr, yRl, { w: wN })}</g>`; }
+    // status lines
+    let bottom = yS + 14;
+    if (!pr) { const [a, b, kind] = this.sdText(), kc = kind === 'good' ? 'var(--good)' : kind === 'bad' ? 'var(--bad)' : kind === 'warn' ? 'var(--warn)' : 'var(--muted)';
+      s += IE.T(fitT(MC.t(a[0], a[1]), 9, 250), 8, yS + 26, { size: 9, weight: 700, col: kc }); if (b) s += IE.T(fitT(MC.t(b[0], b[1]), 8.5, 250), 8, yS + 38, { size: 8.5, col: 'var(--muted)' }); bottom = yS + 46; }
+    return { s, bottom }; }
 };
 global.RL = RL;
 })(window);

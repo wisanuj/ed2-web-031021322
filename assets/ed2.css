@@ -344,3 +344,29 @@ svg.rl .rl-spin.rl-ccw{animation-direction:reverse}
 .mcpw .prep .pl.am{color:var(--accent)}
 .mcpw .prep .rv{display:block;margin-top:6px}
 .node.none .dot{border-color:var(--line);color:var(--muted)} .node.none .step{color:var(--muted)}
+
+/* chapter 8: terminal board and star / delta picture (C8.Box), current and torque curves (C8.Curves), cam switch 0–Y–Δ (C8.Manual),
+   star-delta timing chart (C8.Timeline); colours of the KM2 star bridge and the torque curves per theme; wide SVGs and tables scroll
+   inside their own box on phones (never the page) */
+:root{--c8-star:#2f6fd6;--c8-torque:#1d8a4a}
+:root[data-theme=warm]{--c8-star:#2a5fae;--c8-torque:#3f7d2b}
+:root[data-theme=blue]{--c8-star:#1f5fb0;--c8-torque:#25804b}
+:root[data-theme=dark]{--c8-star:#79adff;--c8-torque:#7ee787}
+.c8box,.c8curves,.c8tl{display:flex;flex-direction:column;gap:8px;min-width:0}
+.c8box .c8b-fig,.c8curves .c8c-fig,.c8tl .c8tl-fig,.c8b-tab,.c8m-chart{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.c8box .c8b-fig{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:center;overflow-x:visible}   /* terminal board | winding picture, one under the other on phones */
+.c8box .c8b-fig svg{display:block;flex:1 1 280px;max-width:340px;min-width:0;height:auto}
+.c8curves .c8c-fig svg{display:block;min-width:440px}
+.c8tl .c8tl-fig svg{display:block;min-width:460px}
+.c8b-t,.c8m-t{width:100%;font-size:14.5px}
+.c8b-t th,.c8b-t td,.c8m-t th,.c8m-t td{padding:5px 8px;vertical-align:top}
+.c8b-t td:not(:first-child),.c8b-t th:not(:first-child){white-space:nowrap;text-align:center}
+.c8m-t td:not(:first-child),.c8m-t th:not(:first-child){text-align:center;width:3.4em}
+.c8b-t .on,.c8m-t .on{background:var(--chip);font-weight:700}
+.c8c-note{font-size:14.5px;line-height:1.5}
+.c8manual{display:grid;grid-template-columns:minmax(0,220px) minmax(0,320px) minmax(0,1fr);gap:10px 14px;align-items:center;min-width:0}
+.c8manual .c8m-knob svg,.c8manual .c8m-pic svg{display:block;width:100%;height:auto;margin:0 auto}
+.c8manual .c8m-row,.c8manual .status{grid-column:1/-1}
+@media (max-width:900px){.c8manual{grid-template-columns:minmax(0,200px) minmax(0,1fr)}.c8manual .c8m-chart{grid-column:1/-1}}
+@media (max-width:520px){.c8manual{grid-template-columns:minmax(0,1fr)}.c8manual .c8m-knob{max-width:190px;margin:0 auto;width:100%}.c8manual .c8m-pic{max-width:300px;margin:0 auto;width:100%}
+  .c8b-t,.c8m-t{font-size:13px}.c8b-t th,.c8b-t td,.c8m-t th,.c8m-t td{padding:4px 5px}.c8b-t td:not(:first-child),.c8b-t th:not(:first-child){white-space:normal}}

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="8.3 — Manual star-delta control with push buttons">8.3 — ควบคุมสตาร์–เดลตาด้วยปุ่มกด</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=18"><link rel="stylesheet" href="assets/ed2.css?v=18">
+<link rel="stylesheet" href="assets/wiring.css?v=18">
+<script src="assets/stops.js?v=18"></script><script src="assets/shell.js?v=18"></script>
+<script src="assets/lesson.js?v=18"></script><script src="assets/draw.js?v=18"></script><script src="assets/ed.js?v=18"></script><script src="assets/sym.js?v=18"></script><script src="assets/iec.js?v=18"></script><script src="assets/relay.js?v=18"></script><script src="assets/ch2.js?v=18"></script><script src="assets/ch3.js?v=18"></script><script src="assets/ch4.js?v=18"></script>
+<script src="assets/panel.js?v=18"></script><script src="assets/ch5.js?v=18"></script><script src="assets/ch6.js?v=18"></script><script src="assets/ch7.js?v=18"></script><script src="assets/ch8.js?v=18"></script>
+<script src="assets/wiring.js?v=18"></script><script src="assets/devdata.js?v=18"></script><script src="assets/dev.js?v=18"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">ควบคุมสตาร์–เดลตาด้วยปุ่มกด <span class="en">Manual star-delta control with push buttons</span></h1>
+<h1 data-l="en">Manual star-delta control <span class="en">Start in star with one button, change to delta with another</span></h1>
+
+<p class="sub" data-l="th">หน้า 8.2 ต่อวงจรกำลังด้วยคอนแทกเตอร์สามตัวไว้แล้ว: KM1 คอนแทกเตอร์หลัก (main contactor) KM2 คอนแทกเตอร์สตาร์ (star contactor) และ KM3 คอนแทกเตอร์เดลตา (delta contactor) หน้านี้สั่งวงจรนั้นด้วยมือผ่านปุ่มกด: กด S2 "เริ่มเดินแบบสตาร์" แล้ว KM1 กับ KM2 ดูด ขดลวดแต่ละชุดได้แรงดัน 1/√3 ของแรงดันสาย มอเตอร์เร่งความเร็วด้วยกระแสและแรงบิดราว 1/3 ของการสตาร์ทตรง ผู้ควบคุมรอจนมอเตอร์หมุนเกือบเต็มความเร็ว แล้วกด S3 "เดลตา" ซึ่งเป็นปุ่มสองหน้าสัมผัส หน้าสัมผัสปกติปิดปลด KM2 ก่อน แล้วหน้าสัมผัสปกติเปิดจึงสั่ง KM3 หน้านี้ให้ลองวงจรที่หน้าตู้ เทียบว่าคอนแทกเตอร์ตัวไหนควรต่อก่อน อ่านหลอดสัญญาณ และลองเป็นผู้ควบคุมเองว่าควรกดเดลตาเมื่อใด</p>
+<p class="sub" data-l="en">Page 8.2 built the power circuit with three contactors: KM1 the main contactor, KM2 the star contactor and KM3 the delta contactor. This page controls that circuit by hand with push buttons. Press S2 “start star”: KM1 and KM2 pull in, each winding gets 1/√3 of the line voltage, and the motor runs up with about 1/3 of the current and torque of a direct start. The operator waits until the motor is close to full speed, then presses S3 “delta”, a double-contact button: its normally closed contact drops KM2 first, then its normally open contact starts KM3. Try the circuit on the panel front, compare which contactor should close first, read the lamps, and be the operator yourself: when should DELTA be pressed?</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>สองปุ่ม สองขั้น</b>: กด S2 "เริ่มเดินแบบสตาร์" KM1 ดูดและค้างตัวเองด้วย 13–14 แล้ว KM1 83–84 ส่งไฟให้ KM2 มอเตอร์เริ่มหมุนแบบสตาร์ เมื่อมอเตอร์หมุนเกือบเต็มความเร็วจึงกด S3 "เดลตา": หน้าสัมผัสปกติปิด (normally closed, NC) 21–22 ปลด KM2 แล้วหน้าสัมผัสปกติเปิด (normally open, NO) 13–14 สั่ง KM3 ผ่าน KM2 21–22 และ KM3 ค้างตัวเองด้วย 13–14</li>
+  <li><b>อินเตอร์ล็อกสองชั้น</b>: KM3 21–22 อยู่ในทางเดินกระแสของ KM2 และ KM2 21–22 อยู่ในทางของ KM3 หน้าสัมผัสเหล่านี้เป็นหน้าสัมผัสมิเรอร์ จึงบอกสถานะจริงของคอนแทกเตอร์ และมีอินเตอร์ล็อกทางกลระหว่าง KM2 กับ KM3 อีกชั้น เพราะถ้าทั้งสองต่อพร้อมกัน สายทั้งสามจะลัดถึงกันที่จุดสตาร์ (หน้า 8.2)</li>
+  <li><b>หลักก่อนหรือสตาร์ก่อน</b>: วงจรของวิชาให้ KM1 ต่อก่อน KM2 จึงเป็นตัวต่อกระแสเริ่มเดิน ถ้าให้ KM2 ต่อก่อน (สตาร์ก่อน) KM2 จะปิดตอนยังไม่มีแรงดัน และ KM1 เป็นตัวต่อกระแสแทน มอเตอร์ทำงานเหมือนกันทั้งสองแบบ ต่างกันที่หน้าสัมผัสของคอนแทกเตอร์ตัวไหนต้องปิดเข้าหากระแส</li>
+  <li><b>จุดอ่อนของการควบคุมด้วยมือ</b>: จังหวะเปลี่ยนเป็นเดลตาขึ้นกับผู้ควบคุม กดเร็วไปกระแสกระโดดสูง ยิ่งเร็วยิ่งใกล้กระแสของการเริ่มเดินโดยตรง กด S2 กับ S3 พร้อมกันก็เริ่มเดินแบบเดลตาทันที ลืมกดมอเตอร์ก็ค้างอยู่ที่แรงบิด 1/3 โรงงานจึงให้ตัวตั้งเวลาเปลี่ยนให้ (หน้า 8.4)</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>Two buttons, two steps</b>: press S2 “start star”: KM1 pulls in and holds itself through 13–14, then KM1 83–84 feeds KM2 and the motor starts in star. When the motor is close to full speed, press S3 “delta”: its normally closed (NC) contact 21–22 drops KM2, then its normally open (NO) contact 13–14 starts KM3 through KM2 21–22, and KM3 holds itself through 13–14.</li>
+  <li><b>Two layers of interlock</b>: KM3 21–22 sits in the coil path of KM2 and KM2 21–22 in the path of KM3. They are mirror contacts, so they tell the real state of each contactor. A mechanical interlock between KM2 and KM3 adds a second layer, because if both closed together, the three lines would be shorted at the star point (page 8.2).</li>
+  <li><b>Main first or star first</b>: the course circuit closes KM1 before KM2, so KM2 makes the starting current. If KM2 closes first (star first), it closes while there is no voltage yet and KM1 makes the current instead. The motor behaves the same either way; what differs is which contactor’s contacts have to close onto the current.</li>
+  <li><b>The weak point of manual control</b>: the moment of the change to delta depends on the operator. Pressed too early, the current jumps high, and the earlier the press, the nearer it comes to the direct-start value; S2 and S3 pressed together start the motor straight in delta; forgotten, the motor stays at 1/3 torque. That is why factories let a timer do it (page 8.4).</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>วงจรในตำราไทย</a><a href="#tA"><b>A</b>ลองที่หน้าตู้</a><a href="#tB"><b>B</b>หลักก่อนหรือสตาร์ก่อน</a><a href="#tD"><b>D</b>เมื่อไรควรกดเดลตา</a><a href="#ex1"><b>1</b>จากรูป 7.3 เป็นแบบของวิชา</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>The textbook circuits</a><a href="#tA"><b>A</b>On the panel front</a><a href="#tB"><b>B</b>Main first or star first</a><a href="#tD"><b>D</b>When to press DELTA</a><a href="#ex1"><b>1</b>From Fig. 7.3 to the course drawing</a><a href="#tC"><b>C</b>More practice</a></nav>
+
+<section class="prob" id="t0">
+  <div class="prob-head"><span class="prob-no">0</span><div><h2 data-l="th">วงจรควบคุมด้วยมือในตำราไทย</h2><h2 data-l="en">The manual circuits in the Thai textbook</h2>
+    <div class="src" data-l="th">ตำราไทย บทที่ 7 หัวข้อ 1.1–1.2 รูป 7.3–7.4 หน้า 128–129</div><div class="src" data-l="en">Thai textbook ch. 7 §1.1–1.2, Figs 7.3–7.4, pp. 128–129</div></div></div>
+  <div class="story n2">
+    <div class="story-t">
+      <div class="story-p" data-l="th"><p>ตำราไทยบทที่ 7 ให้วงจรกำลังของการเริ่มเดินแบบสตาร์–เดลตาไว้ในรูป 7.2 แล้วให้วงจรควบคุมด้วยมือสองแบบในรูป 7.3 และ 7.4 ทั้งสองรูปเขียนแนวตั้งแบบเดียวกับวิชานี้ แต่ใช้ชื่ออุปกรณ์แบบ DIN (Deutsches Institut für Normung สถาบันมาตรฐานเยอรมัน): K1 คอนแทกเตอร์หลัก K2 สตาร์ K3 เดลตา ตรงกับ KM1 KM2 KM3 ของวิชา F3 โอเวอร์โหลดคือ F2 ของเรา และ F2 ฟิวส์วงจรควบคุมคือ F1 ของเรา วงจรควบคุมในรูปใช้ไฟ 220 V จากสาย L1 ส่วนวิชานี้ใช้ 230 V ระหว่าง L1 กับ N ที่รับไฟหลัง Q1</p>
+        <p>รูป 7.3 ใช้ปุ่ม S2 "STAR" และ S3 "DELTA" ซึ่งมีแต่หน้าสัมผัสปกติปิด กด S2 แล้วไฟผ่าน S3 และหน้าสัมผัสปกติปิดของ K3 ไปที่คอยล์ K2 ก่อน เมื่อ K2 ดูด หน้าสัมผัสปกติเปิดของ K2 จึงส่งไฟให้ K1 แบบนี้เรียกว่า "สตาร์ก่อน" กด S3 แล้วทางของ K2 ขาด K2 หลุด หน้าสัมผัสปกติปิดของ K2 กลับมาต่อ และ K3 ดูดด้วยไฟจากหน้าสัมผัสค้างของ K1 รูป 7.4 สลับลำดับ: S2 สั่ง K1 และ K1 ค้างตัวเอง แล้วหน้าสัมผัสปกติเปิดของ K1 จึงส่งไฟให้ K2 แบบนี้เรียกว่า "หลักก่อน" ปุ่ม S3 ของรูป 7.4 มีสองหน้าสัมผัส ส่วนปกติปิดปลด K2 ส่วนปกติเปิดสั่ง K3 และ K3 ค้างตัวเองด้วยหน้าสัมผัสปกติเปิดของมัน</p>
+        <p>วงจรของวิชาในหัวข้อ A ใช้ความคิดของรูป 7.4 แต่เขียนตามแบบ IEC (International Electrotechnical Commission คณะกรรมาธิการไฟฟ้าระหว่างประเทศ): เลขขั้วทุกหน้าสัมผัส ตารางอ้างอิงใต้คอยล์ อินเตอร์ล็อกทางกลระหว่าง KM2 กับ KM3 และหลอดสัญญาณผ่านหน้าสัมผัสช่วย ตำราไทยหัวข้อ 1.2 (หน้า 129) อธิบายว่าการควบคุมด้วยมืออาจผิดพลาดได้ถ้าผู้ควบคุมลืมขั้นตอน โรงงานจึงใช้รีเลย์ตั้งเวลาเปลี่ยนจากสตาร์เป็นเดลตาให้เอง ซึ่งเป็นเรื่องของหน้า 8.4 ส่วนหัวข้อ D ของหน้านี้ให้ลองเป็นผู้ควบคุมเองก่อนว่ายากแค่ไหน</p></div>
+      <div class="story-p" data-l="en"><p>Chapter 7 of the Thai textbook gives the star-delta power circuit in Fig. 7.2 and two manual control circuits in Figs 7.3 and 7.4. Both are drawn vertically like the course drawings, but with DIN device names (Deutsches Institut für Normung, the German standards body): K1 main, K2 star and K3 delta contactor match the course’s KM1, KM2 and KM3; F3, the overload relay, is our F2; and F2, the control fuse, is our F1. The control circuits in the figures run on 220 V from line L1; the course uses 230 V between L1 and N, taken after Q1.</p>
+        <p>Fig. 7.3 uses S2 “STAR” and S3 “DELTA”, which has a normally closed contact only. Pressing S2 sends current through S3 and the normally closed contact of K3 to coil K2 first; once K2 is in, its normally open contact feeds K1. This is “star first”. Pressing S3 opens the path of K2, K2 drops out, its normally closed contact closes again, and K3 pulls in on the supply from K1’s holding contact. Fig. 7.4 does it the other way round: S2 starts K1, K1 holds itself, and only then does a normally open contact of K1 feed K2. This is “main first”. S3 in Fig. 7.4 has two contacts: the normally closed part drops K2, the normally open part starts K3, and K3 holds itself through its own normally open contact.</p>
+        <p>The course circuit in section A uses the idea of Fig. 7.4, drawn to IEC (International Electrotechnical Commission) practice: terminal numbers on every contact, cross-references under the coils, a mechanical interlock between KM2 and KM3, and lamps fed through auxiliary contacts. Section 1.2 of the textbook (p. 129) explains that manual control can go wrong if the operator forgets a step, so factories let a time relay change from star to delta by itself; that is page 8.4. Section D of this page lets you be the operator first and see how hard it is.</p></div></div>
+    <div class="story-f">
+      <figure class="slide sm"><img src="img/book/book1_fig7_3_manual_star_first.jpg?v=18" width="912" height="820" loading="lazy" decoding="async" alt="Thai textbook Fig. 7.3: vertical control circuit from L1 220 V through fuse F2, overload contact F3 and stop button S1; push button S2 feeds the normally closed button S3 and a normally closed K3 contact to coil K2 with lamp H1 in parallel; a K2 normally open contact feeds coil K1, which is held by a K1 normally open contact from above S2; a K2 normally closed contact feeds coil K3 with lamp H2; overload lamp H3 on the changeover contact of F3; current paths numbered 1 to 6.">
+        <figcaption data-l="th">รูป 7.3 วงจรควบคุมการเริ่มเดินแบบสตาร์–เดลตาด้วยมือ (สตาร์ก่อน) · ที่มา: ธนภัทร ไพคำนาม, <i>การควบคุมมอเตอร์ไฟฟ้า</i> (2104-2009), บทที่ 7 หน้า 128 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 7.3, manual star-delta control circuit (star first) · source: Thanaphat Phaikhamnam, <i>Motor Control</i> (2104-2009), ch. 7, p. 128 · tap to enlarge</figcaption></figure>
+      <figure class="slide sm"><img src="img/book/book1_fig7_4_manual_main_first.jpg?v=18" width="844" height="870" loading="lazy" decoding="async" alt="Thai textbook Fig. 7.4: vertical control circuit; S2 with holding contact K1 feeds coil K1; from that node a K1 normally open contact feeds the normally closed part of double button S3 and a normally closed K3 contact to coil K2 with lamp H1; the normally open part of S3, bridged by a K3 normally open holding contact, feeds a normally closed K2 contact and coil K3 with lamp H2; overload lamp H3; current paths 1 to 6.">
+        <figcaption data-l="th">รูป 7.4 วงจรควบคุมการเริ่มเดินแบบสตาร์–เดลตาด้วยมืออีกแบบหนึ่ง (หลักก่อน) · ที่มา: ธนภัทร ไพคำนาม (2104-2009), บทที่ 7 หน้า 129 · แตะรูปเพื่อขยาย</figcaption>
+        <figcaption data-l="en">Fig. 7.4, manual star-delta control circuit, second version (main first) · source: Thanaphat Phaikhamnam (2104-2009), ch. 7, p. 129 · tap to enlarge</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">สตาร์–เดลตาด้วยมือที่หน้าตู้</h2><h2 data-l="en">Manual star-delta on the panel front</h2>
+    <div class="src" data-l="th">ตำราไทย บทที่ 7 รูป 7.2 และ 7.4 · IEC 60204-1 ข้อ 7.5, 9.3.4 และ 10.2.1 · IEC 60947-4-1 ภาคผนวก F</div><div class="src" data-l="en">Thai textbook ch. 7, Figs 7.2 and 7.4 · IEC 60204-1, 7.5, 9.3.4 and 10.2.1 · IEC 60947-4-1, Annex F</div></div></div>
+  <p class="lead" data-l="th">ปุ่ม S2 เริ่มเดินแบบสตาร์ (สีขาว) S3 เดลตา (สีขาว) และ S1 หยุด (สีดำ) อยู่ที่หน้าตู้ใต้วงจร กดค้างได้ กด S2 แล้วดูมอเตอร์เร่งความเร็วแบบสตาร์ (ความเร็ว และกระแสสายเป็นเท่าของกระแสพิกัด I<sub>N</sub> ของมอเตอร์ อยู่ใต้หน้าตู้) แล้วกด S3 จากนั้นลองกด S1 กด S3 ตอนมอเตอร์หยุด กด S2 ซ้ำตอนเป็นเดลตา คลิก F2 (โอเวอร์โหลด) และทำให้ไฟดับ ผลทุกครั้งบันทึกลงตาราง และสรุปจากแบบจำลองเดียวกันอยู่ใต้ตาราง</p>
+  <p class="lead" data-l="en">S2 start star (white), S3 delta (white) and S1 stop (black) are on the panel front under the circuit; they can be held. Press S2 and watch the motor run up in star (the speed, and the line current in multiples of the motor’s rated current I<sub>N</sub>, are shown under the panel), then press S3. After that, try S1, S3 with the motor stopped, S2 again while in delta, a click on F2 (overload) and a power failure. Every result is recorded in the table, and the summary from the same model is under it.</p>
+  <div class="card sim rlwrap rlscroll" id="boxA" style="padding:8px;--rlmin:1000px"></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logA"></div><div id="sumA" style="margin-top:8px"></div></div>
+  <div class="duo" style="margin-top:12px">
+    <div class="card"><h3 data-l="th">อ่านวงจรทีละทางเดินกระแส</h3><h3 data-l="en">Reading the circuit path by path</h3>
+      <ol data-l="th"><li>F1 1–2 → F2 95–96 → S1 11–12 → S2 13–14 → คอยล์ KM1</li><li>KM1 13–14 คร่อม S2: หน้าสัมผัสค้างตัวเอง ใต้จุดนี้คือ "จุดค้าง" ที่ป้อนไฟให้ทางที่ 3 และ 4</li><li>KM1 83–84 → S3 21–22 → KM3 21–22 → คอยล์ KM2: KM2 ดูดได้หลัง KM1 ดูดแล้วเท่านั้น</li><li>S3 13–14 → KM2 21–22 → คอยล์ KM3: KM3 ดูดได้หลัง KM2 หลุดแล้วเท่านั้น</li><li>KM3 13–14 คร่อม S3 13–14: KM3 ค้างตัวเองเมื่อปล่อย S3</li><li>ทางที่ 6–9 หลอดผ่านหน้าสัมผัสช่วย รับไฟจาก F1 ขั้ว 2: H1 สตาร์ (KM2 53–54) H2 เดลตา (KM3 53–54) H3 โอเวอร์โหลด (F2 97–98) H4 หยุดอยู่ (KM1 61–62)</li></ol>
+      <ol data-l="en"><li>F1 1–2 → F2 95–96 → S1 11–12 → S2 13–14 → coil KM1</li><li>KM1 13–14 across S2: the holding contact; the point below it is the “hold node” that feeds paths 3 and 4</li><li>KM1 83–84 → S3 21–22 → KM3 21–22 → coil KM2: KM2 can pull in only after KM1 is in</li><li>S3 13–14 → KM2 21–22 → coil KM3: KM3 can pull in only after KM2 has dropped out</li><li>KM3 13–14 across S3 13–14: KM3 holds itself when S3 is released</li><li>Paths 6–9: lamps through auxiliary contacts, fed from F1 terminal 2: H1 star (KM2 53–54), H2 delta (KM3 53–54), H3 overload (F2 97–98), H4 stopped (KM1 61–62)</li></ol>
+      <p class="simnote" data-l="th">สามเหลี่ยมบนเส้นประระหว่างคอยล์ KM2 กับ KM3 คืออินเตอร์ล็อกทางกล (สัญลักษณ์ IEC 60617 S00154) ตัวเลขใต้คอยล์แต่ละตัว (ตารางอ้างอิง) บอกว่าหน้าสัมผัสของมันอยู่ทางเดินกระแสไหน เช่น ใต้ KM1 มี 83–84 ▸ 3</p>
+      <p class="simnote" data-l="en">The triangle on the dashed line between coils KM2 and KM3 is the mechanical interlock (IEC 60617 symbol S00154). The numbers under each coil (the cross-reference) tell you which path each of its contacts is in, for example 83–84 ▸ 3 under KM1.</p></div>
+    <div class="card"><h3 data-l="th">ป้ายชื่อและหลอดที่หน้าตู้</h3><h3 data-l="en">Plates and lamps on the panel front</h3>
+      <table class="tbl stack" data-l="th"><tr><th>ป้าย</th><th>อุปกรณ์</th><th>ติดเมื่อ / ทำอะไร</th></tr>
+        <tr><td data-h="ป้าย">START STAR</td><td data-h="อุปกรณ์">S2 ปุ่มสีขาว สัญลักษณ์ I หน้าสัมผัส 13–14</td><td data-h="ทำอะไร">เริ่มเดินแบบสตาร์ (KM1 แล้ว KM2)</td></tr>
+        <tr><td data-h="ป้าย">DELTA</td><td data-h="อุปกรณ์">S3 ปุ่มสีขาว สัญลักษณ์ Δ หน้าสัมผัส 21–22 และ 13–14</td><td data-h="ทำอะไร">ปลด KM2 แล้วสั่ง KM3</td></tr>
+        <tr><td data-h="ป้าย">STOP</td><td data-h="อุปกรณ์">S1 ปุ่มสีดำ สัญลักษณ์ O หน้าสัมผัส 11–12</td><td data-h="ทำอะไร">หยุดทุกอย่าง</td></tr>
+        <tr><td data-h="ป้าย">STAR</td><td data-h="อุปกรณ์">H1 หลอดสีเขียว (GN) ผ่าน KM2 53–54</td><td data-h="ติดเมื่อ">KM2 ต่อจริง มอเตอร์อยู่ในสตาร์</td></tr>
+        <tr><td data-h="ป้าย">DELTA</td><td data-h="อุปกรณ์">H2 หลอดสีเขียว (GN) ผ่าน KM3 53–54</td><td data-h="ติดเมื่อ">KM3 ต่อจริง มอเตอร์อยู่ในเดลตา</td></tr>
+        <tr><td data-h="ป้าย">OVERLOAD</td><td data-h="อุปกรณ์">H3 หลอดสีเหลือง (YE) ผ่าน F2 97–98</td><td data-h="ติดเมื่อ">F2 ตัด (รับไฟก่อน 95–96 จึงยังติดได้)</td></tr>
+        <tr><td data-h="ป้าย">STOPPED</td><td data-h="อุปกรณ์">H4 หลอดสีขาว (WH) ผ่าน KM1 61–62</td><td data-h="ติดเมื่อ">KM1 เปิด พร้อมเริ่มใหม่</td></tr></table>
+      <table class="tbl stack" data-l="en"><tr><th>plate</th><th>device</th><th>lit when / does</th></tr>
+        <tr><td data-h="plate">START STAR</td><td data-h="device">S2, white button, symbol I, contact 13–14</td><td data-h="does">starts in star (KM1, then KM2)</td></tr>
+        <tr><td data-h="plate">DELTA</td><td data-h="device">S3, white button, symbol Δ, contacts 21–22 and 13–14</td><td data-h="does">drops KM2, then starts KM3</td></tr>
+        <tr><td data-h="plate">STOP</td><td data-h="device">S1, black button, symbol O, contact 11–12</td><td data-h="does">stops everything</td></tr>
+        <tr><td data-h="plate">STAR</td><td data-h="device">H1, green lamp (GN), via KM2 53–54</td><td data-h="lit when">KM2 really closed: the motor is in star</td></tr>
+        <tr><td data-h="plate">DELTA</td><td data-h="device">H2, green lamp (GN), via KM3 53–54</td><td data-h="lit when">KM3 really closed: the motor is in delta</td></tr>
+        <tr><td data-h="plate">OVERLOAD</td><td data-h="device">H3, yellow lamp (YE), via F2 97–98</td><td data-h="lit when">F2 has tripped (fed ahead of 95–96, so it can light)</td></tr>
+        <tr><td data-h="plate">STOPPED</td><td data-h="device">H4, white lamp (WH), via KM1 61–62</td><td data-h="lit when">KM1 is open: ready to start again</td></tr></table>
+      <p class="simnote" data-l="th">หลอดรับไฟผ่านหน้าสัมผัสช่วยของคอนแทกเตอร์ จึงบอกว่าคอนแทกเตอร์ทำงานจริงแล้ว ไม่ใช่แค่คอยล์มีไฟ สีของปุ่มและหลอดตาม IEC 60204-1: ปุ่มเริ่มสีขาว ปุ่มหยุดสีดำ หลอดเขียว = ทำงานปกติ เหลือง = ผิดปกติ ขาว = หยุดอยู่</p>
+      <p class="simnote" data-l="en">The lamps are fed through the contactors’ auxiliary contacts, so they show that a contactor has really operated, not just that its coil has voltage. Button and lamp colours after IEC 60204-1: start white, stop black; green lamp = normal running, yellow = abnormal, white = stopped.</p></div>
+  </div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">หลักก่อนหรือสตาร์ก่อน: คอนแทกเตอร์ตัวไหนต่อกระแสเริ่มเดิน</h2><h2 data-l="en">Main first or star first: which contactor makes the starting current?</h2>
+    <div class="src" data-l="th">ตำราไทย บทที่ 7 รูป 7.3 และ 7.4 · EMC9 หน่วยที่ 29 หน้า 218 · หน้า 8.2 (ขนาดคอนแทกเตอร์)</div><div class="src" data-l="en">Thai textbook ch. 7, Figs 7.3 and 7.4 · EMC9 unit 29, p. 218 · page 8.2 (contactor sizes)</div></div></div>
+  <p class="lead" data-l="th">เลือกลำดับ แล้วกด S2 ที่หน้าตู้ ตาราง "สองจังหวะของการเริ่มเดิน" คำนวณจากแบบจำลองเดียวกัน: ถอดคอยล์ของคอนแทกเตอร์ตัวที่สองออกชั่วคราวเพื่อหยุดภาพไว้ที่จังหวะแรก แล้วดูว่าขดลวดอยู่ในสภาพใด คอนแทกเตอร์ตัวที่ปิดทีหลังคือตัวที่ปิดเข้าหากระแส ผลแต่ละครั้งบันทึกลงตาราง และสรุปเปรียบเทียบสองแบบอยู่ใต้ตาราง</p>
+  <p class="lead" data-l="en">Choose the order, then press S2 on the panel front. The table “two moments of a start” comes from the same model: the coil of the second contactor is taken out for a moment to freeze the first moment, and the table shows what the windings see then. The contactor that closes last is the one that closes onto the current. Every result is recorded, and the summary under the table compares the two orders.</p>
+  <div class="card solve"><div class="panel" id="mB" style="position:static;max-height:none"></div><div id="seqB" style="overflow-x:auto"></div></div>
+  <div class="card sim rlwrap rlscroll" id="boxB" style="padding:8px;margin-top:12px;--rlmin:1000px"></div>
+  <div class="card solve" style="margin-top:12px"><div class="panel" id="pB" style="position:static;max-height:none"></div></div>
+  <div class="card" style="margin-top:12px"><div id="logB"></div><div id="sumB" style="margin-top:8px"></div></div>
+  <div class="duo" style="margin-top:12px">
+    <div class="card"><h3 data-l="th">ปิดเข้าหากระแส ต่างจากปิดตอนไม่มีกระแส</h3><h3 data-l="en">Closing onto the current versus closing without current</h3>
+      <p data-l="th">หน้าสัมผัสที่ปิดเข้าหากระแส (ต่อกระแส, make) เด้งเล็กน้อยก่อนแนบสนิท (contact bounce) และเกิดอาร์กสั้น ๆ ทุกครั้ง ผิวหน้าสัมผัสจึงสึกทีละน้อย หน้าสัมผัสที่ปิดตอนยังไม่มีแรงดันแทบไม่สึก ในการเริ่มเดินแบบสตาร์ กระแสที่ต้องต่อคือกระแสเริ่มเดินแบบสตาร์ ประมาณ 1/3 ของการสตาร์ทตรง (ในแบบจำลองตัวอย่างนี้ราว <span id="iStarB">2.2</span> × I<sub>N</sub> เมื่อ I<sub>N</sub> คือกระแสพิกัดของมอเตอร์) แบบหลักก่อน KM2 ต่อกระแสนี้ทุกครั้งที่เริ่มเดิน แบบสตาร์ก่อน KM2 ปิดตอนยังไม่มีแรงดัน และ KM1 ต่อกระแสแทน ทั้งสองแบบ ตอนเปลี่ยนเป็นเดลตา KM2 เป็นตัวตัดกระแสสตาร์ และ KM3 เป็นตัวต่อกระแสเดลตา ตอนกดหยุด KM1 กับ KM3 เปิดพร้อมกัน</p>
+      <p data-l="en">Contacts that close onto a current (that “make” it) bounce a little before they settle and draw a short arc every time, so their surface wears slowly; contacts that close while there is no voltage hardly wear. In a star start the current to be made is the star starting current, about 1/3 of a direct start (in this example model about <span id="iStarBen">2.2</span> × I<sub>N</sub>, where I<sub>N</sub> is the motor’s rated current). With main first, KM2 makes this current at every start; with star first, KM2 closes without voltage and KM1 makes it instead. In both orders KM2 breaks the star current at the change to delta and KM3 makes the delta current; at STOP, KM1 and KM3 open together.</p></div>
+    <div class="card"><h3 data-l="th">เลือกแบบไหน</h3><h3 data-l="en">Which one to choose</h3>
+      <p data-l="th">ตำราใช้ทั้งสองแบบ: รูป 7.3 และวงจรอัตโนมัติรูป 7.6 ของตำราไทย รวมทั้ง EMC9 รูป 29-4 เป็นแบบสตาร์ก่อน ส่วนรูป 7.4 และรูป 7.5 เป็นแบบหลักก่อน ตามตารางเลือกของผู้ผลิต คอนแทกเตอร์สตาร์ KM2 มักเล็กกว่าตัวอื่นหนึ่งขนาด (ราว 0.33 I<sub>N</sub> ส่วน KM3 ราว 0.58 I<sub>N</sub> และ KM1 ในวงจรของวิชาซึ่ง KM3 รับไฟหลัง KM1 ต้องรับเต็ม I<sub>N</sub> ดูหน้า 8.2) วิชานี้เขียนแบบหลักก่อนในทุกแบบวงจร เพราะ KM1 83–84 ในทางของ KM2 ทำให้ KM2 ดูดไม่ได้เลยจนกว่า KM1 จะปิดจริง และนับแบบสตาร์ก่อนว่าถูกเช่นกัน ถ้าใช้ชุดสตาร์ทเตอร์สำเร็จรูป ให้ต่อตามวงจรของผู้ผลิต</p>
+      <p data-l="en">The books use both: Fig. 7.3 and the automatic Fig. 7.6 of the Thai textbook, and EMC9 Fig. 29-4, close the star first; Figs 7.4 and 7.5 close the main contactor first. In the makers’ selection tables the star contactor KM2 is often one size smaller than the others (about 0.33 I<sub>N</sub>, against 0.58 I<sub>N</sub> for KM3; KM1 in the course circuit, which feeds KM3 after KM1, needs the full I<sub>N</sub>, see page 8.2). The course draws main first in every drawing, because KM1 83–84 in the KM2 path keeps KM2 out until KM1 has really closed, and it marks star first as correct too. With a ready-made starter kit, wire it as the maker’s circuit shows.</p></div>
+  </div>
+</section>
+
+<section class="prob" id="tD">
+  <div class="prob-head"><span class="prob-no">D</span><div><h2 data-l="th">เมื่อไรควรกดเดลตา: คุณคือตัวตั้งเวลา</h2><h2 data-l="en">When to press DELTA: you are the timer</h2>
+    <div class="src" data-l="th">Hughes บทที่ 6 หน้า 202 · EMC9 หน่วยที่ 25 หน้า 194–196 · ตำราไทย บทที่ 7 หัวข้อ 1.2</div><div class="src" data-l="en">Hughes ch. 6, p. 202 · EMC9 unit 25, pp. 194–196 · Thai textbook ch. 7 §1.2</div></div></div>
+  <p class="lead" data-l="th">หัวข้อนี้มีแต่หน้าตู้ เหมือนผู้ควบคุมที่ยืนหน้าตู้จริงและเห็นแค่ปุ่มกับหลอด เลือกภาระ กด S2 แล้วดูกราฟความเร็วและกระแสสาย กด S3 เมื่อคิดว่าถึงเวลา ตารางบันทึกเวลาที่กด ความเร็วขณะเปลี่ยน และกระแสหลังเปลี่ยน ลองกดเร็ว ๆ หนึ่งครั้ง กดตอนมอเตอร์หมุนเกือบเต็มที่หนึ่งครั้ง ลองปุ่ม "S2 + S3 พร้อมกัน" แล้วเปลี่ยนภาระ</p>
+  <p class="lead" data-l="en">This section has only the panel front, like an operator standing at a real panel who sees nothing but buttons and lamps. Choose the load, press S2 and watch the chart of speed and line current, then press S3 when you think it is time. The table records when you pressed, the speed at the change and the current after it. Press once very early, once when the motor is almost at full speed, try the “S2 + S3 together” button, then change the load.</p>
+  <div class="card solve"><div class="panel" id="mD" style="position:static;max-height:none"></div></div>
+  <div class="duo wide-sim" style="margin-top:12px">
+    <div class="card sim" style="padding:10px"><div id="chD"></div><div id="rdD" class="simnote" style="margin-top:6px"></div></div>
+    <div class="card solve"><div class="panel" id="pD" style="position:static;max-height:none"></div></div>
+  </div>
+  <div class="card" style="margin-top:12px"><div id="logD"></div><div id="sumD" style="margin-top:8px"></div></div>
+  <div class="card" style="margin-top:12px"><h3 data-l="th">ตำราบอกว่าควรเปลี่ยนเมื่อไร</h3><h3 data-l="en">What the books say about the moment of the change</h3>
+      <div data-l="th"><p>Hughes อธิบายว่าสตาร์ทเตอร์สตาร์–เดลตาแบบมือ ผู้ควบคุมดูแอมมิเตอร์จนกระแสลดลง หรือฟังจนเสียงความเร็วนิ่ง แล้วจึงเปลี่ยนเป็นเดลตา แบบอัตโนมัติใช้การตรวจกระแส การตรวจความเร็ว หรือเวลาที่ตั้งไว้ Herman (EMC9) ชี้ว่ากระแสของมอเตอร์ยังสูงอยู่เกือบตลอดช่วงเร่งความเร็ว และลดลงมากเมื่อใกล้ความเร็วเต็มที่ ยิ่งเปลี่ยนเป็นเดลตาเร็ว กระแสครั้งที่สองยิ่งสูง ในกราฟนี้เส้นประแนวนอนอยู่ที่ 85 % ของความเร็วซิงโครนัส ผู้ผลิตรายหนึ่ง (ABB) แนะนำให้เปลี่ยนเมื่อถึงอย่างน้อยราว 85 % ของความเร็วพิกัด ซึ่งใกล้เคียงกัน ตัวเลขกระแสเป็นค่าตัวอย่างจากแบบจำลองมอเตอร์ของเว็บนี้ และยังไม่รวมยอดกระแสชั่วขณะตอนเปลี่ยน (หน้า 8.4)</p>
+        <p>ภาระก็สำคัญ: มอเตอร์เปล่าเร่งถึงความเร็วในไม่ถึงวินาที ส่วนพัดลมหรือปั๊มที่มีความเฉื่อยมาก และสายพานที่มีของ (แรงบิดคงที่) ใช้เวลานานกว่าหลายเท่า ผู้ควบคุมคนเดียวกันจึงต้องจำจังหวะของเครื่องแต่ละเครื่อง และไม่มีอะไรในวงจรกันการกดเร็วเกินไป</p></div>
+      <div data-l="en"><p>Hughes describes the manual star-delta starter: the operator watches the ammeter until the current has fallen, or listens until the speed sounds steady, and then changes to delta; automatic versions detect the falling current, the rising speed, or act after a set time. Herman (EMC9) points out that a motor’s current stays high for most of the run-up and falls steeply only near full speed, so the earlier the change to delta, the higher the second current. The dashed horizontal line in the chart is at 85 % of synchronous speed; one maker (ABB) recommends changing at no less than about 85 % of rated speed, which is close to it. The current values are examples from the site’s motor model and leave out the short extra peak at the change itself (page 8.4).</p>
+        <p>The load matters as well: a motor without load runs up in less than a second, while a fan or pump with a large inertia, or a loaded conveyor (constant torque), takes several times longer. The same operator has to remember the timing of every machine, and nothing in the circuit stops a press that comes too early.</p></div></div>
+</section>
+
+<section class="prob" id="ex1">
+  <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">จากรูป 7.3 เป็นแบบวงจรของวิชา</h2><h2 data-l="en">From Fig. 7.3 to the course drawing</h2>
+    <div class="src" data-l="th">โจทย์ตัวอย่าง · ตำราไทย บทที่ 7 หัวข้อ 1.1 รูป 7.3</div><div class="src" data-l="en">Worked example · Thai textbook ch. 7 §1.1, Fig. 7.3</div></div></div>
+  <div class="story in">
+    <div class="story-t">
+      <div class="given" data-l="th"><div class="gl">โจทย์</div><p>รูป 7.3 ของตำราไทย (หัวข้อ 0) เป็นวงจรควบคุมด้วยมือแบบสตาร์ก่อน (ก) เทียบชื่ออุปกรณ์ในรูปกับชื่อของวิชา (ข) กด S2 แล้วปล่อย อะไรเกิดขึ้นตามลำดับ และทำไม K2 จึงยังดูดอยู่หลังปล่อย S2 (ค) กด S3 แล้วอะไรเกิดขึ้น ทำไม K3 จึงไม่ต้องมีหน้าสัมผัสค้างของตัวเอง และทำไม S3 จึงมีแค่หน้าสัมผัสปกติปิด (ง) เขียนวงจรนี้ใหม่ตามแบบ IEC ของวิชา พร้อมเลขขั้ว ตารางอ้างอิง และหลอดสามดวง แล้วลองในภาพจำลอง</p></div>
+      <div class="given" data-l="en"><div class="gl">Problem</div><p>Fig. 7.3 of the Thai textbook (section 0) is a manual star-first circuit. (a) Match the device names in the figure to the course names. (b) Press S2 and release it: what happens, in order, and why does K2 stay in after S2 is released? (c) Press S3: what happens, why does K3 need no holding contact of its own, and why does S3 need only a normally closed contact? (d) Redraw the circuit to the course’s IEC practice with terminal numbers, cross-references and three lamps, then try it in the simulator.</p></div></div>
+    <div class="story-f"><figure class="slide sm"><img src="img/book/book1_fig7_3_manual_star_first.jpg?v=18" width="912" height="820" loading="lazy" decoding="async" alt="Thai textbook Fig. 7.3, the manual star-first control circuit, shown again for the worked example.">
+      <figcaption data-l="th">รูป 7.3 วงจรควบคุมสตาร์–เดลตาด้วยมือ · ที่มา: ธนภัทร ไพคำนาม (2104-2009), บทที่ 7 หน้า 128 · แตะรูปเพื่อขยาย</figcaption>
+      <figcaption data-l="en">Fig. 7.3, manual star-delta control · source: Thanaphat Phaikhamnam (2104-2009), ch. 7, p. 128 · tap to enlarge</figcaption></figure></div>
+  </div>
+  <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">สตาร์–เดลตาด้วยมือ</div><div class="src" data-l="en">Manual star-delta control</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3>
+    <ol><li>หัวข้อ A: ขณะมอเตอร์เป็นเดลตา คลิก F2 แล้วรีเซ็ต หลอดใดติดบ้างในแต่ละขั้น และมอเตอร์เดินเองหรือไม่หลังรีเซ็ต</li>
+      <li>หัวข้อ B: ในแบบสตาร์ก่อน ถ้าคอยล์ KM1 ขาด กด S2 ค้างไว้แล้วจะเห็นอะไร และปล่อย S2 แล้วเกิดอะไรขึ้น เทียบกับแบบหลักก่อนที่คอยล์ KM2 ขาด</li>
+      <li>หัวข้อ D: ใช้ภาระ "สายพานที่มีของ" กด S2 แล้วรอให้ถึง 85 % ก่อนกด S3 ใช้เวลากี่วินาที ถ้าต้องตั้งตัวตั้งเวลาให้เครื่องนี้ จะตั้งเท่าไร (หน้า 8.4)</li>
+      <li>วาดวงจรของหัวข้อ A ลงกระดาษ ใส่เลขขั้วทุกหน้าสัมผัส เลขทางเดินกระแส ตารางอ้างอิงใต้คอยล์ KM1 KM2 KM3 และอินเตอร์ล็อกทางกล แล้วเทียบกับภาพจำลอง</li></ol>
+    <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 7 หัวข้อ 1.1–1.2 · Herman, <i>Electric Motor Control</i> 9th ed. หน่วยที่ 25 และ 29 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 26 · Hughes, <i>Electric Motors and Drives</i> 3rd ed. บทที่ 6 · IEC 60204-1 ข้อ 7.5, 9.3.4 และ 10.2.1 · IEC 60947-4-1 ภาคผนวก F · IEC 60617 S00154</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3>
+    <ol><li>Section A: with the motor in delta, click F2, then reset it. Which lamps light at each step, and does the motor restart by itself after the reset?</li>
+      <li>Section B: in the star-first circuit, if coil KM1 were open, what would you see while S2 is held, and what happens when S2 is released? Compare with the main-first circuit with an open coil KM2.</li>
+      <li>Section D: with the “loaded conveyor” load, press S2 and wait for 85 % before pressing S3. How many seconds did it take? If you had to set a timer for this machine, what would you set (page 8.4)?</li>
+      <li>Draw the circuit of section A on paper with every terminal number, the path numbers, the cross-references under KM1, KM2 and KM3 and the mechanical interlock, then compare it with the simulator.</li></ol>
+    <div class="book">Thai textbook <i>Motor Control</i>, ch. 7 §1.1–1.2 · Herman, <i>Electric Motor Control</i>, 9th ed., units 25 and 29 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 26 · Hughes, <i>Electric Motors and Drives</i>, 3rd ed., ch. 6 · IEC 60204-1, 7.5, 9.3.4 and 10.2.1 · IEC 60947-4-1, Annex F · IEC 60617 S00154</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui, tt = ED.tt, fd = ED.fd;
+  const hid = spec => new RL.Sim(document.createElement('div'), spec, { sheet: false });   // hidden simulator for the summaries (same model as the page)
+  const fresh = box => { box.innerHTML = ''; const el = document.createElement('div'); box.appendChild(el); return el; };   // a fresh element drops the old listeners
+  const tap = (s, ...ids) => ids.forEach(id => { s.press(id, true); s.press(id, false); });
+  const adv = (s, sec, f) => { let l = sec; while (l > 1e-9) { const d = Math.min(0.01, l); s.step(d); l -= d; if (f) f(s); } };
+  const KMS = ['KM1', 'KM2', 'KM3'], LAMPS = ['H1', 'H2', 'H3', 'H4'];
+  const PLATE = { H1: ['สตาร์', 'STAR'], H2: ['เดลตา', 'DELTA'], H3: ['โอเวอร์โหลด', 'OVERLOAD'], H4: ['หยุดอยู่', 'STOPPED'] };
+  const kin = s => KMS.filter(k => s.dev[k] && s.dev[k].energized).join(' + ') || '–';
+  const lit = s => LAMPS.filter(h => s.dev[h] && s.dev[h].energized).map(h => `${h} ${tt(PLATE[h])}`).join(', ') || '–';
+  const MOT = s => { const d = s.sd(); return d === 'star' ? t('สตาร์', 'star') : d === 'delta' ? t('เดลตา', 'delta') : d === 'short' ? t('ลัดวงจร', 'short circuit') : d === 'open' ? t('ปลายขดลวดเปิด', 'winding ends open') : (s.sdw || 0) > 0.03 ? t('หมุนฟรีจนหยุด', 'coasting') : t('หยุด', 'stopped'); };
+  const pc = w => `${Math.round((w || 0) * 100)} %`;
+  const jump = w => ED.motor(Math.max(1e-4, 1 - (w || 0))).i;   // delta line current at this speed (× I_N, example model)
+  const I_STAR = ED.motor(1).i / 3, I_DOL = ED.motor(1).i;
+  $('iStarB').textContent = fd(I_STAR, 1); $('iStarBen').textContent = fd(I_STAR, 1);
+  const pill = (txt, k) => `<span class="rk-${k}">${txt}</span>`;
+  const snap = s => { const o = { mains: String(s.mains) }; Object.values(s.dev).forEach(d => { o[d.id] = `${d.pressed}|${d.on}|${d.tripped}|${d.blown}`; }); return o; };
+  const noCoil = (sp, id) => { sp.els = sp.els.filter(e => !(e.k === 'coil' && e.d === id)); return sp; };   // a spec with one coil taken out (freezes the first moment)
+
+  /* one tracker per simulator: a log row for every press, click and power cut, explained from the state before and after.
+     o: { log, tag(), label(), sf() (star first?), extra(s, b, A) → cell or null } */
+  const tracker = o => { let sim = null, was = null, B = null;
+    const stOf = s => ({ sd: s.sd(), k: kin(s), w: s.sdw || 0 });
+    const attach = s => { sim = s; was = snap(s); B = stOf(s); s.on(ev); };
+    const ev = s => { if (s !== sim) return; const now = snap(s), ch = Object.keys(now).filter(k => now[k] !== was[k]), b = B, A = stOf(s); was = now; B = A;
+      const two = ch.includes('S2') && ch.includes('S3') && s.dev.S2.pressed && s.dev.S3.pressed;
+      const pick = two ? 'S2+S3' : ch.find(k => /^S[123]$/.test(k)) || ch.find(k => k === 'mains') || ch.find(k => ['Q1', 'F1', 'F2'].includes(k));
+      if (!pick || (pick === 'mains' && !s.mains)) return;
+      const act = pick === 'mains' ? 'cut' : /^S/.test(pick) ? (two || s.dev[pick].pressed ? 'press' : 'release') : 'toggle';
+      if (act === 'release' && A.sd === b.sd && A.k === b.k) return;
+      const who = pick === 'S2+S3' ? t('กด S2 + S3 พร้อมกัน', 'press S2 + S3 together') : act === 'press' ? t(`กด ${pick}`, `press ${pick}`) : act === 'release' ? t(`ปล่อย ${pick}`, `release ${pick}`) : act === 'cut' ? t('ไฟดับแล้วกลับมา', 'power fails and returns') : t(`คลิก ${pick}`, `click ${pick}`);
+      const sf = o.sf ? o.sf() : false, r = explain(pick, act, b, A, s, sf); if (!r) return;
+      o.log.add(`${o.tag()}|${r[2]}`, [tt(o.label()), who, A.k, lit(s), r[0]], r[1]); if (o.after) o.after(pick, act, b, A, s); };
+    return { attach }; };
+  /* the reason for what happened: [text, kind, key] */
+  function explain(pick, act, b, A, s, sf) {
+    const st = C8.state(s);
+    if (A.sd === 'short' && b.sd !== 'short') return [t('KM2 และ KM3 ต่อพร้อมกัน: สายทั้งสามลัดถึงกันที่จุดสตาร์ Q1 ตัด คลิก Q1 เพื่อสับกลับ', 'KM2 and KM3 closed together: the three lines are shorted at the star point; Q1 trips. Click Q1 to switch it on again'), 'bad', 'short'];
+    if (pick === 'mains') return A.sd ? [t('มอเตอร์เดินเองหลังไฟกลับ!', 'the motor restarted by itself after the power returned!'), 'bad', 'cut1'] : [t('คอนแทกเตอร์หลุดเมื่อไฟดับ และไม่ดูดเองเมื่อไฟกลับ ต้องกด S2 ใหม่ (IEC 60204-1 ข้อ 7.5)', 'the contactors dropped out when the power failed and do not pull in again when it returns: S2 must be pressed again (IEC 60204-1, 7.5)'), 'ok', 'cut'];
+    if (pick === 'Q1') return s.dev.Q1.on ? (A.sd ? [t('สับ Q1 แล้วมอเตอร์เดินทันที!', 'Q1 on and the motor runs at once!'), 'bad', 'q1on1'] : [t('สับ Q1 กลับ ไม่มีอะไรเดินเอง', 'Q1 on again: nothing restarts by itself'), 'ok', 'q1on']) : [t('ไม่มีไฟทั้งวงจรกำลังและวงจรควบคุม ทุกตัวหลุด', 'no supply to the power or the control circuit: everything drops out'), 'ok', 'q1off'];
+    if (pick === 'F1') return s.dev.F1.blown ? [t('F1 ขาด วงจรควบคุมไม่มีไฟ ทุกตัวหลุด', 'F1 blown: the control circuit is dead and everything drops out'), 'warn', 'f1'] : [t('เปลี่ยน F1 แล้ว ไม่มีอะไรเดินเอง', 'F1 replaced: nothing restarts by itself'), 'ok', 'f1r'];
+    if (pick === 'F2') { if (s.dev.F2.tripped) return b.sd ? [t('F2 95–96 เปิด ทุกคอนแทกเตอร์หลุด มอเตอร์หยุด H3 โอเวอร์โหลดติด (รับไฟก่อน 95–96) และ H4 หยุดอยู่ติด', 'F2 95–96 opens, every contactor drops out and the motor stops; H3 overload lights (it is fed ahead of 95–96) and H4 stopped lights'), 'ok', 'f2'] : [t('F2 ตัดตอนมอเตอร์หยุดอยู่: H3 ติด กด S2 ก็ไม่มีอะไรเดินจนกว่าจะรีเซ็ต', 'F2 trips with the motor stopped: H3 lights, and S2 does nothing until it is reset'), 'ok', 'f2idle'];
+      return A.sd ? [t('รีเซ็ตแล้วมอเตอร์เดินเอง!', 'reset and the motor restarted!'), 'bad', 'f2r1'] : [t('รีเซ็ต F2 แล้วไม่มีอะไรเดินเอง KM1 13–14 เปิดไปแล้ว ต้องกด S2 ใหม่', 'F2 reset: nothing restarts by itself; KM1 13–14 has opened, so S2 must be pressed again'), 'ok', 'f2r']; }
+    if (pick === 'S1') { if (act !== 'press' || !b.sd) return null; return A.sd ? [t('กด S1 แล้วมอเตอร์ยังหมุน!', 'S1 pressed and the motor still runs!'), 'bad', 's1x'] : [t(`S1 11–12 เปิด ทุกทางเดินกระแสขาด ${b.k} หลุด H4 ติด`, `S1 11–12 opens every path: ${b.k} drop out and H4 lights`), 'ok', `s1${b.sd}`]; }
+    if (pick === 'S2+S3') { if (A.sd === 'delta' && !b.sd) return [t(`ข้ามขั้นสตาร์: S2 สั่ง KM1 แต่ S3 21–22 กัน KM2 ไว้ และ S3 13–14 สั่ง KM3 ผ่าน KM2 21–22 ทันที มอเตอร์เริ่มเดินแบบเดลตาจากหยุดนิ่ง กระแสเท่าสตาร์ทตรง (${fd(I_DOL, 1)} × I<sub>N</sub> ในแบบจำลอง) วงจรด้วยมือไม่มีอะไรกันกรณีนี้`, `the star step is skipped: S2 starts KM1, S3 21–22 keeps KM2 out and S3 13–14 starts KM3 through KM2 21–22 at once. The motor starts in delta from standstill with direct-start current (${fd(I_DOL, 1)} × I<sub>N</sub> in the model). Nothing in the manual circuit prevents this`), 'bad', 'both'];
+      return [`${t('ผล', 'result')}: ${st[0]}`, 'warn', `both|${A.sd}`]; }
+    if (pick === 'S2') { if (act !== 'press') return [`${st[0]}`, 'warn', `s2r|${A.sd}`];
+      if (!b.sd && A.sd === 'star') return sf ? [t('KM2 ดูดก่อน (จุดสตาร์ต่อแล้วแต่ยังไม่มีแรงดัน เพราะ KM1 ยังเปิด) แล้ว KM2 13–14 ส่งไฟให้ KM1 KM1 ดูดและต่อกระแสเริ่มเดิน KM1 13–14 ค้างจุดค้าง และ KM1 83–84 ค้าง KM1 ไว้หลัง KM2 หลุด · H1 ติด H4 ดับ', 'KM2 pulls in first (the star point is made but there is no voltage yet, because KM1 is still open), then KM2 13–14 feeds KM1: KM1 pulls in and makes the starting current. KM1 13–14 holds the hold node and KM1 83–84 keeps KM1 in after KM2 drops out · H1 on, H4 off'), 'ok', 'start']
+        : [t('KM1 ดูดและค้างตัวเองด้วย 13–14 (ปลาย U1 V1 W1 มีไฟ แต่ W2 U2 V2 ยังเปิด จึงยังไม่มีกระแส) แล้ว KM1 83–84 ส่งไฟให้ KM2 ผ่าน S3 21–22 และ KM3 21–22 KM2 ต่อจุดสตาร์และต่อกระแสเริ่มเดิน มอเตอร์เร่งความเร็วแบบสตาร์ · H1 ติด H4 ดับ', 'KM1 pulls in and holds itself through 13–14 (U1 V1 W1 are live but W2 U2 V2 are still open, so no current flows yet), then KM1 83–84 feeds KM2 through S3 21–22 and KM3 21–22. KM2 makes the star point and the starting current; the motor runs up in star · H1 on, H4 off'), 'ok', 'start'];
+      if (b.sd === 'delta' && A.sd === 'delta') return [t('ไม่มีอะไรเปลี่ยน: KM3 21–22 เปิดอยู่ในทางของ KM2 กด S2 ซ้ำจึงไม่ทำให้กลับไปเป็นสตาร์', 'nothing changes: KM3 21–22 is open in the KM2 path, so pressing S2 again cannot bring back star'), 'ok', 's2delta'];
+      if (b.sd === 'star' && A.sd === 'star') return [t('เป็นสตาร์อยู่แล้ว ไม่มีอะไรเปลี่ยน', 'already in star: nothing changes'), 'ok', 's2star'];
+      if (!A.sd) return [`${t('ไม่มีอะไรเริ่ม', 'nothing starts')}: ${st[0]}${st[1] ? ' · ' + st[1] : ''}`, 'warn', `s2none|${st[0]}`];
+      return [`${st[0]}${st[1] ? ' · ' + st[1] : ''}`, 'warn', `s2|${A.sd}`]; }
+    if (pick === 'S3') { if (act !== 'press') return [`${st[0]}`, 'warn', `s3r|${A.sd}`];
+      if (!b.sd && !A.sd) return [t('ไม่มีอะไรเกิดขึ้น: ทางเดินกระแสของ KM3 รับไฟจากจุดค้างใต้ S2 ซึ่งยังไม่มีไฟจนกว่า KM1 จะดูด', 'nothing happens: the KM3 path is fed from the hold node below S2, which has no voltage until KM1 is in'), 'ok', 's3rest'];
+      if (b.sd === 'star' && A.sd === 'delta') { const j = jump(b.w), early = b.w < 0.85;
+        return [t(`S3 21–22 ปลด KM2 ก่อน (ขดลวดหลุดจากแหล่งจ่ายชั่วขณะ) แล้ว S3 13–14 สั่ง KM3 ผ่าน KM2 21–22 ที่กลับมาต่อ KM3 ค้างตัวเองด้วย 13–14 · เปลี่ยนที่ความเร็ว ${pc(b.w)} กระแสสายหลังเปลี่ยน ${fd(j, 1)} × I<sub>N</sub>`, `S3 21–22 drops KM2 first (the windings are off the supply for a moment), then S3 13–14 starts KM3 through KM2 21–22, which has closed again; KM3 holds itself through 13–14 · changed at ${pc(b.w)} speed, line current after the change ${fd(j, 1)} × I<sub>N</sub>`)
+          + (early ? t(' · เร็วไป: มอเตอร์ยังไม่ถึง 85 % (หัวข้อ D)', ' · too early: the motor was below 85 % (section D)') : ''), early ? 'warn' : 'ok', early ? 'delta-early' : 'delta']; }
+      if (b.sd === 'delta') return [t('เป็นเดลตาอยู่แล้ว ไม่มีอะไรเปลี่ยน', 'already in delta: nothing changes'), 'ok', 's3delta'];
+      if (!b.sd && A.sd === 'delta') return [t('มอเตอร์เริ่มเดินแบบเดลตาจากหยุดนิ่ง กระแสเท่าสตาร์ทตรง!', 'the motor starts in delta from standstill: direct-start current!'), 'bad', 's3dol'];
+      return [`${st[0]}${st[1] ? ' · ' + st[1] : ''}`, 'warn', `s3|${A.sd}`]; }
+    return null; }
+  const COLS = [['วงจร', 'circuit'], ['สิ่งที่ทำ', 'action'], ['คอนแทกเตอร์ที่ดูด', 'contactors in'], ['หลอดที่ติด', 'lamps lit'], ['ความหมาย', 'what it means']];
+  /* readout of speed and line current under a panel (model values, example) */
+  const readout = (el, s) => { const w = s.sdw || 0, i = s.running() || s.sd() === 'open' ? (s.sdIL || 0) : 0;
+    el.innerHTML = `${t('ความเร็ว', 'speed')} <b>${pc(w)}</b> · ${t('กระแสสาย', 'line current')} <b>${fd(i, 2)} × I<sub>N</sub></b> <span style="color:var(--muted)">(${t('ค่าตัวอย่างจากแบบจำลอง', 'example values from the model')})</span>`; };
+  const sizeBox = (sim, box) => { const vb = sim.el.querySelector('svg').viewBox.baseVal.width; sim.o.max = Math.round(1.1 * vb); sim.render(); box.style.setProperty('--rlmin', `${Math.round(0.9 * vb)}px`); };
+
+  /* A: the course manual circuit (main first) with the panel front */
+  const boxA = $('boxA'), pA = $('pA');
+  const simA = new RL.Sim(fresh(boxA), C8.MANUAL(), { max: 1250, label: 'manual star-delta control with push buttons, main contactor first' }); sizeBox(simA, boxA);
+  ui.h2(pA, t('หน้าตู้และการสั่งงาน', 'Panel front and controls'));
+  const pnA = C8.panel(pA, simA); const rdA = document.createElement('div'); rdA.className = 'simnote'; pA.appendChild(rdA);
+  const logA = new ED.Log($('logA'), COLS, { empty: ['ยังไม่มีผล กด S2 ที่หน้าตู้', 'No results yet: press S2 on the panel front'] });
+  tracker({ log: logA, tag: () => 'A', label: () => ['หลักก่อน', 'main first'] }).attach(simA);
+  let accA = 0;
+  LS.anim($('tA'), dt => { simA.step(dt); accA += dt; if (accA > 0.1) { accA = 0; readout(rdA, simA); pnA.refresh(); } });
+  /* summary of A from hidden simulators: the same circuit, the same actions */
+  const rowSim = (f, seq) => { const s = hid(f()); C8.runSeq(s, seq); return s; };
+  const cellRun = s => `${kin(s)} · ${MOT(s)}`;
+  const TESTS_A = [
+    [['ขณะหยุดอยู่', 'at rest'], []],
+    [['กด S3 เดลตา ขณะหยุดอยู่', 'S3 delta at rest'], [['tap', 'S3']]],
+    [['กด S2 แล้วปล่อย', 'S2 pressed and released'], [['tap', 'S2'], ['wait', 1]]],
+    [['จากนั้นกด S3 แล้วปล่อย', 'then S3 pressed and released'], [['tap', 'S2'], ['wait', 1], ['tap', 'S3'], ['wait', 0.5]]],
+    [['กด S2 ซ้ำขณะเป็นเดลตา', 'S2 again while in delta'], [['tap', 'S2'], ['wait', 1], ['tap', 'S3'], ['wait', 0.5], ['tap', 'S2']]],
+    [['กด S1 ขณะเป็นเดลตา', 'S1 while in delta'], [['tap', 'S2'], ['wait', 1], ['tap', 'S3'], ['wait', 0.5], ['tap', 'S1'], ['wait', 4]]],
+    [['F2 ตัดขณะเป็นเดลตา', 'F2 trips while in delta'], [['tap', 'S2'], ['wait', 1], ['tap', 'S3'], ['wait', 0.5], ['toggle', 'F2'], ['wait', 4]]],
+    [['F2 ตัดแล้วรีเซ็ต', 'F2 trips, then reset'], [['tap', 'S2'], ['wait', 1], ['tap', 'S3'], ['wait', 0.5], ['toggle', 'F2'], ['wait', 4], ['toggle', 'F2'], ['wait', 1]]],
+    [['ไฟดับแล้วกลับมาขณะเป็นเดลตา', 'power fails and returns in delta'], [['tap', 'S2'], ['wait', 1], ['tap', 'S3'], ['wait', 0.5], ['cut'], ['wait', 4]]]];
+  ED.summary($('sumA'), { intro: ['ผลจากแบบจำลองเดียวกับภาพจำลอง (วงจรของวิชา หลักก่อน)', 'Results from the same model as the simulator (the course circuit, main first)'],
+    head: [['สิ่งที่ทำ', 'action'], ['คอนแทกเตอร์ · มอเตอร์', 'contactors · motor'], ['หลอดที่ติด', 'lamps lit']],
+    rows: () => TESTS_A.map(([lab, seq]) => { const s = rowSim(() => C8.MANUAL(), seq); return [tt(lab), cellRun(s), lit(s)]; }),
+    points: [['กด S2 แล้ว KM1 ดูดก่อน KM2 จึงตามมาผ่าน KM1 83–84 ปล่อย S2 แล้วยังเป็นสตาร์ เพราะ KM1 13–14 ค้างจุดค้างไว้', 'S2 pulls KM1 in first and KM2 follows through KM1 83–84; star stays after S2 is released because KM1 13–14 holds the hold node.'],
+      ['กด S3 แล้ว KM2 หลุดก่อน KM3 จึงดูด และค้างด้วย KM3 13–14 กด S2 ซ้ำไม่ทำให้กลับเป็นสตาร์ เพราะ KM3 21–22 เปิดอยู่', 'S3 drops KM2 before KM3 pulls in, and KM3 holds through 13–14; S2 again cannot bring back star, because KM3 21–22 is open.'],
+      ['กด S3 ตอนหยุดอยู่ไม่มีผล จุดค้างยังไม่มีไฟ', 'S3 at rest does nothing: the hold node has no voltage.'],
+      ['S1, F2 ตัด และไฟดับ ทำให้ทุกตัวหลุด และไม่มีกรณีใดที่มอเตอร์เดินเองหลังรีเซ็ตหรือไฟกลับ', 'S1, an F2 trip and a power failure drop everything out, and in no case does the motor restart by itself after a reset or when the power returns.'],
+      ['หลอดบอกสถานะจริง: H1 สตาร์ H2 เดลตา H3 โอเวอร์โหลด H4 หยุดอยู่', 'The lamps show the real state: H1 star, H2 delta, H3 overload, H4 stopped.']] });
+
+  /* B: main first or star first */
+  const ORD = { main: { f: () => C8.MANUAL(), lab: ['หลักก่อน (วงจรของวิชา รูป 7.4)', 'main first (course circuit, Fig. 7.4)'], short: ['หลักก่อน', 'main first'] },
+    star: { f: () => C8.MANUAL({ starFirst: true }), lab: ['สตาร์ก่อน (รูป 7.3)', 'star first (Fig. 7.3)'], short: ['สตาร์ก่อน', 'star first'] } };
+  /* the two moments of a start from the model: take out the coil of each contactor in turn; the one that still pulls in alone closes first */
+  const seqOf = f => { const a = hid(noCoil(f(), 'KM2')), b = hid(noCoil(f(), 'KM1')); a.press('S2', true); b.press('S2', true);
+    const first = a.dev.KM1.energized && !b.dev.KM2.energized ? 'KM1' : b.dev.KM2.energized && !a.dev.KM1.energized ? 'KM2' : '?', mid = first === 'KM1' ? a : b;
+    const full = hid(f()); full.press('S2', true); return { first, second: first === 'KM1' ? 'KM2' : first === 'KM2' ? 'KM1' : '?', mid: mid.sd(), end: full.sd() }; };
+  const MID = sd => (sd === 'open' ? t('U1 V1 W1 มีไฟ แต่ W2 U2 V2 ยังเปิด: ไม่มีกระแส ไม่มีแรงบิด', 'U1 V1 W1 live but W2 U2 V2 still open: no current, no torque') : sd === 0 ? t('จุดสตาร์ต่อแล้ว แต่ไม่มีแรงดันที่ขดลวด: ไม่มีกระแส', 'star point made, but no voltage on the windings: no current') : String(sd));
+  let oB = 'main', simB = null, pnB = null;
+  const mB = $('mB'), boxB = $('boxB'), pB = $('pB');
+  ui.h2(mB, t('ลำดับการต่อของคอนแทกเตอร์', 'Order of the contactors'));
+  ui.radio(mB, Object.keys(ORD).map(k => ({ id: k, label: tt(ORD[k].lab), on: k === oB })), id => { oB = id; buildB(); });
+  const logB = new ED.Log($('logB'), COLS, { empty: ['ยังไม่มีผล กด S2 ที่หน้าตู้', 'No results yet: press S2 on the panel front'] });
+  const trB = tracker({ log: logB, tag: () => oB, label: () => ORD[oB].short, sf: () => oB === 'star' });
+  const seqTable = k => { const q = seqOf(ORD[k].f);
+    const H = [t('จังหวะ', 'moment'), t('คอนแทกเตอร์ที่ปิด', 'contactors closed'), t('ขดลวดเห็นอะไร', 'what the windings see'), t('ใครต่อกระแส', 'who makes the current')];
+    return `<table class="tbl stack" style="margin-top:8px"><tr>${H.map(h => `<th>${h}</th>`).join('')}</tr>
+      <tr><td data-h="${H[0]}">1</td><td data-h="${H[1]}">${q.first}</td><td data-h="${H[2]}">${MID(q.mid)}</td><td data-h="${H[3]}">${t(`${q.first} ปิดโดยไม่มีกระแส`, `${q.first} closes without current`)}</td></tr>
+      <tr><td data-h="${H[0]}">2</td><td data-h="${H[1]}">${q.first} + ${q.second}</td><td data-h="${H[2]}">${q.end === 'star' ? t(`สตาร์: ขดลวดละ 1/√3 ของแรงดันสาย กระแสเริ่มเดินราว ${fd(I_STAR, 1)} × I<sub>N</sub>`, `star: 1/√3 of the line voltage per winding, starting current about ${fd(I_STAR, 1)} × I<sub>N</sub>`) : String(q.end)}</td><td data-h="${H[3]}"><b>${t(`${q.second} ต่อกระแสเริ่มเดิน`, `${q.second} makes the starting current`)}</b></td></tr></table>`; };
+  function buildB() {
+    $('seqB').innerHTML = `<h3 style="margin:10px 0 0">${t('สองจังหวะของการเริ่มเดิน', 'Two moments of a start')}: ${tt(ORD[oB].short)}</h3>` + seqTable(oB);
+    simB = new RL.Sim(fresh(boxB), ORD[oB].f(), { max: 1250, label: `manual star-delta control, ${oB === 'main' ? 'main' : 'star'} contactor first` }); sizeBox(simB, boxB);
+    pB.innerHTML = ''; ui.h2(pB, t('หน้าตู้และการสั่งงาน', 'Panel front and controls')); pnB = C8.panel(pB, simB); trB.attach(simB); }
+  buildB();
+  let accB = 0;
+  LS.anim($('tB'), dt => { if (!simB) return; simB.step(dt); accB += dt; if (accB > 0.1) { accB = 0; pnB.refresh(); } });
+  ED.summary($('sumB'), { intro: ['ผลจากแบบจำลองเดียวกับภาพจำลอง', 'Results from the same model as the simulator'],
+    head: [['ลำดับ', 'order'], ['ปิดก่อน (ไม่มีกระแส)', 'closes first (no current)'], ['ขดลวดระหว่างสองจังหวะ', 'windings between the two moments'], ['ต่อกระแสเริ่มเดิน', 'makes the starting current'], ['กด S3 ขณะสตาร์', 'S3 while in star'], ['กด S3 ขณะหยุดอยู่', 'S3 at rest']],
+    rows: () => Object.keys(ORD).map(k => { const q = seqOf(ORD[k].f), a = rowSim(ORD[k].f, [['tap', 'S2'], ['wait', 1], ['tap', 'S3']]), r = rowSim(ORD[k].f, [['tap', 'S3']]);
+      return [tt(ORD[k].short), q.first, MID(q.mid), `<b>${q.second}</b>`, cellRun(a), r.sd() ? cellRun(r) : t('ไม่มีผล', 'nothing')]; }),
+    points: [['สองแบบเริ่มเดินแบบสตาร์และเปลี่ยนเป็นเดลตาเหมือนกันทุกอย่าง ต่างกันแค่ลำดับที่ KM1 กับ KM2 ปิด', 'Both orders start in star and change to delta in exactly the same way; only the order in which KM1 and KM2 close differs.'],
+      ['หลักก่อน: KM1 ปิดก่อนโดยไม่มีกระแส (ปลายขดลวดยังเปิด) KM2 เป็นตัวต่อกระแสเริ่มเดิน', 'Main first: KM1 closes first without current (the winding ends are still open) and KM2 makes the starting current.'],
+      ['สตาร์ก่อน: KM2 ปิดก่อนโดยไม่มีแรงดัน KM1 เป็นตัวต่อกระแสเริ่มเดิน', 'Star first: KM2 closes first without voltage and KM1 makes the starting current.'],
+      ['ทั้งสองแบบ ตอนเปลี่ยนเป็นเดลตา KM2 ตัดกระแสสตาร์และ KM3 ต่อกระแสเดลตา', 'In both, at the change to delta KM2 breaks the star current and KM3 makes the delta current.']] });
+
+  /* D: the operator times the change (panel front only) with a live chart of speed and line current */
+  const LOADS = { none: { L: null, lab: ['มอเตอร์เปล่า (มอเตอร์ในห้องปฏิบัติการ)', 'motor without load (the lab motor)'], short: ['มอเตอร์เปล่า', 'no load'] },
+    fan: { L: { J: 10, TL: 0.3, type: 'fan' }, lab: ['พัดลมหรือปั๊ม (ความเฉื่อยมาก)', 'fan or pump (large inertia)'], short: ['พัดลม/ปั๊ม', 'fan/pump'] },
+    conv: { L: { J: 5, TL: 0.6, type: 'const' }, lab: ['สายพานที่มีของ (แรงบิดคงที่)', 'loaded conveyor (constant torque)'], short: ['สายพานมีของ', 'loaded conveyor'] } };
+  let lD = 'none', simD = null, pnD = null, trace = [], tNow = 0, started = false, swAt = null;
+  const mD = $('mD'), pD = $('pD'), chD = $('chD'), rdD = $('rdD');
+  ui.h2(mD, t('ภาระของมอเตอร์', 'Load on the motor'));
+  ui.radio(mD, Object.keys(LOADS).map(k => ({ id: k, label: tt(LOADS[k].lab), on: k === lD })), id => { lD = id; buildD(); });
+  const logD = new ED.Log($('logD'), [['ภาระ', 'load'], ['กด S3 หลัง S2', 'S3 after S2'], ['ความเร็วขณะเปลี่ยน', 'speed at the change'], ['กระแสหลังเปลี่ยน', 'current after the change'], ['ผล', 'result']],
+    { empty: ['ยังไม่มีผล กด S2 แล้วกด S3', 'No results yet: press S2, then S3'] });
+  const verdict = w => (w >= 0.95 ? ['good', ['ดี: เปลี่ยนใกล้ความเร็วเต็มที่ กระแสครั้งที่สองเล็ก', 'good: changed close to full speed, the second current is small'], 'ok']
+    : w >= 0.85 ? ['ok85', ['พอใช้: ถึง 85 % แล้ว กระแสครั้งที่สองต่ำกว่าสตาร์ทตรงมาก แต่ยังสูงกว่ากระแสตอนเริ่มเดินแบบสตาร์ ยิ่งรอให้ใกล้ความเร็วเต็มที่ยิ่งเล็ก', 'acceptable: 85 % reached; the second current is well below a direct start but still above the star starting current, and it gets smaller the closer the motor is to full speed'], 'ok']
+    : w >= 0.6 ? ['early', ['เร็วไป: กระแสครั้งที่สองสูง', 'too early: a high second current'], 'warn'] : ['dol', ['เร็วมาก: เกือบเท่าสตาร์ทตรง', 'much too early: almost a direct start'], 'bad']);
+  const logSwitch = (w, tsec) => { const v = verdict(w); logD.add(`${lD}|${v[0]}|${tsec === null ? 'both' : 'S3'}`, [tt(LOADS[lD].short), tsec === null ? t('S2 + S3 พร้อมกัน', 'S2 + S3 together') : `${fd(tsec, 1)} s`, pc(w), `${fd(jump(w), 1)} × I<sub>N</sub>`, tt(v[1])], v[2]); };
+  function buildD() {
+    simD = new RL.Sim(document.createElement('div'), C8.MANUAL(), { sheet: false, label: 'manual star-delta control (panel front only)' }); if (LOADS[lD].L) simD.sdLoad = { ...LOADS[lD].L };
+    pD.innerHTML = ''; ui.h2(pD, t('หน้าตู้ (ผู้ควบคุมเห็นแค่นี้)', 'Panel front (all the operator sees)')); pnD = C8.panel(pD, simD);
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = t('กด S2 + S3 พร้อมกัน (กดค้าง)', 'S2 + S3 together (hold)');
+    const set = v => { if (!!simD.dev.S2.pressed === v && !!simD.dev.S3.pressed === v) return; simD.dev.S2.pressed = v; simD.dev.S3.pressed = v; simD.update(); };
+    b.addEventListener('pointerdown', e => { e.preventDefault(); set(true); }); ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, () => set(false))); pnD.row.appendChild(b);
+    trace = []; tNow = 0; started = false; swAt = null; let prev = simD.sd();
+    simD.on(s => { const now = s.sd();
+      if (now === 'star' && prev !== 'star' && !prev) { trace = []; tNow = 0; started = true; swAt = null; }
+      if (now === 'delta' && prev !== 'delta') { const w = s.sdw || 0; if (!started) { trace = []; tNow = 0; started = true; } swAt = { t: tNow, w }; logSwitch(w, prev === 'star' ? tNow : null); }
+      prev = now; });
+    drawD(); }
+  const drawD = () => { const W = 640, H = 270, x0 = 52, x1 = 590, yT = 22, yB = 220, span = 12, iTop = 7, t0 = Math.max(0, tNow - span * 0.95), X = v => x0 + (x1 - x0) * (v - t0) / span;
+    const Yi = v => yB - (yB - yT) * Math.min(v, iTop) / iTop, Yw = v => yB - (yB - yT) * v; let s = '';
+    for (let v = 0; v <= iTop; v++) s += IEC.L(x0, Yi(v), x1, Yi(v), { col: 'var(--line)', dash: v ? '1 3' : '' }) + IEC.T(`${v}`, x0 - 5, Yi(v) + 3, { size: 9, anchor: 'end', col: 'var(--muted)' });
+    [0, 0.5, 1].forEach(v => { s += IEC.T(`${Math.round(v * 100)} %`, x1 + 5, Yw(v) + 3, { size: 9, col: 'var(--muted)' }); });
+    s += IEC.L(x0, Yw(0.85), x1, Yw(0.85), { col: 'var(--good)', dash: '6 4' }) + IEC.T('85 %', x0 + 4, Yw(0.85) - 4, { size: 9, col: 'var(--good)', weight: 700 });
+    for (let k = Math.ceil(t0); k <= t0 + span + 1e-9; k++) s += IEC.L(X(k), yT, X(k), yB, { col: 'var(--line)', dash: '1 4' }) + IEC.T(`${k}`, X(k), yB + 13, { size: 9, anchor: 'middle', col: 'var(--muted)' });
+    s += IEC.T(t('เวลาหลังกด S2 (s)', 'time after S2 (s)'), x1, yB + 27, { size: 9, anchor: 'end', col: 'var(--muted)' });
+    s += IEC.T(t('กระแสสาย (× I<tspan baseline-shift="sub" font-size="7">N</tspan>)', 'line current (× I<tspan baseline-shift="sub" font-size="7">N</tspan>)'), x0, yT - 8, { size: 9.5, weight: 700, col: 'var(--accent)' }) + IEC.T(t('ความเร็ว', 'speed'), x1 + 4, yT - 8, { size: 9.5, weight: 700, col: 'var(--muted)', anchor: 'end' });
+    const pts = trace.filter(q => q[0] >= t0);
+    if (pts.length > 1) { s += `<polyline points="${pts.map(q => `${fd(X(q[0]), 1)},${fd(Yw(q[1]), 1)}`).join(' ').replace(/−/g, '-')}" fill="none" stroke="var(--muted)" stroke-width="1.6" stroke-dasharray="3 2"/>`;
+      s += `<polyline points="${pts.map(q => `${fd(X(q[0]), 1)},${fd(Yi(q[2]), 1)}`).join(' ').replace(/−/g, '-')}" fill="none" stroke="var(--accent)" stroke-width="2.4"/>`; }
+    if (swAt && swAt.t >= t0) { const xs = X(swAt.t); s += IEC.L(xs, yT, xs, yB, { col: 'var(--bad)', w: 1.6, dash: '4 3' }) + IEC.T(t(`กด S3 ที่ ${pc(swAt.w)}`, `S3 at ${pc(swAt.w)}`), Math.min(xs + 4, x1 - 70), yT + 10, { size: 9.5, weight: 700, col: 'var(--bad)' }); }
+    if (!started) s += IEC.T(t('กราฟเริ่มเมื่อกด S2', 'the chart starts when S2 is pressed'), (x0 + x1) / 2, (yT + yB) / 2, { size: 11, anchor: 'middle', col: 'var(--muted)' });
+    s += IEC.L(x0 + 4, H - 14, x0 + 26, H - 14, { col: 'var(--accent)', w: 2.4 }) + IEC.T(t('กระแสสาย', 'line current'), x0 + 30, H - 10, { size: 9, col: 'var(--muted)' })
+      + IEC.L(x0 + 140, H - 14, x0 + 162, H - 14, { col: 'var(--muted)', w: 1.6, dash: '3 2' }) + IEC.T(t('ความเร็ว (แกนขวา)', 'speed (right axis)'), x0 + 166, H - 10, { size: 9, col: 'var(--muted)' });
+    chD.innerHTML = IEC.svg(W, H, s, { max: 680, label: 'speed and line current after the start button' }); readout(rdD, simD); };
+  buildD();
+  let accD = 0;
+  LS.anim($('tD'), dt => { if (!simD) return; simD.step(dt); if (started) { tNow += dt; const i = simD.running() || simD.sd() === 'open' ? (simD.sdIL || 0) : 0; trace.push([tNow, simD.sdw || 0, i]); if (trace.length > 2400) trace.shift(); }
+    accD += dt; if (accD > 0.08) { accD = 0; drawD(); pnD.refresh(); } });
+  /* summary of D from hidden simulators: run-up in star per load and the current after the change at different speeds */
+  const runUp = L => { const s = hid(C8.MANUAL()); if (L) s.sdLoad = { ...L }; tap(s, 'S2'); let tt0 = 0, t85 = null, w03 = 0; while (tt0 < 20 && t85 === null) { adv(s, 0.01); tt0 += 0.01; if (Math.abs(tt0 - 0.3) < 0.005) w03 = s.sdw || 0; if ((s.sdw || 0) >= 0.85) t85 = tt0; } if (t85 !== null && t85 < 0.3) w03 = Math.max(w03, 0.85); adv(s, 3); return { t85, wMax: s.sdw || 0, w03 }; };
+  ED.summary($('sumD'), { intro: ['ผลจากแบบจำลองเดียวกัน (ค่าตัวอย่าง)', 'Results from the same model (example values)'],
+    head: [['ภาระ', 'load'], ['ความเร็วสูงสุดในสตาร์', 'top speed in star'], ['กด S3 หลัง S2 0.3 s: ความเร็ว · กระแสหลังเปลี่ยน', 'S3 0.3 s after S2: speed · current after the change'], ['ถึง 85 % ในสตาร์หลัง', 'reaches 85 % in star after'], ['กด S3 ที่ 85 %: กระแสหลังเปลี่ยน', 'S3 at 85 %: current after the change']],
+    rows: () => Object.keys(LOADS).map(k => { const r = runUp(LOADS[k].L); return [tt(LOADS[k].short), pc(r.wMax), `${pc(r.w03)} · ${fd(jump(r.w03), 1)} × I<sub>N</sub>`, r.t85 === null ? t('ไม่ถึง', 'never') : `${fd(r.t85, 1)} s`, r.t85 === null ? '–' : `${fd(jump(0.85), 1)} × I<sub>N</sub>`]; }),
+    points: [[`ยิ่งกด S3 เร็ว กระแสหลังเปลี่ยนยิ่งใกล้ค่าสตาร์ทตรง (ราว ${fd(I_DOL, 1)} × I<sub>N</sub> ในแบบจำลองนี้) ประโยชน์ของการเริ่มเดินแบบสตาร์หายไป`, `The earlier S3 is pressed, the closer the current after the change comes to the direct-start value (about ${fd(I_DOL, 1)} × I<sub>N</sub> in this model): the benefit of the star start is lost.`],
+      ['เวลาที่เหมาะขึ้นกับภาระ: มอเตอร์เปล่าไม่ถึงวินาที เครื่องที่มีภาระนานกว่าหลายเท่า', 'The right moment depends on the load: well under a second for the motor alone, several times longer with a load.'],
+      ['การกด S2 กับ S3 พร้อมกันข้ามขั้นสตาร์ไปเลย วงจรด้วยมือไม่มีอะไรกัน ตัวตั้งเวลาในหน้า 8.4 แก้จุดอ่อนนี้', 'Pressing S2 and S3 together skips star altogether, and the manual circuit cannot prevent it; the timer of page 8.4 removes this weak point.']] });
+
+  /* worked example: Fig. 7.3 read step by step, then redrawn to IEC and simulated */
+  const DV = C8.DEV, w = (pts, dots) => (dots ? { k: 'w', pts, dots } : { k: 'w', pts }), vw = (x, y, h = 1) => ({ k: 'w', x, y, h });
+  const FIG73 = () => { const base = C8.MANUAL(), D = { Q1: DV.Q1(), F1: DV.F1(), F2: DV.F2(), S1: DV.S1(), S2: DV.S2m(), S3: DV.S3(), KM1: DV.KM1(), KM2: DV.KM2(), KM3: DV.KM3(), H1: DV.H1(), H2: DV.H2(), H3: DV.H3() };
+    const els = [{ k: 'fuse', d: 'F1', x: 0, y: 0, t: ['1', '2'] }, { k: 'NC', d: 'F2', x: 0, y: 1, t: ['95', '96'], op: 'thr' }, { k: 'NC', d: 'S1', x: 0, y: 2, t: ['11', '12'], op: 'pb' },
+      { k: 'NO', d: 'S2', x: 0, y: 3, t: ['13', '14'], op: 'pb' }, { k: 'NC', d: 'S3', x: 0, y: 4, t: ['21', '22'], op: 'pb' }, { k: 'NC', d: 'KM3', x: 0, y: 5, t: ['21', '22'] }, vw(0, 6), { k: 'coil', d: 'KM2', x: 0, y: 7, t: ['A1', 'A2'] },
+      w([[0, 4], [1, 4]], [0]), { k: 'NO', d: 'KM2', x: 1, y: 4, t: ['13', '14'] }, vw(1, 5, 2), { k: 'coil', d: 'KM1', x: 1, y: 7, t: ['A1', 'A2'] },
+      w([[0, 3], [2, 3]], [0]), { k: 'NO', d: 'KM1', x: 2, y: 3, t: ['13', '14'] }, vw(2, 4), w([[1, 5], [2, 5], [3, 5]], [0, 1]), { k: 'NC', d: 'KM2', x: 3, y: 5, t: ['21', '22'] }, vw(3, 6), { k: 'coil', d: 'KM3', x: 3, y: 7, t: ['A1', 'A2'] }];
+    [['H1', { k: 'NO', d: 'KM2', t: ['53', '54'] }], ['H2', { k: 'NO', d: 'KM3', t: ['53', '54'] }], ['H3', { k: 'NO', d: 'F2', t: ['97', '98'], op: 'thr' }]].forEach(([h, c], i) => { const x = 4 + i; els.push(vw(x, 1, 5), { ...c, x, y: 6 }, { k: 'lamp', d: h, x, y: 7, t: ['X1', 'X2'] }); });
+    els.push(w([[0, 1], [4, 1], [5, 1], [6, 1]], [0, 1, 2]));
+    return { ...base, devices: D, els }; };
+  let sim73 = null, pn73 = null;
+  LS.choose($('ask1'), { options: [t('K1 อย่างเดียว', 'K1 only'), t('K2 อย่างเดียว', 'K2 only'), t('K2 และ K1 (K2 ก่อน แล้ว K1)', 'K2 and K1 (K2 first, then K1)'), t('K1 และ K3', 'K1 and K3')], answer: 2,
+    labels: [t('(ก)', '(a)'), t('(ข)', '(b)'), t('(ค)', '(c)'), t('(ง)', '(d)')] });
+  LS.stepper($('st1'), { steps: [
+    { why: t('(ก) เทียบชื่ออุปกรณ์', '(a) Matching the names'), body: `<p>${t('K1 คอนแทกเตอร์หลัก → KM1 · K2 สตาร์ → KM2 · K3 เดลตา → KM3 · F3 โอเวอร์โหลด → F2 (95–96 ในวงจร 97–98 ไปหลอด) · F2 ฟิวส์วงจรควบคุม → F1 · S1 "OFF" → S1 หยุด (สีดำ) · S2 "STAR" → S2 เริ่มเดินแบบสตาร์ (สีขาว) · S3 "DELTA" → S3 เดลตา · H1 H2 H3 ชื่อเดิม (สีเขียว เขียว เหลือง) · ไฟ 220 V จาก L1 → 230 V ระหว่าง L1 กับ N หลัง Q1 พร้อม F1',
+      'K1 main contactor → KM1 · K2 star → KM2 · K3 delta → KM3 · F3 overload relay → F2 (95–96 in the circuit, 97–98 to the lamp) · F2 control fuse → F1 · S1 “OFF” → S1 stop (black) · S2 “STAR” → S2 start star (white) · S3 “DELTA” → S3 delta · H1 H2 H3 keep their names (green, green, yellow) · 220 V from L1 → 230 V between L1 and N after Q1, with F1')}</p>` },
+    { why: t('(ข) กด S2: K2 ดูดก่อน แล้ว K1', '(b) Press S2: K2 first, then K1'), body: `<p>${t('ไฟผ่าน S1 → S2 → S3 (ปกติปิด) → หน้าสัมผัสปกติปิดของ K3 → คอยล์ K2: K2 ดูดก่อน ตอนนี้ K1 ยังเปิด ขดลวดจึงยังไม่มีแรงดัน K2 ต่อจุดสตาร์โดยไม่มีกระแส แล้วหน้าสัมผัสปกติเปิดของ K2 ส่งไฟให้คอยล์ K1 K1 ดูดและเป็นตัวต่อกระแสเริ่มเดิน (สตาร์ก่อน หัวข้อ B) หน้าสัมผัสปกติเปิดของ K1 ที่ต่อจากจุดเหนือ S2 ค้าง K1 ไว้',
+      'Current flows through S1 → S2 → S3 (NC) → the NC contact of K3 → coil K2: K2 pulls in first. K1 is still open, so the windings have no voltage yet and K2 makes the star point without current. Then the NO contact of K2 feeds coil K1: K1 pulls in and makes the starting current (star first, section B). The NO contact of K1, taken from the point above S2, holds K1.')}</p>` },
+    { why: t('(ข) ปล่อย S2: K2 ยังดูดอยู่ เพราะไฟย้อนผ่านหน้าสัมผัสของ K2 เอง', '(b) Release S2: K2 stays in, fed back through its own contact'), body: `<p>${t('เมื่อปล่อย S2 จุดใต้ S2 ยังมีไฟ: จากหน้าสัมผัสค้างของ K1 → จุดที่ป้อนคอยล์ K1 → หน้าสัมผัสปกติเปิดของ K2 (ไฟวิ่งย้อนขึ้น) → จุดใต้ S2 → S3 → K3 ปกติปิด → คอยล์ K2 K2 จึงค้างอยู่ผ่าน K1 และถ้า K1 หลุด (S1 หรือ F3) K2 ก็หลุดตาม',
+      'When S2 is released, the point below S2 is still live: from K1’s holding contact → the node that feeds coil K1 → the NO contact of K2 (current runs back up through it) → the point below S2 → S3 → K3 NC → coil K2. So K2 stays in through K1, and if K1 drops out (S1 or F3), K2 drops out too.')}</p>` },
+    { why: t('(ค) กด S3: K2 หลุด แล้ว K3 ดูดเอง', '(c) Press S3: K2 drops out and K3 follows by itself'), body: `<p>${t('S3 เปิดทางของ K2 K2 หลุด หน้าสัมผัสปกติเปิดของ K2 เปิด (จุดใต้ S2 ไม่มีไฟแล้ว) และหน้าสัมผัสปกติปิดของ K2 กลับมาต่อ K3 จึงดูดด้วยไฟจากหน้าสัมผัสค้างของ K1 และหน้าสัมผัสปกติปิดของ K3 เปิดในทางของ K2 อีกชั้น ปล่อย S3 แล้ว K2 กลับมาไม่ได้ เพราะจุดใต้ S2 ไม่มีไฟ K3 ไม่ต้องค้างตัวเอง เพราะในทางของมันมีแค่หน้าสัมผัสค้างของ K1 (ปิดอยู่) กับหน้าสัมผัสปกติปิดของ K2 (ปิดอยู่ตราบที่ K2 หลุด) และ S3 จึงต้องมีแค่หน้าสัมผัสปกติปิด',
+      'S3 opens the path of K2: K2 drops out, its NO contact opens (the point below S2 is dead now) and its NC contact closes again, so K3 pulls in on the supply from K1’s holding contact, and the NC contact of K3 opens in the K2 path as a second layer. When S3 is released, K2 cannot come back because the point below S2 is dead. K3 needs no holding contact, because its path holds only K1’s holding contact (closed) and the NC contact of K2 (closed as long as K2 is out); so S3 needs only an NC contact.')}</p>` },
+    { why: t('(ง) เขียนใหม่ตามแบบ IEC แล้วลองกด', '(d) Redrawn to IEC: try it'), body: `<p>${t('ทางที่ 1: F1 → F2 95–96 → S1 11–12 → S2 13–14 → S3 21–22 → KM3 21–22 → KM2 · ทางที่ 2: KM2 13–14 → KM1 · ทางที่ 3: KM1 13–14 จากจุดเหนือ S2 · ทางที่ 4: KM2 21–22 → KM3 · ทางที่ 5–7 หลอด H1 (KM2 53–54) H2 (KM3 53–54) H3 (F2 97–98) · อินเตอร์ล็อกทางกล KM2 กับ KM3 · ตารางอ้างอิงใต้คอยล์บอกทางของทุกหน้าสัมผัส ลองกด S2, S3 และ S1 ที่หน้าตู้',
+      'Path 1: F1 → F2 95–96 → S1 11–12 → S2 13–14 → S3 21–22 → KM3 21–22 → KM2 · path 2: KM2 13–14 → KM1 · path 3: KM1 13–14 from the point above S2 · path 4: KM2 21–22 → KM3 · paths 5–7: lamps H1 (KM2 53–54), H2 (KM3 53–54), H3 (F2 97–98) · mechanical interlock KM2–KM3 · the cross-references under the coils give the path of every contact. Try S2, S3 and S1 on the panel front.')}</p><div class="rlwrap rlscroll" data-r="b73" style="--rlmin:900px;margin-top:8px"></div><div data-r="p73" style="margin-top:8px"></div>`,
+      onShow: li => { const box = li.querySelector('[data-r="b73"]'), p = li.querySelector('[data-r="p73"]'); if (!box || box.dataset.done) return; box.dataset.done = '1';
+        sim73 = new RL.Sim(fresh(box), FIG73(), { max: 1100, label: 'Thai textbook Fig. 7.3 redrawn to IEC with the course names', sheet: { no: 'ED2-8.3-1', title: ['รูป 7.3 เขียนใหม่ตามแบบ IEC', 'Fig. 7.3 redrawn to IEC'] } }); sizeBox(sim73, box);
+        pn73 = C8.panel(p, sim73); } }],
+    answer: t('(ก) K1 K2 K3 F3 F2 → KM1 KM2 KM3 F2 F1 (ข) K2 ดูดก่อน แล้ว K1 ต่อกระแส K2 ค้างอยู่ด้วยไฟย้อนผ่านหน้าสัมผัสปกติเปิดของตัวเองจากหน้าสัมผัสค้างของ K1 (ค) S3 ปลด K2 แล้ว K3 ดูดผ่านหน้าสัมผัสปกติปิดของ K2 ด้วยไฟจาก K1 จึงไม่ต้องมีหน้าสัมผัสค้างของ K3 และไม่ต้องมีหน้าสัมผัสปกติเปิดที่ S3 (ง) ดูภาพจำลองในขั้นสุดท้าย',
+      '(a) K1 K2 K3 F3 F2 → KM1 KM2 KM3 F2 F1. (b) K2 pulls in first, then K1 makes the current; K2 stays in, fed back through its own NO contact from K1’s holding contact. (c) S3 drops K2, then K3 pulls in through the NC contact of K2 on K1’s supply, so neither a K3 holding contact nor an NO contact on S3 is needed. (d) See the simulator in the last step.') });
+  let acc73 = 0;
+  LS.anim($('ex1'), dt => { if (!sim73) return; sim73.step(dt); acc73 += dt; if (acc73 > 0.1 && pn73) { acc73 = 0; pn73.refresh(); } });
+
+  /* C: practice */
+  ED.mcq('mcq', [
+    { q: t('1) ในวงจรของวิชา (หลักก่อน) กด S2 เริ่มเดินแบบสตาร์ คอนแทกเตอร์ตัวใดปิดทีหลังและเป็นตัวต่อกระแสเริ่มเดิน', '1) In the course circuit (main first), S2 start star is pressed. Which contactor closes last and makes the starting current?'),
+      options: ['KM1', 'KM2', 'KM3', t('ไม่มีตัวใดต่อกระแส', 'none of them')], answer: 1, why: t('KM2 อยู่หลัง KM1 83–84 จึงปิดหลัง KM1 ตอนที่ U1 V1 W1 มีไฟแล้ว', 'KM2 sits behind KM1 83–84, so it closes after KM1, when U1 V1 W1 are already live.') },
+    { q: t('2) KM3 21–22 อยู่ในทางเดินกระแสของ KM2 เพื่ออะไร', '2) Why is KM3 21–22 in the coil path of KM2?'),
+      options: [t('ให้ KM2 ค้างตัวเอง', 'to hold KM2 in'), t('ให้หลอด H1 ดับ', 'to switch lamp H1 off'), t('ให้ KM2 ดูดไม่ได้ขณะ KM3 ดูดอยู่ (กันการลัดวงจรที่จุดสตาร์)', 'so that KM2 cannot pull in while KM3 is in (no short at the star point)'), t('ให้ KM1 ดูดก่อน', 'to make KM1 close first')], answer: 2, why: t('KM2 กับ KM3 ต่อพร้อมกันเมื่อใด สายทั้งสามลัดถึงกันที่จุดสตาร์', 'Whenever KM2 and KM3 are closed together, the three lines are shorted at the star point.') },
+    { q: t('3) ในวงจรของวิชา กด S3 เดลตาขณะมอเตอร์หยุดอยู่ ผลคืออะไร', '3) In the course circuit, S3 delta is pressed while the motor is stopped. What happens?'),
+      options: [t('ไม่มีอะไรเกิดขึ้น', 'nothing happens'), t('มอเตอร์เริ่มเดินแบบเดลตา', 'the motor starts in delta'), t('KM2 ดูด', 'KM2 pulls in'), t('Q1 ตัด', 'Q1 trips')], answer: 0, why: t('ทางของ KM3 รับไฟจากจุดค้างใต้ S2 ซึ่งยังไม่มีไฟจนกว่า KM1 จะดูด', 'The KM3 path is fed from the hold node below S2, which has no voltage until KM1 is in.') },
+    { q: t('4) ปุ่ม S3 มีหน้าสัมผัส 21–22 และ 13–14 หน้าสัมผัส 21–22 ทำหน้าที่อะไร', '4) Button S3 has contacts 21–22 and 13–14. What does 21–22 do?'),
+      options: [t('ค้าง KM3 ไว้', 'holds KM3 in'), t('ป้อนไฟให้หลอด H2', 'feeds lamp H2'), t('ตัด KM1', 'opens KM1'), t('ปลด KM2 ก่อนที่ 13–14 จะสั่ง KM3', 'drops KM2 before 13–14 starts KM3')], answer: 3, why: t('หน้าสัมผัสปกติปิดของปุ่มเปิดก่อนที่หน้าสัมผัสปกติเปิดจะปิด', 'The NC contact of a button opens before its NO contact closes.') },
+    { q: t('5) หลอด H4 สีขาว "หยุดอยู่" รับไฟผ่านหน้าสัมผัสใด', '5) Which contact feeds the white lamp H4 “stopped”?'),
+      options: ['KM2 53–54', 'KM1 61–62', 'F2 97–98', 'KM3 13–14'], answer: 1, why: t('KM1 61–62 ปิดเมื่อ KM1 เปิด คือเมื่อมอเตอร์ไม่มีไฟ', 'KM1 61–62 is closed while KM1 is open, i.e. while the motor has no supply.') },
+    { q: t('6) ผู้ควบคุมกด S3 เพียง 0.1 s หลังกด S2 ขณะขับสายพานที่มีของ ผลคืออะไร', '6) The operator presses S3 only 0.1 s after S2 while driving a loaded conveyor. What is the result?'),
+      options: [t('กระแสลดลงครึ่งหนึ่ง', 'the current halves'), t('ไม่มีอะไรเปลี่ยน', 'nothing changes'), t('กระแสหลังเปลี่ยนกระโดดเกือบเท่าสตาร์ทตรง', 'the current after the change jumps almost to the direct-start value'), t('มอเตอร์หยุด', 'the motor stops')], answer: 2, why: t('มอเตอร์ยังหมุนช้า กระแสของเดลตาที่ความเร็วต่ำเกือบเท่ากระแสสตาร์ทตรง', 'The motor is still slow, and the delta current at low speed is almost the direct-start current.') }]);
+});
+</script>
+</body>
+</html>
