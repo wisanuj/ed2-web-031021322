@@ -393,7 +393,7 @@ RL.Sim = class {
       const x = this.X(e.x), y0 = this.Y(e.y), y1 = this.Y(e.y + (e.h || 1)), d = this.dev[e.d] || {}, live = d.energized;
       const act = e.welded && (e.k === 'NO' || e.k === 'NC') ? e.k === 'NO' : this.midE(e) ? e.k === 'NC' : (e.k === 'NO' || e.k === 'NC') ? this.actE(e) : this.act(e.d);   // between positions: NO drawn open, NC drawn open; welded: drawn closed
       const warn = e.k === 'coil' && (d.blocked || d.chatter) && !this.o.print;   // chapter 7: a coil held open by the mechanical interlock, or chattering
-      let body = IE.draw(e.k, x, y0, y1, warn ? { live: true, fill: '#ff8c42' } : { act, op: e.op, td: e.td || (d.type === 'timer' && e.k === 'coil' ? d.mode : undefined), live, lamp: d.color, blown: d.blown });
+      let body = IE.draw(e.k, x, y0, y1, warn ? { live: true, fill: '#ff8c42' } : { act, op: e.op, detent: e.detent, td: e.td || (d.type === 'timer' && e.k === 'coil' ? d.mode : undefined), live, lamp: d.color, blown: d.blown });   // detent: Lecture 3 toggle switch
       if (e.dop && (e.k === 'NO' || e.k === 'NC')) { const ym = (y0 + y1) / 2, xm = x - 17.5;   // direct (positive) opening: an arrow in a circle on the link
         body += `<circle cx="${xm}" cy="${ym}" r="4.8" fill="var(--panel)"/><path d="M ${xm - 3} ${ym} L ${xm + 2.6} ${ym} M ${xm + 0.4} ${ym - 2.2} L ${xm + 2.6} ${ym} L ${xm + 0.4} ${ym + 2.2}" fill="none"/>`; }
       if (warn) body += IE.T(d.blocked ? MC.t('ถูกล็อก', 'blocked') : MC.t('สั่นรัว', 'chatters'), x + 15, (y0 + y1) / 2 + 3, { size: 8.5, weight: 700, col: 'var(--bad)' });

@@ -1,4 +1,4 @@
-/* jog.js — page 2.0 "Jogging circuit" (the new Lecture 2 slides), namespace JG:
+/* jog.js — circuits of the new lecture slides (namespace JG): page 2.0 "Jogging circuit" (Lecture 2) and page 3.0 "Direct-on-line circuit" (Lecture 3):
    1) JG.JOG(o): the jogging circuit of the slides for RL.Sim: power L1 L2 L3 → fuses F1 → main contacts K1 → motor M1 (PE), control taken
       ahead of F1: F2 (control fuse) → S0 emergency stop (NC, mushroom, latches) → S1 jog (NO push button) → coil K1 → N, and the run lamp
       H1 through K1 13–14 from the node after S0. Names follow the slides: F1 power fuses, F2 control fuse, S0, S1, K1, H1, M1.
@@ -19,6 +19,28 @@ JG.JOG = (o = {}) => ({ rows: 5,
     { k: 'NO', d: 'S1', x: 0, y: 2, h: 2, t: ['13', '14'], op: 'pb' },
     { k: 'coil', d: 'K1', x: 0, y: 4, t: ['A1', 'A2'] },
     ...(o.lamp === false ? [] : [{ k: 'w', pts: [[0, 2], [1, 2]], dots: [0] }, { k: 'NO', d: 'K1', x: 1, y: 2, h: 2, t: ['13', '14'] }, { k: 'lamp', d: 'H1', x: 1, y: 4, t: ['X1', 'X2'] }]) ] });
+
+/* Lecture 3 (direct-on-line): the same power circuit and names; control circuits of the story:
+   JG.TOGGLE()  toggle switch S1 (maintained, detent) feeding coil K1 directly: runs on after release, RESTARTS when the power returns
+   JG.HOLD()    start S2 with the holding contact K1 13–14 across it and no stop button: runs on, cannot be stopped
+   JG.DOL()     the complete starter of the slides: F2 → S0 (emergency stop) → S1 stop (NC 11–12) → S2 start (NO 13–14) ∥ K1 13–14 → coil K1,
+                run lamp H1 through K1 23–24 from the node above S2. No restart after a power cut: the holding contact has opened. */
+const PWR = () => ({ full: true, stages: [{ k: 'fuse', d: 'F1' }, { k: 'mainNO', d: 'K1' }], motor: 'M1', tap: 'before' });
+const DV = { F2: () => ({ type: 'fuse', name: ['F2 ฟิวส์วงจรควบคุม', 'F2 control fuse'] }), F1: () => ({ type: 'fuse', name: ['F1 ฟิวส์วงจรกำลัง', 'F1 power fuses'] }),
+  S0: () => ({ type: 'pb', cap: 'red', name: ['S0 หยุดฉุกเฉิน', 'S0 emergency stop'] }), S1: () => ({ type: 'pb', cap: 'black', name: ['S1 หยุด', 'S1 stop'] }),
+  S2: () => ({ type: 'pb', cap: 'white', name: ['S2 เริ่ม', 'S2 start'] }), K1: () => ({ type: 'coil' }), H1: () => ({ type: 'lamp', color: '#7ee787', code: 'GN' }) };
+JG.TOGGLE = () => ({ rows: 4, power: PWR(), devices: { F2: DV.F2(), F1: DV.F1(), S1: { type: 'sel', name: ['S1 สวิตช์โยก (ค้าง)', 'S1 toggle switch (stays)'] }, K1: DV.K1(), H1: DV.H1() },
+  els: [{ k: 'fuse', d: 'F2', x: 0, y: 0, t: ['1', '2'] }, { k: 'NO', d: 'S1', x: 0, y: 1, h: 2, t: ['13', '14'], op: 'man', detent: true }, { k: 'coil', d: 'K1', x: 0, y: 3, t: ['A1', 'A2'] },
+    { k: 'w', pts: [[0, 1], [1, 1]], dots: [0] }, { k: 'NO', d: 'K1', x: 1, y: 1, h: 2, t: ['23', '24'] }, { k: 'lamp', d: 'H1', x: 1, y: 3, t: ['X1', 'X2'] }] });
+JG.HOLD = () => ({ rows: 4, power: PWR(), devices: { F2: DV.F2(), F1: DV.F1(), S2: DV.S2(), K1: DV.K1(), H1: DV.H1() },
+  els: [{ k: 'fuse', d: 'F2', x: 0, y: 0, t: ['1', '2'] }, { k: 'NO', d: 'S2', x: 0, y: 1, h: 2, t: ['13', '14'], op: 'pb' }, { k: 'coil', d: 'K1', x: 0, y: 3, t: ['A1', 'A2'] },
+    { k: 'w', pts: [[0, 1], [1, 1], [2, 1]], dots: [0, 1] }, { k: 'NO', d: 'K1', x: 1, y: 1, h: 2, t: ['13', '14'] }, { k: 'w', pts: [[0, 3], [1, 3]], dots: [0] },
+    { k: 'NO', d: 'K1', x: 2, y: 1, h: 2, t: ['23', '24'] }, { k: 'lamp', d: 'H1', x: 2, y: 3, t: ['X1', 'X2'] }] });
+JG.DOL = () => ({ rows: 6, power: PWR(), devices: { F2: DV.F2(), F1: DV.F1(), S0: DV.S0(), S1: DV.S1(), S2: DV.S2(), K1: DV.K1(), H1: DV.H1() },
+  els: [{ k: 'fuse', d: 'F2', x: 0, y: 0, t: ['1', '2'] }, { k: 'NC', d: 'S0', x: 0, y: 1, t: ['11', '12'], op: 'mush' }, { k: 'NC', d: 'S1', x: 0, y: 2, t: ['11', '12'], op: 'pb' },
+    { k: 'NO', d: 'S2', x: 0, y: 3, h: 2, t: ['13', '14'], op: 'pb' }, { k: 'coil', d: 'K1', x: 0, y: 5, t: ['A1', 'A2'] },
+    { k: 'w', pts: [[0, 3], [1, 3], [2, 3]], dots: [0, 1] }, { k: 'NO', d: 'K1', x: 1, y: 3, h: 2, t: ['13', '14'] }, { k: 'w', pts: [[0, 5], [1, 5]], dots: [0] },
+    { k: 'NO', d: 'K1', x: 2, y: 3, h: 2, t: ['23', '24'] }, { k: 'lamp', d: 'H1', x: 2, y: 5, t: ['X1', 'X2'] }] });
 
 /* a live timing strip: one row per signal, green bar = on; time runs to the right, "now" at the right edge */
 JG.Strip = class {
