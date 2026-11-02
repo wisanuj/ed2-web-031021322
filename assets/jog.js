@@ -1,4 +1,4 @@
-/* jog.js — circuits of the new lecture slides (namespace JG): page 2.0 "Jogging circuit" (Lecture 2) and page 3.0 "Direct-on-line circuit" (Lecture 3):
+/* jog.js — circuits of the new lecture slides (namespace JG): page 2.0 "Jogging circuit" (Lecture 2) and page 3.0 "Direct-on-line circuit" (Lecture 3) and page 4.0 "Thermal overload relay" (Lecture 4):
    1) JG.JOG(o): the jogging circuit of the slides for RL.Sim: power L1 L2 L3 → fuses F1 → main contacts K1 → motor M1 (PE), control taken
       ahead of F1: F2 (control fuse) → S0 emergency stop (NC, mushroom, latches) → S1 jog (NO push button) → coil K1 → N, and the run lamp
       H1 through K1 13–14 from the node after S0. Names follow the slides: F1 power fuses, F2 control fuse, S0, S1, K1, H1, M1.
@@ -41,6 +41,20 @@ JG.DOL = () => ({ rows: 6, power: PWR(), devices: { F2: DV.F2(), F1: DV.F1(), S0
     { k: 'NO', d: 'S2', x: 0, y: 3, h: 2, t: ['13', '14'], op: 'pb' }, { k: 'coil', d: 'K1', x: 0, y: 5, t: ['A1', 'A2'] },
     { k: 'w', pts: [[0, 3], [1, 3], [2, 3]], dots: [0, 1] }, { k: 'NO', d: 'K1', x: 1, y: 3, h: 2, t: ['13', '14'] }, { k: 'w', pts: [[0, 5], [1, 5]], dots: [0] },
     { k: 'NO', d: 'K1', x: 2, y: 3, h: 2, t: ['23', '24'] }, { k: 'lamp', d: 'H1', x: 2, y: 5, t: ['X1', 'X2'] }] });
+
+/* Lecture 4 (thermal overload relay): JG.DOLOL() = JG.DOL with F3 in the power circuit after the main contacts, F3 95–96 in series after S0,
+   and the overload lamp H2 (yellow) through F3 97–98 from the node after S0 */
+JG.DOLOL = () => ({ rows: 7, power: { full: true, stages: [{ k: 'fuse', d: 'F1' }, { k: 'mainNO', d: 'K1' }, { k: 'therm', d: 'F3' }], motor: 'M1', tap: 'before' },
+  devices: { F2: DV.F2(), F1: DV.F1(), F3: { type: 'ol', name: ['F3 โอเวอร์โหลด ตัด / รีเซ็ต', 'F3 overload trip / reset'] }, S0: DV.S0(), S1: DV.S1(), S2: DV.S2(), K1: DV.K1(), H1: DV.H1(),
+    H2: { type: 'lamp', color: '#ffd166', code: 'YE' } },
+  els: [{ k: 'fuse', d: 'F2', x: 0, y: 0, t: ['1', '2'] }, { k: 'NC', d: 'S0', x: 0, y: 1, t: ['11', '12'], op: 'mush' }, { k: 'NC', d: 'F3', x: 0, y: 2, t: ['95', '96'], op: 'thr' },
+    { k: 'NC', d: 'S1', x: 0, y: 3, t: ['11', '12'], op: 'pb' }, { k: 'NO', d: 'S2', x: 0, y: 4, h: 2, t: ['13', '14'], op: 'pb' }, { k: 'coil', d: 'K1', x: 0, y: 6, t: ['A1', 'A2'] },
+    { k: 'w', pts: [[0, 4], [1, 4], [2, 4]], dots: [0, 1] }, { k: 'NO', d: 'K1', x: 1, y: 4, h: 2, t: ['13', '14'] }, { k: 'w', pts: [[0, 6], [1, 6]], dots: [0] },
+    { k: 'NO', d: 'K1', x: 2, y: 4, h: 2, t: ['23', '24'] }, { k: 'lamp', d: 'H1', x: 2, y: 6, t: ['X1', 'X2'] },
+    { k: 'w', pts: [[0, 2], [3, 2]], dots: [0] }, { k: 'NO', d: 'F3', x: 3, y: 2, h: 4, t: ['97', '98'], op: 'thr' }, { k: 'lamp', d: 'H2', x: 3, y: 6, t: ['X1', 'X2'] }] });
+/* the motor table of the Lecture 4 slides (approximate full-load current at 380 V) and its fuse sizes (380 V, up to 7.5 kW) */
+JG.FLC = [[0.1, 0.4], [0.12, 0.5], [0.18, 0.8, 4], [0.25, 0.9, 4], [0.37, 1.4, 6], [0.56, 1.8, 6], [0.75, 2, 6], [1.1, 2.8, 10], [1.5, 3.7, 10], [2.2, 5.5, 16], [3, 7, 20], [3.7, 8, 25], [4, 9, 25],
+  [5.5, 12, 32], [7.5, 16, 40], [9.3, 20], [10, 22], [11, 23], [15, 31], [18, 39], [22, 43], [30, 57], [37, 75], [45, 86], [55, 105], [75, 138], [90, 170], [110, 205], [130, 245], [150, 278]];   // [kW, A, fuse A]
 
 /* a live timing strip: one row per signal, green bar = on; time runs to the right, "now" at the right edge */
 JG.Strip = class {
