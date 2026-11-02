@@ -67,6 +67,14 @@ window.STOPS = [
 
   /* ---------------- planned chapters ---------------- */
   /* ---------------- chapter 2: drawing standards and types of control circuit ---------------- */
+  { file: 'ch2_0_jogging.html', step: '2.0', stage: 1, ch: 2, wk: 2, type: 'sim',
+    title: 'วงจรเดินกระตุก', en: 'Jogging circuit',
+    blurb: 'วงจรควบคุมที่ง่ายที่สุดตามสไลด์บทที่ 2: กดปุ่ม S1 ค้างไว้ คอยล์ K1 มีไฟ มอเตอร์เดิน ปล่อยแล้วหยุด ลองกดนานสั้น ดูแถบเวลา และกดปุ่มหยุดฉุกเฉิน S0 แยกวงจรกำลังกับวงจรควบคุม และอุปกรณ์ 4 กลุ่ม: ระบบไฟ อุปกรณ์ป้องกัน อุปกรณ์ควบคุม และโหลด',
+    blurb_en: 'The simplest control circuit, after the Lecture 2 slides: hold push button S1, coil K1 is energised and the motor runs; let go and it stops. Press long and short, watch the timing strip, and press emergency stop S0. Tell the power circuit from the control circuit, and the four groups of devices: supply, protection, control devices and loads.',
+    outcome: 'อธิบายการทำงานของวงจรเดินกระตุก วาดวงจรกำลังและวงจรควบคุม (F1 F2 S0 S1 K1 H1 M1) และบอกกลุ่มของอุปกรณ์แต่ละตัวได้',
+    outcome_en: 'explain how a jogging circuit works, draw its power and control circuits (F1 F2 S0 S1 K1 H1 M1), and name the group of each device',
+    ...BK('สไลด์บทที่ 2 (Jogging circuit) · IEC 60204-1', 'Lecture 2 slides (Jogging circuit) · IEC 60204-1'),
+    tags: ['เดินกระตุก', 'วงจรกำลัง / วงจรควบคุม', 'หยุดฉุกเฉิน S0'], tags_en: ['jogging', 'power / control circuit', 'emergency stop S0'] },
   { file: 'ch2_1_symbols.html', step: '2.1', stage: 1, ch: 2, wk: 2, type: 'sim',
     title: 'สัญลักษณ์ IEC 60617 และรหัสชื่ออุปกรณ์', en: 'IEC 60617 symbols and device designations',
     blurb: 'สัญลักษณ์ที่ใช้บ่อยในวงจรควบคุมมอเตอร์ และรหัสชื่ออุปกรณ์ 4 ระบบที่จะพบในแบบจริง: รหัสของวิชานี้ (Q F KM KA KT S H M) มาตรฐานใหม่ IEC 81346-2 (QA FC KF SF PF MA) รหัส DIN เดิมในตำราไทย และรหัส NEMA ในตำราอเมริกัน',
@@ -424,7 +432,7 @@ window.WEEKS = [
   { wk: 1, kind: 'teach', ed2: { ch: 1, title: 'สัญลักษณ์ไฟฟ้า มอเตอร์ไฟฟ้ากระแสสลับ และเริ่มใช้ CADe SIMU', en: 'Electrical symbols, AC motors, and getting started with CADe SIMU',
       pre: '1', diag: true, lab: '1', labPage: 'ch1_4_cadesimu.html', sim: '1',
       note: 'ปฐมนิเทศ: แผนคะแนนและการติดตั้ง CADe SIMU', note_en: 'Orientation: the scoring plan and setting up CADe SIMU' } },
-  { wk: 2, kind: 'teach', ed2: { ch: 2, title: 'สัญลักษณ์ เลขขั้ว ชนิดของแบบ และแผ่นแบบ', en: 'Symbols, terminal numbers, kinds of drawing and the drawing sheet',
+  { wk: 2, kind: 'teach', ed2: { ch: 2, title: 'วงจรเดินกระตุก สัญลักษณ์ เลขขั้ว ชนิดของแบบ และแผ่นแบบ', en: 'Jogging circuit, symbols, terminal numbers, kinds of drawing and the drawing sheet',
       pre: '2', lab: '2', labPage: 'ch2_5_cadesimu.html', sim: '2' } },
   { wk: 3, kind: 'teach', ed2: { ch: 3, title: 'ปุ่มกด สวิตช์เลือก และการควบคุมจากหลายจุด', en: 'Push buttons, selector switches and control from several stations',
       pre: '3', lab: '3', labPage: 'ch3_4_cadesimu.html', sim: '3' } },

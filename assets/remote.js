@@ -4,7 +4,7 @@
       the motor wires run there and back) | 'idea' (a 3-pole contact beside the motor, closed from far away?) | 'relay' (fixed core,
       moving core, contact bridges; o.coil, o.spring, o.ctrl = control room switch S1 feeding the coil from L1 and N).
       o.on = switch closed / coil energised (the magnet is closed when o.on && o.coil; without a spring it also stays closed when
-      o.stuck); o.amps, o.wire, o.dist, o.coilA, o.ctlWire = labels; o.anim = false draws the current solid (slides, print).
+      o.stuck); o.box = false drops the control room box (a push button beside the machine); o.amps, o.wire, o.dist, o.coilA, o.ctlWire = labels; o.anim = false draws the current solid (slides, print).
    2) RC.rail(o): the railroad switch: o.pos 'main' | 'side', o.remote (lever in a signal box with a wire over pulleys), o.train
       (0–1 along the set route, null = no train), o.anim.
    3) RC.cost(d, p) → { sw, km, parts }: the two ways to switch the motor from a room d metres away (prices of the slides, example);
@@ -103,8 +103,8 @@ RC.power = (o = {}) => {
         if (!o.ctrl && o.coilA && live) s += arrowUp(t2, 266, COL.ctl) + TX(sub('I', T('คอยล์', 'coil')) + ' = 0.5 A', CX0 + 23, 298, { size: 13, anchor: 'middle', col: COL.ctl, weight: 600 });
         if (o.ctrl) {   // control room: L1 → S1 → A1, A2 → N
           const LXc = 242, NXc = 296, BX = [128, 282, 146, 306];
-          s += `<rect x="${BX[0]}" y="${BX[2]}" width="${BX[1] - BX[0]}" height="${BX[3] - BX[2]}" rx="6" fill="none" stroke="${COL.room}" stroke-width="1.6"/>` +
-            TX(T('ห้องควบคุม', 'Control room'), BX[0] + 8, BX[2] + 18, { size: 13, col: COL.room, weight: 600 });
+          if (o.box !== false) s += `<rect x="${BX[0]}" y="${BX[2]}" width="${BX[1] - BX[0]}" height="${BX[3] - BX[2]}" rx="6" fill="none" stroke="${COL.room}" stroke-width="1.6"/>` +
+            TX(T('ห้องควบคุม', 'Control room'), BX[0] + 8, BX[2] + 18, { size: 13, col: COL.room, weight: 600 });   // o.box false: a push button beside the machine (jogging, ED2 page 2.0)
           s += DOT(LXc, RY[0], COL.L1) + DOT(NXc, RY[3], COL.N);
           const cc = { anim: o.anim, cc: COL.ctl };
           s += wire([[LXc, RY[0]], [LXc, 212]], COL.L1, live, cc) + switchN([LXc], 212, 244, on, 'S1', A, COL.ctl) + wire([[LXc, 244], [LXc, 292], [t2, 292], [t2, 265]], COL.L1, live, cc) +

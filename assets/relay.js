@@ -551,7 +551,7 @@ RL.Sim = class {
         if (one && t.k === 'therm' && k < 2) b += g(c, cur, `<path d="M ${x} ${F(y1)} L ${x} ${F(y1 + 5)} L ${x + 11} ${F(y1 + 5)} L ${x + 11} ${F(y - 5)} L ${x + 22} ${F(y - 5)} L ${x + 22} ${F(y)}" fill="none"/>`); });   // motor current looped through the three poles
       if (one && t.k === 'therm') { s += g(nc(nOk), nOk && run, IE.L(NX, y, NX, y1)); xOut = 80; }   // N passes the overload relay
       b += IE.T(t.d, LX[0] - 10, ym + 4, { anchor: 'end', size: 11, weight: 700 });
-      if (t.k !== 'therm') b += IE.L(LX[0] - 8, ym, poles[poles.length - 1] - 8, ym, { dash: '3 2' });
+      if (t.k !== 'therm' && t.k !== 'fuse') b += IE.L(LX[0] - 8, ym, poles[poles.length - 1] - 8, ym, { dash: '3 2' });   // power fuses (Lecture 2, F1) have no mechanical link
       if (dv.tripped && t.k === 'therm') b += IE.T('!', LX[0] - 10, ym + 16, { anchor: 'end', size: 11, weight: 700, col: 'var(--bad)' });
       s += hit ? `<g data-dev="${t.d}" style="cursor:pointer">${b}</g>` : b;
       ok = ok && closed; if (one && t.k !== 'therm') nOk = nOk && closed; y = y1; });
