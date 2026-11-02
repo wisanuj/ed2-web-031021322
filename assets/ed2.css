@@ -370,3 +370,34 @@ svg.rl .rl-spin.rl-ccw{animation-direction:reverse}
 @media (max-width:900px){.c8manual{grid-template-columns:minmax(0,200px) minmax(0,1fr)}.c8manual .c8m-chart{grid-column:1/-1}}
 @media (max-width:520px){.c8manual{grid-template-columns:minmax(0,1fr)}.c8manual .c8m-knob{max-width:190px;margin:0 auto;width:100%}.c8manual .c8m-pic{max-width:300px;margin:0 auto;width:100%}
   .c8b-t,.c8m-t{font-size:13px}.c8b-t th,.c8b-t td,.c8m-t th,.c8m-t td{padding:4px 5px}.c8b-t td:not(:first-child),.c8b-t th:not(:first-child){white-space:normal}}
+
+/* page 1.0: introduction to motor control (remote.js) */
+:root{--rc-cur:#e0531f;--rc-ctl:#1f7ae0;--rc-n:#2f6fd0;--rc-pe:#2e9d4a;--rc-core:#9aa3b5;--rc-coreS:#5d6577;--rc-cu:#c2562b;--rc-room:#2f6fd0;--rc-coilOff:#7fa6d9;--rc-tie:#c9a77a;--rc-route:rgba(31,122,224,.16)}
+:root[data-theme=dark]{--rc-cur:#ff7a45;--rc-ctl:#5ab0ff;--rc-n:#5a9cff;--rc-pe:#5fcf6f;--rc-core:#6b7385;--rc-coreS:#aab3c5;--rc-cu:#e07a45;--rc-room:#5a9cff;--rc-coilOff:#4f6f99;--rc-tie:#7a6448;--rc-route:rgba(90,176,255,.18)}
+svg.rc{display:block;max-width:100%;height:auto;margin:0 auto}
+svg.rc text{font-family:"IBM Plex Mono",monospace}
+svg.rc .rc-spin{animation:rlspin 1.2s linear infinite;transform-box:view-box}
+@media (prefers-reduced-motion:reduce){ svg.rc .rc-spin{animation:none} }
+.rcgrid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:900px){ .rcgrid{grid-template-columns:1fr} }
+.rcfig{min-height:200px}
+.rccap{font-size:16px;line-height:1.65;margin:0 0 8px}
+.rcnav{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
+.rcnav .rcno{font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--muted)}
+.rcdots{display:flex;gap:5px}.rcdots span{width:9px;height:9px;border-radius:50%;background:var(--line)}.rcdots span.on{background:var(--accent)}
+.rccost{width:100%;border-collapse:collapse;font-size:15.5px}
+.rccost td,.rccost th{padding:5px 8px;border-bottom:1px solid var(--line);text-align:right}.rccost td:first-child,.rccost th:first-child{text-align:left}
+.rccost .sw{color:var(--rc-cur);font-weight:700}.rccost .km{color:var(--rc-ctl);font-weight:700}
+.rcchart{position:relative;overflow-x:auto}.rcread{font-size:14.5px;color:var(--muted);margin:4px 0 0}
+.rcleg{display:flex;gap:16px;flex-wrap:wrap;font-size:14.5px;margin:6px 0}.rcleg i{display:inline-block;width:26px;height:0;border-top:3px solid;vertical-align:middle;margin-right:6px}
+
+/* page 1.0: electrical symbols (sym1.js) */
+svg.sy{display:block;height:auto;margin:0 auto}
+.sybox svg.sy{width:100%}
+.sygrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.sygrid .card{text-align:center;padding:10px}
+.sygrid .card svg.sy{max-width:150px}
+.sygrid .sycap{font-size:14.5px;line-height:1.5;margin-top:6px}
+.sywide svg.sy{max-width:460px}
+.symid svg.sy{max-width:300px}
+.syhold{touch-action:none;user-select:none}

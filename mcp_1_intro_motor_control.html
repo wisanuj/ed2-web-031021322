@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<title data-en="Week 1 — Introduction to motor control">สัปดาห์ 1 — แนะนำการควบคุมมอเตอร์</title>
+<meta name="mcp-week" content="1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="assets/ee.css?v=19"><link rel="stylesheet" href="assets/ed2.css?v=19">
+<script src="assets/stops.js?v=19"></script><script src="assets/shell.js?v=19"></script>
+<script src="assets/lesson.js?v=19"></script><script src="assets/draw.js?v=19"></script><script src="assets/ed.js?v=19"></script><script src="assets/sym.js?v=19"></script><script src="assets/ed1.js?v=19"></script>
+<script src="assets/remote.js?v=19"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar" id="mc-top"></header>
+<h1 data-l="th">แนะนำการควบคุมมอเตอร์: จากสวิตช์ธรรมดาถึงแมกเนติกคอนแทกเตอร์ <span class="en">Introduction to motor control: from a simple switch to the magnetic contactor</span></h1>
+<h1 data-l="en">Introduction to motor control <span class="en">From a simple switch to the magnetic contactor</span></h1>
+
+<p class="sub" data-l="th">มอเตอร์ที่ต่อเข้ากับสายไฟตรง ๆ หมุนได้ แต่สั่งหยุดไม่ได้ หน้านี้เล่าทีละขั้นว่าทำไมโรงงานไม่เดินสายเส้นใหญ่ของมอเตอร์ไปที่สวิตช์ในห้องควบคุม แต่ใช้แม่เหล็กดึงหน้าสัมผัสที่อยู่ข้างมอเตอร์แทน ลองสับสวิตช์ ดูแม่เหล็กดึงแกนเหล็ก ถอดสปริงออก และเลื่อนระยะห้องควบคุมเพื่อเทียบราคา ในทุกรูป เส้นสีแดงคือกระแสของมอเตอร์ (ใหญ่ 21 A) เส้นสีน้ำเงินคือกระแสควบคุม (เล็ก 0.5 A)</p>
+<p class="sub" data-l="en">A motor tied straight to the supply runs, but nothing can stop it. This page goes step by step through why a factory does not run the thick motor wires to a switch in the control room, and lets a magnet close contacts beside the motor instead. Switch it, watch the magnet pull the iron core, take the spring out, and move the control room farther away to compare the cost. In every drawing the red line is the motor current (big, 21 A) and the blue line is the control current (small, 0.5 A).</p>
+
+<section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
+  <li><b>สวิตช์อยู่ไกล สายเส้นใหญ่ก็ยาว</b>: ถ้าสวิตช์ 3 ขั้วอยู่ในห้องควบคุม สายของมอเตอร์ทั้งสามเส้นต้องเดินไปที่ห้องแล้วเดินกลับ ยิ่งไกลยิ่งแพง และกระแสใหญ่ไหลผ่านห้องที่คนทำงานอยู่</li>
+  <li><b>รีเลย์</b>: กระแสเล็กในคอยล์สร้างแรงแม่เหล็ก ดึงแกนเหล็กที่ยึดหน้าสัมผัสไว้ หน้าสัมผัสต่อ มอเตอร์เดิน เหมือนคันโยกในห้องสัญญาณที่ดึงประแจรถไฟซึ่งอยู่ไกลออกไป</li>
+  <li><b>คอนแทกเตอร์ = รีเลย์สำหรับกำลังของมอเตอร์ที่มีสปริง</b>: ตัดไฟคอยล์ สปริงดันแกนเหล็กกลับ หน้าสัมผัสเปิด มอเตอร์หยุด</li>
+  <li><b>สองวงจร</b>: วงจรกำลัง (กระแสมอเตอร์) อยู่ข้างมอเตอร์ วงจรควบคุม (กระแสคอยล์) เดินไปห้องควบคุมด้วยสายเส้นเล็ก เมื่อห้องอยู่ไกลกว่าราว 16 m แบบคอนแทกเตอร์ถูกกว่า และปลอดภัยกว่าเสมอ</li></ul></section>
+<section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
+  <li><b>A far-away switch means long thick wires</b>: with a 3-pole switch in the control room, all three motor wires must go to the room and come back. The farther the room, the higher the cost, and the big current runs through the room where people work.</li>
+  <li><b>The relay</b>: a small current in a coil makes a magnetic force that pulls the iron core carrying the contacts. The contacts close and the motor runs, just as a lever in a signal box moves railroad points far away.</li>
+  <li><b>A contactor is a relay for motor power, with a spring</b>: switch the coil off and the spring pushes the core back, the contacts open and the motor stops.</li>
+  <li><b>Two circuits</b>: the power circuit (motor current) stays beside the motor; the control circuit (coil current) goes to the control room on thin wires. Beyond about 16 m the contactor way is cheaper, and it is always safer.</li></ul></section>
+
+<nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#tA"><b>A</b>จากสวิตช์ถึงห้องควบคุม</a><a href="#tB"><b>B</b>ประแจรถไฟ</a><a href="#tC2"><b>C</b>รีเลย์ 4 ขั้น</a><a href="#tD"><b>D</b>สปริง: คอนแทกเตอร์</a><a href="#tE"><b>E</b>ราคา</a><a href="#tF"><b>F</b>รีเลย์หรือคอนแทกเตอร์</a><a href="#tC"><b>Q</b>ฝึกเพิ่ม</a></nav>
+<nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#tA"><b>A</b>From a switch to the control room</a><a href="#tB"><b>B</b>The railroad switch</a><a href="#tC2"><b>C</b>The relay in 4 steps</a><a href="#tD"><b>D</b>The spring: a contactor</a><a href="#tE"><b>E</b>Cost</a><a href="#tF"><b>F</b>Relay or contactor</a><a href="#tC"><b>Q</b>More practice</a></nav>
+
+<section class="prob" id="tA">
+  <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">จากมอเตอร์ต่อตรงถึงสวิตช์ในห้องควบคุม</h2><h2 data-l="en">From a motor on the lines to a switch in the control room</h2>
+    <div class="src" data-l="th">สไลด์ Lecture 1 หน้า 3–14 · มาตรฐานการติดตั้งทางไฟฟ้าสำหรับประเทศไทย (วสท.) สายของมอเตอร์ 125 %</div><div class="src" data-l="en">Lecture 1 slides 3–14 · Thai wiring standard (EIT): motor wires 125 %</div></div></div>
+  <p class="lead" data-l="th">กด "ถัดไป" ทีละขั้น ในขั้นที่มีสวิตช์ กด "สับ S1" แล้วดูว่ากระแส (สีแดง) ไหลไปทางไหน</p>
+  <p class="lead" data-l="en">Press "Next" one step at a time. Where there is a switch, press "Switch S1" and see where the current (red) flows.</p>
+  <div class="rcgrid">
+    <div class="card sim"><div class="rcfig" id="figA"></div></div>
+    <div class="card solve"><div class="rcnav" id="navA"></div><p class="rccap" id="capA"></p><div id="stA"></div></div>
+  </div>
+</section>
+
+<section class="prob" id="tB">
+  <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">ควบคุมจากที่ไกลที่เรารู้จักอยู่แล้ว: ประแจรถไฟ</h2><h2 data-l="en">Remote control we already know: the railroad switch</h2>
+    <div class="src" data-l="th">สไลด์ Lecture 1 หน้า 15–18</div><div class="src" data-l="en">Lecture 1 slides 15–18</div></div></div>
+  <p class="lead" data-l="th">รางส่วนที่ขยับได้ (สีแดง) เลือกเส้นทางของรถไฟ โยกคันโยกแล้วปล่อยรถไฟ จากนั้นย้ายคันโยกไปไว้ในห้องสัญญาณ ซึ่งดึงรางผ่านลวดบนรอกได้จากที่ไกล</p>
+  <p class="lead" data-l="en">The moving rails (red) choose the route. Throw the lever and send the train. Then move the lever into a signal box, which pulls the rails from far away through a wire over pulleys.</p>
+  <div class="card sim"><div class="rcfig" id="figB"></div></div>
+  <div class="card solve" style="margin-top:12px"><div id="pB"></div></div>
+  <div class="card" style="margin-top:12px" data-l="th"><table class="tbl stack"><tr><th>รถไฟ</th><th>การควบคุมมอเตอร์</th></tr>
+    <tr><td>คันโยกในห้องสัญญาณ</td><td>สวิตช์เล็ก S1 ในห้องควบคุม</td></tr><tr><td>ลวดดึงยาวบนรอก</td><td>สายควบคุมเส้นเล็ก (0.5 A)</td></tr><tr><td>รางที่ขยับข้างทางรถไฟ</td><td>หน้าสัมผัสข้างมอเตอร์ (21 A)</td></tr></table>
+    <p style="margin:8px 0 0">อะไรจะดึงหน้าสัมผัส? <b>แม่เหล็ก</b> ดูส่วน C</p></div>
+  <div class="card" style="margin-top:12px" data-l="en"><table class="tbl stack"><tr><th>Railroad</th><th>Motor control</th></tr>
+    <tr><td>Lever in the signal box</td><td>Small switch S1 in the control room</td></tr><tr><td>Long wire over pulleys</td><td>Thin control wire (0.5 A)</td></tr><tr><td>Moving rails beside the track</td><td>Contacts beside the motor (21 A)</td></tr></table>
+    <p style="margin:8px 0 0">What pulls the contacts? <b>A magnet</b>: see section C.</p></div>
+</section>
+
+<section class="prob" id="tC2">
+  <div class="prob-head"><span class="prob-no">C</span><div><h2 data-l="th">รีเลย์: สวิตช์ที่แม่เหล็กเป็นตัวดึง (4 ขั้น)</h2><h2 data-l="en">The relay: a switch moved by a magnet (4 steps)</h2>
+    <div class="src" data-l="th">สไลด์ Lecture 1 หน้า 19–23</div><div class="src" data-l="en">Lecture 1 slides 19–23</div></div></div>
+  <p class="lead" data-l="th">ทายก่อนกด "ถัดไป" ทุกครั้ง: ขั้นต่อไปจะเพิ่มอะไร และหน้าสัมผัสจะต่อหรือไม่</p>
+  <p class="lead" data-l="en">Guess before each "Next": what does the next step add, and will the contacts close?</p>
+  <div class="rcgrid">
+    <div class="card sim"><div class="rcfig" id="figC"></div></div>
+    <div class="card solve"><div class="rcnav" id="navC"></div><p class="rccap" id="capC"></p><div id="stC"></div></div>
+  </div>
+</section>
+
+<section class="prob" id="tD">
+  <div class="prob-head"><span class="prob-no">D</span><div><h2 data-l="th">ตัดไฟแล้วหน้าสัมผัสเปิดเองไหม: สปริงของคอนแทกเตอร์</h2><h2 data-l="en">Switch off: do the contacts open? The spring of a contactor</h2>
+    <div class="src" data-l="th">สไลด์ Lecture 1 หน้า 25–30</div><div class="src" data-l="en">Lecture 1 slides 25–30</div></div></div>
+  <p class="lead" data-l="th">เริ่มแบบไม่มีสปริง: สับ S1 แล้วปลด S1 ดูว่ามอเตอร์หยุดไหม จากนั้นใส่สปริงแล้วลองใหม่ ผลจะบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">Start without the spring: switch S1 on, then off, and see whether the motor stops. Then put the spring in and try again. The results go into the table.</p>
+  <div class="rcgrid">
+    <div class="card sim"><div class="rcfig" id="figD"></div></div>
+    <div class="card solve"><div class="panel" id="pD" style="position:static;max-height:none"></div></div>
+  </div>
+  <div class="card" style="margin-top:12px"><div id="logD"></div><div id="sumD" style="margin-top:8px"></div></div>
+</section>
+
+<section class="prob" id="tE">
+  <div class="prob-head"><span class="prob-no">E</span><div><h2 data-l="th">ราคา: สวิตช์ในห้องควบคุม หรือคอนแทกเตอร์ข้างมอเตอร์</h2><h2 data-l="en">Cost: a switch in the control room, or a contactor beside the motor</h2>
+    <div class="src" data-l="th">สไลด์ Lecture 1 หน้า 9–12, 29–31 (ราคาตัวอย่าง)</div><div class="src" data-l="en">Lecture 1 slides 9–12, 29–31 (example prices)</div></div></div>
+  <p class="lead" data-l="th">เลื่อนระยะจากห้องควบคุมถึงมอเตอร์ แล้วดูราคาของทั้งสองแบบ ชี้บนกราฟเพื่ออ่านราคาที่ระยะต่าง ๆ</p>
+  <p class="lead" data-l="en">Move the distance from the control room to the motor and watch the cost of both ways. Point at the chart to read the cost at any distance.</p>
+  <div class="rcgrid">
+    <div class="card sim"><div class="rcleg" id="legE"></div><div class="rcchart" id="figE"></div><p class="rcread" id="readE"></p></div>
+    <div class="card solve"><div class="panel" id="pE" style="position:static;max-height:none"></div><div id="tabE" style="margin-top:10px"></div></div>
+  </div>
+  <div class="card" style="margin-top:12px" data-l="th"><p style="margin:0"><b>คิดแบบนี้</b>: แบบสวิตช์ สายเส้นใหญ่ 3 เส้น เส้นละ "ไปและกลับ" = 3 × 2d เมตร × 12 บาท บวกสวิตช์ 900 บาท แบบคอนแทกเตอร์ สายควบคุม 2 เส้น (เส้นหนึ่งไปที่ S1 อีกเส้นกลับ) = 2 × d เมตร × 2.5 บาท บวกคอนแทกเตอร์ 2,000 บาท ไม่ใช่แค่ราคา: กระแสใหญ่อยู่ในตู้ข้างมอเตอร์ คนแตะแค่วงจรควบคุม สั่งได้จากหลายจุด และสั่งอัตโนมัติได้ (ลิมิตสวิตช์ ตัวตั้งเวลา PLC)</p></div>
+  <div class="card" style="margin-top:12px" data-l="en"><p style="margin:0"><b>How it adds up</b>: the switch way has 3 thick wires, each going "there and back" = 3 × 2d metres × 12 baht, plus a 900-baht switch. The contactor way has 2 control wires (one to S1, one back) = 2 × d metres × 2.5 baht, plus a 2,000-baht contactor. And it is not only money: the big current stays in the panel beside the motor, people touch only the control circuit, the motor can be switched from many places, and automatically (limit switches, timers, a PLC).</p></div>
+</section>
+
+<section class="prob" id="tF">
+  <div class="prob-head"><span class="prob-no">F</span><div><h2 data-l="th">รีเลย์หรือคอนแทกเตอร์</h2><h2 data-l="en">Relay or contactor</h2>
+    <div class="src" data-l="th">สไลด์ Lecture 1 หน้า 33 · หน้า 4.1 ของวิชาเขียนแบบไฟฟ้า 2</div><div class="src" data-l="en">Lecture 1 slide 33 · Electrical Drawing II page 4.1</div></div></div>
+  <div class="card" data-l="th"><table class="tbl stack"><tr><th></th><th>รีเลย์</th><th>คอนแทกเตอร์</th></tr>
+    <tr><td><b>สวิตช์อะไร</b></td><td>สัญญาณควบคุม</td><td>กำลังของมอเตอร์</td></tr><tr><td><b>กระแส</b></td><td>เล็ก (ไม่กี่แอมแปร์)</td><td>ใหญ่ (เช่น 32 A)</td></tr>
+    <tr><td><b>หน้าสัมผัส</b></td><td>เล็ก หลายชุด</td><td>หน้าสัมผัสหลัก 3 ขั้ว + หน้าสัมผัสช่วย</td></tr><tr><td><b>มีเหมือนกัน</b></td><td colspan="2">คอยล์ แกนเหล็ก สปริง และหน้าสัมผัส</td></tr></table>
+    <p style="margin:8px 0 0">ภาพตัดของคอนแทกเตอร์จริง หน้าสัมผัสหลัก 1–2, 3–4, 5–6 และหน้าสัมผัสช่วย 13–14, 21–22 ลองป้อนไฟเข้าคอยล์ได้ใน <a href="ch4_1_contactors.html?c=mcp#t0">หน้า 4.1</a> ของวิชาเขียนแบบไฟฟ้า 2</p></div>
+  <div class="card" data-l="en"><table class="tbl stack"><tr><th></th><th>Relay</th><th>Contactor</th></tr>
+    <tr><td><b>It switches</b></td><td>control signals</td><td>motor power</td></tr><tr><td><b>Current</b></td><td>small (a few amperes)</td><td>large (e.g. 32 A)</td></tr>
+    <tr><td><b>Contacts</b></td><td>small, several</td><td>3 main poles + auxiliary contacts</td></tr><tr><td><b>Both have</b></td><td colspan="2">a coil, an iron core, a spring and contacts</td></tr></table>
+    <p style="margin:8px 0 0">A real contactor cut open, with main contacts 1–2, 3–4, 5–6 and auxiliary contacts 13–14 and 21–22, is on Electrical Drawing II <a href="ch4_1_contactors.html?c=mcp#t0">page 4.1</a>: energise its coil and watch.</p></div>
+</section>
+
+<section class="prob" id="tC">
+  <div class="prob-head"><span class="prob-no">Q</span><div><h2 data-l="th">ฝึกเพิ่ม</h2><h2 data-l="en">More practice</h2>
+    <div class="src" data-l="th">การควบคุมระยะไกล</div><div class="src" data-l="en">Remote control</div></div></div>
+  <div class="card"><div id="mcq"></div></div>
+</section>
+
+<section class="notes" data-l="th">
+  <div class="card"><h3>ลองทำดู</h3><ol><li>ในส่วน E หาระยะที่ราคาทั้งสองแบบเท่ากัน แล้วลองเพิ่มราคาคอนแทกเตอร์เป็น 3,000 บาท ระยะนี้เปลี่ยนเป็นเท่าไร</li><li>ในส่วน D ถอดสปริง สับแล้วปลด S1 อธิบายว่าทำไมมอเตอร์ไม่หยุด และทำไมแบบนี้อันตราย</li><li>เทียบประแจรถไฟกับวงจรในส่วน C ทีละคู่: คันโยก ลวดดึง ราง</li></ol>
+    <div class="book">แนวเรื่องจากสไลด์ Lecture 1 "Introduction to motor control" ของวิชาปฏิบัติงานควบคุมมอเตอร์ (Satit Owatchaiphong, College of Industrial Technology, KMUTNB) วาดใหม่ทั้งหมด · มาตรฐานการติดตั้งทางไฟฟ้าสำหรับประเทศไทย (วสท.) ขนาดสายของมอเตอร์ตัวเดียว ≥ 125 % ของกระแสพิกัด · ราคาเป็นตัวอย่างจากสไลด์</div></div>
+</section>
+<section class="notes" data-l="en">
+  <div class="card"><h3>Try this</h3><ol><li>In section E, find the distance where both ways cost the same. Then raise the contactor price to 3,000 baht: what is that distance now?</li><li>In section D, take the spring out and switch S1 on and off. Explain why the motor does not stop, and why that is dangerous.</li><li>Compare the railroad switch with the circuit of section C pair by pair: lever, wire, rails.</li></ol>
+    <div class="book">The story follows the Motor Control Practice Lecture 1 slides "Introduction to motor control" (Satit Owatchaiphong, College of Industrial Technology, KMUTNB), redrawn · Thai wiring standard (EIT): the wire of a single motor carries at least 125 % of its rated current · prices are the examples of the slides</div></div>
+</section>
+
+<nav class="navbar" id="mc-nav"></nav>
+</div>
+
+<script>
+document.addEventListener('mc:ready', () => {
+  'use strict';
+  const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui;
+  const btn = (parent, label, fn, cls = '') => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn ' + cls; b.innerHTML = label; b.addEventListener('click', fn); parent.appendChild(b); return b; };
+
+  /* a story stepper: frames [{ o (RC.power options), cap [th, en], sw (the frame has a switch to toggle), st (status) }] */
+  const story = (fig, nav, cap, stEl, frames) => { let k = 0, on = false; const st = ui.status(stEl);
+    const row = document.createElement('div'); row.className = 'rcnav'; nav.appendChild(row);
+    const prev = btn(row, t('← ก่อนหน้า', '← Back'), () => go(k - 1)), next = btn(row, t('ถัดไป →', 'Next →'), () => go(k + 1), 'on'), no = document.createElement('span'); no.className = 'rcno'; row.appendChild(no);
+    const sw = btn(row, t('สับ S1', 'Switch S1'), () => { on = !on; draw(); });
+    const dots = document.createElement('div'); dots.className = 'rcdots'; nav.appendChild(dots); frames.forEach(() => dots.appendChild(document.createElement('span')));
+    const draw = () => { const F = frames[k], live = F.sw ? on : true; fig.innerHTML = RC.power({ ...F.o, on: F.sw ? on : F.o.on });
+      cap.innerHTML = t(F.cap[0], F.cap[1]); no.textContent = `${k + 1} / ${frames.length}`; prev.disabled = k === 0; next.disabled = k === frames.length - 1;
+      sw.style.display = F.sw ? '' : 'none'; sw.classList.toggle('on', on); sw.textContent = on ? t('ปลด S1', 'Switch S1 off') : t('สับ S1', 'Switch S1 on');
+      [...dots.children].forEach((d, i) => d.classList.toggle('on', i === k));
+      const s = F.st ? F.st(live) : null; if (s) ui.setStatus(st, s[0], s[1], s[2]); st.style.display = s ? '' : 'none'; };
+    const go = n => { k = Math.max(0, Math.min(frames.length - 1, n)); on = !!frames[k].start; draw(); };
+    go(0); };
+  const runSt = on => on ? [t('มอเตอร์เดิน', 'motor running'), t('กระแส 21 A ไหลในสายทั้งสามเส้น', '21 A flows in all three wires'), 'good'] : [t('มอเตอร์หยุด', 'motor stopped'), t('ไม่มีกระแส', 'no current'), 'wait'];
+
+  /* ---------------- A: from the lines to the control room */
+  story($('figA'), $('navA'), $('capA'), $('stA'), [
+    { o: { mode: 'supply' }, cap: ['ระบบไฟ 3 เฟส 5 สาย: <b>L1 L2 L3</b> สายเฟส แรงดันระหว่างสาย 400 V, <b>N</b> นิวทรัล (จากสายเฟสถึง N 230 V), <b>PE</b> สายดินป้องกัน สีเขียว-เหลือง เส้นประในแบบ มีไว้เพื่อความปลอดภัย มอเตอร์ 3 เฟสเขียนเป็นวงกลม <b>M 3~</b> ชื่อ M1 ตอนนี้ยังไม่ได้ต่อ',
+      'A three-phase, five-wire supply: <b>L1 L2 L3</b> are the line wires, 400 V between two lines; <b>N</b> is the neutral (230 V from a line to N); <b>PE</b> is the protective earth, green-yellow, dashed in drawings, there for safety. A three-phase motor is drawn as a circle marked <b>M 3~</b>, named M1. It is not connected yet.'] },
+    { o: { mode: 'direct', amps: true }, cap: ['ต่อมอเตอร์เข้ากับสายตรง ๆ มอเตอร์หมุน <b>แต่หมุนตลอดเวลา</b> เราสั่งหยุดไม่ได้ และเลือกเวลาเดินไม่ได้ ต้องมีสวิตช์', 'Connect the motor straight to the lines and it runs, <b>but all the time</b>. We cannot stop it or choose when it runs. We need a switch.'], st: runSt },
+    { o: { mode: 'near', amps: true }, sw: true, cap: ['ใส่สวิตช์ 3 ขั้ว <b>S1</b> ในสายทั้งสามเส้น กด "สับ S1": เปิด S1 มอเตอร์หยุด ปิด S1 มอเตอร์เดิน และดูตำแหน่งสวิตช์ก็รู้ว่ามอเตอร์เดินอยู่หรือไม่', 'Put a 3-pole switch <b>S1</b> in all three wires. Press "Switch S1": S1 open, the motor stops; S1 closed, it runs. The switch position also tells you whether the motor is running.'], st: runSt },
+    { o: { mode: 'near', amps: true, wire: true }, sw: true, start: true, cap: ['มอเตอร์ตัวอย่าง <b>400 V 21 A</b> (ราว 11 kW) สายของมอเตอร์ตัวเดียวต้องรับกระแสได้ไม่น้อยกว่า 125 % ของกระแสพิกัด: 1.25 × 21 = <b>26.3 A</b> สาย THW 3 × 4 mm² เดินในท่อหรือรางเดินสายรับได้ 34 A จึงใช้ได้',
+      'Our example motor: <b>400 V, 21 A</b> (about 11 kW). The wire of a single motor must carry at least 125 % of its rated current: 1.25 × 21 = <b>26.3 A</b>. THW 3 × 4 mm² in conduit or wireway carries 34 A, so it will do.'], st: runSt },
+    { o: { mode: 'room', amps: true, wire: true, dist: true }, sw: true, start: true, cap: ['ถ้าสวิตช์อยู่ใน<b>ห้องควบคุมห่าง 25 m</b> สายเส้นใหญ่ทั้งสามเส้นต้องเดินไปที่ห้องแล้วกลับมาที่มอเตอร์ เส้นละ 25 + 25 = <b>50 m</b> ค่าสาย 3 × 50 × 12 = 1,800 บาท บวกสวิตช์ 900 บาท = 2,700 บาท และกระแส 21 A ไหลผ่านห้องที่คนทำงาน',
+      'With the switch in a <b>control room 25 m away</b>, the three thick wires go to the room and back to the motor: 25 + 25 = <b>50 m</b> each. Wire 3 × 50 × 12 = 1,800 baht, plus a 900-baht switch = 2,700 baht, and 21 A runs through the room where people work.'], st: runSt },
+    { o: { mode: 'idea', amps: true }, sw: true, cap: ['ความคิดใหม่: วางหน้าสัมผัส 3 ชุดไว้<b>ข้างมอเตอร์</b> สายเส้นใหญ่จึงสั้น แล้วสั่งให้หน้าสัมผัสปิดจากห้องควบคุม… แต่จะดึงหน้าสัมผัสจากที่ไกลได้อย่างไร ดูส่วน B', 'A new idea: put the 3 contacts <b>beside the motor</b>, so the thick wires stay short, and close them from the control room… but how do you pull contacts from far away? See section B.'], st: runSt }]);
+
+  /* ---------------- B: the railroad switch */
+  { const fig = $('figB'), pB = $('pB'); let pos = 'main', remote = false, tr = null, run = false;
+    const draw = () => { fig.innerHTML = RC.rail({ pos, remote, train: tr }); };
+    ui.h2(pB, t('คันโยกอยู่ที่ไหน', 'Where is the lever?'));
+    ui.radio(pB, [{ id: 'local', label: t('ข้างราง', 'beside the track'), on: true }, { id: 'box', label: t('ในห้องสัญญาณ', 'in a signal box') }], id => { remote = id === 'box'; draw(); show(); });
+    const b = MC.ui.buttons(pB, [{ id: 'lev', label: t('โยกคันโยก', 'Throw the lever'), onclick: () => { if (run) return; pos = pos === 'main' ? 'side' : 'main'; draw(); show(); } },
+      { id: 'go', label: t('ปล่อยรถไฟ', 'Send the train'), onclick: () => { if (run) return; run = true; tr = 0; } }]);
+    const st = ui.status(pB), show = () => ui.setStatus(st, pos === 'main' ? t('ทางตรง', 'main line') : t('ทางแยก', 'branch line'), remote ? t('คนในห้องสัญญาณโยกคันโยก ลวดบนรอกดึงรางที่อยู่ไกลออกไป', 'the worker in the signal box throws the lever; the wire over pulleys pulls the rails far away') : t('พนักงานต้องเดินไปโยกคันโยกข้างราง', 'a worker must walk to the lever beside the track'), 'ok');
+    show(); draw();
+    LS.anim(fig, dt => { if (!run) return; tr = Math.min(1, tr + dt / 4); draw(); if (tr >= 1) { run = false; setTimeout(() => { tr = null; draw(); }, 600); } }); }
+
+  /* ---------------- C: the relay in four steps */
+  story($('figC'), $('navC'), $('capC'), $('stC'), [
+    { o: { mode: 'relay', coil: false }, cap: ['<b>ขั้นที่ 1</b> หน้าสัมผัสทองแดงยึดอยู่กับ<b>แกนเหล็กที่เคลื่อนที่ได้</b> ถ้าดึงแกนนี้เข้าหาแกนเหล็กที่อยู่กับที่ หน้าสัมผัสทั้งสามจะต่อ', '<b>Step 1.</b> Copper contacts are fixed to a <b>moving iron core</b>. Pull that core to the fixed core and the three contacts close.'] },
+    { o: { mode: 'relay', coil: true }, cap: ['<b>ขั้นที่ 2</b> พัน<b>ขดลวด (คอยล์)</b> รอบแกนเหล็กที่อยู่กับที่ ปลายคอยล์ชื่อ A1 และ A2 แล้วจะป้อนกระแสเล็ก ๆ เข้าไป', '<b>Step 2.</b> Wind a <b>coil</b> around the fixed iron core. Its ends are A1 and A2, and a small current will be sent into it.'] },
+    { o: { mode: 'relay', coil: true, amps: true, coilA: true }, sw: true, cap: ['<b>ขั้นที่ 3</b> กด "สับ S1" เพื่อป้อนกระแส 0.5 A เข้าคอยล์: คอยล์สร้างแรงแม่เหล็ก ดึงแกนเหล็กเคลื่อนที่เข้ามา หน้าสัมผัสต่อ มอเตอร์ได้กระแส 21 A <b>กระแสเล็กสั่งกระแสใหญ่ได้</b>', '<b>Step 3.</b> Press "Switch S1" to send 0.5 A into the coil: it makes a magnetic force that pulls the moving core in, the contacts close and the motor gets 21 A. <b>A small current switches a big one.</b>'], st: runSt },
+    { o: { mode: 'relay', coil: true, ctrl: true, amps: true, coilA: true, ctlWire: true }, sw: true, cap: ['<b>ขั้นที่ 4</b> สวิตช์เล็ก S1 ในห้องควบคุมจ่ายไฟให้คอยล์ (L1 → S1 → A1, A2 → N) ตอนนี้มี<b>สองวงจร</b>: วงจรกำลัง สีแดง 21 A อยู่ข้างมอเตอร์ และวงจรควบคุม สีน้ำเงิน 0.5 A เดินไปห้องควบคุมด้วยสาย VSF 2 × 0.75 mm²', '<b>Step 4.</b> A small switch S1 in the control room feeds the coil (L1 → S1 → A1, A2 → N). Now there are <b>two circuits</b>: the power circuit, red, 21 A, beside the motor, and the control circuit, blue, 0.5 A, running to the control room on VSF 2 × 0.75 mm².'], st: runSt }]);
+
+  /* ---------------- D: the spring */
+  { const pD = $('pD'), log = []; const M = new RC.Magnet($('figD'), { spring: false });
+    ui.h2(pD, t('สปริง', 'Spring'));
+    ui.radio(pD, [{ id: 'no', label: t('ไม่มีสปริง', 'no spring'), on: true }, { id: 'yes', label: t('มีสปริง', 'with spring') }], id => { M.setSpring(id === 'yes'); show(); });
+    ui.h2(pD, t('สวิตช์ในห้องควบคุม', 'Switch in the control room'));
+    const b = MC.ui.buttons(pD, [{ id: 's1', label: t('สับ S1', 'Switch S1 on'), onclick: () => { const was = M.on; M.set(!was); b.s1.textContent = M.on ? t('ปลด S1', 'Switch S1 off') : t('สับ S1', 'Switch S1 on'); b.s1.classList.toggle('on', M.on);
+      if (was) { log.push([M.spring, M.closed()]); rec(); } show(); } }]);
+    const st = ui.status(pD), show = () => { const c = M.closed();
+      ui.setStatus(st, c ? t('มอเตอร์เดิน', 'motor running') : t('มอเตอร์หยุด', 'motor stopped'), M.on ? t('กระแสคอยล์ 0.5 A: แม่เหล็กดึงแกนเหล็ก หน้าสัมผัสต่อ', 'coil current 0.5 A: the magnet pulls the core, the contacts are closed')
+        : c ? t('S1 ปลดแล้ว ไม่มีกระแสคอยล์ แต่ไม่มีอะไรดันแกนเหล็กกลับ หน้าสัมผัสยังต่ออยู่', 'S1 is off and there is no coil current, but nothing pushes the core back: the contacts stay closed') : t('ไม่มีกระแสคอยล์ หน้าสัมผัสเปิด', 'no coil current, the contacts are open'), c && !M.on ? 'bad' : c ? 'good' : 'wait'); };
+    const rec = () => { $('logD').innerHTML = `<table class="tbl stack"><tr><th>#</th><th>${t('สปริง', 'spring')}</th><th>${t('หลังปลด S1', 'after S1 off')}</th></tr>` + log.map((r, i) => `<tr><td>${i + 1}</td><td>${r[0] ? t('มี', 'yes') : t('ไม่มี', 'no')}</td><td>${r[1] ? t('มอเตอร์ยังเดิน (อันตราย)', 'motor still running (dangerous)') : t('มอเตอร์หยุด', 'motor stopped')}</td></tr>`).join('') + '</table>';
+      const a = log.some(r => !r[0] && r[1]), c = log.some(r => r[0] && !r[1]);
+      $('sumD').innerHTML = a && c ? `<p style="margin:0"><b>${t('สรุป', 'Result')}</b>: ${t('ไม่มีสปริง หน้าสัมผัสค้างต่อ มอเตอร์หยุดไม่ได้ มีสปริง สปริงดันแกนเหล็กกลับทันทีที่ไม่มีแรงแม่เหล็ก หน้าสัมผัสเปิด อุปกรณ์ที่มีคอยล์ แกนเหล็ก สปริง และหน้าสัมผัสหลักสำหรับมอเตอร์นี้เรียกว่า <b>แมกเนติกคอนแทกเตอร์</b>', 'without a spring the contacts stay closed and the motor cannot be stopped; with a spring, the spring pushes the core back as soon as the magnet lets go and the contacts open. A device with a coil, an iron core, a spring and main contacts for a motor is a <b>magnetic contactor</b>')}</p>`
+        : `<p class="hint" style="margin:0">${t('ลองทั้งสองแบบ: ไม่มีสปริงและมีสปริง สับแล้วปลด S1', 'Try both: without and with the spring, switch S1 on and then off')}</p>`; };
+    rec(); show(); }
+
+  /* ---------------- E: cost */
+  { const pE = $('pE'), fig = $('figE'), P = { ...RC.PRICE }; let d = 25, hov = null;
+    $('legE').innerHTML = `<span><i style="border-color:var(--rc-cur)"></i>${t('สวิตช์ในห้องควบคุม', 'switch in the control room')}</span><span><i style="border-color:var(--rc-ctl)"></i>${t('คอนแทกเตอร์ข้างมอเตอร์', 'contactor beside the motor')}</span>`;
+    ui.slider(pE, { id: 'dE', label: t('ระยะถึงห้องควบคุม', 'distance to the control room'), min: 5, max: 100, step: 1, value: d, unit: 'm', dec: 0, oninput: v => { d = v; draw(); } });
+    ui.slider(pE, { id: 'thwE', label: t('สาย THW 4 mm² (บาท/m)', 'THW 4 mm² wire (baht/m)'), min: 6, max: 30, step: 1, value: P.thw, unit: '', dec: 0, oninput: v => { P.thw = v; draw(); } });
+    ui.slider(pE, { id: 'kmE', label: t('คอนแทกเตอร์ (บาท)', 'contactor (baht)'), min: 1000, max: 4000, step: 100, value: P.km, unit: '', dec: 0, oninput: v => { P.km = v; draw(); } });
+    const n = v => Math.round(v).toLocaleString('en-US');
+    const draw = () => { const dd = hov != null ? hov : d; fig.innerHTML = RC.costChart({ p: P, d: dd }); const c = RC.cost(d, P), b = RC.BREAK(P), ch = RC.cost(dd, P);
+      $('readE').textContent = t(`ที่ ${n(dd)} m: สวิตช์ ${n(ch.sw)} บาท · คอนแทกเตอร์ ${n(ch.km)} บาท`, `at ${n(dd)} m: switch ${n(ch.sw)} baht · contactor ${n(ch.km)} baht`) + (b > 0 ? t(` · เท่ากันที่ ${b.toFixed(1)} m`, ` · equal at ${b.toFixed(1)} m`) : '');
+      $('tabE').innerHTML = `<table class="rccost"><tr><th>${t(`ที่ ${n(d)} m`, `at ${n(d)} m`)}</th><th class="sw">${t('สวิตช์', 'switch')}</th><th class="km">${t('คอนแทกเตอร์', 'contactor')}</th></tr>
+        <tr><td>${t('สาย', 'wire')}</td><td>${n(c.parts.thw)}<br><small>3 × 2 × ${n(d)} m × ${P.thw}</small></td><td>${n(c.parts.vsf)}<br><small>2 × ${n(d)} m × ${P.vsf}</small></td></tr>
+        <tr><td>${t('อุปกรณ์', 'device')}</td><td>${n(P.sw)}</td><td>${n(P.km)}</td></tr><tr><td><b>${t('รวม (บาท)', 'total (baht)')}</b></td><td class="sw">${n(c.sw)}</td><td class="km">${n(c.km)}</td></tr></table>
+        <p class="hint" style="margin:6px 0 0">${c.km < c.sw ? t(`คอนแทกเตอร์ถูกกว่า ${n(c.sw - c.km)} บาท`, `the contactor is ${n(c.sw - c.km)} baht cheaper`) : t(`สวิตช์ถูกกว่า ${n(c.km - c.sw)} บาท (ห้องอยู่ใกล้)`, `the switch is ${n(c.km - c.sw)} baht cheaper (the room is close)`)} · ${t('ราคาเป็นตัวอย่าง ไม่รวมสวิตช์เล็กของวงจรควบคุม', 'example prices; the small control switch is not counted')}</p>`; };
+    const pick = e => { const svg = fig.querySelector('svg'); if (!svg) return; const r = svg.getBoundingClientRect(), sx = 620 / r.width, x = (e.clientX - r.left) * sx, L = +svg.dataset.l, pw = +svg.dataset.pw, D = +svg.dataset.d;
+      const v = (x - L) / pw * D; hov = v >= 0 && v <= D ? Math.round(v) : null; draw(); };
+    fig.addEventListener('pointermove', pick); fig.addEventListener('pointerdown', pick); fig.addEventListener('pointerleave', () => { hov = null; draw(); });
+    draw(); }
+
+  /* ---------------- practice */
+  ED.mcq('mcq', [
+    { q: t('1) ทำไมการวางสวิตช์ 3 ขั้วไว้ในห้องควบคุมที่อยู่ไกลจึงแพง', '1) Why is a 3-pole switch in a far-away control room expensive?'), options: [t('สายเส้นใหญ่ 3 เส้นต้องเดินไปที่ห้องและกลับ', 'the 3 thick wires must go to the room and come back'), t('สวิตช์ 3 ขั้วแพงกว่าคอนแทกเตอร์', 'a 3-pole switch costs more than a contactor'), t('มอเตอร์ใช้ไฟมากขึ้น', 'the motor uses more power')], answer: 0, why: t('สายแต่ละเส้นยาวเป็นสองเท่าของระยะ และต้องเป็นสายเส้นใหญ่ที่รับกระแสมอเตอร์ได้', 'each wire is twice the distance long, and it must be a thick wire that carries the motor current') },
+    { q: t('2) มอเตอร์กระแสพิกัด 21 A สายของมันต้องรับกระแสได้อย่างน้อยเท่าไร', '2) A motor has a rated current of 21 A. At least what current must its wire carry?'), options: ['21 A', '26.3 A', '42 A'], answer: 1, why: t('สายของมอเตอร์ตัวเดียว ≥ 125 % ของกระแสพิกัด: 1.25 × 21 = 26.3 A', 'the wire of a single motor carries ≥ 125 % of its rated current: 1.25 × 21 = 26.3 A') },
+    { q: t('3) อะไรดึงหน้าสัมผัสของรีเลย์ให้ต่อ', '3) What pulls the contacts of a relay closed?'), options: [t('สปริง', 'the spring'), t('แรงแม่เหล็กจากกระแสในคอยล์', 'the magnetic force of the coil current'), t('กระแสของมอเตอร์', 'the motor current')], answer: 1, why: t('กระแสในคอยล์สร้างแรงแม่เหล็ก ดึงแกนเหล็กที่ยึดหน้าสัมผัสไว้', 'the coil current makes a magnetic force that pulls the iron core carrying the contacts') },
+    { q: t('4) ตัดไฟคอยล์แล้ว อะไรทำให้หน้าสัมผัสของคอนแทกเตอร์เปิด', '4) When the coil current stops, what opens the contacts of a contactor?'), options: [t('สปริง', 'the spring'), t('แรงแม่เหล็ก', 'the magnet'), t('น้ำหนักของมอเตอร์', 'the weight of the motor')], answer: 0, why: t('ไม่มีแรงแม่เหล็กแล้ว สปริงจึงดันแกนเหล็กกลับ ถ้าไม่มีสปริง หน้าสัมผัสอาจค้างต่อ', 'with the magnet gone, the spring pushes the core back; without a spring the contacts may stay closed') },
+    { q: t('5) คันโยกในห้องสัญญาณรถไฟเทียบได้กับอะไรในวงจรควบคุมมอเตอร์', '5) In motor control, what is like the lever in a railroad signal box?'), options: [t('หน้าสัมผัสข้างมอเตอร์', 'the contacts beside the motor'), t('สวิตช์เล็ก S1 ในห้องควบคุม', 'the small switch S1 in the control room'), t('มอเตอร์ M1', 'motor M1')], answer: 1, why: t('คันโยกสั่งจากที่ไกลผ่านลวด เหมือน S1 สั่งคอยล์ผ่านสายควบคุมเส้นเล็ก', 'the lever acts from far away through a wire, as S1 switches the coil through a thin control wire') },
+    { q: t('6) ข้อใดถูกเกี่ยวกับวงจรควบคุม', '6) Which is true of the control circuit?'), options: [t('มีกระแสเท่ากับมอเตอร์', 'it carries the motor current'), t('มีกระแสเล็ก ใช้สายเส้นเล็กได้', 'it carries a small current, so thin wires will do'), t('ต้องอยู่ข้างมอเตอร์เสมอ', 'it must always sit beside the motor')], answer: 1, why: t('กระแสคอยล์ราว 0.5 A เทียบกับมอเตอร์ 21 A จึงใช้สาย VSF 0.75 mm² ได้', 'the coil takes about 0.5 A against the motor\'s 21 A, so VSF 0.75 mm² will do') }]);
+});
+</script>
+</body>
+</html>

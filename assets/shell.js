@@ -103,8 +103,10 @@ function navbar() {
    week card on mcp.html → prepare pages → the week's practice page. Returns false when it has nothing to draw (ED2 order is used). */
 function mcpNavbar(el) {
   const WK = MC.t('สัปดาห์', 'Week'), P = MC.t('หน้า', 'Page'), mw = MC.mcpHere();
-  if (mw) { const ps = MC.mcpWeeks().filter(w => w.page && !w.soon), i = ps.indexOf(mw), prev = i > 0 ? ps[i - 1] : null, next = i >= 0 ? ps[i + 1] : null;
-    el.innerHTML = (prev ? `<a class="navlink prev" href="${prev.page}">← ${WK} ${prev.wk}: ${esc(MC.t(prev.title, prev.en))}</a>` : '<span></span>') +
+  if (mw) { const ps = MC.mcpWeeks().filter(w => w.page && !w.soon), i = ps.indexOf(mw), prev = i > 0 ? ps[i - 1] : null, next = i >= 0 ? ps[i + 1] : null, f = MC.file(), it = mw.intro;
+    if (it && f === it.file) { el.innerHTML = `<a class="navlink prev" href="mcp.html#w${mw.wk}">← ${WK} ${mw.wk} ${MC.t('ในแผนที่การเรียน', 'on the roadmap')}</a>` +   // a lecture page read before the week's practice page
+      `<a class="navlink next" href="${mw.page}">${MC.t('ไปปฏิบัติสัปดาห์', 'Practice, week')} ${mw.wk}: ${esc(MC.t(mw.title, mw.en))} →</a>`; return true; }
+    el.innerHTML = (it && f === mw.page ? `<a class="navlink prev" href="${it.file}">← ${esc(MC.t(it.title, it.en))}</a>` : prev ? `<a class="navlink prev" href="${prev.page}">← ${WK} ${prev.wk}: ${esc(MC.t(prev.title, prev.en))}</a>` : '<span></span>') +
       (next ? `<a class="navlink next" href="${next.page}">${WK} ${next.wk}: ${esc(MC.t(next.title, next.en))} →</a>` : `<a class="navlink next" href="mcp.html">${MC.t('กลับไปแผนที่การเรียน', 'Back to the roadmap')} →</a>`);
     return true; }
   const here = MC.here(), w = here ? MC.mcpWeekFor(here.file) : null; if (!w) return false;

@@ -9,8 +9,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=18"><link rel="stylesheet" href="assets/ed2.css?v=18">
-<script src="assets/stops.js?v=18"></script><script src="assets/shell.js?v=18"></script>
+<link rel="stylesheet" href="assets/ee.css?v=19"><link rel="stylesheet" href="assets/ed2.css?v=19">
+<script src="assets/stops.js?v=19"></script><script src="assets/shell.js?v=19"></script>
 </head>
 <body>
 <div class="wrap">
@@ -93,7 +93,7 @@ document.addEventListener('mc:ready', () => {
       <h3>${w.page ? `<a href="${w.page}">${esc(main)}</a>` : esc(main)}<span class="en">${esc(sub)}</span></h3><p>${esc(t(w.blurb, w.blurb_en))}</p>
       <div class="prep">${prep}</div>
       <div class="goal"><b>${t('จะทำได้:', 'You will be able to:')}</b> ${esc(t(w.outcome, w.outcome_en))}</div>
-      <div class="go">${w.page ? `<a class="btn on" href="${w.page}">${kind === 'exam' ? t('วิธีสอบและโจทย์ฝึก', 'How the exam works, with a practice task') : t('เปิดหน้าปฏิบัติ', 'Open the practice page')} →</a>` : ''}
+      <div class="go">${w.intro ? `<a class="btn" href="${w.intro.file}">${esc(t(w.intro.title, w.intro.en))} →</a> ` : ''}${w.page ? `<a class="btn on" href="${w.page}">${kind === 'exam' ? t('วิธีสอบและโจทย์ฝึก', 'How the exam works, with a practice task') : t('เปิดหน้าปฏิบัติ', 'Open the practice page')} →</a>` : ''}
         <span class="paper">${kind === 'exam' ? t('ข้อสอบจริงครูแจกเป็นกระดาษในห้องสอบ', 'The real exam is handed out on paper in the exam session') : t('ใบงานของสัปดาห์นี้ครูแจกเป็นกระดาษในคาบปฏิบัติ', 'This week\'s practice sheet is handed out on paper in class')}</span></div>
       ${tags.length ? `<div class="tags">${tags.map(x => `<span class="tag">${esc(x)}</span>`).join('')}</div>` : ''}</div></div>`;
   }

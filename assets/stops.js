@@ -23,7 +23,15 @@ window.STAGES = {
 
 const BK = (th, en) => ({ book: th, book_en: en });
 window.STOPS = [
-  /* ---------------- chapter 1: AC motors ---------------- */
+  /* ---------------- chapter 1: electrical symbols (Lecture 1 slides), AC motors ---------------- */
+  { file: 'ch1_0_symbols.html', step: '1.0', stage: 1, ch: 1, wk: 1, type: 'sim',
+    title: 'สัญลักษณ์ไฟฟ้าสำหรับงานควบคุมมอเตอร์', en: 'Electrical symbols for motor control',
+    blurb: 'สัญลักษณ์ของสไลด์บทที่ 1: สายจ่ายไฟ L1 L2 L3 N PE ฟิวส์ F สวิตช์และหน้าสัมผัส S (ปกติเปิด ปกติปิด สวิตช์โยก ปุ่มกด) คอนแทกเตอร์ K มอเตอร์ M และหลอดสัญญาณ H ลองกดสวิตช์ ป้อนไฟคอยล์ และทำให้ฟิวส์ขาด แล้วดูว่าสัญลักษณ์เปลี่ยนอย่างไร',
+    blurb_en: 'The symbols of the Lecture 1 slides: supply lines L1 L2 L3 N PE, fuse F, switches and contacts S (normally open, normally closed, toggle switch, push button), contactor K, motor M and pilot lamp H. Operate the switches, energise the coil and blow the fuse, and watch the symbols change.',
+    outcome: 'อ่านและวาดสัญลักษณ์สายจ่ายไฟ ฟิวส์ สวิตช์ หน้าสัมผัส NO/NC คอนแทกเตอร์ มอเตอร์ และหลอดสัญญาณ พร้อมตัวอักษร F S K M H และเลขขั้วได้',
+    outcome_en: 'read and draw the symbols of the supply lines, fuse, switches, NO/NC contacts, contactor, motor and pilot lamp, with the letters F S K M H and their terminal numbers',
+    ...BK('สไลด์บทที่ 1 (Electrical symbols for motor control) · IEC 60617', 'Lecture 1 slides (Electrical symbols for motor control) · IEC 60617'),
+    tags: ['สายจ่ายไฟ', 'NO / NC', 'สวิตช์โยก / ปุ่มกด', 'ตัวอักษร F S K M H'], tags_en: ['supply lines', 'NO / NC', 'toggle / push button', 'letters F S K M H'] },
   { file: 'ch1_1_three_phase.html', step: '1.1', stage: 1, ch: 1, wk: 1, type: 'sim',
     title: 'มอเตอร์เหนี่ยวนำ 3 เฟส: สนามแม่เหล็กหมุนและสลิป', en: 'The three-phase induction motor: rotating field and slip',
     blurb: 'กระแส 3 เฟสในขดลวดสามชุดที่วางห่างกัน 120° สร้างสนามแม่เหล็กหมุน โรเตอร์หมุนตามช้ากว่าเล็กน้อย ลองเปลี่ยนจำนวนขั้ว สลับสายสองเส้น และเพิ่มภาระ แล้วดูความเร็ว สลิป และกระแสเริ่มเดินที่สูงหลายเท่า',
@@ -413,7 +421,7 @@ window.COURSES = {
    mcp = the AFTERNOON = the MCP_WEEKS entry of the same week (linked below; null in week 18). EN strings hold no Thai. */
 window.WEEK_KINDS = { teach: ['สัปดาห์เรียน', 'teaching week'], exam: ['สัปดาห์สอบ', 'exam week'], review: ['ทบทวนและชดเชย', 'review and make-ups'] };
 window.WEEKS = [
-  { wk: 1, kind: 'teach', ed2: { ch: 1, title: 'มอเตอร์ไฟฟ้ากระแสสลับ และเริ่มใช้ CADe SIMU', en: 'Alternating-current motors, and getting started with CADe SIMU',
+  { wk: 1, kind: 'teach', ed2: { ch: 1, title: 'สัญลักษณ์ไฟฟ้า มอเตอร์ไฟฟ้ากระแสสลับ และเริ่มใช้ CADe SIMU', en: 'Electrical symbols, AC motors, and getting started with CADe SIMU',
       pre: '1', diag: true, lab: '1', labPage: 'ch1_4_cadesimu.html', sim: '1',
       note: 'ปฐมนิเทศ: แผนคะแนนและการติดตั้ง CADe SIMU', note_en: 'Orientation: the scoring plan and setting up CADe SIMU' } },
   { wk: 2, kind: 'teach', ed2: { ch: 2, title: 'สัญลักษณ์ เลขขั้ว ชนิดของแบบ และแผ่นแบบ', en: 'Symbols, terminal numbers, kinds of drawing and the drawing sheet',
@@ -469,12 +477,12 @@ window.MCP_PARTS = {
    15 practice afternoons + the practical midterm (week 9) and final (week 17); no session in week 18.
    wk = SEMESTER week (the same as WEEKS); part = MCP_PARTS key; kind: 'prac' practice week, 'exam' practical exam (the page explains how
    the exam works and holds a PRACTICE task of the same kind, never the real exam), 'task' combined task; page = the MCP practice page
-   (mcp_<wk>_<slug>.html) or null; soon: true = built together with ED2 chapters 8–12 (dimmed, no links), ch = those chapters;
+   (mcp_<wk>_<slug>.html) or null; intro = { file, title, en } a lecture page read before that practice page (it carries <meta name="mcp-week">); soon: true = built together with ED2 chapters 8–12 (dimmed, no links), ch = those chapters;
    review = earlier ED2 pages the afternoon builds on (weeks 15–16), recap / recap_en = what to review in words (exam and late weeks).
    FILLED IN BELOW from WEEKS (do not write them here): prepare = the ED2 pages of the SAME morning (in reading order; [] when the
    morning has none), range / range_en = the morning in words. Practice sheets and exams are paper only: no downloads. EN: no Thai. */
 window.MCP_WEEKS = [
-  { wk: 1, part: 1, kind: 'prac', page: 'mcp_1_safety_meter.html',
+  { wk: 1, part: 1, kind: 'prac', page: 'mcp_1_safety_meter.html', intro: { file: 'mcp_1_intro_motor_control.html', title: 'บทนำ: แนะนำการควบคุมมอเตอร์ (สไลด์ Lecture 1)', en: 'Lecture 1: Introduction to motor control' },
     title: 'ระบบไฟฟ้าในโรงงาน ความปลอดภัย และการใช้มัลติมิเตอร์', en: 'Factory supply, safety and the multimeter',
     blurb: 'ระบบไฟ 3 เฟส 400/230 V ในโรงงาน ตัดไฟ ล็อก และติดป้าย (lock-out/tag-out) ก่อนลงมือ ทดสอบว่าไม่มีไฟก่อนจับโดยลองเครื่องวัดกับแหล่งที่มีไฟก่อนทุกครั้ง วัดแรงดันและความต่อเนื่องด้วยมัลติมิเตอร์ เปิดกล่องขั้วมอเตอร์ วางสะพานแบบสตาร์หรือเดลตา แล้วต่อมอเตอร์เข้ากับเบรกเกอร์ Q1 ตามใบงานของครูแผ่นที่ 1–2',
     blurb_en: 'The factory three-phase 400/230 V supply; switch off, lock out and tag out before work; prove the tester on a known live source, then test for dead before touching; measure voltage and continuity with a multimeter; open a motor terminal box, set the star or delta links and connect the motor to breaker Q1 (the instructor\'s sheets 1–2).',

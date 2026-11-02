@@ -8,7 +8,9 @@
    Chapter 5 (17 Oct 2026): op 'spd' (speed-operated, the centrifugal switch of a single-phase motor), wind (winding), cap (capacitor),
    efault (an earth fault from a node: off = dashed "possible fault", on = flash to earth), earth (earth symbol), meter (V or A in a
    circle), ct (current transformer ring on a vertical conductor); therm o.trip marks a tripped element; a near-white lamp gets an
-   outlined halo so that it shows on a white page. */
+   outlined halo so that it shows on a white page.
+   Lecture 1 symbols (2 Nov 2026): op 'man' (general manual operator, a toggle switch) and o.detent (the detent mark on the link: the switch stays
+   where it is put); neither changes any existing drawing. */
 (function (global) {
 'use strict';
 const IE = {};
@@ -31,6 +33,8 @@ function operator(op, x, ym, o) {
   else if (op === 'tmp') s += `<path d="M ${xl - 5} ${ym - 5} L ${xl + 5} ${ym - 5} L ${xl + 5} ${ym + 5} L ${xl - 5} ${ym + 5} Z" fill="none"${c}/>` + T('θ', xl, ym + 4, { size: 10, anchor: 'middle', col: o.col });
   else if (op === 'thr') s += `<path d="M ${xl - 3} ${ym + 6} L ${xl - 3} ${ym} L ${xl + 3} ${ym} L ${xl + 3} ${ym - 6}" fill="none"${c}/>`;
   else if (op === 'spd') s += `<circle cx="${xl}" cy="${ym}" r="6" fill="none"${c}/>` + T('n', xl, ym + 3.5, { size: 9, anchor: 'middle', col: o.col });   // speed (centrifugal) operator
+  else if (op === 'man') s += L(xl + 5, ym - 6, xl + 5, ym + 6, { col: o.col });   // manual operator, general (a toggle switch)
+  if (o.detent) { const xm = (x - 6 + xl + 5) / 2; s += `<path d="M ${f(xm - 3.5)} ${f(ym)} L ${f(xm)} ${f(ym + 4.5)} L ${f(xm + 3.5)} ${f(ym)}" fill="none"${c}/>`; }   // detent: the switch stays where it is put
   return s;
 }
 /* contact: NO (make) or NC (break); o.act draws the actuated position. Both kinds swing to the RIGHT when actuated (pushed by the operator
