@@ -1,55 +1,62 @@
-/* ch6.js — chapter 6: sequence starting of several motors (conveyor lines).
+/* ch6.js — chapter 8: sequence starting of several motors (conveyor lines).
    Conveyors: M1 = the most downstream belt (discharge end), M3 = the feed end; material flows M3 → M2 → M1. Start downstream first,
    stop upstream first, a belt that stops takes every belt upstream of it with it, the emergency stop S0 stops everything.
-   Course names and IEC numbers: Q1 main breaker, Q11–Q13 branch breakers, F1 control fuse, F21–F23 overload relays of M1–M3
-   (95–96 / 97–98), KM1–KM3 contactors, KA1 auxiliary relay, KT1–KT4 timers (timed NO 67–68), S0 emergency stop (latching mushroom,
-   11–12), manual circuits S1 stop M1 · S2 start M1 · S3 stop M2 · S4 start M2 · S5 stop M3 · S6 start M3, automatic circuits S1 line stop ·
-   S2 line start, lamps H1–H3 green "Mn RUN" via KMn 53–54 and H4–H6 yellow "Mn OVERLOAD" via F2n 97–98, every lamp fed from F1 2 (ahead
-   of all the 95–96 contacts). Control 230 V between L1 and N tapped from the busbar after Q1 (o.tap 'before': ahead of Q1).
+   Course names (the Lecture 8 slides, 14 Nov 2026), given per circuit of n motors (C6.names(n)): power fuses F1…Fn (three fuses per
+   motor, each set fed straight from L1 L2 L3: there is no main breaker), overload relays F(n+1)…F(2n) of M1…Mn (95–96 / 97–98),
+   control fuse F(2n+1), contactors K1…Kn; an auxiliary relay and the timers continue the K numbers (relay first, then the timers in
+   order). Two motors = Lecture 8: F1 F2 power fuses, F3 F4 overloads, F5 control fuse, K1 K2. Three motors: F1–F3, F4–F6, F7, K1–K3;
+   AUTO3 on-delay timers K4 K5; AUTO_STOP relay K4, on-delay timers K5 K6, off-delay timers K7 K8. S0 emergency stop (latching
+   mushroom, 11–12), manual circuits S1 stop M1 · S2 start M1 · S3 stop M2 · S4 start M2 · S5 stop M3 · S6 start M3, automatic
+   circuits S1 line stop · S2 line start, lamps H1…Hn green "Mn RUN" via Kn 53–54 and H(n+1)…H(2n) yellow "Mn OVERLOAD" via the
+   overload's 97–98 (two motors H3 H4, three motors H4–H6), every lamp fed from terminal 2 of the control fuse (ahead of all the
+   95–96 contacts). Control 230 V between L1 and N, tapped from the busbar (o.tap 'before': drawn from the supply terminals; with no
+   main switch both are the same point). The power fuses blow only on a short circuit; a click on a blown set replaces it.
    Contact numbers (no number is used twice on one device; C6.CONTACTS holds this table for the pages):
-     KMn  13–14 holding contact (built in; in AUTO_STOP KM1 13–14 / KM2 13–14 are the seal contacts in series with KT4 / KT3 67–68),
+     Kn   13–14 holding contact (built in; in AUTO_STOP K1 13–14 / K2 13–14 are the seal contacts in series with K8 / K7 67–68),
           21–22 NC built in (spare), front block 53–54 NO run lamp Hn, 61–62 NC and 71–72 NC spare,
-          83–84 NO = permissive for the next motor (KM1 → KM2 path, KM2 → KM3 path) or the drive of KT1 / KT2 (AUTO3);
-          REV_STOP 2 motors: KM2 83–84 across S1; REV_STOP 3 motors: KM2 needs four NO, so it carries a front block with four NO
-          (53–54, 63–64, 73–74, 83–84): 63–64 across S1, 83–84 permissive for KM3; KM3 83–84 across S3. Fault 1 uses KM1 61–62 (NC).
-     KA1  13–14 hold, 23–24 KM1 path, 33–34 KM2 path, 43–44 KM3 path (contactor relay with four NO)
-     KT1, KT2 on-delay, 67–68 timed NO; KT3, KT4 off-delay, 67–68 timed NO (slow-release coils, as RL.Sim models them), each in series
-          with the seal contact of the contactor it holds (KT3 + KM2 13–14, KT4 + KM1 13–14)
+          83–84 NO = permissive for the next motor (K1 → K2 path, K2 → K3 path) or the drive of the timers K4 / K5 (AUTO3);
+          REV_STOP 2 motors: K2 83–84 across S1; REV_STOP 3 motors: K2 needs four NO, so it carries a front block with four NO
+          (53–54, 63–64, 73–74, 83–84): 63–64 across S1, 83–84 permissive for K3; K3 83–84 across S3. Fault 1 uses K1 61–62 (NC).
+     K4 (AUTO_STOP relay)  13–14 hold, 23–24 K1 path, 33–34 K2 path, 43–44 K3 path (contactor relay with four NO)
+     timers  on-delay (AUTO3 K4 K5, AUTO_STOP K5 K6), 67–68 timed NO; off-delay (AUTO_STOP K7 K8), 67–68 timed NO (slow-release
+          coils, as RL.Sim models them), each in series with the seal contact of the contactor it holds (K7 + K2 13–14, K8 + K1 13–14)
    Every factory takes o: { lamps: 'all' (default) | 'run' | 'ol' | false, tap: 'after' (default) | 'before' } and returns a fresh
-   spec whose power drawing has one branch per motor (relay.js power.feeders); sim.runningM('M2') tells one motor, sim.running() any.
+   spec whose power drawing has one branch per motor (relay.js power.feeders, no main stage); sim.runningM('M2') tells one motor,
+   sim.running() any; C6.motorOf(sim, id) = the motor whose branch holds a power fuse or an overload relay.
    1) circuits
-      C6.SEQ_A(o)        two motors, manual, conveyor-correct: KM2 path from the point after F21 95–96 through the permissive KM1
-                         83–84 (outside the KM2 hold), own stop and overload per motor (rows 7; paths 1 KM1, 2 hold, 3 KM2, 4 hold, 5… lamps)
-      C6.SEQ_NODE(o)     variant: KM2 path from the holding node of KM1 (after S2 ∥ KM1 13–14), no permissive contact (rows 8)
-      C6.SEQ_BRIDGE(o)   "what goes wrong": KM2 path fed from F1 2 and KM2 13–14 bridging S4 and the permissive KM1 83–84 (start-only
-                         check): S1 or an F21 trip stops M1 but M2 runs on (pile-up)
-      C6.SEQ_NOOL(o)     SEQ_A with F22 only in the power circuit (no F22 95–96, no H5): an F22 trip leaves M2 running
-      C6.REV_STOP(o)     SEQ_A + KM2 83–84 across S1 only: S1 does nothing while M2 runs (stop M2 with S3 first); o.n 3: three
-                         motors (S5/S6, KM2 63–64 across S1, KM3 83–84 across S3)
-      C6.OL_ARR(mode, o) three conveyors, line stop S1, starts S2 (M1) S3 (M2) S4 (M3), the start order checked by KM1 83–84 / KM2 83–84 in
+      C6.SEQ_A(o)        two motors, manual, conveyor-correct: K2 path from the point after F3 95–96 through the permissive K1
+                         83–84 (outside the K2 hold), own stop and overload per motor (rows 7; paths 1 K1, 2 hold, 3 K2, 4 hold, 5… lamps)
+      C6.SEQ_NODE(o)     variant: K2 path from the holding node of K1 (after S2 ∥ K1 13–14), no permissive contact (rows 8)
+      C6.SEQ_BRIDGE(o)   "what goes wrong": K2 path fed from F5 2 and K2 13–14 bridging S4 and the permissive K1 83–84 (start-only
+                         check): S1 or an F3 trip stops M1 but M2 runs on (pile-up)
+      C6.SEQ_NOOL(o)     SEQ_A with F4 only in the power circuit (no F4 95–96, no H4): an F4 trip leaves M2 running
+      C6.REV_STOP(o)     SEQ_A + K2 83–84 across S1 only: S1 does nothing while M2 runs (stop M2 with S3 first); o.n 3: three
+                         motors (S5/S6, K2 63–64 across S1, K3 83–84 across S3; overloads F4 F5 F6, control fuse F7)
+      C6.OL_ARR(mode, o) three conveyors, line stop S1, starts S2 (M1) S3 (M2) S4 (M3), the start order checked by K1 83–84 / K2 83–84 in
                          series with the start button only (the hold bridges both), so the overload wiring alone decides who stops:
-                         'series' F21 F22 F23 at the top (any overload stops all), 'own' (alias 'indep'; EMC9 "COMMON") each F2n in
-                         its own path (stops only its motor), 'cascade' a tree: path 2 fed after F21, path 3 after F22 (F2n stops Mn and
-                         every belt upstream). C6.OL_STOPS(mode) = which belts stop on each overload, from the model
-      C6.AUTO3(o)        three conveyors, automatic start: S0 → S1 → (S2 ∥ KM1 13–14) → F21 → KM1; from the point after S1: KM1 83–84 →
-                         KT1; KT1 67–68 → F22 → KM2; KM2 83–84 → KT2; KT2 67–68 → F23 → KM3 (cascade on overload for free);
-                         o.olAll: F21 F22 F23 in series under S0 instead; o.T (both timers, default 3 s), o.T1, o.T2
+                         'series' F4 F5 F6 at the top (any overload stops all), 'own' (alias 'indep'; EMC9 "COMMON") each overload in
+                         its own path (stops only its motor), 'cascade' a tree: path 2 fed after F4, path 3 after F5 (the overload of Mn
+                         stops Mn and every belt upstream). C6.OL_STOPS(mode) = which belts stop on each overload, from the model
+      C6.AUTO3(o)        three conveyors, automatic start: S0 → S1 → (S2 ∥ K1 13–14) → F4 → K1; from the point after S1: K1 83–84 →
+                         K4; K4 67–68 → F5 → K2; K2 83–84 → K5; K5 67–68 → F6 → K3 (cascade on overload for free);
+                         o.olAll: F4 F5 F6 in series under S0 instead; o.T (both timers, default 3 s), o.T1 (K4), o.T2 (K5)
       C6.AUTO_STOP(o)    start M1 → M2 → M3 and stop M3 → M2 → M1 (UMC5 Fig 12.13 / Ex10 Exp 10.5 redrawn to the L side, plus seal
-                         contacts): point A = F1 → S0 → F21 → F22 → F23; A → S1 → (S2 ∥ KA1 13–14) → KA1; A → (KA1 23–24 ∥ KT4 67–68 +
-                         KM1 13–14) → KM1 ∥ KT1; A → ((KA1 33–34 + KT1 67–68) ∥ KT3 67–68 + KM2 13–14) → KM2 ∥ KT2 ∥ KT4;
-                         A → KA1 43–44 + KT2 67–68 → KM3 ∥ KT3 (rows 8; paths 1 KA1, 2 hold, 3 KM1, 4 KT4 hold + KT1 coil, 5 KM2, 6 KT3
-                         hold + KT2 coil, 7 KT4 coil, 8 KM3, 9 KT3 coil). The seal contacts let an off-delay contact keep in only a contactor
-                         that is still in: during a normal stop KM1 / KM2 are energised when their off-delay hold takes over, but once a coil
+                         contacts): point A = F7 → S0 → F4 → F5 → F6; A → S1 → (S2 ∥ K4 13–14) → K4; A → (K4 23–24 ∥ K8 67–68 +
+                         K1 13–14) → K1 ∥ K5; A → ((K4 33–34 + K5 67–68) ∥ K7 67–68 + K2 13–14) → K2 ∥ K6 ∥ K8;
+                         A → K4 43–44 + K6 67–68 → K3 ∥ K7 (rows 8; paths 1 K4, 2 hold, 3 K1, 4 K8 hold + K5 coil, 5 K2, 6 K7
+                         hold + K6 coil, 7 K8 coil, 8 K3, 9 K7 coil). The seal contacts let an off-delay contact keep in only a contactor
+                         that is still in: during a normal stop K1 / K2 are energised when their off-delay hold takes over, but once a coil
                          has dropped out (S0, a power cut, an overload trip) its own 13–14 is open and the still-closed off-delay contact cannot
-                         re-energise it, so nothing restarts (IEC 60204-1 7.5 and 10.7). o.seal false: the holds without them (KT4 67–68 and
-                         KT3 67–68 straight from A to the coils, as Exp 10.5): an interruption shorter than the delay restarts KM1 and KM2
+                         re-energise it, so nothing restarts (IEC 60204-1 7.5 and 10.7). o.seal false: the holds without them (K8 67–68 and
+                         K7 67–68 straight from A to the coils, as Exp 10.5): an interruption shorter than the delay restarts K1 and K2.
+                         Delays: o.T (all four, default 3 s), o.T1 o.T2 (on-delay K5 K6), o.T3 o.T4 (off-delay K7 K8)
       C6.BELTS(n)        ['M3', 'M2', 'M1'] (feed end first) · C6.motors(sim) motor ids of a simulator · C6.CONTACTS contact table
    2) C6.FAULTS          nine fault-finding cases in the format of C5.FAULTS { id, title, spec, good, symptom, options (answer = 0),
                          answer, fix, test, seq } plus belts (for C6.Conveyor) and power (true when the power drawing shows the clue);
       C6.runSeq(sim, seq) runs a test sequence (C5 ops + ['wait', s], ['runM', 'M2', bool], ['on', id, bool]);
       C6.faultTrial(c) → { bad, good } (good true and bad false when the case works); C6.trial(spec, seq) → bool;
       C6.events(spec, acts, o) runs a hidden simulator through timed actions [[t, op, …args]] and returns { list: [{ t, id, v }],
-                         at(id, v = true, after = 0) } (motors, coils, timers and 'KTn:c' timed contacts)
+                         at(id, v = true, after = 0) } (motors, coils, timers and timed contacts 'K5:c')
    3) C6.state(sim) default status [pill, text, kind] of a multi-motor simulator; C6.panel(el, sim, o) = C5.panel with that status
    4) C6.Conveyor        animated side view: hopper → M3 → M2 → M1 → bin; belts and rollers move while their motor runs (sim.runningM),
                          parcels flow from the feed end, pile up where a running belt feeds a stopped one, spill past o.cap; counters
@@ -64,142 +71,155 @@ C6.COL = { run: '#7ee787', ol: '#ffd166', stop: '#f2f2f2' };
 C6.T = 3;   // default timer setting (s)
 
 /* ---------------- 1) circuits ---------------- */
+/* course names of an n-motor circuit (Lecture 8 rule): fu(i) power fuses of Mi, ol(i) overload relay of Mi, cf control fuse,
+   k(i) contactor of Mi, h(i) run lamp of Mi, ho(i) overload lamp of Mi */
+const NM = n => ({ n, fu: i => `F${i}`, ol: i => `F${n + i}`, cf: `F${2 * n + 1}`, k: i => `K${i}`, h: i => `H${i}`, ho: i => `H${n + i}` });
+C6.names = NM;
 const DV = {
-  Q1: () => ({ type: 'cb', on: true, name: ['Q1 เบรกเกอร์หลัก', 'Q1 main breaker'] }),
-  Qn: i => ({ type: 'cb', on: true, name: [`Q1${i} เบรกเกอร์ของ M${i}`, `Q1${i} M${i} breaker`] }),
-  F1: () => ({ type: 'fuse', name: ['F1 ฟิวส์วงจรควบคุม', 'F1 control fuse'] }),
-  Fn: i => ({ type: 'ol', name: [`F2${i} โอเวอร์โหลด M${i} ตัด / รีเซ็ต`, `F2${i} M${i} overload trip / reset`] }),
+  fu: i => ({ type: 'fuse', name: [`F${i} ฟิวส์วงจรกำลังของ M${i}`, `F${i} M${i} power fuses`] }),
+  cf: id => ({ type: 'fuse', name: [`${id} ฟิวส์วงจรควบคุม`, `${id} control fuse`] }),
+  ol: (id, i) => ({ type: 'ol', name: [`${id} โอเวอร์โหลด M${i} ตัด / รีเซ็ต`, `${id} M${i} overload trip / reset`] }),
   S0: () => ({ type: 'pb', cap: 'red', latch: true, name: ['S0 หยุดฉุกเฉิน', 'S0 emergency stop'] }),
   stop: (id, i) => ({ type: 'pb', cap: 'black', name: [`${id} หยุด M${i}`, `${id} M${i} stop`] }),
   start: (id, i) => ({ type: 'pb', cap: 'white', name: [`${id} เริ่ม M${i}`, `${id} M${i} start`] }),
   lineStop: () => ({ type: 'pb', cap: 'black', name: ['S1 หยุดทั้งสาย', 'S1 line stop'] }),
   lineStart: () => ({ type: 'pb', cap: 'white', name: ['S2 เริ่มทั้งสาย', 'S2 line start'] }),
-  KM: () => ({ type: 'coil' }), KA: () => ({ type: 'coil' }), KT: (mode, T0) => ({ type: 'timer', mode, T: T0 }),
+  K: () => ({ type: 'coil' }), KT: (mode, T0) => ({ type: 'timer', mode, T: T0 }),
   run: i => ({ type: 'lamp', color: C6.COL.run, code: 'GN', name: [`H${i} M${i} เดิน`, `H${i} M${i} run`] }),
-  ol: i => ({ type: 'lamp', color: C6.COL.ol, code: 'YE', name: [`H${3 + i} M${i} โอเวอร์โหลด`, `H${3 + i} M${i} overload`] }) };
+  olH: (id, i) => ({ type: 'lamp', color: C6.COL.ol, code: 'YE', name: [`${id} M${i} โอเวอร์โหลด`, `${id} M${i} overload`] }) };
 const lampSel = o => { const v = o.lamps === undefined ? 'all' : o.lamps; return { run: v === 'all' || v === 'run', ol: v === 'all' || v === 'ol' }; };
-/* devices of an n-motor circuit in the order the panel shows them: breakers, fuse, overloads, buttons, coils, timers, lamps */
-const devs = (n, btn, o, extra = {}) => { const D = { Q1: DV.Q1() }, L = lampSel(o);
-  for (let i = 1; i <= n; i++) D[`Q1${i}`] = DV.Qn(i);
-  D.F1 = DV.F1(); for (let i = 1; i <= n; i++) D[`F2${i}`] = DV.Fn(i);
-  Object.assign(D, btn); for (let i = 1; i <= n; i++) D[`KM${i}`] = DV.KM(); Object.assign(D, extra);
-  if (L.run) for (let i = 1; i <= n; i++) D[`H${i}`] = DV.run(i);
-  if (L.ol) for (let i = 1; i <= n; i++) D[`H${3 + i}`] = DV.ol(i);
+/* devices of an n-motor circuit in the order the panel shows them: power fuses, overloads, control fuse, buttons, coils, relay and
+   timers (extra), lamps */
+const devs = (n, btn, o, extra = {}) => { const N = NM(n), D = {}, L = lampSel(o);
+  for (let i = 1; i <= n; i++) D[N.fu(i)] = DV.fu(i);
+  for (let i = 1; i <= n; i++) D[N.ol(i)] = DV.ol(N.ol(i), i);
+  D[N.cf] = DV.cf(N.cf);
+  Object.assign(D, btn); for (let i = 1; i <= n; i++) D[N.k(i)] = DV.K(); Object.assign(D, extra);
+  if (L.run) for (let i = 1; i <= n; i++) D[N.h(i)] = DV.run(i);
+  if (L.ol) for (let i = 1; i <= n; i++) D[N.ho(i)] = DV.olH(N.ho(i), i);
   return D; };
 const w = (pts, dots) => (dots && dots.length ? { k: 'w', pts, dots } : { k: 'w', pts }), vw = (x, y, h = 1) => ({ k: 'w', x, y, h });
-const fuse = () => ({ k: 'fuse', d: 'F1', x: 0, y: 0, t: ['1', '2'] }), olc = (i, x, y) => ({ k: 'NC', d: `F2${i}`, x, y, t: ['95', '96'], op: 'thr' });
+const fuse = n => ({ k: 'fuse', d: NM(n).cf, x: 0, y: 0, t: ['1', '2'] }), olc = (d, x, y) => ({ k: 'NC', d, x, y, t: ['95', '96'], op: 'thr' });
 const est = (x, y) => ({ k: 'NC', d: 'S0', x, y, t: ['11', '12'], op: 'mush' }), stp = (d, x, y) => ({ k: 'NC', d, x, y, t: ['11', '12'], op: 'pb' });
 const sta = (d, x, y, h = 1) => ({ k: 'NO', d, x, y, h, t: ['13', '14'], op: 'pb' }), coil = (d, x, y) => ({ k: 'coil', d, x, y, t: ['A1', 'A2'] });
 const no = (d, a, b, x, y, h = 1) => ({ k: 'NO', d, x, y, h, t: [a, b] }), nc = (d, a, b, x, y, h = 1) => ({ k: 'NC', d, x, y, h, t: [a, b] });
 const tno = (d, x, y, td, h = 1) => ({ k: 'NO', d, x, y, h, t: ['67', '68'], td });
-/* lamp columns from x0, each fed from F1 2 (node (0, 1)) along row 1: contact in row rows − 2, lamp to N. via = other columns whose top
-   sits on row 1 (they get junction dots); skipOl = motors without an overload lamp */
-const lampEls = (n, o, x0, rows, via = [], skipOl = []) => { const L = lampSel(o), list = [];
-  if (L.run) for (let i = 1; i <= n; i++) list.push([`H${i}`, { k: 'NO', d: `KM${i}`, t: ['53', '54'] }]);
-  if (L.ol) for (let i = 1; i <= n; i++) if (!skipOl.includes(i)) list.push([`H${3 + i}`, { k: 'NO', d: `F2${i}`, t: ['97', '98'], op: 'thr' }]);
+/* lamp columns from x0, each fed from terminal 2 of the control fuse (node (0, 1)) along row 1: contact in row rows − 2, lamp to N.
+   via = other columns whose top sits on row 1 (they get junction dots); skipOl = motors without an overload lamp */
+const lampEls = (n, o, x0, rows, via = [], skipOl = []) => { const L = lampSel(o), N = NM(n), list = [];
+  if (L.run) for (let i = 1; i <= n; i++) list.push([N.h(i), { k: 'NO', d: N.k(i), t: ['53', '54'] }]);
+  if (L.ol) for (let i = 1; i <= n; i++) if (!skipOl.includes(i)) list.push([N.ho(i), { k: 'NO', d: N.ol(i), t: ['97', '98'], op: 'thr' }]);
   const yc = rows - 2, els = [], xs = list.map((l, i) => x0 + i);
   list.forEach(([h, c], i) => { const x = xs[i]; els.push(vw(x, 1, yc - 1), { ...c, x, y: yc }, { k: 'lamp', d: h, x, y: yc + 1, t: ['X1', 'X2'] }); });
   const pts = [...new Set([0, ...via, ...xs])].sort((a, b) => a - b).map(x => [x, 1]);
   if (pts.length > 1) els.push(w(pts, pts.map((p, i) => i).slice(0, -1)));
   return els; };
-const PW = (n, o = {}) => ({ full: true, tap: o.tap === 'before' ? 'before' : 'after', main: { k: 'cb', d: 'Q1' },
-  feeders: Array.from({ length: n }, (_, j) => ({ stages: [{ k: 'cb', d: `Q1${j + 1}` }, { k: 'mainNO', d: `KM${j + 1}` }, { k: 'therm', d: `F2${j + 1}` }], motor: `M${j + 1}` })) });
-const mk = (n, rows, D, els, o) => ({ supply: o.tap === 'before' ? undefined : 'Q1', rows, devices: D, power: PW(n, o), els });
+/* power circuit as the Lecture 8 slide: one branch per motor straight from L1 L2 L3 (no main stage): power fuses Fi → Ki → overload */
+const PW = (n, o = {}) => { const N = NM(n); return { full: true, tap: o.tap === 'before' ? 'before' : 'after',
+  feeders: Array.from({ length: n }, (_, j) => ({ stages: [{ k: 'fuse', d: N.fu(j + 1) }, { k: 'mainNO', d: N.k(j + 1) }, { k: 'therm', d: N.ol(j + 1) }], motor: `M${j + 1}` })) }; };
+const mk = (n, rows, D, els, o) => ({ rows, devices: D, power: PW(n, o), els });
 C6.BELTS = n => Array.from({ length: n }, (_, i) => `M${n - i}`);
 C6.motors = sim => (sim.spec.power && sim.spec.power.feeders ? sim.spec.power.feeders.map(f => f.motor) : ['M1']);
+/* the motor whose branch holds device id (its power fuses or its overload relay), or null */
+C6.motorOf = (sim, id) => { const P = sim.spec.power, f = P && P.feeders ? P.feeders.find(q => q.stages.some(s => s.d === id && s.k !== 'mainNO')) : null; return f ? f.motor : null; };
 
 const man2 = o => devs(2, { S1: DV.stop('S1', 1), S2: DV.start('S2', 1), S3: DV.stop('S3', 2), S4: DV.start('S4', 2) }, o);
-/* path 1 of the two-motor manual circuits (rows 7): F1, F21 95–96, S1, S2 ∥ KM1 13–14 (column 1), KM1 */
-const path1 = () => [fuse(), olc(1, 0, 1), stp('S1', 0, 2), sta('S2', 0, 3), vw(0, 4, 2), coil('KM1', 0, 6), no('KM1', '13', '14', 1, 3), w([[0, 3], [1, 3]], [0]), w([[0, 4], [1, 4]], [0])];
-/* internal options used by C6.FAULTS: _perm 'NC' (KM1 61–62 instead of 83–84), _noOl (no F22 95–96), _weld (KM2 13–14 welded) */
-C6.SEQ_A = (o = {}) => mk(2, 7, man2(o), [...path1(),
-  w([[0, 2], [2, 2]], [0]), o._perm === 'NC' ? nc('KM1', '61', '62', 2, 2) : no('KM1', '83', '84', 2, 2), o._noOl ? vw(2, 3) : olc(2, 2, 3), stp('S3', 2, 4), sta('S4', 2, 5), coil('KM2', 2, 6),
-  { ...no('KM2', '13', '14', 3, 5), ...(o._weld ? { welded: true } : {}) }, w([[2, 5], [3, 5]], [0]), w([[2, 6], [3, 6]], [0]),
+/* path 1 of the two-motor manual circuits (rows 7): F5, F3 95–96, S1, S2 ∥ K1 13–14 (column 1), K1 */
+const path1 = () => [fuse(2), olc('F3', 0, 1), stp('S1', 0, 2), sta('S2', 0, 3), vw(0, 4, 2), coil('K1', 0, 6), no('K1', '13', '14', 1, 3), w([[0, 3], [1, 3]], [0]), w([[0, 4], [1, 4]], [0])];
+/* internal options used by C6.FAULTS and page 8.5: _perm 'NC' (K1 61–62 instead of 83–84), _noOl (no F4 95–96), _weld (K2 13–14
+   welded), _holdBoth (K1 83–84 moved under S4, so that K2 13–14 bridges S4 and the permissive contact: an S1 press leaves M2 running) */
+C6.SEQ_A = (o = {}) => mk(2, 7, man2(o), [...path1(), w([[0, 2], [2, 2]], [0]),
+  ...(o._holdBoth ? [olc('F4', 2, 2), stp('S3', 2, 3), sta('S4', 2, 4), no('K1', '83', '84', 2, 5), coil('K2', 2, 6),
+    { ...no('K2', '13', '14', 3, 4, 2), ...(o._weld ? { welded: true } : {}) }, w([[2, 4], [3, 4]], [0]), w([[2, 6], [3, 6]], [0])]
+    : [o._perm === 'NC' ? nc('K1', '61', '62', 2, 2) : no('K1', '83', '84', 2, 2), o._noOl ? vw(2, 3) : olc('F4', 2, 3), stp('S3', 2, 4), sta('S4', 2, 5), coil('K2', 2, 6),
+      { ...no('K2', '13', '14', 3, 5), ...(o._weld ? { welded: true } : {}) }, w([[2, 5], [3, 5]], [0]), w([[2, 6], [3, 6]], [0])]),
   ...lampEls(2, o, 4, 7, [], o._noOl ? [2] : [])], o);
-C6.SEQ_NODE = (o = {}) => mk(2, 8, man2(o), [fuse(), olc(1, 0, 1), stp('S1', 0, 2), sta('S2', 0, 3), vw(0, 4, 3), coil('KM1', 0, 7),
-  no('KM1', '13', '14', 1, 3), w([[0, 3], [1, 3]], [0]), w([[0, 4], [1, 4], [2, 4]], [0, 1]),
-  olc(2, 2, 4), stp('S3', 2, 5), sta('S4', 2, 6), coil('KM2', 2, 7), no('KM2', '13', '14', 3, 6), w([[2, 6], [3, 6]], [0]), w([[2, 7], [3, 7]], [0]),
+C6.SEQ_NODE = (o = {}) => mk(2, 8, man2(o), [fuse(2), olc('F3', 0, 1), stp('S1', 0, 2), sta('S2', 0, 3), vw(0, 4, 3), coil('K1', 0, 7),
+  no('K1', '13', '14', 1, 3), w([[0, 3], [1, 3]], [0]), w([[0, 4], [1, 4], [2, 4]], [0, 1]),
+  olc('F4', 2, 4), stp('S3', 2, 5), sta('S4', 2, 6), coil('K2', 2, 7), no('K2', '13', '14', 3, 6), w([[2, 6], [3, 6]], [0]), w([[2, 7], [3, 7]], [0]),
   ...lampEls(2, o, 4, 8)], o);
 C6.SEQ_BRIDGE = (o = {}) => mk(2, 7, man2(o), [...path1(),
-  olc(2, 2, 1), stp('S3', 2, 2), sta('S4', 2, 3), no('KM1', '83', '84', 2, 4), vw(2, 5), coil('KM2', 2, 6),
-  no('KM2', '13', '14', 3, 3, 2), w([[2, 3], [3, 3]], [0]), w([[2, 5], [3, 5]], [0]),
+  olc('F4', 2, 1), stp('S3', 2, 2), sta('S4', 2, 3), no('K1', '83', '84', 2, 4), vw(2, 5), coil('K2', 2, 6),
+  no('K2', '13', '14', 3, 3, 2), w([[2, 3], [3, 3]], [0]), w([[2, 5], [3, 5]], [0]),
   ...lampEls(2, o, 4, 7, [2])], o);
-C6.SEQ_NOOL = (o = {}) => { const s = C6.SEQ_A({ ...o, _noOl: true }); delete s.devices.H5; return s; };
-/* reverse-order stop; internal option _bridge 'F21' puts the KM2 contact across F21 95–96 instead of S1 (fault 6) */
-C6.REV_STOP = (o = {}) => { const n = o.n === 3 ? 3 : 2, f21 = o._bridge === 'F21', btn = { S1: DV.stop('S1', 1), S2: DV.start('S2', 1), S3: DV.stop('S3', 2), S4: DV.start('S4', 2) };
+C6.SEQ_NOOL = (o = {}) => { const s = C6.SEQ_A({ ...o, _noOl: true }); delete s.devices.H4; return s; };
+/* reverse-order stop; internal option _bridge 'OL' puts the K2 contact across M1's overload contact (95–96) instead of S1 (fault 6) */
+C6.REV_STOP = (o = {}) => { const n = o.n === 3 ? 3 : 2, N = NM(n), br = o._bridge === 'OL', btn = { S1: DV.stop('S1', 1), S2: DV.start('S2', 1), S3: DV.stop('S3', 2), S4: DV.start('S4', 2) };
   if (n === 3) { btn.S5 = DV.stop('S5', 3); btn.S6 = DV.start('S6', 3); }
-  const els = [fuse(), olc(1, 0, 1), stp('S1', 0, 2), sta('S2', 0, 3), vw(0, 4, 2), coil('KM1', 0, 6),
-    n === 3 ? no('KM2', '63', '64', 1, f21 ? 1 : 2) : no('KM2', '83', '84', 1, f21 ? 1 : 2),
-    no('KM1', '13', '14', 2, 3), f21 ? w([[0, 3], [2, 3]], [0]) : w([[0, 3], [1, 3], [2, 3]], [0, 1]), w([[0, 4], [2, 4]], [0]),
-    no('KM1', '83', '84', 3, 2), olc(2, 3, 3), stp('S3', 3, 4), sta('S4', 3, 5), coil('KM2', 3, 6)];
-  if (n === 2) els.push(w([[0, 2], [1, 2], [3, 2]], [0, 1]), no('KM2', '13', '14', 4, 5), w([[3, 5], [4, 5]], [0]), w([[3, 6], [4, 6]], [0]), ...lampEls(2, o, 5, 7, f21 ? [1] : []));
-  else els.push(w([[0, 2], [1, 2], [3, 2], [6, 2]], [0, 1, 2]), no('KM3', '83', '84', 4, 4), w([[3, 4], [4, 4]], [0]), no('KM2', '13', '14', 5, 5), w([[3, 5], [4, 5], [5, 5]], [0, 1]), w([[3, 6], [5, 6]], [0]),
-    no('KM2', '83', '84', 6, 2), olc(3, 6, 3), stp('S5', 6, 4), sta('S6', 6, 5), coil('KM3', 6, 6), no('KM3', '13', '14', 7, 5), w([[6, 5], [7, 5]], [0]), w([[6, 6], [7, 6]], [0]), ...lampEls(3, o, 8, 7, f21 ? [1] : []));
+  const els = [fuse(n), olc(N.ol(1), 0, 1), stp('S1', 0, 2), sta('S2', 0, 3), vw(0, 4, 2), coil('K1', 0, 6),
+    n === 3 ? no('K2', '63', '64', 1, br ? 1 : 2) : no('K2', '83', '84', 1, br ? 1 : 2),
+    no('K1', '13', '14', 2, 3), br ? w([[0, 3], [2, 3]], [0]) : w([[0, 3], [1, 3], [2, 3]], [0, 1]), w([[0, 4], [2, 4]], [0]),
+    no('K1', '83', '84', 3, 2), olc(N.ol(2), 3, 3), stp('S3', 3, 4), sta('S4', 3, 5), coil('K2', 3, 6)];
+  if (n === 2) els.push(w([[0, 2], [1, 2], [3, 2]], [0, 1]), no('K2', '13', '14', 4, 5), w([[3, 5], [4, 5]], [0]), w([[3, 6], [4, 6]], [0]), ...lampEls(2, o, 5, 7, br ? [1] : []));
+  else els.push(w([[0, 2], [1, 2], [3, 2], [6, 2]], [0, 1, 2]), no('K3', '83', '84', 4, 4), w([[3, 4], [4, 4]], [0]), no('K2', '13', '14', 5, 5), w([[3, 5], [4, 5], [5, 5]], [0, 1]), w([[3, 6], [5, 6]], [0]),
+    no('K2', '83', '84', 6, 2), olc(N.ol(3), 6, 3), stp('S5', 6, 4), sta('S6', 6, 5), coil('K3', 6, 6), no('K3', '13', '14', 7, 5), w([[6, 5], [7, 5]], [0]), w([[6, 6], [7, 6]], [0]), ...lampEls(3, o, 8, 7, br ? [1] : []));
   return mk(n, 7, devs(n, btn, o), els, o); };
-/* overload arrangements on three conveyors */
+/* overload arrangements on three conveyors (overloads F4 F5 F6 of M1 M2 M3, control fuse F7) */
 C6.OL_ARR = (mode = 'cascade', o = {}) => { mode = mode === 'indep' ? 'own' : ['series', 'own', 'cascade'].includes(mode) ? mode : 'cascade';
   const D = devs(3, { S1: DV.lineStop(), S2: DV.start('S2', 1), S3: DV.start('S3', 2), S4: DV.start('S4', 3) }, o);
-  if (mode === 'cascade') return mk(3, 10, D, [fuse(), vw(0, 1, 2), stp('S1', 0, 3), olc(1, 0, 4), vw(0, 5), sta('S2', 0, 6), vw(0, 7, 2), coil('KM1', 0, 9),
-    no('KM1', '13', '14', 1, 6), w([[0, 6], [1, 6]], [0]), w([[0, 7], [1, 7]], [0]),
-    w([[0, 5], [2, 5]], [0]), olc(2, 2, 5), sta('S3', 2, 6), no('KM1', '83', '84', 2, 7), vw(2, 8), coil('KM2', 2, 9),
-    no('KM2', '13', '14', 3, 6, 2), w([[2, 6], [3, 6], [4, 6]], [0, 1]), w([[2, 8], [3, 8]], [0]),
-    olc(3, 4, 6), sta('S4', 4, 7), no('KM2', '83', '84', 4, 8), coil('KM3', 4, 9), no('KM3', '13', '14', 5, 7, 2), w([[4, 7], [5, 7]], [0]), w([[4, 9], [5, 9]], [0]),
+  if (mode === 'cascade') return mk(3, 10, D, [fuse(3), vw(0, 1, 2), stp('S1', 0, 3), olc('F4', 0, 4), vw(0, 5), sta('S2', 0, 6), vw(0, 7, 2), coil('K1', 0, 9),
+    no('K1', '13', '14', 1, 6), w([[0, 6], [1, 6]], [0]), w([[0, 7], [1, 7]], [0]),
+    w([[0, 5], [2, 5]], [0]), olc('F5', 2, 5), sta('S3', 2, 6), no('K1', '83', '84', 2, 7), vw(2, 8), coil('K2', 2, 9),
+    no('K2', '13', '14', 3, 6, 2), w([[2, 6], [3, 6], [4, 6]], [0, 1]), w([[2, 8], [3, 8]], [0]),
+    olc('F6', 4, 6), sta('S4', 4, 7), no('K2', '83', '84', 4, 8), coil('K3', 4, 9), no('K3', '13', '14', 5, 7, 2), w([[4, 7], [5, 7]], [0]), w([[4, 9], [5, 9]], [0]),
     ...lampEls(3, o, 6, 10)], o);
   const ser = mode === 'series';
-  return mk(3, 9, D, [fuse(), ...(ser ? [olc(1, 0, 1), olc(2, 0, 2), olc(3, 0, 3)] : [vw(0, 1, 3)]), stp('S1', 0, 4),
-    ser ? vw(0, 5) : olc(1, 0, 5), sta('S2', 0, 6), vw(0, 7), coil('KM1', 0, 8), no('KM1', '13', '14', 1, 6), w([[0, 6], [1, 6]], [0]), w([[0, 7], [1, 7]], [0]),
+  return mk(3, 9, D, [fuse(3), ...(ser ? [olc('F4', 0, 1), olc('F5', 0, 2), olc('F6', 0, 3)] : [vw(0, 1, 3)]), stp('S1', 0, 4),
+    ser ? vw(0, 5) : olc('F4', 0, 5), sta('S2', 0, 6), vw(0, 7), coil('K1', 0, 8), no('K1', '13', '14', 1, 6), w([[0, 6], [1, 6]], [0]), w([[0, 7], [1, 7]], [0]),
     w([[0, 5], [2, 5], [4, 5]], [0, 1]),
-    ser ? vw(2, 5) : olc(2, 2, 5), sta('S3', 2, 6), no('KM1', '83', '84', 2, 7), coil('KM2', 2, 8), no('KM2', '13', '14', 3, 6, 2), w([[2, 6], [3, 6]], [0]), w([[2, 8], [3, 8]], [0]),
-    ser ? vw(4, 5) : olc(3, 4, 5), sta('S4', 4, 6), no('KM2', '83', '84', 4, 7), coil('KM3', 4, 8), no('KM3', '13', '14', 5, 6, 2), w([[4, 6], [5, 6]], [0]), w([[4, 8], [5, 8]], [0]),
+    ser ? vw(2, 5) : olc('F5', 2, 5), sta('S3', 2, 6), no('K1', '83', '84', 2, 7), coil('K2', 2, 8), no('K2', '13', '14', 3, 6, 2), w([[2, 6], [3, 6]], [0]), w([[2, 8], [3, 8]], [0]),
+    ser ? vw(4, 5) : olc('F6', 4, 5), sta('S4', 4, 6), no('K2', '83', '84', 4, 7), coil('K3', 4, 8), no('K3', '13', '14', 5, 6, 2), w([[4, 6], [5, 6]], [0]), w([[4, 8], [5, 8]], [0]),
     ...lampEls(3, o, 6, 9)], o); };
-/* which belts stop when each overload trips, with all three running: { F21: ['M1', 'M2', 'M3'], … } (from the model) */
-C6.OL_STOPS = mode => { const out = {};
-  [1, 2, 3].forEach(i => { const s = hid(C6.OL_ARR(mode, { lamps: false })); C6.runSeq(s, [['tap', 'S2'], ['tap', 'S3'], ['tap', 'S4'], ['toggle', `F2${i}`]]);
-    out[`F2${i}`] = ['M1', 'M2', 'M3'].filter(m => !s.runningM(m)); });
+/* which belts stop when each overload trips, with all three running: { F4: ['M1', 'M2', 'M3'], F5: […], F6: […] } (from the model) */
+C6.OL_STOPS = mode => { const out = {}, N = NM(3);
+  [1, 2, 3].forEach(i => { const s = hid(C6.OL_ARR(mode, { lamps: false })); C6.runSeq(s, [['tap', 'S2'], ['tap', 'S3'], ['tap', 'S4'], ['toggle', N.ol(i)]]);
+    out[N.ol(i)] = ['M1', 'M2', 'M3'].filter(m => !s.runningM(m)); });
   return out; };
-/* automatic start of three conveyors with on-delay timers; internal options _weld3 (KM3 welds when it first closes), _kt1Open */
+/* automatic start of three conveyors with the on-delay timers K4, K5; internal options _weld3 (K3 welds when it first closes),
+   _t1Open (the coil of K4 is open) */
 C6.AUTO3 = (o = {}) => { const all = !!o.olAll, T1 = o.T1 ?? o.T ?? C6.T, T2 = o.T2 ?? o.T ?? C6.T;
-  const D = devs(3, { S0: DV.S0(), S1: DV.lineStop(), S2: DV.lineStart() }, o, { KT1: DV.KT('on', T1), KT2: DV.KT('on', T2) });
-  if (o._weld3) D.KM3.weldOnClose = true;
-  const kt1 = { ...coil('KT1', 2, all ? 7 : 5), ...(o._kt1Open ? { open: true } : {}) };
-  if (all) return mk(3, 8, D, [fuse(), est(0, 1), olc(1, 0, 2), olc(2, 0, 3), olc(3, 0, 4), stp('S1', 0, 5), sta('S2', 0, 6), coil('KM1', 0, 7),
-    no('KM1', '13', '14', 1, 6), w([[0, 6], [1, 6], [2, 6], [3, 6], [4, 6], [5, 6]], [0, 1, 2, 3, 4]), w([[0, 7], [1, 7]], [0]),
-    no('KM1', '83', '84', 2, 6), kt1, tno('KT1', 3, 6, 'on'), coil('KM2', 3, 7), no('KM2', '83', '84', 4, 6), coil('KT2', 4, 7), tno('KT2', 5, 6, 'on'), coil('KM3', 5, 7),
+  const D = devs(3, { S0: DV.S0(), S1: DV.lineStop(), S2: DV.lineStart() }, o, { K4: DV.KT('on', T1), K5: DV.KT('on', T2) });
+  if (o._weld3) D.K3.weldOnClose = true;
+  const kt1 = { ...coil('K4', 2, all ? 7 : 5), ...(o._t1Open ? { open: true } : {}) };
+  if (all) return mk(3, 8, D, [fuse(3), est(0, 1), olc('F4', 0, 2), olc('F5', 0, 3), olc('F6', 0, 4), stp('S1', 0, 5), sta('S2', 0, 6), coil('K1', 0, 7),
+    no('K1', '13', '14', 1, 6), w([[0, 6], [1, 6], [2, 6], [3, 6], [4, 6], [5, 6]], [0, 1, 2, 3, 4]), w([[0, 7], [1, 7]], [0]),
+    no('K1', '83', '84', 2, 6), kt1, tno('K4', 3, 6, 'on'), coil('K2', 3, 7), no('K2', '83', '84', 4, 6), coil('K5', 4, 7), tno('K5', 5, 6, 'on'), coil('K3', 5, 7),
     ...lampEls(3, o, 6, 8)], o);
-  return mk(3, 6, D, [fuse(), est(0, 1), stp('S1', 0, 2), sta('S2', 0, 3), olc(1, 0, 4), coil('KM1', 0, 5),
-    no('KM1', '13', '14', 1, 3), w([[0, 3], [1, 3], [2, 3], [3, 3], [4, 3], [5, 3]], [0, 1, 2, 3, 4]), w([[0, 4], [1, 4]], [0]),
-    no('KM1', '83', '84', 2, 3), vw(2, 4), kt1, tno('KT1', 3, 3, 'on'), olc(2, 3, 4), coil('KM2', 3, 5),
-    no('KM2', '83', '84', 4, 3), vw(4, 4), coil('KT2', 4, 5), tno('KT2', 5, 3, 'on'), olc(3, 5, 4), coil('KM3', 5, 5),
+  return mk(3, 6, D, [fuse(3), est(0, 1), stp('S1', 0, 2), sta('S2', 0, 3), olc('F4', 0, 4), coil('K1', 0, 5),
+    no('K1', '13', '14', 1, 3), w([[0, 3], [1, 3], [2, 3], [3, 3], [4, 3], [5, 3]], [0, 1, 2, 3, 4]), w([[0, 4], [1, 4]], [0]),
+    no('K1', '83', '84', 2, 3), vw(2, 4), kt1, tno('K4', 3, 3, 'on'), olc('F5', 3, 4), coil('K2', 3, 5),
+    no('K2', '83', '84', 4, 3), vw(4, 4), coil('K5', 4, 5), tno('K5', 5, 3, 'on'), olc('F6', 5, 4), coil('K3', 5, 5),
     ...lampEls(3, o, 6, 6)], o); };
-/* timed start and timed stop; o.seal false drops the seal contacts KM1 13–14 / KM2 13–14 (the off-delay holds straight from point A to
-   the coils, page 6.4 step 5); internal options _from 'S1' (every branch fed after S1, fault 7), _f21 'KM1' (F21 inside the KM1 path
-   under the KT4 hold, fault 9) */
-C6.AUTO_STOP = (o = {}) => { const T0 = o.T ?? C6.T, s1 = o._from === 'S1', f21 = o._f21 === 'KM1', seal = o.seal !== false;
-  const D = devs(3, { S0: DV.S0(), S1: DV.lineStop(), S2: DV.lineStart() }, o, { KA1: DV.KA(), KT1: DV.KT('on', o.T1 ?? T0), KT2: DV.KT('on', o.T2 ?? T0), KT3: DV.KT('off', o.T3 ?? T0), KT4: DV.KT('off', o.T4 ?? T0) });
-  /* off-delay hold of KMn in column x: the timed contact from point A (row 5), then the seal contact KMn 13–14 (row 6), or one tall contact */
+/* timed start and timed stop (relay K4, on-delay K5 K6, off-delay K7 K8); o.seal false drops the seal contacts K1 13–14 / K2 13–14
+   (the off-delay holds straight from point A to the coils, page 8.4 step 5); internal options _from 'S1' (every branch fed after S1,
+   fault 7), _ol1In (F4 inside the K1 path under the K8 hold, fault 9) */
+C6.AUTO_STOP = (o = {}) => { const T0 = o.T ?? C6.T, s1 = o._from === 'S1', oi = !!o._ol1In, seal = o.seal !== false;
+  const D = devs(3, { S0: DV.S0(), S1: DV.lineStop(), S2: DV.lineStart() }, o, { K4: DV.K(), K5: DV.KT('on', o.T1 ?? T0), K6: DV.KT('on', o.T2 ?? T0), K7: DV.KT('off', o.T3 ?? T0), K8: DV.KT('off', o.T4 ?? T0) });
+  /* off-delay hold of contactor k in column x: the timed contact from point A (row 5), then the seal contact k 13–14 (row 6), or one tall contact */
   const hold = (kt, km, x) => (seal ? [tno(kt, x, 5, 'off'), no(km, '13', '14', x, 6)] : [tno(kt, x, 5, 'off', 2)]);
-  return mk(3, 8, D, [fuse(), est(0, 1), f21 ? vw(0, 2) : olc(1, 0, 2), olc(2, 0, 3), olc(3, 0, 4), stp('S1', 0, 5), sta('S2', 0, 6), coil('KA1', 0, 7),
-    no('KA1', '13', '14', 1, 6), w([[0, 6], [1, 6]], [0]), w([[0, 7], [1, 7]], [0]),
+  return mk(3, 8, D, [fuse(3), est(0, 1), oi ? vw(0, 2) : olc('F4', 0, 2), olc('F5', 0, 3), olc('F6', 0, 4), stp('S1', 0, 5), sta('S2', 0, 6), coil('K4', 0, 7),
+    no('K4', '13', '14', 1, 6), w([[0, 6], [1, 6]], [0]), w([[0, 7], [1, 7]], [0]),
     s1 ? w([[1, 6], [1, 5], [2, 5], [3, 5], [4, 5], [5, 5], [7, 5]], [0, 2, 3, 4, 5]) : w([[0, 5], [2, 5], [3, 5], [4, 5], [5, 5], [7, 5]], [0, 1, 2, 3, 4]),
-    no('KA1', '23', '24', 2, 5), f21 ? olc(1, 2, 6) : vw(2, 6), coil('KM1', 2, 7), ...hold('KT4', 'KM1', 3), w([[2, 7], [3, 7]], [0, 1]), coil('KT1', 3, 7),
-    no('KA1', '33', '34', 4, 5), tno('KT1', 4, 6, 'on'), coil('KM2', 4, 7), ...hold('KT3', 'KM2', 5), w([[4, 7], [5, 7], [6, 7]], [0, 1]), coil('KT2', 5, 7), coil('KT4', 6, 7),
-    no('KA1', '43', '44', 7, 5), tno('KT2', 7, 6, 'on'), coil('KM3', 7, 7), coil('KT3', 8, 7), w([[7, 7], [8, 7]], [0]),
+    no('K4', '23', '24', 2, 5), oi ? olc('F4', 2, 6) : vw(2, 6), coil('K1', 2, 7), ...hold('K8', 'K1', 3), w([[2, 7], [3, 7]], [0, 1]), coil('K5', 3, 7),
+    no('K4', '33', '34', 4, 5), tno('K5', 4, 6, 'on'), coil('K2', 4, 7), ...hold('K7', 'K2', 5), w([[4, 7], [5, 7], [6, 7]], [0, 1]), coil('K6', 5, 7), coil('K8', 6, 7),
+    no('K4', '43', '44', 7, 5), tno('K6', 7, 6, 'on'), coil('K3', 7, 7), coil('K7', 8, 7), w([[7, 7], [8, 7]], [0]),
     ...lampEls(3, o, 9, 8)], o); };
-/* contact table of the chapter: [devices, terminals, [th, en] use] */
+/* contact table of the chapter: [devices, terminals, [th, en] use]; K4 and up mean different devices in the circuits of pages 8.3 and 8.4 */
 C6.CONTACTS = [
-  ['KM1, KM2, KM3', '13–14', ['หน้าสัมผัสค้างตัวเอง (มีในตัวคอนแทกเตอร์)', 'holding contact (built in)']],
-  ['KM1, KM2', '13–14', ['วงจรเริ่มและหยุดอัตโนมัติ: หน้าสัมผัสค้างตัวเอง (seal contact) อนุกรมกับ KT4 67–68 (KM1) และ KT3 67–68 (KM2) หน้าสัมผัสหน่วงเมื่อตัดไฟจึงค้างได้เฉพาะคอนแทกเตอร์ที่ยังดูดอยู่ ไฟดับ กด S0 หรือโอเวอร์โหลดตัดแล้ว ไม่มีอะไรเริ่มเอง', 'timed start and stop: seal contact in series with KT4 67–68 (KM1) and KT3 67–68 (KM2), so an off-delay contact can keep in only a contactor that is still in; after a power failure, S0 or an overload trip nothing restarts']],
-  ['KM1, KM2, KM3', '21–22', ['หน้าสัมผัสปกติปิดในตัว: ว่าง (ใช้กับหลอดหยุดสีขาวได้)', 'normally closed, built in: spare (can drive a white "stopped" lamp)']],
-  ['KM1, KM2, KM3', '53–54', ['ชุดหน้าสัมผัสเสริมด้านหน้า: หลอดเดิน H1, H2, H3', 'front block: run lamps H1, H2, H3']],
-  ['KM1, KM2, KM3', '61–62, 71–72', ['ชุดหน้าสัมผัสเสริมด้านหน้า: ปกติปิด ว่าง', 'front block: normally closed, spare']],
-  ['KM1, KM2', '83–84', ['หน้าสัมผัสอนุญาตของมอเตอร์ตัวถัดไป (KM1 → ทางของ KM2, KM2 → ทางของ KM3) หรือป้อนไฟตัวตั้งเวลา KT1, KT2', 'permissive for the next motor (KM1 → KM2 path, KM2 → KM3 path) or the supply of timers KT1, KT2']],
-  ['KM2', '83–84', ['หยุดย้อนลำดับ 2 มอเตอร์: ต่อคร่อม S1', 'reverse-order stop, two motors: across S1']],
-  ['KM2', '63–64', ['หยุดย้อนลำดับ 3 มอเตอร์: ต่อคร่อม S1 (KM2 ต้องมีหน้าสัมผัสปกติเปิด 4 ตัว จึงใช้ชุดหน้าสัมผัสเสริมแบบปกติเปิด 4 ตัว 53–54, 63–64, 73–74, 83–84)', 'reverse-order stop, three motors: across S1 (KM2 needs four NO contacts, so it carries a front block with four NO: 53–54, 63–64, 73–74, 83–84)']],
-  ['KM3', '83–84', ['หยุดย้อนลำดับ 3 มอเตอร์: ต่อคร่อม S3', 'reverse-order stop, three motors: across S3']],
-  ['KA1', '13–14, 23–24, 33–34, 43–44', ['ค้างตัวเอง, ทางของ KM1, ทางของ KM2, ทางของ KM3', 'hold, KM1 path, KM2 path, KM3 path']],
-  ['KT1, KT2', '67–68', ['หน่วงเวลาเมื่อป้อนไฟ (on-delay) ปกติเปิด: เริ่มเดินมอเตอร์ตัวถัดไป', 'on-delay timed NO: starts the next motor']],
-  ['KT3, KT4', '67–68', ['หน่วงเวลาเมื่อตัดไฟ (off-delay) ปกติเปิด: ค้าง KM2, KM1 ไว้ระหว่างหยุดตามลำดับ (อนุกรมกับ KM2 13–14, KM1 13–14)', 'off-delay timed NO: holds KM2, KM1 while the line stops in turn (in series with KM2 13–14, KM1 13–14)']],
-  ['F21, F22, F23', '95–96, 97–98', ['เปิดเมื่อโอเวอร์โหลดตัด / หลอดโอเวอร์โหลด H4, H5, H6', 'opens on a trip / overload lamps H4, H5, H6']],
+  ['K1, K2, K3', '13–14', ['หน้าสัมผัสค้างตัวเอง (มีในตัวคอนแทกเตอร์)', 'holding contact (built in)']],
+  ['K1, K2', '13–14', ['วงจรเริ่มและหยุดอัตโนมัติ (หน้า 8.4): หน้าสัมผัสค้างตัวเอง (seal contact) อนุกรมกับ K8 67–68 (K1) และ K7 67–68 (K2) หน้าสัมผัสหน่วงเมื่อตัดไฟจึงค้างได้เฉพาะคอนแทกเตอร์ที่ยังดูดอยู่ ไฟดับ กด S0 หรือโอเวอร์โหลดตัดแล้ว ไม่มีอะไรเริ่มเอง', 'timed start and stop (page 8.4): seal contact in series with K8 67–68 (K1) and K7 67–68 (K2), so an off-delay contact can keep in only a contactor that is still in; after a power failure, S0 or an overload trip nothing restarts']],
+  ['K1, K2, K3', '21–22', ['หน้าสัมผัสปกติปิดในตัว: ว่าง (ใช้กับหลอดหยุดสีขาวได้)', 'normally closed, built in: spare (can drive a white "stopped" lamp)']],
+  ['K1, K2, K3', '53–54', ['ชุดหน้าสัมผัสเสริมด้านหน้า: หลอดเดิน H1, H2, H3', 'front block: run lamps H1, H2, H3']],
+  ['K1, K2, K3', '61–62, 71–72', ['ชุดหน้าสัมผัสเสริมด้านหน้า: ปกติปิด ว่าง', 'front block: normally closed, spare']],
+  ['K1, K2', '83–84', ['หน้าสัมผัสอนุญาตของมอเตอร์ตัวถัดไป (K1 → ทางของ K2, K2 → ทางของ K3) หรือป้อนไฟตัวตั้งเวลา K4, K5 ของวงจรเริ่มอัตโนมัติ (หน้า 8.3)', 'permissive for the next motor (K1 → K2 path, K2 → K3 path) or the supply of timers K4, K5 of the automatic start (page 8.3)']],
+  ['K2', '83–84', ['หยุดย้อนลำดับ 2 มอเตอร์: ต่อคร่อม S1', 'reverse-order stop, two motors: across S1']],
+  ['K2', '63–64', ['หยุดย้อนลำดับ 3 มอเตอร์: ต่อคร่อม S1 (K2 ต้องมีหน้าสัมผัสปกติเปิด 4 ตัว จึงใช้ชุดหน้าสัมผัสเสริมแบบปกติเปิด 4 ตัว 53–54, 63–64, 73–74, 83–84)', 'reverse-order stop, three motors: across S1 (K2 needs four NO contacts, so it carries a front block with four NO: 53–54, 63–64, 73–74, 83–84)']],
+  ['K3', '83–84', ['หยุดย้อนลำดับ 3 มอเตอร์: ต่อคร่อม S3', 'reverse-order stop, three motors: across S3']],
+  ['K4, K5', '67–68', ['เริ่มอัตโนมัติ (หน้า 8.3): ตัวตั้งเวลาหน่วงเมื่อป้อนไฟ (on-delay) หน้าสัมผัสปกติเปิด เริ่มเดินมอเตอร์ตัวถัดไป', 'automatic start (page 8.3): on-delay timed NO, starts the next motor']],
+  ['K4', '13–14, 23–24, 33–34, 43–44', ['เริ่มและหยุดอัตโนมัติ (หน้า 8.4) รีเลย์ช่วย: ค้างตัวเอง, ทางของ K1, ทางของ K2, ทางของ K3', 'timed start and stop (page 8.4), auxiliary relay: hold, K1 path, K2 path, K3 path']],
+  ['K5, K6', '67–68', ['เริ่มและหยุดอัตโนมัติ (หน้า 8.4): ตัวตั้งเวลาหน่วงเมื่อป้อนไฟ (on-delay) หน้าสัมผัสปกติเปิด เริ่มเดินมอเตอร์ตัวถัดไป', 'timed start and stop (page 8.4): on-delay timed NO, starts the next motor']],
+  ['K7, K8', '67–68', ['เริ่มและหยุดอัตโนมัติ (หน้า 8.4): ตัวตั้งเวลาหน่วงเมื่อตัดไฟ (off-delay) หน้าสัมผัสปกติเปิด ค้าง K2, K1 ไว้ระหว่างหยุดตามลำดับ (อนุกรมกับ K2 13–14, K1 13–14)', 'timed start and stop (page 8.4): off-delay timed NO, holds K2, K1 while the line stops in turn (in series with K2 13–14, K1 13–14)']],
+  ['F3, F4 · F4, F5, F6', '95–96, 97–98', ['โอเวอร์โหลดของ M1, M2 (สองมอเตอร์) หรือ M1, M2, M3 (สามมอเตอร์): เปิดเมื่อตัด / หลอดโอเวอร์โหลด H3, H4 หรือ H4, H5, H6', 'overload relays of M1, M2 (two motors) or M1, M2, M3 (three motors): opens on a trip / overload lamps H3, H4 or H4, H5, H6']],
   ['S0', '11–12', ['ปุ่มหยุดฉุกเฉินแบบหัวเห็ด ค้างเมื่อกด', 'emergency stop, mushroom head, latches when pressed']],
   ['S1, S3, S5', '11–12', ['ปุ่มหยุด (สีดำ)', 'stop buttons (black)']], ['S2, S4, S6', '13–14', ['ปุ่มเริ่ม (สีขาว)', 'start buttons (white)']]];
 
@@ -223,7 +243,7 @@ C6.runSeq = (sim, seq) => { let ok = true;
 C6.trial = (spec, seq) => C6.runSeq(hid(spec), seq);
 C6.faultTrial = c => ({ bad: C6.trial(c.spec(), c.seq), good: C6.trial(c.good(), c.seq) });
 /* timed actions on a hidden simulator: acts [[t, op, …args]] (ops of runSeq); records every change of the motors, coils, timers and
-   timed contacts ('KT1:c') as { t, id, v }; o: { dt 0.01, until 12, watch: [ids] } */
+   timed contacts ('K5:c') as { t, id, v }; o: { dt 0.01, until 12, watch: [ids] } */
 C6.events = (spec, acts = [], o = {}) => { const sim = hid(spec), dt = o.dt || 0.01, until = o.until ?? 12, list = [], st = {};
   const W = [...C6.motors(sim).map(m => [m, () => sim.runningM(m)]), ...Object.keys(sim.dev).filter(id => ['coil', 'timer', 'lamp'].includes(sim.dev[id].type)).map(id => [id, () => !!sim.dev[id].energized]),
     ...Object.keys(sim.dev).filter(id => sim.dev[id].type === 'timer').map(id => [`${id}:c`, () => sim.act(id)])].filter(([k]) => !o.watch || o.watch.includes(k.split(':')[0]));
@@ -233,92 +253,94 @@ C6.events = (spec, acts = [], o = {}) => { const sim = hid(spec), dt = o.dt || 0
   while (now <= until + 1e-9) { while (k < A.length && A[k][0] <= now + 1e-9) { C6.runSeq(sim, [A[k].slice(1)]); k++; snap(); } sim.step(dt); now += dt; snap(); }
   return { list, at: (id, v = true, after = 0) => { const e = list.find(x => x.id === id && x.v === v && x.t >= after - 1e-9); return e ? e.t : null; } }; };
 const B2 = C6.BELTS(2), B3 = C6.BELTS(3);
+/* names per circuit: two-motor cases F3 F4 overloads, F5 control fuse; three-motor cases F4 F5 F6 overloads, F7 control fuse,
+   AUTO3 timers K4 K5, AUTO_STOP relay K4 and timers K5–K8 */
 C6.FAULTS = [
-  { id: 'permNC', belts: B2, power: false, title: ['หน้าสัมผัสอนุญาตของ KM1 เป็นแบบปกติปิด', 'KM1 permissive contact wired normally closed'],
+  { id: 'permNC', belts: B2, power: false, title: ['หน้าสัมผัสอนุญาตของ K1 เป็นแบบปกติปิด', 'K1 permissive contact wired normally closed'],
     spec: () => C6.SEQ_A({ lamps: false, _perm: 'NC' }), good: () => C6.SEQ_A({ lamps: false }),
     symptom: ['กด S4 แล้ว M2 เดินทั้งที่ M1 ยังหยุดอยู่ และเมื่อกด S2 ให้ M1 เดิน M2 กลับหยุดเอง', 'S4 starts M2 although M1 is stopped, and when S2 starts M1, M2 stops by itself'],
-    options: [['ทางเดินกระแสของ KM2 ใช้หน้าสัมผัสปกติปิด KM1 61–62 แทนหน้าสัมผัสปกติเปิด KM1 83–84', 'the KM2 path uses the normally closed KM1 61–62 instead of the normally open KM1 83–84'],
-      ['ไม่มีหน้าสัมผัสค้าง KM2 13–14', 'there is no KM2 13–14 holding contact'], ['S3 ต่อที่หน้าสัมผัส 13–14 แทน 11–12', 'S3 is wired on 13–14 instead of 11–12'], ['F22 ตัดค้างอยู่', 'F22 is tripped']], answer: 0,
-    fix: ['ใช้หน้าสัมผัสปกติเปิด KM1 83–84 เป็นหน้าสัมผัสอนุญาต ทางเดินกระแสของ KM2 จะต่อได้เฉพาะเมื่อ KM1 ดูดแล้ว', 'Use the normally open KM1 83–84 as the permissive contact; the KM2 path can then close only once KM1 has pulled in'],
+    options: [['ทางเดินกระแสของ K2 ใช้หน้าสัมผัสปกติปิด K1 61–62 แทนหน้าสัมผัสปกติเปิด K1 83–84', 'the K2 path uses the normally closed K1 61–62 instead of the normally open K1 83–84'],
+      ['ไม่มีหน้าสัมผัสค้าง K2 13–14', 'there is no K2 13–14 holding contact'], ['S3 ต่อที่หน้าสัมผัส 13–14 แทน 11–12', 'S3 is wired on 13–14 instead of 11–12'], ['F4 ตัดค้างอยู่', 'F4 is tripped']], answer: 0,
+    fix: ['ใช้หน้าสัมผัสปกติเปิด K1 83–84 เป็นหน้าสัมผัสอนุญาต ทางเดินกระแสของ K2 จะต่อได้เฉพาะเมื่อ K1 ดูดแล้ว', 'Use the normally open K1 83–84 as the permissive contact; the K2 path can then close only once K1 has pulled in'],
     test: ['กด S4 ก่อน: M2 ต้องไม่เดิน · กด S2 แล้ว S4: เดินทั้งคู่', 'Press S4 first: M2 must not start · press S2, then S4: both run'],
     seq: [['tap', 'S4'], ['runM', 'M2', false], ['tap', 'S2'], ['tap', 'S4'], ['runM', 'M1', true], ['runM', 'M2', true]] },
-  { id: 'km3Weld', belts: B3, power: true, title: ['หน้าสัมผัสหลักของ KM3 เชื่อมติด', 'KM3 main contacts welded'],
+  { id: 'km3Weld', belts: B3, power: true, title: ['หน้าสัมผัสหลักของ K3 เชื่อมติด', 'K3 main contacts welded'],
     spec: () => C6.AUTO3({ lamps: 'run', _weld3: true }), good: () => C6.AUTO3({ lamps: 'run' }),
-    symptom: ['สายพานเริ่มเดินตามลำดับ M1 → M2 → M3 ได้ปกติ แต่เมื่อกด S1 M1 และ M2 หยุด ส่วน M3 ยังหมุนต่อและหลอด H3 ยังติด ทั้งที่คอยล์ KM3 ไม่มีไฟแล้ว', 'The belts start in order M1 → M2 → M3 as they should, but S1 stops M1 and M2 only: M3 keeps running and lamp H3 stays lit, although coil KM3 has no supply any more'],
-    options: [['หน้าสัมผัสหลักของ KM3 เชื่อมติด คอนแทกเตอร์จึงค้างอยู่ในตำแหน่งต่อแม้คอยล์ไม่มีไฟ', 'the main contacts of KM3 have welded, so the contactor stays closed although its coil has no supply'],
-      ['ตั้งเวลา KT2 ไว้ 0 s', 'KT2 is set to 0 s'], ['S1 ต่อที่หน้าสัมผัส 13–14', 'S1 is wired on 13–14'], ['F23 ตัดค้างอยู่', 'F23 is tripped']], answer: 0,
-    fix: ['ปลด Q1 (ตัดไฟทั้งตู้) เปลี่ยนคอนแทกเตอร์ KM3 หรือชุดหน้าสัมผัสของมัน และหาสาเหตุ เช่น เริ่มเดินถี่เกินไปหรือคอนแทกเตอร์เล็กเกินไป', 'Switch Q1 off (isolate the panel), replace contactor KM3 or its contact set, and find the cause, e.g. too many starts or an undersized contactor'],
+    symptom: ['สายพานเริ่มเดินตามลำดับ M1 → M2 → M3 ได้ปกติ แต่เมื่อกด S1 M1 และ M2 หยุด ส่วน M3 ยังหมุนต่อและหลอด H3 ยังติด ทั้งที่คอยล์ K3 ไม่มีไฟแล้ว', 'The belts start in order M1 → M2 → M3 as they should, but S1 stops M1 and M2 only: M3 keeps running and lamp H3 stays lit, although coil K3 has no supply any more'],
+    options: [['หน้าสัมผัสหลักของ K3 เชื่อมติด คอนแทกเตอร์จึงค้างอยู่ในตำแหน่งต่อแม้คอยล์ไม่มีไฟ', 'the main contacts of K3 have welded, so the contactor stays closed although its coil has no supply'],
+      ['ตั้งเวลา K5 ไว้ 0 s', 'K5 is set to 0 s'], ['S1 ต่อที่หน้าสัมผัส 13–14', 'S1 is wired on 13–14'], ['F6 ตัดค้างอยู่', 'F6 is tripped']], answer: 0,
+    fix: ['ตัดไฟเข้าตู้ทั้งตู้ก่อน เปลี่ยนคอนแทกเตอร์ K3 หรือชุดหน้าสัมผัสของมัน และหาสาเหตุ เช่น เริ่มเดินถี่เกินไปหรือคอนแทกเตอร์เล็กเกินไป', 'Isolate the whole panel from the supply first, replace contactor K3 or its contact set, and find the cause, e.g. too many starts or an undersized contactor'],
     test: ['เริ่มสายพานจนเดินครบสามตัว แล้วกด S1: ทั้งสามตัวต้องหยุด', 'Start the line until all three belts run, then press S1: all three must stop'],
     seq: [['tap', 'S2'], ['wait', 7], ['runM', 'M3', true], ['tap', 'S1'], ['runM', 'M3', false]] },
-  { id: 'km2HoldWeld', belts: B2, power: false, title: ['หน้าสัมผัสค้าง KM2 13–14 เชื่อมติด', 'KM2 13–14 holding contact welded'],
+  { id: 'km2HoldWeld', belts: B2, power: false, title: ['หน้าสัมผัสค้าง K2 13–14 เชื่อมติด', 'K2 13–14 holding contact welded'],
     spec: () => C6.SEQ_A({ lamps: false, _weld: true }), good: () => C6.SEQ_A({ lamps: false }),
-    symptom: ['กด S2 แล้ว M1 และ M2 เริ่มเดินพร้อมกันทันทีโดยไม่ได้กด S4 และกด S3 แล้ว M2 หยุดเฉพาะตอนกดค้างไว้ ปล่อยแล้วเดินเองอีก', 'S2 starts M1 and M2 together without anyone pressing S4, and S3 stops M2 only while it is held: on release M2 starts again by itself'],
-    options: [['หน้าสัมผัสค้าง KM2 13–14 เชื่อมติด จึงต่อคร่อม S4 อยู่ตลอดเวลา', 'the KM2 13–14 holding contact has welded, so it bridges S4 all the time'],
-      ['ไม่มีหน้าสัมผัสอนุญาต KM1 83–84', 'there is no KM1 83–84 permissive contact'], ['F22 95–96 ถูกต่อข้าม', 'F22 95–96 is bypassed'], ['หน้าสัมผัสค้าง KM2 ต่อคร่อมทั้ง S3 และ S4', 'the KM2 holding contact bridges both S3 and S4']], answer: 0,
-    fix: ['ปลด Q1 แล้วเปลี่ยนชุดหน้าสัมผัสช่วยหรือคอนแทกเตอร์ KM2 หน้าสัมผัสค้างต้องเปิดเมื่อ KM2 ปล่อย', 'Switch Q1 off and replace the auxiliary contact block or contactor KM2; the holding contact must open when KM2 drops out'],
+    symptom: ['กด S2 แล้ว M1 และ M2 เริ่มเดินพร้อมกันทันทีโดยไม่ได้กด S4 และกด S3 แล้ว M2 หยุดเฉพาะตอนกดค้าง ปล่อยแล้วเดินเองอีก', 'S2 starts M1 and M2 together without anyone pressing S4, and S3 stops M2 only while it is held: on release M2 starts again by itself'],
+    options: [['หน้าสัมผัสค้าง K2 13–14 เชื่อมติด จึงต่อคร่อม S4 อยู่ตลอดเวลา', 'the K2 13–14 holding contact has welded, so it bridges S4 all the time'],
+      ['ไม่มีหน้าสัมผัสอนุญาต K1 83–84', 'there is no K1 83–84 permissive contact'], ['F4 95–96 ถูกต่อข้าม', 'F4 95–96 is bypassed'], ['หน้าสัมผัสค้าง K2 ต่อคร่อมทั้ง S3 และ S4', 'the K2 holding contact bridges both S3 and S4']], answer: 0,
+    fix: ['ตัดไฟเข้าตู้ก่อน แล้วเปลี่ยนชุดหน้าสัมผัสช่วยหรือคอนแทกเตอร์ K2 หน้าสัมผัสค้างต้องเปิดเมื่อ K2 ปล่อย', 'Isolate the panel from the supply and replace the auxiliary contact block or contactor K2; the holding contact must open when K2 drops out'],
     test: ['กด S2 อย่างเดียว: M1 เดิน ส่วน M2 ต้องยังหยุด', 'Press S2 alone: M1 runs and M2 must stay stopped'],
     seq: [['tap', 'S2'], ['runM', 'M1', true], ['runM', 'M2', false]] },
-  { id: 'noOL22', belts: B2, power: true, title: ['ไม่มี F22 95–96 ในวงจรควบคุม', 'No F22 95–96 in the control circuit'],
+  { id: 'noOL22', belts: B2, power: true, title: ['ไม่มี F4 95–96 ในวงจรควบคุม', 'No F4 95–96 in the control circuit'],
     spec: () => C6.SEQ_NOOL({ lamps: false }), good: () => C6.SEQ_A({ lamps: false }),
-    symptom: ['M1 และ M2 เดินอยู่ เมื่อโอเวอร์โหลด F22 ของ M2 ตัด (คลิก F22) M2 ยังหมุนต่อ', 'M1 and M2 are running; when M2\'s overload relay F22 trips (click F22), M2 keeps running'],
-    options: [['F22 อยู่ในวงจรกำลังเท่านั้น ไม่มีหน้าสัมผัส 95–96 ในทางเดินกระแสของ KM2', 'F22 is only in the power circuit: there is no 95–96 contact in the KM2 path'],
-      ['F22 ตั้งกระแสไว้สูงเกินไป', 'F22 is set too high'], ['S3 ต่อขนานกับ S4', 'S3 is in parallel with S4'], ['หน้าสัมผัสอนุญาต KM1 83–84 เชื่อมติด', 'the KM1 83–84 permissive contact has welded']], answer: 0,
-    fix: ['ต่อ F22 95–96 อนุกรมในทางเดินกระแสของ KM2 (และ F22 97–98 กับหลอด H5) โอเวอร์โหลดของมอเตอร์ทุกตัวต้องหยุดมอเตอร์ของตัวเองได้', 'Put F22 95–96 in series in the KM2 path (and F22 97–98 with lamp H5); every motor\'s overload relay must be able to stop its own motor'],
-    test: ['เดินทั้งคู่ แล้วคลิก F22: M2 ต้องหยุด ส่วน M1 เดินต่อได้', 'Run both, then click F22: M2 must stop, M1 may run on'],
-    seq: [['tap', 'S2'], ['tap', 'S4'], ['toggle', 'F22'], ['runM', 'M2', false], ['runM', 'M1', true]] },
-  { id: 'holdBridge', belts: B2, power: false, title: ['หน้าสัมผัสค้าง KM2 คร่อมหน้าสัมผัสอนุญาตด้วย', 'KM2 holding contact also bridges the permissive'],
+    symptom: ['M1 และ M2 เดินอยู่ เมื่อโอเวอร์โหลด F4 ของ M2 ตัด (คลิก F4) M2 ยังหมุนต่อ', 'M1 and M2 are running; when M2\'s overload relay F4 trips (click F4), M2 keeps running'],
+    options: [['F4 อยู่ในวงจรกำลังเท่านั้น ไม่มีหน้าสัมผัส 95–96 ในทางเดินกระแสของ K2', 'F4 is only in the power circuit: there is no 95–96 contact in the K2 path'],
+      ['F4 ตั้งกระแสไว้สูงเกินไป', 'F4 is set too high'], ['S3 ต่อขนานกับ S4', 'S3 is in parallel with S4'], ['หน้าสัมผัสอนุญาต K1 83–84 เชื่อมติด', 'the K1 83–84 permissive contact has welded']], answer: 0,
+    fix: ['ต่อ F4 95–96 อนุกรมในทางเดินกระแสของ K2 (และ F4 97–98 กับหลอด H4) โอเวอร์โหลดของมอเตอร์ทุกตัวต้องหยุดมอเตอร์ของตัวเองได้', 'Put F4 95–96 in series in the K2 path (and F4 97–98 with lamp H4); every motor\'s overload relay must be able to stop its own motor'],
+    test: ['เดินทั้งคู่ แล้วคลิก F4: M2 ต้องหยุด ส่วน M1 เดินต่อได้', 'Run both, then click F4: M2 must stop, M1 may run on'],
+    seq: [['tap', 'S2'], ['tap', 'S4'], ['toggle', 'F4'], ['runM', 'M2', false], ['runM', 'M1', true]] },
+  { id: 'holdBridge', belts: B2, power: false, title: ['หน้าสัมผัสค้าง K2 คร่อมหน้าสัมผัสอนุญาตด้วย', 'K2 holding contact also bridges the permissive'],
     spec: () => C6.SEQ_BRIDGE({ lamps: false }), good: () => C6.SEQ_A({ lamps: false }),
-    symptom: ['เริ่มเดินได้ถูกลำดับ (กด S4 อย่างเดียวไม่เดิน) แต่เมื่อ M1 หยุดด้วย S1 หรือเพราะ F21 ตัด M2 ยังเดินต่อและส่งของลงบนสายพาน M1 ที่หยุดอยู่', 'Starting works in order (S4 alone does nothing), but when M1 stops, by S1 or by an F21 trip, M2 keeps running and feeds material onto the stopped belt M1'],
-    options: [['KM2 13–14 ต่อคร่อมทั้ง S4 และ KM1 83–84 หน้าสัมผัสอนุญาตจึงถูกตรวจแค่ตอนเริ่มเดิน', 'KM2 13–14 bridges both S4 and KM1 83–84, so the permissive is checked only at the start'],
-      ['ไม่มีหน้าสัมผัสอนุญาต KM1 83–84', 'there is no KM1 83–84 permissive contact'], ['F22 อยู่ในวงจรกำลังเท่านั้น', 'F22 is only in the power circuit'], ['S1 ต่อขนานกับ S3', 'S1 is in parallel with S3']], answer: 0,
-    fix: ['ให้ KM2 13–14 คร่อมเฉพาะ S4 ย้าย KM1 83–84 ไปไว้นอกคู่ขนานนั้น (ก่อน F22) และป้อนไฟทางเดินกระแสของ KM2 จากจุดหลัง F21 95–96 เมื่อ KM1 หลุดด้วยเหตุใดก็ตาม KM2 ต้องหลุดตาม', 'Let KM2 13–14 bridge S4 only, move KM1 83–84 outside that parallel pair (ahead of F22) and feed the KM2 path from the point after F21 95–96; whenever KM1 drops out, for whatever reason, KM2 must drop out too'],
+    symptom: ['เริ่มเดินได้ถูกลำดับ (กด S4 อย่างเดียวไม่เดิน) แต่เมื่อ M1 หยุดด้วย S1 หรือเพราะ F3 ตัด M2 ยังเดินต่อและส่งของลงบนสายพาน M1 ที่หยุดอยู่', 'Starting works in order (S4 alone does nothing), but when M1 stops, by S1 or by an F3 trip, M2 keeps running and feeds material onto the stopped belt M1'],
+    options: [['K2 13–14 ต่อคร่อมทั้ง S4 และ K1 83–84 หน้าสัมผัสอนุญาตจึงถูกตรวจแค่ตอนเริ่มเดิน', 'K2 13–14 bridges both S4 and K1 83–84, so the permissive is checked only at the start'],
+      ['ไม่มีหน้าสัมผัสอนุญาต K1 83–84', 'there is no K1 83–84 permissive contact'], ['F4 อยู่ในวงจรกำลังเท่านั้น', 'F4 is only in the power circuit'], ['S1 ต่อขนานกับ S3', 'S1 is in parallel with S3']], answer: 0,
+    fix: ['ให้ K2 13–14 คร่อมเฉพาะ S4 ย้าย K1 83–84 ไปไว้นอกคู่ขนานนั้น (ก่อน F4) และป้อนไฟทางเดินกระแสของ K2 จากจุดหลัง F3 95–96 เมื่อ K1 หลุดด้วยเหตุใดก็ตาม K2 ต้องหลุดตาม', 'Let K2 13–14 bridge S4 only, move K1 83–84 outside that parallel pair (ahead of F4) and feed the K2 path from the point after F3 95–96; whenever K1 drops out, for whatever reason, K2 must drop out too'],
     test: ['เดินทั้งคู่ แล้วกด S1: ทั้ง M1 และ M2 ต้องหยุด', 'Run both, then press S1: both M1 and M2 must stop'],
     seq: [['tap', 'S2'], ['tap', 'S4'], ['tap', 'S1'], ['runM', 'M1', false], ['runM', 'M2', false]] },
-  { id: 'bridgeF21', belts: B2, power: false, title: ['หน้าสัมผัสหยุดย้อนลำดับคร่อม F21 แทน S1', 'Reverse-stop contact across F21 instead of S1'],
-    spec: () => C6.REV_STOP({ lamps: false, _bridge: 'F21' }), good: () => C6.REV_STOP({ lamps: false }),
-    symptom: ['ขณะ M1 และ M2 เดิน กด S1 แล้วหยุดทั้งสองตัว (หยุดย้อนลำดับไม่ทำงาน) และถ้า F21 ตัดขณะ M2 เดินอยู่ ไม่มีอะไรหยุดเลย', 'With M1 and M2 running, S1 stops both (the reverse-order stop does nothing), and if F21 trips while M2 runs, nothing stops at all'],
-    options: [['KM2 83–84 ต่อคร่อม F21 95–96 แทนที่จะคร่อม S1', 'KM2 83–84 is across F21 95–96 instead of across S1'],
-      ['ไม่มี KM2 83–84 เลย', 'there is no KM2 83–84 at all'], ['KM2 83–84 เป็นแบบปกติปิด', 'KM2 83–84 is normally closed'], ['F21 ใช้หน้าสัมผัส 97–98', 'F21 is wired on 97–98']], answer: 0,
-    fix: ['ย้าย KM2 83–84 ไปคร่อมเฉพาะ S1 (จากจุดหลัง F21 95–96 ถึงจุดหลัง S1) ห้ามคร่อม F21, F1 หรือปุ่มหยุดฉุกเฉิน', 'Move KM2 83–84 across S1 only (from the point after F21 95–96 to the point after S1); never across F21, F1 or the emergency stop'],
-    test: ['เดินทั้งคู่: กด S1 แล้ว M1 ต้องเดินต่อ · คลิก F21: ทั้งคู่ต้องหยุด', 'Run both: S1 must leave M1 running · click F21: both must stop'],
-    seq: [['tap', 'S2'], ['tap', 'S4'], ['tap', 'S1'], ['runM', 'M1', true], ['toggle', 'F21'], ['run', false]] },
+  { id: 'bridgeF21', belts: B2, power: false, title: ['หน้าสัมผัสหยุดย้อนลำดับคร่อม F3 แทน S1', 'Reverse-stop contact across F3 instead of S1'],
+    spec: () => C6.REV_STOP({ lamps: false, _bridge: 'OL' }), good: () => C6.REV_STOP({ lamps: false }),
+    symptom: ['ขณะ M1 และ M2 เดิน กด S1 แล้วหยุดทั้งสองตัว (หยุดย้อนลำดับไม่ทำงาน) และถ้า F3 ตัดขณะ M2 เดินอยู่ ไม่มีอะไรหยุดเลย', 'With M1 and M2 running, S1 stops both (the reverse-order stop does nothing), and if F3 trips while M2 runs, nothing stops at all'],
+    options: [['K2 83–84 ต่อคร่อม F3 95–96 แทนที่จะคร่อม S1', 'K2 83–84 is across F3 95–96 instead of across S1'],
+      ['ไม่มี K2 83–84 เลย', 'there is no K2 83–84 at all'], ['K2 83–84 เป็นแบบปกติปิด', 'K2 83–84 is normally closed'], ['F3 ใช้หน้าสัมผัส 97–98', 'F3 is wired on 97–98']], answer: 0,
+    fix: ['ย้าย K2 83–84 ไปคร่อมเฉพาะ S1 (จากจุดหลัง F3 95–96 ถึงจุดหลัง S1) ห้ามคร่อม F3, F5 หรือปุ่มหยุดฉุกเฉิน', 'Move K2 83–84 across S1 only (from the point after F3 95–96 to the point after S1); never across F3, F5 or the emergency stop'],
+    test: ['เดินทั้งคู่: กด S1 แล้ว M1 ต้องเดินต่อ · คลิก F3: ทั้งคู่ต้องหยุด', 'Run both: S1 must leave M1 running · click F3: both must stop'],
+    seq: [['tap', 'S2'], ['tap', 'S4'], ['tap', 'S1'], ['runM', 'M1', true], ['toggle', 'F3'], ['run', false]] },
   { id: 'offAfterS1', belts: B3, power: false, title: ['ทางเดินกระแสของหน้าสัมผัสหน่วงเมื่อตัดไฟรับไฟหลัง S1', 'Off-delay holding paths fed after S1'],
     spec: () => C6.AUTO_STOP({ lamps: false, _from: 'S1' }), good: () => C6.AUTO_STOP({ lamps: false }),
     symptom: ['เริ่มเดิน M1 → M2 → M3 ได้ปกติ แต่เมื่อกด S1 ทั้งสามตัวหยุดพร้อมกันทันที ไม่มีสายพานตัวใดเดินต่อเพื่อส่งของออกจนว่าง ของจึงค้างอยู่บน M2 และ M1', 'The start M1 → M2 → M3 works, but S1 stops all three at once: no belt runs on to carry its material away, so material is left on M2 and M1'],
-    options: [['ทางเดินกระแสที่มีหน้าสัมผัสหน่วงเมื่อตัดไฟ KT3 และ KT4 รับไฟจากจุดหลัง S1 แทนจุด A ก่อน S1', 'the paths with the off-delay contacts KT3 and KT4 take their supply after S1 instead of from point A ahead of S1'],
-      ['KT3 และ KT4 เป็นตัวตั้งเวลาหน่วงเมื่อป้อนไฟ', 'KT3 and KT4 are on-delay timers'], ['ไม่มีหน้าสัมผัสค้าง KA1 13–14', 'there is no KA1 13–14 holding contact'], ['ตั้งเวลา KT1 และ KT2 ไว้ 0 s', 'KT1 and KT2 are set to 0 s']], answer: 0,
-    fix: ['ป้อนไฟทางเดินกระแสของ KM1, KM2 และ KM3 จากจุด A (หลังโอเวอร์โหลดทุกตัว แต่ก่อน S1) ให้ KA1 เป็นตัวเดียวที่รับไฟผ่าน S1', 'Feed the KM1, KM2 and KM3 paths from point A (after all the overload contacts but ahead of S1); only KA1 is fed through S1'],
+    options: [['ทางเดินกระแสที่มีหน้าสัมผัสหน่วงเมื่อตัดไฟ K7 และ K8 รับไฟจากจุดหลัง S1 แทนจุด A ก่อน S1', 'the paths with the off-delay contacts K7 and K8 take their supply after S1 instead of from point A ahead of S1'],
+      ['K7 และ K8 เป็นตัวตั้งเวลาหน่วงเมื่อป้อนไฟ', 'K7 and K8 are on-delay timers'], ['ไม่มีหน้าสัมผัสค้าง K4 13–14', 'there is no K4 13–14 holding contact'], ['ตั้งเวลา K5 และ K6 ไว้ 0 s', 'K5 and K6 are set to 0 s']], answer: 0,
+    fix: ['ป้อนไฟทางเดินกระแสของ K1, K2 และ K3 จากจุด A (หลังโอเวอร์โหลดทุกตัว แต่ก่อน S1) ให้ K4 เป็นตัวเดียวที่รับไฟผ่าน S1', 'Feed the K1, K2 and K3 paths from point A (after all the overload contacts but ahead of S1); only K4 is fed through S1'],
     test: ['เดินครบสามตัว แล้วกด S1 ค้างไว้ครู่หนึ่ง: M3 หยุดทันที M1 และ M2 ยังเดิน แล้วหยุดตามลำดับ', 'Run all three, then hold S1 for a moment: M3 stops at once, M1 and M2 keep running, then stop in turn'],
     seq: [['tap', 'S2'], ['wait', 7], ['runM', 'M3', true], ['hold', 'S1'], ['wait', 0.3], ['runM', 'M3', false], ['runM', 'M1', true], ['release', 'S1'], ['wait', 7], ['run', false]] },
-  { id: 'kt1Open', belts: B3, power: false, title: ['คอยล์ของ KT1 ขาด', 'Coil of KT1 open'],
-    spec: () => C6.AUTO3({ lamps: false, _kt1Open: true }), good: () => C6.AUTO3({ lamps: false }),
-    symptom: ['กด S2 แล้ว M1 เดิน แต่ M2 และ M3 ไม่เดินเลยไม่ว่าจะรอนานเท่าไร ขั้ว A1 ของ KT1 มีไฟ แต่ KT1 ไม่นับเวลา', 'S2 starts M1, but M2 and M3 never start however long you wait; terminal A1 of KT1 is live, but KT1 never counts'],
-    options: [['คอยล์ของ KT1 ขาด (วงจรเปิด) ตัวตั้งเวลาจึงไม่ทำงาน', 'the coil of KT1 is open-circuit, so the timer never runs'],
-      ['KM1 83–84 ไม่ต่อ', 'KM1 83–84 does not close'], ['F23 ตัดค้างอยู่', 'F23 is tripped'], ['ตั้งเวลา KT1 ไว้ 0 s', 'KT1 is set to 0 s']], answer: 0,
-    fix: ['ปลด Q1 วัดความต้านทานของคอยล์ A1–A2 ของ KT1 ถ้าขาดให้เปลี่ยนตัวตั้งเวลา', 'Switch Q1 off, measure the resistance of KT1 A1–A2 and replace the timer if its coil is open'],
+  { id: 'kt1Open', belts: B3, power: false, title: ['คอยล์ของตัวตั้งเวลา K4 ขาด', 'Coil of timer K4 open'],
+    spec: () => C6.AUTO3({ lamps: false, _t1Open: true }), good: () => C6.AUTO3({ lamps: false }),
+    symptom: ['กด S2 แล้ว M1 เดิน แต่ M2 และ M3 ไม่เดินเลยไม่ว่าจะรอนานเท่าไร ขั้ว A1 ของ K4 มีไฟ แต่ K4 ไม่นับเวลา', 'S2 starts M1, but M2 and M3 never start however long you wait; terminal A1 of K4 is live, but K4 never counts'],
+    options: [['คอยล์ของ K4 ขาด (วงจรเปิด) ตัวตั้งเวลาจึงไม่ทำงาน', 'the coil of K4 is open-circuit, so the timer never runs'],
+      ['K1 83–84 ไม่ต่อ', 'K1 83–84 does not close'], ['F6 ตัดค้างอยู่', 'F6 is tripped'], ['ตั้งเวลา K4 ไว้ 0 s', 'K4 is set to 0 s']], answer: 0,
+    fix: ['ตัดไฟเข้าตู้ก่อน วัดความต้านทานของคอยล์ A1–A2 ของ K4 ถ้าขาดให้เปลี่ยนตัวตั้งเวลา', 'Isolate the panel from the supply, measure the resistance of K4 A1–A2 and replace the timer if its coil is open'],
     test: ['กด S2 แล้วรอ: M2 เดินที่ 3 s และ M3 ที่ 6 s', 'Press S2 and wait: M2 starts at 3 s and M3 at 6 s'],
     seq: [['tap', 'S2'], ['wait', 7], ['runM', 'M2', true], ['runM', 'M3', true]] },
-  { id: 'f21InBranch', belts: B3, power: false, title: ['F21 95–96 อยู่ในทางเดินกระแสของ KM1 ใต้หน้าสัมผัสค้างของ KT4', 'F21 95–96 inside the KM1 path, under the KT4 holding contact'],
-    spec: () => C6.AUTO_STOP({ lamps: false, _f21: 'KM1' }), good: () => C6.AUTO_STOP({ lamps: false }),
-    symptom: ['สายพานเดินครบสามตัว เมื่อ F21 ตัด M1 ยังหมุนต่อ (F21 หยุด M1 ได้เฉพาะช่วงที่ M2 ยังไม่เดิน)', 'All three belts run; when F21 trips, M1 keeps running (F21 stops M1 only while M2 is not running yet)'],
-    options: [['F21 95–96 อยู่ในส่วนของทางเดินกระแส KM1 ที่ทางค้างของหน้าสัมผัสหน่วงเมื่อตัดไฟ KT4 67–68 กับ KM1 13–14 ต่อคร่อม จึงถูกต่อข้ามขณะ KT4 มีไฟ', 'F21 95–96 sits in the part of the KM1 path that the off-delay hold KT4 67–68 + KM1 13–14 bridges, so it is bypassed while KT4 is energised'],
-      ['F21 ใช้หน้าสัมผัส 97–98', 'F21 is wired on 97–98'], ['KT4 เป็นตัวตั้งเวลาหน่วงเมื่อป้อนไฟ', 'KT4 is an on-delay timer'], ['ไม่มี F21 ในวงจรกำลัง', 'F21 is not in the power circuit']], answer: 0,
-    fix: ['ย้าย F21 95–96 ขึ้นไปอนุกรมกับ F22 และ F23 เหนือจุด A โอเวอร์โหลดตัวใดก็ตัดทุกทางเดินกระแสได้ทันที และไม่มีหน้าสัมผัสค้างตัวใดต่อข้ามได้', 'Move F21 95–96 up into the series chain with F22 and F23 above point A; then any overload breaks every path at once and no holding contact can bypass it'],
-    test: ['เดินครบสามตัว แล้วคลิก F21: ทุกตัวต้องหยุดทันที', 'Run all three, then click F21: everything must stop at once'],
-    seq: [['tap', 'S2'], ['wait', 7], ['toggle', 'F21'], ['run', false]] }];
+  { id: 'f21InBranch', belts: B3, power: false, title: ['F4 95–96 อยู่ในทางเดินกระแสของ K1 ใต้หน้าสัมผัสค้างของ K8', 'F4 95–96 inside the K1 path, under the K8 holding contact'],
+    spec: () => C6.AUTO_STOP({ lamps: false, _ol1In: true }), good: () => C6.AUTO_STOP({ lamps: false }),
+    symptom: ['สายพานเดินครบสามตัว เมื่อ F4 ตัด M1 ยังหมุนต่อ (F4 หยุด M1 ได้เฉพาะช่วงที่ M2 ยังไม่เดิน)', 'All three belts run; when F4 trips, M1 keeps running (F4 stops M1 only while M2 is not running yet)'],
+    options: [['F4 95–96 อยู่ในส่วนของทางเดินกระแส K1 ที่ทางค้างของหน้าสัมผัสหน่วงเมื่อตัดไฟ K8 67–68 กับ K1 13–14 ต่อคร่อม จึงถูกต่อข้ามขณะ K8 มีไฟ', 'F4 95–96 sits in the part of the K1 path that the off-delay hold K8 67–68 + K1 13–14 bridges, so it is bypassed while K8 is energised'],
+      ['F4 ใช้หน้าสัมผัส 97–98', 'F4 is wired on 97–98'], ['K8 เป็นตัวตั้งเวลาหน่วงเมื่อป้อนไฟ', 'K8 is an on-delay timer'], ['ไม่มี F4 ในวงจรกำลัง', 'F4 is not in the power circuit']], answer: 0,
+    fix: ['ย้าย F4 95–96 ขึ้นไปอนุกรมกับ F5 และ F6 เหนือจุด A โอเวอร์โหลดตัวใดก็ตัดทุกทางเดินกระแสได้ทันที และไม่มีหน้าสัมผัสค้างตัวใดต่อข้ามได้', 'Move F4 95–96 up into the series chain with F5 and F6 above point A; then any overload breaks every path at once and no holding contact can bypass it'],
+    test: ['เดินครบสามตัว แล้วคลิก F4: ทุกตัวต้องหยุดทันที', 'Run all three, then click F4: everything must stop at once'],
+    seq: [['tap', 'S2'], ['wait', 7], ['toggle', 'F4'], ['run', false]] }];
 
 /* ---------------- 3) status and control buttons ---------------- */
 C6.state = sim => { const d = sim.dev, ms = C6.motors(sim), on = m => sim.runningM(m), any = ms.some(on);
   const list = ms.map(m => `${m} ${on(m) ? T('หมุน', 'runs') : T('หยุด', 'stopped')}`).join(' · ');
   if (sim.mains === false) return [T('ไฟดับ', 'power off'), T('รอไฟกลับมา…', 'waiting for the power…'), 'bad'];
-  if (d.Q1 && !d.Q1.on) return [T('Q1 ปลด', 'Q1 off'), sim.spec.supply ? T('ไม่มีไฟทั้งวงจรกำลังและวงจรควบคุม', 'no supply to the power or the control circuit') : T('มอเตอร์ไม่มีไฟ แต่วงจรควบคุมป้อนก่อน Q1 จึงยังมีไฟ', 'the motors have no supply, but the control circuit is fed ahead of Q1 and is still live'), 'warn'];
-  if (d.F1 && d.F1.blown) return [T('F1 ขาด', 'F1 blown'), T('วงจรควบคุมไม่มีไฟ คลิกที่ F1 เพื่อเปลี่ยนฟิวส์', 'the control circuit is dead; click F1 to replace it'), 'bad'];
+  const cf = (sim.spec.els.find(e => e.k === 'fuse') || {}).d;   // the control fuse (F5 with two motors, F7 with three)
+  if (cf && d[cf] && d[cf].blown) return [T(`${cf} ขาด`, `${cf} blown`), T(`วงจรควบคุมไม่มีไฟ คลิกที่ ${cf} เพื่อเปลี่ยนฟิวส์`, `the control circuit is dead; click ${cf} to replace it`), 'bad'];
   if (d.S0 && d.S0.pressed) return [T('หยุดฉุกเฉิน', 'emergency stop'), T(`S0 ค้างอยู่ คลิก S0 อีกครั้งเพื่อคืนปุ่ม แล้วจึงเริ่มใหม่ · ${list}`, `S0 is latched: click S0 again to release it, then start again · ${list}`), 'bad'];
   const trip = Object.keys(d).filter(id => d[id].type === 'ol' && d[id].tripped);
-  if (trip.length) { const still = trip.map(id => `M${id.slice(2)}`).filter(on);
+  if (trip.length) { const still = trip.map(id => C6.motorOf(sim, id)).filter(m => m && on(m));
     return [T(`${trip.join(', ')} ตัด`, `${trip.join(', ')} tripped`), (still.length ? T(`${still.join(', ')} ยังหมุนอยู่แม้โอเวอร์โหลดตัดแล้ว · `, `${still.join(', ')} still running although the overload has tripped · `) : '') + `${list} · ${T('คลิกที่โอเวอร์โหลดอีกครั้งเพื่อรีเซ็ต', 'click the overload again to reset it')}`, 'bad']; }
-  const off = Object.keys(d).filter(id => /^Q1\d$/.test(id) && d[id].type === 'cb' && !d[id].on);
-  if (off.length) return [T(`${off.join(', ')} ปลด`, `${off.join(', ')} off`), `${list} · ${T('มอเตอร์ของสาขานั้นไม่มีไฟ', 'the motor of that branch has no supply')}`, 'warn'];
+  const blown = Object.keys(d).filter(id => d[id].type === 'fuse' && d[id].blown && C6.motorOf(sim, id));   // power fuses of a motor branch
+  if (blown.length) return [T(`${blown.join(', ')} ขาด`, `${blown.join(', ')} blown`), `${list} · ${T(`มอเตอร์ของสาขานั้นไม่มีไฟ คลิกที่ ${blown[0]} เพื่อเปลี่ยนฟิวส์`, `the motor of that branch has no supply; click ${blown[0]} to replace the fuses`)}`, 'warn'];
   return any ? [T('กำลังเดิน', 'running'), list, 'good'] : [T('หยุด', 'stopped'), list, 'wait']; };
 C6.panel = (el, sim, o = {}) => C5.panel(el, sim, { status: C6.state, ...o });
 
@@ -337,7 +359,7 @@ C6.Conveyor = class {
     this.reset(); }
   reset() { const n = this.n; this.items = []; this.piles = new Array(n).fill(0); this.drain = new Array(n).fill(0); this.flash = new Array(n).fill(0); this.floor = new Array(n).fill(0);
     this.spd = this.belts.map(id => (this.moving(id) ? 1 : 0)); this.ph = new Array(n).fill(0); this.fed = 0; this.delivered = 0; this.spilled = 0; this.t = 0; this.events = []; this.lastS = ''; this.draw(); }
-  moving(id) { if (this.o.run) return !!this.o.run(id); const s = this.sim, km = s.dev['KM' + id.slice(1)]; return s.runningM ? s.runningM(id) : !!(km && km.energized); }
+  moving(id) { if (this.o.run) return !!this.o.run(id); const s = this.sim, km = s.dev['K' + id.slice(1)]; return s.runningM ? s.runningM(id) : !!(km && km.energized); }
   setFeed(v) { this.feed = !!v; this.draw(); }
   ev(kind, k) { const e = { t: +this.t.toFixed(2), kind, from: this.belts[k], onto: this.belts[k + 1] || null }; this.events.push(e); if (this.o.onEvent) this.o.onEvent(e); }
   step(dt) { const n = this.n; let dirty = dt === 0; this.t += dt;
@@ -409,7 +431,7 @@ C6.Conveyor = class {
 /* signals: [{ id, kind?: 'pb'|'coil'|'timer'|'motor'|'lamp'|'ol'|'sel', label?: [th, en], sub?: [th, en], show?: 'coil'|'contact'|'both' (timers) }]
    (kind from the device type; ids M1, M2 … are motors). o: { span 20 (s), autoStart true (the clock starts at the first activity),
    edgeLabels true (switch-on time above each bar), max }. step(dt) records from the simulator; clear() starts again; rises(key) = the
-   switch-on times of a row (key = id, or 'KT1:c' for a timed contact). */
+   switch-on times of a row (key = id, or 'K5:c' for a timed contact). */
 C6.Timeline = class {
   constructor(el, sim, o = {}) { this.el = el; this.sim = sim; this.o = o; this.span = o.span || 20; this.auto = o.autoStart !== false; this.rows = [];
     (o.signals || []).forEach(sg => this.addRow(sg)); this.clear(); sim.on(() => { this.sample(); this.draw(); }); }
@@ -479,7 +501,7 @@ C6.StartSum = class {
     el.innerHTML = '<div class="c6sum"><div class="c6ch"></div><div class="c5res"></div></div>'; this.ch = el.querySelector('.c6ch'); this.res = el.querySelector('.c5res');
     if (o.panel) this.controls(o.panel); this.draw(); }
   controls(pn) { const ui = MC.ui, id = this.o.id || 'c6s';
-    this.sl = ui.slider(pn, { id: id + 'T', label: T('เวลาหน่วงระหว่างการเริ่มเดินแต่ละตัว (KT1 = KT2)', 'delay between the starts (KT1 = KT2)'), min: 0, max: 8, step: 0.5, value: this.T, unit: 's', dec: 1, oninput: v => this.set({ T: v }) });
+    this.sl = ui.slider(pn, { id: id + 'T', label: T('เวลาหน่วงระหว่างการเริ่มเดินแต่ละตัว (ตั้งตัวตั้งเวลาทุกตัวเท่ากัน)', 'delay between the starts (every timer set the same)'), min: 0, max: 8, step: 0.5, value: this.T, unit: 's', dec: 1, oninput: v => this.set({ T: v }) });
     ui.radio(pn, [{ id: id + '2', label: T('มอเตอร์ 2 ตัว', 'two motors'), on: this.n === 2 }, { id: id + '3', label: T('มอเตอร์ 3 ตัว', 'three motors'), on: this.n !== 2 }], k => this.set({ n: k === id + '2' ? 2 : 3 })); }
   set(p) { if (p.T !== undefined) this.T = p.T; if (p.n !== undefined) this.n = p.n; this.draw(); }
   get result() { return this.r; }

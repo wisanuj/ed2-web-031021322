@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=22"><link rel="stylesheet" href="assets/ed2.css?v=22">
-<script src="assets/stops.js?v=22"></script><script src="assets/shell.js?v=22"></script>
-<script src="assets/lesson.js?v=22"></script><script src="assets/draw.js?v=22"></script><script src="assets/ed.js?v=22"></script><script src="assets/sym.js?v=22"></script><script src="assets/iec.js?v=22"></script><script src="assets/relay.js?v=22"></script><script src="assets/ch2.js?v=22"></script><script src="assets/devdata.js?v=22"></script><script src="assets/dev.js?v=22"></script>
+<link rel="stylesheet" href="assets/ee.css?v=27"><link rel="stylesheet" href="assets/ed2.css?v=27">
+<script src="assets/stops.js?v=27"></script><script src="assets/shell.js?v=27"></script>
+<script src="assets/lesson.js?v=27"></script><script src="assets/draw.js?v=27"></script><script src="assets/ed.js?v=27"></script><script src="assets/sym.js?v=27"></script><script src="assets/iec.js?v=27"></script><script src="assets/relay.js?v=27"></script><script src="assets/ch2.js?v=27"></script><script src="assets/devdata.js?v=27"></script><script src="assets/dev.js?v=27"></script>
 </head>
 <body>
 <div class="wrap">
@@ -23,13 +23,13 @@
 
 <section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
   <li><b>สัญลักษณ์วาดในสภาวะปกติ</b>: ไม่มีไฟ ไม่มีใครกด และอุปกรณ์ป้องกันยังไม่ทำงาน หน้าสัมผัสปกติเปิด (normally open, NO) จึงวาดเปิด และหน้าสัมผัสปกติปิด (normally closed, NC) วาดปิด ทางเดินกระแสวางในแนวตั้ง แหล่งจ่ายอยู่ด้านบน นิวทรัลอยู่ด้านล่าง</li>
-  <li><b>ชื่ออุปกรณ์ = ตัวอักษรบอกชนิด + ตัวเลขบอกลำดับ</b> เช่น KM1 คือคอนแทกเตอร์ตัวที่ 1 คอยล์ หน้าสัมผัสหลัก และหน้าสัมผัสช่วยของอุปกรณ์เดียวกันใช้ชื่อเดียวกัน แม้จะวาดอยู่คนละที่ในแบบ</li>
-  <li><b>วิชานี้ใช้รหัส Q F KM KA KT S H M X</b> ซึ่งพบมากในตู้ควบคุมในไทยและแคตตาล็อกของผู้ผลิต และใกล้กับไฟล์ใบงาน CADe SIMU ของรายวิชา</li>
+  <li><b>ชื่ออุปกรณ์ = ตัวอักษรบอกชนิด + ตัวเลขบอกลำดับ</b> เช่น K1 คือคอนแทกเตอร์ตัวที่ 1 คอยล์ หน้าสัมผัสหลัก และหน้าสัมผัสช่วยของอุปกรณ์เดียวกันใช้ชื่อเดียวกัน แม้จะวาดอยู่คนละที่ในแบบ</li>
+  <li><b>วิชานี้ใช้ชื่อตามสไลด์ของบทเรียน</b>: F ฟิวส์และโอเวอร์โหลด (F1 ฟิวส์วงจรกำลัง F2 ฟิวส์วงจรควบคุม F3 โอเวอร์โหลด) K คอนแทกเตอร์ รีเลย์ช่วย และตัวตั้งเวลา (คอนแทกเตอร์ K1 K2 … ก่อน แล้วรีเลย์และตัวตั้งเวลาใช้เลข K ถัดไป) S สวิตช์และปุ่มกด (S0 หยุดฉุกเฉิน S1 หยุด S2 เริ่ม) H หลอด M มอเตอร์ X แผงขั้วต่อ และ Q เบรกเกอร์ ตู้ควบคุมในไทยและแคตตาล็อกของผู้ผลิตจำนวนมากเขียน KM คอนแทกเตอร์ KA รีเลย์ช่วย KT ตัวตั้งเวลา จึงต้องอ่านรหัสเหล่านี้เป็นด้วย</li>
   <li><b>มาตรฐานใหม่ IEC 81346-2</b> ใช้รหัสสองตัวอักษรตาม <b>หน้าที่</b> ของอุปกรณ์ ไม่ใช่ตามชนิด เช่น QA = ตัดต่อพลังงาน (ทั้งเบรกเกอร์และคอนแทกเตอร์), FC = ป้องกันกระแสเกิน, KF = ประมวลสัญญาณ (รีเลย์ ตัวตั้งเวลา), SF = สั่งงานด้วยมือ (ปุ่มกด), PF = แสดงสถานะ (หลอด), MA = มอเตอร์ แบบจากผู้ผลิตยุโรปรุ่นใหม่และโปรแกรมเขียนแบบอย่าง EPLAN ใช้ระบบนี้ จึงต้องอ่านเป็นด้วย</li></ul></section>
 <section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
   <li><b>Symbols are drawn in the normal state</b>: no power, nothing pressed and no protective device tripped. A normally open (NO) contact is therefore drawn open and a normally closed (NC) contact closed. Current paths run vertically, the supply at the top and the neutral at the bottom.</li>
-  <li><b>A device name = a letter code for the kind + a number for which one</b>: KM1 is contactor number 1. The coil, main contacts and auxiliary contacts of one device share its name, even when they are drawn in different places.</li>
-  <li><b>This course uses Q F KM KA KT S H M X</b>, the codes most common in Thai control panels and in makers' catalogues, and close to the course's CADe SIMU lab files.</li>
+  <li><b>A device name = a letter code for the kind + a number for which one</b>: K1 is contactor number 1. The coil, main contacts and auxiliary contacts of one device share its name, even when they are drawn in different places.</li>
+  <li><b>This course uses the names of the lecture slides</b>: F fuses and overload relay (F1 power fuses, F2 control fuse, F3 overload), K contactors, auxiliary relays and timers (contactors K1, K2 … first, then relays and timers take the next K numbers), S switches and push buttons (S0 emergency stop, S1 stop, S2 start), H lamps, M motors, X terminal strips, and Q a circuit breaker. Many Thai control panels and makers' catalogues write KM for a contactor, KA for an auxiliary relay and KT for a timer, so you must be able to read those codes too.</li>
   <li><b>The new standard IEC 81346-2</b> uses two-letter codes by a device's <b>function</b>, not its kind: QA = switching energy (both breakers and contactors), FC = overcurrent protection, KF = processing signals (relays, timers), SF = manual operation (push buttons), PF = indicating a state (lamps), MA = motor. Newer drawings from European makers and drawing programs such as EPLAN use it, so you must be able to read it too.</li></ul></section>
 
 <nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>อุปกรณ์จริง</a><a href="#tA"><b>A</b>สัญลักษณ์ที่ใช้บ่อย</a><a href="#tB"><b>B</b>รหัสชื่ออุปกรณ์ 4 ระบบ</a><a href="#tN"><b>N</b>มาตรฐานใหม่ IEC 81346-2</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
@@ -54,8 +54,8 @@
 <section class="prob" id="tB">
   <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">รหัสชื่ออุปกรณ์ 4 ระบบ</h2><h2 data-l="en">Four systems of device codes</h2>
     <div class="src" data-l="th">IEC 81346-2 (ตาราง 2) · DIN 40719 ตอนที่ 2 (เลิกใช้แล้ว) · ตำราไทย บทที่ 1 · UMC5 ตาราง 2.1</div><div class="src" data-l="en">IEC 81346-2 (Table 2) · DIN 40719 part 2 (withdrawn) · Thai textbook ch. 1 · UMC5 Table 2.1</div></div></div>
-  <p class="lead" data-l="th">อุปกรณ์ตัวเดียวกันมีชื่อต่างกันตามระบบที่ผู้เขียนแบบใช้ คอลัมน์สีฟ้าคือรหัสที่ใช้ในวิชานี้ คอลัมน์สีเขียวคือมาตรฐานใหม่ ตัวเลขต่อท้ายบอกลำดับ เช่น S1 S2 คือสวิตช์ตัวที่ 1 และ 2</p>
-  <p class="lead" data-l="en">The same device has different names in different systems. The blue column is the code used in this course, the green column the new standard. The number after the letters says which one: S1 and S2 are switches 1 and 2.</p>
+  <p class="lead" data-l="th">อุปกรณ์ตัวเดียวกันมีชื่อต่างกันตามระบบที่ผู้เขียนแบบใช้ คอลัมน์สีฟ้าคือรหัสที่ใช้ในวิชานี้ คอลัมน์สีเขียวคือมาตรฐานใหม่ ตัวเลขต่อท้ายบอกลำดับ เช่น S1 S2 คือสวิตช์ตัวที่ 1 และ 2 ในวิชานี้เลขของ K นับต่อกันทั้งวงจร: คอนแทกเตอร์ก่อน แล้วจึงรีเลย์และตัวตั้งเวลา เช่น วงจรที่มีคอนแทกเตอร์ตัวเดียวจะเป็นคอนแทกเตอร์ K1 รีเลย์ K2 ตัวตั้งเวลา K3 ส่วน F เรียง ฟิวส์วงจรกำลัง F1 ฟิวส์วงจรควบคุม F2 โอเวอร์โหลด F3</p>
+  <p class="lead" data-l="en">The same device has different names in different systems. The blue column is the code used in this course, the green column the new standard. The number after the letters says which one: S1 and S2 are switches 1 and 2. In this course the K numbers run on through a circuit, contactors first, then relays and timers: a circuit with one contactor has contactor K1, relay K2 and timer K3. The F numbers go power fuses F1, control fuse F2, overload F3.</p>
   <div class="card solve" style="overflow-x:auto"><table class="tbl codes" id="codes"></table></div>
 </section>
 
@@ -114,14 +114,14 @@ document.addEventListener('mc:ready', () => {
   DEV.mount($('devs'), ['mcb', 'mpcb', 'fuse', 'ol', 'km', 'ka', 'kt', 'pb', 'sel', 'lamp', 'motor', 'term']);
   C2.gallery($('gal'), $('galHelp'));
   /* four code systems */
-  const ROWS = [[['เบรกเกอร์', 'circuit breaker'], 'Q1', 'QA1', 'Q1', 'CB', 'CB'], [['ฟิวส์', 'fuse'], 'F1', 'FC1', 'F1, F2', 'FU', 'F'], [['โอเวอร์โหลดรีเลย์', 'overload relay'], 'F2', 'FC2 (BC)', 'F3', 'OL', 'OVER'],
-    [['คอนแทกเตอร์', 'contactor'], 'KM1', 'QA2', 'K1', 'M', 'KM1'], [['รีเลย์ช่วย', 'auxiliary relay'], 'KA1', 'KF1', 'K1A', 'CR', '—'], [['ตัวตั้งเวลา', 'timer'], 'KT1', 'KF2', 'K1T', 'TR', '—'],
+  const ROWS = [[['เบรกเกอร์', 'circuit breaker'], 'Q1', 'QA1', 'Q1', 'CB', 'CB'], [['ฟิวส์', 'fuse'], 'F1, F2', 'FC1', 'F1, F2', 'FU', 'F'], [['โอเวอร์โหลดรีเลย์', 'overload relay'], 'F3', 'FC2 (BC)', 'F3', 'OL', 'OVER'],
+    [['คอนแทกเตอร์', 'contactor'], 'K1', 'QA2', 'K1', 'M', 'KM1'], [['รีเลย์ช่วย', 'auxiliary relay'], 'K2', 'KF1', 'K1A', 'CR', '—'], [['ตัวตั้งเวลา', 'timer'], 'K3', 'KF2', 'K1T', 'TR', '—'],
     [['ปุ่มกด, สวิตช์เลือก', 'push button, selector'], 'S1, S2', 'SF1, SF2', 'S1, S2', 'PB, SS', 'STOP, START'], [['ลิมิตสวิตช์, พร็อกซิมิตี', 'limit switch, proximity'], 'S4', 'BG1', 'S', 'LS, PRS', '—'],
     [['หลอดสัญญาณ', 'signal lamp'], 'H1', 'PF1', 'H1', 'PL', 'RUN, OVER'], [['มอเตอร์', 'motor'], 'M1', 'MA1', 'M1', 'MTR', 'M'], [['แผงขั้วต่อ', 'terminal strip'], 'X1', 'XD1', 'X1', 'TB', '-X'], [['หม้อแปลงควบคุม', 'control transformer'], 'T1', 'TA1', 'T1', 'CPT', '—']];
   const H = [t('อุปกรณ์', 'device'), t('วิชานี้', 'this course'), t('IEC 81346-2 (ใหม่)', 'IEC 81346-2 (new)'), t('ตำราไทย (DIN เดิม)', 'Thai textbook (old DIN)'), t('ตำราอเมริกัน (NEMA)', 'US books (NEMA)'), t('ไฟล์ใบงาน CADe SIMU', 'CADe SIMU lab files')];
   $('codes').innerHTML = `<tr>${H.map((h, i) => `<th${i === 1 ? ' class="course"' : i === 2 ? ' class="new"' : ''}>${h}</th>`).join('')}</tr>` + ROWS.map(r => `<tr><td>${ED.tt(r[0])}</td>${r.slice(1).map((c, i) => `<td${i === 0 ? ' class="course"' : i === 1 ? ' class="new"' : ''}>${c}</td>`).join('')}</tr>`).join('');
   $('newcodes').innerHTML = `<tr><th>${t('อุปกรณ์ในวงจร', 'device in the circuit')}</th><th class="course">${t('วิชานี้', 'course')}</th><th class="new">IEC 81346-2</th></tr>` +
-    [[['เบรกเกอร์หลัก', 'main breaker'], 'Q1', '-QA1'], [['ฟิวส์วงจรควบคุม', 'control fuse'], 'F1', '-FC1'], [['โอเวอร์โหลดรีเลย์', 'overload relay'], 'F2', '-FC2'], [['คอนแทกเตอร์', 'contactor'], 'KM1', '-QA2'],
+    [[['ฟิวส์วงจรกำลัง', 'power fuses'], 'F1', '-FC1'], [['ฟิวส์วงจรควบคุม', 'control fuse'], 'F2', '-FC2'], [['โอเวอร์โหลดรีเลย์', 'overload relay'], 'F3', '-FC3'], [['คอนแทกเตอร์', 'contactor'], 'K1', '-QA1'],
      [['ปุ่มหยุด / ปุ่มเริ่ม', 'stop / start button'], 'S1 / S2', '-SF1 / -SF2'], [['หลอดเดิน / หลอดโอเวอร์โหลด', 'run / overload lamp'], 'H1 / H2', '-PF1 / -PF2'], [['มอเตอร์', 'motor'], 'M1', '-MA1']]
       .map(r => `<tr><td>${ED.tt(r[0])}</td><td class="course">${r[1]}</td><td class="new">${r[2]}</td></tr>`).join('');
   /* practice */
@@ -131,7 +131,7 @@ document.addEventListener('mc:ready', () => {
     { q: t(`2) สัญลักษณ์นี้คืออะไร ${sv('ol')}`, `2) What is this symbol? ${sv('ol')}`), options: [t('หน้าสัมผัสโอเวอร์โหลด 95–96', 'overload contact 95–96'), t('สวิตช์อุณหภูมิ', 'temperature switch'), t('ฟิวส์', 'fuse')], answer: 0, why: t('ตัวสั่งงานรูปขั้นบันได = การทำงานด้วยความร้อนของโอเวอร์โหลด', 'the step-shaped operator = thermal operation of an overload relay') },
     { q: t(`3) สัญลักษณ์นี้คืออะไร ${sv('kton')}`, `3) What is this symbol? ${sv('kton')}`), options: [t('คอยล์คอนแทกเตอร์', 'contactor coil'), t('คอยล์ตัวตั้งเวลาหน่วงเมื่อป้อนไฟ', 'on-delay timer coil'), t('หลอดสัญญาณ', 'signal lamp')], answer: 1, why: t('กล่องกากบาทข้างคอยล์ = หน่วงเมื่อป้อนไฟ', 'the crossed box beside the coil = on-delay') },
     { q: t('4) ในมาตรฐานใหม่ IEC 81346-2 คอนแทกเตอร์ใช้รหัสใด', '4) In the new standard IEC 81346-2, which code does a contactor get?'), options: ['KM', 'QA', 'KF'], answer: 1, why: t('จัดตามหน้าที่: ตัดต่อพลังงาน เหมือนเบรกเกอร์', 'by function: it switches power, like a breaker') },
-    { q: t('5) ชื่อ KA2 ในวิชานี้หมายถึงอะไร', '5) In this course, what is KA2?'), options: [t('คอนแทกเตอร์ตัวที่ 2', 'contactor 2'), t('รีเลย์ช่วยตัวที่ 2', 'auxiliary relay 2'), t('ตัวตั้งเวลาตัวที่ 2', 'timer 2')], answer: 1, why: t('KA = รีเลย์ช่วย เลข 2 = ตัวที่ 2', 'KA = auxiliary relay, 2 = the second one') },
+    { q: t('5) ในวงจรเริ่มเดินโดยตรงของวิชานี้ F3 คืออุปกรณ์ใด', '5) In this course\'s direct-on-line starter, which device is F3?'), options: [t('ฟิวส์วงจรกำลัง', 'the power fuses'), t('ฟิวส์วงจรควบคุม', 'the control fuse'), t('โอเวอร์โหลดรีเลย์', 'the overload relay')], answer: 2, why: t('F = อุปกรณ์ป้องกัน ตามสไลด์: F1 ฟิวส์วงจรกำลัง F2 ฟิวส์วงจรควบคุม F3 โอเวอร์โหลด', 'F = protective device; as in the slides: F1 power fuses, F2 control fuse, F3 overload relay') },
     { q: t('6) ตำราไทยเขียนตัวตั้งเวลาว่าอะไร', '6) How does the Thai textbook name a timer?'), options: ['KT1', 'K1T', 'TR1'], answer: 1, why: t('รหัส DIN เดิม: K = รีเลย์/คอนแทกเตอร์, T ต่อท้าย = ตัวตั้งเวลา', 'old DIN code: K = relay/contactor, trailing T = timer') },
     { q: t('7) ทำไมหน้าสัมผัสปกติเปิดจึงวาดเปิดอยู่ แม้ในเครื่องที่กำลังเดิน', '7) Why is a normally open contact drawn open even when the machine is running?'), options: [t('เพราะมาตรฐานให้วาดในสภาวะไม่มีไฟและไม่มีใครกด', 'the standard draws everything de-energised and unoperated'), t('เพราะหน้าสัมผัสเสีย', 'the contact is faulty'), t('เพราะใช้ในวงจรกำลังเท่านั้น', 'it is used only in power circuits')], answer: 0 }]);
 });

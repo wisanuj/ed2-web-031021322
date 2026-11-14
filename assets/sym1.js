@@ -17,7 +17,7 @@ const COL = { L1: 'var(--c7-l1, #a0522d)', L: 'var(--c7-l1, #a0522d)', L2: 'var(
 SY.COL = COL;
 const f1 = v => +(+v).toFixed(1);
 const svg = (w, h, body, label) => `<svg class="dwg rl sy" viewBox="0 0 ${w} ${h}" width="${w * 2}" height="${h * 2}" role="img" aria-label="${label || 'symbol'}" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
-const TX = (s, x, y, o = {}) => IE.T(s, x, y, { size: o.size || 10, anchor: o.anchor, col: o.col, weight: o.weight });
+const TX = (s, x, y, o = {}) => IE.T(s, x, y, { size: o.size || 10, anchor: o.anchor, col: o.col, weight: o.weight, it: o.it });
 
 /* ---------- 1) supply lines ---------- */
 SY.WIRES = { '3p5w': ['L1', 'L2', 'L3', 'N', 'PE'], '3p4w': ['L1', 'L2', 'L3', 'PE'], '3p4wN': ['L1', 'L2', 'L3', 'N'], '1p3w': ['L', 'N', 'PE'] };
@@ -29,7 +29,7 @@ SY.supply = (kind, o = {}) => { const ws = SY.WIRES[kind], W = 230, H = 18 + ws.
 /* ---------- 2) fuse ---------- */
 SY.fuse = (n = 3, o = {}) => { const xs = n === 3 ? [50, 70, 90] : [50], W = xs[xs.length - 1] + 26; let s = '';
   xs.forEach(x => { s += IE.fuse(x, 8, 72, { blown: o.blown, col: o.blown ? COL.cur : undefined }); });
-  s += TX('F1', xs[0] - 12, 44, { size: 12, anchor: 'end', weight: 700 });
+  s += TX('F1', xs[0] - 12, 44, { size: 12, anchor: 'end', it: true });
   return svg(W, 80, s, n === 3 ? 'three-pole fuse F1' : 'one-pole fuse F1'); };
 
 /* ---------- 3) switches and contacts ---------- */
@@ -46,30 +46,30 @@ SY.circuit = (kind, o = {}) => { const [nc, op] = SWK[kind], x = 80, closed = nc
   s += IE.L(x, 10, x, 30, { col: c, w: live ? 2.2 : undefined }) + IE.contact(nc, x, 30, 82, { act: o.act, op, detent: op === 'man', col: c }) + IE.L(x, 82, x, 104, { col: c, w: live ? 2.2 : undefined }) +
     IE.lamp(x, 104, 132, { live, lamp: o.color || COL.lamp, col: c }) + IE.L(x, 132, x, 150, { col: c, w: live ? 2.2 : undefined });
   const [a, b] = nc ? ['11', '12'] : ['13', '14']; s += TX(a, x + 6, 46, { size: 9, col: COL.muted }) + TX(b, x + 6, 78, { size: 9, col: COL.muted }) + TX('X1', x + 13, 112, { size: 9, col: COL.muted }) + TX('X2', x + 13, 130, { size: 9, col: COL.muted });
-  if (op) s += TX('S1', x - 34, 60, { size: 12, anchor: 'end', weight: 700 });
-  s += TX('H1', x - 14, 122, { size: 12, anchor: 'end', weight: 700 });
+  if (op) s += TX('S1', x - 34, 60, { size: 12, anchor: 'end', it: true });
+  s += TX('H1', x - 14, 122, { size: 12, anchor: 'end', it: true });
   return svg(160, 160, s, kind + ' in a lamp circuit'); };
 
 /* ---------- 5) contactor K1 ---------- */
 SY.contactor = (o = {}) => { const act = !!o.act, name = o.name || 'K1'; let s = '';
   if (!o.detached) { const xc = 46, xa = 104, xb = 144;
-    s += IE.coil(xc, 8, 72, { live: act }) + TX('A1', xc + 6, 22, { size: 9.5, col: COL.muted }) + TX('A2', xc + 6, 66, { size: 9.5, col: COL.muted }) + TX(name, xc - 16, 44, { size: 12, anchor: 'end', weight: 700 });
+    s += IE.coil(xc, 8, 72, { live: act }) + TX('A1', xc + 6, 22, { size: 9.5, col: COL.muted }) + TX('A2', xc + 6, 66, { size: 9.5, col: COL.muted }) + TX(name, xc - 16, 44, { size: 12, anchor: 'end', it: true });
     s += IE.contact(false, xa, 8, 72, { act }) + IE.contact(true, xb, 8, 72, { act });
-    s += IE.L(xc + 12, 40, xb + (act ? 6 : 3), 40, { dash: '3 2' });   // the mechanical link from the coil to both contacts
+    s += IE.L(xc + 12, 40, xb + IE.bladeX(!act), 40, { dash: '6.5 3' });   // the mechanical link from the coil to both contacts
     s += TX('13', xa + 6, 22, { size: 9.5, col: COL.muted }) + TX('14', xa + 6, 66, { size: 9.5, col: COL.muted }) + TX('21', xb + 12, 22, { size: 9.5, col: COL.muted }) + TX('22', xb + 12, 66, { size: 9.5, col: COL.muted });
     return svg(176, 80, s, 'contactor ' + name); }
   const X = [40, 112, 184];
-  s += IE.coil(X[0], 8, 72, { live: act }) + TX('A1', X[0] + 6, 22, { size: 9.5, col: COL.muted }) + TX('A2', X[0] + 6, 66, { size: 9.5, col: COL.muted }) + TX(name, X[0] - 16, 44, { size: 12, anchor: 'end', weight: 700 });
-  s += IE.contact(false, X[1], 8, 72, { act }) + TX(name, X[1] - 14, 44, { size: 12, anchor: 'end', weight: 700 }) + TX('13', X[1] + 6, 22, { size: 9.5, col: COL.muted }) + TX('14', X[1] + 6, 66, { size: 9.5, col: COL.muted });
-  s += IE.contact(true, X[2], 8, 72, { act }) + TX(name, X[2] - 8, 44, { size: 12, anchor: 'end', weight: 700 }) + TX('21', X[2] + 12, 22, { size: 9.5, col: COL.muted }) + TX('22', X[2] + 12, 66, { size: 9.5, col: COL.muted });
+  s += IE.coil(X[0], 8, 72, { live: act }) + TX('A1', X[0] + 6, 22, { size: 9.5, col: COL.muted }) + TX('A2', X[0] + 6, 66, { size: 9.5, col: COL.muted }) + TX(name, X[0] - 16, 44, { size: 12, anchor: 'end', it: true });
+  s += IE.contact(false, X[1], 8, 72, { act }) + TX(name, X[1] - 14, 44, { size: 12, anchor: 'end', it: true }) + TX('13', X[1] + 6, 22, { size: 9.5, col: COL.muted }) + TX('14', X[1] + 6, 66, { size: 9.5, col: COL.muted });
+  s += IE.contact(true, X[2], 8, 72, { act }) + TX(name, X[2] - 8, 44, { size: 12, anchor: 'end', it: true }) + TX('21', X[2] + 12, 22, { size: 9.5, col: COL.muted }) + TX('22', X[2] + 12, 66, { size: 9.5, col: COL.muted });
   return svg(214, 80, s, 'contactor ' + name + ', coil and contacts drawn apart'); };
 
 /* ---------- 6) loads ---------- */
 SY.motor = (o = {}) => { const x = 60, cy = 58, r = 22; let s = '';
   [-12, 0, 12].forEach(d => { const yt = cy - Math.sqrt(r * r - d * d); s += IE.L(x + d, 6, x + d, yt); });
-  s += `<circle cx="${x}" cy="${cy}" r="${r}" fill="none"/>` + TX('M', x, cy - 1, { size: 14, anchor: 'middle', weight: 700 }) + TX('3~', x, cy + 13, { size: 11, anchor: 'middle' }) + TX('M1', x - r - 8, cy + 4, { size: 12, anchor: 'end', weight: 700 });
+  s += `<circle cx="${x}" cy="${cy}" r="${r}" fill="none"/>` + TX('M', x, cy - 1, { size: 14, anchor: 'middle', weight: 700 }) + TX('3~', x, cy + 13, { size: 11, anchor: 'middle' }) + TX('M1', x - r - 8, cy + 4, { size: 12, anchor: 'end', it: true });
   return svg(100, 86, s, 'three-phase motor M1'); };
-SY.lamp = (o = {}) => { const x = 50; let s = IE.lamp(x, 8, 72, { live: o.live, lamp: o.color || COL.lamp }) + TX('H1', x - 16, 44, { size: 12, anchor: 'end', weight: 700 }) +
+SY.lamp = (o = {}) => { const x = 50; let s = IE.lamp(x, 8, 72, { live: o.live, lamp: o.color || COL.lamp }) + TX('H1', x - 16, 44, { size: 12, anchor: 'end', it: true }) +
     TX('X1', x + 13, 26, { size: 9.5, col: COL.muted }) + TX('X2', x + 13, 62, { size: 9.5, col: COL.muted });
   return svg(84, 80, s, 'pilot lamp H1'); };
 

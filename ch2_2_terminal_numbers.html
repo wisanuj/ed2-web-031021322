@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=22"><link rel="stylesheet" href="assets/ed2.css?v=22">
-<script src="assets/stops.js?v=22"></script><script src="assets/shell.js?v=22"></script>
-<script src="assets/lesson.js?v=22"></script><script src="assets/draw.js?v=22"></script><script src="assets/ed.js?v=22"></script><script src="assets/sym.js?v=22"></script><script src="assets/iec.js?v=22"></script><script src="assets/relay.js?v=22"></script><script src="assets/ch2.js?v=22"></script>
+<link rel="stylesheet" href="assets/ee.css?v=27"><link rel="stylesheet" href="assets/ed2.css?v=27">
+<script src="assets/stops.js?v=27"></script><script src="assets/shell.js?v=27"></script>
+<script src="assets/lesson.js?v=27"></script><script src="assets/draw.js?v=27"></script><script src="assets/ed.js?v=27"></script><script src="assets/sym.js?v=27"></script><script src="assets/iec.js?v=27"></script><script src="assets/relay.js?v=27"></script><script src="assets/ch2.js?v=27"></script>
 </head>
 <body>
 <div class="wrap">
@@ -47,8 +47,8 @@
 <section class="prob" id="ex1">
   <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">ชุดหน้าสัมผัสเสริมด้านหน้าคอนแทกเตอร์</h2><h2 data-l="en">A front add-on contact block</h2>
     <div class="src" data-l="th">โจทย์ตัวอย่าง · ตามชุดหน้าสัมผัสเสริมแบบ 2 NO + 2 NC ที่ขายทั่วไป</div><div class="src" data-l="en">Worked example · a common 2 NO + 2 NC add-on block</div></div></div>
-  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>คอนแทกเตอร์ KM1 มีหน้าสัมผัสช่วยในตัว 1 ชุด (ปกติเปิด 13–14) ติดชุดหน้าสัมผัสเสริมด้านหน้า 4 ชุด เรียงจากซ้าย: ปกติเปิด ปกติปิด ปกติปิด ปกติเปิด ผู้ผลิตเริ่มนับลำดับของชุดเสริมที่ 5 เพื่อไม่ให้ชนกับเลขในตัว จงเขียนเลขขั้วของหน้าสัมผัสเสริมทั้ง 4 ชุด</p></div>
-  <div class="given" data-l="en"><div class="gl">Problem</div><p>Contactor KM1 has one built-in auxiliary contact (normally open, 13–14). A front block adds four contacts, from the left: NO, NC, NC, NO. The maker starts the position digits of the block at 5 so that they do not clash with the built-in contacts. Write the terminal numbers of the four block contacts.</p></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>คอนแทกเตอร์ K1 มีหน้าสัมผัสช่วยในตัว 1 ชุด (ปกติเปิด 13–14) ติดชุดหน้าสัมผัสเสริมด้านหน้า 4 ชุด เรียงจากซ้าย: ปกติเปิด ปกติปิด ปกติปิด ปกติเปิด ผู้ผลิตเริ่มนับลำดับของชุดเสริมที่ 5 เพื่อไม่ให้ชนกับเลขในตัว จงเขียนเลขขั้วของหน้าสัมผัสเสริมทั้ง 4 ชุด</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>Contactor K1 has one built-in auxiliary contact (normally open, 13–14). A front block adds four contacts, from the left: NO, NC, NC, NO. The maker starts the position digits of the block at 5 so that they do not clash with the built-in contacts. Write the terminal numbers of the four block contacts.</p></div>
   <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
 </section>
 
@@ -96,7 +96,7 @@ document.addEventListener('mc:ready', () => {
   LS.stepper($('st1'), { steps: [
     { why: t('หลักแรก = ลำดับ: ชุดเสริม 4 ชุดได้ลำดับ 5, 6, 7, 8', 'First digit = position: the four block contacts are positions 5, 6, 7, 8'), body: '' },
     { why: t('หลักหลัง = หน้าที่: ปกติเปิด 3–4 ปกติปิด 1–2', 'Second digit = function: NO 3–4, NC 1–2'), body: `<table class="tbl"><tr><th>${t('ชุด', 'contact')}</th><th>${t('ชนิด', 'type')}</th><th>${t('เลขขั้ว', 'numbers')}</th></tr><tr><td>5</td><td>NO</td><td><b>53–54</b></td></tr><tr><td>6</td><td>NC</td><td><b>61–62</b></td></tr><tr><td>7</td><td>NC</td><td><b>71–72</b></td></tr><tr><td>8</td><td>NO</td><td><b>83–84</b></td></tr></table>` },
-    { why: t('ตรวจกับของจริง', 'Check against the real device'), body: `<p>${t('เลือก "คอนแทกเตอร์ KM1 + ชุดหน้าสัมผัสช่วยด้านหน้า" ในส่วน A: เลขตรงกันทุกคู่', 'Choose "contactor KM1 + front auxiliary block" in section A: every pair matches.')}</p>` }],
+    { why: t('ตรวจกับของจริง', 'Check against the real device'), body: `<p>${t('เลือก "คอนแทกเตอร์ K1 + ชุดหน้าสัมผัสช่วยด้านหน้า" ในส่วน A: เลขตรงกันทุกคู่', 'Choose "contactor K1 + front auxiliary block" in section A: every pair matches.')}</p>` }],
     answer: t('53–54, 61–62, 71–72, 83–84', '53–54, 61–62, 71–72, 83–84') });
   LS.ask($('ask2'), { fields: [{ label: t('ชุดแรก (NO):', 'first (NO):'), ok: x => x === 13, w: 3 }, { label: '–', ok: x => x === 14, w: 3 }, { label: t('ชุดที่สอง (NC):', 'second (NC):'), ok: x => x === 21, w: 3 }, { label: '–', ok: x => x === 22, w: 3 }],
     check: v => (v[2] === 11 ? t('11–12 คือ NC ชุดแรก แต่ชุดนี้เป็นชุดที่สอง', '11–12 is a first-position NC; this is the second element') : '') });
@@ -105,7 +105,7 @@ document.addEventListener('mc:ready', () => {
     { why: t('ชุดที่สอง (ลำดับ 2) เป็นปกติปิด', 'Second element (position 2), normally closed'), body: '<p><b>21–22</b></p>' }],
     answer: t('13–14 และ 21–22', '13–14 and 21–22') });
   ED.quiz('quiz', [
-    { q: t('1) หน้าสัมผัสปกติเปิดลำดับที่ 3 ของรีเลย์ช่วย KA1', '1) The normally open contact in position 3 of relay KA1'), fields: [{ key: 'a', lab: '', ans: 33, tol: 0 }, { key: 'b', lab: '–', ans: 34, tol: 0 }] },
+    { q: t('1) หน้าสัมผัสปกติเปิดลำดับที่ 3 ของรีเลย์ช่วย K2', '1) The normally open contact in position 3 of relay K2'), fields: [{ key: 'a', lab: '', ans: 33, tol: 0 }, { key: 'b', lab: '–', ans: 34, tol: 0 }] },
     { q: t('2) หน้าสัมผัสปกติปิดลำดับที่ 4', '2) The normally closed contact in position 4'), fields: [{ key: 'a', lab: '', ans: 41, tol: 0 }, { key: 'b', lab: '–', ans: 42, tol: 0 }] },
     { q: t('3) หน้าสัมผัสปกติเปิดของโอเวอร์โหลดรีเลย์ (ต่อหลอดเตือน)', '3) The normally open contact of an overload relay (for the warning lamp)'), fields: [{ key: 'a', lab: '', ans: 97, tol: 0 }, { key: 'b', lab: '–', ans: 98, tol: 0 }] },
     { q: t('4) หน้าสัมผัสหน่วงเวลาปกติเปิดของชุดตัวตั้งเวลา (ลำดับที่ 6)', '4) The timed normally open contact of a timer block (position 6)'), fields: [{ key: 'a', lab: '', ans: 67, tol: 0 }, { key: 'b', lab: '–', ans: 68, tol: 0 }] },

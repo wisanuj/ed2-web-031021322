@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=22"><link rel="stylesheet" href="assets/ed2.css?v=22">
-<script src="assets/stops.js?v=22"></script><script src="assets/shell.js?v=22"></script>
-<script src="assets/lesson.js?v=22"></script><script src="assets/draw.js?v=22"></script><script src="assets/ed.js?v=22"></script><script src="assets/sym.js?v=22"></script><script src="assets/iec.js?v=22"></script><script src="assets/relay.js?v=22"></script><script src="assets/panel.js?v=22"></script><script src="assets/ch2.js?v=22"></script><script src="assets/ch3.js?v=22"></script><script src="assets/devdata.js?v=22"></script><script src="assets/dev.js?v=22"></script>
+<link rel="stylesheet" href="assets/ee.css?v=27"><link rel="stylesheet" href="assets/ed2.css?v=27">
+<script src="assets/stops.js?v=27"></script><script src="assets/shell.js?v=27"></script>
+<script src="assets/lesson.js?v=27"></script><script src="assets/draw.js?v=27"></script><script src="assets/ed.js?v=27"></script><script src="assets/sym.js?v=27"></script><script src="assets/iec.js?v=27"></script><script src="assets/relay.js?v=27"></script><script src="assets/panel.js?v=27"></script><script src="assets/ch2.js?v=27"></script><script src="assets/ch3.js?v=27"></script><script src="assets/devdata.js?v=27"></script><script src="assets/dev.js?v=27"></script>
 </head>
 <body>
 <div class="wrap">
@@ -23,12 +23,12 @@
 
 <section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
   <li><b>ส่วนประกอบ</b>: ปุ่ม (ตัวสั่งงาน) แกนกด สปริงดันกลับ และชุดหน้าสัมผัส ชุดหน้าสัมผัสแต่ละชุดเป็นปกติปิด (NC) หรือปกติเปิด (NO) ปุ่มหนึ่งปุ่มซ้อนได้หลายชุด เลขขั้วจึงเป็น 11–12, 23–24, 31–32 … ตามลำดับ</li>
-  <li><b>ปุ่มสองหน้าสัมผัส</b> (NC + NO บนปุ่มเดียว): เมื่อกด หน้าสัมผัสปกติปิด <b>เปิดก่อน</b> แล้วหน้าสัมผัสปกติเปิดจึง <b>ต่อทีหลัง</b> (break before make) จึงไม่มีช่วงที่ทั้งสองต่อพร้อมกัน คุณสมบัตินี้ใช้ทำอินเตอร์ล็อกด้วยปุ่มกดในบทที่ 7</li>
+  <li><b>ปุ่มสองหน้าสัมผัส</b> (NC + NO บนปุ่มเดียว): เมื่อกด หน้าสัมผัสปกติปิด <b>เปิดก่อน</b> แล้วหน้าสัมผัสปกติเปิดจึง <b>ต่อทีหลัง</b> (break before make) จึงไม่มีช่วงที่ทั้งสองต่อพร้อมกัน คุณสมบัตินี้ใช้ทำอินเตอร์ล็อกด้วยปุ่มกดในบทที่ 6</li>
   <li><b>สีตาม IEC 60204-1:2016</b>: ปุ่มเริ่มแนะนำ <b>สีขาว</b> (เขียวใช้ได้ ห้ามแดง) ปุ่มหยุดแนะนำ <b>สีดำ</b> (แดงใช้ได้แต่ไม่ควรวางใกล้ปุ่มฉุกเฉิน ห้ามเขียว) <b>แดงบนพื้นเหลือง</b> สงวนให้ปุ่มหยุดฉุกเฉิน ในไทยยังพบปุ่มเริ่มสีเขียวและปุ่มหยุดสีแดงมาก ซึ่งไม่ผิดมาตรฐาน</li>
   <li><b>ปุ่มหยุดฉุกเฉิน</b>: หัวเห็ดสีแดงบนพื้นเหลือง กดแล้ว <b>ค้าง</b> ต้องหมุนหรือดึงจึงปลด หน้าสัมผัสเป็นปกติปิดชนิด <b>เปิดตัดแน่นอน</b> (direct opening) ที่กลไกบังคับให้แยกออกแม้หน้าสัมผัสจะติดกัน ปุ่มนี้หยุดเครื่อง แต่ไม่ได้ตัดไฟเพื่อซ่อมบำรุง</li></ul></section>
 <section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
   <li><b>Parts</b>: the button (operator), plunger, return spring and contact blocks. Each block is normally closed (NC) or normally open (NO); one button can carry several, so the terminals read 11–12, 23–24, 31–32 … in order.</li>
-  <li><b>A two-contact button</b> (NC + NO on one button): when pressed, the normally closed contact <b>opens first</b> and the normally open contact <b>closes afterwards</b> (break before make), so the two are never closed together. Chapter 7 uses this for push-button interlocking.</li>
+  <li><b>A two-contact button</b> (NC + NO on one button): when pressed, the normally closed contact <b>opens first</b> and the normally open contact <b>closes afterwards</b> (break before make), so the two are never closed together. Chapter 6 uses this for push-button interlocking.</li>
   <li><b>Colours after IEC 60204-1:2016</b>: start is preferably <b>white</b> (green allowed, never red); stop is preferably <b>black</b> (red allowed but not near an emergency stop, never green); <b>red on yellow</b> is reserved for the emergency stop. Green start and red stop buttons remain common in Thailand and do not break the standard.</li>
   <li><b>The emergency stop</b>: a red mushroom head on a yellow background that <b>latches</b> when pressed and is released by turning or pulling. Its normally closed contacts have <b>direct opening action</b>: the mechanism forces them apart even if they have welded. It stops the machine but does not isolate it for maintenance.</li></ul></section>
 

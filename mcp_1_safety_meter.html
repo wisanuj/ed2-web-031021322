@@ -8,13 +8,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=22"><link rel="stylesheet" href="assets/ed2.css?v=22">
-<link rel="stylesheet" href="assets/wiring.css?v=22"><link rel="stylesheet" href="assets/mcp.css?v=22">
-<script src="assets/stops.js?v=22"></script><script src="assets/shell.js?v=22"></script>
-<script src="assets/lesson.js?v=22"></script><script src="assets/draw.js?v=22"></script><script src="assets/ed.js?v=22"></script><script src="assets/sym.js?v=22"></script><script src="assets/iec.js?v=22"></script><script src="assets/relay.js?v=22"></script><script src="assets/ch2.js?v=22"></script><script src="assets/ch3.js?v=22"></script><script src="assets/ch4.js?v=22"></script>
-<script src="assets/panel.js?v=22"></script><script src="assets/ch5.js?v=22"></script><script src="assets/ch6.js?v=22"></script><script src="assets/ch7.js?v=22"></script>
-<script src="assets/wiring.js?v=22"></script><script src="assets/devdata.js?v=22"></script><script src="assets/dev.js?v=22"></script>
-<script src="assets/mcp.js?v=22"></script>
+<link rel="stylesheet" href="assets/ee.css?v=27"><link rel="stylesheet" href="assets/ed2.css?v=27">
+<link rel="stylesheet" href="assets/wiring.css?v=27"><link rel="stylesheet" href="assets/mcp.css?v=27">
+<script src="assets/stops.js?v=27"></script><script src="assets/shell.js?v=27"></script>
+<script src="assets/lesson.js?v=27"></script><script src="assets/draw.js?v=27"></script><script src="assets/ed.js?v=27"></script><script src="assets/sym.js?v=27"></script><script src="assets/iec.js?v=27"></script><script src="assets/relay.js?v=27"></script><script src="assets/ch2.js?v=27"></script><script src="assets/ch3.js?v=27"></script><script src="assets/ch4.js?v=27"></script>
+<script src="assets/panel.js?v=27"></script><script src="assets/ch5.js?v=27"></script><script src="assets/ch6.js?v=27"></script><script src="assets/ch7.js?v=27"></script>
+<script src="assets/wiring.js?v=27"></script><script src="assets/devdata.js?v=27"></script><script src="assets/dev.js?v=27"></script>
+<script src="assets/mcp.js?v=27"></script>
 <style>
 /* page-local widgets of week 1: the safe-isolation order drill, the task lists, the motor terminal box with its ohmmeter */
 .w1-ord{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;margin:8px 0}
@@ -193,14 +193,14 @@
     <table class="tbl stack" data-l="th"><tr><th>ขั้น</th><th>ทำอย่างไร</th><th>ผลที่ถูก</th></tr>
       <tr><td data-h="ขั้น"><b>1</b></td><td data-h="ทำอย่างไร">ครูตรวจการเดินสายและผลทดสอบก่อนจ่ายไฟ แล้วลงชื่อในใบงาน ทุกคนถอยออกจากชุดฝึก เจ้าของแม่กุญแจปลดล็อกของตัวเอง ครูสับสวิตช์แยกวงจร</td><td data-h="ผลที่ถูก">ชุดฝึกมีไฟ Q1 ยังปลดอยู่ มอเตอร์ไม่หมุน</td></tr>
       <tr><td data-h="ขั้น"><b>2</b></td><td data-h="ทำอย่างไร">สับ Q1</td><td data-h="ผลที่ถูก">มอเตอร์เริ่มหมุนทันที เสียงเรียบสม่ำเสมอ ไม่ครางหรือสั่น Q1 ไม่ตัด</td></tr>
-      <tr><td data-h="ขั้น"><b>3</b></td><td data-h="ทำอย่างไร">ดูทิศการหมุนจากด้านปลายเพลา (ด้านขับ)</td><td data-h="ผลที่ถูก">ตามเข็มนาฬิกา เมื่อ L1 → U1, L2 → V1, L3 → W1 (IEC 60034-8) ถ้าหมุนทวน แสดงว่าลำดับเฟสของแหล่งจ่ายกลับกัน: ตัดไฟ ล็อก แล้วสลับสายสองเฟส (บทที่ 7)</td></tr>
+      <tr><td data-h="ขั้น"><b>3</b></td><td data-h="ทำอย่างไร">ดูทิศการหมุนจากด้านปลายเพลา (ด้านขับ)</td><td data-h="ผลที่ถูก">ตามเข็มนาฬิกา เมื่อ L1 → U1, L2 → V1, L3 → W1 (IEC 60034-8) ถ้าหมุนทวน แสดงว่าลำดับเฟสของแหล่งจ่ายกลับกัน: ตัดไฟ ล็อก แล้วสลับสายสองเฟส (บทที่ 6)</td></tr>
       <tr><td data-h="ขั้น"><b>4</b></td><td data-h="ทำอย่างไร">ครูวัดแรงดันที่ขั้วมอเตอร์ U1–V1, V1–W1, W1–U1</td><td data-h="ผลที่ถูก">ประมาณ 400 V เท่ากันทั้งสามคู่</td></tr>
       <tr><td data-h="ขั้น"><b>5</b></td><td data-h="ทำอย่างไร">ปลด Q1</td><td data-h="ผลที่ถูก">มอเตอร์หมุนต่อด้วยความเฉื่อยแล้วหยุด</td></tr>
       <tr><td data-h="ขั้น"><b>6</b></td><td data-h="ทำอย่างไร">ตัดไฟ ล็อก และทดสอบว่าไม่มีไฟ แล้วจึงถอดสาย</td><td data-h="ผลที่ถูก">ทดสอบครบ 10 คู่ที่ -X1 ได้ 0 V และลองเครื่องวัดก่อนและหลัง</td></tr></table>
     <table class="tbl stack" data-l="en"><tr><th>Step</th><th>What you do</th><th>Correct result</th></tr>
       <tr><td data-h="Step"><b>1</b></td><td data-h="What you do">the teacher checks the wiring and the results of the tests before power-on and signs the practice sheet; everyone steps back from the trainer; each padlock owner removes their own padlock; the teacher switches the isolator on</td><td data-h="Correct result">the trainer is live, Q1 still off, the motor at rest</td></tr>
       <tr><td data-h="Step"><b>2</b></td><td data-h="What you do">switch Q1 on</td><td data-h="Correct result">the motor starts at once and runs smoothly with an even sound, no humming or shaking; Q1 does not trip</td></tr>
-      <tr><td data-h="Step"><b>3</b></td><td data-h="What you do">look at the direction of rotation from the shaft (drive) end</td><td data-h="Correct result">clockwise with L1 → U1, L2 → V1, L3 → W1 (IEC 60034-8). If it turns counter-clockwise, the supply's phase sequence is the other way round: switch off, lock out and swap two line conductors (chapter 7)</td></tr>
+      <tr><td data-h="Step"><b>3</b></td><td data-h="What you do">look at the direction of rotation from the shaft (drive) end</td><td data-h="Correct result">clockwise with L1 → U1, L2 → V1, L3 → W1 (IEC 60034-8). If it turns counter-clockwise, the supply's phase sequence is the other way round: switch off, lock out and swap two line conductors (chapter 6)</td></tr>
       <tr><td data-h="Step"><b>4</b></td><td data-h="What you do">the teacher measures the voltage at the motor terminals U1–V1, V1–W1, W1–U1</td><td data-h="Correct result">about 400 V, the same on all three pairs</td></tr>
       <tr><td data-h="Step"><b>5</b></td><td data-h="What you do">switch Q1 off</td><td data-h="Correct result">the motor coasts down and stops</td></tr>
       <tr><td data-h="Step"><b>6</b></td><td data-h="What you do">switch off, lock out and test for dead, then remove the leads</td><td data-h="Correct result">all 10 pairs at -X1 read 0 V, with the tester proved before and after</td></tr></table>
@@ -423,7 +423,7 @@ document.addEventListener('mc:ready', () => {
   LS.stepper($('st1'), { steps: [
     { why: t('แรงดันค่าต่ำบนป้ายพิกัดคือแรงดันที่ขดลวดหนึ่งขดทนได้', 'The lower voltage on the nameplate is what one winding is built for'), body: `<p>${t('ต่อเดลตา ขดลวดแต่ละขดรับแรงดันระหว่างเฟสเต็ม ๆ ต่อสตาร์ ขดลวดรับแรงดันระหว่างเฟสหารด้วย √3 กฎนี้อธิบายไว้ในหน้า 1.2', 'In delta each winding gets the full line-to-line voltage; in star it gets the line-to-line voltage divided by √3. Page 1.2 explains the rule.')}</p>` },
     { why: t(`${LAB[0]} 230/400 V Δ/Y: ขดละ 230 V → ต่อสตาร์`, `${LAB[0]} 230/400 V Δ/Y: 230 V per winding → star`), body: `<p>${t('บนแหล่งจ่าย 400 V ต่อสตาร์ได้ 400/√3 ≈ 230 V ต่อขด พอดี ถ้าต่อเดลตา ขดจะได้ 400 V เกินพิกัดและไหม้', 'On a 400 V supply, star gives 400/√3 ≈ 230 V per winding, just right. Delta would put 400 V on a 230 V winding and burn it.')}</p>` },
-    { why: t(`${LAB[1]} 400/690 V Δ/Y: ขดละ 400 V → ต่อเดลตา`, `${LAB[1]} 400/690 V Δ/Y: 400 V per winding → delta`), body: `<p>${t('ต่อเดลตา ขดได้ 400 V ตามพิกัด ถ้าต่อสตาร์ ขดได้เพียง 230 V มอเตอร์หมุนได้แต่แรงบิดเหลือราวหนึ่งในสาม มอเตอร์แบบนี้เริ่มเดินแบบสตาร์–เดลตาได้ (บทที่ 8)', 'Delta gives each winding its rated 400 V. Star would give only 230 V: the motor turns but with about a third of the torque. This kind of motor can be started star–delta (chapter 8).')}</p>` },
+    { why: t(`${LAB[1]} 400/690 V Δ/Y: ขดละ 400 V → ต่อเดลตา`, `${LAB[1]} 400/690 V Δ/Y: 400 V per winding → delta`), body: `<p>${t('ต่อเดลตา ขดได้ 400 V ตามพิกัด ถ้าต่อสตาร์ ขดได้เพียง 230 V มอเตอร์หมุนได้แต่แรงบิดเหลือราวหนึ่งในสาม มอเตอร์แบบนี้เริ่มเดินแบบสตาร์–เดลตาได้ (บทที่ 7)', 'Delta gives each winding its rated 400 V. Star would give only 230 V: the motor turns but with about a third of the torque. This kind of motor can be started star–delta (chapter 7).')}</p>` },
     { why: t(`${LAB[2]} 220 V, 380 V, 415 V: ค่าต่ำสุด 220 V คือแรงดันของขด → ต่อสตาร์`, `${LAB[2]} 220 V, 380 V, 415 V: the lowest, 220 V, is the winding voltage → star`), body: `<p>${t('380 V และ 415 V เป็นแรงดันระหว่างเฟสเมื่อต่อสตาร์ แหล่งจ่าย 400 V อยู่ระหว่างสองค่านี้ จึงต่อสตาร์ มอเตอร์ในชุดฝึกของหัวข้อ C เป็นแบบนี้', '380 V and 415 V are line-to-line voltages for star. Our 400 V supply lies between them, so: star. The motor on the trainer in section C is of this kind.')}</p>` }],
     answer: t('(ก) สตาร์ (ข) เดลตา (ค) สตาร์', '(a) star, (b) delta, (c) star') });
 

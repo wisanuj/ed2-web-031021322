@@ -5,7 +5,9 @@
    2) C3.Knob    a rotary selector knob (maintained or spring return)
    3) C3.chart   a contact (target) table with the present position highlighted
    4) C3.Drum    the drum-switch reversing table of EMC9 Fig. 5-8: knob, table, terminal bridges, motor direction
-   5) circuits for the relay simulator: selector and lamps, two-station start/stop (right and wrong wiring), hand-off-auto */
+   5) circuits for the relay simulator: selector and lamps, two-station start/stop (right and wrong wiring), hand-off-auto.
+      Names of the lecture slides (14 Nov 2026): F1 power fuses, F2 control fuse, F3 overload, K1 contactor (the lamp circuits have only
+      the control fuse F2). */
 (function (global) {
 'use strict';
 const C3 = {}, IE = global.IEC, T = (th, en) => MC.t(th, en), tt = p => ED.tt(p);
@@ -51,11 +53,11 @@ C3.PB = class {
     // the same button in an IEC drawing with two lamps
     let k = IE.L(20, 16, 220, 16, { w: 2 }) + IE.T('L1', 14, 20, { anchor: 'end', size: 11, weight: 700 }) + IE.L(20, 214, 220, 214, { w: 2 }) + IE.T('N', 14, 218, { anchor: 'end', size: 11, weight: 700 });
     const x1 = 80, x2 = 180, o1 = st.c1 ? '#ff4d4d' : null, o2 = st.c2 ? '#ff4d4d' : null;
-    k += `<g${o1 ? ` stroke="${o1}"` : ''}>${IE.contact(true, x1, 16, 100, { act: !st.c1, op: es ? 'mush' : 'pb' })}</g>` + IE.T('S1', x1 - 40, 62, { anchor: 'end', size: 11, weight: 700 }) + IE.T('11', x1 + 5, 30, { size: 9 }) + IE.T('12', x1 + 5, 96, { size: 9 });
-    k += `<g${o2 ? ` stroke="${o2}"` : ''}>${IE.contact(st.k2 === 'NC', x2, 16, 100, { act: st.k2 === 'NC' ? !st.c2 : st.c2, op: es ? 'mush' : 'pb' })}</g>` + IE.T('S1', x2 - 40, 49, { anchor: 'end', size: 11, weight: 700 }) + IE.T(st.t2[0], x2 + 5, 30, { size: 9 }) + IE.T(st.t2[1], x2 + 5, 96, { size: 9 });
-    k += IE.L(x1 - 26, 58, x2 - 26, 58, { dash: '3 2' });   // the second 'S1' sits above this link (y 49), not on it
-    k += `<g${o1 ? ` stroke="${o1}"` : ''}>${IE.lamp(x1, 100, 214, { live: st.c1, lamp: '#ff6b6b' })}</g>` + IE.T('H1', x1 - 16, 161, { anchor: 'end', size: 11, weight: 700 });
-    k += `<g${o2 ? ` stroke="${o2}"` : ''}>${IE.lamp(x2, 100, 214, { live: st.c2, lamp: es ? '#ff6b6b' : '#7ee787' })}</g>` + IE.T('H2', x2 - 16, 161, { anchor: 'end', size: 11, weight: 700 });
+    k += `<g${o1 ? ` stroke="${o1}"` : ''}>${IE.contact(true, x1, 16, 100, { act: !st.c1, op: es ? 'mush' : 'pb' })}</g>` + IE.T('S1', x1 - 40, 62, { anchor: 'end', size: 11, it: true }) + IE.T('11', x1 + 5, 30, { size: 9 }) + IE.T('12', x1 + 5, 96, { size: 9 });
+    k += `<g${o2 ? ` stroke="${o2}"` : ''}>${IE.contact(st.k2 === 'NC', x2, 16, 100, { act: st.k2 === 'NC' ? !st.c2 : st.c2, op: es ? 'mush' : 'pb' })}</g>` + IE.T('S1', x2 - 40, 49, { anchor: 'end', size: 11, it: true }) + IE.T(st.t2[0], x2 + 5, 30, { size: 9 }) + IE.T(st.t2[1], x2 + 5, 96, { size: 9 });
+    k += IE.L(x1 + IE.bladeX(st.c1), 58, x2 + IE.opX(!st.c1), 58, { dash: '6.5 3' });   // from the first blade to the second operator; the second 'S1' sits above this link (y 49)
+    k += `<g${o1 ? ` stroke="${o1}"` : ''}>${IE.lamp(x1, 100, 214, { live: st.c1, lamp: '#ff6b6b' })}</g>` + IE.T('H1', x1 - 16, 161, { anchor: 'end', size: 11, it: true });
+    k += `<g${o2 ? ` stroke="${o2}"` : ''}>${IE.lamp(x2, 100, 214, { live: st.c2, lamp: es ? '#ff6b6b' : '#7ee787' })}</g>` + IE.T('H2', x2 - 16, 161, { anchor: 'end', size: 11, it: true });
     this.cktEl.innerHTML = IE.svg(240, 230, k, { max: 260, label: 'button and lamps' });
     // travel diagram
     const X = v => 70 + 190 * v, rows = [['11–12', 'NC', 0, 0.3], [`${st.t2[0]}–${st.t2[1]}`, st.k2, st.k2 === 'NO' ? 0.7 : 0, st.k2 === 'NO' ? 1 : 0.3]];
@@ -125,27 +127,27 @@ C3.Drum = class {
 };
 
 /* ---------------- 5) circuits ---------------- */
-const POWER = { stages: [{ k: 'cb', d: 'Q1' }, { k: 'mainNO', d: 'KM1' }, { k: 'therm', d: 'F2' }], motor: 'M1' };
+const POWER = { stages: [{ k: 'fuse', d: 'F1' }, { k: 'mainNO', d: 'K1' }, { k: 'therm', d: 'F3' }], motor: 'M1' };
 /* a three-position selector choosing lamp H1 (position I) or H2 (position II) */
-C3.SELLAMPS = () => ({ rows: 3, devices: { F1: { type: 'fuse' }, S1: { type: 'msel', positions: ['I', '0', 'II'], at: '0' }, H1: { type: 'lamp', color: '#7ee787' }, H2: { type: 'lamp', color: '#ffd166' } },
-  els: [ { k: 'fuse', d: 'F1', x: 0, y: 0, t: ['1', '2'] }, { k: 'w', pts: [[0, 1], [1, 1]], dots: [0] }, { k: 'NO', d: 'S1', x: 0, y: 1, t: ['13', '14'], op: 'sel', pos: ['I'] }, { k: 'lamp', d: 'H1', x: 0, y: 2, t: ['X1', 'X2'] },
+C3.SELLAMPS = () => ({ rows: 3, devices: { F2: { type: 'fuse' }, S1: { type: 'msel', positions: ['I', '0', 'II'], at: '0' }, H1: { type: 'lamp', color: '#7ee787' }, H2: { type: 'lamp', color: '#ffd166' } },
+  els: [ { k: 'fuse', d: 'F2', x: 0, y: 0, t: ['1', '2'] }, { k: 'w', pts: [[0, 1], [1, 1]], dots: [0] }, { k: 'NO', d: 'S1', x: 0, y: 1, t: ['13', '14'], op: 'sel', pos: ['I'] }, { k: 'lamp', d: 'H1', x: 0, y: 2, t: ['X1', 'X2'] },
     { k: 'NO', d: 'S1', x: 1, y: 1, t: ['23', '24'], op: 'sel', pos: ['II'] }, { k: 'lamp', d: 'H2', x: 1, y: 2, t: ['X1', 'X2'] } ] });
 /* a push button with two contacts: H1 through 11–12, H2 through 23–24 (EMC9 Fig. 6-2 in IEC form) */
-C3.PBLAMPS = () => ({ rows: 3, devices: { F1: { type: 'fuse' }, S1: { type: 'pb' }, H1: { type: 'lamp', color: '#ff6b6b' }, H2: { type: 'lamp', color: '#7ee787' } },
-  els: [ { k: 'fuse', d: 'F1', x: 0, y: 0, t: ['1', '2'] }, { k: 'w', pts: [[0, 1], [1, 1]], dots: [0] }, { k: 'NC', d: 'S1', x: 0, y: 1, t: ['11', '12'], op: 'pb' }, { k: 'lamp', d: 'H1', x: 0, y: 2, t: ['X1', 'X2'] },
+C3.PBLAMPS = () => ({ rows: 3, devices: { F2: { type: 'fuse' }, S1: { type: 'pb' }, H1: { type: 'lamp', color: '#ff6b6b' }, H2: { type: 'lamp', color: '#7ee787' } },
+  els: [ { k: 'fuse', d: 'F2', x: 0, y: 0, t: ['1', '2'] }, { k: 'w', pts: [[0, 1], [1, 1]], dots: [0] }, { k: 'NC', d: 'S1', x: 0, y: 1, t: ['11', '12'], op: 'pb' }, { k: 'lamp', d: 'H1', x: 0, y: 2, t: ['X1', 'X2'] },
     { k: 'NO', d: 'S1', x: 1, y: 1, t: ['23', '24'], op: 'pb' }, { k: 'lamp', d: 'H2', x: 1, y: 2, t: ['X1', 'X2'] } ] });
 /* two control stations (S1/S2 at station 1, S3/S4 at station 2): 'ok' stops in series and starts in parallel; 'startSeries'; 'stopParallel' */
-const STDEV = () => ({ Q1: { type: 'cb', on: true }, F1: { type: 'fuse' }, F2: { type: 'ol' }, S1: { type: 'pb' }, S2: { type: 'pb' }, S3: { type: 'pb' }, S4: { type: 'pb' }, KM1: { type: 'coil' } });
-const HEAD = () => [{ k: 'fuse', d: 'F1', x: 0, y: 0, t: ['1', '2'] }, { k: 'NC', d: 'F2', x: 0, y: 1, t: ['95', '96'], op: 'thr' }];
+const STDEV = () => ({ F1: { type: 'fuse', name: ['F1 ฟิวส์วงจรกำลัง', 'F1 power fuses'] }, F2: { type: 'fuse', name: ['F2 ฟิวส์วงจรควบคุม', 'F2 control fuse'] }, F3: { type: 'ol' }, S1: { type: 'pb' }, S2: { type: 'pb' }, S3: { type: 'pb' }, S4: { type: 'pb' }, K1: { type: 'coil' } });
+const HEAD = () => [{ k: 'fuse', d: 'F2', x: 0, y: 0, t: ['1', '2'] }, { k: 'NC', d: 'F3', x: 0, y: 1, t: ['95', '96'], op: 'thr' }];
 C3.STATION = v => {
-  if (v === 'startSeries') return { supply: 'Q1', rows: 7, devices: STDEV(), power: POWER, els: [...HEAD(), { k: 'NC', d: 'S1', x: 0, y: 2, t: ['11', '12'], op: 'pb' }, { k: 'NC', d: 'S3', x: 0, y: 3, t: ['11', '12'], op: 'pb' },
-    { k: 'NO', d: 'S2', x: 0, y: 4, t: ['13', '14'], op: 'pb' }, { k: 'NO', d: 'S4', x: 0, y: 5, t: ['13', '14'], op: 'pb' }, { k: 'coil', d: 'KM1', x: 0, y: 6, t: ['A1', 'A2'] },
-    { k: 'NO', d: 'KM1', x: 1, y: 4, h: 2, t: ['13', '14'] }, { k: 'w', pts: [[0, 4], [1, 4]], dots: [0] }, { k: 'w', pts: [[0, 6], [1, 6]], dots: [0] }] };
-  if (v === 'stopParallel') return { supply: 'Q1', rows: 6, devices: STDEV(), power: POWER, els: [...HEAD(), { k: 'NC', d: 'S1', x: 0, y: 2, t: ['11', '12'], op: 'pb' }, { k: 'NC', d: 'S3', x: 1, y: 2, t: ['11', '12'], op: 'pb' },
-    { k: 'NO', d: 'S2', x: 0, y: 3, t: ['13', '14'], op: 'pb' }, { k: 'NO', d: 'S4', x: 1, y: 3, t: ['13', '14'], op: 'pb' }, { k: 'NO', d: 'KM1', x: 2, y: 3, t: ['13', '14'] }, { k: 'w', x: 0, y: 4 }, { k: 'coil', d: 'KM1', x: 0, y: 5, t: ['A1', 'A2'] },
+  if (v === 'startSeries') return { supply: 'F1', rows: 7, devices: STDEV(), power: POWER, els: [...HEAD(), { k: 'NC', d: 'S1', x: 0, y: 2, t: ['11', '12'], op: 'pb' }, { k: 'NC', d: 'S3', x: 0, y: 3, t: ['11', '12'], op: 'pb' },
+    { k: 'NO', d: 'S2', x: 0, y: 4, t: ['13', '14'], op: 'pb' }, { k: 'NO', d: 'S4', x: 0, y: 5, t: ['13', '14'], op: 'pb' }, { k: 'coil', d: 'K1', x: 0, y: 6, t: ['A1', 'A2'] },
+    { k: 'NO', d: 'K1', x: 1, y: 4, h: 2, t: ['13', '14'] }, { k: 'w', pts: [[0, 4], [1, 4]], dots: [0] }, { k: 'w', pts: [[0, 6], [1, 6]], dots: [0] }] };
+  if (v === 'stopParallel') return { supply: 'F1', rows: 6, devices: STDEV(), power: POWER, els: [...HEAD(), { k: 'NC', d: 'S1', x: 0, y: 2, t: ['11', '12'], op: 'pb' }, { k: 'NC', d: 'S3', x: 1, y: 2, t: ['11', '12'], op: 'pb' },
+    { k: 'NO', d: 'S2', x: 0, y: 3, t: ['13', '14'], op: 'pb' }, { k: 'NO', d: 'S4', x: 1, y: 3, t: ['13', '14'], op: 'pb' }, { k: 'NO', d: 'K1', x: 2, y: 3, t: ['13', '14'] }, { k: 'w', x: 0, y: 4 }, { k: 'coil', d: 'K1', x: 0, y: 5, t: ['A1', 'A2'] },
     { k: 'w', pts: [[0, 2], [1, 2]], dots: [0] }, { k: 'w', pts: [[0, 3], [1, 3], [2, 3]], dots: [0, 1] }, { k: 'w', pts: [[0, 4], [1, 4], [2, 4]], dots: [0, 1] }] };
-  return { supply: 'Q1', rows: 6, devices: STDEV(), power: POWER, els: [...HEAD(), { k: 'NC', d: 'S1', x: 0, y: 2, t: ['11', '12'], op: 'pb' }, { k: 'NC', d: 'S3', x: 0, y: 3, t: ['11', '12'], op: 'pb' },
-    { k: 'NO', d: 'S2', x: 0, y: 4, t: ['13', '14'], op: 'pb' }, { k: 'NO', d: 'S4', x: 1, y: 4, t: ['13', '14'], op: 'pb' }, { k: 'NO', d: 'KM1', x: 2, y: 4, t: ['13', '14'] }, { k: 'coil', d: 'KM1', x: 0, y: 5, t: ['A1', 'A2'] },
+  return { supply: 'F1', rows: 6, devices: STDEV(), power: POWER, els: [...HEAD(), { k: 'NC', d: 'S1', x: 0, y: 2, t: ['11', '12'], op: 'pb' }, { k: 'NC', d: 'S3', x: 0, y: 3, t: ['11', '12'], op: 'pb' },
+    { k: 'NO', d: 'S2', x: 0, y: 4, t: ['13', '14'], op: 'pb' }, { k: 'NO', d: 'S4', x: 1, y: 4, t: ['13', '14'], op: 'pb' }, { k: 'NO', d: 'K1', x: 2, y: 4, t: ['13', '14'] }, { k: 'coil', d: 'K1', x: 0, y: 5, t: ['A1', 'A2'] },
     { k: 'w', pts: [[0, 4], [1, 4], [2, 4]], dots: [0, 1] }, { k: 'w', pts: [[0, 5], [1, 5], [2, 5]], dots: [0, 1] }] };
 };
 /* the four standard trials of a two-station circuit, run on a hidden simulator: starts from S2 alone, from S4 alone, stops by S1, by S3 */
@@ -153,11 +155,12 @@ C3.stationTrials = v => { const sim = new RL.Sim(document.createElement('div'), 
   const start = () => { tap('S2'); if (!sim.running()) tap('S2', 'S4'); return sim.running(); }, reset = () => { sim.press('S1', true); sim.press('S3', true); sim.press('S1', false); sim.press('S3', false); };
   reset(); tap('S2'); const s2 = sim.running(); reset(); tap('S4'); const s4 = sim.running(); reset(); const both = (tap('S2', 'S4'), sim.running());
   reset(); start(); tap('S1'); const st1 = !sim.running(); reset(); start(); tap('S3'); const st3 = !sim.running(); reset(); return { s2, s4, both, st1, st3 }; };
-/* hand–off–auto: selector S5 (H / 0 / A); in A the float switch S6 decides */
-C3.HOA = () => ({ supply: 'Q1', rows: 5, power: POWER,
-  devices: { Q1: { type: 'cb', on: true }, F1: { type: 'fuse' }, F2: { type: 'ol' }, S5: { type: 'msel', positions: ['H', '0', 'A'], at: '0' }, S6: { type: 'sen' }, KM1: { type: 'coil' }, H1: { type: 'lamp', color: '#7ee787' } },
+/* hand–off–auto: selector S5 (H / 0 / A); in A the float switch S6 decides; run lamp H1 through K1 33–34 (the instructor's contactor HS20:
+   13 NO, 21 NC, 33 NO, 41 NC) */
+C3.HOA = () => ({ supply: 'F1', rows: 5, power: POWER,
+  devices: { F1: { type: 'fuse', name: ['F1 ฟิวส์วงจรกำลัง', 'F1 power fuses'] }, F2: { type: 'fuse', name: ['F2 ฟิวส์วงจรควบคุม', 'F2 control fuse'] }, F3: { type: 'ol' }, S5: { type: 'msel', positions: ['H', '0', 'A'], at: '0' }, S6: { type: 'sen' }, K1: { type: 'coil' }, H1: { type: 'lamp', color: '#7ee787' } },
   els: [ ...HEAD(), { k: 'NO', d: 'S5', x: 0, y: 2, h: 2, t: ['13', '14'], op: 'sel', pos: ['H'] }, { k: 'NO', d: 'S5', x: 1, y: 2, t: ['23', '24'], op: 'sel', pos: ['A'] }, { k: 'NO', d: 'S6', x: 1, y: 3, t: ['13', '14'], op: 'flt' },
-    { k: 'coil', d: 'KM1', x: 0, y: 4, t: ['A1', 'A2'] }, { k: 'w', pts: [[0, 2], [1, 2], [2, 2]], dots: [0, 1] }, { k: 'w', pts: [[0, 4], [1, 4]], dots: [0] },
-    { k: 'w', x: 2, y: 2 }, { k: 'NO', d: 'KM1', x: 2, y: 3, t: ['23', '24'] }, { k: 'lamp', d: 'H1', x: 2, y: 4, t: ['X1', 'X2'] } ] });
+    { k: 'coil', d: 'K1', x: 0, y: 4, t: ['A1', 'A2'] }, { k: 'w', pts: [[0, 2], [1, 2], [2, 2]], dots: [0, 1] }, { k: 'w', pts: [[0, 4], [1, 4]], dots: [0] },
+    { k: 'w', x: 2, y: 2 }, { k: 'NO', d: 'K1', x: 2, y: 3, t: ['33', '34'] }, { k: 'lamp', d: 'H1', x: 2, y: 4, t: ['X1', 'X2'] } ] });
 global.C3 = C3;
 })(window);

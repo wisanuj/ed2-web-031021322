@@ -8,13 +8,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=22"><link rel="stylesheet" href="assets/ed2.css?v=22">
-<link rel="stylesheet" href="assets/wiring.css?v=22"><link rel="stylesheet" href="assets/mcp.css?v=22">
-<script src="assets/stops.js?v=22"></script><script src="assets/shell.js?v=22"></script>
-<script src="assets/lesson.js?v=22"></script><script src="assets/draw.js?v=22"></script><script src="assets/ed.js?v=22"></script><script src="assets/sym.js?v=22"></script><script src="assets/iec.js?v=22"></script><script src="assets/relay.js?v=22"></script><script src="assets/ch2.js?v=22"></script><script src="assets/ch3.js?v=22"></script><script src="assets/ch4.js?v=22"></script>
-<script src="assets/panel.js?v=22"></script><script src="assets/ch5.js?v=22"></script><script src="assets/ch6.js?v=22"></script><script src="assets/ch7.js?v=22"></script>
-<script src="assets/wiring.js?v=22"></script><script src="assets/devdata.js?v=22"></script><script src="assets/dev.js?v=22"></script>
-<script src="assets/mcp.js?v=22"></script>
+<link rel="stylesheet" href="assets/ee.css?v=27"><link rel="stylesheet" href="assets/ed2.css?v=27">
+<link rel="stylesheet" href="assets/wiring.css?v=27"><link rel="stylesheet" href="assets/mcp.css?v=27">
+<script src="assets/stops.js?v=27"></script><script src="assets/shell.js?v=27"></script>
+<script src="assets/lesson.js?v=27"></script><script src="assets/draw.js?v=27"></script><script src="assets/ed.js?v=27"></script><script src="assets/sym.js?v=27"></script><script src="assets/iec.js?v=27"></script><script src="assets/relay.js?v=27"></script><script src="assets/ch2.js?v=27"></script><script src="assets/ch3.js?v=27"></script><script src="assets/ch4.js?v=27"></script>
+<script src="assets/panel.js?v=27"></script><script src="assets/ch5.js?v=27"></script><script src="assets/ch6.js?v=27"></script><script src="assets/ch7.js?v=27"></script>
+<script src="assets/wiring.js?v=27"></script><script src="assets/devdata.js?v=27"></script><script src="assets/dev.js?v=27"></script>
+<script src="assets/mcp.js?v=27"></script>
 <style>
 .mcp-prep{margin:6px 0 0 20px;padding:0;line-height:1.55}.mcp-prep li{margin:4px 0}.mcp-prep .pk{color:var(--muted);font-size:14px}
 .bench{display:grid;grid-template-columns:minmax(0,1fr) 170px;gap:12px;align-items:start}@media (max-width:640px){.bench{grid-template-columns:1fr}}
@@ -62,8 +62,8 @@
 <section class="prob" id="tA">
   <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">อุปกรณ์จริง สัญลักษณ์ และเลขขั้ว</h2><h2 data-l="en">Real devices, symbols and terminal numbers</h2>
     <div class="src" data-l="th">หน้า 4.1–4.4 · IEC 60947-4-1, IEC 60947-5-1 (เลขขั้ว) · IEC 60617 (สัญลักษณ์)</div><div class="src" data-l="en">Pages 4.1–4.4 · IEC 60947-4-1, IEC 60947-5-1 (terminal numbers) · IEC 60617 (symbols)</div></div></div>
-  <p class="lead" data-l="th">อุปกรณ์สี่ชนิดของสัปดาห์นี้คือ คอนแทกเตอร์ KM รีเลย์ช่วย KA ตัวตั้งเวลา KT และโอเวอร์โหลดรีเลย์ F2 แตะหมายเลขบนภาพเพื่อดูว่าชี้ส่วนไหน แล้วเทียบกับสัญลักษณ์และเลขขั้วข้างภาพ</p>
-  <p class="lead" data-l="en">The four devices of this week are contactor KM, auxiliary relay KA, timer KT and overload relay F2. Tap a number on a photo to see what it points at, and compare it with the symbol and terminal numbers beside it.</p>
+  <p class="lead" data-l="th">อุปกรณ์สี่ชนิดของสัปดาห์นี้คือ คอนแทกเตอร์ รีเลย์ช่วย ตัวตั้งเวลา (สามชนิดนี้ใช้รหัส K ทั้งหมด เช่น K1) และโอเวอร์โหลดรีเลย์ F3 แตะหมายเลขบนภาพเพื่อดูว่าชี้ส่วนไหน แล้วเทียบกับสัญลักษณ์และเลขขั้วข้างภาพ</p>
+  <p class="lead" data-l="en">The four devices of this week are the contactor, the auxiliary relay and the timer (all three coded K, e.g. K1) and overload relay F3. Tap a number on a photo to see what it points at, and compare it with the symbol and terminal numbers beside it.</p>
   <div id="devs"></div>
   <p class="lead" data-l="th" style="margin-top:12px">ฝึกจับคู่: ดูภาพอุปกรณ์แล้วเลือกชื่อ สัญลักษณ์ และเลขขั้วที่ถูก คะแนนแสดงด้านล่าง ทำซ้ำได้จนจำได้ทั้งหมด</p>
   <p class="lead" data-l="en" style="margin-top:12px">Matching drill: look at the device and pick its name, its symbol and its terminal numbers. Your score shows below; repeat until you know them all.</p>
@@ -107,9 +107,9 @@
     <div class="src" data-l="th">หน้า 4.1 (วงจรทดสอบคอยล์) และหน้า 4.5 · ใบงานที่ 4 ของวิชาเขียนแบบไฟฟ้า 2</div><div class="src" data-l="en">Page 4.1 (the coil-test circuit) and page 4.5 · lab sheet 4 of Electrical Drawing II</div></div></div>
   <div class="story n0">
     <div class="story-t">
-      <div class="story-p" data-l="th"><p>การวัดบนโต๊ะบอกได้ว่าขดลวดไม่ขาดและหน้าสัมผัสเปิดปิดได้ แต่ไม่ได้บอกว่าคอยล์ดูดแกนเหล็กได้จริงที่แรงดัน 230 V วงจรทดสอบคอยล์ที่วาดไว้ในบทที่ 4 จึงเป็นงานแรกบนแผงฝึก: สวิตช์ค้างตำแหน่ง S1 (0–I) ป้อนไฟให้คอยล์ KM1 ผ่านหน้าสัมผัส 95–96 ของโอเวอร์โหลด F2 หลอดเขียว H1 ต่อผ่านหน้าสัมผัสปกติเปิด KM1 13–14 และหลอดขาว H2 ต่อผ่านหน้าสัมผัสปกติปิด KM1 21–22 หลอดสองดวงจึงบอกว่าหน้าสัมผัสช่วยทั้งสองคู่เปลี่ยนตามคอยล์จริง ส่วนหน้าสัมผัสหลักทดสอบด้วยมอเตอร์ในวงจรกำลัง</p>
+      <div class="story-p" data-l="th"><p>การวัดบนโต๊ะบอกได้ว่าขดลวดไม่ขาดและหน้าสัมผัสเปิดปิดได้ แต่ไม่ได้บอกว่าคอยล์ดูดแกนเหล็กได้จริงที่แรงดัน 230 V วงจรทดสอบคอยล์ที่วาดไว้ในบทที่ 4 จึงเป็นงานแรกบนแผงฝึก: สวิตช์ค้างตำแหน่ง S1 (0–I) ป้อนไฟให้คอยล์ K1 ผ่านหน้าสัมผัส 95–96 ของโอเวอร์โหลด F3 หลอดเขียว H1 ต่อผ่านหน้าสัมผัสปกติเปิด K1 13–14 และหลอดขาว H2 ต่อผ่านหน้าสัมผัสปกติปิด K1 21–22 หลอดสองดวงจึงบอกว่าหน้าสัมผัสช่วยทั้งสองคู่เปลี่ยนตามคอยล์จริง ส่วนหน้าสัมผัสหลักทดสอบด้วยมอเตอร์ในวงจรกำลัง</p>
         <p>หัวข้อนี้ทำตามลำดับของงานจริงสี่ขั้น: C1 ไล่ทางเดินกระแสในแบบ C2 ต่อสายบนแผงฝึกตามรายการเดินสาย C3 ทดสอบความต่อเนื่องก่อนจ่ายไฟ และ C4 จ่ายไฟแล้วกรอกตารางผล</p></div>
-      <div class="story-p" data-l="en"><p>A bench test shows that the winding is not broken and that the contacts open and close, but not that the coil really pulls the armature in at 230 V. That is why the coil-test circuit drawn in chapter 4 is the first job on the trainer: maintained switch S1 (0–I) feeds coil KM1 through contact 95–96 of overload relay F2; green lamp H1 is wired through the NO contact KM1 13–14 and white lamp H2 through the NC contact KM1 21–22, so the two lamps show that both auxiliary contacts really follow the coil. The main contacts are tested by the motor in the power circuit.</p>
+      <div class="story-p" data-l="en"><p>A bench test shows that the winding is not broken and that the contacts open and close, but not that the coil really pulls the armature in at 230 V. That is why the coil-test circuit drawn in chapter 4 is the first job on the trainer: maintained switch S1 (0–I) feeds coil K1 through contact 95–96 of overload relay F3; green lamp H1 is wired through the NO contact K1 13–14 and white lamp H2 through the NC contact K1 21–22, so the two lamps show that both auxiliary contacts really follow the coil. The main contacts are tested by the motor in the power circuit.</p>
         <p>This section follows the four steps of the real job: C1 trace the current paths in the drawing, C2 wire the trainer from the wiring checklist, C3 test continuity before power, and C4 power up and fill in the results table.</p></div></div>
   </div>
 
@@ -128,25 +128,25 @@
   <div class="card sim rlwrap rlscroll mcp-wide" style="padding:8px"><div id="simC2"></div></div>
 
   <h3 data-l="th" style="margin-top:18px">C3 ทดสอบความต่อเนื่องก่อนจ่ายไฟ</h3><h3 data-l="en" style="margin-top:18px">C3 Continuity tests before power</h3>
-  <p class="lead" data-l="th">ฝึกวัดบนแบบก่อนวัดจริงบนแผงฝึก: Q1 ปลดอยู่และแหล่งจ่ายตัดแล้ว กด "ตั้งสภาพ" ของแถวในตาราง วางสายวัดตามที่แถวบอก แล้วดูว่าค่าที่อ่านได้ตรงกับค่าที่ควรได้หรือไม่ ค่าจะกรอกลงตารางเอง การวัดคร่อมวงจรควบคุมทั้งวงจร (จาก F1 ขั้ว 2 ถึง N) เป็นการทดสอบที่คุ้มที่สุด เพราะบอกได้ทันทีว่ามีโหลดอะไรต่ออยู่ในแต่ละสภาพ และจับการลัดวงจรได้ก่อนจ่ายไฟ</p>
-  <p class="lead" data-l="en">Practise on the drawing before you measure on the trainer: Q1 is off and the supply is isolated. Press "set up" on a row of the table, place the probes where the row says, and see whether the reading matches the expected one; it is written into the table by itself. Measuring across the whole control circuit (from F1 terminal 2 to N) is the most useful test of all, because it shows at once which loads are connected in each state, and it catches a short circuit before power-on.</p>
+  <p class="lead" data-l="th">ฝึกวัดบนแบบก่อนวัดจริงบนแผงฝึก: Q1 ปลดอยู่และแหล่งจ่ายตัดแล้ว กด "ตั้งสภาพ" ของแถวในตาราง วางสายวัดตามที่แถวบอก แล้วดูว่าค่าที่อ่านได้ตรงกับค่าที่ควรได้หรือไม่ ค่าจะกรอกลงตารางเอง การวัดคร่อมวงจรควบคุมทั้งวงจร (จาก F2 ขั้ว 2 ถึง N) เป็นการทดสอบที่คุ้มที่สุด เพราะบอกได้ทันทีว่ามีโหลดอะไรต่ออยู่ในแต่ละสภาพ และจับการลัดวงจรได้ก่อนจ่ายไฟ</p>
+  <p class="lead" data-l="en">Practise on the drawing before you measure on the trainer: Q1 is off and the supply is isolated. Press "set up" on a row of the table, place the probes where the row says, and see whether the reading matches the expected one; it is written into the table by itself. Measuring across the whole control circuit (from F2 terminal 2 to N) is the most useful test of all, because it shows at once which loads are connected in each state, and it catches a short circuit before power-on.</p>
   <div class="card sim rlwrap rlscroll mcp-wide" style="padding:8px"><div id="simC3"></div></div>
   <div class="card" style="margin-top:12px"><div id="mC3"></div></div>
   <div class="card solve" style="overflow-x:auto;margin-top:12px"><div id="ttC3"></div></div>
 
   <h3 data-l="th" style="margin-top:18px">C4 จ่ายไฟและกรอกตารางผล</h3><h3 data-l="en" style="margin-top:18px">C4 Power up and fill in the results table</h3>
-  <p class="lead" data-l="th">หลังครูตรวจและจ่ายไฟให้แผงฝึกในขั้น C2 แล้ว ให้ทำตามตารางนี้ทีละแถวด้วยสวิตช์และปุ่มบนแผงฝึก (Q1 อยู่บนแผ่นยึดอุปกรณ์ S1 คือสวิตช์เลือก 0–I บนประตูตู้ และปุ่ม R สีน้ำเงินบน F2 แตะครั้งแรกเพื่อจำลองการตัดเหมือนกดปุ่ม TEST แตะอีกครั้งเพื่อรีเซ็ต) แถวจะติ๊กเองเมื่อแผงฝึกอยู่ในสภาพที่แถวนั้นถาม</p>
-  <p class="lead" data-l="en">Once the teacher has checked and the trainer is powered in step C2, work through this table row by row with the switches and buttons on the trainer (Q1 is on the mounting plate, S1 is the 0–I selector on the door, and the blue R button on F2: tap it once to simulate a trip, as the TEST button does, and again to reset). A row ticks itself when the trainer is in the state the row asks for.</p>
+  <p class="lead" data-l="th">หลังครูตรวจและจ่ายไฟให้แผงฝึกในขั้น C2 แล้ว ให้ทำตามตารางนี้ทีละแถวด้วยสวิตช์และปุ่มบนแผงฝึก (Q1 อยู่บนแผ่นยึดอุปกรณ์ S1 คือสวิตช์เลือก 0–I บนประตูตู้ และปุ่ม R สีน้ำเงินบน F3 แตะครั้งแรกเพื่อจำลองการตัดเหมือนกดปุ่ม TEST แตะอีกครั้งเพื่อรีเซ็ต) แถวจะติ๊กเองเมื่อแผงฝึกอยู่ในสภาพที่แถวนั้นถาม</p>
+  <p class="lead" data-l="en">Once the teacher has checked and the trainer is powered in step C2, work through this table row by row with the switches and buttons on the trainer (Q1 is on the mounting plate, S1 is the 0–I selector on the door, and the blue R button on F3: tap it once to simulate a trip, as the TEST button does, and again to reset). A row ticks itself when the trainer is in the state the row asks for.</p>
   <div class="card solve" style="overflow-x:auto"><div id="ttC4"></div></div>
-  <div class="callout" data-l="th"><b>สังเกตแถวที่ 4</b>: เมื่อรีเซ็ต F2 แล้วคอนแทกเตอร์ดูดเองทันที เพราะ S1 เป็นสวิตช์ค้างตำแหน่งที่ยังอยู่ที่ I (วงจรควบคุมแบบ 2 สาย หน้า 2.4) ในวงจรทดสอบบนโต๊ะไม่เป็นไร แต่ในเครื่องจักรจริงต้องใช้ปุ่มกดกับหน้าสัมผัสค้างตัวเองแบบสัปดาห์หน้า เพื่อไม่ให้มอเตอร์หมุนเองหลังโอเวอร์โหลดหรือไฟดับ</div>
-  <div class="callout" data-l="en"><b>Look at row 4</b>: after F2 is reset the contactor pulls in again at once, because S1 is a maintained switch still at I (two-wire control, page 2.4). That is acceptable on a test bench, but a real machine needs push buttons and a holding contact, as next week, so that the motor never restarts by itself after an overload or a power failure.</div>
+  <div class="callout" data-l="th"><b>สังเกตแถวที่ 4</b>: เมื่อรีเซ็ต F3 แล้วคอนแทกเตอร์ดูดเองทันที เพราะ S1 เป็นสวิตช์ค้างตำแหน่งที่ยังอยู่ที่ I (วงจรควบคุมแบบ 2 สาย หน้า 2.4) ในวงจรทดสอบบนโต๊ะไม่เป็นไร แต่ในเครื่องจักรจริงต้องใช้ปุ่มกดกับหน้าสัมผัสค้างตัวเองแบบสัปดาห์หน้า เพื่อไม่ให้มอเตอร์หมุนเองหลังโอเวอร์โหลดหรือไฟดับ</div>
+  <div class="callout" data-l="en"><b>Look at row 4</b>: after F3 is reset the contactor pulls in again at once, because S1 is a maintained switch still at I (two-wire control, page 2.4). That is acceptable on a test bench, but a real machine needs push buttons and a holding contact, as next week, so that the motor never restarts by itself after an overload or a power failure.</div>
 </section>
 
 <section class="prob" id="tD">
   <div class="prob-head"><span class="prob-no">D</span><div><h2 data-l="th">ตั้งและทดสอบตัวตั้งเวลา</h2><h2 data-l="en">Setting and testing a timer</h2>
     <div class="src" data-l="th">หน้า 4.3 · วงจรทดสอบตัวตั้งเวลาของบทที่ 4</div><div class="src" data-l="en">Page 4.3 · the timer test circuit of chapter 4</div></div></div>
-  <p class="lead" data-l="th">บนแผงฝึก ตัวตั้งเวลาหลายฟังก์ชัน KT1 มีปุ่มเลือกฟังก์ชันและปุ่มตั้งเวลาอยู่หน้าอุปกรณ์ ต่อวงจรทดสอบตามรายการเดินสายด้านล่าง ตั้งฟังก์ชันและเวลา แล้วหมุน S1 ไปที่ I และจับเวลาด้วยนาฬิกาจับเวลาจนหลอดเปลี่ยน ในหน้านี้นาฬิกาจับเวลาคือเวลาของตัวจำลอง เลือกชนิดของตัวตั้งเวลาและเวลาที่ตั้ง แล้วสั่งวงจรด้วยปุ่มในแผงหรือแตะ S1 ในแบบ ผลแต่ละครั้งบันทึกลงตาราง</p>
-  <p class="lead" data-l="en">On the trainer, multifunction timer KT1 has a function knob and a time knob on its front. Wire the test circuit from the checklist below, set the function and the time, turn S1 to I and time it with a stopwatch until the lamps change. On this page the stopwatch is the simulator's own clock. Choose the kind of timer and the set time, then operate the circuit with the panel buttons or by tapping S1 in the drawing; each run is recorded in the table.</p>
+  <p class="lead" data-l="th">บนแผงฝึก ตัวตั้งเวลาหลายฟังก์ชันมีปุ่มเลือกฟังก์ชันและปุ่มตั้งเวลาอยู่หน้าอุปกรณ์ ต่อวงจรทดสอบตามรายการเดินสายด้านล่าง ตั้งฟังก์ชันและเวลา แล้วหมุน S1 ไปที่ I และจับเวลาด้วยนาฬิกาจับเวลาจนหลอดเปลี่ยน ในหน้านี้นาฬิกาจับเวลาคือเวลาของตัวจำลอง เลือกชนิดของตัวตั้งเวลาและเวลาที่ตั้ง แล้วสั่งวงจรด้วยปุ่มในแผงหรือแตะ S1 ในแบบ ผลแต่ละครั้งบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">On the trainer, the multifunction timer has a function knob and a time knob on its front. Wire the test circuit from the checklist below, set the function and the time, turn S1 to I and time it with a stopwatch until the lamps change. On this page the stopwatch is the simulator's own clock. Choose the kind of timer and the set time, then operate the circuit with the panel buttons or by tapping S1 in the drawing; each run is recorded in the table.</p>
   <div class="card solve"><div class="panel" id="pD" style="position:static;max-height:none"></div></div>
   <div class="card sim rlwrap" style="padding:8px;margin-top:12px"><div id="simD"></div></div>
   <div class="card" style="margin-top:12px"><div id="logD"></div><div id="sumD" style="margin-top:8px"></div></div>
@@ -156,8 +156,8 @@
 <section class="prob" id="ex2">
   <div class="prob-head"><span class="prob-no">2</span><div><h2 data-l="th">ตั้งค่าโอเวอร์โหลดรีเลย์ตามป้ายพิกัดมอเตอร์</h2><h2 data-l="en">Setting an overload relay from the motor nameplate</h2>
     <div class="src" data-l="th">โจทย์ตัวอย่าง · หน้า 4.4 · IEC 60947-4-1</div><div class="src" data-l="en">Worked example · page 4.4 · IEC 60947-4-1</div></div></div>
-  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>ป้ายพิกัดของมอเตอร์ตัวหนึ่ง (ค่าตัวอย่าง) เขียนว่า 0.37 kW · 400 V Y / 230 V Δ · 1.1 A / 1.9 A · 50 Hz แหล่งจ่ายเป็น 3 เฟส 400 V และกล่องขั้วมอเตอร์ต่อแบบสตาร์ โอเวอร์โหลดรีเลย์ F2 มีย่านตั้ง 1.0–1.6 A คลาส 10 และมีปุ่มเลือกการรีเซ็ต H (ด้วยมือ) / A (อัตโนมัติ) (ก) ตั้งปุ่มกระแสที่เท่าไร (ข) ตั้งการรีเซ็ตแบบไหน (ค) ทดสอบว่าโอเวอร์โหลดทำงานโดยไม่ต้องให้มอเตอร์โหลดเกินได้อย่างไร</p></div>
-  <div class="given" data-l="en"><div class="gl">Problem</div><p>The nameplate of a motor (example values) reads 0.37 kW · 400 V Y / 230 V Δ · 1.1 A / 1.9 A · 50 Hz. The supply is three-phase 400 V and the motor terminal box is connected in star. Overload relay F2 has a 1.0–1.6 A range, class 10, and a reset selector H (hand) / A (automatic). (a) What current do you set on the dial? (b) Which reset mode? (c) How do you test that the overload works without overloading the motor?</p></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>ป้ายพิกัดของมอเตอร์ตัวหนึ่ง (ค่าตัวอย่าง) เขียนว่า 0.37 kW · 400 V Y / 230 V Δ · 1.1 A / 1.9 A · 50 Hz แหล่งจ่ายเป็น 3 เฟส 400 V และกล่องขั้วมอเตอร์ต่อแบบสตาร์ โอเวอร์โหลดรีเลย์ F3 มีย่านตั้ง 1.0–1.6 A คลาส 10 และมีปุ่มเลือกการรีเซ็ต H (ด้วยมือ) / A (อัตโนมัติ) (ก) ตั้งปุ่มกระแสที่เท่าไร (ข) ตั้งการรีเซ็ตแบบไหน (ค) ทดสอบว่าโอเวอร์โหลดทำงานโดยไม่ต้องให้มอเตอร์โหลดเกินได้อย่างไร</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>The nameplate of a motor (example values) reads 0.37 kW · 400 V Y / 230 V Δ · 1.1 A / 1.9 A · 50 Hz. The supply is three-phase 400 V and the motor terminal box is connected in star. Overload relay F3 has a 1.0–1.6 A range, class 10, and a reset selector H (hand) / A (automatic). (a) What current do you set on the dial? (b) Which reset mode? (c) How do you test that the overload works without overloading the motor?</p></div>
   <div class="card solve"><div id="ask2"></div><div id="st2"></div></div>
 </section>
 
@@ -177,14 +177,14 @@
 <section class="notes" data-l="th">
   <div class="card"><h3>ลองทำดู</h3>
     <ol><li>หัวข้อ B: วัดคอนแทกเตอร์ที่ดีให้ครบทุกแถวของตาราง แล้ววัดอุปกรณ์ทั้งสามตัวในกล่องของครู ตอบว่าตัวไหนเสียและเสียที่ส่วนไหน</li>
-    <li>หัวข้อ C3: วัดจาก F1 ขั้ว 2 ถึง N ในสามสภาพของตาราง แล้วอธิบายว่าทำไมค่าที่อ่านได้จึงลดลงเมื่อหมุน S1 ไปที่ I ทั้งที่ยังไม่มีไฟ</li>
+    <li>หัวข้อ C3: วัดจาก F2 ขั้ว 2 ถึง N ในสามสภาพของตาราง แล้วอธิบายว่าทำไมค่าที่อ่านได้จึงลดลงเมื่อหมุน S1 ไปที่ I ทั้งที่ยังไม่มีไฟ</li>
     <li>หัวข้อ D: ตั้งตัวตั้งเวลาหน่วงเมื่อตัดไฟ 5 s แล้วลองว่าหลอดดวงไหนเปลี่ยนทันทีและดวงไหนเปลี่ยนหลังเวลาที่ตั้ง</li></ol>
     <div class="book">วิชาเขียนแบบไฟฟ้า 2 หน้า 4.1–4.5 และ 2.4 · IEC 60947-4-1 (คอนแทกเตอร์ โอเวอร์โหลดรีเลย์) · IEC 60947-5-1 (หน้าสัมผัสของวงจรควบคุม เลขขั้ว) · IEC 60204-1 (อุปกรณ์ไฟฟ้าของเครื่องจักร)</div></div>
 </section>
 <section class="notes" data-l="en">
   <div class="card"><h3>Try this</h3>
     <ol><li>Section B: measure every row of the table on the good contactor, then the three devices in the teacher's box, and say which one is faulty and where.</li>
-    <li>Section C3: measure from F1 terminal 2 to N in the three states of the table, and explain why the reading falls when S1 is turned to I although there is no supply.</li>
+    <li>Section C3: measure from F2 terminal 2 to N in the three states of the table, and explain why the reading falls when S1 is turned to I although there is no supply.</li>
     <li>Section D: set an off-delay timer to 5 s and find out which lamp changes at once and which one changes after the set time.</li></ol>
     <div class="book">Electrical Drawing II, pages 4.1–4.5 and 2.4 · IEC 60947-4-1 (contactors, overload relays) · IEC 60947-5-1 (control-circuit contacts, terminal numbers) · IEC 60204-1 (electrical equipment of machines)</div></div>
 </section>
@@ -214,8 +214,8 @@ document.addEventListener('mc:ready', () => {
   DEV.mount($('devs'), ['km', 'ka', 'kt', 'ol']);
   new MCP.SymbolDrill($('drA'), ['km', 'ka', 'kt', 'ol', 'mcb', 'fuse', 'pb', 'lamp'], { seed: 3 });
   (() => { const K = MCP.TRAINER.kinds, dv = k => MCP.TRAINER.devices.find(d => d.kind === k) || {};
-    const ROWS = [['km', 'KM1', ['คอนแทกเตอร์ 3 ขั้วกับชุดหน้าสัมผัสเสริมด้านหน้า', 'three-pole contactor with a front auxiliary block']], ['ka', 'KA1', ['รีเลย์ช่วยแบบเสียบบนซ็อกเก็ต', 'plug-in auxiliary relay on its socket']],
-      ['kt', 'KT1', ['ตัวตั้งเวลาหลายฟังก์ชัน', 'multifunction timer']], ['ol', 'F2', ['โอเวอร์โหลดรีเลย์', 'overload relay']]];
+    const ROWS = [['km', 'K1', ['คอนแทกเตอร์ 3 ขั้วกับชุดหน้าสัมผัสเสริมด้านหน้า', 'three-pole contactor with a front auxiliary block']], ['ka', 'K4', ['รีเลย์ช่วยแบบเสียบบนซ็อกเก็ต', 'plug-in auxiliary relay on its socket']],
+      ['kt', 'K6', ['ตัวตั้งเวลาหลายฟังก์ชัน', 'multifunction timer']], ['ol', 'F3', ['โอเวอร์โหลดรีเลย์', 'overload relay']]];
     const H = [t('อุปกรณ์', 'device'), t('แถวของขั้ว (บนลงล่าง)', 'terminal rows (top to bottom)'), t('รุ่นบนแผงฝึก', 'model on the trainer')];
     let h = `<table class="tbl stack"><thead><tr>${H.map(x => `<th>${x}</th>`).join('')}</tr></thead>`;
     ROWS.forEach(([k, nm, lab]) => { const d = dv(k), kk = K[k], tag = d.tag && d.tag !== nm ? ` <span class="hint">(${t('บนแผงฝึกพิมพ์ว่า', 'printed')} ${esc(d.tag)})</span>` : '';
@@ -228,14 +228,14 @@ document.addEventListener('mc:ready', () => {
      devices with a hidden fault ({ pair: '13-14', k: 'open' | 'closed' } or { coil: 'open' }). Readings use the example values MCP.TRAINER.R. */
   const CO = c => [[c + '1', c + '2', 'NC'], [c + '1', c + '4', 'NO']];
   const DEVB = {
-    km: { tag: 'KM1', kind: 'km', name: ['คอนแทกเตอร์ KM1 กับชุดหน้าสัมผัสเสริมด้านหน้า', 'contactor KM1 with a front block'], coil: ['A1', 'A2', R.coil],
+    km: { tag: 'K1', kind: 'km', name: ['คอนแทกเตอร์ K1 กับชุดหน้าสัมผัสเสริมด้านหน้า', 'contactor K1 with a front block'], coil: ['A1', 'A2', R.coil],
       pairs: [['1', '2', 'NO'], ['3', '4', 'NO'], ['5', '6', 'NO'], ['13', '14', 'NO'], ['21', '22', 'NC'], ['53', '54', 'NO'], ['61', '62', 'NC'], ['71', '72', 'NC'], ['83', '84', 'NO']],
       act: ['กดชุดหน้าสัมผัสลงด้วยมือ', 'carrier pushed in by hand'] },
-    ka: { tag: 'KA1', kind: 'ka', name: ['รีเลย์ช่วยแบบเสียบ KA1 (4 ชุดหน้าสัมผัสสลับ)', 'plug-in relay KA1 (4 changeover contacts)'], coil: ['A1', 'A2', R.relay],
+    ka: { tag: 'K4', kind: 'ka', name: ['รีเลย์ช่วยแบบเสียบ K4 (4 ชุดหน้าสัมผัสสลับ)', 'plug-in relay K4 (4 changeover contacts)'], coil: ['A1', 'A2', R.relay],
       pairs: [...CO('1'), ...CO('2'), ...CO('3'), ...CO('4')], act: ['โยกคันทดสอบลง', 'test lever set'] },
-    kt: { tag: 'KT1', kind: 'kt', name: ['ตัวตั้งเวลา KT1 (2 ชุดหน้าสัมผัสสลับหน่วงเวลา)', 'timer KT1 (2 timed changeover contacts)'], coil: ['A1', 'A2', R.timer],
+    kt: { tag: 'K6', kind: 'kt', name: ['ตัวตั้งเวลา K6 (2 ชุดหน้าสัมผัสสลับหน่วงเวลา)', 'timer K6 (2 timed changeover contacts)'], coil: ['A1', 'A2', R.timer],
       pairs: [['15', '16', 'NC'], ['15', '18', 'NO'], ['25', '26', 'NC'], ['25', '28', 'NO']], act: null },
-    ol: { tag: 'F2', kind: 'ol', name: ['โอเวอร์โหลดรีเลย์ F2', 'overload relay F2'], coil: null,
+    ol: { tag: 'F3', kind: 'ol', name: ['โอเวอร์โหลดรีเลย์ F3', 'overload relay F3'], coil: null,
       pairs: [['1', '2', 'H'], ['3', '4', 'H'], ['5', '6', 'H'], ['95', '96', 'NC'], ['97', '98', 'NO']], act: ['กด TEST แล้ว (ตัด)', 'TEST pressed (tripped)'] } };
   const SAMPLES = [
     { id: 'km', dev: 'km', lab: ['คอนแทกเตอร์', 'contactor'] }, { id: 'ka', dev: 'ka', lab: ['รีเลย์แบบเสียบ', 'plug-in relay'] },
@@ -355,11 +355,11 @@ document.addEventListener('mc:ready', () => {
   /* C1: trace */
   const sC1 = new RL.Sim($('simC1'), COIL(), { max: 760, sheet: { no: 'MCP4-C1', title: ['วงจรทดสอบคอยล์', 'Coil-test circuit'] } });
   new MCP.Trace($('trC1'), sC1, [
-    { ask: ['S1 อยู่ที่ I: ไล่ทางเดินกระแสที่ทำให้คอยล์ KM1 มีไฟ', 'S1 at I: trace the path that energises coil KM1'], setup: [['set', 'S1', true]], load: 'KM1' },
-    { ask: ['S1 อยู่ที่ I: ไล่ทางเดินกระแสของหลอดเขียว H1', 'S1 at I: trace the path of green lamp H1'], setup: [['set', 'S1', true]], load: 'H1', hint: ['H1 รับไฟจากจุดก่อน 95–96 แล้วผ่านหน้าสัมผัสของ KM1 คู่ไหน', 'H1 is fed from ahead of 95–96: through which KM1 contact?'] },
+    { ask: ['S1 อยู่ที่ I: ไล่ทางเดินกระแสที่ทำให้คอยล์ K1 มีไฟ', 'S1 at I: trace the path that energises coil K1'], setup: [['set', 'S1', true]], load: 'K1' },
+    { ask: ['S1 อยู่ที่ I: ไล่ทางเดินกระแสของหลอดเขียว H1', 'S1 at I: trace the path of green lamp H1'], setup: [['set', 'S1', true]], load: 'H1', hint: ['H1 รับไฟจากจุดก่อน 95–96 แล้วผ่านหน้าสัมผัสของ K1 คู่ไหน', 'H1 is fed from ahead of 95–96: through which K1 contact?'] },
     { ask: ['S1 อยู่ที่ 0: ไล่ทางเดินกระแสของหลอดขาว H2', 'S1 at 0: trace the path of white lamp H2'], setup: [], load: 'H2' },
-    { ask: ['S1 อยู่ที่ I แต่ F2 ตัดแล้ว: หลอดดวงไหนติด ไล่ทางเดินกระแสของหลอดนั้น', 'S1 at I but F2 has tripped: which lamp is lit? Trace its path'], setup: [['set', 'S1', true], ['set', 'F2', true]], load: 'H2',
-      hint: ['F2 95–96 เปิด คอยล์ KM1 หลุด หน้าสัมผัสปกติปิด 21–22 จึงต่อกลับ', 'F2 95–96 is open, coil KM1 drops out, so the NC contact 21–22 closes again'] }]);
+    { ask: ['S1 อยู่ที่ I แต่ F3 ตัดแล้ว: หลอดดวงไหนติด ไล่ทางเดินกระแสของหลอดนั้น', 'S1 at I but F3 has tripped: which lamp is lit? Trace its path'], setup: [['set', 'S1', true], ['set', 'F3', true]], load: 'H2',
+      hint: ['F3 95–96 เปิด คอยล์ K1 หลุด หน้าสัมผัสปกติปิด 21–22 จึงต่อกลับ', 'F3 95–96 is open, coil K1 drops out, so the NC contact 21–22 closes again'] }]);
   /* C2: the trainer; its simulator is drawn below it with wire numbers, and stays dead until the wiring is correct and powered */
   const sC2 = new RL.Sim($('simC2'), COIL(), { max: 760, wireNos: true, sheet: { no: 'MCP4-C2', title: ['วงจรทดสอบคอยล์', 'Coil-test circuit'] } });
   const trn = new MCP.Trainer($('trnC2'), sC2, { demo: true, onChange: () => tC4.check() });
@@ -377,15 +377,15 @@ document.addEventListener('mc:ready', () => {
       const n = this.done.filter(Boolean).length;
       this.el.innerHTML = h + `</table><p class="simnote">${n === this.rows.length ? t('ครบทุกขั้น: วงจรทำงานตามแบบ ลงผลในใบงานแล้วตัดไฟ', 'All steps done: the circuit works as drawn. Write the results on your sheet and switch off') : t(`ผ่าน ${n}/${this.rows.length} ขั้น · ทำแถวที่ไฮไลต์อยู่บนแผงฝึก`, `${n}/${this.rows.length} steps passed · do the highlighted row on the trainer`)}</p>`; } }
   const tC4 = new AfterPower($('ttC4'), sC2, trn, [
-    { do: ['สับ Q1 (S1 อยู่ที่ 0)', 'switch Q1 on (S1 at 0)'], see: ['KM1 ไม่ดูด หลอดขาว H2 ติด', 'KM1 out, white lamp H2 lit'], ok: s => s.dev.Q1.on && !s.dev.S1.on && !on(s, 'KM1') && on(s, 'H2') },
-    { do: ['หมุน S1 ไปที่ I', 'turn S1 to I'], see: ['KM1 ดูด มอเตอร์หมุน H1 (เขียว) ติด H2 ดับ', 'KM1 pulls in, the motor runs, H1 (green) lit, H2 out'], ok: s => s.dev.S1.on && on(s, 'KM1') && s.running() && on(s, 'H1') && !on(s, 'H2') },
-    { do: ['ทำให้ F2 ตัด (แตะปุ่ม R บน F2 หนึ่งครั้ง)', 'trip F2 (tap the R button on F2 once)'], see: ['KM1 หลุด มอเตอร์หยุด H1 ดับ H2 ติด', 'KM1 drops out, the motor stops, H1 out, H2 lit'], ok: s => s.dev.F2.tripped && s.dev.S1.on && !on(s, 'KM1') && !on(s, 'H1') && on(s, 'H2') },
-    { do: ['รีเซ็ต F2 (แตะปุ่ม R อีกครั้ง) โดย S1 ยังอยู่ที่ I', 'reset F2 (tap R again) with S1 still at I'], see: ['KM1 ดูดเองทันที มอเตอร์หมุนอีก', 'KM1 pulls in again by itself and the motor runs'], ok: s => !s.dev.F2.tripped && s.dev.S1.on && on(s, 'KM1') && s.running() },
-    { do: ['หมุน S1 กลับไปที่ 0', 'turn S1 back to 0'], see: ['KM1 หลุด มอเตอร์หยุด H2 ติด', 'KM1 drops out, the motor stops, H2 lit'], ok: s => !s.dev.S1.on && !on(s, 'KM1') && on(s, 'H2') },
-    { do: ['ปลด Q1', 'switch Q1 off'], see: ['ทุกอย่างดับ', 'everything is off'], ok: s => !s.dev.Q1.on && !on(s, 'KM1') && !on(s, 'H1') && !on(s, 'H2') }]);
+    { do: ['สับ Q1 (S1 อยู่ที่ 0)', 'switch Q1 on (S1 at 0)'], see: ['K1 ไม่ดูด หลอดขาว H2 ติด', 'K1 out, white lamp H2 lit'], ok: s => s.dev.Q1.on && !s.dev.S1.on && !on(s, 'K1') && on(s, 'H2') },
+    { do: ['หมุน S1 ไปที่ I', 'turn S1 to I'], see: ['K1 ดูด มอเตอร์หมุน H1 (เขียว) ติด H2 ดับ', 'K1 pulls in, the motor runs, H1 (green) lit, H2 out'], ok: s => s.dev.S1.on && on(s, 'K1') && s.running() && on(s, 'H1') && !on(s, 'H2') },
+    { do: ['ทำให้ F3 ตัด (แตะปุ่ม R บน F3 หนึ่งครั้ง)', 'trip F3 (tap the R button on F3 once)'], see: ['K1 หลุด มอเตอร์หยุด H1 ดับ H2 ติด', 'K1 drops out, the motor stops, H1 out, H2 lit'], ok: s => s.dev.F3.tripped && s.dev.S1.on && !on(s, 'K1') && !on(s, 'H1') && on(s, 'H2') },
+    { do: ['รีเซ็ต F3 (แตะปุ่ม R อีกครั้ง) โดย S1 ยังอยู่ที่ I', 'reset F3 (tap R again) with S1 still at I'], see: ['K1 ดูดเองทันที มอเตอร์หมุนอีก', 'K1 pulls in again by itself and the motor runs'], ok: s => !s.dev.F3.tripped && s.dev.S1.on && on(s, 'K1') && s.running() },
+    { do: ['หมุน S1 กลับไปที่ 0', 'turn S1 back to 0'], see: ['K1 หลุด มอเตอร์หยุด H2 ติด', 'K1 drops out, the motor stops, H2 lit'], ok: s => !s.dev.S1.on && !on(s, 'K1') && on(s, 'H2') },
+    { do: ['ปลด Q1', 'switch Q1 off'], see: ['ทุกอย่างดับ', 'everything is off'], ok: s => !s.dev.Q1.on && !on(s, 'K1') && !on(s, 'H1') && !on(s, 'H2') }]);
   $('trnC2').addEventListener('click', () => setTimeout(() => tC4.check(), 0));
-  /* C3: continuity before power on a third simulator: the supply isolated and Q1 off; 'hand' = the contact carrier of KM1 pushed in by hand
-     (sim.act answers true for KM1 while the row is set up, so its NO contacts and main poles close and its NC contacts open) */
+  /* C3: continuity before power on a third simulator: the supply isolated and Q1 off; 'hand' = the contact carrier of K1 pushed in by hand
+     (sim.act answers true for K1 while the row is set up, so its NO contacts and main poles close and its NC contacts open) */
   const sC3 = new RL.Sim($('simC3'), COIL(), { max: 760, sheet: { no: 'MCP4-C3', title: ['วงจรทดสอบคอยล์', 'Coil-test circuit'] } });
   const pushHand = (sim, id) => { const a0 = RL.Sim.prototype.act; sim.hand = null; sim.act = function (d) { return this.hand === d ? true : a0.call(this, d); }; };
   pushHand(sC3);
@@ -414,19 +414,20 @@ document.addEventListener('mc:ready', () => {
       this.el.innerHTML = h + `</table><p class="simnote">${t(`วัดแล้ว ${n}/${this.rows.length} ขั้น ค่าที่มีโหลดเป็นค่าตัวอย่าง`, `${n}/${this.rows.length} steps measured; readings through loads are example values`)}</p>`; } }
   const mC3 = new MCP.Meter($('mC3'), sC3, { mode: 'R' });
   new BeforePower($('ttC3'), sC3, mC3, [
-    { st: ['S1 ที่ 0', 'S1 at 0'], a: 'F1:2', b: 'c:N', pa: '-F1:2', pb: 'N', why: ['ผ่านหลอด H2 (21–22 ต่อ)', 'through lamp H2 (21–22 closed)'] },
-    { st: ['S1 ที่ I', 'S1 at I'], set: [['set', 'S1', true]], a: 'F1:2', b: 'c:N', pa: '-F1:2', pb: 'N', why: ['คอยล์ KM1 ขนานกับ H2 ค่าจึงลดลง', 'coil KM1 in parallel with H2, so the reading falls'] },
-    { st: ['S1 ที่ I และกด TEST ของ F2', 'S1 at I, F2 TEST pressed'], set: [['set', 'S1', true], ['set', 'F2', true]], a: 'F1:2', b: 'c:N', pa: '-F1:2', pb: 'N', why: ['95–96 เปิด คอยล์หลุดออกจากทาง เหลือ H2', '95–96 open: the coil drops out of the path, H2 remains'] },
-    { st: ['ปกติ', 'as it is'], a: 'F1:1', b: 'F1:2', pa: '-F1:1', pb: '-F1:2', why: ['F1 สับอยู่ ต่อถึงกัน', 'F1 on: continuity'] },
-    { st: ['KM1 ปล่อย', 'KM1 at rest'], a: 'p:Q1:2', b: 'p:Q1:4', pa: '-Q1:2', pb: '-Q1:4', why: ['ระหว่างเฟสต้องไม่ต่อถึงกัน', 'no path between two phases'] },
-    { st: ['กดชุดหน้าสัมผัส KM1 ด้วยมือ', 'KM1 carrier pushed in by hand'], hand: 'KM1', a: 'p:Q1:2', b: 'p:Q1:4', pa: '-Q1:2', pb: '-Q1:4', why: ['ขดลวดมอเตอร์สองขดอนุกรม (สตาร์) ถ้าได้ 0 Ω แปลว่าลัดวงจร', 'two motor windings in series (star); 0 Ω here would be a short circuit'] },
+    { st: ['S1 ที่ 0', 'S1 at 0'], a: 'F2:2', b: 'c:N', pa: '-F2:2', pb: 'N', why: ['ผ่านหลอด H2 (21–22 ต่อ)', 'through lamp H2 (21–22 closed)'] },
+    { st: ['S1 ที่ I', 'S1 at I'], set: [['set', 'S1', true]], a: 'F2:2', b: 'c:N', pa: '-F2:2', pb: 'N', why: ['คอยล์ K1 ขนานกับ H2 ค่าจึงลดลง', 'coil K1 in parallel with H2, so the reading falls'] },
+    { st: ['S1 ที่ I และกด TEST ของ F3', 'S1 at I, F3 TEST pressed'], set: [['set', 'S1', true], ['set', 'F3', true]], a: 'F2:2', b: 'c:N', pa: '-F2:2', pb: 'N', why: ['95–96 เปิด คอยล์หลุดออกจากทาง เหลือ H2', '95–96 open: the coil drops out of the path, H2 remains'] },
+    { st: ['ปกติ', 'as it is'], a: 'F2:1', b: 'F2:2', pa: '-F2:1', pb: '-F2:2', why: ['F2 สับอยู่ ต่อถึงกัน', 'F2 on: continuity'] },
+    { st: ['K1 ปล่อย', 'K1 at rest'], a: 'p:Q1:2', b: 'p:Q1:4', pa: '-Q1:2', pb: '-Q1:4', why: ['ระหว่างเฟสต้องไม่ต่อถึงกัน', 'no path between two phases'] },
+    { st: ['กดชุดหน้าสัมผัส K1 ด้วยมือ', 'K1 carrier pushed in by hand'], hand: 'K1', a: 'p:Q1:2', b: 'p:Q1:4', pa: '-Q1:2', pb: '-Q1:4', why: ['ขดลวดมอเตอร์สองขดอนุกรม (สตาร์) ถ้าได้ 0 Ω แปลว่าลัดวงจร', 'two motor windings in series (star); 0 Ω here would be a short circuit'] },
     { st: ['ปกติ', 'as it is'], a: 'p:M1:U1', b: 'p:SUP:PE', pa: '-M1:U1', pb: 'PE', why: ['ขดลวดต้องไม่ต่อถึงโครงมอเตอร์ (การวัดฉนวนจริงใช้เครื่องวัดความต้านทานฉนวน ครูเป็นผู้วัด)', 'the winding must not reach the frame (a real insulation test uses an insulation tester; the teacher does it)'] }]);
 
   /* D: timer test circuit of chapter 4 (C4.ONDELAY / C4.OFFDELAY): timed NO 15–18 → H1 (green), timed NC 15–16 → H2 (white), with the
      simulator clock as the stopwatch. The drawing is rebuilt in a fresh child element whenever the kind or the time changes. */
   const TSPEC = (mode, T0) => { const s = mode === 'on' ? C4.ONDELAY(T0) : C4.OFFDELAY(T0); Object.assign(s.devices.H1, { color: '#7ee787', code: 'GN' }); Object.assign(s.devices.H2, { color: '#f2f2f2', code: 'WH' }); return s; };
   const dD = { mode: 'on', T: 3, clock: 0, t0: null, last: null }; let sD = null;
-  const kt = () => (dD.mode === 'on' ? 'KT1' : 'KT2');
+  const tid = s => Object.keys(s.devices).find(id => s.devices[id].type === 'timer'), KID = { on: tid(C4.ONDELAY()), off: tid(C4.OFFDELAY()) };   // the timer's name in each circuit (chapter 4: K1, K2)
+  const kt = () => KID[dD.mode];
   const logD = new ED.Log($('logD'), [['ชนิด', 'kind'], ['เวลาที่ตั้ง', 'set time'], ['จับเวลาได้', 'timed'], ['ผล', 'result']],
     { title: ['ผลการจับเวลา (บันทึกอัตโนมัติ)', 'Timing results (recorded automatically)'], empty: ['ยังไม่ได้จับเวลา สั่ง S1 แล้วรอให้หลอดเปลี่ยน', 'Not timed yet: operate S1 and wait for the lamps to change'] });
   const buildD = () => { const box = $('simD'); box.innerHTML = ''; const el = document.createElement('div'); box.appendChild(el);
@@ -439,7 +440,7 @@ document.addEventListener('mc:ready', () => {
       dD.last = { en, h1 }; });
     clD(); };
   const pD = $('pD'); ui.h2(pD, t('ชนิดของตัวตั้งเวลา', 'Kind of timer'));
-  ui.radio(pD, [{ id: 'on', label: t('หน่วงเมื่อป้อนไฟ KT1 (S1 สวิตช์ค้างตำแหน่ง)', 'on-delay KT1 (S1 maintained switch)'), on: true }, { id: 'off', label: t('หน่วงเมื่อตัดไฟ KT2 (S1 ปุ่มกด)', 'off-delay KT2 (S1 push button)') }], id => { dD.mode = id; buildD(); opsD(); });
+  ui.radio(pD, [{ id: 'on', label: t(`หน่วงเมื่อป้อนไฟ ${KID.on} (S1 สวิตช์ค้างตำแหน่ง)`, `on-delay ${KID.on} (S1 maintained switch)`), on: true }, { id: 'off', label: t(`หน่วงเมื่อตัดไฟ ${KID.off} (S1 ปุ่มกด)`, `off-delay ${KID.off} (S1 push button)`) }], id => { dD.mode = id; buildD(); opsD(); });
   ui.slider(pD, { id: 'tDset', label: t('เวลาที่ตั้ง', 'set time'), min: 1, max: 10, step: 1, value: 3, unit: 's', dec: 0, oninput: v => { dD.T = v; buildD(); } });
   const opD = document.createElement('div'); pD.appendChild(opD);
   const opsD = () => { opD.innerHTML = '';
@@ -465,10 +466,10 @@ document.addEventListener('mc:ready', () => {
   /* worked example 2: the overload setting */
   LS.choose($('ask2'), { options: [t('ตั้ง 1.1 A รีเซ็ตแบบ H', 'set 1.1 A, reset H'), t('ตั้ง 1.9 A รีเซ็ตแบบ A', 'set 1.9 A, reset A'), t('ตั้ง 1.6 A (สูงสุดของย่าน) รีเซ็ตแบบ H', 'set 1.6 A (top of the range), reset H')], answer: 0 });
   LS.stepper($('st2'), { steps: [
-    { why: t('ใช้กระแสพิกัดของการต่อที่ใช้จริง', 'Use the rated current of the connection actually used'), body: `<p>${t('มอเตอร์ต่อแบบสตาร์บนไฟ 400 V จึงใช้ตัวเลขคู่ 400 V Y คือ 1.1 A ส่วน 1.9 A เป็นกระแสเมื่อต่อแบบเดลตากับไฟ 230 V ตั้งปุ่มกระแสของ F2 ที่ 1.1 A ซึ่งอยู่ในย่าน 1.0–1.6 A', 'The motor is in star on 400 V, so the 400 V Y pair applies: 1.1 A. The 1.9 A is the current in delta on 230 V. Set the dial of F2 to 1.1 A, which lies within the 1.0–1.6 A range')}</p>` },
+    { why: t('ใช้กระแสพิกัดของการต่อที่ใช้จริง', 'Use the rated current of the connection actually used'), body: `<p>${t('มอเตอร์ต่อแบบสตาร์บนไฟ 400 V จึงใช้ตัวเลขคู่ 400 V Y คือ 1.1 A ส่วน 1.9 A เป็นกระแสเมื่อต่อแบบเดลตากับไฟ 230 V ตั้งปุ่มกระแสของ F3 ที่ 1.1 A ซึ่งอยู่ในย่าน 1.0–1.6 A', 'The motor is in star on 400 V, so the 400 V Y pair applies: 1.1 A. The 1.9 A is the current in delta on 230 V. Set the dial of F3 to 1.1 A, which lies within the 1.0–1.6 A range')}</p>` },
     { why: t('อย่าตั้งสูงกว่าเพื่อกันตัดบ่อย', 'Never set it higher to stop nuisance trips'), body: `<p>${t('ถ้าตั้งที่ 1.6 A มอเตอร์ที่ทำงานเกินพิกัดเกือบครึ่งจะร้อนจนฉนวนเสื่อมก่อนโอเวอร์โหลดตัด ถ้าโอเวอร์โหลดตัดบ่อย ให้หาสาเหตุ เช่น โหลดทางกลติดขัด แรงดันต่ำ หรือเฟสขาด ไม่ใช่หมุนปุ่มขึ้น', 'At 1.6 A a motor running almost half again over its rating would overheat its insulation before the relay trips. If it trips often, find the cause, e.g. a jammed mechanical load, low voltage or a lost phase; do not turn the dial up')}</p>` },
     { why: t('รีเซ็ตด้วยมือ (H)', 'Hand reset (H)'), body: `<p>${t('แบบ H ต้องมีคนกด RESET หลังโอเวอร์โหลดตัด จึงได้ดูสาเหตุก่อนเริ่มใหม่ แบบ A จะรีเซ็ตเองเมื่อแผ่นโลหะคู่เย็นลง ถ้าวงจรเป็นแบบ 2 สายอย่างวงจรทดสอบคอยล์ มอเตอร์จะหมุนเองเหมือนแถวที่ 4 ของตาราง C4 ในห้องปฏิบัติจึงตั้งเป็น H เสมอ', 'With H someone must press RESET after a trip, so the cause is looked at before the restart. With A the relay resets itself once the bimetals cool; in a two-wire circuit like the coil-test circuit the motor would then restart by itself, as in row 4 of table C4. In the lab, always set H')}</p>` },
-    { why: t('ทดสอบด้วยปุ่ม TEST', 'Test with the TEST button'), body: `<p>${t('ขณะไม่มีไฟ กด TEST แล้ววัดด้วยโอห์มมิเตอร์: 95–96 ต้องอ่านได้ OL และ 97–98 อ่านได้ 0.0 Ω กด RESET แล้วต้องกลับเป็น 0.0 Ω และ OL ตามเดิม (หัวข้อ B) เมื่อจ่ายไฟแล้วและครูอยู่ด้วย กด TEST ขณะมอเตอร์หมุน: KM1 ต้องหลุดและหลอดโอเวอร์โหลดต้องติด', 'With the circuit dead, press TEST and measure: 95–96 must read OL and 97–98 0.0 Ω; after RESET they must go back to 0.0 Ω and OL (section B). With power on and the teacher present, press TEST while the motor runs: KM1 must drop out and the overload lamp must light')}</p>` }],
+    { why: t('ทดสอบด้วยปุ่ม TEST', 'Test with the TEST button'), body: `<p>${t('ขณะไม่มีไฟ กด TEST แล้ววัดด้วยโอห์มมิเตอร์: 95–96 ต้องอ่านได้ OL และ 97–98 อ่านได้ 0.0 Ω กด RESET แล้วต้องกลับเป็น 0.0 Ω และ OL ตามเดิม (หัวข้อ B) เมื่อจ่ายไฟแล้วและครูอยู่ด้วย กด TEST ขณะมอเตอร์หมุน: K1 ต้องหลุดและหลอดโอเวอร์โหลดต้องติด', 'With the circuit dead, press TEST and measure: 95–96 must read OL and 97–98 0.0 Ω; after RESET they must go back to 0.0 Ω and OL (section B). With power on and the teacher present, press TEST while the motor runs: K1 must drop out and the overload lamp must light')}</p>` }],
     answer: t('(ก) 1.1 A (กระแสพิกัดเมื่อต่อสตาร์ที่ 400 V) (ข) รีเซ็ตแบบ H (ด้วยมือ) (ค) กด TEST แล้ววัด 95–96 กับ 97–98 ขณะไม่มีไฟ หรือกด TEST ขณะมอเตอร์หมุนต่อหน้าครู', '(a) 1.1 A (the rated current in star at 400 V); (b) reset H (hand); (c) press TEST and measure 95–96 and 97–98 with the circuit dead, or press TEST while the motor runs with the teacher present') });
 
   /* review questions */
@@ -481,10 +482,10 @@ document.addEventListener('mc:ready', () => {
       options: ['11–12', '11–14', '12–14', t('ไม่มีคู่ไหนเลย', 'none of them')], answer: 0, why: t('11 เป็นขั้วร่วม 12 เป็นปลายปกติปิด จึงต่อกับ 11 ขณะปล่อย ส่วน 12–14 อ่านได้ OL เสมอ', '11 is the common and 12 the NC end, so 11–12 is closed at rest; 12–14 always reads OL') },
     { q: t('4) ทำไมต้องวัดโอห์มเฉพาะเมื่อวงจรไม่มีไฟ', '4) Why measure ohms only on a dead circuit?'),
       options: [t('เพราะมิเตอร์ย่านโอห์มจ่ายกระแสของตัวเอง ถ้ามีไฟจะอ่านค่าผิดและอาจทำให้มิเตอร์เสียหรือเป็นอันตราย', 'because the ohms range drives its own small current: on a live circuit the reading is wrong and the meter may be damaged or dangerous'), t('เพราะตอนมีไฟหน้าสัมผัสจะไม่เปลี่ยน', 'because contacts do not change while live'), t('เพราะแบตเตอรี่ของมิเตอร์จะหมด', 'because the meter battery would run down'), t('ไม่จำเป็น วัดตอนมีไฟก็ได้', 'it is not needed; you may measure live')], answer: 0 },
-    { q: t(`5) ในวงจรทดสอบคอยล์ (ไม่มีไฟ) วัดจาก F1 ขั้ว 2 ถึง N ได้ ${vL} เมื่อ S1 อยู่ที่ 0 และได้ ${vP} เมื่อ S1 อยู่ที่ I เพราะอะไร`, `5) In the coil-test circuit (dead), F1 terminal 2 to N reads ${vL} with S1 at 0 and ${vP} with S1 at I. Why?`),
-      options: [t('S1 ต่อคอยล์ KM1 ขนานกับหลอด H2 ความต้านทานรวมจึงลดลง', 'S1 puts coil KM1 in parallel with lamp H2, so the total resistance falls'), t('F1 ขาด', 'F1 has blown'), t('หลอด H2 ขาด', 'lamp H2 is open'), t('มิเตอร์อ่านผิด', 'the meter is wrong')], answer: 0, why: t(`ค่าตัวอย่าง ${vC} ขนานกับ ${vL} ได้ประมาณ ${vP} การวัดคร่อมวงจรควบคุมแบบนี้บอกได้ว่ามีโหลดอะไรต่ออยู่ในแต่ละสภาพ`, `The example ${vC} in parallel with ${vL} gives about ${vP}. Measuring across the control circuit like this shows which loads are connected in each state`) },
-    { q: t('6) ในวงจรทดสอบคอยล์ F2 ตัดแล้วถูกรีเซ็ตขณะ S1 ยังอยู่ที่ I จะเกิดอะไรขึ้น', '6) In the coil-test circuit, F2 trips and is reset while S1 is still at I. What happens?'),
-      options: [t('KM1 ดูดเองทันที มอเตอร์หมุนอีก', 'KM1 pulls in again by itself and the motor runs'), t('KM1 ไม่ดูดจนกว่าจะกดปุ่มเริ่ม', 'KM1 stays out until a start button is pressed'), t('F1 ขาด', 'F1 blows'), t('H2 ติดค้าง', 'H2 stays lit')], answer: 0, why: t('S1 เป็นสวิตช์ค้างตำแหน่ง (วงจร 2 สาย) จึงป้อนคอยล์ต่อทันทีที่ 95–96 ต่อ สัปดาห์หน้าจะใช้ปุ่มกดกับหน้าสัมผัสค้างตัวเองแทน', 'S1 is a maintained switch (two-wire control), so it feeds the coil again as soon as 95–96 closes. Next week push buttons and a holding contact take its place') },
+    { q: t(`5) ในวงจรทดสอบคอยล์ (ไม่มีไฟ) วัดจาก F2 ขั้ว 2 ถึง N ได้ ${vL} เมื่อ S1 อยู่ที่ 0 และได้ ${vP} เมื่อ S1 อยู่ที่ I เพราะอะไร`, `5) In the coil-test circuit (dead), F2 terminal 2 to N reads ${vL} with S1 at 0 and ${vP} with S1 at I. Why?`),
+      options: [t('S1 ต่อคอยล์ K1 ขนานกับหลอด H2 ความต้านทานรวมจึงลดลง', 'S1 puts coil K1 in parallel with lamp H2, so the total resistance falls'), t('F2 ขาด', 'F2 has blown'), t('หลอด H2 ขาด', 'lamp H2 is open'), t('มิเตอร์อ่านผิด', 'the meter is wrong')], answer: 0, why: t(`ค่าตัวอย่าง ${vC} ขนานกับ ${vL} ได้ประมาณ ${vP} การวัดคร่อมวงจรควบคุมแบบนี้บอกได้ว่ามีโหลดอะไรต่ออยู่ในแต่ละสภาพ`, `The example ${vC} in parallel with ${vL} gives about ${vP}. Measuring across the control circuit like this shows which loads are connected in each state`) },
+    { q: t('6) ในวงจรทดสอบคอยล์ F3 ตัดแล้วถูกรีเซ็ตขณะ S1 ยังอยู่ที่ I จะเกิดอะไรขึ้น', '6) In the coil-test circuit, F3 trips and is reset while S1 is still at I. What happens?'),
+      options: [t('K1 ดูดเองทันที มอเตอร์หมุนอีก', 'K1 pulls in again by itself and the motor runs'), t('K1 ไม่ดูดจนกว่าจะกดปุ่มเริ่ม', 'K1 stays out until a start button is pressed'), t('F2 ขาด', 'F2 blows'), t('H2 ติดค้าง', 'H2 stays lit')], answer: 0, why: t('S1 เป็นสวิตช์ค้างตำแหน่ง (วงจร 2 สาย) จึงป้อนคอยล์ต่อทันทีที่ 95–96 ต่อ สัปดาห์หน้าจะใช้ปุ่มกดกับหน้าสัมผัสค้างตัวเองแทน', 'S1 is a maintained switch (two-wire control), so it feeds the coil again as soon as 95–96 closes. Next week push buttons and a holding contact take its place') },
     { q: t('7) มอเตอร์ป้ายพิกัด 400 V Y / 230 V Δ · 1.1 A / 1.9 A ต่อสตาร์กับไฟ 400 V ควรตั้งโอเวอร์โหลดที่เท่าไร', '7) A motor rated 400 V Y / 230 V Δ · 1.1 A / 1.9 A is connected in star to 400 V. What do you set the overload relay to?'),
       options: ['1.1 A', '1.9 A', '3.0 A', t('ค่าสูงสุดของย่าน', 'the top of its range')], answer: 0, why: t('ใช้กระแสพิกัดของการต่อที่ใช้จริง: สตาร์ที่ 400 V คือ 1.1 A', 'Use the rated current of the connection actually used: star at 400 V, 1.1 A') }], { id: 'mcp4' });
 

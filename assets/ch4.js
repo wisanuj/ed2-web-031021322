@@ -7,7 +7,9 @@
    3) C4.Overload   a thermal overload relay as a first-order heat model with trip classes 10A/10/20/30, current setting, motor load
                     scenarios, TEST and RESET (manual/automatic), contacts 95–96 / 97–98 and two lamps; C4.tripCurve draws time vs multiple
    4) circuits for the relay simulator: coil test with auxiliary contacts, auxiliary relay latch driving two contactors and a lamp,
-      on-delay and off-delay timers with lamps */
+      on-delay and off-delay timers with lamps. Names of the lecture slides (14 Nov 2026), per circuit: F1 power fuses, F2 control fuse,
+      F3 overload; contactors K1, K2 first, then relays and timers go on with the K numbers (relay K3 after K1 K2); the timer demos
+      without a contactor use K1 (on-delay) and K2 (off-delay). */
 (function (global) {
 'use strict';
 const C4 = {}, IE = global.IEC, T = (th, en) => MC.t(th, en), tt = p => ED.tt(p);
@@ -67,10 +69,10 @@ C4.Contactor = class {
     this.secEl.innerHTML = IE.svg(420, 350, s, { max: 440, label: 'contactor cut open' });
     /* IEC symbols, live */
     const red = c => (c ? ' stroke="#ff4d4d"' : '');
-    let k = IE.T('KM1', 40, 24, { anchor: 'middle', size: 12, weight: 700 });
+    let k = IE.T('K1', 40, 24, { anchor: 'middle', size: 12, it: true });
     k += `<g${red(live)}>${IE.coil(40, 40, 110, { live: this.t > 0.95 && live })}</g>` + IE.T('A1', 46, 52, { size: 9 }) + IE.T('A2', 46, 104, { size: 9 });
     [[96, '1', '2'], [130, '3', '4'], [164, '5', '6']].forEach(([x, a, b]) => { k += `<g${red(st.main)}>${IE.mainNO(x, 40, 110, { act: st.main })}</g>` + IE.T(a, x + 5, 52, { size: 9 }) + IE.T(b, x + 5, 104, { size: 9 }); });
-    k += IE.L(86, 75, 160, 75, { dash: '3 2' });
+    k += IE.link(96, 164, 75, st.main);
     k += `<g${red(st.no)}>${IE.contact(false, 206, 40, 110, { act: st.no })}</g>` + IE.T('13', 211, 52, { size: 9 }) + IE.T('14', 211, 104, { size: 9 });
     k += `<g${red(st.nc)}>${IE.contact(true, 250, 40, 110, { act: !st.nc })}</g>` + IE.T('21', 255, 52, { size: 9 }) + IE.T('22', 255, 104, { size: 9 });
     k += IE.T(T('คอยล์', 'coil'), 40, 128, { size: 10, anchor: 'middle', col: 'var(--muted)' }) + IE.T(T('หน้าสัมผัสหลัก', 'main contacts'), 130, 128, { size: 10, anchor: 'middle', col: 'var(--muted)' }) +
@@ -197,39 +199,39 @@ C4.tripCurve = (o = {}) => { const x0 = 56, x1 = 500, y0 = 30, y1 = 260, lx = v 
   return IE.svg(520, 300, s, { max: o.max || 620, label: 'overload trip curves' }); };
 
 /* ---------------- 4) circuits ---------------- */
-const POWER = { stages: [{ k: 'cb', d: 'Q1' }, { k: 'mainNO', d: 'KM1' }, { k: 'therm', d: 'F2' }], motor: 'M1' };
-/* coil test: switch S1 energises KM1 through overload contact F2 95–96; auxiliary NO 13–14 lights H1, auxiliary NC 21–22 lights H2 (lamps fed ahead of 95–96) */
-C4.COILTEST = () => ({ supply: 'Q1', rows: 4, power: POWER,
-  devices: { Q1: { type: 'cb', on: true }, F1: { type: 'fuse' }, F2: { type: 'ol' }, S1: { type: 'sel' }, KM1: { type: 'coil' }, H1: { type: 'lamp', color: '#7ee787' }, H2: { type: 'lamp', color: '#f2f2f2' } },
-  els: [ { k: 'fuse', d: 'F1', x: 0, y: 0, t: ['1', '2'] }, { k: 'NC', d: 'F2', x: 0, y: 1, t: ['95', '96'], op: 'thr' }, { k: 'NO', d: 'S1', x: 0, y: 2, t: ['13', '14'], op: 'sel' }, { k: 'coil', d: 'KM1', x: 0, y: 3, t: ['A1', 'A2'] },
-    { k: 'w', pts: [[0, 1], [1, 1], [2, 1]], dots: [0, 1] }, { k: 'w', x: 1, y: 1 }, { k: 'NO', d: 'KM1', x: 1, y: 2, t: ['13', '14'] }, { k: 'lamp', d: 'H1', x: 1, y: 3, t: ['X1', 'X2'] },
-    { k: 'w', x: 2, y: 1 }, { k: 'NC', d: 'KM1', x: 2, y: 2, t: ['21', '22'] }, { k: 'lamp', d: 'H2', x: 2, y: 3, t: ['X1', 'X2'] } ] });
-/* auxiliary relay KA1 latched by start S2 and stop S1 (holding contact 13–14); its other contacts drive KM1 (23–24), KM2 (33–34) and lamp H1 (43–44) */
+const POWER = { stages: [{ k: 'fuse', d: 'F1' }, { k: 'mainNO', d: 'K1' }, { k: 'therm', d: 'F3' }], motor: 'M1' };
+/* coil test: switch S1 energises K1 through overload contact F3 95–96; auxiliary NO 13–14 lights H1, auxiliary NC 21–22 lights H2 (lamps fed ahead of 95–96) */
+C4.COILTEST = () => ({ supply: 'F1', rows: 4, power: POWER,
+  devices: { F1: { type: 'fuse', name: ['F1 ฟิวส์วงจรกำลัง', 'F1 power fuses'] }, F2: { type: 'fuse', name: ['F2 ฟิวส์วงจรควบคุม', 'F2 control fuse'] }, F3: { type: 'ol' }, S1: { type: 'sel' }, K1: { type: 'coil' }, H1: { type: 'lamp', color: '#7ee787' }, H2: { type: 'lamp', color: '#f2f2f2' } },
+  els: [ { k: 'fuse', d: 'F2', x: 0, y: 0, t: ['1', '2'] }, { k: 'NC', d: 'F3', x: 0, y: 1, t: ['95', '96'], op: 'thr' }, { k: 'NO', d: 'S1', x: 0, y: 2, t: ['13', '14'], op: 'sel' }, { k: 'coil', d: 'K1', x: 0, y: 3, t: ['A1', 'A2'] },
+    { k: 'w', pts: [[0, 1], [1, 1], [2, 1]], dots: [0, 1] }, { k: 'w', x: 1, y: 1 }, { k: 'NO', d: 'K1', x: 1, y: 2, t: ['13', '14'] }, { k: 'lamp', d: 'H1', x: 1, y: 3, t: ['X1', 'X2'] },
+    { k: 'w', x: 2, y: 1 }, { k: 'NC', d: 'K1', x: 2, y: 2, t: ['21', '22'] }, { k: 'lamp', d: 'H2', x: 2, y: 3, t: ['X1', 'X2'] } ] });
+/* auxiliary relay K3 latched by start S2 and stop S1 (holding contact 13–14); its other contacts drive K1 (23–24), K2 (33–34) and lamp H1 (43–44) */
 C4.RELAY = () => ({ rows: 4,
-  devices: { F1: { type: 'fuse' }, S1: { type: 'pb' }, S2: { type: 'pb' }, KA1: { type: 'coil' }, KM1: { type: 'coil' }, KM2: { type: 'coil' }, H1: { type: 'lamp', color: '#7ee787' } },
-  els: [ { k: 'fuse', d: 'F1', x: 0, y: 0, t: ['1', '2'] }, { k: 'NC', d: 'S1', x: 0, y: 1, t: ['11', '12'], op: 'pb' }, { k: 'NO', d: 'S2', x: 0, y: 2, t: ['13', '14'], op: 'pb' },
-    { k: 'coil', d: 'KA1', x: 0, y: 3, t: ['A1', 'A2'] }, { k: 'NO', d: 'KA1', x: 1, y: 2, t: ['13', '14'] }, { k: 'w', pts: [[0, 2], [1, 2]], dots: [0] }, { k: 'w', pts: [[0, 3], [1, 3]], dots: [0] },
+  devices: { F2: { type: 'fuse' }, S1: { type: 'pb' }, S2: { type: 'pb' }, K3: { type: 'coil' }, K1: { type: 'coil' }, K2: { type: 'coil' }, H1: { type: 'lamp', color: '#7ee787' } },
+  els: [ { k: 'fuse', d: 'F2', x: 0, y: 0, t: ['1', '2'] }, { k: 'NC', d: 'S1', x: 0, y: 1, t: ['11', '12'], op: 'pb' }, { k: 'NO', d: 'S2', x: 0, y: 2, t: ['13', '14'], op: 'pb' },
+    { k: 'coil', d: 'K3', x: 0, y: 3, t: ['A1', 'A2'] }, { k: 'NO', d: 'K3', x: 1, y: 2, t: ['13', '14'] }, { k: 'w', pts: [[0, 2], [1, 2]], dots: [0] }, { k: 'w', pts: [[0, 3], [1, 3]], dots: [0] },
     { k: 'w', pts: [[0, 1], [2, 1], [3, 1], [4, 1]], dots: [0, 1, 2] }, { k: 'w', x: 2, y: 1 }, { k: 'w', x: 3, y: 1 }, { k: 'w', x: 4, y: 1 },
-    { k: 'NO', d: 'KA1', x: 2, y: 2, t: ['23', '24'] }, { k: 'coil', d: 'KM1', x: 2, y: 3, t: ['A1', 'A2'] },
-    { k: 'NO', d: 'KA1', x: 3, y: 2, t: ['33', '34'] }, { k: 'coil', d: 'KM2', x: 3, y: 3, t: ['A1', 'A2'] },
-    { k: 'NO', d: 'KA1', x: 4, y: 2, t: ['43', '44'] }, { k: 'lamp', d: 'H1', x: 4, y: 3, t: ['X1', 'X2'] } ] });
-/* on-delay timer KT1 switched by S1: timed changeover 15–18 (NO) lights H1, 15–16 (NC) lights H2 */
+    { k: 'NO', d: 'K3', x: 2, y: 2, t: ['23', '24'] }, { k: 'coil', d: 'K1', x: 2, y: 3, t: ['A1', 'A2'] },
+    { k: 'NO', d: 'K3', x: 3, y: 2, t: ['33', '34'] }, { k: 'coil', d: 'K2', x: 3, y: 3, t: ['A1', 'A2'] },
+    { k: 'NO', d: 'K3', x: 4, y: 2, t: ['43', '44'] }, { k: 'lamp', d: 'H1', x: 4, y: 3, t: ['X1', 'X2'] } ] });
+/* on-delay timer K1 switched by S1: timed changeover 15–18 (NO) lights H1, 15–16 (NC) lights H2 */
 C4.ONDELAY = (T0 = 3) => ({ rows: 3,
-  devices: { F1: { type: 'fuse' }, S1: { type: 'sel' }, KT1: { type: 'timer', mode: 'on', T: T0 }, H1: { type: 'lamp', color: '#7ee787' }, H2: { type: 'lamp', color: '#ff6b6b' } },
-  els: [ { k: 'fuse', d: 'F1', x: 0, y: 0, t: ['1', '2'] }, { k: 'w', pts: [[0, 1], [1, 1], [2, 1]], dots: [0, 1] }, { k: 'NO', d: 'S1', x: 0, y: 1, t: ['13', '14'], op: 'sel' }, { k: 'coil', d: 'KT1', x: 0, y: 2, t: ['A1', 'A2'] },
-    { k: 'NO', d: 'KT1', x: 1, y: 1, t: ['15', '18'], td: 'on' }, { k: 'lamp', d: 'H1', x: 1, y: 2, t: ['X1', 'X2'] },
-    { k: 'NC', d: 'KT1', x: 2, y: 1, t: ['15', '16'], td: 'on' }, { k: 'lamp', d: 'H2', x: 2, y: 2, t: ['X1', 'X2'] } ] });
-/* off-delay timer KT2 started by push button S1 (e.g. a stairway light or a fan running on): 15–18 stays closed T s after S1 is released */
+  devices: { F2: { type: 'fuse' }, S1: { type: 'sel' }, K1: { type: 'timer', mode: 'on', T: T0 }, H1: { type: 'lamp', color: '#7ee787' }, H2: { type: 'lamp', color: '#ff6b6b' } },
+  els: [ { k: 'fuse', d: 'F2', x: 0, y: 0, t: ['1', '2'] }, { k: 'w', pts: [[0, 1], [1, 1], [2, 1]], dots: [0, 1] }, { k: 'NO', d: 'S1', x: 0, y: 1, t: ['13', '14'], op: 'sel' }, { k: 'coil', d: 'K1', x: 0, y: 2, t: ['A1', 'A2'] },
+    { k: 'NO', d: 'K1', x: 1, y: 1, t: ['15', '18'], td: 'on' }, { k: 'lamp', d: 'H1', x: 1, y: 2, t: ['X1', 'X2'] },
+    { k: 'NC', d: 'K1', x: 2, y: 1, t: ['15', '16'], td: 'on' }, { k: 'lamp', d: 'H2', x: 2, y: 2, t: ['X1', 'X2'] } ] });
+/* off-delay timer K2 started by push button S1 (e.g. a stairway light or a fan running on): 15–18 stays closed T s after S1 is released */
 C4.OFFDELAY = (T0 = 5) => ({ rows: 3,
-  devices: { F1: { type: 'fuse' }, S1: { type: 'pb' }, KT2: { type: 'timer', mode: 'off', T: T0 }, H1: { type: 'lamp', color: '#ffd166' }, H2: { type: 'lamp', color: '#7ee787' } },
-  els: [ { k: 'fuse', d: 'F1', x: 0, y: 0, t: ['1', '2'] }, { k: 'w', pts: [[0, 1], [1, 1], [2, 1]], dots: [0, 1] }, { k: 'NO', d: 'S1', x: 0, y: 1, t: ['13', '14'], op: 'pb' }, { k: 'coil', d: 'KT2', x: 0, y: 2, t: ['A1', 'A2'] },
-    { k: 'NO', d: 'KT2', x: 1, y: 1, t: ['15', '18'], td: 'off' }, { k: 'lamp', d: 'H1', x: 1, y: 2, t: ['X1', 'X2'] },
-    { k: 'NC', d: 'KT2', x: 2, y: 1, t: ['15', '16'], td: 'off' }, { k: 'lamp', d: 'H2', x: 2, y: 2, t: ['X1', 'X2'] } ] });
+  devices: { F2: { type: 'fuse' }, S1: { type: 'pb' }, K2: { type: 'timer', mode: 'off', T: T0 }, H1: { type: 'lamp', color: '#ffd166' }, H2: { type: 'lamp', color: '#7ee787' } },
+  els: [ { k: 'fuse', d: 'F2', x: 0, y: 0, t: ['1', '2'] }, { k: 'w', pts: [[0, 1], [1, 1], [2, 1]], dots: [0, 1] }, { k: 'NO', d: 'S1', x: 0, y: 1, t: ['13', '14'], op: 'pb' }, { k: 'coil', d: 'K2', x: 0, y: 2, t: ['A1', 'A2'] },
+    { k: 'NO', d: 'K2', x: 1, y: 1, t: ['15', '18'], td: 'off' }, { k: 'lamp', d: 'H1', x: 1, y: 2, t: ['X1', 'X2'] },
+    { k: 'NC', d: 'K2', x: 2, y: 1, t: ['15', '16'], td: 'off' }, { k: 'lamp', d: 'H2', x: 2, y: 2, t: ['X1', 'X2'] } ] });
 /* on-delay timer with a timed contact (15–18 → H1) and an instantaneous contact (13–14 → H2): only the parachute contact waits */
 C4.INSTANT = (T0 = 3) => ({ rows: 3,
-  devices: { F1: { type: 'fuse' }, S1: { type: 'sel' }, KT1: { type: 'timer', mode: 'on', T: T0 }, H1: { type: 'lamp', color: '#7ee787' }, H2: { type: 'lamp', color: '#ffd166' } },
-  els: [ { k: 'fuse', d: 'F1', x: 0, y: 0, t: ['1', '2'] }, { k: 'w', pts: [[0, 1], [1, 1], [2, 1]], dots: [0, 1] }, { k: 'NO', d: 'S1', x: 0, y: 1, t: ['13', '14'], op: 'sel' }, { k: 'coil', d: 'KT1', x: 0, y: 2, t: ['A1', 'A2'] },
-    { k: 'NO', d: 'KT1', x: 1, y: 1, t: ['15', '18'], td: 'on' }, { k: 'lamp', d: 'H1', x: 1, y: 2, t: ['X1', 'X2'] },
-    { k: 'NO', d: 'KT1', x: 2, y: 1, t: ['13', '14'] }, { k: 'lamp', d: 'H2', x: 2, y: 2, t: ['X1', 'X2'] } ] });
+  devices: { F2: { type: 'fuse' }, S1: { type: 'sel' }, K1: { type: 'timer', mode: 'on', T: T0 }, H1: { type: 'lamp', color: '#7ee787' }, H2: { type: 'lamp', color: '#ffd166' } },
+  els: [ { k: 'fuse', d: 'F2', x: 0, y: 0, t: ['1', '2'] }, { k: 'w', pts: [[0, 1], [1, 1], [2, 1]], dots: [0, 1] }, { k: 'NO', d: 'S1', x: 0, y: 1, t: ['13', '14'], op: 'sel' }, { k: 'coil', d: 'K1', x: 0, y: 2, t: ['A1', 'A2'] },
+    { k: 'NO', d: 'K1', x: 1, y: 1, t: ['15', '18'], td: 'on' }, { k: 'lamp', d: 'H1', x: 1, y: 2, t: ['X1', 'X2'] },
+    { k: 'NO', d: 'K1', x: 2, y: 1, t: ['13', '14'] }, { k: 'lamp', d: 'H2', x: 2, y: 2, t: ['X1', 'X2'] } ] });
 global.C4 = C4;
 })(window);

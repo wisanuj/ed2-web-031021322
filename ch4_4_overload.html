@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=22"><link rel="stylesheet" href="assets/ed2.css?v=22">
-<script src="assets/stops.js?v=22"></script><script src="assets/shell.js?v=22"></script>
-<script src="assets/lesson.js?v=22"></script><script src="assets/draw.js?v=22"></script><script src="assets/ed.js?v=22"></script><script src="assets/sym.js?v=22"></script><script src="assets/iec.js?v=22"></script><script src="assets/relay.js?v=22"></script><script src="assets/panel.js?v=22"></script><script src="assets/ch2.js?v=22"></script><script src="assets/ch3.js?v=22"></script><script src="assets/ch4.js?v=22"></script><script src="assets/devdata.js?v=22"></script><script src="assets/dev.js?v=22"></script>
+<link rel="stylesheet" href="assets/ee.css?v=27"><link rel="stylesheet" href="assets/ed2.css?v=27">
+<script src="assets/stops.js?v=27"></script><script src="assets/shell.js?v=27"></script>
+<script src="assets/lesson.js?v=27"></script><script src="assets/draw.js?v=27"></script><script src="assets/ed.js?v=27"></script><script src="assets/sym.js?v=27"></script><script src="assets/iec.js?v=27"></script><script src="assets/relay.js?v=27"></script><script src="assets/panel.js?v=27"></script><script src="assets/ch2.js?v=27"></script><script src="assets/ch3.js?v=27"></script><script src="assets/ch4.js?v=27"></script><script src="assets/devdata.js?v=27"></script><script src="assets/dev.js?v=27"></script>
 </head>
 <body>
 <div class="wrap">
@@ -83,8 +83,8 @@
 <section class="prob" id="tB">
   <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">หลอดเตือนโอเวอร์โหลดด้วยหน้าสัมผัส 97–98</h2><h2 data-l="en">An overload warning lamp on contact 97–98</h2>
     <div class="src" data-l="th">วงจรเดียวกับหน้า 2.3 · EMC9 หน่วยที่ 3 รูป 3-31 · ใบงานที่ 4 ข้อ 3.5</div><div class="src" data-l="en">The circuit of page 2.3 · EMC9 unit 3, Fig. 3-31 · lab sheet 4, step 3.5</div></div></div>
-  <p class="lead" data-l="th">กด S2 ให้มอเตอร์เดิน (หลอดเขียว H1 ติด) แล้วแตะ F2 เพื่อจำลองว่าโอเวอร์โหลดตัด: 95–96 เปิด คอยล์ KM1 หลุด มอเตอร์หยุด 97–98 ต่อ หลอดสีเหลืองอำพัน H2 ติด แตะ F2 อีกครั้งเพื่อรีเซ็ต สังเกตว่ารีเซ็ตแล้วมอเตอร์ไม่เดินเอง ต้องกด S2 ใหม่ เพราะวงจรเป็นแบบ 3 สาย</p>
-  <p class="lead" data-l="en">Press S2 to run the motor (green H1 lit), then tap F2 to simulate an overload trip: 95–96 opens, coil KM1 drops out, the motor stops, 97–98 closes and amber H2 lights. Tap F2 again to reset. Note that the motor does not restart after the reset: S2 must be pressed again, because this is three-wire control.</p>
+  <p class="lead" data-l="th">กด S2 ให้มอเตอร์เดิน (หลอดเขียว H1 ติด) แล้วแตะ F3 เพื่อจำลองว่าโอเวอร์โหลดตัด: 95–96 เปิด คอยล์ K1 หลุด มอเตอร์หยุด 97–98 ต่อ หลอดสีเหลืองอำพัน H2 ติด แตะ F3 อีกครั้งเพื่อรีเซ็ต สังเกตว่ารีเซ็ตแล้วมอเตอร์ไม่เดินเอง ต้องกด S2 ใหม่ เพราะวงจรเป็นแบบ 3 สาย</p>
+  <p class="lead" data-l="en">Press S2 to run the motor (green H1 lit), then tap F3 to simulate an overload trip: 95–96 opens, coil K1 drops out, the motor stops, 97–98 closes and amber H2 lights. Tap F3 again to reset. Note that the motor does not restart after the reset: S2 must be pressed again, because this is three-wire control.</p>
   <div class="card sim" style="padding:8px"><div id="simB"></div></div>
   <div class="card solve" style="margin-top:12px"><div class="panel" id="pB" style="position:static;max-height:none"></div></div>
   <div class="story n2" style="margin-top:12px">
@@ -190,13 +190,13 @@ document.addEventListener('mc:ready', () => {
   $('classT').innerHTML = `<tr><th>${t('คลาส', 'class')}</th><th>${t('เวลาตัดที่ 7.2 เท่า (จากเย็น)', 'trip time at 7.2 × (from cold)')}</th><th>${t('ที่ 1.5 เท่า (จากร้อน)', 'at 1.5 × (from hot)')}</th><th>${t('ใช้กับ', 'used for')}</th></tr>` +
     [['10A', '2–10 s', t('ไม่เกิน 2 นาที', '≤ 2 min'), t('มอเตอร์เริ่มเดินเร็ว', 'quick-starting motors')], ['10', '4–10 s', t('ไม่เกิน 4 นาที', '≤ 4 min'), t('มอเตอร์ทั่วไป', 'ordinary motors')], ['20', '6–20 s', t('ไม่เกิน 8 นาที', '≤ 8 min'), t('เริ่มเดินนาน เช่น พัดลมใหญ่', 'long starts, e.g. big fans')], ['30', '9–30 s', t('ไม่เกิน 12 นาที', '≤ 12 min'), t('เริ่มเดินนานมาก เช่น เครื่องบด', 'very long starts, e.g. crushers')]].map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('');
   /* B: DOL with the overload lamp */
-  const sim = new RL.Sim($('simB'), C2.DOL(), { max: 900 }), pB = $('pB');
+  const sim = new RL.Sim($('simB'), C2.DOL({ h1: ['33', '34'] }), { max: 900 }), pB = $('pB');
   ui.h2(pB, t('สั่งงาน', 'Control'));
-  /* panel door: stop S1, start S2, run lamp H1 and overload lamp H2; the overload F2 stays a text button (it is inside the panel, not on the door) */
+  /* panel door: stop S1, start S2, run lamp H1 and overload lamp H2; the overload F3 stays a text button (it is inside the panel, not on the door) */
   PN.door(pB, sim, { names: { S1: ['S1 หยุด', 'S1 stop'], S2: ['S2 เริ่ม', 'S2 start'], H1: ['H1 เดิน', 'H1 running'], H2: ['H2 โอเวอร์โหลด', 'H2 overload'] } });
   const rowB = document.createElement('div'); rowB.className = 'toggles'; pB.appendChild(rowB);
-  const fb = document.createElement('button'); fb.type = 'button'; fb.className = 'btn on'; fb.textContent = t('F2 ตัด / รีเซ็ต', 'F2 trip / reset'); fb.addEventListener('click', () => sim.toggle('F2')); rowB.appendChild(fb);
-  const stB = ui.status(pB), showB = () => { const tr = sim.dev.F2.tripped; ui.setStatus(stB, tr ? t('โอเวอร์โหลดตัด', 'overload tripped') : sim.running() ? t('มอเตอร์เดิน', 'motor running') : t('มอเตอร์หยุด', 'motor stopped'), `H1 ${sim.dev.H1.energized ? t('ติด', 'lit') : t('ดับ', 'off')} · H2 ${sim.dev.H2.energized ? t('ติด', 'lit') : t('ดับ', 'off')}`, tr ? 'bad' : sim.running() ? 'ok' : 'warn'); };
+  const fb = document.createElement('button'); fb.type = 'button'; fb.className = 'btn on'; fb.textContent = t('F3 ตัด / รีเซ็ต', 'F3 trip / reset'); fb.addEventListener('click', () => sim.toggle('F3')); rowB.appendChild(fb);
+  const stB = ui.status(pB), showB = () => { const tr = sim.dev.F3.tripped; ui.setStatus(stB, tr ? t('โอเวอร์โหลดตัด', 'overload tripped') : sim.running() ? t('มอเตอร์เดิน', 'motor running') : t('มอเตอร์หยุด', 'motor stopped'), `H1 ${sim.dev.H1.energized ? t('ติด', 'lit') : t('ดับ', 'off')} · H2 ${sim.dev.H2.energized ? t('ติด', 'lit') : t('ดับ', 'off')}`, tr ? 'bad' : sim.running() ? 'ok' : 'warn'); };
   sim.on(showB); showB();
   /* worked example */
   LS.choose($('ask1'), { labels: ['①', '②', '③'], options: [t('(ก) 11 A (ข) ไม่ตัด มอเตอร์ร้อนเกิน (ค) 4–10 s', '(a) 11 A; (b) no trip, the motor overheats; (c) 4–10 s'), t('(ก) 13 A (ข) ตัด (ค) 2 นาที', '(a) 13 A; (b) it trips; (c) 2 min'), t('(ก) 14.3 A (130 %) (ข) ไม่ตัด (ค) 20 s', '(a) 14.3 A (130 %); (b) no trip; (c) 20 s')], answer: 0 });

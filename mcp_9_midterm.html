@@ -8,13 +8,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=22"><link rel="stylesheet" href="assets/ed2.css?v=22">
-<link rel="stylesheet" href="assets/wiring.css?v=22"><link rel="stylesheet" href="assets/mcp.css?v=22">
-<script src="assets/stops.js?v=22"></script><script src="assets/shell.js?v=22"></script>
-<script src="assets/lesson.js?v=22"></script><script src="assets/draw.js?v=22"></script><script src="assets/ed.js?v=22"></script><script src="assets/sym.js?v=22"></script><script src="assets/iec.js?v=22"></script><script src="assets/relay.js?v=22"></script><script src="assets/ch2.js?v=22"></script><script src="assets/ch3.js?v=22"></script><script src="assets/ch4.js?v=22"></script>
-<script src="assets/panel.js?v=22"></script><script src="assets/ch5.js?v=22"></script><script src="assets/ch6.js?v=22"></script><script src="assets/ch7.js?v=22"></script>
-<script src="assets/wiring.js?v=22"></script><script src="assets/devdata.js?v=22"></script><script src="assets/dev.js?v=22"></script>
-<script src="assets/mcp.js?v=22"></script>
+<link rel="stylesheet" href="assets/ee.css?v=27"><link rel="stylesheet" href="assets/ed2.css?v=27">
+<link rel="stylesheet" href="assets/wiring.css?v=27"><link rel="stylesheet" href="assets/mcp.css?v=27">
+<script src="assets/stops.js?v=27"></script><script src="assets/shell.js?v=27"></script>
+<script src="assets/lesson.js?v=27"></script><script src="assets/draw.js?v=27"></script><script src="assets/ed.js?v=27"></script><script src="assets/sym.js?v=27"></script><script src="assets/iec.js?v=27"></script><script src="assets/relay.js?v=27"></script><script src="assets/ch2.js?v=27"></script><script src="assets/ch3.js?v=27"></script><script src="assets/ch4.js?v=27"></script>
+<script src="assets/panel.js?v=27"></script><script src="assets/ch5.js?v=27"></script><script src="assets/ch6.js?v=27"></script><script src="assets/ch7.js?v=27"></script>
+<script src="assets/wiring.js?v=27"></script><script src="assets/devdata.js?v=27"></script><script src="assets/dev.js?v=27"></script>
+<script src="assets/mcp.js?v=27"></script>
 </head>
 <body>
 <div class="wrap">
@@ -109,7 +109,7 @@
     <div class="badbox" data-l="th"><b>ครูสั่งหยุดทันที คะแนนความปลอดภัยเป็น 0</b> และครูตัดสินว่าจะให้ทำต่อหลังแก้ให้ปลอดภัยแล้วหรือไม่ เมื่อ:
       <ol><li>สับไฟเอง (Q1 สวิตช์แยกวงจร หรือเสียบแหล่งจ่าย) ก่อนครูอนุญาต</li>
         <li>แตะ ต่อ หรือถอดสายขณะมีไฟ หรือวัดความต้านทานบนวงจรที่มีไฟ</li>
-        <li>ต่อข้ามหรือเปลี่ยนอุปกรณ์ป้องกัน เช่น ต่อข้าม F2 95–96 หรือใส่ฟิวส์ใหญ่กว่าที่แบบกำหนด</li>
+        <li>ต่อข้ามหรือเปลี่ยนอุปกรณ์ป้องกัน เช่น ต่อข้าม F3 95–96 หรือใส่ฟิวส์ใหญ่กว่าที่แบบกำหนด</li>
         <li>ปลดกุญแจล็อกของคนอื่น หรือทำงานโดยไม่ได้ล็อก</li>
         <li>กดคอนแทกเตอร์ด้วยมือหรือเครื่องมือขณะมีไฟ</li></ol>
       <p style="margin:6px 0 0">ถ้าครูไม่ให้ทำต่อ ส่วนนั้นจบ ครูให้คะแนนตามงานที่ทำได้จนถึงตอนที่หยุด</p></div>
@@ -122,7 +122,7 @@
     <div class="badbox" data-l="en"><b>The teacher stops the work at once, the safety marks become zero</b>, and the teacher decides whether you may go on once it has been made safe, on any of these:
       <ol><li>switching on yourself (Q1, the isolator or the supply plug) before the teacher's permission</li>
         <li>touching, connecting or removing a lead while live, or measuring resistance on a live circuit</li>
-        <li>bypassing or changing a protective device, such as bridging F2 95–96 or fitting a larger fuse than the drawing says</li>
+        <li>bypassing or changing a protective device, such as bridging F3 95–96 or fitting a larger fuse than the drawing says</li>
         <li>removing someone else's lock, or working without a lock</li>
         <li>pushing a contactor in by hand or with a tool while live</li></ol>
       <p style="margin:6px 0 0">If the teacher does not let you go on, that part ends and is marked as far as the work went when you were stopped.</p></div>
@@ -178,9 +178,9 @@
 
 <section class="prob" id="tD">
   <div class="prob-head"><span class="prob-no">D</span><div><h2 data-l="th">โจทย์ฝึก ส่วนที่ 1: ต่อวงจรจากแบบ</h2><h2 data-l="en">Practice task, part 1: wire a circuit from a drawing</h2>
-    <div class="src" data-l="th">โจทย์ฝึก ไม่ใช่ข้อสอบจริง · วงจรของหน้า 6.2</div><div class="src" data-l="en">practice task, not the real exam · circuit of page 6.2</div></div></div>
-  <div class="given" data-l="th"><div class="gl">โจทย์ฝึก</div><p>สายพานสองเส้นที่หยุดย้อนลำดับ (หน้า 6.2): M1 คือสายพานปลายทาง M2 คือสายพานต้นทาง M2 เริ่มได้เมื่อ M1 เดินแล้วเท่านั้น และขณะที่ M2 เดิน ปุ่ม S1 หยุด M1 ไม่ได้ เพราะ KM2 83–84 คร่อม S1 อยู่ ต้องหยุด M2 ด้วย S3 ก่อน (ก) กดเริ่มนาฬิกา แล้วต่อวงจรนี้บนแผงฝึกเสมือนข้างล่างจากแบบให้เสร็จภายใน 45 นาที (ข) เมื่อคิดว่าเสร็จ กดปุ่ม "จ่ายไฟ (หลังครูตรวจ)" ซึ่งทำหน้าที่แทนการตรวจของครู ทุกครั้งที่กดนับเป็นการตรวจหนึ่งครั้ง (ค) ทำตารางทดสอบหลังจ่ายไฟให้ครบทุกข้อ ในการสอบจริงต่อสายจริงจึงให้เวลา 90 นาที บนหน้าเว็บต่อได้เร็วกว่า จึงให้ 45 นาที</p></div>
-  <div class="given" data-l="en"><div class="gl">Practice task</div><p>Two conveyors with reverse-order stopping (page 6.2): M1 is the discharge belt and M2 the feed belt. M2 may start only once M1 is running, and while M2 runs, S1 cannot stop M1, because KM2 83–84 bridges S1: M2 must be stopped with S3 first. (a) Start the clock, then wire this circuit on the virtual trainer below from the drawing within 45 minutes. (b) When you think it is finished, press "power on (after the teacher's check)", which stands in for the teacher's check; every press counts as one check. (c) Complete every row of the after-power test table. In the real exam you wire real leads and get 90 minutes; tapping leads on the page is faster, so the practice allows 45.</p></div>
+    <div class="src" data-l="th">โจทย์ฝึก ไม่ใช่ข้อสอบจริง · วงจรของหน้า 8.2</div><div class="src" data-l="en">practice task, not the real exam · circuit of page 8.2</div></div></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์ฝึก</div><p>สายพานสองเส้นที่หยุดย้อนลำดับ (หน้า 8.2): M1 คือสายพานปลายทาง M2 คือสายพานต้นทาง M2 เริ่มได้เมื่อ M1 เดินแล้วเท่านั้น และขณะที่ M2 เดิน ปุ่ม S1 หยุด M1 ไม่ได้ เพราะ K2 83–84 คร่อม S1 อยู่ ต้องหยุด M2 ด้วย S3 ก่อน (ก) กดเริ่มนาฬิกา แล้วต่อวงจรนี้บนแผงฝึกเสมือนข้างล่างจากแบบให้เสร็จภายใน 45 นาที (ข) เมื่อคิดว่าเสร็จ กดปุ่ม "จ่ายไฟ (หลังครูตรวจ)" ซึ่งทำหน้าที่แทนการตรวจของครู ทุกครั้งที่กดนับเป็นการตรวจหนึ่งครั้ง (ค) ทำตารางทดสอบหลังจ่ายไฟให้ครบทุกข้อ ในการสอบจริงต่อสายจริงจึงให้เวลา 90 นาที บนหน้าเว็บต่อได้เร็วกว่า จึงให้ 45 นาที</p></div>
+  <div class="given" data-l="en"><div class="gl">Practice task</div><p>Two conveyors with reverse-order stopping (page 8.2): M1 is the discharge belt and M2 the feed belt. M2 may start only once M1 is running, and while M2 runs, S1 cannot stop M1, because K2 83–84 bridges S1: M2 must be stopped with S3 first. (a) Start the clock, then wire this circuit on the virtual trainer below from the drawing within 45 minutes. (b) When you think it is finished, press "power on (after the teacher's check)", which stands in for the teacher's check; every press counts as one check. (c) Complete every row of the after-power test table. In the real exam you wire real leads and get 90 minutes; tapping leads on the page is faster, so the practice allows 45.</p></div>
   <div class="card solve" style="margin-top:10px"><div id="clk1"></div></div>
   <div class="card sim rlwrap rlscroll mcp-wide" style="padding:8px;margin-top:10px"><div id="simP"></div></div>
   <div class="card" style="padding:8px;margin-top:10px"><div id="trnP"></div></div>
@@ -236,14 +236,14 @@
 
 <section class="notes" data-l="th">
   <div class="card"><h3>ลองทำดู</h3>
-    <ol><li>เขียนตารางทดสอบก่อนจ่ายไฟของวงจรโจทย์ฝึกเองอย่างน้อยห้าข้อ (จุดวางสายวัด ปุ่มที่กด และค่าที่ควรได้) แล้วเทียบกับตาราง D1 ของ<a href="mcp_7_sequence.html#tD">หน้าสัปดาห์ 7</a></li>
+    <ol><li>เขียนตารางทดสอบก่อนจ่ายไฟของวงจรโจทย์ฝึกเองอย่างน้อยห้าข้อ (จุดวางสายวัด ปุ่มที่กด และค่าที่ควรได้) แล้วเทียบกับตาราง D1 ของ<a href="mcp_10_sequence.html#tD">หน้าสัปดาห์ 7</a></li>
       <li>เขียนใบบันทึกการหาจุดผิดของการ์ดที่ 1 ในหัวข้อ E ให้ครบตามที่การสอบจริงต้องการ: อาการ การวัด จุดผิด วิธีแก้ และการทดสอบซ้ำ</li>
       <li>ทำโจทย์ฝึกซ้ำโดยใช้เวลาน้อยลงอีก 10 นาที ดูว่าตรงไหนเสียเวลามากที่สุด</li></ol>
     <div class="book">หน้าปฏิบัติสัปดาห์ 1–8 ของวิชานี้ · วิชาเขียนแบบไฟฟ้า 2 หน้า 5.5, 6.2, 6.4 และ 7.6 · IEC 60204-1 ส่วนที่ 18 (การตรวจสอบ) · เวลา กติกา และเกณฑ์ในหน้านี้ครูยืนยันอีกครั้งก่อนวันสอบ · แผงฝึกในหน้านี้เป็นแบบทั่วไปที่ออกแบบไว้สำหรับวิชานี้</div></div>
 </section>
 <section class="notes" data-l="en">
   <div class="card"><h3>Try this</h3>
-    <ol><li>Write your own before-power test table for the practice circuit with at least five rows (probe points, buttons held, expected reading), then compare it with table D1 of the <a href="mcp_7_sequence.html#tD">week 7 page</a>.</li>
+    <ol><li>Write your own before-power test table for the practice circuit with at least five rows (probe points, buttons held, expected reading), then compare it with table D1 of the <a href="mcp_10_sequence.html#tD">week 7 page</a>.</li>
       <li>Fill in a fault record for card 1 of section E as the real exam wants it: symptom, measurements, fault, repair and retest.</li>
       <li>Do the practice task again in 10 minutes less, and find where you lose the most time.</li></ol>
     <div class="book">The practice pages of weeks 1–8 of this course · Electrical Drawing II, pages 5.5, 6.2, 6.4 and 7.6 · IEC 60204-1, section 18 (verification) · The teacher confirms the times, rules and marking on this page before the exam day · The trainer on this page is a generic design made for this course</div></div>
@@ -332,10 +332,10 @@ document.addEventListener('mc:ready', () => {
       (ref.asg.notes.length ? `<p class="hint" style="margin:8px 0 0">${ref.asg.notes.map(n => esc(tt(n))).join(' · ')}</p>` : '') + `<p class="hint" style="margin:6px 0 0">${esc(tt(L.note))}</p>`; };
   const lit = (sim, ids) => { const on = ids.filter(id => sim.dev[id] && sim.dev[id].energized); return ` · ${t('หลอดที่ติด', 'lamps lit')}: ${on.length ? on.join(', ') : t('ไม่มี', 'none')}`; };
 
-  /* ---------- the practice circuit: C6.REV_STOP (page 6.2), two conveyors with reverse-order stop ---------- */
+  /* ---------- the practice circuit: C6.REV_STOP (page 8.2), two conveyors with reverse-order stop ---------- */
   const REV = () => C6.REV_STOP(), TITLE = ['โจทย์ฝึก: สายพานสองเส้น หยุดย้อนลำดับ', 'Practice task: two conveyors, reverse-order stop'];
   const OUTS = [['M1 และ M2 หยุด', 'M1 and M2 stopped'], ['M1 เดินตัวเดียว', 'only M1 runs'], ['M2 เดินตัวเดียว', 'only M2 runs'], ['M1 และ M2 เดิน', 'M1 and M2 run']];
-  const motors = s => (s.runningM('M1') ? 1 : 0) + (s.runningM('M2') ? 2 : 0), LAMPS = ['H1', 'H2', 'H4', 'H5'];
+  const motors = s => (s.runningM('M1') ? 1 : 0) + (s.runningM('M2') ? 2 : 0), LAMPS = ['H1', 'H2', 'H3', 'H4'];
   const mm = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
   /* a practice clock (setInterval, so it also runs without animation frames): start / pause, reset, time left, over time in red */
   const clock = (el, min) => { let t0 = null, acc = 0, iv = null; const st = document.createElement('div'); st.className = 'status'; const K = el.id || 'clk';   // K: button ids unique per clock
@@ -364,30 +364,30 @@ document.addEventListener('mc:ready', () => {
       { what: ['ทั้งสองหยุด กด S4 (เริ่ม M2) ก่อน', 'Both stopped: press S4 (start M2) first'], ops: [['tap', 'S4']] },
       { what: ['กด S2 (เริ่ม M1)', 'Press S2 (start M1)'], ops: [['tap', 'S2']] },
       { what: ['M1 เดินอยู่ กด S4', 'M1 running: press S4'], ops: both },
-      { what: ['ทั้งสองเดิน กด S1', 'Both running: press S1'], ops: [...both, ['tap', 'S1']], why: ['KM2 83–84 คร่อม S1 อยู่ ต้องหยุด M2 ก่อน', 'KM2 83–84 bridges S1: M2 must be stopped first'] },
+      { what: ['ทั้งสองเดิน กด S1', 'Both running: press S1'], ops: [...both, ['tap', 'S1']], why: ['K2 83–84 คร่อม S1 อยู่ ต้องหยุด M2 ก่อน', 'K2 83–84 bridges S1: M2 must be stopped first'] },
       { what: ['ทั้งสองเดิน กด S3 (หยุด M2)', 'Both running: press S3 (stop M2)'], ops: [...both, ['tap', 'S3']] },
       { what: ['ทั้งสองเดิน กด S3 แล้วกด S1', 'Both running: press S3, then S1'], ops: [...both, ['tap', 'S3'], ['tap', 'S1']] },
-      { what: ['ทั้งสองเดิน F22 ตัด', 'Both running: F22 trips'], ops: [...both, ['set', 'F22', true]] },
-      { what: ['ทั้งสองเดิน F21 ตัด', 'Both running: F21 trips'], ops: [...both, ['set', 'F21', true]], why: ['โอเวอร์โหลดของสายพานปลายทางต้องหยุดทุกเส้น ไม่เช่นนั้นของกอง', 'the discharge belt\'s overload must stop every belt, or material piles up'] },
+      { what: ['ทั้งสองเดิน F4 ตัด', 'Both running: F4 trips'], ops: [...both, ['set', 'F4', true]] },
+      { what: ['ทั้งสองเดิน F3 ตัด', 'Both running: F3 trips'], ops: [...both, ['set', 'F3', true]], why: ['โอเวอร์โหลดของสายพานปลายทางต้องหยุดทุกเส้น ไม่เช่นนั้นของกอง', 'the discharge belt\'s overload must stop every belt, or material piles up'] },
       { what: ['ทั้งสองเดิน ไฟดับแล้วกลับมา', 'Both running: the supply fails and comes back'], ops: [...both, ['mains', false], ['mains', true]] }],
-    points: [['M2 เริ่มได้หลัง M1 เท่านั้น', 'M2 starts only after M1'], ['ขณะ M2 เดิน S1 ไม่หยุด M1 ต้องหยุด M2 ด้วย S3 ก่อน', 'while M2 runs, S1 does not stop M1: stop M2 with S3 first'], ['F21 หยุดทั้งสองเส้น F22 หยุดเฉพาะ M2 ไฟกลับมาแล้วไม่มีอะไรเดินเอง', 'F21 stops both belts, F22 only M2, and nothing restarts after a power cut']] });
+    points: [['M2 เริ่มได้หลัง M1 เท่านั้น', 'M2 starts only after M1'], ['ขณะ M2 เดิน S1 ไม่หยุด M1 ต้องหยุด M2 ด้วย S3 ก่อน', 'while M2 runs, S1 does not stop M1: stop M2 with S3 first'], ['F3 หยุดทั้งสองเส้น F4 หยุดเฉพาะ M2 ไฟกลับมาแล้วไม่มีอะไรเดินเอง', 'F3 stops both belts, F4 only M2, and nothing restarts after a power cut']] });
 
   /* E: practice part 2: three fault cards (the first two share a symptom; the third needs the ohms range) */
   const clk2 = clock($('clk2'), 20);
   const sF = new RL.Sim($('simF'), REV(), { max: 980, sheet: { no: 'MCP9-P3', title: TITLE } });
   const mF = new MCP.Meter($('mF'), sF, { mode: 'V' });
   new MCP.FaultCards($('fcF'), mF, [
-    { title: ['M2 เริ่มไม่ได้ (การ์ด 1)', 'M2 does not start (card 1)'], fault: { k: 'open', t: 'KM1:83' }, setup: [['tap', 'S2']], max: 4,
-      symptom: ['M1 เดินปกติ H1 ติด กด S4 แล้ว KM2 ไม่ดูด H2 ไม่ติด', 'M1 runs normally with H1 lit; pressing S4 does not pull in KM2 and H2 stays dark'],
-      fix: ['เปลี่ยนชุดหน้าสัมผัสช่วยด้านหน้าของ KM1 (83–84 ไม่ต่อแม้ KM1 ดูด)', 'replace KM1\'s front auxiliary block (83–84 does not close although KM1 is in)'] },
-    { title: ['M2 เริ่มไม่ได้ (การ์ด 2)', 'M2 does not start (card 2)'], fault: { k: 'open', t: 'KM2:A1' }, setup: [['tap', 'S2']], max: 4,
-      symptom: ['อาการเหมือนการ์ด 1: M1 เดิน H1 ติด กด S4 แล้ว KM2 ไม่ดูด H2 ไม่ติด', 'The same symptom as card 1: M1 runs with H1 lit; S4 does not pull in KM2 and H2 stays dark'],
-      hint: ['กด S4 ค้างไว้ แล้ววัดที่ A1 และ A2 ของ KM2', 'hold S4 down and measure at A1 and A2 of KM2'],
+    { title: ['M2 เริ่มไม่ได้ (การ์ด 1)', 'M2 does not start (card 1)'], fault: { k: 'open', t: 'K1:83' }, setup: [['tap', 'S2']], max: 4,
+      symptom: ['M1 เดินปกติ H1 ติด กด S4 แล้ว K2 ไม่ดูด H2 ไม่ติด', 'M1 runs normally with H1 lit; pressing S4 does not pull in K2 and H2 stays dark'],
+      fix: ['เปลี่ยนชุดหน้าสัมผัสช่วยด้านหน้าของ K1 (83–84 ไม่ต่อแม้ K1 ดูด)', 'replace K1\'s front auxiliary block (83–84 does not close although K1 is in)'] },
+    { title: ['M2 เริ่มไม่ได้ (การ์ด 2)', 'M2 does not start (card 2)'], fault: { k: 'open', t: 'K2:A1' }, setup: [['tap', 'S2']], max: 4,
+      symptom: ['อาการเหมือนการ์ด 1: M1 เดิน H1 ติด กด S4 แล้ว K2 ไม่ดูด H2 ไม่ติด', 'The same symptom as card 1: M1 runs with H1 lit; S4 does not pull in K2 and H2 stays dark'],
+      hint: ['กด S4 ค้างไว้ แล้ววัดที่ A1 และ A2 ของ K2', 'hold S4 down and measure at A1 and A2 of K2'],
       fix: ['คอยล์ขาด: เปลี่ยนคอยล์หรือคอนแทกเตอร์ ยืนยันด้วยการวัดโอห์มเมื่อตัดไฟ (คอยล์ดีได้ค่าหลายร้อยโอห์ม คอยล์ขาดได้ OL คือเกินย่าน ไม่มีทางต่อถึงกัน)', 'open coil: replace the coil or the contactor, confirmed by an ohms test with the supply off (a good coil reads a few hundred ohms, an open one OL, over limit: no connection)'] },
     { title: ['M1 เดินเฉพาะตอนกด S2', 'M1 runs only while S2 is held'], fault: { k: 'wire', a: [0, 4], b: [2, 4] }, setup: [], max: 5,
       symptom: ['กด S2 ค้าง M1 เดิน ปล่อยแล้วหยุด จึงทดสอบ M2 ไม่ได้', 'M1 runs while S2 is held and stops when it is released, so M2 cannot be tested'],
-      hint: ['วัดแรงดันแล้วได้ค่าปกติทุกจุด ให้กดปุ่มแหล่งจ่ายของมิเตอร์เพื่อตัดไฟ ตั้งย่าน Ω แล้ววัดสายสองปลายของหน้าสัมผัสค้าง KM1 13–14', 'the voltage readings all look normal: switch the supply off with the meter\'s supply button, set Ω and check the leads at both ends of the holding contact KM1 13–14'],
-      fix: ['ต่อสายเลข 6 จาก KM1:14 ไปที่ S2:14 (และ KM1:A1) ให้ครบ', 'complete wire 6 from KM1:14 to S2:14 (and KM1:A1)'] }],
+      hint: ['วัดแรงดันแล้วได้ค่าปกติทุกจุด ให้กดปุ่มแหล่งจ่ายของมิเตอร์เพื่อตัดไฟ ตั้งย่าน Ω แล้ววัดสายสองปลายของหน้าสัมผัสค้าง K1 13–14', 'the voltage readings all look normal: switch the supply off with the meter\'s supply button, set Ω and check the leads at both ends of the holding contact K1 13–14'],
+      fix: ['ต่อสายเลข 6 จาก K1:14 ไปที่ S2:14 (และ K1:A1) ให้ครบ', 'complete wire 6 from K1:14 to S2:14 (and K1:A1)'] }],
     { onScore: (got, max) => { PR.faults = [got, max]; score(); } });
 
   /* F: the practice score from the items this page can check */
@@ -419,7 +419,7 @@ document.addEventListener('mc:ready', () => {
     { q: t('5) ได้กลิ่นไหม้ระหว่างทดสอบ จึงกดปุ่มหยุดฉุกเฉินเอง ผลต่อคะแนนคืออะไร', '5) You smell burning during the tests and press the emergency stop yourself. What does it do to your marks?'),
       options: [t('ไม่เสียคะแนน แล้วบอกครู', 'no points lost; then tell the teacher'), t('หักคะแนนความปลอดภัย', 'safety points are taken off'), t('คะแนนความปลอดภัยเป็น 0', 'the safety marks become zero'), t('ส่วนที่ 1 ได้ 0', 'part 1 scores 0')], answer: 0 },
     { q: t('6) ข้อใดทำให้ครูสั่งหยุดงานทันที', '6) Which act makes the teacher stop the work at once?'),
-      options: [t('ลืมติดป้ายเลขสายหนึ่งเส้น', 'forgetting the marker on one lead'), t('สายในรางสายไม่เรียบร้อย', 'untidy leads in the duct'), t('วางไขควงไว้บนแผงตอนครูจะจ่ายไฟ', 'leaving a screwdriver on the trainer as the teacher is about to switch on'), t('ต่อข้าม F2 95–96 เพื่อให้มอเตอร์เดิน', 'bridging F2 95–96 to make the motor run')], answer: 3,
+      options: [t('ลืมติดป้ายเลขสายหนึ่งเส้น', 'forgetting the marker on one lead'), t('สายในรางสายไม่เรียบร้อย', 'untidy leads in the duct'), t('วางไขควงไว้บนแผงตอนครูจะจ่ายไฟ', 'leaving a screwdriver on the trainer as the teacher is about to switch on'), t('ต่อข้าม F3 95–96 เพื่อให้มอเตอร์เดิน', 'bridging F3 95–96 to make the motor run')], answer: 3,
       why: t('ต่อข้ามอุปกรณ์ป้องกันอยู่ในกฎหยุด ข้ออื่นเสียคะแนนฝีมือหรือคะแนนความปลอดภัยแต่ไม่หยุดงาน', 'Bridging a protective device is in the stop rule; the others cost workmanship or safety points but do not stop the work.') }], { id: 'mcp9' });
 });
 </script>

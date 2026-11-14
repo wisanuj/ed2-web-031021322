@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=22"><link rel="stylesheet" href="assets/ed2.css?v=22">
-<script src="assets/stops.js?v=22"></script><script src="assets/shell.js?v=22"></script>
-<script src="assets/lesson.js?v=22"></script><script src="assets/draw.js?v=22"></script><script src="assets/ed.js?v=22"></script><script src="assets/sym.js?v=22"></script><script src="assets/iec.js?v=22"></script><script src="assets/relay.js?v=22"></script><script src="assets/panel.js?v=22"></script><script src="assets/ch2.js?v=22"></script>
+<link rel="stylesheet" href="assets/ee.css?v=27"><link rel="stylesheet" href="assets/ed2.css?v=27">
+<script src="assets/stops.js?v=27"></script><script src="assets/shell.js?v=27"></script>
+<script src="assets/lesson.js?v=27"></script><script src="assets/draw.js?v=27"></script><script src="assets/ed.js?v=27"></script><script src="assets/sym.js?v=27"></script><script src="assets/iec.js?v=27"></script><script src="assets/relay.js?v=27"></script><script src="assets/panel.js?v=27"></script><script src="assets/ch2.js?v=27"></script>
 </head>
 <body>
 <div class="wrap">
@@ -48,8 +48,8 @@
 <section class="prob" id="tA">
   <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">ทดลอง: ไฟดับแล้วกลับมา มอเตอร์ตัวไหนหมุนเอง</h2><h2 data-l="en">Trial: the power fails and returns — which motor restarts by itself?</h2>
     <div class="src" data-l="th">EMC9 หน่วยที่ 17–18 (วงจร 2 สายและ 3 สาย) และ 24 (low-voltage release) · UMC5 บทที่ 1, 7</div><div class="src" data-l="en">EMC9 units 17–18 (two-wire and three-wire) and 24 (low-voltage release) · UMC5 ch. 1, 7</div></div></div>
-  <p class="lead" data-l="th">เลือกวงจร ทำให้มอเตอร์หมุนด้วยปุ่มกดหรือสวิตช์บนประตูตู้ควบคุม (หลอด H1 ติดเมื่อมอเตอร์เดิน) แล้วกด <b>ไฟดับแล้วกลับมา</b> (ระบบจะปลด Q1 แล้วสับกลับให้เอง) ดูว่ามอเตอร์หมุนต่อเองหรือไม่ ผลแต่ละวงจรบันทึกลงตารางด้านล่าง</p>
-  <p class="lead" data-l="en">Choose a circuit, get the motor running with the push buttons or the switch on the panel door (lamp H1 glows while it runs), then press <b>Power fails and returns</b> (Q1 is opened and closed again for you). See whether the motor runs on by itself. Each result is recorded in the table below.</p>
+  <p class="lead" data-l="th">เลือกวงจร ทำให้มอเตอร์หมุนด้วยปุ่มกดหรือสวิตช์บนประตูตู้ควบคุม (หลอด H1 ติดเมื่อมอเตอร์เดิน) แล้วกด <b>ไฟดับแล้วกลับมา</b> (ระบบจะตัดไฟที่จ่ายเข้าวงจรแล้วจ่ายกลับให้เอง) ดูว่ามอเตอร์หมุนต่อเองหรือไม่ ผลแต่ละวงจรบันทึกลงตารางด้านล่าง</p>
+  <p class="lead" data-l="en">Choose a circuit, get the motor running with the push buttons or the switch on the panel door (lamp H1 glows while it runs), then press <b>Power fails and returns</b> (the supply is cut and restored for you). See whether the motor runs on by itself. Each result is recorded in the table below.</p>
   <div class="card solve"><div id="mode" class="toggles"></div></div>
   <div class="card sim rlwrap" id="simA" style="padding:8px;margin-top:12px"></div>
   <div class="card solve" style="margin-top:12px"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
@@ -87,7 +87,7 @@ document.addEventListener('mc:ready', () => {
   /* manual control drawing */
   let m = IE.T('L1', 50, 14, { size: 10, anchor: 'middle', weight: 700 }) + IE.T('L2', 72, 14, { size: 10, anchor: 'middle', weight: 700 }) + IE.T('L3', 94, 14, { size: 10, anchor: 'middle', weight: 700 });
   [50, 72, 94].forEach(x => { m += IE.L(x, 20, x, 40) + IE.cb(x, 40, 110) + IE.therm(x, 110, 150) + IE.L(x, 150, x, 180 + (x === 72 ? -3 : 0)); });
-  m += IE.L(36, 75, 116, 75, { dash: '3 2' }) + `<path d="M 116 69 L 122 69 L 122 81 L 128 81" fill="none"/>` + IE.T('Q1', 30, 100, { anchor: 'end', size: 12, weight: 700 }) + IE.motor(72, 204, 22) + IE.T('M1', 40, 208, { anchor: 'end', size: 12, weight: 700 });
+  m += IE.L(36, 75, 116, 75, { dash: '3 2' }) + `<path d="M 116 69 L 122 69 L 122 81 L 128 81" fill="none"/>` + IE.T('Q1', 30, 100, { anchor: 'end', size: 12, it: true }) + IE.motor(72, 204, 22) + IE.T('M1', 40, 208, { anchor: 'end', size: 12, it: true });
   $('man').innerHTML = IE.svg(170, 236, m, { max: 260, label: 'manual control' });
   /* trial */
   const MODES = { two: { name: ['วงจร 2 สาย (สวิตช์เลือก S3)', 'two-wire (selector S3)'], spec: () => C2.TWO(false), kind: ['กึ่งอัตโนมัติ 2 สาย', 'semi-automatic, two-wire'] },
@@ -107,10 +107,10 @@ document.addEventListener('mc:ready', () => {
     if (mode === 'auto') tog('S5', t('S5 ลูกลอย: น้ำต่ำ / น้ำเต็ม', 'S5 float: low / full'));
     const cut = document.createElement('button'); cut.type = 'button'; cut.className = 'btn on'; cut.textContent = t('⚡ ไฟดับแล้วกลับมา', '⚡ Power fails and returns'); row.appendChild(cut);
     const st = ui.status(pA);
-    const show = () => { const run = sim.running(); ui.setStatus(st, run ? t('มอเตอร์หมุน', 'motor running') : sim.dev.Q1.on ? t('มอเตอร์หยุด', 'motor stopped') : t('ไฟดับ', 'power off'), run ? '' : sim.dev.Q1.on ? (mode === 'three' ? t('กด S2 เพื่อเริ่ม', 'press S2 to start') : mode === 'two' ? t('เปิด S3', 'turn S3 on') : t('ทำให้น้ำต่ำ (S5 ต่อ)', 'make the level low (S5 closes)')) : t('รอไฟกลับ…', 'waiting for the power…'), run ? 'ok' : sim.dev.Q1.on ? 'wait' : 'bad'); };
+    const show = () => { const run = sim.running(); ui.setStatus(st, run ? t('มอเตอร์หมุน', 'motor running') : sim.mains !== false ? t('มอเตอร์หยุด', 'motor stopped') : t('ไฟดับ', 'power off'), run ? '' : sim.mains !== false ? (mode === 'three' ? t('กด S2 เพื่อเริ่ม', 'press S2 to start') : mode === 'two' ? t('เปิด S3', 'turn S3 on') : t('ทำให้น้ำต่ำ (S5 ต่อ)', 'make the level low (S5 closes)')) : t('รอไฟกลับ…', 'waiting for the power…'), run ? 'ok' : sim.mains !== false ? 'wait' : 'bad'); };
     sim.on(show); show();
-    cut.addEventListener('click', () => { if (busy) return; busy = true; const before = sim.running(); sim.toggle('Q1');
-      setTimeout(() => { sim.toggle('Q1'); busy = false; const after = sim.running();
+    cut.addEventListener('click', () => { if (busy) return; busy = true; const before = sim.running(); sim.setMains(false);   // the supply fails ahead of the power fuses F1 and comes back 1.5 s later
+      setTimeout(() => { sim.setMains(true); busy = false; const after = sim.running();
         log.add(mode + before, [ED.tt(MODES[mode].name), before ? t('หมุน', 'running') : t('หยุด', 'stopped'), after ? t('หมุนเอง', 'runs by itself') : t('หยุด รอคนกดเริ่ม', 'stopped, waits for start'),
           !before ? t('ไม่ได้หมุนก่อนไฟดับ ลองใหม่ขณะมอเตอร์หมุน', 'it was not running; try again while it runs') : after ? (mode === 'auto' ? t('ต้องการแบบนี้: ปั๊มกลับมาทำงานเอง', 'wanted: the pump resumes by itself') : t('อันตรายกับเครื่องจักรที่มีคน', 'dangerous on machines with people')) : t('ปลอดภัย: ป้องกันแรงดันหาย', 'safe: no-volt protection')],
           !before ? 'warn' : after ? (mode === 'auto' ? 'ok' : 'bad') : 'ok'); }, 1500); });

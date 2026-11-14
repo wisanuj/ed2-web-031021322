@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=22"><link rel="stylesheet" href="assets/ed2.css?v=22">
-<script src="assets/stops.js?v=22"></script><script src="assets/shell.js?v=22"></script>
-<script src="assets/lesson.js?v=22"></script><script src="assets/draw.js?v=22"></script><script src="assets/ed.js?v=22"></script><script src="assets/sym.js?v=22"></script><script src="assets/iec.js?v=22"></script><script src="assets/relay.js?v=22"></script><script src="assets/panel.js?v=22"></script><script src="assets/ch2.js?v=22"></script><script src="assets/ch3.js?v=22"></script><script src="assets/ch4.js?v=22"></script><script src="assets/devdata.js?v=22"></script><script src="assets/dev.js?v=22"></script>
+<link rel="stylesheet" href="assets/ee.css?v=27"><link rel="stylesheet" href="assets/ed2.css?v=27">
+<script src="assets/stops.js?v=27"></script><script src="assets/shell.js?v=27"></script>
+<script src="assets/lesson.js?v=27"></script><script src="assets/draw.js?v=27"></script><script src="assets/ed.js?v=27"></script><script src="assets/sym.js?v=27"></script><script src="assets/iec.js?v=27"></script><script src="assets/relay.js?v=27"></script><script src="assets/panel.js?v=27"></script><script src="assets/ch2.js?v=27"></script><script src="assets/ch3.js?v=27"></script><script src="assets/ch4.js?v=27"></script><script src="assets/devdata.js?v=27"></script><script src="assets/dev.js?v=27"></script>
 </head>
 <body>
 <div class="wrap">
@@ -23,12 +23,12 @@
 
 <section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
   <li><b>หน้าที่</b>: เพิ่มจำนวนหน้าสัมผัส ขยายสัญญาณเล็ก เช่น จากเซนเซอร์ หรือจากเอาต์พุตของพีแอลซี (ตัวควบคุมแบบโปรแกรมได้ programmable logic controller, PLC) ให้สั่งคอยล์คอนแทกเตอร์ได้ แยกวงจรต่างแรงดัน และค้างวงจรด้วยหน้าสัมผัสของตัวเอง</li>
-  <li><b>ชื่อในแบบ</b>: วิชานี้ใช้ KA1, KA2 … ตำราไทยใช้ K1A ตามแบบเดิมของมาตรฐานเยอรมัน DIN (Deutsches Institut für Normung สถาบันมาตรฐานของเยอรมนี) ส่วนมาตรฐานใหม่ของคณะกรรมาธิการไฟฟ้าระหว่างประเทศ (International Electrotechnical Commission, IEC) คือ IEC 81346-2 ใช้ KF · คอยล์ A1–A2 หน้าสัมผัสใช้เลขแบบหน้าสัมผัสช่วย 13–14, 21–22 …</li>
+  <li><b>ชื่อในแบบ</b>: วิชานี้ใช้ชื่อตามสไลด์ รีเลย์ช่วยใช้ตัวอักษร K เหมือนคอนแทกเตอร์ โดยเลขนับต่อจากคอนแทกเตอร์ในวงจรเดียวกัน เช่น วงจรในส่วน A มีคอนแทกเตอร์ K1 K2 รีเลย์จึงเป็น K3 (ตัวที่สองเป็น K4) ตู้ควบคุมในไทยหลายแห่งเขียน KA1, KA2 … ตำราไทยใช้ K1A ตามแบบเดิมของมาตรฐานเยอรมัน DIN (Deutsches Institut für Normung สถาบันมาตรฐานของเยอรมนี) ส่วนมาตรฐานใหม่ของคณะกรรมาธิการไฟฟ้าระหว่างประเทศ (International Electrotechnical Commission, IEC) คือ IEC 81346-2 ใช้ KF · คอยล์ A1–A2 หน้าสัมผัสใช้เลขแบบหน้าสัมผัสช่วย 13–14, 21–22 …</li>
   <li><b>รีเลย์แบบคอนแทกเตอร์</b> (contactor relay) มักมี 4 หน้าสัมผัส เช่น หน้าสัมผัสปกติเปิด (normally open, NO) 4 ตัว: 4 NO = 13–14, 23–24, 33–34, 43–44 หรือปกติเปิด 2 ตัวกับหน้าสัมผัสปกติปิด (normally closed, NC) 2 ตัว: 2 NO + 2 NC = 13–14, 21–22, 31–32, 43–44</li>
   <li><b>รีเลย์แบบเสียบ</b>: ฐาน 8 ขา: คอยล์ 2–7 หน้าสัมผัสเปลี่ยนทาง 1–4–3 และ 8–5–6 (ร่วม–ปกติปิด–ปกติเปิด) · ฐาน 11 ขา: คอยล์ 2–10 หน้าสัมผัส 1–4–3, 6–5–7, 11–8–9 · รีเลย์รุ่นใหม่พิมพ์เลขแบบ IEC: คอยล์ A1–A2 หน้าสัมผัส 11 (ร่วม) 12 (ปกติปิด) 14 (ปกติเปิด)</li></ul></section>
 <section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
   <li><b>Jobs</b>: add contacts, let a weak signal (a sensor or the output of a programmable logic controller, PLC) drive a contactor coil, separate circuits at different voltages, and hold a circuit with its own contact.</li>
-  <li><b>Name on drawings</b>: this course uses KA1, KA2 …; the Thai textbook uses K1A, the old style of the German standards institute (Deutsches Institut für Normung, DIN), and the new standard of the International Electrotechnical Commission (IEC), IEC 81346-2, uses KF. Coil A1–A2; contacts are numbered like auxiliary contacts, 13–14, 21–22 …</li>
+  <li><b>Name on drawings</b>: this course uses the names of the slides: a relay takes the letter K like a contactor, numbered on after the contactors of the same circuit, so with contactors K1 and K2 (section A) the relay is K3 (a second one K4). Many Thai panels write KA1, KA2 …; the Thai textbook uses K1A, the old style of the German standards institute (Deutsches Institut für Normung, DIN), and the new standard of the International Electrotechnical Commission (IEC), IEC 81346-2, uses KF. Coil A1–A2; contacts are numbered like auxiliary contacts, 13–14, 21–22 …</li>
   <li><b>Contactor relays</b> usually have four contacts, e.g. four normally open (NO) contacts, 4 NO = 13–14, 23–24, 33–34, 43–44, or two NO and two normally closed (NC) contacts, 2 NO + 2 NC = 13–14, 21–22, 31–32, 43–44.</li>
   <li><b>Plug-in relays</b>: 8-pin base: coil 2–7, changeovers 1–4–3 and 8–5–6 (common–NC–NO) · 11-pin base: coil 2–10, contacts 1–4–3, 6–5–7, 11–8–9 · newer relays print IEC numbers: coil A1–A2, contacts 11 (common), 12 (NC), 14 (NO).</li></ul></section>
 
@@ -59,8 +59,8 @@
 <section class="prob" id="tA">
   <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">รีเลย์ตัวเดียวสั่งคอนแทกเตอร์สองตัวกับหลอด</h2><h2 data-l="en">One relay driving two contactors and a lamp</h2>
     <div class="src" data-l="th">ใบงานที่ 4 ข้อ 3.4 · UMC5 บทที่ 5 (รีเลย์เพิ่มจำนวนหน้าสัมผัส)</div><div class="src" data-l="en">Lab sheet 4, step 3.4 · UMC5 ch. 5 (relays that multiply contacts)</div></div></div>
-  <p class="lead" data-l="th">กดปุ่มเริ่ม S2 แล้วปล่อย: คอยล์ KA1 มีไฟ หน้าสัมผัส 13–14 ของ KA1 ค้างวงจรไว้ หน้าสัมผัสอีกสามตัว 23–24, 33–34 และ 43–44 สั่งคอนแทกเตอร์ KM1, KM2 และหลอด H1 พร้อมกัน กดปุ่มหยุด S1 ทุกอย่างหยุด สังเกตตารางอ้างอิงใต้คอยล์ KA1 ซึ่งมีหน้าสัมผัสครบ 4 ตัว ทุกการกดจะบันทึกลงตาราง</p>
-  <p class="lead" data-l="en">Press start S2 and let go: coil KA1 is energised, KA1's contact 13–14 holds the circuit, and its other three contacts 23–24, 33–34 and 43–44 drive contactors KM1, KM2 and lamp H1 together. Press stop S1 and everything stops. Note the cross-reference under coil KA1, listing all four contacts. Every press is recorded below.</p>
+  <p class="lead" data-l="th">กดปุ่มเริ่ม S2 แล้วปล่อย: คอยล์ K3 มีไฟ หน้าสัมผัส 13–14 ของ K3 ค้างวงจรไว้ หน้าสัมผัสอีกสามตัว 23–24, 33–34 และ 43–44 สั่งคอนแทกเตอร์ K1, K2 และหลอด H1 พร้อมกัน กดปุ่มหยุด S1 ทุกอย่างหยุด สังเกตตารางอ้างอิงใต้คอยล์ K3 ซึ่งมีหน้าสัมผัสครบ 4 ตัว ทุกการกดจะบันทึกลงตาราง</p>
+  <p class="lead" data-l="en">Press start S2 and let go: coil K3 is energised, K3's contact 13–14 holds the circuit, and its other three contacts 23–24, 33–34 and 43–44 drive contactors K1, K2 and lamp H1 together. Press stop S1 and everything stops. Note the cross-reference under coil K3, listing all four contacts. Every press is recorded below.</p>
   <div class="card sim" style="padding:8px"><div id="simA"></div></div>
   <div class="card solve" style="margin-top:12px"><div class="panel" id="pA" style="position:static;max-height:none"></div></div>
   <div class="card" style="margin-top:12px"><div id="logA"></div><div id="sumA" style="margin-top:8px"></div></div>
@@ -87,8 +87,8 @@
 <section class="prob" id="ex1">
   <div class="prob-head"><span class="prob-no">1</span><div><h2 data-l="th">เลือกรีเลย์และเขียนเลขขั้ว</h2><h2 data-l="en">Choosing a relay and writing its numbers</h2>
     <div class="src" data-l="th">โจทย์ตัวอย่าง</div><div class="src" data-l="en">Worked example</div></div></div>
-  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>เซนเซอร์ตรวจชิ้นงานให้หน้าสัมผัสเล็กมาก (ทนกระแสได้น้อย) แต่ต้องสั่งงาน 3 อย่าง: คอนแทกเตอร์สายพาน KM1 หลอดเขียว H1 และต้องตัดหลอดแดง H2 ขณะมีชิ้นงาน (ก) ทำไมจึงไม่ต่อหน้าสัมผัสของเซนเซอร์เข้าคอยล์ KM1 โดยตรง (ข) ใช้รีเลย์ KA1 แบบคอนแทกเตอร์ 4 หน้าสัมผัส ต้องใช้หน้าสัมผัสปกติเปิดกี่ตัวและปกติปิดกี่ตัว (ค) เขียนเลขขั้วของหน้าสัมผัสที่ใช้</p></div>
-  <div class="given" data-l="en"><div class="gl">Problem</div><p>A part-detection sensor has a very small contact (it can carry little current), but it must do three things: drive conveyor contactor KM1, light green lamp H1, and switch red lamp H2 off while a part is present. (a) Why not wire the sensor contact straight to coil KM1? (b) With a four-contact contactor relay KA1, how many NO and NC contacts are needed? (c) Write the terminal numbers of the contacts used.</p></div>
+  <div class="given" data-l="th"><div class="gl">โจทย์</div><p>เซนเซอร์ตรวจชิ้นงานให้หน้าสัมผัสเล็กมาก (ทนกระแสได้น้อย) แต่ต้องสั่งงาน 3 อย่าง: คอนแทกเตอร์สายพาน K1 หลอดเขียว H1 และต้องตัดหลอดแดง H2 ขณะมีชิ้นงาน (ก) ทำไมจึงไม่ต่อหน้าสัมผัสของเซนเซอร์เข้าคอยล์ K1 โดยตรง (ข) ใช้รีเลย์ K2 แบบคอนแทกเตอร์ 4 หน้าสัมผัส ต้องใช้หน้าสัมผัสปกติเปิดกี่ตัวและปกติปิดกี่ตัว (ค) เขียนเลขขั้วของหน้าสัมผัสที่ใช้</p></div>
+  <div class="given" data-l="en"><div class="gl">Problem</div><p>A part-detection sensor has a very small contact (it can carry little current), but it must do three things: drive conveyor contactor K1, light green lamp H1, and switch red lamp H2 off while a part is present. (a) Why not wire the sensor contact straight to coil K1? (b) With a four-contact contactor relay K2, how many NO and NC contacts are needed? (c) Write the terminal numbers of the contacts used.</p></div>
   <div class="card solve"><div id="ask1"></div><div id="st1"></div></div>
 </section>
 
@@ -123,7 +123,7 @@ document.addEventListener('mc:ready', () => {
   DEV.mount($('devs'), ['ka']);
   /* A: one relay, many jobs */
   const sim = new RL.Sim($('simA'), C4.RELAY(), { max: 760 }), pA = $('pA');
-  const log = new ED.Log($('logA'), [['การกด', 'action'], ['KA1', 'KA1'], ['KM1', 'KM1'], ['KM2', 'KM2'], ['H1', 'H1']]);
+  const log = new ED.Log($('logA'), [['การกด', 'action'], ['K3', 'K3'], ['K1', 'K1'], ['K2', 'K2'], ['H1', 'H1']]);
   const on = v => v ? `<span class="rk-ok">${t('มีไฟ', 'on')}</span>` : t('ไม่มีไฟ', 'off');
   ui.h2(pA, t('สั่งงาน (กดค้าง)', 'Control (hold)'));
   /* panel door: stop S1, start S2 and lamp H1; the text button below holds both buttons at once */
@@ -137,12 +137,12 @@ document.addEventListener('mc:ready', () => {
   const prevP = { S1: false, S2: false };
   sim.on(s => { const d = s.dev; ['S1', 'S2'].forEach(id => { const p = d[id].pressed; if (p === prevP[id]) return; prevP[id] = p;
     const both = d.S1.pressed && d.S2.pressed, what = both ? t('กด S2 กับ S1 พร้อมกัน', 'S2 and S1 held together') : p ? t(`กด ${id}`, `${id} pressed`) : t(`ปล่อย ${id}`, `${id} released`);
-    log.add(`${both ? 'both' : id + (p ? '+' : '-')}|${d.KA1.energized ? 1 : 0}`, [what, on(d.KA1.energized), on(d.KM1.energized), on(d.KM2.energized), on(d.H1.energized)], d.KA1.energized ? 'ok' : 'warn'); }); });
-  const st = ui.status(pA), show = () => { const e = sim.dev.KA1.energized; ui.setStatus(st, e ? t('KA1 ดูด', 'KA1 closed') : t('KA1 ปล่อย', 'KA1 open'), e ? t('13–14 ค้างวงจร · 23–24 → KM1 · 33–34 → KM2 · 43–44 → H1', '13–14 holds · 23–24 → KM1 · 33–34 → KM2 · 43–44 → H1') : t('กด S2 เพื่อเริ่ม', 'press S2 to start'), e ? 'ok' : 'warn'); };
+    log.add(`${both ? 'both' : id + (p ? '+' : '-')}|${d.K3.energized ? 1 : 0}`, [what, on(d.K3.energized), on(d.K1.energized), on(d.K2.energized), on(d.H1.energized)], d.K3.energized ? 'ok' : 'warn'); }); });
+  const st = ui.status(pA), show = () => { const e = sim.dev.K3.energized; ui.setStatus(st, e ? t('K3 ดูด', 'K3 closed') : t('K3 ปล่อย', 'K3 open'), e ? t('13–14 ค้างวงจร · 23–24 → K1 · 33–34 → K2 · 43–44 → H1', '13–14 holds · 23–24 → K1 · 33–34 → K2 · 43–44 → H1') : t('กด S2 เพื่อเริ่ม', 'press S2 to start'), e ? 'ok' : 'warn'); };
   sim.on(show); show();
-  ED.summary($('sumA'), { head: [['การกด', 'action'], ['KA1', 'KA1'], ['KM1, KM2, H1', 'KM1, KM2, H1'], ['เพราะ', 'because']],
+  ED.summary($('sumA'), { head: [['การกด', 'action'], ['K3', 'K3'], ['K1, K2, H1', 'K1, K2, H1'], ['เพราะ', 'because']],
     rows: () => [[t('กด S2 แล้วปล่อย', 'press and release S2'), t('มีไฟค้าง', 'stays on'), t('มีไฟทั้งหมด', 'all on'), t('13–14 ค้างวงจรแทน S2', '13–14 holds the circuit in place of S2')],
-      [t('กด S1', 'press S1'), t('ไม่มีไฟ', 'off'), t('ไม่มีไฟทั้งหมด', 'all off'), t('S1 ตัดทางเดินกระแสของคอยล์ หน้าสัมผัสทุกตัวของ KA1 กลับสภาวะปกติ', 'S1 breaks the coil path, so every KA1 contact returns to normal')],
+      [t('กด S1', 'press S1'), t('ไม่มีไฟ', 'off'), t('ไม่มีไฟทั้งหมด', 'all off'), t('S1 ตัดทางเดินกระแสของคอยล์ หน้าสัมผัสทุกตัวของ K3 กลับสภาวะปกติ', 'S1 breaks the coil path, so every K3 contact returns to normal')],
       [t('กด S2 กับ S1 พร้อมกัน', 'S2 and S1 together'), t('ไม่มีไฟ', 'off'), t('ไม่มีไฟทั้งหมด', 'all off'), t('S1 อยู่ก่อนกลุ่มปุ่มเริ่ม ปุ่มหยุดจึงชนะเสมอ', 'S1 comes before the start group, so stop always wins')]],
     points: [['หน้าสัมผัสค้างตัวเองของรีเลย์ทำงานแบบเดียวกับของคอนแทกเตอร์ในวงจร 3 สาย (หน้า 2.4)', 'The relay\'s holding contact works just like a contactor\'s in three-wire control (page 2.4).'],
       ['รีเลย์ 4 หน้าสัมผัสตัวเดียวทำได้ 4 อย่างพร้อมกัน ถ้าต้องการมากกว่านั้นใช้รีเลย์ตัวที่สองที่สั่งจากรีเลย์ตัวแรก หรือเสียบชุดหน้าสัมผัสเสริม', 'One four-contact relay does four jobs at once; for more, add a second relay driven by the first, or an add-on contact block.'],
@@ -158,17 +158,17 @@ document.addEventListener('mc:ready', () => {
   /* worked example */
   LS.choose($('ask1'), { labels: ['①', '②', '③'], options: [t('(ข) 2 NO + 1 NC (ค) 13–14, 23–24, 31–32', '(b) 2 NO + 1 NC; (c) 13–14, 23–24, 31–32'), t('(ข) 3 NC (ค) 11–12, 21–22, 31–32', '(b) 3 NC; (c) 11–12, 21–22, 31–32'), t('(ข) 1 NO (ค) 13–14', '(b) 1 NO; (c) 13–14')], answer: 0 });
   LS.stepper($('st1'), { steps: [
-    { why: t('หน้าสัมผัสของเซนเซอร์ทนกระแสน้อย', 'The sensor contact carries little current'), body: `<p>${t('คอยล์คอนแทกเตอร์ไฟสลับกินกระแสเริ่มดูดสูงหลายเท่า (หน้า 4.1) หน้าสัมผัสเล็กจะไหม้หรือติดกัน จึงให้เซนเซอร์สั่งคอยล์รีเลย์ KA1 ซึ่งกินกระแสน้อย แล้วให้หน้าสัมผัสของรีเลย์สั่งงานแทน', 'an AC contactor coil draws a high inrush current (page 4.1) that would burn or weld the small contact, so the sensor drives the low-current coil of relay KA1, and the relay contacts do the work')}</p>` },
-    { why: t('นับงานที่ต้องสั่ง', 'Count the jobs'), body: `<p>${t('KM1 ต้องมีไฟเมื่อมีชิ้นงาน = ปกติเปิด · H1 ติดเมื่อมีชิ้นงาน = ปกติเปิด · H2 ดับเมื่อมีชิ้นงาน = <b>ปกติปิด</b> รวม 2 NO + 1 NC (เหลือหน้าสัมผัสว่าง 1 ตัว)', 'KM1 on with a part = NO · H1 lit with a part = NO · H2 off with a part = <b>NC</b>: 2 NO + 1 NC in all (one contact spare)')}</p>` },
-    { why: t('เลขขั้ว', 'Terminal numbers'), body: `<p>${t('ใช้ลำดับของรีเลย์: <b>13–14</b> → KM1, <b>23–24</b> → H1, <b>31–32</b> → H2 (เลขจริงขึ้นกับรุ่นของรีเลย์ ดูที่พิมพ์บนตัว)', 'in the relay\'s order: <b>13–14</b> → KM1, <b>23–24</b> → H1, <b>31–32</b> → H2 (the real numbers depend on the relay model; read them on the case)')}</p>` }],
+    { why: t('หน้าสัมผัสของเซนเซอร์ทนกระแสน้อย', 'The sensor contact carries little current'), body: `<p>${t('คอยล์คอนแทกเตอร์ไฟสลับกินกระแสเริ่มดูดสูงหลายเท่า (หน้า 4.1) หน้าสัมผัสเล็กจะไหม้หรือติดกัน จึงให้เซนเซอร์สั่งคอยล์รีเลย์ K2 ซึ่งกินกระแสน้อย แล้วให้หน้าสัมผัสของรีเลย์สั่งงานแทน', 'an AC contactor coil draws a high inrush current (page 4.1) that would burn or weld the small contact, so the sensor drives the low-current coil of relay K2, and the relay contacts do the work')}</p>` },
+    { why: t('นับงานที่ต้องสั่ง', 'Count the jobs'), body: `<p>${t('K1 ต้องมีไฟเมื่อมีชิ้นงาน = ปกติเปิด · H1 ติดเมื่อมีชิ้นงาน = ปกติเปิด · H2 ดับเมื่อมีชิ้นงาน = <b>ปกติปิด</b> รวม 2 NO + 1 NC (เหลือหน้าสัมผัสว่าง 1 ตัว)', 'K1 on with a part = NO · H1 lit with a part = NO · H2 off with a part = <b>NC</b>: 2 NO + 1 NC in all (one contact spare)')}</p>` },
+    { why: t('เลขขั้ว', 'Terminal numbers'), body: `<p>${t('ใช้ลำดับของรีเลย์: <b>13–14</b> → K1, <b>23–24</b> → H1, <b>31–32</b> → H2 (เลขจริงขึ้นกับรุ่นของรีเลย์ ดูที่พิมพ์บนตัว)', 'in the relay\'s order: <b>13–14</b> → K1, <b>23–24</b> → H1, <b>31–32</b> → H2 (the real numbers depend on the relay model; read them on the case)')}</p>` }],
     answer: t('(ก) กระแสคอยล์สูงเกินหน้าสัมผัสเซนเซอร์ (ข) 2 NO + 1 NC (ค) 13–14, 23–24, 31–32', '(a) the coil current is too high for the sensor contact; (b) 2 NO + 1 NC; (c) 13–14, 23–24, 31–32') });
   ED.mcq('mcq', [
     { q: t('1) รีเลย์ช่วยต่างจากคอนแทกเตอร์อย่างไร', '1) How does an auxiliary relay differ from a contactor?'), options: [t('มีแต่หน้าสัมผัสขนาดเล็กสำหรับวงจรควบคุม', 'it has only small contacts for control circuits'), t('ไม่มีคอยล์', 'it has no coil'), t('ใช้ตัดไฟเข้ามอเตอร์โดยตรง', 'it switches the motor supply directly')], answer: 0 },
-    { q: t('2) วิชานี้ตั้งชื่อรีเลย์ช่วยตัวที่ 2 ว่าอะไร', '2) In this course, what is the second auxiliary relay called?'), options: ['KM2', 'KA2', 'K2A'], answer: 1 },
+    { q: t('2) วงจรหนึ่งมีคอนแทกเตอร์ K1 และ K2 วิชานี้ตั้งชื่อรีเลย์ช่วยของวงจรนี้ว่าอะไร', '2) A circuit has contactors K1 and K2. In this course, what is its auxiliary relay called?'), options: ['K3', 'KA1', 'K1A'], answer: 0, why: t('เลข K นับต่อจากคอนแทกเตอร์ (KA1 และ K1A เป็นชื่อแบบอื่นที่พบในตู้ควบคุมและตำราไทย)', 'the K numbers go on after the contactors (KA1 and K1A are other systems, found on panels and in the Thai textbook)') },
     { q: t('3) รีเลย์แบบเสียบ 8 ขา ขาคอยล์คือขาใด', '3) Which are the coil pins of an 8-pin plug-in relay?'), options: ['1–8', '2–7', '3–6'], answer: 1 },
     { q: t('4) รีเลย์ที่พิมพ์เลขแบบ IEC ขา 11, 12, 14 คืออะไร', '4) On a relay with IEC numbers, what are pins 11, 12 and 14?'), options: [t('ร่วม ปกติปิด ปกติเปิด', 'common, NC, NO'), t('ปกติเปิด ปกติปิด ร่วม', 'NO, NC, common'), t('ขาคอยล์ทั้งหมด', 'all coil pins')], answer: 0 },
     { q: t('5) ทำไมจึงใช้รีเลย์ระหว่างเซนเซอร์หน้าสัมผัสเล็กกับคอยล์คอนแทกเตอร์', '5) Why put a relay between a small sensor contact and a contactor coil?'), options: [t('หน้าสัมผัสเล็กทนกระแสคอยล์คอนแทกเตอร์ไม่ได้', 'the small contact cannot handle the contactor coil current'), t('เพื่อหน่วงเวลา', 'to add a delay'), t('เพื่อป้องกันลัดวงจร', 'for short-circuit protection')], answer: 0 },
-    { q: t('6) ในวงจร A กด S2 กับ S1 พร้อมกัน ผลคืออะไร', '6) In circuit A, S2 and S1 are pressed together. What happens?'), options: [t('KA1 ไม่มีไฟ ปุ่มหยุดชนะ', 'KA1 stays off: stop wins'), t('KA1 มีไฟ ปุ่มเริ่มชนะ', 'KA1 comes on: start wins'), t('ฟิวส์ขาด', 'the fuse blows')], answer: 0 }]);
+    { q: t('6) ในวงจร A กด S2 กับ S1 พร้อมกัน ผลคืออะไร', '6) In circuit A, S2 and S1 are pressed together. What happens?'), options: [t('K3 ไม่มีไฟ ปุ่มหยุดชนะ', 'K3 stays off: stop wins'), t('K3 มีไฟ ปุ่มเริ่มชนะ', 'K3 comes on: start wins'), t('ฟิวส์ขาด', 'the fuse blows')], answer: 0 }]);
 });
 </script>
 </body>

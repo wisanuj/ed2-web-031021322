@@ -37,6 +37,8 @@ figure.photo img{border-radius:10px}
 .printbar{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
 svg.dwg{width:100%;height:auto;display:block}
 svg.dwg text{font-family:"IBM Plex Mono","IBM Plex Sans Thai",system-ui,sans-serif}
+svg text.nm{font-family:Arial,"Helvetica Neue",Helvetica,"IBM Plex Sans Thai",sans-serif;font-style:italic}   /* device names: italic, as on the slides */
+:root{--up:#1f3fe0} :root[data-theme=dark]{--up:#8fa8ff}   /* the slides' blue ⇑ on a working device */
 @media print{
   body.print-lab .wrap > *:not(.labwrap){display:none !important}
   body.print-lab .labwrap > *:not(.labsheet){display:none !important}

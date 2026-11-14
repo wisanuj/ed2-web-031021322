@@ -8,13 +8,13 @@
                           every conductor as a pair of terminal points, chained so that a terminal point takes at most two conductors;
                           cables and cores per outside location; the mirror check of the destination addresses
    2) drawing             (a) 'address' mode: every device a box with its terminals, every wire end with its wire-number sleeve and the
-                          address of the remote end (IEC 62491 remote-end labelling, e.g. -X2:4 at -KM1:13); (b) 'lines' mode: point-to-
+                          address of the remote end (IEC 62491 remote-end labelling, e.g. -X2:4 at -K1:13); (b) 'lines' mode: point-to-
                           point lines routed in channels between the rows and lanes beside the columns; panel, door, remote-station and
                           supply boxes, the motor; tap a wire to highlight its number everywhere (diagram, tables, schematic via sim.o.hiWire)
    3) WD.terminalTable    IEC 61082-1 terminal-oriented connection table (terminal | wire no. | inside | outside | cable/core), optional
                           blank cells to fill in, a check button with a score and a show-answers button
    layout = { locs: { S1: 'door', … }, places: { door: [th, en], … }, strips: { power: 'X1', control: 'X2' },
-              power: { in: [...], motor: [...] } | false, feed: { top: 'Q1:2', bot: 'X1:N' }, pe: ['remote'], cables: { door: 'W2' },
+              power: { in: [...], motor: [...] } | false, feed: { top: 'F1:2', bot: 'X1:N' }, pe: ['remote'], cables: { door: 'W2' },
               mode: 'address' | 'lines', controls: true, linkSim: true, max: px, blankAddr, blankWires (outlines for paper), onPick: key => {} } */
 (function (global) {
 'use strict';
@@ -60,10 +60,10 @@ WD.Wiring = class {
     const loc = id => (id === SUP ? 'supply' : id.startsWith(PEB + '@') ? id.slice(PEB.length + 1) : id === PEB ? 'panel' : (o.locs && o.locs[id]) || (id === mot ? 'field' : 'panel'));
     const devs = new Map(), dev = (id, ord) => { if (!devs.has(id)) devs.set(id, { id, loc: loc(id), name: id.startsWith(PEB) ? 'PE' : id === SUP ? '' : names[id] || id, cols: [], ord }); return devs.get(id); };
     const nets = new Map(), net = k => { if (!nets.has(k)) nets.set(k, { key: k, refs: [] }); return nets.get(k); }, addN = (k, r) => { const n = net(k); if (!n.refs.includes(r)) n.refs.push(r); };
-    // power devices first: their poles take the first columns (1-2, 3-4, 5-6), so the poles of Q1, KM1, F2 line up
+    // power devices first: their poles take the first columns (1-2, 3-4, 5-6), so the poles of F1, K1, F3 line up
     stages.forEach((st, j) => { const d = dev(st.d, -1000 + j), n = one ? (st.k === 'therm' ? 3 : 2) : 3; if (d.power === undefined) d.power = j;
       for (let p = 0; p < n; p++) d.cols.push({ k: st.k, top: `${st.d}:${2 * p + 1}`, bot: `${st.d}:${2 * p + 2}`, pole: p }); });
-    // more power devices for circuits the stage chain cannot describe (reversing, star–delta): layout.power.poles = { KM2: 'mainNO' | { k, t: [['1', '2'], …] } }
+    // more power devices for circuits the stage chain cannot describe (reversing, star–delta): layout.power.poles = { K2: 'mainNO' | { k, t: [['1', '2'], …] } }
     Object.entries((pw && pw.poles) || {}).forEach(([id, v], j) => { const d = dev(id, -900 + j), k = typeof v === 'string' ? v : v.k || 'mainNO', t = (typeof v === 'object' && v.t) || [['1', '2'], ['3', '4'], ['5', '6']];
       if (d.power === undefined) d.power = stages.length + j; t.forEach(([a, b], p) => d.cols.push({ k, top: `${id}:${a}`, bot: `${id}:${b}`, pole: p })); });
     // control elements: from the solved graph (a = top node, b = bottom node of every contact, coil, lamp, fuse)
@@ -77,9 +77,10 @@ WD.Wiring = class {
     // power strip -X1: supply in, motor out, numbered 1, 2, 3 …; the wire column carries L1 L2 L3 N PE U1 V1 W1 PE
     const strip = { [X1]: [], [X2]: [] };
     if (pw) [...pw.in.map(n => ['in', n]), ...pw.motor.map(n => ['motor', n])].forEach(([role, n], i) => strip[X1].push({ ref: `${X1}:${i + 1}`, no: i + 1, wire: n, role, loc: role === 'in' ? 'supply' : 'field' }));
-    const x1 = (role, n) => strip[X1].find(r => r.role === role && r.wire === n), cb = stages.find(st => st.k === 'cb');
+    const x1 = (role, n) => strip[X1].find(r => r.role === role && r.wire === n), cb = stages.find(st => st.k === 'cb' || st.k === 'fuse');   // the first protective stage: power fuses F1 (ED2) or a breaker
     const res = r => { if (!r) return null; const [d, t] = r.split(':'); if (d === X1 && !/^\d+$/.test(t)) { const x = x1('in', t) || x1('motor', t); return x ? x.ref : null; } return r; };
-    // the control supply: L from the load side of Q1 (Q1:2), or its line side with power.tap 'before'; N from the strip (Q1:4 / Q1:3 single-phase)
+    // the control supply: L from the load side of the power fuses F1 (F1:2), or their line side with power.tap 'before'; N from the strip,
+    // or F1:4 / F1:3 single-phase (the fuse in N)
     const bef = P && P.tap === 'before', fd = o.feed || {};
     const feed = { top: res(fd.top !== undefined ? fd.top : cb ? `${cb.d}:${bef ? 1 : 2}` : pw ? `${X1}:L1` : null), bot: res(fd.bot !== undefined ? fd.bot : one && cb ? `${cb.d}:${bef ? 3 : 4}` : pw ? `${X1}:N` : null) };
     if (feed.top && nos.has('L')) net(keyOf(nos.get('L'))).feed = feed.top; if (feed.bot && nos.has('N')) net(keyOf(nos.get('N'))).feed = feed.bot;
@@ -103,7 +104,7 @@ WD.Wiring = class {
       for (let i = 1; i < st.length; i++) bridges.push({ a: st[i - 1], b: st[i], key: n.key });
       n.out.forEach(l => { const r = x2.find(q => q.wire === n.key && q.loc === l), list = n.by[l].slice().sort((u, v) => ordR(u) - ordR(v)), c2 = r ? [r.ref, ...list] : list;
         for (let i = 1; i < c2.length; i++) link(c2[i - 1], c2[i], n.key, r && i === 1 ? 'out' : 'link'); }); });
-    if (pw && pw.wires) pw.wires.forEach(([a, b, k]) => link(res(a), res(b), k || 'L', 'pow'));   // layout.power.wires = [['X1:L1', 'Q1:1', 'L1'], …] replaces the chain below
+    if (pw && pw.wires) pw.wires.forEach(([a, b, k]) => link(res(a), res(b), k || 'L', 'pow'));   // layout.power.wires = [['X1:L1', 'F1:1', 'L1'], …] replaces the chain below
     if (pw) {
       const ph = pw.wires ? [] : one ? ['L1', 'N'] : ['L1', 'L2', 'L3'];
       ph.forEach((n, p) => { const xin = x1('in', n); let prev = xin ? xin.ref : null;
@@ -132,7 +133,7 @@ WD.Wiring = class {
   }
   /* point key of one end of a conductor: a strip terminal has an inside (@i) and an outside (@o) clamp */
   pk(r, c) { return this.m.isS(r) ? `${r}@${c.kind === 'out' ? 'o' : 'i'}` : r; }
-  /* address of a terminal point as written at the remote end (IEC 61666: -KM1:13); short: the drawing form */
+  /* address of a terminal point as written at the remote end (IEC 61666: -K1:13); short: the drawing form */
   addr(r, short) { const [d, t] = r.split(':'); if (d === SUP) return `${T('แหล่งจ่าย', 'supply')} ${t}`;
     if (d === PEB) return short ? 'PE' : T('บาร์ PE', 'PE bar'); if (d.startsWith(PEB + '@')) return short ? 'PE' : `${T('ขั้ว PE', 'PE terminal')} (${this.place(d.slice(PEB.length + 1))})`;
     return `-${this.names[d] || d}:${t}`; }
@@ -314,7 +315,7 @@ WD.terminalTable = (el, wd, o = {}) => {
       return `<td data-h="${esc(head[i])}">${c === 'wire' ? `<span class="wd-wn${r.key === 'PE' ? ' wd-pe' : r.key === 'N' ? ' wd-n' : ''}">${esc(v)}</span>` : v || '—'}${br}</td>`; };
     html += `<tr data-w="${esc(r.key)}"><td data-h="${esc(head[0])}"><b>-${esc(r.term)}</b> <span class="wd-loc">${esc(r.place)}</span></td>${['wire', 'inside', 'outside', 'cable'].map((c, i) => cell(c, i + 1)).join('')}</tr>`; });
   html += `</tbody></table>`;
-  if (blank.size) html += `<div class="toggles wd-tbar"><button type="button" class="btn on wd-chk">${T('ตรวจคำตอบ', 'Check')}</button><button type="button" class="btn wd-ansb">${T('ดูเฉลย', 'Show answers')}</button></div><div class="status wd-score">${T(`เติมช่องว่าง ${blank.size} ช่อง (เขียนแบบ -KM1:13 ถ้ามีหลายปลายทางคั่นด้วยจุลภาค)`, `Fill in ${blank.size} blanks (write -KM1:13; separate several destinations with commas)`)}</div>`;
+  if (blank.size) html += `<div class="toggles wd-tbar"><button type="button" class="btn on wd-chk">${T('ตรวจคำตอบ', 'Check')}</button><button type="button" class="btn wd-ansb">${T('ดูเฉลย', 'Show answers')}</button></div><div class="status wd-score">${T(`เติมช่องว่าง ${blank.size} ช่อง (เขียนแบบ -K1:13 ถ้ามีหลายปลายทางคั่นด้วยจุลภาค)`, `Fill in ${blank.size} blanks (write -K1:13; separate several destinations with commas)`)}</div>`;
   el.innerHTML = html + '</div>';
   const byId = id => rows.find(r => r.term === id.split('|')[0]);
   const check = () => { let ok = 0; el.querySelectorAll('td.wd-cell').forEach(td => { const id = td.dataset.k, c = id.split('|')[1], r = byId(id), v = td.querySelector('input').value;

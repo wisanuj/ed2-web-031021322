@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=22"><link rel="stylesheet" href="assets/ed2.css?v=22">
-<script src="assets/stops.js?v=22"></script><script src="assets/shell.js?v=22"></script>
-<script src="assets/lesson.js?v=22"></script><script src="assets/draw.js?v=22"></script><script src="assets/ed.js?v=22"></script><script src="assets/sym.js?v=22"></script><script src="assets/iec.js?v=22"></script><script src="assets/relay.js?v=22"></script><script src="assets/panel.js?v=22"></script><script src="assets/ch2.js?v=22"></script>
+<link rel="stylesheet" href="assets/ee.css?v=27"><link rel="stylesheet" href="assets/ed2.css?v=27">
+<script src="assets/stops.js?v=27"></script><script src="assets/shell.js?v=27"></script>
+<script src="assets/lesson.js?v=27"></script><script src="assets/draw.js?v=27"></script><script src="assets/ed.js?v=27"></script><script src="assets/sym.js?v=27"></script><script src="assets/iec.js?v=27"></script><script src="assets/relay.js?v=27"></script><script src="assets/panel.js?v=27"></script><script src="assets/ch2.js?v=27"></script>
 </head>
 <body>
 <div class="wrap">
@@ -23,12 +23,12 @@
 
 <section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
   <li><b>แบบเส้นเดียว</b> (single-line diagram) วาดสาย 3 เฟสเป็นเส้นเดียวแล้วขีด 3 ขีด ใช้ดูภาพรวมของระบบ ไม่บอกการทำงาน</li>
-  <li><b>วงจรกำลัง</b> (power circuit) คือทางที่กระแสมอเตอร์ไหล: เบรกเกอร์ หน้าสัมผัสหลักของคอนแทกเตอร์ โอเวอร์โหลด และมอเตอร์ <b>วงจรควบคุม</b> (control circuit) คือวงจรกระแสน้อยที่สั่งคอยล์ วาดแยกกันแต่ใช้ชื่ออุปกรณ์เดียวกัน</li>
+  <li><b>วงจรกำลัง</b> (power circuit) คือทางที่กระแสมอเตอร์ไหล: ฟิวส์วงจรกำลัง หน้าสัมผัสหลักของคอนแทกเตอร์ โอเวอร์โหลด และมอเตอร์ <b>วงจรควบคุม</b> (control circuit) คือวงจรกระแสน้อยที่สั่งคอยล์ วาดแยกกันแต่ใช้ชื่ออุปกรณ์เดียวกัน</li>
   <li>ใต้วงจรควบคุมมี <b>เลขทางเดินกระแส</b> ทุกแนวตั้ง และใต้คอยล์มี <b>ตารางอ้างอิงหน้าสัมผัส</b> บอกว่าหน้าสัมผัสของคอยล์นั้นอยู่ทางเดินกระแสไหน เช่น "13–14 ▸ 2" คือหน้าสัมผัสปกติเปิด 13–14 อยู่ทางเดินกระแสที่ 2</li>
   <li><b>เลขสาย</b> ให้ทุกจุดที่มีศักย์ไฟฟ้าเดียวกันได้เลขเดียวกัน แล้ว <b>แบบสายไฟ</b> (wiring diagram) ใช้เลขเหล่านี้บอกว่าสายแต่ละเส้นต่อจากขั้วไหนไปขั้วไหน (สอนเต็มในบทที่ 5)</li></ul></section>
 <section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
   <li>A <b>single-line diagram</b> draws the three phases as one line with three strokes. It shows the system at a glance, not how it works.</li>
-  <li>The <b>power circuit</b> is the path of the motor current: breaker, contactor main contacts, overload relay and motor. The <b>control circuit</b> is the low-current circuit that drives the coils. They are drawn apart but use the same device names.</li>
+  <li>The <b>power circuit</b> is the path of the motor current: power fuses, contactor main contacts, overload relay and motor. The <b>control circuit</b> is the low-current circuit that drives the coils. They are drawn apart but use the same device names.</li>
   <li>Under the control circuit every vertical line gets a <b>current-path number</b>, and under each coil a <b>contact cross-reference</b> says in which paths its contacts are: "13–14 ▸ 2" means the normally open contact 13–14 is in path 2.</li>
   <li><b>Wire numbers</b> give every point at the same potential the same number, and the <b>wiring diagram</b> uses them to say where each wire runs from and to (taught in full in chapter 5).</li></ul></section>
 
@@ -41,9 +41,9 @@
   <div class="story n2">
     <div class="story-t">
       <div class="story-p" data-l="th"><p>รูป 1.2 ในตำราเป็นวงจรเริ่มเดินโดยตรงที่ถูกต้องตามหลักการ ด้านซ้ายคือวงจรกำลัง (ฟิวส์ F1, คอนแทกเตอร์ K1, โอเวอร์โหลด F3, มอเตอร์) ด้านขวาคือวงจรควบคุม (ฟิวส์ F2, หน้าสัมผัสโอเวอร์โหลด F3, ปุ่มหยุด S1, ปุ่มเริ่ม S2, หน้าสัมผัสค้างตัวเอง K1, หลอด H1 และ H2)</p>
-        <p>แบบตามมาตรฐานที่ใช้ในวิชานี้ต้องมีเพิ่ม: <b>เลขขั้ว</b>ทุกจุด <b>ตารางอ้างอิงหน้าสัมผัส</b>ใต้คอยล์ และ <b>เลขสาย</b> และใช้รหัสของวิชา ส่วน B ด้านล่างวาดวงจรเดียวกันใหม่ให้ครบ: Q1 เบรกเกอร์หลัก, F1 ฟิวส์วงจรควบคุม, F2 โอเวอร์โหลด, KM1 คอนแทกเตอร์</p></div>
+        <p>แบบตามมาตรฐานที่ใช้ในวิชานี้ต้องมีเพิ่ม: <b>เลขขั้ว</b>ทุกจุด <b>ตารางอ้างอิงหน้าสัมผัส</b>ใต้คอยล์ และ <b>เลขสาย</b> ส่วน B ด้านล่างวาดวงจรเดียวกันใหม่ให้ครบ ชื่ออุปกรณ์ตรงกับชื่อในสไลด์ของวิชา: F1 ฟิวส์วงจรกำลัง, F2 ฟิวส์วงจรควบคุม, F3 โอเวอร์โหลด, K1 คอนแทกเตอร์</p></div>
       <div class="story-p" data-l="en"><p>Fig. 1.2 of the textbook is a correct direct-on-line starter. On the left is the power circuit (fuses F1, contactor K1, overload F3, motor), on the right the control circuit (fuse F2, overload contact F3, stop button S1, start button S2, holding contact K1, lamps H1 and H2).</p>
-        <p>A drawing to the standard used in this course also carries <b>terminal numbers</b> everywhere, a <b>contact cross-reference</b> under the coil and <b>wire numbers</b>, and uses the course codes. Section B below redraws the same circuit in full: Q1 main breaker, F1 control fuse, F2 overload, KM1 contactor.</p></div></div>
+        <p>A drawing to the standard used in this course also carries <b>terminal numbers</b> everywhere, a <b>contact cross-reference</b> under the coil and <b>wire numbers</b>. Section B below redraws the same circuit in full; its device names are those of the course slides: F1 power fuses, F2 control fuse, F3 overload, K1 contactor.</p></div></div>
     <div class="story-f"><figure class="slide md"><img src="img/book/book1_fig1_2.jpg" width="960" height="620" loading="lazy" decoding="async" alt="Textbook Fig. 1.2: direct-on-line starter. Power circuit: L1 L2 L3, fuses F1, contactor K1 main contacts, thermal overload F3, motor M 3~. Control circuit: fuse F2, overload changeover contact F3, stop button S1, start button S2 with holding contact K1, coil K1 with lamp H1 in parallel, trip lamp H2, neutral N, path numbers 1 to 3.">
       <figcaption data-l="th">รูป 1.2 แบบแสดงการทำงานของวงจรควบคุม · ที่มา: ธนภัทร ไพคำนาม, การควบคุมมอเตอร์ไฟฟ้า (2104-2009), บทที่ 1 หน้า 9 · แตะรูปเพื่อขยาย</figcaption>
       <figcaption data-l="en">Fig. 1.2, schematic of the control circuit · source: Thanaphat Phaikhamnam, <i>Motor Control</i> (2104-2009), ch. 1, p. 9 · tap to enlarge</figcaption></figure></div>
@@ -61,8 +61,8 @@
 <section class="prob" id="tB">
   <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">วงจรกำลังและวงจรควบคุม: กดปุ่มได้</h2><h2 data-l="en">Power and control circuits: press the buttons</h2>
     <div class="src" data-l="th">ตำราไทย รูป 1.2 วาดใหม่ตาม IEC · Senty บทที่ 11 · UMC5 บทที่ 7, 21</div><div class="src" data-l="en">Thai textbook Fig. 1.2 redrawn to IEC · Senty ch. 11 · UMC5 ch. 7, 21</div></div></div>
-  <p class="lead" data-l="th">กดปุ่ม S2 (กดค้างแล้วปล่อย) ในภาพหรือที่ปุ่มบนประตูตู้ควบคุมด้านล่าง: คอยล์ KM1 มีไฟ หน้าสัมผัสหลักในวงจรกำลังต่อ มอเตอร์หมุน และหน้าสัมผัส 13–14 ค้างวงจรไว้หลังปล่อยปุ่ม เส้นประเคลื่อนที่คือทางที่กระแสไหล (สีแดงฝั่งแหล่งจ่าย สีฟ้าฝั่งนิวทรัล) หลอดสัญญาณบนประตูตู้ติดตามวงจร: H1 สีเขียวเมื่อมอเตอร์เดิน H2 สีเหลืองอำพันเมื่อโอเวอร์โหลดตัด ลองกด S1 หยุด และคลิกโอเวอร์โหลด F2 ให้ตัด ดูตัวเลขใต้วงจร: เลขทางเดินกระแส 1–4 และตารางอ้างอิงใต้คอยล์ KM1</p>
-  <p class="lead" data-l="en">Press S2 (hold, then release) in the picture or on the panel door below it: coil KM1 is energised, the main contacts close in the power circuit, the motor turns, and contact 13–14 holds the circuit after you let go. Moving dashes show where current flows (red on the supply side, blue on the neutral side). The pilot lamps on the door follow the circuit: H1 glows green while the motor runs, H2 amber when the overload has tripped. Press S1 to stop, and click overload F2 to trip it. Look under the circuit: current-path numbers 1–4 and the cross-reference under coil KM1.</p>
+  <p class="lead" data-l="th">กดปุ่ม S2 (กดค้างแล้วปล่อย) ในภาพหรือที่ปุ่มบนประตูตู้ควบคุมด้านล่าง: คอยล์ K1 มีไฟ หน้าสัมผัสหลักในวงจรกำลังต่อ มอเตอร์หมุน และหน้าสัมผัส 13–14 ค้างวงจรไว้หลังปล่อยปุ่ม เส้นประเคลื่อนที่คือทางที่กระแสไหล (สีแดงฝั่งแหล่งจ่าย สีฟ้าฝั่งนิวทรัล) หลอดสัญญาณบนประตูตู้ติดตามวงจร: H1 สีเขียวเมื่อมอเตอร์เดิน H2 สีเหลืองอำพันเมื่อโอเวอร์โหลดตัด ลองกด S1 หยุด และคลิกโอเวอร์โหลด F3 ให้ตัด ดูตัวเลขใต้วงจร: เลขทางเดินกระแส 1–4 และตารางอ้างอิงใต้คอยล์ K1</p>
+  <p class="lead" data-l="en">Press S2 (hold, then release) in the picture or on the panel door below it: coil K1 is energised, the main contacts close in the power circuit, the motor turns, and contact 13–14 holds the circuit after you let go. Moving dashes show where current flows (red on the supply side, blue on the neutral side). The pilot lamps on the door follow the circuit: H1 glows green while the motor runs, H2 amber when the overload has tripped. Press S1 to stop, and click overload F3 to trip it. Look under the circuit: current-path numbers 1–4 and the cross-reference under coil K1.</p>
   <div class="card sim rlwrap" id="simB" style="padding:8px"></div>
   <div class="card solve" style="margin-top:12px"><div class="panel" id="pB" style="position:static;max-height:none"></div></div>
 </section>
@@ -87,15 +87,15 @@
 
 <section class="notes" data-l="th">
   <div class="card"><h3>ลองทำดู</h3>
-    <ol><li>กด S2 แล้วปล่อย: เส้นประผ่าน S2 หายไป แต่ยังไหลผ่าน KM1 13–14 ในทางเดินกระแสที่ 2 นี่คือวงจรค้างตัวเอง (บทที่ 5)</li>
-    <li>คลิก F2: หน้าสัมผัส 95–96 เปิด คอยล์ดับ และ 97–98 ต่อ หลอด H2 ติด</li>
+    <ol><li>กด S2 แล้วปล่อย: เส้นประผ่าน S2 หายไป แต่ยังไหลผ่าน K1 13–14 ในทางเดินกระแสที่ 2 นี่คือวงจรค้างตัวเอง (บทที่ 5)</li>
+    <li>คลิก F3: หน้าสัมผัส 95–96 เปิด คอยล์ดับ และ 97–98 ต่อ หลอด H2 ติด</li>
     <li>เปิดเลขสาย แล้วนับว่ามีกี่เลข (ไม่นับ 0)</li></ol>
     <div class="book">ตำราไทย "การควบคุมมอเตอร์ไฟฟ้า" บทที่ 1 หัวข้อ 3 (รูป 1.1–1.4) · Senty, <i>Motor Control Fundamentals</i> บทที่ 10–11 · Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 7, 21, 22</div></div>
 </section>
 <section class="notes" data-l="en">
   <div class="card"><h3>Try this</h3>
-    <ol><li>Press S2 and release it: the dashes through S2 disappear but keep flowing through KM1 13–14 in path 2. That is the holding circuit (chapter 5).</li>
-    <li>Click F2: contact 95–96 opens, the coil drops out, 97–98 closes and lamp H2 lights.</li>
+    <ol><li>Press S2 and release it: the dashes through S2 disappear but keep flowing through K1 13–14 in path 2. That is the holding circuit (chapter 5).</li>
+    <li>Click F3: contact 95–96 opens, the coil drops out, 97–98 closes and lamp H2 lights.</li>
     <li>Turn on the wire numbers and count how many there are (not counting 0).</li></ol>
     <div class="book">Thai textbook <i>Motor Control</i>, ch. 1 §3 (Figs. 1.1–1.4) · Senty, <i>Motor Control Fundamentals</i>, ch. 10–11 · Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 7, 21, 22</div></div>
 </section>
@@ -110,8 +110,8 @@ document.addEventListener('mc:ready', () => {
   /* single-line diagram */
   const x = 120, slash = y => [0, 1, 2].map(k => IE.L(x - 7, y + 4 + k * 5, x + 7, y - 4 + k * 5)).join('');
   let sl = IE.T('400 V 3~ 50 Hz', x, 16, { size: 11, anchor: 'middle', weight: 700 }) + IE.L(40, 26, 200, 26, { w: 2 }) + IE.L(x, 26, x, 50) + slash(40);
-  sl += IE.cb(x, 50, 110) + IE.T('Q1', x - 18, 84, { anchor: 'end', size: 12, weight: 700 }) + IE.mainNO(x, 110, 170) + IE.T('KM1', x - 18, 144, { anchor: 'end', size: 12, weight: 700 }) +
-    IE.therm(x, 170, 220) + IE.T('F2', x - 18, 199, { anchor: 'end', size: 12, weight: 700 }) + IE.L(x, 220, x, 246) + slash(232) + IE.motor(x, 270, 22) + IE.T('M1', x - 30, 274, { anchor: 'end', size: 12, weight: 700 }) +
+  sl += IE.fuse(x, 50, 110) + IE.T('F1', x - 18, 84, { anchor: 'end', size: 12, it: true }) + IE.mainNO(x, 110, 170) + IE.T('K1', x - 18, 144, { anchor: 'end', size: 12, it: true }) +
+    IE.therm(x, 170, 220) + IE.T('F3', x - 18, 199, { anchor: 'end', size: 12, it: true }) + IE.L(x, 220, x, 246) + slash(232) + IE.motor(x, 270, 22) + IE.T('M1', x - 30, 274, { anchor: 'end', size: 12, it: true }) +
     IE.T('7.5 kW', x + 30, 274, { size: 10 });
   $('sld').innerHTML = IE.svg(240, 300, sl, { max: 320, label: 'single-line diagram' });
   /* power and control */
@@ -119,21 +119,21 @@ document.addEventListener('mc:ready', () => {
   const pB = $('pB'); ui.h2(pB, t('สั่งงาน (หรือคลิกที่อุปกรณ์ในภาพ)', 'Control (or click the devices in the picture)'));
   /* panel door: S1 stop (black, O) and S2 start (white, I) as real push buttons, lamps H1 and H2 glow with the circuit */
   PN.door(pB, sim, { names: { S1: ['S1 หยุด', 'S1 stop'], S2: ['S2 เริ่ม', 'S2 start'], H1: ['H1 มอเตอร์เดิน', 'H1 running'], H2: ['H2 โอเวอร์โหลด', 'H2 overload'] } });
-  ui.buttons(pB, [{ label: t('F2 โอเวอร์โหลดตัด / รีเซ็ต', 'F2 overload trip / reset'), onclick: () => sim.toggle('F2') }, { label: t('Q1 เปิด / ปิดเบรกเกอร์', 'Q1 breaker on / off'), onclick: () => sim.toggle('Q1') },
+  ui.buttons(pB, [{ label: t('F3 โอเวอร์โหลดตัด / รีเซ็ต', 'F3 overload trip / reset'), onclick: () => sim.toggle('F3') },
     { label: t('แสดงเลขสาย', 'Show wire numbers'), onclick: el => { wn = !wn; el.classList.toggle('on', wn); sim.o.wireNos = wn; sim.render(); } }]);
   const st = ui.status(pB);
-  const show = () => { const run = sim.running(); ui.setStatus(st, run ? t('มอเตอร์หมุน', 'motor running') : sim.dev.F2.tripped ? t('โอเวอร์โหลดตัด', 'overload tripped') : t('มอเตอร์หยุด', 'motor stopped'),
-    run ? t('KM1 ค้างตัวเองผ่าน 13–14 (ทางเดินกระแสที่ 2)', 'KM1 holds itself through 13–14 (path 2)') : sim.dev.F2.tripped ? t('95–96 เปิด, 97–98 ต่อ หลอด H2 ติด', '95–96 open, 97–98 closed, lamp H2 lit') : t('กด S2 เพื่อเริ่ม', 'press S2 to start'), run ? 'ok' : sim.dev.F2.tripped ? 'bad' : 'wait'); };
+  const show = () => { const run = sim.running(); ui.setStatus(st, run ? t('มอเตอร์หมุน', 'motor running') : sim.dev.F3.tripped ? t('โอเวอร์โหลดตัด', 'overload tripped') : t('มอเตอร์หยุด', 'motor stopped'),
+    run ? t('K1 ค้างตัวเองผ่าน 13–14 (ทางเดินกระแสที่ 2)', 'K1 holds itself through 13–14 (path 2)') : sim.dev.F3.tripped ? t('95–96 เปิด, 97–98 ต่อ หลอด H2 ติด', '95–96 open, 97–98 closed, lamp H2 lit') : t('กด S2 เพื่อเริ่ม', 'press S2 to start'), run ? 'ok' : sim.dev.F3.tripped ? 'bad' : 'wait'); };
   sim.on(show); show();
   /* connection list */
   $('wl').innerHTML = `<tr><th>${t('เลขสาย', 'wire')}</th><th>${t('จาก', 'from')}</th><th>${t('ไป', 'to')}</th></tr>` +
-    [['1', 'Q1:2 (L1)', 'F1:1'], ['2', 'F1:2', 'F2:95, F2:97, KM1:23'], ['3', 'F2:96', 'X1:1 → S1:11'], ['4', 'S1:12', 'S2:13; X1:2 → KM1:13'], ['5', 'S2:14 → X1:3', 'KM1:14, KM1:A1'],
-     ['6', 'KM1:24', 'X1:4 → H1:X1'], ['7', 'F2:98', 'X1:5 → H2:X1'], ['N', 'N', 'KM1:A2; X1:6 → H1:X2, H2:X2']].map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
+    [['1', 'F1:2 (L1)', 'F2:1'], ['2', 'F2:2', 'F3:95, F3:97, K1:23'], ['3', 'F3:96', 'X1:1 → S1:11'], ['4', 'S1:12', 'S2:13; X1:2 → K1:13'], ['5', 'S2:14 → X1:3', 'K1:14, K1:A1'],
+     ['6', 'K1:24', 'X1:4 → H1:X1'], ['7', 'F3:98', 'X1:5 → H2:X1'], ['N', 'N', 'K1:A2; X1:6 → H1:X2, H2:X2']].map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
   ED.mcq('mcq', [
-    { q: t('1) ใต้คอยล์ KM1 เขียนว่า "23–24 ▸ 3" หมายความว่าอะไร', '1) Under coil KM1 it says "23–24 ▸ 3". What does it mean?'), options: [t('หน้าสัมผัสปกติเปิด 23–24 ของ KM1 อยู่ทางเดินกระแสที่ 3', 'KM1\'s normally open contact 23–24 is in current path 3'), t('KM1 มี 3 หน้าสัมผัส', 'KM1 has 3 contacts'), t('สาย 23 ต่อกับสาย 24', 'wire 23 joins wire 24')], answer: 0 },
+    { q: t('1) ใต้คอยล์ K1 เขียนว่า "33–34 ▸ 3" หมายความว่าอะไร', '1) Under coil K1 it says "33–34 ▸ 3". What does it mean?'), options: [t('หน้าสัมผัสปกติเปิด 33–34 ของ K1 อยู่ทางเดินกระแสที่ 3', 'K1\'s normally open contact 33–34 is in current path 3'), t('K1 มี 3 หน้าสัมผัส', 'K1 has 3 contacts'), t('สาย 23 ต่อกับสาย 24', 'wire 23 joins wire 24')], answer: 0 },
     { q: t('2) แบบชนิดใดเหมาะกับการดูภาพรวมของตู้ที่มีมอเตอร์ 20 ตัว', '2) Which drawing suits an overview of a panel with 20 motors?'), options: [t('แบบเส้นเดียว', 'single-line diagram'), t('วงจรควบคุม', 'control circuit'), t('แบบสายไฟ', 'wiring diagram')], answer: 0 },
     { q: t('3) จุดสองจุดที่ต่อถึงกันด้วยสายเปล่าโดยไม่ผ่านอุปกรณ์ ได้เลขสายอย่างไร', '3) Two points joined by bare wire with no device between them get which wire numbers?'), options: [t('เลขเดียวกัน', 'the same number'), t('เลขต่อกัน', 'consecutive numbers'), t('ไม่ต้องมีเลข', 'no number')], answer: 0 },
-    { q: t('4) หน้าสัมผัสหลักของ KM1 วาดอยู่ในแบบใด', '4) In which drawing are KM1\'s main contacts?'), options: [t('วงจรควบคุม', 'control circuit'), t('วงจรกำลัง', 'power circuit'), t('ทั้งสองแบบ', 'both')], answer: 1, why: t('ตารางอ้างอิงจึงเขียนว่า "1–2, 3–4, 5–6 ▸ กำลัง"', 'which is why the cross-reference says "1–2, 3–4, 5–6 ▸ power"') }]);
+    { q: t('4) หน้าสัมผัสหลักของ K1 วาดอยู่ในแบบใด', '4) In which drawing are K1\'s main contacts?'), options: [t('วงจรควบคุม', 'control circuit'), t('วงจรกำลัง', 'power circuit'), t('ทั้งสองแบบ', 'both')], answer: 1, why: t('ตารางอ้างอิงจึงเขียนว่า "1–2, 3–4, 5–6 ▸ กำลัง"', 'which is why the cross-reference says "1–2, 3–4, 5–6 ▸ power"') }]);
 });
 </script>
 </body>

@@ -21,7 +21,7 @@ RC.COL = COL;
 const f1 = v => +(+v).toFixed(1);
 const PL = (pts, o = {}) => `<polyline points="${pts.map(p => f1(p[0]) + ',' + f1(p[1])).join(' ')}" fill="none" stroke="${o.col || COL.ink}" stroke-width="${o.w || 1.7}" stroke-linejoin="round" stroke-linecap="round"${o.dash ? ` stroke-dasharray="${o.dash}"` : ''}/>`;
 const LN = (x1, y1, x2, y2, o = {}) => PL([[x1, y1], [x2, y2]], o);
-const TX = (s, x, y, o = {}) => `<text x="${f1(x)}" y="${f1(y)}" font-size="${o.size || 14}" text-anchor="${o.anchor || 'start'}" fill="${o.col || COL.ink}"${o.weight ? ` font-weight="${o.weight}"` : ''}${o.italic ? ' font-style="italic"' : ''}>${s}</text>`;
+const TX = (s, x, y, o = {}) => `<text x="${f1(x)}" y="${f1(y)}" font-size="${o.size || 14}" text-anchor="${o.anchor || 'start'}" fill="${o.col || COL.ink}"${o.weight ? ` font-weight="${o.weight}"` : ''}${o.italic ? ' class="nm" font-style="italic"' : ''}>${s}</text>`;
 const DOT = (x, y, col = COL.ink) => `<circle cx="${f1(x)}" cy="${f1(y)}" r="3" fill="${col}"/>`;
 const TERM = (x, y) => `<circle cx="${f1(x)}" cy="${f1(y)}" r="2.8" fill="${COL.panel}" stroke="${COL.ink}" stroke-width="1.4"/>`;
 const sub = (a, b) => `${a}<tspan baseline-shift="sub" font-size="72%">${b}</tspan>`;
@@ -37,18 +37,20 @@ const rails = (x0 = RX0) => ['L1', 'L2', 'L3', 'N', 'PE'].map((n, i) => LN(x0, R
   TX(n, x0 - 8, RY[i] + 4.5, { size: 13, anchor: 'end', weight: 600, col: COL[n] })).join('');
 const leadTop = k => { const dx = DX[k] - MX; return MY - Math.sqrt(MR * MR - dx * dx); };
 const motor = (on, o) => { let s = `<circle cx="${MX}" cy="${MY}" r="${MR}" fill="${COL.panel}" stroke="${COL.ink}" stroke-width="1.9"/>` +
-    TX('M', MX, MY - 1, { size: 16, anchor: 'middle', weight: 700 }) + TX('3~', MX, MY + 16, { size: 13, anchor: 'middle' }) + TX('M1', MX - MR - 10, MY + 5, { size: 15, anchor: 'end', weight: 700 });
+    TX('M', MX, MY - 1, { size: 16, anchor: 'middle', weight: 700 }) + TX('3~', MX, MY + 16, { size: 13, anchor: 'middle' }) + TX('M1', MX - MR - 10, MY + 5, { size: 15, anchor: 'end', italic: true });
   if (on) { const a = `M ${MX + MR + 8} ${MY + 14} A ${MR + 9} ${MR + 9} 0 0 0 ${MX + MR + 8} ${MY - 14}`;   // rotation arrow on the right
     s += `<path d="${a}" fill="none" stroke="${COL.cur}" stroke-width="2.4"/><path d="M ${MX + MR + 2} ${MY - 19} L ${MX + MR + 8} ${MY - 14} L ${MX + MR + 14} ${MY - 20}" fill="none" stroke="${COL.cur}" stroke-width="2.4"/>`;
     if (o.anim !== false) s += `<g class="rc-spin" style="transform-origin:${MX}px ${MY}px"><line x1="${MX}" y1="${MY - MR + 5}" x2="${MX}" y2="${MY - MR + 11}" stroke="${COL.cur}" stroke-width="2.4" stroke-linecap="round"/></g>`; }
   return s; };
 const drops = (y0s, y1s, on, o) => [0, 1, 2].map(k => wire([[DX[k], y0s[k]], [DX[k], y1s[k]]], COL[PH[k]], on, o)).join('');
 const railDots = (xs, rows) => xs.map((x, k) => DOT(x, RY[rows ? rows[k] : k], COL[(rows ? ['L1', 'L2', 'L3', 'N', 'PE'][rows[k]] : PH[k])])).join('');
-/* a manual 3-pole (or 1-pole) switch, blades pivoting at the bottom terminal; xs = pole positions, y0/y1 = top/bottom terminals */
-const switchN = (xs, y0, y1, on, name, o, cc) => { let s = ''; const mids = [];
-  xs.forEach(x => { const bx = on ? x : x - 13, by = on ? y0 : y0 + 4; s += (on ? `<g>${LN(x, y1, bx, by, { col: cc || COL.cur, w: 2.8 })}</g>` : LN(x, y1, bx, by, { w: 1.9 })) + TERM(x, y0) + TERM(x, y1); mids.push([(x + bx) / 2, (y1 + by) / 2]); });
-  const ym = mids[0][1], xl = mids[0][0] - 26; s += LN(xl, ym, mids[mids.length - 1][0], ym, { col: COL.ink, w: 1.3, dash: '5 3' }) + LN(xl, ym - 7, xl, ym + 7, { w: 1.9 }) +
-    TX(name, xl - 7, ym + 5, { size: 15, anchor: 'end', weight: 700 });
+/* a manual 3-pole (or 1-pole) switch drawn as on the slides: the blade pivots at the bottom terminal; closed = across the seat, open = leaning
+   left; the operator ⊢ 13 mm left of the first pole (2 mm nearer when operated) with a dashed link to the last blade; xs = pole positions, y0/y1 = terminals */
+const switchN = (xs, y0, y1, on, name, o, cc) => { let s = ''; const k = (y1 - y0) / 10, ym = (y0 + y1) / 2, st = ym - 2.9 * k, tx = on ? 2.1 * k : -2 * k, ty = on ? ym - 3.75 * k : st;
+  const yp = y1 - 2.8, xm = x => x + tx * (yp - ym) / (yp - ty), c = on ? (cc || COL.cur) : undefined, w = on ? 2.8 : 1.9;
+  xs.forEach(x => { s += `<g>${LN(x, y0, x, st, { col: c, w }) + (on ? LN(x, st, x + 2.9 * k, st, { col: c, w }) : '') + LN(x, yp, x + tx, ty, { col: c, w })}</g>` + TERM(x, y0) + TERM(x, y1); });
+  const xo = xs[0] - 13 * k + (on ? 2 * k : 0); s += LN(xo, ym, xm(xs[xs.length - 1]), ym, { col: COL.ink, w: 1.3, dash: '6.5 3' }) + LN(xo, ym - 2 * k, xo, ym + 2 * k, { w: 1.9 }) +
+    TX(name, xo - 6, ym + 5, { size: 15, anchor: 'end', italic: true });
   return s; };
 /* contact pads on the three motor lines and the moving copper bridges (dx = 0 closed, 14 open) on an insulating rod */
 const PADY = [204, 228];

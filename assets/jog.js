@@ -24,23 +24,23 @@ JG.JOG = (o = {}) => ({ rows: 5,
    JG.TOGGLE()  toggle switch S1 (maintained, detent) feeding coil K1 directly: runs on after release, RESTARTS when the power returns
    JG.HOLD()    start S2 with the holding contact K1 13–14 across it and no stop button: runs on, cannot be stopped
    JG.DOL()     the complete starter of the slides: F2 → S0 (emergency stop) → S1 stop (NC 11–12) → S2 start (NO 13–14) ∥ K1 13–14 → coil K1,
-                run lamp H1 through K1 23–24 from the node above S2. No restart after a power cut: the holding contact has opened. */
+                run lamp H1 through K1 33–34 (the HS20's second NO, as on the slides) from the node above S2. No restart after a power cut: the holding contact has opened. */
 const PWR = () => ({ full: true, stages: [{ k: 'fuse', d: 'F1' }, { k: 'mainNO', d: 'K1' }], motor: 'M1', tap: 'before' });
 const DV = { F2: () => ({ type: 'fuse', name: ['F2 ฟิวส์วงจรควบคุม', 'F2 control fuse'] }), F1: () => ({ type: 'fuse', name: ['F1 ฟิวส์วงจรกำลัง', 'F1 power fuses'] }),
   S0: () => ({ type: 'pb', cap: 'red', name: ['S0 หยุดฉุกเฉิน', 'S0 emergency stop'] }), S1: () => ({ type: 'pb', cap: 'black', name: ['S1 หยุด', 'S1 stop'] }),
   S2: () => ({ type: 'pb', cap: 'white', name: ['S2 เริ่ม', 'S2 start'] }), K1: () => ({ type: 'coil' }), H1: () => ({ type: 'lamp', color: '#7ee787', code: 'GN' }) };
 JG.TOGGLE = () => ({ rows: 4, power: PWR(), devices: { F2: DV.F2(), F1: DV.F1(), S1: { type: 'sel', name: ['S1 สวิตช์โยก (ค้าง)', 'S1 toggle switch (stays)'] }, K1: DV.K1(), H1: DV.H1() },
   els: [{ k: 'fuse', d: 'F2', x: 0, y: 0, t: ['1', '2'] }, { k: 'NO', d: 'S1', x: 0, y: 1, h: 2, t: ['13', '14'], op: 'man', detent: true }, { k: 'coil', d: 'K1', x: 0, y: 3, t: ['A1', 'A2'] },
-    { k: 'w', pts: [[0, 1], [1, 1]], dots: [0] }, { k: 'NO', d: 'K1', x: 1, y: 1, h: 2, t: ['23', '24'] }, { k: 'lamp', d: 'H1', x: 1, y: 3, t: ['X1', 'X2'] }] });
+    { k: 'w', pts: [[0, 1], [1, 1]], dots: [0] }, { k: 'NO', d: 'K1', x: 1, y: 1, h: 2, t: ['33', '34'] }, { k: 'lamp', d: 'H1', x: 1, y: 3, t: ['X1', 'X2'] }] });
 JG.HOLD = () => ({ rows: 4, power: PWR(), devices: { F2: DV.F2(), F1: DV.F1(), S2: DV.S2(), K1: DV.K1(), H1: DV.H1() },
   els: [{ k: 'fuse', d: 'F2', x: 0, y: 0, t: ['1', '2'] }, { k: 'NO', d: 'S2', x: 0, y: 1, h: 2, t: ['13', '14'], op: 'pb' }, { k: 'coil', d: 'K1', x: 0, y: 3, t: ['A1', 'A2'] },
     { k: 'w', pts: [[0, 1], [1, 1], [2, 1]], dots: [0, 1] }, { k: 'NO', d: 'K1', x: 1, y: 1, h: 2, t: ['13', '14'] }, { k: 'w', pts: [[0, 3], [1, 3]], dots: [0] },
-    { k: 'NO', d: 'K1', x: 2, y: 1, h: 2, t: ['23', '24'] }, { k: 'lamp', d: 'H1', x: 2, y: 3, t: ['X1', 'X2'] }] });
+    { k: 'NO', d: 'K1', x: 2, y: 1, h: 2, t: ['33', '34'] }, { k: 'lamp', d: 'H1', x: 2, y: 3, t: ['X1', 'X2'] }] });
 JG.DOL = () => ({ rows: 6, power: PWR(), devices: { F2: DV.F2(), F1: DV.F1(), S0: DV.S0(), S1: DV.S1(), S2: DV.S2(), K1: DV.K1(), H1: DV.H1() },
   els: [{ k: 'fuse', d: 'F2', x: 0, y: 0, t: ['1', '2'] }, { k: 'NC', d: 'S0', x: 0, y: 1, t: ['11', '12'], op: 'mush' }, { k: 'NC', d: 'S1', x: 0, y: 2, t: ['11', '12'], op: 'pb' },
     { k: 'NO', d: 'S2', x: 0, y: 3, h: 2, t: ['13', '14'], op: 'pb' }, { k: 'coil', d: 'K1', x: 0, y: 5, t: ['A1', 'A2'] },
     { k: 'w', pts: [[0, 3], [1, 3], [2, 3]], dots: [0, 1] }, { k: 'NO', d: 'K1', x: 1, y: 3, h: 2, t: ['13', '14'] }, { k: 'w', pts: [[0, 5], [1, 5]], dots: [0] },
-    { k: 'NO', d: 'K1', x: 2, y: 3, h: 2, t: ['23', '24'] }, { k: 'lamp', d: 'H1', x: 2, y: 5, t: ['X1', 'X2'] }] });
+    { k: 'NO', d: 'K1', x: 2, y: 3, h: 2, t: ['33', '34'] }, { k: 'lamp', d: 'H1', x: 2, y: 5, t: ['X1', 'X2'] }] });
 
 /* Lecture 4 (thermal overload relay): JG.DOLOL() = JG.DOL with F3 in the power circuit after the main contacts, F3 95–96 in series after S0,
    and the overload lamp H2 (yellow) through F3 97–98 from the node after S0 */
@@ -50,7 +50,7 @@ JG.DOLOL = () => ({ rows: 7, power: { full: true, stages: [{ k: 'fuse', d: 'F1' 
   els: [{ k: 'fuse', d: 'F2', x: 0, y: 0, t: ['1', '2'] }, { k: 'NC', d: 'S0', x: 0, y: 1, t: ['11', '12'], op: 'mush' }, { k: 'NC', d: 'F3', x: 0, y: 2, t: ['95', '96'], op: 'thr' },
     { k: 'NC', d: 'S1', x: 0, y: 3, t: ['11', '12'], op: 'pb' }, { k: 'NO', d: 'S2', x: 0, y: 4, h: 2, t: ['13', '14'], op: 'pb' }, { k: 'coil', d: 'K1', x: 0, y: 6, t: ['A1', 'A2'] },
     { k: 'w', pts: [[0, 4], [1, 4], [2, 4]], dots: [0, 1] }, { k: 'NO', d: 'K1', x: 1, y: 4, h: 2, t: ['13', '14'] }, { k: 'w', pts: [[0, 6], [1, 6]], dots: [0] },
-    { k: 'NO', d: 'K1', x: 2, y: 4, h: 2, t: ['23', '24'] }, { k: 'lamp', d: 'H1', x: 2, y: 6, t: ['X1', 'X2'] },
+    { k: 'NO', d: 'K1', x: 2, y: 4, h: 2, t: ['33', '34'] }, { k: 'lamp', d: 'H1', x: 2, y: 6, t: ['X1', 'X2'] },
     { k: 'w', pts: [[0, 2], [3, 2]], dots: [0] }, { k: 'NO', d: 'F3', x: 3, y: 2, h: 4, t: ['97', '98'], op: 'thr' }, { k: 'lamp', d: 'H2', x: 3, y: 6, t: ['X1', 'X2'] }] });
 /* the motor table of the Lecture 4 slides (approximate full-load current at 380 V) and its fuse sizes (380 V, up to 7.5 kW) */
 JG.FLC = [[0.1, 0.4], [0.12, 0.5], [0.18, 0.8, 4], [0.25, 0.9, 4], [0.37, 1.4, 6], [0.56, 1.8, 6], [0.75, 2, 6], [1.1, 2.8, 10], [1.5, 3.7, 10], [2.2, 5.5, 16], [3, 7, 20], [3.7, 8, 25], [4, 9, 25],

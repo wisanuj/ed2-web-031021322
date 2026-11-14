@@ -8,13 +8,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=22"><link rel="stylesheet" href="assets/ed2.css?v=22">
-<link rel="stylesheet" href="assets/wiring.css?v=22"><link rel="stylesheet" href="assets/mcp.css?v=22">
-<script src="assets/stops.js?v=22"></script><script src="assets/shell.js?v=22"></script>
-<script src="assets/lesson.js?v=22"></script><script src="assets/draw.js?v=22"></script><script src="assets/ed.js?v=22"></script><script src="assets/sym.js?v=22"></script><script src="assets/iec.js?v=22"></script><script src="assets/relay.js?v=22"></script><script src="assets/ch2.js?v=22"></script><script src="assets/ch3.js?v=22"></script><script src="assets/ch4.js?v=22"></script>
-<script src="assets/panel.js?v=22"></script><script src="assets/ch5.js?v=22"></script><script src="assets/ch6.js?v=22"></script><script src="assets/ch7.js?v=22"></script>
-<script src="assets/wiring.js?v=22"></script><script src="assets/devdata.js?v=22"></script><script src="assets/dev.js?v=22"></script>
-<script src="assets/mcp.js?v=22"></script>
+<link rel="stylesheet" href="assets/ee.css?v=27"><link rel="stylesheet" href="assets/ed2.css?v=27">
+<link rel="stylesheet" href="assets/wiring.css?v=27"><link rel="stylesheet" href="assets/mcp.css?v=27">
+<script src="assets/stops.js?v=27"></script><script src="assets/shell.js?v=27"></script>
+<script src="assets/lesson.js?v=27"></script><script src="assets/draw.js?v=27"></script><script src="assets/ed.js?v=27"></script><script src="assets/sym.js?v=27"></script><script src="assets/iec.js?v=27"></script><script src="assets/relay.js?v=27"></script><script src="assets/ch2.js?v=27"></script><script src="assets/ch3.js?v=27"></script><script src="assets/ch4.js?v=27"></script>
+<script src="assets/panel.js?v=27"></script><script src="assets/ch5.js?v=27"></script><script src="assets/ch6.js?v=27"></script><script src="assets/ch7.js?v=27"></script>
+<script src="assets/wiring.js?v=27"></script><script src="assets/devdata.js?v=27"></script><script src="assets/dev.js?v=27"></script>
+<script src="assets/mcp.js?v=27"></script>
 </head>
 <body>
 <div class="wrap">
@@ -49,14 +49,14 @@
 
 <section class="prob" id="tA">
   <div class="prob-head"><span class="prob-no">A</span><div><h2 data-l="th">งานและแบบ</h2><h2 data-l="en">The job and the drawing</h2>
-    <div class="src" data-l="th">วงจรกลับทางหมุนพร้อมล็อกหลังหยุด หน้า 7.3 · หลอดแสดง หน้า 7.2</div><div class="src" data-l="en">reversing circuit with a stop lock, page 7.3 · pilot lamps, page 7.2</div></div></div>
-  <div class="given" data-l="th"><div class="gl">ใบสั่งงาน</div><p>สายพานลำเลียงพากล่องจากจุดบรรจุไปโต๊ะแพ็ก ขับด้วยมอเตอร์เหนี่ยวนำสามเฟส M1 ต่อแบบสตาร์ ผู้ใช้ต้องการ: (1) ปุ่ม FORWARD (S2) เดินหน้าไปโต๊ะแพ็ก และ REVERSE (S3) ถอยกล่องกลับ ทั้งสองค้างตัวเองได้ ปุ่ม STOP (S1) หยุด (2) คอนแทกเตอร์ KM1 และ KM2 ต้องไม่ต่อพร้อมกันไม่ว่ากดปุ่มอย่างไร และกดปุ่มทิศตรงข้ามขณะเดินต้องไม่มีอะไรเกิดขึ้น (3) หลังกด STOP ห้ามเริ่มเดินทิศใดอีกจนกว่าจะครบ 5 วินาที เพื่อให้สายพานหยุดนิ่งก่อนกลับทาง (4) โอเวอร์โหลด F2 หยุดมอเตอร์ทั้งสองทิศ (5) หลอดแสดง: H1 เขียว FORWARD, H2 เขียว REVERSE, H3 เหลือง OVERLOAD, H4 ขาว STOPPED (6) ไฟดับแล้วกลับมาต้องไม่เดินเอง (7) ต่อผ่านแผงขั้วต่อ -X1 (กำลัง) และ -X2 (ควบคุม) ตามแผงฝึกของแผนก</p></div>
-  <div class="given" data-l="en"><div class="gl">Job order</div><p>A conveyor belt carries boxes from the filling point to the packing table, driven by a three-phase induction motor M1 connected in star. The user wants: (1) a FORWARD button (S2) to run towards the packing table and a REVERSE button (S3) to bring a box back, both self-holding, and a STOP button (S1); (2) contactors KM1 and KM2 must never close together, whatever is pressed, and the opposite button pressed while running must do nothing; (3) after STOP, no start in either direction for 5 seconds, so that the belt is at rest before it reverses; (4) overload F2 stops the motor in both directions; (5) pilot lamps: H1 green FORWARD, H2 green REVERSE, H3 yellow OVERLOAD, H4 white STOPPED; (6) no restart when the power fails and returns; (7) wired through terminal strips -X1 (power) and -X2 (control) as on the department trainer.</p></div>
+    <div class="src" data-l="th">วงจรกลับทางหมุนพร้อมล็อกหลังหยุด หน้า 6.3 · หลอดแสดง หน้า 6.2</div><div class="src" data-l="en">reversing circuit with a stop lock, page 6.3 · pilot lamps, page 6.2</div></div></div>
+  <div class="given" data-l="th"><div class="gl">ใบสั่งงาน</div><p>สายพานลำเลียงพากล่องจากจุดบรรจุไปโต๊ะแพ็ก ขับด้วยมอเตอร์เหนี่ยวนำสามเฟส M1 ต่อแบบสตาร์ ผู้ใช้ต้องการ: (1) ปุ่ม FORWARD (S2) เดินหน้าไปโต๊ะแพ็ก และ REVERSE (S3) ถอยกล่องกลับ ทั้งสองค้างตัวเองได้ ปุ่ม STOP (S1) หยุด (2) คอนแทกเตอร์ K1 และ K2 ต้องไม่ต่อพร้อมกันไม่ว่ากดปุ่มอย่างไร และกดปุ่มทิศตรงข้ามขณะเดินต้องไม่มีอะไรเกิดขึ้น (3) หลังกด STOP ห้ามเริ่มเดินทิศใดอีกจนกว่าจะครบ 5 วินาที เพื่อให้สายพานหยุดนิ่งก่อนกลับทาง (4) โอเวอร์โหลด F3 หยุดมอเตอร์ทั้งสองทิศ (5) หลอดแสดง: H1 เขียว FORWARD, H2 เขียว REVERSE, H3 เหลือง OVERLOAD, H4 ขาว STOPPED (6) ไฟดับแล้วกลับมาต้องไม่เดินเอง (7) ต่อผ่านแผงขั้วต่อ -X1 (กำลัง) และ -X2 (ควบคุม) ตามแผงฝึกของแผนก</p></div>
+  <div class="given" data-l="en"><div class="gl">Job order</div><p>A conveyor belt carries boxes from the filling point to the packing table, driven by a three-phase induction motor M1 connected in star. The user wants: (1) a FORWARD button (S2) to run towards the packing table and a REVERSE button (S3) to bring a box back, both self-holding, and a STOP button (S1); (2) contactors K1 and K2 must never close together, whatever is pressed, and the opposite button pressed while running must do nothing; (3) after STOP, no start in either direction for 5 seconds, so that the belt is at rest before it reverses; (4) overload F3 stops the motor in both directions; (5) pilot lamps: H1 green FORWARD, H2 green REVERSE, H3 yellow OVERLOAD, H4 white STOPPED; (6) no restart when the power fails and returns; (7) wired through terminal strips -X1 (power) and -X2 (control) as on the department trainer.</p></div>
   <div class="story n0">
     <div class="story-t">
-      <div class="story-p" data-l="th"><p>แบบข้างล่างคือแบบที่ใช้ทำงาน ข้อ 1, 2, 4 และ 5 เป็นวงจรเดินหน้า–หยุด–ถอยหลังของสัปดาห์ที่ 8 ข้อ 3 คือล็อกหลังหยุดของหน้า 7.3: ปุ่ม STOP มีหน้าสัมผัสชุดที่สอง S1 23–24 แบบปกติเปิด ซึ่งดึงรีเลย์ KA2 ให้ค้างตัวเองและเริ่มตัวตั้งเวลา KT1 ระหว่างนั้น KA2 21–22 ในทางที่ใช้ร่วมกันของทั้งสองทิศเปิดอยู่ จึงเริ่มเดินไม่ได้ เมื่อ KT1 นับครบ 5 s หน้าสัมผัส 55–56 เปิด KA2 หลุด ล็อกจึงปลดเอง ล็อกนี้เป็นอุปกรณ์เพื่อการฝึก เครื่องจักรจริงที่ต้องรอให้หยุดนิ่งใช้สวิตช์ตรวจความเร็วศูนย์ (หน้า 7.3)</p>
+      <div class="story-p" data-l="th"><p>แบบข้างล่างคือแบบที่ใช้ทำงาน ข้อ 1, 2, 4 และ 5 เป็นวงจรเดินหน้า–หยุด–ถอยหลังของสัปดาห์ที่ 7 ข้อ 3 คือล็อกหลังหยุดของหน้า 6.3: ปุ่ม STOP มีหน้าสัมผัสชุดที่สอง S1 23–24 แบบปกติเปิด ซึ่งดึงรีเลย์ K3 ให้ค้างตัวเองและเริ่มตัวตั้งเวลา K4 ระหว่างนั้น K3 21–22 ในทางที่ใช้ร่วมกันของทั้งสองทิศเปิดอยู่ จึงเริ่มเดินไม่ได้ เมื่อ K4 นับครบ 5 s หน้าสัมผัส 55–56 เปิด K3 หลุด ล็อกจึงปลดเอง ล็อกนี้เป็นอุปกรณ์เพื่อการฝึก เครื่องจักรจริงที่ต้องรอให้หยุดนิ่งใช้สวิตช์ตรวจความเร็วศูนย์ (หน้า 6.3)</p>
         <p>ก่อนลงมือ อ่านแบบให้ครบ: ตารางอ้างอิงใต้คอยล์แต่ละตัวบอกว่าหน้าสัมผัสของมันอยู่ในทางเดินกระแสไหน แล้วตอบให้ได้ว่าข้อกำหนดแต่ละข้อทำด้วยอุปกรณ์ตัวไหน</p></div>
-      <div class="story-p" data-l="en"><p>The drawing below is the working drawing. Requirements 1, 2, 4 and 5 are the forward – stop – reverse circuit of week 8; requirement 3 is the stop lock of page 7.3: the STOP button has a second, normally open element S1 23–24, which pulls in relay KA2 (it holds itself) and starts timer KT1. Meanwhile KA2 21–22, in the path both directions share, is open, so nothing can start. When KT1 has counted 5 s, its contact 55–56 opens, KA2 drops out, and the lock releases itself. This lock is a teaching device: a real machine that must wait for standstill uses a zero-speed switch (page 7.3).</p>
+      <div class="story-p" data-l="en"><p>The drawing below is the working drawing. Requirements 1, 2, 4 and 5 are the forward – stop – reverse circuit of week 7; requirement 3 is the stop lock of page 6.3: the STOP button has a second, normally open element S1 23–24, which pulls in relay K3 (it holds itself) and starts timer K4. Meanwhile K3 21–22, in the path both directions share, is open, so nothing can start. When K4 has counted 5 s, its contact 55–56 opens, K3 drops out, and the lock releases itself. This lock is a teaching device: a real machine that must wait for standstill uses a zero-speed switch (page 6.3).</p>
         <p>Before you start, read the whole drawing: the cross-reference under each coil says in which current path its contacts sit. Be ready to say which device fulfils each requirement.</p></div></div>
   </div>
   <div class="card sim rlwrap rlscroll mcp-wide" style="padding:8px;margin-top:10px"><div id="simA"></div></div>
@@ -71,8 +71,8 @@
   <div class="card solve" style="overflow-x:auto"><div id="bomB"></div></div>
   <div class="story" style="margin-top:12px">
     <div class="story-t">
-      <div class="story-p" data-l="th"><p>รีเลย์ช่วย KA2 บนแผงฝึกเป็นรีเลย์เสียบบนซ็อกเก็ต 14 ขา มีหน้าสัมผัสสลับ (changeover) สี่ชุด พิมพ์เลข 11–12–14, 21–22–24 … และตัวตั้งเวลา KT1 มีหน้าสัมผัสสลับสองชุด 15–16–18 และ 25–26–28 ในแบบใช้เลขของคอนแทกเตอร์รีเลย์ (KA2 13–14, KT1 55–56) ตามบทที่ 4 ของวิชาเขียนแบบไฟฟ้า 2 จึงต้องแปลงเลขขั้วก่อนต่อ ดูการ์ดอุปกรณ์ข้างล่าง แล้วเทียบกับแถวที่มีหมายเหตุในตาราง</p></div>
-      <div class="story-p" data-l="en"><p>Auxiliary relay KA2 on the trainer is a plug-in relay on a 14-pin socket with four changeover contacts printed 11–12–14, 21–22–24 and so on, and timer KT1 has two changeover contacts 15–16–18 and 25–26–28. The drawing uses contactor-relay numbers (KA2 13–14, KT1 55–56) as in chapter 4 of Electrical Drawing II, so the numbers have to be translated before wiring. Look at the device cards below, then at the rows of the table that carry a note.</p></div></div>
+      <div class="story-p" data-l="th"><p>รีเลย์ช่วย K3 บนแผงฝึกเป็นรีเลย์เสียบบนซ็อกเก็ต 14 ขา มีหน้าสัมผัสสลับ (changeover) สี่ชุด พิมพ์เลข 11–12–14, 21–22–24 … และตัวตั้งเวลา K4 มีหน้าสัมผัสสลับสองชุด 15–16–18 และ 25–26–28 ในแบบใช้เลขของคอนแทกเตอร์รีเลย์ (K3 13–14, K4 55–56) ตามบทที่ 4 ของวิชาเขียนแบบไฟฟ้า 2 จึงต้องแปลงเลขขั้วก่อนต่อ ดูการ์ดอุปกรณ์ข้างล่าง แล้วเทียบกับแถวที่มีหมายเหตุในตาราง</p></div>
+      <div class="story-p" data-l="en"><p>Auxiliary relay K3 on the trainer is a plug-in relay on a 14-pin socket with four changeover contacts printed 11–12–14, 21–22–24 and so on, and timer K4 has two changeover contacts 15–16–18 and 25–26–28. The drawing uses contactor-relay numbers (K3 13–14, K4 55–56) as in chapter 4 of Electrical Drawing II, so the numbers have to be translated before wiring. Look at the device cards below, then at the rows of the table that carry a note.</p></div></div>
     <div class="story-f"><div id="devB"></div></div>
   </div>
   <div class="card solve" style="margin-top:12px;overflow-x:auto">
@@ -128,9 +128,9 @@
 
 <section class="prob" id="tF">
   <div class="prob-head"><span class="prob-no">F</span><div><h2 data-l="th">ทดสอบการทำงานและส่งมอบ</h2><h2 data-l="en">Function tests and hand-over</h2>
-    <div class="src" data-l="th">การทดสอบเจ็ดข้อ หน้า 7.6 · ล็อกหลังหยุด หน้า 7.3 · IEC 60204-1 ข้อ 7.5</div><div class="src" data-l="en">the seven tests, page 7.6 · stop lock, page 7.3 · IEC 60204-1, 7.5</div></div></div>
-  <p class="lead" data-l="th">ทดสอบได้สองที่: บนแผงฝึกในหัวข้อ D เมื่อต่อถูกและจ่ายไฟแล้ว หรือบนวงจรข้างล่าง (ปุ่มหน้าตู้ Q1 F2 และปุ่มไฟดับ) ตารางติดตามสิ่งที่คุณทำและบันทึกผลแต่ละการทดสอบเอง ทำให้ครบทั้งแปดข้อ ล็อกหลังหยุดนับเวลาจริง ถ้าเลื่อนวงจรออกนอกจอ ตัวตั้งเวลาจะหยุดนับ</p>
-  <p class="lead" data-l="en">You can test in two places: on the trainer of section D once it is wired right and switched on, or on the circuit below (door buttons, Q1, F2 and the power-failure button). The table follows what you do and records each test by itself; complete all eight. The stop lock counts real time, and the timer stops counting while the circuit is scrolled off screen.</p>
+    <div class="src" data-l="th">การทดสอบเจ็ดข้อ หน้า 6.6 · ล็อกหลังหยุด หน้า 6.3 · IEC 60204-1 ข้อ 7.5</div><div class="src" data-l="en">the seven tests, page 6.6 · stop lock, page 6.3 · IEC 60204-1, 7.5</div></div></div>
+  <p class="lead" data-l="th">ทดสอบได้สองที่: บนแผงฝึกในหัวข้อ D เมื่อต่อถูกและจ่ายไฟแล้ว หรือบนวงจรข้างล่าง (ปุ่มหน้าตู้ Q1 F3 และปุ่มไฟดับ) ตารางติดตามสิ่งที่คุณทำและบันทึกผลแต่ละการทดสอบเอง ทำให้ครบทั้งแปดข้อ ล็อกหลังหยุดนับเวลาจริง ถ้าเลื่อนวงจรออกนอกจอ ตัวตั้งเวลาจะหยุดนับ</p>
+  <p class="lead" data-l="en">You can test in two places: on the trainer of section D once it is wired right and switched on, or on the circuit below (door buttons, Q1, F3 and the power-failure button). The table follows what you do and records each test by itself; complete all eight. The stop lock counts real time, and the timer stops counting while the circuit is scrolled off screen.</p>
   <div class="warnbox" data-l="th" style="margin:0 0 10px"><b>ทดสอบบนแผงจริง:</b> ให้คนเดียวเป็นผู้กดปุ่ม คนอื่นยืนห่างจากมอเตอร์และสายพาน มือไม่อยู่ในตู้ ถ้ามีอะไรผิดปกติ (เสียง กลิ่น ควัน คอนแทกเตอร์สั่น) ให้กดหยุดและตัดไฟทันที แล้วกลับไปหาจุดผิดตามสัปดาห์ที่ 15</div>
   <div class="warnbox" data-l="en" style="margin:0 0 10px"><b>Testing on the real trainer:</b> one person operates the buttons, everyone else stands clear of the motor and the belt, and no hand is inside the panel. If anything is wrong (a noise, a smell, smoke, a chattering contactor), stop and switch off at once, then find the fault as in week 15.</div>
   <div class="card sim rlwrap rlscroll mcp-wide" style="padding:8px"><div id="simF"></div></div>
@@ -149,7 +149,7 @@
 <section class="notes" data-l="th">
   <div class="card"><h3>ลองทำดู</h3>
     <ol><li>เขียนตารางว่าข้อกำหนด 1–7 ของใบสั่งงานแต่ละข้อทำด้วยอุปกรณ์และหน้าสัมผัสตัวไหนในแบบ</li>
-      <li>ถ้าลูกค้าขอเพิ่มปุ่มหยุดฉุกเฉิน ควรต่อไว้ที่ไหนในแบบ และทำไมจึงไม่ใช้ปุ่ม S1 แทน (ดูหน้า 7.4 และสัปดาห์ที่ 8)</li>
+      <li>ถ้าลูกค้าขอเพิ่มปุ่มหยุดฉุกเฉิน ควรต่อไว้ที่ไหนในแบบ และทำไมจึงไม่ใช้ปุ่ม S1 แทน (ดูหน้า 6.4 และสัปดาห์ที่ 8)</li>
       <li>หัวข้อ E: ถ้าแถวที่กด S2 ค้างไว้อ่านได้ 1.50 kΩ แทนค่าที่ควรได้ จุดผิดน่าจะอยู่ที่ไหน (ใช้ขั้นตอนของสัปดาห์ที่ 15)</li>
       <li>จับเวลาตัวเองตอนต่อวงจรบนแผงฝึกเสมือน แล้วเทียบกับแผนเวลาในหัวข้อ B ขั้นไหนช้ากว่าแผน</li></ol>
     <div class="book">Herman &amp; Seiler, <i>Understanding Motor Controls</i> 5th ed. บทที่ 9 · Herman, <i>Electric Motor Control</i> 9th ed. หน่วยที่ 21 · IEC 60204-1 ข้อ 7.5, 9.3.5 และ 13.2 · IEC 60947-5-1 · แผงฝึกของแผนก (แบบทั่วไปที่ออกแบบไว้ จะปรับตามแผงจริง)</div></div>
@@ -157,7 +157,7 @@
 <section class="notes" data-l="en">
   <div class="card"><h3>Try this</h3>
     <ol><li>Make a table saying which device and contact in the drawing fulfils each of requirements 1–7 of the job order.</li>
-      <li>If the user asks for an emergency stop button too, where would it go in the drawing, and why not simply use S1? (See page 7.4 and week 8.)</li>
+      <li>If the user asks for an emergency stop button too, where would it go in the drawing, and why not simply use S1? (See page 6.4 and week 8.)</li>
       <li>Section E: if the row with S2 held reads 1.50 kΩ instead of the expected value, where is the fault most likely to be? (Use the steps of week 15.)</li>
       <li>Time yourself wiring the virtual trainer and compare with the time plan of section B: which step took longer than planned?</li></ol>
     <div class="book">Herman &amp; Seiler, <i>Understanding Motor Controls</i>, 5th ed., ch. 9 · Herman, <i>Electric Motor Control</i>, 9th ed., unit 21 · IEC 60204-1, 7.5, 9.3.5 and 13.2 · IEC 60947-5-1 · the department trainer (our generic design, to be adapted to the real one)</div></div>
@@ -171,7 +171,7 @@ document.addEventListener('mc:ready', () => {
   'use strict';
   const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui, tt = ED.tt;
   const esc = MCP.esc, natural = (a, b) => a.localeCompare(b, 'en', { numeric: true });
-  const SPEC = () => C7.STOPLOCK({ lamps: 'all', T: 5 });   // the job: ELEC reversing + stop lock S1 23–24 / KA2 / KT1 (5 s) + lamps H1–H4 (page 7.3)
+  const SPEC = () => C7.STOPLOCK({ lamps: 'all', T: 5 });   // the job: ELEC reversing + stop lock S1 23–24 / K3 / K4 (5 s) + lamps H1–H4 (page 6.3)
   const TITLE = ['สายพานลำเลียงกลับทางพร้อมล็อกหลังหยุด', 'Reversing conveyor with stop lock'];
   const hid = () => new RL.Sim(document.createElement('div'), SPEC(), { sheet: false });   // hidden simulator: the same model as the drawings
   const vx = (sim, s) => { if (/^[ctp]:/.test(s)) return s; const x = MCP.findEl(sim, s); return x ? `t:${x.i}:${x.j}` : s; };
@@ -184,8 +184,8 @@ document.addEventListener('mc:ready', () => {
   const NOTE = { 5: ['ต่อตามลำดับเลขสาย และตารางทดสอบก่อนและหลังจ่ายไฟ', 'wiring in wire-number order, and the before and after power-on test tables'],
     6: ['ต่อผ่านแผงขั้วต่อ -X1 และ -X2', 'wiring through terminal strips -X1 and -X2'], 7: ['ตัวตั้งเวลาบนแผงฝึกและเลขขั้วแบบหน้าสัมผัสสลับ', 'the timer on the trainer and its changeover numbers'],
     8: ['วงจรกำลังกลับทางหมุนและการพิสูจน์ว่าไม่มีลัดวงจรระหว่างเฟส', 'the reversing power circuit and proving there is no phase-to-phase short'], 15: ['หาจุดผิดด้วยการวัด เผื่อการทดสอบข้อใดไม่ผ่าน', 'finding faults by measuring, in case a test fails'] };
-  const ED2P = { 'ch5_6_wiring.html': ['แบบสายไฟ แผงขั้วต่อ และเลขสาย', 'wiring diagrams, terminal strips and wire numbers'], 'ch7_3_direct_reversing.html': ['ล็อกหลังหยุด: S1 23–24, KA2 และ KT1', 'the stop lock: S1 23–24, KA2 and KT1'],
-    'ch7_6_fault_finding.html': ['เจ็ดการทดสอบของวงจรกลับทางหมุน', 'the seven tests of a reversing circuit'] };
+  const ED2P = { 'ch5_6_wiring.html': ['แบบสายไฟ แผงขั้วต่อ และเลขสาย', 'wiring diagrams, terminal strips and wire numbers'], 'ch6_3_direct_reversing.html': ['ล็อกหลังหยุด: S1 23–24, K3 และ K4', 'the stop lock: S1 23–24, K3 and K4'],
+    'ch6_6_fault_finding.html': ['เจ็ดการทดสอบของวงจรกลับทางหมุน', 'the seven tests of a reversing circuit'] };
   const WK = MC.mcpWeeks(), here = MC.mcpHere() || WK.find(x => x.wk === 16) || {}, hw = here.wk || 16;
   const ed2li = (f, note) => { const s = (window.STOPS || []).find(x => x.file === f), w = (here.prepare || []).includes(f) || (here.review || []).includes(f) ? here : MC.mcpWeeksOf(f)[0];
     return s ? `<li><a href="${MC.mcpLink(f, w ? w.wk : hw)}"><b>${s.step}</b> ${esc(MC.stopTitle(s))}</a>${note ? `: ${tt(note)}` : ''}</li>` : ''; };
@@ -194,20 +194,20 @@ document.addEventListener('mc:ready', () => {
 
   /* A: the working drawing (printed look, as on paper) and a "which device does what" worked reading */
   new RL.Sim($('simA'), SPEC(), { max: 1000, print: true, label: tt(TITLE), sheet: sheet('A', 'แบบใช้งาน', 'working drawing') }).setMains(false);   // a paper drawing: nothing live, devices de-energised
-  LS.choose($('askA'), { options: [t('KM2 21–22', 'KM2 21–22'), t('KA2 21–22', 'KA2 21–22'), t('KT1 55–56', 'KT1 55–56'), t('S1 23–24', 'S1 23–24')], answer: 1 });
+  LS.choose($('askA'), { options: [t('K2 21–22', 'K2 21–22'), t('K3 21–22', 'K3 21–22'), t('K4 55–56', 'K4 55–56'), t('S1 23–24', 'S1 23–24')], answer: 1 });
   $('askA').insertAdjacentHTML('afterbegin', `<p style="margin:0 0 6px"><b>${t('ลองตอบก่อน: หน้าสัมผัสตัวไหนห้ามเริ่มเดินระหว่าง 5 วินาทีหลังกดหยุด', 'Try first: which contact prevents a start during the 5 seconds after STOP?')}</b></p>`);
   LS.stepper($('stA'), { steps: [
-    { why: t('ข้อ 1: S2 กับ KM1 13–14 และ S3 กับ KM2 13–14 (ทางเดินกระแสที่ 1–4)', 'Requirement 1: S2 with KM1 13–14 and S3 with KM2 13–14 (current paths 1–4)'),
+    { why: t('ข้อ 1: S2 กับ K1 13–14 และ S3 กับ K2 13–14 (ทางเดินกระแสที่ 1–4)', 'Requirement 1: S2 with K1 13–14 and S3 with K2 13–14 (current paths 1–4)'),
       body: `<p>${t('หน้าสัมผัสค้างแต่ละตัวคร่อมเฉพาะปุ่มเริ่มของมัน ปุ่ม S1 11–12 อยู่ในทางที่ทั้งสองทิศใช้ร่วมกัน จึงหยุดได้ทั้งสองทิศ', 'Each holding contact spans its own start button only; S1 11–12 sits in the path both directions share, so it stops either direction.')}</p>` },
-    { why: t('ข้อ 2: KM2 21–22 ในทางของ KM1 และ KM1 21–22 ในทางของ KM2', 'Requirement 2: KM2 21–22 in the KM1 path and KM1 21–22 in the KM2 path'),
+    { why: t('ข้อ 2: K2 21–22 ในทางของ K1 และ K1 21–22 ในทางของ K2', 'Requirement 2: K2 21–22 in the K1 path and K1 21–22 in the K2 path'),
       body: `<p>${t('อินเตอร์ล็อกทางไฟฟ้า: คอนแทกเตอร์ที่ดูดอยู่เปิดหน้าสัมผัสปกติปิดในทางของอีกตัว ปุ่มทิศตรงข้ามขณะเดินจึงไม่มีผล (เดินหน้า–หยุด–ถอยหลัง)', 'The electrical interlock: the contactor that is in opens its normally closed contact in the other one\'s path, so the opposite button does nothing while running (forward – stop – reverse).')}</p>` },
-    { why: t('ข้อ 3: S1 23–24 ดึง KA2 (ค้างด้วย KA2 13–14) และ KT1 · KA2 21–22 ล็อก · KT1 55–56 ปลดล็อก', 'Requirement 3: S1 23–24 pulls in KA2 (held by KA2 13–14) and KT1 · KA2 21–22 locks · KT1 55–56 releases'),
-      body: `<p>${t('KA2 21–22 อยู่ใต้ S1 ในทางที่ทั้งสองทิศใช้ร่วมกัน เมื่อ KA2 ดูด จึงเริ่มเดินไม่ได้ทั้งสองทิศ KT1 นับ 5 s แล้ว 55–56 เปิด ตัด KA2 และ KT1 เอง', 'KA2 21–22 sits below S1 in the shared path, so with KA2 in neither direction can start. KT1 counts 5 s, then 55–56 opens and drops KA2 and KT1 by itself.')}</p>` },
-    { why: t('ข้อ 4 และ 6: F2 95–96 ในทางร่วม และวงจรค้างตัวเอง', 'Requirements 4 and 6: F2 95–96 in the shared path, and self-holding'),
-      body: `<p>${t('F2 95–96 อยู่ก่อน S1 จึงหยุดทั้งสองทิศ ไฟดับแล้ว หน้าสัมผัสค้างเปิด เมื่อไฟกลับมาจึงไม่มีอะไรเดินเอง (มาตรฐาน IEC 60204-1 ของคณะกรรมาธิการไฟฟ้าระหว่างประเทศ (International Electrotechnical Commission, IEC) ข้อ 7.5)', 'F2 95–96 comes before S1, so it stops both directions. When the power fails, the holding contacts open, so nothing restarts when it returns (IEC 60204-1 of the International Electrotechnical Commission (IEC), 7.5).')}</p>` },
-    { why: t('ข้อ 5: H1 ผ่าน KM1 53–54, H2 ผ่าน KM2 53–54, H3 ผ่าน F2 97–98, H4 ผ่าน KM1 61–62 และ KM2 61–62', 'Requirement 5: H1 through KM1 53–54, H2 through KM2 53–54, H3 through F2 97–98, H4 through KM1 61–62 and KM2 61–62'),
-      body: `<p>${t('หลอดทุกดวงรับไฟจาก F1:2 ก่อน F2 95–96 หลอด H3 จึงติดได้ตอนโอเวอร์โหลดตัด และ H4 ติดเมื่อคอนแทกเตอร์ทั้งสองไม่ดูด', 'Every lamp is fed from F1:2, ahead of F2 95–96, so H3 can light when the overload has tripped, and H4 lights when neither contactor is in.')}</p>` }],
-    answer: t('KA2 21–22 (ทางเดินกระแสร่วมใต้ S1) · ข้อ 7 คือการต่อผ่าน -X1 และ -X2 ซึ่งแบบสายไฟและรายการเดินสายในหัวข้อ D แสดงไว้', 'KA2 21–22 (in the shared path below S1) · requirement 7 is the wiring through -X1 and -X2, shown by the wiring checklist of section D') });
+    { why: t('ข้อ 3: S1 23–24 ดึง K3 (ค้างด้วย K3 13–14) และ K4 · K3 21–22 ล็อก · K4 55–56 ปลดล็อก', 'Requirement 3: S1 23–24 pulls in K3 (held by K3 13–14) and K4 · K3 21–22 locks · K4 55–56 releases'),
+      body: `<p>${t('K3 21–22 อยู่ใต้ S1 ในทางที่ทั้งสองทิศใช้ร่วมกัน เมื่อ K3 ดูด จึงเริ่มเดินไม่ได้ทั้งสองทิศ K4 นับ 5 s แล้ว 55–56 เปิด ตัด K3 และ K4 เอง', 'K3 21–22 sits below S1 in the shared path, so with K3 in neither direction can start. K4 counts 5 s, then 55–56 opens and drops K3 and K4 by itself.')}</p>` },
+    { why: t('ข้อ 4 และ 6: F3 95–96 ในทางร่วม และวงจรค้างตัวเอง', 'Requirements 4 and 6: F3 95–96 in the shared path, and self-holding'),
+      body: `<p>${t('F3 95–96 อยู่ก่อน S1 จึงหยุดทั้งสองทิศ ไฟดับแล้ว หน้าสัมผัสค้างเปิด เมื่อไฟกลับมาจึงไม่มีอะไรเดินเอง (มาตรฐาน IEC 60204-1 ของคณะกรรมาธิการไฟฟ้าระหว่างประเทศ (International Electrotechnical Commission, IEC) ข้อ 7.5)', 'F3 95–96 comes before S1, so it stops both directions. When the power fails, the holding contacts open, so nothing restarts when it returns (IEC 60204-1 of the International Electrotechnical Commission (IEC), 7.5).')}</p>` },
+    { why: t('ข้อ 5: H1 ผ่าน K1 53–54, H2 ผ่าน K2 53–54, H3 ผ่าน F3 97–98, H4 ผ่าน K1 61–62 และ K2 61–62', 'Requirement 5: H1 through K1 53–54, H2 through K2 53–54, H3 through F3 97–98, H4 through K1 61–62 and K2 61–62'),
+      body: `<p>${t('หลอดทุกดวงรับไฟจาก F2:2 ก่อน F3 95–96 หลอด H3 จึงติดได้ตอนโอเวอร์โหลดตัด และ H4 ติดเมื่อคอนแทกเตอร์ทั้งสองไม่ดูด', 'Every lamp is fed from F2:2, ahead of F3 95–96, so H3 can light when the overload has tripped, and H4 lights when neither contactor is in.')}</p>` }],
+    answer: t('K3 21–22 (ทางเดินกระแสร่วมใต้ S1) · ข้อ 7 คือการต่อผ่าน -X1 และ -X2 ซึ่งแบบสายไฟและรายการเดินสายในหัวข้อ D แสดงไว้', 'K3 21–22 (in the shared path below S1) · requirement 7 is the wiring through -X1 and -X2, shown by the wiring checklist of section D') });
 
   /* B: plan: drawing device → trainer device (MCP.trAssign), printed tag, model, terminals (with the changeover translation), lead count */
   const h0 = hid(), asg = MCP.trAssign(h0), ref = MCP.trRef(h0, { asg }), TL = MCP.TRAINER;
@@ -228,29 +228,29 @@ document.addEventListener('mc:ready', () => {
   const simC = new RL.Sim($('simC'), SPEC(), { max: 1000, label: t('วงจรสำหรับไล่ทางเดินกระแส', 'circuit for tracing'), sheet: sheet('C', 'ไล่ทางเดินกระแส', 'tracing') });
   new MCP.Trace($('trC'), simC, [
     { ask: ['หยุดอยู่ ไม่มีใครกดปุ่ม: ไล่ทางเดินกระแสของหลอด H4 (STOPPED)', 'Stopped, nothing pressed: trace the path of lamp H4 (STOPPED)'], setup: [], load: 'H4', hint: ['H4 ต้องผ่านหน้าสัมผัสปกติปิดสองตัวต่ออนุกรมกัน', 'H4 goes through two normally closed contacts in series'] },
-    { ask: ['กด S2 ค้างไว้: ไล่ทางเดินกระแสที่ทำให้คอยล์ KM1 มีไฟ', 'S2 held: trace the path that energises coil KM1'], setup: [['hold', 'S2']], load: 'KM1' },
-    { ask: ['เดินหน้าอยู่แล้วกด S1: ไล่ทางเดินกระแสที่ทำให้รีเลย์ KA2 ค้างอยู่', 'Running forward, then S1 pressed and released: trace the path that keeps relay KA2 in'], setup: [['tap', 'S2'], ['tap', 'S1']], load: 'KA2', hint: ['S1 ปล่อยแล้ว 23–24 เปิด KA2 ค้างด้วยหน้าสัมผัสของตัวเอง', 'S1 is released, so 23–24 is open: KA2 holds itself through its own contact'] },
-    { ask: ['ระหว่างล็อก: ไล่ทางเดินกระแสของตัวตั้งเวลา KT1', 'During the lock: trace the path of timer KT1'], setup: [['tap', 'S1']], load: 'KT1' },
-    { ask: ['ล็อกปลดแล้ว กด S3 ค้างไว้: ไล่ทางเดินกระแสของคอยล์ KM2', 'Lock released, S3 held: trace the path of coil KM2'], setup: [['hold', 'S3']], load: 'KM2' }]);
+    { ask: ['กด S2 ค้างไว้: ไล่ทางเดินกระแสที่ทำให้คอยล์ K1 มีไฟ', 'S2 held: trace the path that energises coil K1'], setup: [['hold', 'S2']], load: 'K1' },
+    { ask: ['เดินหน้าอยู่แล้วกด S1: ไล่ทางเดินกระแสที่ทำให้รีเลย์ K3 ค้างอยู่', 'Running forward, then S1 pressed and released: trace the path that keeps relay K3 in'], setup: [['tap', 'S2'], ['tap', 'S1']], load: 'K3', hint: ['S1 ปล่อยแล้ว 23–24 เปิด K3 ค้างด้วยหน้าสัมผัสของตัวเอง', 'S1 is released, so 23–24 is open: K3 holds itself through its own contact'] },
+    { ask: ['ระหว่างล็อก: ไล่ทางเดินกระแสของตัวตั้งเวลา K4', 'During the lock: trace the path of timer K4'], setup: [['tap', 'S1']], load: 'K4' },
+    { ask: ['ล็อกปลดแล้ว กด S3 ค้างไว้: ไล่ทางเดินกระแสของคอยล์ K2', 'Lock released, S3 held: trace the path of coil K2'], setup: [['hold', 'S3']], load: 'K2' }]);
 
   /* F (built before D so that the trainer can report to it): the function tests, tracked on any simulator they are attached to */
   const TESTS = [
-    ['t1', ['เดินหน้าและค้าง', 'Forward and hold'], ['กด S2 แล้วปล่อย: KM1 ค้าง มอเตอร์เดินหน้า H1 ติด H4 ดับ', 'press and release S2: KM1 holds, the motor runs forward, H1 lit, H4 dark']],
-    ['t2', ['ปุ่มถอยหลังขณะเดินหน้า', 'Reverse button while forward'], ['กด S3 ขณะเดินหน้า: ไม่มีอะไรเปลี่ยน KM2 ไม่ดูด', 'press S3 while running forward: nothing changes, KM2 stays out']],
-    ['t3', ['หยุดและล็อก', 'Stop and lock'], ['กด S1 ขณะเดิน: หยุด H4 ติด KA2 ดูด (ล็อก)', 'press S1 while running: it stops, H4 lit, KA2 in (lock)']],
+    ['t1', ['เดินหน้าและค้าง', 'Forward and hold'], ['กด S2 แล้วปล่อย: K1 ค้าง มอเตอร์เดินหน้า H1 ติด H4 ดับ', 'press and release S2: K1 holds, the motor runs forward, H1 lit, H4 dark']],
+    ['t2', ['ปุ่มถอยหลังขณะเดินหน้า', 'Reverse button while forward'], ['กด S3 ขณะเดินหน้า: ไม่มีอะไรเปลี่ยน K2 ไม่ดูด', 'press S3 while running forward: nothing changes, K2 stays out']],
+    ['t3', ['หยุดและล็อก', 'Stop and lock'], ['กด S1 ขณะเดิน: หยุด H4 ติด K3 ดูด (ล็อก)', 'press S1 while running: it stops, H4 lit, K3 in (lock)']],
     ['t4', ['เริ่มระหว่างล็อก', 'Start during the lock'], ['กด S2 หรือ S3 ภายใน 5 s หลังหยุด: ไม่มีอะไรเดิน', 'press S2 or S3 within 5 s after the stop: nothing starts']],
-    ['t5', ['ถอยหลังหลังปลดล็อก', 'Reverse after the lock'], ['รอให้ KA2 หลุด กด S3 แล้วปล่อย: KM2 ค้าง มอเตอร์ถอยหลัง H2 ติด', 'wait until KA2 drops, press and release S3: KM2 holds, the motor runs in reverse, H2 lit']],
+    ['t5', ['ถอยหลังหลังปลดล็อก', 'Reverse after the lock'], ['รอให้ K3 หลุด กด S3 แล้วปล่อย: K2 ค้าง มอเตอร์ถอยหลัง H2 ติด', 'wait until K3 drops, press and release S3: K2 holds, the motor runs in reverse, H2 lit']],
     ['t6', ['ปุ่มเดินหน้าขณะถอยหลัง', 'Forward button while in reverse'], ['กด S2 ขณะถอยหลัง: ไม่มีอะไรเปลี่ยน', 'press S2 while in reverse: nothing changes']],
-    ['t7', ['โอเวอร์โหลด', 'Overload'], ['ทำให้ F2 ตัดขณะเดิน: หยุด H3 ติด · รีเซ็ตแล้วไม่เดินเอง', 'trip F2 while running: it stops, H3 lit · after the reset no restart']],
+    ['t7', ['โอเวอร์โหลด', 'Overload'], ['ทำให้ F3 ตัดขณะเดิน: หยุด H3 ติด · รีเซ็ตแล้วไม่เดินเอง', 'trip F3 while running: it stops, H3 lit · after the reset no restart']],
     ['t8', ['ไฟดับแล้วกลับมา', 'Power fails and returns'], ['ตัดไฟหรือปลด Q1 ขณะเดิน แล้วจ่ายกลับ: ไม่เดินเอง', 'cut the supply or switch Q1 off while running, then back on: no restart']]];
   const RES = {};
   const logF = new ED.Log($('logF'), [['ข้อ', 'no.'], ['การทดสอบ', 'test'], ['ทดสอบที่', 'where'], ['ผลที่เห็น', 'what happened'], ['ผล', 'result']],
     { title: ['ตารางทดสอบการทำงาน (บันทึกอัตโนมัติ)', 'Function test table (recorded automatically)'], empty: ['ยังไม่มีผล ใช้ปุ่มหน้าตู้ของวงจรข้างบน หรือของแผงฝึกเมื่อจ่ายไฟแล้ว', 'No results yet: use the door buttons of the circuit above, or of the trainer once it is live'] });
   const rec = (id, ok, what, where) => { if (RES[id] === true && !ok) return; RES[id] = ok; const k = TESTS.findIndex(x => x[0] === id), T = TESTS[k];
     logF.add(id, [String(k + 1), tt(T[1]), where, what, ok ? `${yes} ${t('ผ่าน', 'pass')}` : `${no} ${t('ไม่ผ่าน', 'fail')}`], ok ? 'ok' : 'bad'); };
-  const snap = s => ({ k1: s.act('KM1'), k2: s.act('KM2'), ka: !!s.dev.KA2.energized, s1: !!s.dev.S1.pressed, s2: !!s.dev.S2.pressed, s3: !!s.dev.S3.pressed,
-    f2: !!s.dev.F2.tripped, q1: !!s.dev.Q1.on, on: s.mains !== false, dir: s.dir(), h: ['H1', 'H2', 'H3', 'H4'].map(id => !!s.dev[id].energized) });
-  const stateTxt = n => (n.k1 ? t('เดินหน้า (KM1)', 'forward (KM1)') : n.k2 ? t('ถอยหลัง (KM2)', 'reverse (KM2)') : t('หยุด', 'stopped')) + (n.ka ? t(' · ล็อก (KA2)', ' · locked (KA2)') : '') +
+  const snap = s => ({ k1: s.act('K1'), k2: s.act('K2'), ka: !!s.dev.K3.energized, s1: !!s.dev.S1.pressed, s2: !!s.dev.S2.pressed, s3: !!s.dev.S3.pressed,
+    f2: !!s.dev.F3.tripped, q1: !!s.dev.Q1.on, on: s.mains !== false, dir: s.dir(), h: ['H1', 'H2', 'H3', 'H4'].map(id => !!s.dev[id].energized) });
+  const stateTxt = n => (n.k1 ? t('เดินหน้า (K1)', 'forward (K1)') : n.k2 ? t('ถอยหลัง (K2)', 'reverse (K2)') : t('หยุด', 'stopped')) + (n.ka ? t(' · ล็อก (K3)', ' · locked (K3)') : '') +
     ` · ${['H1', 'H2', 'H3', 'H4'].filter((x, i) => n.h[i]).join(' ') || t('ไม่มีหลอดติด', 'no lamp lit')}`;
   const attach = (sim, where) => { let p = snap(sim), wasRun = false, olRun = false;
     sim.on(s => { if (s !== sim) return; const n = snap(s), run = p.k1 || p.k2, W = tt(where);
@@ -271,7 +271,7 @@ document.addEventListener('mc:ready', () => {
   LS.anim($('simF'), dt => { simF.step(dt); pnF.refresh(); });
   /* the expected results from the same model: each test run on a fresh hidden simulator */
   const SEQ = { t1: [['tap', 'S2']], t2: [['tap', 'S2'], ['tap', 'S3']], t3: [['tap', 'S2'], ['tap', 'S1']], t4: [['tap', 'S2'], ['tap', 'S1'], ['wait', 2], ['tap', 'S2'], ['tap', 'S3']],
-    t5: [['tap', 'S1'], ['wait', 5.2], ['tap', 'S3']], t6: [['tap', 'S3'], ['tap', 'S2']], t7: [['tap', 'S2'], ['set', 'F2', true], ['set', 'F2', false]], t8: [['tap', 'S2'], ['mains', false], ['mains', true]] };
+    t5: [['tap', 'S1'], ['wait', 5.2], ['tap', 'S3']], t6: [['tap', 'S3'], ['tap', 'S2']], t7: [['tap', 'S2'], ['set', 'F3', true], ['set', 'F3', false]], t8: [['tap', 'S2'], ['mains', false], ['mains', true]] };
   ED.summary($('sumF'), { head: [['ข้อ', 'no.'], ['การทดสอบ', 'test'], ['ทำอะไร', 'what you do'], ['ผลจากแบบจำลอง', 'result in the model']],
     rows: () => TESTS.map(([id, nm, how], k) => { const s = hid(); MCP.run(s, SEQ[id]); return [String(k + 1), tt(nm), tt(how), stateTxt(snap(s))]; }),
     points: [['ผลที่ถูกของทุกข้อมาจากแบบเดียวกับที่ใช้ต่อ: ถ้าแผงจริงให้ผลต่างไป ให้หยุด ตัดไฟ แล้วหาจุดผิดตามสัปดาห์ที่ 15 ก่อนทดสอบซ้ำ', 'The right result of every test comes from the same drawing you wired: if the real panel behaves differently, stop, switch off and find the fault as in week 15 before testing again.'],
@@ -296,11 +296,11 @@ document.addEventListener('mc:ready', () => {
     { id: 'e2', w: ['ไม่มีลัดวงจร L2–L3 หลัง Q1', 'no short L2–L3 after Q1'], a: 'p:Q1:4', b: 'p:Q1:6', hold: [] },
     { id: 'e3', w: ['ไม่มีลัดวงจร L1–L3 หลัง Q1', 'no short L1–L3 after Q1'], a: 'p:Q1:2', b: 'p:Q1:6', hold: [] },
     { id: 'e4', w: ['ไม่มีลัดวงจร L1 ลงดิน', 'no short L1 to earth'], a: 'p:Q1:2', b: 'p:SUP:PE', hold: [] },
-    { id: 'e5', w: ['ขดลวดมอเตอร์ครบ (ต่อสตาร์ ได้สองขดอนุกรม)', 'motor windings complete (star: two windings in series)'], a: 'p:F2:2', b: 'p:F2:4', hold: [] },
-    { id: 'e6', w: ['วงจรควบคุมไม่ลัด: มีหลอด H4 อยู่ในวงจรตัวเดียว', 'control circuit not shorted: only lamp H4 in circuit'], a: 'F1:2', b: 'c:N', hold: [] },
-    { id: 'e7', w: ['กด S2: คอยล์ KM1 เข้ามาขนาน', 'S2 held: coil KM1 comes in parallel'], a: 'F1:2', b: 'c:N', hold: ['S2'] },
-    { id: 'e8', w: ['กด S3: คอยล์ KM2 เข้ามาขนาน', 'S3 held: coil KM2 comes in parallel'], a: 'F1:2', b: 'c:N', hold: ['S3'] },
-    { id: 'e9', w: ['กด S1: หน้าสัมผัส 23–24 ต่อ KA2 และ KT1 เข้ามา', 'S1 held: contact 23–24 brings in KA2 and KT1'], a: 'F1:2', b: 'c:N', hold: ['S1'] }];
+    { id: 'e5', w: ['ขดลวดมอเตอร์ครบ (ต่อสตาร์ ได้สองขดอนุกรม)', 'motor windings complete (star: two windings in series)'], a: 'p:F3:2', b: 'p:F3:4', hold: [] },
+    { id: 'e6', w: ['วงจรควบคุมไม่ลัด: มีหลอด H4 อยู่ในวงจรตัวเดียว', 'control circuit not shorted: only lamp H4 in circuit'], a: 'F2:2', b: 'c:N', hold: [] },
+    { id: 'e7', w: ['กด S2: คอยล์ K1 เข้ามาขนาน', 'S2 held: coil K1 comes in parallel'], a: 'F2:2', b: 'c:N', hold: ['S2'] },
+    { id: 'e8', w: ['กด S3: คอยล์ K2 เข้ามาขนาน', 'S3 held: coil K2 comes in parallel'], a: 'F2:2', b: 'c:N', hold: ['S3'] },
+    { id: 'e9', w: ['กด S1: หน้าสัมผัส 23–24 ต่อ K3 และ K4 เข้ามา', 'S1 held: contact 23–24 brings in K3 and K4'], a: 'F2:2', b: 'c:N', hold: ['S1'] }];
   const dead = s => { s.setMains(false); MCP.run(s, [['set', 'Q1', false]]); return s; };
   const hD = dead(hid()), PBS = ['S1', 'S2', 'S3'];
   const expect = r => { PBS.forEach(id => hD.press(id, r.hold.includes(id))); const x = MCP.measure(hD, vx(hD, r.a), vx(hD, r.b), 'R').text; PBS.forEach(id => hD.press(id, false)); return x; };
@@ -328,16 +328,16 @@ document.addEventListener('mc:ready', () => {
   ED.mcq('mcq', [
     { q: t('1) ทำไมงานนี้จึงห้ามเริ่มเดิน 5 วินาทีหลังกดหยุด', '1) Why does this job forbid a start for 5 seconds after STOP?'),
       options: [t('เพื่อประหยัดไฟ', 'to save energy'), t('ให้สายพานหยุดนิ่งก่อนกลับทาง ไม่ให้กลับทางขณะยังหมุน ซึ่งกินกระแสสูงและกระชากสายพาน', 'so that the belt is at rest before it reverses: reversing while turning draws a high current and jerks the belt'), t('ให้โอเวอร์โหลดเย็นลง', 'to let the overload cool down'), t('เพราะคอนแทกเตอร์ต้องพัก', 'because the contactors need a rest')], answer: 1,
-      why: t('กลับทางขณะหมุน (plugging) ทำให้กระแสสูงกว่ากระแสเริ่มเดินและเกิดแรงกระชาก (หน้า 7.3)', 'Reversing while turning (plugging) draws more than the starting current and gives a mechanical jolt (page 7.3).') },
-    { q: t('2) ในแบบ KA2 ใช้ 13–14 บนแผงฝึก รีเลย์เสียบมีหน้าสัมผัสสลับ ต้องต่อที่ขั้วใด', '2) The drawing uses KA2 13–14; the trainer\'s plug-in relay has changeover contacts. Which terminals do you wire?'),
+      why: t('กลับทางขณะหมุน (plugging) ทำให้กระแสสูงกว่ากระแสเริ่มเดินและเกิดแรงกระชาก (หน้า 6.3)', 'Reversing while turning (plugging) draws more than the starting current and gives a mechanical jolt (page 6.3).') },
+    { q: t('2) ในแบบ K3 ใช้ 13–14 บนแผงฝึก รีเลย์เสียบมีหน้าสัมผัสสลับ ต้องต่อที่ขั้วใด', '2) The drawing uses K3 13–14; the trainer\'s plug-in relay has changeover contacts. Which terminals do you wire?'),
       options: [t('13 และ 14', '13 and 14'), t('11 และ 12', '11 and 12'), t('11 และ 14', '11 and 14'), t('A1 และ A2', 'A1 and A2')], answer: 2,
       why: t('ชุดหน้าสัมผัสสลับชุดที่ 1: 11 คือขั้วร่วม 14 ปกติเปิด 12 ปกติปิด', 'Changeover set 1: 11 is the common, 14 normally open, 12 normally closed.') },
     { q: t('3) การวัดก่อนจ่ายไฟข้อใดพิสูจน์ว่าวงจรกำลังไม่มีลัดวงจรระหว่างเฟส', '3) Which before-power test proves that the power circuit has no phase-to-phase short?'),
-      options: [t('วัดแรงดัน Q1:2 ถึง Q1:4', 'voltage from Q1:2 to Q1:4'), t('วัดความต้านทานคร่อมคอยล์ KM1', 'resistance across coil KM1'), t('กด S2 แล้วฟังเสียง', 'press S2 and listen'), t('ปลด Q1 แล้ววัดความต้านทาน Q1:2–Q1:4, Q1:4–Q1:6, Q1:2–Q1:6 ต้องได้ OL', 'with Q1 off, resistance Q1:2–Q1:4, Q1:4–Q1:6, Q1:2–Q1:6 must read OL')], answer: 3,
+      options: [t('วัดแรงดัน Q1:2 ถึง Q1:4', 'voltage from Q1:2 to Q1:4'), t('วัดความต้านทานคร่อมคอยล์ K1', 'resistance across coil K1'), t('กด S2 แล้วฟังเสียง', 'press S2 and listen'), t('ปลด Q1 แล้ววัดความต้านทาน Q1:2–Q1:4, Q1:4–Q1:6, Q1:2–Q1:6 ต้องได้ OL', 'with Q1 off, resistance Q1:2–Q1:4, Q1:4–Q1:6, Q1:2–Q1:6 must read OL')], answer: 3,
       why: t('เมื่อคอนแทกเตอร์ไม่ดูด ระหว่างเฟสต้องไม่มีทางต่อถึงกันเลย', 'With both contactors out, there must be no path at all between the phases.') },
     { q: t('4) ทดสอบข้อ 4: กด S2 ภายใน 5 วินาทีหลังกดหยุด ผลที่ถูกคืออะไร', '4) Test 4: S2 pressed within 5 seconds after STOP. What is the right result?'),
       options: [t('ไม่มีอะไรเดิน', 'nothing starts'), t('มอเตอร์เดินหน้า', 'the motor runs forward'), t('มอเตอร์ถอยหลัง', 'the motor runs in reverse'), t('Q1 ตัด', 'Q1 trips')], answer: 0,
-      why: t('KA2 ดูดอยู่ KA2 21–22 ในทางร่วมจึงเปิด', 'KA2 is in, so KA2 21–22 in the shared path is open.') },
+      why: t('K3 ดูดอยู่ K3 21–22 ในทางร่วมจึงเปิด', 'K3 is in, so K3 21–22 in the shared path is open.') },
     { q: t('5) ลำดับการต่อสายที่แนะนำคืออะไร', '5) What is the recommended wiring order?'),
       options: [t('วงจรกำลัง สายดินและกล่องขั้วมอเตอร์ แล้ววงจรควบคุมตามเลขสาย และ N เป็นอย่างสุดท้าย', 'power circuit, earth and motor box, then the control circuit by wire number, and N last'), t('สาย N ก่อน แล้วตามด้วยอะไรก็ได้', 'N first, then anything'), t('หลอดก่อน แล้วปุ่มกด', 'lamps first, then push buttons'), t('เส้นที่สั้นที่สุดก่อน', 'the shortest leads first')], answer: 0,
       why: t('ต่อตามรายการที่เรียงไว้ทำให้ติ๊กได้ทีละเส้นและไม่ลืมสายใด', 'Following the ordered checklist lets you tick lead by lead and forget none.') },

@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=22"><link rel="stylesheet" href="assets/ed2.css?v=22">
-<script src="assets/stops.js?v=22"></script><script src="assets/shell.js?v=22"></script>
-<script src="assets/lesson.js?v=22"></script><script src="assets/draw.js?v=22"></script><script src="assets/ed.js?v=22"></script><script src="assets/sym.js?v=22"></script><script src="assets/iec.js?v=22"></script><script src="assets/relay.js?v=22"></script><script src="assets/panel.js?v=22"></script><script src="assets/ch2.js?v=22"></script><script src="assets/ch3.js?v=22"></script><script src="assets/ch4.js?v=22"></script><script src="assets/devdata.js?v=22"></script><script src="assets/dev.js?v=22"></script>
+<link rel="stylesheet" href="assets/ee.css?v=27"><link rel="stylesheet" href="assets/ed2.css?v=27">
+<script src="assets/stops.js?v=27"></script><script src="assets/shell.js?v=27"></script>
+<script src="assets/lesson.js?v=27"></script><script src="assets/draw.js?v=27"></script><script src="assets/ed.js?v=27"></script><script src="assets/sym.js?v=27"></script><script src="assets/iec.js?v=27"></script><script src="assets/relay.js?v=27"></script><script src="assets/panel.js?v=27"></script><script src="assets/ch2.js?v=27"></script><script src="assets/ch3.js?v=27"></script><script src="assets/ch4.js?v=27"></script><script src="assets/devdata.js?v=27"></script><script src="assets/dev.js?v=27"></script>
 </head>
 <body>
 <div class="wrap">
@@ -69,11 +69,11 @@
 <section class="prob" id="tB">
   <div class="prob-head"><span class="prob-no">B</span><div><h2 data-l="th">วงจรหลอดกับตัวตั้งเวลาทั้งสองแบบ</h2><h2 data-l="en">Lamp circuits with both kinds of timer</h2>
     <div class="src" data-l="th">ใบงานที่ 4 ข้อ 3.2–3.3 · EMC9 หน่วยที่ 9 รูป 9-11 และ 9-12</div><div class="src" data-l="en">Lab sheet 4, steps 3.2–3.3 · EMC9 unit 9, Figs 9-11 and 9-12</div></div></div>
-  <p class="lead" data-l="th">วงจร KT1: สวิตช์ S1 ป้อนไฟตัวตั้งเวลาหน่วงเมื่อป้อนไฟ KT1 (ตั้ง 5 วินาที) หน้าสัมผัส 15–18 ต่อหลอดเขียว H1 และ 15–16 ต่อหลอดแดง H2 วงจร KT2: กดปุ่ม S1 แล้วปล่อย ตัวตั้งเวลาหน่วงเมื่อตัดไฟ KT2 (ตั้ง 5 วินาที) ให้หลอดเหลือง H1 ติดต่ออีก 5 วินาทีหลังปล่อย เหมือนไฟบันไดหรือพัดลมระบายความร้อนที่หมุนต่ออีกพักหนึ่งหลังเครื่องหยุด ทุกครั้งที่หลอดเปลี่ยนจะบันทึกเวลาที่วัดได้</p>
-  <p class="lead" data-l="en">KT1 circuit: switch S1 energises on-delay timer KT1 (set to 5 s); contact 15–18 lights green H1 and 15–16 lights red H2. KT2 circuit: press push button S1 and let go; off-delay timer KT2 (set to 5 s) keeps yellow H1 lit for 5 s after the release, like a stairway light or a cooling fan that runs on after the machine stops. Each lamp change is recorded with the measured time.</p>
+  <p class="lead" data-l="th">วงจร K1: สวิตช์ S1 ป้อนไฟตัวตั้งเวลาหน่วงเมื่อป้อนไฟ K1 (ตั้ง 5 วินาที) หน้าสัมผัส 15–18 ต่อหลอดเขียว H1 และ 15–16 ต่อหลอดแดง H2 วงจร K2: กดปุ่ม S1 แล้วปล่อย ตัวตั้งเวลาหน่วงเมื่อตัดไฟ K2 (ตั้ง 5 วินาที) ให้หลอดเหลือง H1 ติดต่ออีก 5 วินาทีหลังปล่อย เหมือนไฟบันไดหรือพัดลมระบายความร้อนที่หมุนต่ออีกพักหนึ่งหลังเครื่องหยุด ทุกครั้งที่หลอดเปลี่ยนจะบันทึกเวลาที่วัดได้</p>
+  <p class="lead" data-l="en">K1 circuit: switch S1 energises on-delay timer K1 (set to 5 s); contact 15–18 lights green H1 and 15–16 lights red H2. K2 circuit: press push button S1 and let go; off-delay timer K2 (set to 5 s) keeps yellow H1 lit for 5 s after the release, like a stairway light or a cooling fan that runs on after the machine stops. Each lamp change is recorded with the measured time.</p>
   <div class="duo"><div class="card sim" style="padding:8px"><div id="simOn"></div></div><div class="card sim" style="padding:8px"><div id="simOff"></div></div></div>
-  <p class="simnote" data-l="th" style="margin-top:8px">วงจรของ KT2 ใช้ตัวตั้งเวลาหน่วงเมื่อตัดไฟแบบที่เริ่มนับเวลาเมื่อไฟเลี้ยง A1–A2 หายไป ตัวตั้งเวลาหน่วงเมื่อตัดไฟใน CADe SIMU ก็ทำงานแบบนี้ ถ้าเป็นตัวตั้งเวลาอิเล็กทรอนิกส์ที่สั่งด้วยสัญญาณควบคุม ให้ต่อไฟเลี้ยง A1–A2 ไว้ตลอด และต่อ S1 เข้าขั้ว B1 ตามแผนภาพเวลาในหัวข้อ A</p>
-  <p class="simnote" data-l="en" style="margin-top:8px">The KT2 circuit shows a true off-delay (power-off-delay) timer: the delay starts when A1–A2 loses supply. This is also how the CADe SIMU off-delay coil behaves. With a signal-controlled electronic timer, keep A1–A2 permanently supplied and wire S1 to the control input B1, as in the timing diagram of section A.</p>
+  <p class="simnote" data-l="th" style="margin-top:8px">วงจรของ K2 ใช้ตัวตั้งเวลาหน่วงเมื่อตัดไฟแบบที่เริ่มนับเวลาเมื่อไฟเลี้ยง A1–A2 หายไป ตัวตั้งเวลาหน่วงเมื่อตัดไฟใน CADe SIMU ก็ทำงานแบบนี้ ถ้าเป็นตัวตั้งเวลาอิเล็กทรอนิกส์ที่สั่งด้วยสัญญาณควบคุม ให้ต่อไฟเลี้ยง A1–A2 ไว้ตลอด และต่อ S1 เข้าขั้ว B1 ตามแผนภาพเวลาในหัวข้อ A</p>
+  <p class="simnote" data-l="en" style="margin-top:8px">The K2 circuit shows a true off-delay (power-off-delay) timer: the delay starts when A1–A2 loses supply. This is also how the CADe SIMU off-delay coil behaves. With a signal-controlled electronic timer, keep A1–A2 permanently supplied and wire S1 to the control input B1, as in the timing diagram of section A.</p>
   <div class="card solve" style="margin-top:12px"><div class="panel" id="pB" style="position:static;max-height:none"></div></div>
   <div class="card" style="margin-top:12px"><div id="logB"></div><div id="sumB" style="margin-top:8px"></div></div>
 </section>
@@ -161,27 +161,27 @@ document.addEventListener('mc:ready', () => {
   const logB = new ED.Log($('logB'), [['วงจร', 'circuit'], ['เหตุการณ์', 'event'], ['เวลาที่วัดได้', 'measured time']]);
   let clk = 0, tOn = null, tOff = null, prevH1 = false, prevOff = false, prevS1 = sOn.dev.S1.on, prevP = false;
   ui.h2(pB, t('สั่งงาน', 'Control'));
-  /* one panel door per circuit, side by side like the drawings (they stack on a phone): switch S1 of KT1, push button S1 of KT2, and their lamps */
+  /* one panel door per circuit, side by side like the drawings (they stack on a phone): switch S1 of K1, push button S1 of K2, and their lamps */
   const doors = document.createElement('div'); doors.style.cssText = 'display:flex;flex-wrap:wrap;gap:0 12px'; pB.appendChild(doors);
   const dOn = document.createElement('div'), dOff = document.createElement('div'); [dOn, dOff].forEach(d => { d.style.cssText = 'flex:1 1 300px;min-width:0'; doors.appendChild(d); });
-  PN.door(dOn, sOn, { title: ['วงจร KT1 (แตะ 0 หรือ I ที่ S1)', 'KT1 circuit (tap 0 or I on S1)'], names: { S1: ['S1 สวิตช์', 'S1 switch'], H1: ['H1 ผ่าน 15–18', 'H1 via 15–18'], H2: ['H2 ผ่าน 15–16', 'H2 via 15–16'] } });
-  PN.door(dOff, sOff, { title: ['วงจร KT2 (กด S1 แล้วปล่อย)', 'KT2 circuit (press S1, let go)'], names: { S1: ['S1 ปุ่มกด', 'S1 push button'], H1: ['H1 ผ่าน 15–18', 'H1 via 15–18'], H2: ['H2 ผ่าน 15–16', 'H2 via 15–16'] } });
+  PN.door(dOn, sOn, { title: ['วงจร K1 (แตะ 0 หรือ I ที่ S1)', 'K1 circuit (tap 0 or I on S1)'], names: { S1: ['S1 สวิตช์', 'S1 switch'], H1: ['H1 ผ่าน 15–18', 'H1 via 15–18'], H2: ['H2 ผ่าน 15–16', 'H2 via 15–16'] } });
+  PN.door(dOff, sOff, { title: ['วงจร K2 (กด S1 แล้วปล่อย)', 'K2 circuit (press S1, let go)'], names: { S1: ['S1 ปุ่มกด', 'S1 push button'], H1: ['H1 ผ่าน 15–18', 'H1 via 15–18'], H2: ['H2 ผ่าน 15–16', 'H2 via 15–16'] } });
   /* the measured times start at the edges of S1 itself (button or drawing), not at any click on the drawings */
   sOn.on(s => { if (s.dev.S1.on !== prevS1) { prevS1 = s.dev.S1.on; tOn = clk; } });
   sOff.on(s => { const p = s.dev.S1.pressed; if (prevP && !p) tOff = clk; prevP = p; });
   const stB = ui.status(pB);
   LS.anim($('tB'), dt => { clk += dt; sOn.step(dt); sOff.step(dt);
     const h1 = sOn.dev.H1.energized;
-    if (h1 !== prevH1 && tOn !== null) logB.add(`on|${h1}`, [t('หน่วงเมื่อป้อนไฟ KT1 (5 s)', 'on-delay KT1 (5 s)'), h1 ? t('H1 ติด H2 ดับ', 'H1 on, H2 off') : t('H1 ดับ H2 ติด', 'H1 off, H2 on'), `${(clk - tOn).toFixed(1)} s ${sOn.dev.S1.on ? t('หลังเปิด S1', 'after S1 on') : t('หลังปิด S1', 'after S1 off')}`], h1 ? 'ok' : 'warn');
+    if (h1 !== prevH1 && tOn !== null) logB.add(`on|${h1}`, [t('หน่วงเมื่อป้อนไฟ K1 (5 s)', 'on-delay K1 (5 s)'), h1 ? t('H1 ติด H2 ดับ', 'H1 on, H2 off') : t('H1 ดับ H2 ติด', 'H1 off, H2 on'), `${(clk - tOn).toFixed(1)} s ${sOn.dev.S1.on ? t('หลังเปิด S1', 'after S1 on') : t('หลังปิด S1', 'after S1 off')}`], h1 ? 'ok' : 'warn');
     prevH1 = h1;
-    const y = sOff.dev.H1.energized; if (y !== prevOff) { logB.add(`off|${y}`, [t('หน่วงเมื่อตัดไฟ KT2 (5 s)', 'off-delay KT2 (5 s)'), y ? t('H1 ติด', 'H1 on') : t('H1 ดับ', 'H1 off'), y ? t('ทันทีที่กด S1', 'as soon as S1 is pressed') : `${tOff !== null ? (clk - tOff).toFixed(1) : '—'} s ${t('หลังปล่อย S1', 'after S1 released')}`], y ? 'ok' : 'warn'); prevOff = y; }
-    const k1 = sOn.dev.KT1, k2 = sOff.dev.KT2, r1 = k1.energized && k1.tOn < k1.T ? k1.T - k1.tOn : 0, r2 = !k2.energized && k2.hold > 0 ? k2.hold : 0;
-    ui.setStatus(stB, t('นับเวลา', 'timing'), `KT1 ${r1 ? t(`เหลือ ${r1.toFixed(1)} s`, `${r1.toFixed(1)} s left`) : '—'} · KT2 ${r2 ? t(`เหลือ ${r2.toFixed(1)} s`, `${r2.toFixed(1)} s left`) : '—'}`, r1 || r2 ? '' : 'wait'); });
+    const y = sOff.dev.H1.energized; if (y !== prevOff) { logB.add(`off|${y}`, [t('หน่วงเมื่อตัดไฟ K2 (5 s)', 'off-delay K2 (5 s)'), y ? t('H1 ติด', 'H1 on') : t('H1 ดับ', 'H1 off'), y ? t('ทันทีที่กด S1', 'as soon as S1 is pressed') : `${tOff !== null ? (clk - tOff).toFixed(1) : '—'} s ${t('หลังปล่อย S1', 'after S1 released')}`], y ? 'ok' : 'warn'); prevOff = y; }
+    const k1 = sOn.dev.K1, k2 = sOff.dev.K2, r1 = k1.energized && k1.tOn < k1.T ? k1.T - k1.tOn : 0, r2 = !k2.energized && k2.hold > 0 ? k2.hold : 0;
+    ui.setStatus(stB, t('นับเวลา', 'timing'), `K1 ${r1 ? t(`เหลือ ${r1.toFixed(1)} s`, `${r1.toFixed(1)} s left`) : '—'} · K2 ${r2 ? t(`เหลือ ${r2.toFixed(1)} s`, `${r2.toFixed(1)} s left`) : '—'}`, r1 || r2 ? '' : 'wait'); });
   ED.summary($('sumB'), { head: [['วงจร', 'circuit'], ['สั่ง', 'command'], ['H1', 'H1'], ['H2', 'H2']],
-    rows: () => [[t('KT1: หน่วงเมื่อป้อนไฟ 5 s', 'KT1: on-delay 5 s'), t('เปิด S1', 'S1 on'), t('ติดหลัง 5 s', 'on after 5 s'), t('ดับหลัง 5 s', 'off after 5 s')], ['KT1', t('ปิด S1', 'S1 off'), t('ดับทันที', 'off at once'), t('ติดทันที', 'on at once')],
-      [t('KT2: หน่วงเมื่อตัดไฟ 5 s', 'KT2: off-delay 5 s'), t('กด S1', 'press S1'), t('ติดทันที', 'on at once'), t('ดับทันที', 'off at once')], ['KT2', t('ปล่อย S1', 'release S1'), t('ดับหลัง 5 s', 'off after 5 s'), t('ติดหลัง 5 s', 'on after 5 s')]],
-    points: [['วงจร KT1 เป็นต้นแบบของการเริ่มมอเตอร์ตามลำดับเวลา (บทที่ 6) และการสลับสตาร์-เดลตา (บทที่ 8): หน้าสัมผัส 15–18 สั่งงานขั้นถัดไปเมื่อครบเวลา', 'The KT1 circuit is the model of timed sequence starting (chapter 6) and star-delta changeover (chapter 8): contact 15–18 commands the next step when the time is up.'],
-      ['วงจร KT2 เป็นต้นแบบของงานที่ต้องทำต่ออีกพักหนึ่งหลังเลิกสั่ง เช่น ไฟบันได พัดลมระบายความร้อน ปั๊มหล่อลื่นหลังเครื่องหยุด', 'The KT2 circuit is the model of anything that must run on after the command ends: stairway lights, cooling fans, lubrication pumps after a machine stops.']] });
+    rows: () => [[t('K1: หน่วงเมื่อป้อนไฟ 5 s', 'K1: on-delay 5 s'), t('เปิด S1', 'S1 on'), t('ติดหลัง 5 s', 'on after 5 s'), t('ดับหลัง 5 s', 'off after 5 s')], ['K1', t('ปิด S1', 'S1 off'), t('ดับทันที', 'off at once'), t('ติดทันที', 'on at once')],
+      [t('K2: หน่วงเมื่อตัดไฟ 5 s', 'K2: off-delay 5 s'), t('กด S1', 'press S1'), t('ติดทันที', 'on at once'), t('ดับทันที', 'off at once')], ['K2', t('ปล่อย S1', 'release S1'), t('ดับหลัง 5 s', 'off after 5 s'), t('ติดหลัง 5 s', 'on after 5 s')]],
+    points: [['วงจร K1 เป็นต้นแบบของการเริ่มมอเตอร์ตามลำดับเวลา (บทที่ 8) และการสลับสตาร์-เดลตา (บทที่ 7): หน้าสัมผัส 15–18 สั่งงานขั้นถัดไปเมื่อครบเวลา', 'The K1 circuit is the model of timed sequence starting (chapter 8) and star-delta changeover (chapter 7): contact 15–18 commands the next step when the time is up.'],
+      ['วงจร K2 เป็นต้นแบบของงานที่ต้องทำต่ออีกพักหนึ่งหลังเลิกสั่ง เช่น ไฟบันได พัดลมระบายความร้อน ปั๊มหล่อลื่นหลังเครื่องหยุด', 'The K2 circuit is the model of anything that must run on after the command ends: stairway lights, cooling fans, lubrication pumps after a machine stops.']] });
   /* N: symbols and terminals */
   const sv = (body, w = 70) => IEC.svg(w, 80, body, { max: w, label: 'symbol' });
   $('syms').innerHTML = `<tr><th>${t('ส่วน', 'part')}</th><th>${t('หน่วงเมื่อป้อนไฟ', 'on-delay')}</th><th>${t('หน่วงเมื่อตัดไฟ', 'off-delay')}</th><th>${t('เลขขั้ว', 'terminals')}</th></tr>` +

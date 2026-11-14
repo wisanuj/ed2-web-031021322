@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=22"><link rel="stylesheet" href="assets/ed2.css?v=22">
-<script src="assets/stops.js?v=22"></script><script src="assets/shell.js?v=22"></script>
-<script src="assets/lesson.js?v=22"></script><script src="assets/draw.js?v=22"></script><script src="assets/ed.js?v=22"></script><script src="assets/sym.js?v=22"></script><script src="assets/iec.js?v=22"></script><script src="assets/relay.js?v=22"></script><script src="assets/panel.js?v=22"></script><script src="assets/ch2.js?v=22"></script><script src="assets/ch3.js?v=22"></script><script src="assets/devdata.js?v=22"></script><script src="assets/dev.js?v=22"></script>
+<link rel="stylesheet" href="assets/ee.css?v=27"><link rel="stylesheet" href="assets/ed2.css?v=27">
+<script src="assets/stops.js?v=27"></script><script src="assets/shell.js?v=27"></script>
+<script src="assets/lesson.js?v=27"></script><script src="assets/draw.js?v=27"></script><script src="assets/ed.js?v=27"></script><script src="assets/sym.js?v=27"></script><script src="assets/iec.js?v=27"></script><script src="assets/relay.js?v=27"></script><script src="assets/panel.js?v=27"></script><script src="assets/ch2.js?v=27"></script><script src="assets/ch3.js?v=27"></script><script src="assets/devdata.js?v=27"></script><script src="assets/dev.js?v=27"></script>
 </head>
 <body>
 <div class="wrap">
@@ -23,12 +23,12 @@
 
 <section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
   <li><b>ปุ่มหยุดอนุกรม</b>: ปุ่มหยุดทุกตัวเป็นหน้าสัมผัสปกติปิดต่อเรียงกัน กดตัวไหนก็ตัดวงจร มอเตอร์หยุด</li>
-  <li><b>ปุ่มเริ่มขนาน</b>: ปุ่มเริ่มทุกตัวเป็นหน้าสัมผัสปกติเปิดต่อคร่อมกัน และคร่อมหน้าสัมผัสค้างตัวเอง KM1 13–14 กดตัวไหนก็สั่งเริ่มได้</li>
+  <li><b>ปุ่มเริ่มขนาน</b>: ปุ่มเริ่มทุกตัวเป็นหน้าสัมผัสปกติเปิดต่อคร่อมกัน และคร่อมหน้าสัมผัสค้างตัวเอง K1 13–14 กดตัวไหนก็สั่งเริ่มได้</li>
   <li><b>ต่อผิดมีผลจริง</b>: ปุ่มเริ่มอนุกรมต้องกดทุกจุดพร้อมกันจึงเริ่มได้ ส่วนปุ่มหยุดขนาน <b>กดหยุดจุดเดียวมอเตอร์ไม่หยุด</b> ซึ่งอันตราย</li>
   <li><b>มือ-หยุด-อัตโนมัติ</b>: ตำแหน่ง H สั่งคอนแทกเตอร์ตรง ไม่สนลูกลอย ตำแหน่ง 0 หยุด ตำแหน่ง A ให้สวิตช์ลูกลอยสั่งแบบวงจร 2 สาย ทุกตำแหน่งยังมีโอเวอร์โหลดป้องกัน</li></ul></section>
 <section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
   <li><b>Stops in series</b>: every stop is a normally closed contact in one chain; pressing any one breaks the circuit and the motor stops.</li>
-  <li><b>Starts in parallel</b>: every start is a normally open contact across the others and across the holding contact KM1 13–14; any one of them starts the motor.</li>
+  <li><b>Starts in parallel</b>: every start is a normally open contact across the others and across the holding contact K1 13–14; any one of them starts the motor.</li>
   <li><b>Wrong wiring matters</b>: starts in series need every station pressed at once to start, and stops in parallel mean <b>one stop button does not stop the motor</b>, which is dangerous.</li>
   <li><b>Hand-off-auto</b>: H drives the contactor directly and ignores the float; 0 is off; A lets the float switch run it as two-wire control. The overload protects in every position.</li></ul></section>
 
@@ -147,26 +147,26 @@ document.addEventListener('mc:ready', () => {
   ED.summary($('sumA'), { head: [['แบบการต่อ', 'wiring'], ['เริ่มจาก S2', 'start by S2'], ['เริ่มจาก S4', 'start by S4'], ['กด S2+S4 พร้อมกัน', 'S2+S4 together'], ['หยุดด้วย S1', 'stop by S1'], ['หยุดด้วย S3', 'stop by S3'], ['ผล', 'result']],
     rows: () => Object.keys(MODES).map(trialRow),
     points: [['ปุ่มหยุดเป็นหน้าสัมผัสปกติปิด ต้องต่ออนุกรม เพื่อให้ตัวไหนเปิดก็ตัดวงจรได้ ถ้าต่อขนาน กระแสไหลอ้อมผ่านตัวที่ไม่ได้กด', 'Stops are normally closed and must be in series, so that any one opening breaks the circuit; in parallel the current goes round through the one not pressed.'],
-      ['ปุ่มเริ่มเป็นหน้าสัมผัสปกติเปิด ต้องต่อขนาน (และขนานกับหน้าสัมผัสค้าง KM1 13–14) เพื่อให้ตัวไหนต่อก็สั่งได้', 'Starts are normally open and must be in parallel (and in parallel with the holding contact KM1 13–14), so that any one closing starts it.'],
+      ['ปุ่มเริ่มเป็นหน้าสัมผัสปกติเปิด ต้องต่อขนาน (และขนานกับหน้าสัมผัสค้าง K1 13–14) เพื่อให้ตัวไหนต่อก็สั่งได้', 'Starts are normally open and must be in parallel (and in parallel with the holding contact K1 13–14), so that any one closing starts it.'],
       ['ปุ่มเริ่มต่ออนุกรมไม่อันตรายแต่ใช้งานไม่ได้ตามที่ต้องการ ส่วนปุ่มหยุดต่อขนานอันตราย เพราะคนที่กดหยุดเข้าใจว่าเครื่องหยุดแล้ว', 'Starts in series are not dangerous, just useless for the purpose; stops in parallel are dangerous, because the person pressing stop believes the machine has stopped.']] });
   /* worked example */
   LS.choose($('ask1'), { options: [t('S5 อนุกรมกับ S1 S3 · S6 ขนานกับ S2 S4', 'S5 in series with S1 S3 · S6 in parallel with S2 S4'), t('S5 ขนานกับ S1 S3 · S6 อนุกรมกับ S2 S4', 'S5 in parallel with S1 S3 · S6 in series with S2 S4'), t('ต่อทั้งสองขนานกับคอยล์', 'both across the coil')], answer: 0 });
   LS.stepper($('st1'), { steps: [
-    { why: t('S5 เป็นปุ่มหยุด (ปกติปิด)', 'S5 is a stop (normally closed)'), body: `<p>${t('ต่ออนุกรมต่อจาก S1 และ S3: เส้นทางคือ F2 95–96 → S1 → S3 → S5 → กลุ่มปุ่มเริ่ม', 'in series after S1 and S3: the path is F2 95–96 → S1 → S3 → S5 → the group of starts')}</p>` },
-    { why: t('S6 เป็นปุ่มเริ่ม (ปกติเปิด)', 'S6 is a start (normally open)'), body: `<p>${t('ต่อขนานกับ S2, S4 และหน้าสัมผัสค้าง KM1 13–14 ระหว่างจุดหลัง S5 กับขั้ว A1 ของคอยล์', 'in parallel with S2, S4 and the holding contact KM1 13–14, between the point after S5 and coil terminal A1')}</p>` },
+    { why: t('S5 เป็นปุ่มหยุด (ปกติปิด)', 'S5 is a stop (normally closed)'), body: `<p>${t('ต่ออนุกรมต่อจาก S1 และ S3: เส้นทางคือ F3 95–96 → S1 → S3 → S5 → กลุ่มปุ่มเริ่ม', 'in series after S1 and S3: the path is F3 95–96 → S1 → S3 → S5 → the group of starts')}</p>` },
+    { why: t('S6 เป็นปุ่มเริ่ม (ปกติเปิด)', 'S6 is a start (normally open)'), body: `<p>${t('ต่อขนานกับ S2, S4 และหน้าสัมผัสค้าง K1 13–14 ระหว่างจุดหลัง S5 กับขั้ว A1 ของคอยล์', 'in parallel with S2, S4 and the holding contact K1 13–14, between the point after S5 and coil terminal A1')}</p>` },
     { why: t('นับสายไปจุดที่ 3', 'Count the wires to station 3'), body: `<p>${t('ปุ่มหยุดต้องมีสายเข้าและออก 2 เส้น ปุ่มเริ่มต้องการอีก 1 เส้นไปยังจุดร่วมของกลุ่มปุ่มเริ่ม เพราะด้านบนของ S6 ต่อร่วมกับด้านล่างของ S5 ได้ในกล่องปุ่ม รวม <b>3 เส้น</b> ผ่านแผงขั้วต่อ X1 (จึงเรียกวงจร 3 สาย)', 'the stop needs a wire in and out, 2 wires; the start needs 1 more to the common point of the starts, because the top of S6 joins the bottom of S5 inside the station box: <b>3 wires</b> in all, through terminal strip X1 (hence "three-wire control")')}</p>` }],
-    answer: t('(ก) อนุกรมกับปุ่มหยุดเดิม (ข) ขนานกับปุ่มเริ่มเดิมและ KM1 13–14 (ค) 3 เส้น', '(a) in series with the other stops; (b) in parallel with the other starts and KM1 13–14; (c) 3 wires') });
+    answer: t('(ก) อนุกรมกับปุ่มหยุดเดิม (ข) ขนานกับปุ่มเริ่มเดิมและ K1 13–14 (ค) 3 เส้น', '(a) in series with the other stops; (b) in parallel with the other starts and K1 13–14; (c) 3 wires') });
   /* B: hand-off-auto */
   const HCH = [{ name: 'S5 13–14', closed: ['H'], note: ['มือ', 'hand'] }, { name: 'S5 23–24', closed: ['A'], note: ['อัตโนมัติ', 'auto'] }];
   const specB = C3.HOA(); specB.devices.H1.code = 'GN';
   const simB = new RL.Sim($('simB'), specB, { max: 560 }), pB = $('pB');
-  const logB = new ED.Log($('logB'), [['ตำแหน่ง S5', 'S5 position'], ['ลูกลอย S6', 'float S6'], ['คอยล์ KM1', 'coil KM1'], ['ปั๊ม', 'pump']]);
+  const logB = new ED.Log($('logB'), [['ตำแหน่ง S5', 'S5 position'], ['ลูกลอย S6', 'float S6'], ['คอยล์ K1', 'coil K1'], ['ปั๊ม', 'pump']]);
   const lvl = () => simB.dev.S6.on ? t('น้ำต่ำ (ต่อ)', 'water low (closed)') : t('น้ำเต็ม (เปิด)', 'tank full (open)');
   let knB;
   const showB = () => { const p = simB.dev.S5.at, run = simB.running();
     C3.chart($('chB'), { positions: ['H', '0', 'A'], contacts: HCH, at: p });
     ui.setStatus(stB, run ? t('ปั๊มทำงาน', 'pump running') : t('ปั๊มหยุด', 'pump stopped'), `S5 = ${p} · S6: ${lvl()}`, run ? 'ok' : 'warn');
-    logB.add(p + simB.dev.S6.on, [p, lvl(), simB.dev.KM1.energized ? t('มีไฟ', 'on') : t('ไม่มีไฟ', 'off'), run ? t('ทำงาน', 'running') : t('หยุด', 'stopped')], p === 'H' && !simB.dev.S6.on ? 'bad' : run ? 'ok' : 'warn');
+    logB.add(p + simB.dev.S6.on, [p, lvl(), simB.dev.K1.energized ? t('มีไฟ', 'on') : t('ไม่มีไฟ', 'off'), run ? t('ทำงาน', 'running') : t('หยุด', 'stopped')], p === 'H' && !simB.dev.S6.on ? 'bad' : run ? 'ok' : 'warn');
     if (knB && knB.at !== p) knB.set(p); };
   knB = new C3.Knob($('knB'), { positions: ['H', '0', 'A'], at: '0', onChange: p => simB.setPos('S5', p) });
   /* the run lamp on the pump panel door (S5 is the knob above, S6 the float: no buttons on this door) */
@@ -181,7 +181,7 @@ document.addEventListener('mc:ready', () => {
       ['A', `<span class="rk-ok">${t('ปั๊มทำงาน', 'runs')}</span>`, `<span class="rk-ok">${t('หยุด', 'stopped')}</span>`, t('สวิตช์ลูกลอย', 'the float switch')]],
     points: [['ตำแหน่ง H ข้ามลูกลอย ใช้ตอนทดสอบหรือตอนลูกลอยเสีย คนที่บิดต้องเฝ้าเอง เพราะปั๊มไม่หยุดเองเมื่อน้ำเต็ม', 'H bypasses the float; it is for testing or when the float has failed, and whoever turns it must keep watch, because the pump will not stop by itself when the tank is full.'],
       ['ตำแหน่ง A เป็นวงจร 2 สาย: ไฟดับแล้วกลับมา ปั๊มทำงานต่อเองถ้าน้ำยังต่ำ ซึ่งเป็นสิ่งที่ต้องการสำหรับปั๊ม (หน้า 2.4)', 'A is two-wire control: after a power failure the pump restarts by itself if the water is still low, which is what a pump needs (page 2.4).'],
-      ['โอเวอร์โหลด F2 95–96 อยู่ก่อนสวิตช์ S5 จึงป้องกันมอเตอร์ได้ทุกตำแหน่ง ในแบบต้องเขียน H และ A ข้างหน้าสัมผัสของ S5 และแนบตารางหน้าสัมผัส', 'Overload F2 95–96 comes before S5, so it protects the motor in every position. The drawing must show H and A beside the contacts of S5 and include the contact chart.']] });
+      ['โอเวอร์โหลด F3 95–96 อยู่ก่อนสวิตช์ S5 จึงป้องกันมอเตอร์ได้ทุกตำแหน่ง ในแบบต้องเขียน H และ A ข้างหน้าสัมผัสของ S5 และแนบตารางหน้าสัมผัส', 'Overload F3 95–96 comes before S5, so it protects the motor in every position. The drawing must show H and A beside the contacts of S5 and include the contact chart.']] });
   ED.mcq('mcq', [
     { q: t('1) ควบคุมมอเตอร์จากหลายจุด ปุ่มหยุดต้องต่ออย่างไร', '1) For control from several stations, how are the stops connected?'), options: [t('อนุกรม', 'in series'), t('ขนาน', 'in parallel'), t('ขนานกับคอยล์', 'across the coil')], answer: 0 },
     { q: t('2) ปุ่มเริ่มจากหลายจุดต่ออย่างไร', '2) How are the starts of several stations connected?'), options: [t('อนุกรมกับปุ่มหยุด', 'in series with the stops'), t('ขนานกันและขนานกับหน้าสัมผัสค้างตัวเอง', 'in parallel with each other and with the holding contact'), t('อนุกรมกันเอง', 'in series with each other')], answer: 1 },

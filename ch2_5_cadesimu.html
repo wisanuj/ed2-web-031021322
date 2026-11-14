@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=22"><link rel="stylesheet" href="assets/ed2.css?v=22">
-<script src="assets/stops.js?v=22"></script><script src="assets/shell.js?v=22"></script>
-<script src="assets/lesson.js?v=22"></script><script src="assets/draw.js?v=22"></script><script src="assets/ed.js?v=22"></script><script src="assets/sym.js?v=22"></script><script src="assets/iec.js?v=22"></script><script src="assets/relay.js?v=22"></script><script src="assets/panel.js?v=22"></script><script src="assets/ch2.js?v=22"></script>
+<link rel="stylesheet" href="assets/ee.css?v=27"><link rel="stylesheet" href="assets/ed2.css?v=27">
+<script src="assets/stops.js?v=27"></script><script src="assets/shell.js?v=27"></script>
+<script src="assets/lesson.js?v=27"></script><script src="assets/draw.js?v=27"></script><script src="assets/ed.js?v=27"></script><script src="assets/sym.js?v=27"></script><script src="assets/iec.js?v=27"></script><script src="assets/relay.js?v=27"></script><script src="assets/panel.js?v=27"></script><script src="assets/ch2.js?v=27"></script>
 </head>
 <body>
 <div class="wrap">
@@ -23,13 +23,13 @@
 
 <section class="keypoints" data-l="th"><h2>รายการตรวจแบบตามมาตรฐาน (ใช้กับทุกใบงานต่อจากนี้)</h2><ul>
   <li><b>สัญลักษณ์</b> IEC 60617 วาดในสภาวะปกติ ทางเดินกระแสแนวตั้ง L1 ด้านบน N ด้านล่าง วงจรกำลังแยกจากวงจรควบคุม</li>
-  <li><b>ชื่ออุปกรณ์</b> ตามรหัสของวิชา (Q F KM KA KT S H M X) คอยล์และหน้าสัมผัสทุกตัวของอุปกรณ์เดียวกันชื่อเดียวกัน ชื่อต่างอุปกรณ์ห้ามซ้ำ</li>
+  <li><b>ชื่ออุปกรณ์</b> ตามชื่อของวิชา (F K S H M X และ Q สำหรับเบรกเกอร์ หน้า 2.1) คอยล์และหน้าสัมผัสทุกตัวของอุปกรณ์เดียวกันชื่อเดียวกัน ชื่อต่างอุปกรณ์ห้ามซ้ำ</li>
   <li><b>เลขขั้ว</b> ทุกจุดตาม IEC 60947 (1–2…, 13–14, 21–22, 95–96, A1–A2, X1–X2)</li>
   <li><b>เลขทางเดินกระแส</b> ใต้วงจรควบคุม และ <b>ตารางอ้างอิงหน้าสัมผัส</b> ใต้คอยล์ทุกตัว</li>
   <li><b>กรอบชื่อแบบ</b> ครบ (ชื่อแบบ ผู้เขียน วันที่ แผ่นที่) และบันทึกไฟล์ .cad พร้อม PDF</li></ul></section>
 <section class="keypoints" data-l="en"><h2>Drawing checklist (for every lab sheet from now on)</h2><ul>
   <li><b>Symbols</b> to IEC 60617 in the normal state; vertical current paths, L1 at the top and N at the bottom; power and control circuits drawn apart.</li>
-  <li><b>Device names</b> with the course codes (Q F KM KA KT S H M X): all parts of one device share its name, and no two devices share a name.</li>
+  <li><b>Device names</b> with the course names (F K S H M X, and Q for a breaker; page 2.1): all parts of one device share its name, and no two devices share a name.</li>
   <li><b>Terminal numbers</b> everywhere, to IEC 60947 (1–2…, 13–14, 21–22, 95–96, A1–A2, X1–X2).</li>
   <li><b>Current-path numbers</b> under the control circuit and a <b>contact cross-reference</b> under every coil.</li>
   <li>A complete <b>title block</b> (title, drawn by, date, sheet), saved as .cad with a PDF.</li></ul></section>
@@ -49,10 +49,10 @@
 </section>
 
 <section class="prob" id="tN">
-  <div class="prob-head"><span class="prob-no">N</span><div><h2 data-l="th">ทดลองตั้งชื่อผิด: หน้าสัมผัสค้างชื่อ KM2</h2><h2 data-l="en">A wrong name on purpose: the holding contact named KM2</h2>
+  <div class="prob-head"><span class="prob-no">N</span><div><h2 data-l="th">ทดลองตั้งชื่อผิด: หน้าสัมผัสค้างชื่อ K2</h2><h2 data-l="en">A wrong name on purpose: the holding contact named K2</h2>
     <div class="src" data-l="th">จำลองสิ่งที่จะเกิดใน CADe SIMU (ใบงานที่ 2 ข้อ 3.2)</div><div class="src" data-l="en">What happens in CADe SIMU (lab sheet 2, step 3.2)</div></div></div>
-  <p class="lead" data-l="th">วงจรนี้เหมือนวงจรในหน้า 2.3 ทุกอย่าง ต่างกันที่หน้าสัมผัสค้างตัวเองถูกตั้งชื่อว่า <b>KM2</b> แทน KM1 กด S2 บนประตูตู้แล้วปล่อย: มอเตอร์หมุนและหลอด H1 ติดเฉพาะตอนกด เพราะไม่มีคอยล์ KM2 หน้าสัมผัสนี้จึงไม่เคยต่อ ดูตารางอ้างอิงใต้คอยล์ KM1 ด้วย: หน้าสัมผัส 13–14 หายไปจากรายการ นี่คือวิธีตรวจชื่อผิดจากแบบโดยไม่ต้องจำลอง</p>
-  <p class="lead" data-l="en">This circuit is the one of page 2.3 except that the holding contact is named <b>KM2</b> instead of KM1. Press S2 on the panel door and release it: the motor runs, and lamp H1 glows, only while you press, because there is no coil KM2, so that contact never closes. Look at the cross-reference under coil KM1 too: contact 13–14 is missing from its list. That is how to catch a wrong name from the drawing without simulating.</p>
+  <p class="lead" data-l="th">วงจรนี้เหมือนวงจรในหน้า 2.3 ทุกอย่าง ต่างกันที่หน้าสัมผัสค้างตัวเองถูกตั้งชื่อว่า <b>K2</b> แทน K1 กด S2 บนประตูตู้แล้วปล่อย: มอเตอร์หมุนและหลอด H1 ติดเฉพาะตอนกด เพราะไม่มีคอยล์ K2 หน้าสัมผัสนี้จึงไม่เคยต่อ ดูตารางอ้างอิงใต้คอยล์ K1 ด้วย: หน้าสัมผัส 13–14 หายไปจากรายการ นี่คือวิธีตรวจชื่อผิดจากแบบโดยไม่ต้องจำลอง</p>
+  <p class="lead" data-l="en">This circuit is the one of page 2.3 except that the holding contact is named <b>K2</b> instead of K1. Press S2 on the panel door and release it: the motor runs, and lamp H1 glows, only while you press, because there is no coil K2, so that contact never closes. Look at the cross-reference under coil K1 too: contact 13–14 is missing from its list. That is how to catch a wrong name from the drawing without simulating.</p>
   <div class="card sim rlwrap" id="simN" style="padding:8px"></div>
   <div class="card solve" style="margin-top:12px"><div class="panel" id="pN" style="position:static;max-height:none"></div></div>
 </section>
@@ -63,19 +63,19 @@
   <p class="lead" data-l="th">ใบงานที่ 2 ทำใน CADe SIMU บนคอมพิวเตอร์ของห้องปฏิบัติการ ส่วน Simurelay ใช้ฝึกที่บ้านและใช้ทำงานจำลองวงจรท้ายบทได้ อ่านวิธีติดตั้ง ขั้นตอนทำงาน กฎของชื่อ และวิธีส่งงานใน<a href="ch1_4_cadesimu.html#tS">หน้า 1.4 ส่วน S</a> ก่อน แล้วทำวงจรนี้ตามลำดับ</p>
   <p class="lead" data-l="en">Lab sheet 2 is done in CADe SIMU on the lab computers; Simurelay is for practice at home and may be used for the end-of-chapter simulation task. First read how to install it, the workflow, the naming rule and the hand-in on <a href="ch1_4_cadesimu.html#tS">page 1.4, section S</a>, then build this circuit step by step.</p>
   <div class="card solve">
-    <ol data-l="th"><li><b>วงจรกำลัง</b>: แหล่งจ่าย 3 เฟส → เบรกเกอร์ Q1 → หน้าสัมผัสหลักของคอนแทกเตอร์ KM1 → รีเลย์โอเวอร์โหลด F2 → มอเตอร์ M1 ต่อแบบเดียวกับหน้า 1.4 ส่วน S</li>
-      <li><b>วงจรควบคุม</b>: รับไฟจากขั้ว 2 ของ Q1 (หลัง Q1) → ฟิวส์ F1 → F2 95–96 → ปุ่มหยุด S1 11–12 → ปุ่มเริ่ม S2 13–14 ขนานกับหน้าสัมผัสค้าง KM1 13–14 → คอยล์ KM1 A1–A2 → N และหลอด H1 ผ่าน KM1 23–24</li>
-      <li><b>ตรวจ TAG ทุกตัว</b>: หน้าสัมผัสหลัก คอยล์ และหน้าสัมผัสช่วยของ KM1 เป็นสัญลักษณ์แยกกัน ทุกตัวต้องมี TAG เป็น KM1 เหมือนกันทุกตัวอักษร ตั้ง NUM1 และ NUM2 ของหน้าสัมผัสค้างเป็น 13 กับ 14 และของหน้าสัมผัสหลอดเป็น 23 กับ 24 แล้วดูว่าโอเวอร์โหลดชื่อ F2 ฟิวส์ชื่อ F1 (แอปตั้งเลขให้เองตามลำดับที่วาง)</li>
-      <li><b>Play</b>: สับ Q1 → แตะ S2 แล้วปล่อย: KM1 ค้าง มอเตอร์หมุน H1 ติด → แตะ S1: หยุด → แตะ S2 อีกครั้ง แล้วปลดและสับ Q1 (ไฟดับแล้วกลับมา): มอเตอร์ต้องหยุดอยู่ รอกด S2 ใหม่ นี่คือข้อดีของวงจร 3 สาย</li>
-      <li><b>ลองตั้งชื่อผิดแบบส่วน N</b>: แก้ TAG ของหน้าสัมผัสค้างเป็น KM2 แล้วเล่นใหม่ ไม่มีคอยล์ชื่อ KM2 หน้าสัมผัสนี้จึงไม่ควรต่อ มอเตอร์หมุนเฉพาะตอนกด S2 (ลองในแอปของตัวเอง) เสร็จแล้วแก้กลับเป็น KM1</li></ol>
-    <ol data-l="en"><li><b>Power circuit</b>: three-phase supply → breaker Q1 → main contacts of contactor KM1 → overload relay F2 → motor M1, wired as on page 1.4, section S.</li>
-      <li><b>Control circuit</b>: from Q1 terminal 2 (after Q1) → fuse F1 → F2 95–96 → stop button S1 11–12 → start button S2 13–14 in parallel with the holding contact KM1 13–14 → coil KM1 A1–A2 → N, and lamp H1 through KM1 23–24.</li>
-      <li><b>Check every TAG</b>: the main contacts, the coil and the auxiliary contacts of KM1 are separate symbols, and every one must carry the TAG KM1, exactly the same text. Set NUM1 and NUM2 of the holding contact to 13 and 14 and of the lamp contact to 23 and 24, and see that the overload is named F2 and the fuse F1 (the app numbers devices in the order you place them).</li>
-      <li><b>Play</b>: switch Q1 on → tap S2 and let go: KM1 holds, the motor runs, H1 lights → tap S1: it stops → tap S2 again, then switch Q1 off and on (a power failure and return): the motor must stay stopped until S2 is pressed again. That is the point of three-wire control.</li>
-      <li><b>Try the wrong name of section N</b>: set the holding contact's TAG to KM2 and play again. There is no coil KM2, so that contact should never close and the motor runs only while S2 is pressed (check in your app). Then set it back to KM1.</li></ol>
+    <ol data-l="th"><li><b>วงจรกำลัง</b>: แหล่งจ่าย 3 เฟส → ฟิวส์วงจรกำลัง F1 (ฟิวส์ 3 ขั้ว) → หน้าสัมผัสหลักของคอนแทกเตอร์ K1 → รีเลย์โอเวอร์โหลด F3 → มอเตอร์ M1 ต่อแบบเดียวกับหน้า 1.4 ส่วน S</li>
+      <li><b>วงจรควบคุม</b>: รับไฟจากขั้ว 2 ของ F1 (หลังฟิวส์วงจรกำลัง) → ฟิวส์วงจรควบคุม F2 → F3 95–96 → ปุ่มหยุด S1 11–12 → ปุ่มเริ่ม S2 13–14 ขนานกับหน้าสัมผัสค้าง K1 13–14 → คอยล์ K1 A1–A2 → N และหลอด H1 ผ่าน K1 33–34</li>
+      <li><b>ตรวจ TAG ทุกตัว</b>: หน้าสัมผัสหลัก คอยล์ และหน้าสัมผัสช่วยของ K1 เป็นสัญลักษณ์แยกกัน ทุกตัวต้องมี TAG เป็น K1 เหมือนกันทุกตัวอักษร ตั้ง NUM1 และ NUM2 ของหน้าสัมผัสค้างเป็น 13 กับ 14 และของหน้าสัมผัสหลอดเป็น 33 กับ 34 แล้วดูว่าโอเวอร์โหลดชื่อ F3 ฟิวส์วงจรควบคุมชื่อ F2 และฟิวส์วงจรกำลังชื่อ F1 (แอปตั้งเลขให้เองตามลำดับที่วาง)</li>
+      <li><b>Play</b>: แตะ S2 แล้วปล่อย: K1 ค้าง มอเตอร์หมุน H1 ติด → แตะ S1: หยุด → แตะ S2 อีกครั้ง แล้วแตะ F1 ให้เปิดและแตะให้ต่อกลับ (แทนไฟดับแล้วกลับมา ดูกรอบด้านล่าง): มอเตอร์ต้องหยุดอยู่ รอกด S2 ใหม่ นี่คือข้อดีของวงจร 3 สาย</li>
+      <li><b>ลองตั้งชื่อผิดแบบส่วน N</b>: แก้ TAG ของหน้าสัมผัสค้างเป็น K2 แล้วเล่นใหม่ ไม่มีคอยล์ชื่อ K2 หน้าสัมผัสนี้จึงไม่ควรต่อ มอเตอร์หมุนเฉพาะตอนกด S2 (ลองในแอปของตัวเอง) เสร็จแล้วแก้กลับเป็น K1</li></ol>
+    <ol data-l="en"><li><b>Power circuit</b>: three-phase supply → power fuses F1 (a three-pole fuse) → main contacts of contactor K1 → overload relay F3 → motor M1, wired as on page 1.4, section S.</li>
+      <li><b>Control circuit</b>: from F1 terminal 2 (after the power fuses) → control fuse F2 → F3 95–96 → stop button S1 11–12 → start button S2 13–14 in parallel with the holding contact K1 13–14 → coil K1 A1–A2 → N, and lamp H1 through K1 33–34.</li>
+      <li><b>Check every TAG</b>: the main contacts, the coil and the auxiliary contacts of K1 are separate symbols, and every one must carry the TAG K1, exactly the same text. Set NUM1 and NUM2 of the holding contact to 13 and 14 and of the lamp contact to 33 and 34, and see that the overload is named F3, the control fuse F2 and the power fuses F1 (the app numbers devices in the order you place them).</li>
+      <li><b>Play</b>: tap S2 and let go: K1 holds, the motor runs, H1 lights → tap S1: it stops → tap S2 again, then tap F1 open and closed again (standing for a power failure and return, see the box below): the motor must stay stopped until S2 is pressed again. That is the point of three-wire control.</li>
+      <li><b>Try the wrong name of section N</b>: set the holding contact's TAG to K2 and play again. There is no coil K2, so that contact should never close and the motor runs only while S2 is pressed (check in your app). Then set it back to K1.</li></ol>
   </div>
-  <div class="callout" data-l="th"><b>เบรกเกอร์ใน Simurelay ไม่ตัดเอง</b>: เบรกเกอร์และฟิวส์สวิตช์ทำงานเป็นหน้าสัมผัสธรรมดา ไม่ตัดเมื่อลัดวงจร การปลด Q1 จึงใช้แทนไฟดับได้ ส่วนการตัดของโอเวอร์โหลด ให้แตะ F2 ในโหมด Play</div>
-  <div class="callout" data-l="en"><b>Breakers in Simurelay never trip by themselves</b>: breakers and fuse switches work as plain contacts and do not trip on a short circuit, so switching Q1 off stands for the power failure. To trip the overload relay, tap F2 in Play mode.</div>
+  <div class="callout" data-l="th"><b>เบรกเกอร์และฟิวส์ใน Simurelay ไม่ตัดเอง</b>: เบรกเกอร์และฟิวส์สวิตช์ทำงานเป็นหน้าสัมผัสธรรมดา ไม่ตัดและไม่ขาดเมื่อลัดวงจร การแตะให้ F1 เปิดจึงใช้แทนไฟดับได้ (ลองในแอปของตัวเอง ของจริงฟิวส์สั่งเปิดปิดไม่ได้ ถ้าฟิวส์ขาดต้องเปลี่ยนลูกใหม่) ส่วนการตัดของโอเวอร์โหลด ให้แตะ F3 ในโหมด Play</div>
+  <div class="callout" data-l="en"><b>Breakers and fuses in Simurelay never act by themselves</b>: breakers and fuse switches work as plain contacts and neither trip nor blow on a short circuit, so tapping F1 open stands for the power failure (check in your app; a real fuse cannot be switched, and a blown one is replaced). To trip the overload relay, tap F3 in Play mode.</div>
 </section>
 
 <section class="prob" id="tL">
@@ -99,18 +99,18 @@ document.addEventListener('mc:ready', () => {
   'use strict';
   const t = MC.t, $ = id => document.getElementById(id), ui = MC.ui;
   $('howto').innerHTML = `<tr><th>${t('องค์ประกอบ', 'item')}</th><th>${t('ทำใน CADe SIMU', 'in CADe SIMU')}</th></tr>` +
-    [[t('ชื่ออุปกรณ์', 'device name'), t('ดับเบิลคลิกอุปกรณ์ในโหมดแก้ไข แล้วพิมพ์ชื่อ เช่น KM1 ให้คอยล์และหน้าสัมผัสทุกตัวของอุปกรณ์นั้นชื่อเดียวกัน', 'double-click the device in edit mode and type its name, e.g. KM1, the same on the coil and every contact of that device')],
+    [[t('ชื่ออุปกรณ์', 'device name'), t('ดับเบิลคลิกอุปกรณ์ในโหมดแก้ไข แล้วพิมพ์ชื่อ เช่น K1 ให้คอยล์และหน้าสัมผัสทุกตัวของอุปกรณ์นั้นชื่อเดียวกัน', 'double-click the device in edit mode and type its name, e.g. K1, the same on the coil and every contact of that device')],
      [t('เลขขั้ว', 'terminal numbers'), t('แก้ในหน้าต่างคุณสมบัติเดียวกัน (โปรแกรมตั้ง NC เป็น 11–12 ให้เอง ถ้าเป็นชุดที่สองให้แก้เป็น 21–22)', 'edit them in the same properties window (the program sets an NC contact to 11–12; make the second one 21–22)')],
      [t('เลขทางเดินกระแส', 'current-path numbers'), t('ใช้เครื่องมือข้อความ (ตัว A ที่แถบซ้าย) พิมพ์ 1, 2, 3 … ใต้เส้น N ตรงทุกแนวตั้ง', 'use the text tool (the A on the left bar) to type 1, 2, 3 … under the N line at each vertical')],
      [t('ตารางอ้างอิงหน้าสัมผัส', 'contact cross-reference'), t('ใช้เครื่องมือข้อความใต้คอยล์ เช่น "13–14 ▸ 2" ทุกหน้าสัมผัสของคอยล์นั้น', 'use the text tool under the coil, e.g. "13–14 ▸ 2", for every contact of that coil')],
      [t('เลขสาย', 'wire numbers'), t('เปิดตัวเลือกแสดงหมายเลขสายในการตั้งค่า (ตรวจกับเลขที่ได้จากหลักในหน้า 2.3)', 'turn on wire numbers in the settings (check them against the rule of page 2.3)')],
      [t('กรอบชื่อแบบ', 'title block'), t('ดับเบิลคลิกช่องในกรอบด้านล่าง (Título, Dibujado, Fecha, Núm.)', 'double-click the fields of the frame at the bottom (Título, Dibujado, Fecha, Núm.)')]].map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td></tr>`).join('');
   /* wrong name demonstration */
-  const spec = C2.DOL(); spec.els = spec.els.map(e => (e.d === 'KM1' && e.k === 'NO' && e.t && e.t[0] === '13' ? { ...e, d: 'KM2' } : e)); spec.devices.KM2 = { type: 'coil' };
-  const sim = new RL.Sim($('simN'), spec, { max: 900, sheet: { title: ['วงจรเริ่มเดินโดยตรง: หน้าสัมผัสค้างตั้งชื่อผิดเป็น KM2', 'Direct-on-line starter: holding contact misnamed KM2'] } }), pN = $('pN'); ui.h2(pN, t('สั่งงาน', 'Control'));
-  /* panel door: S1 stop and S2 start as real push buttons; H1 glows only while S2 is held, since "KM2" never holds the circuit */
+  const spec = C2.DOL(); spec.els = spec.els.map(e => (e.d === 'K1' && e.k === 'NO' && e.t && e.t[0] === '13' ? { ...e, d: 'K2' } : e)); spec.devices.K2 = { type: 'coil' };
+  const sim = new RL.Sim($('simN'), spec, { max: 900, sheet: { title: ['วงจรเริ่มเดินโดยตรง: หน้าสัมผัสค้างตั้งชื่อผิดเป็น K2', 'Direct-on-line starter: holding contact misnamed K2'] } }), pN = $('pN'); ui.h2(pN, t('สั่งงาน', 'Control'));
+  /* panel door: S1 stop and S2 start as real push buttons; H1 glows only while S2 is held, since "K2" never holds the circuit */
   PN.door(pN, sim, { names: { S1: ['S1 หยุด', 'S1 stop'], S2: ['S2 เริ่ม', 'S2 start'], H1: ['H1 มอเตอร์เดิน', 'H1 running'], H2: ['H2 โอเวอร์โหลด', 'H2 overload'] } });
-  const st = ui.status(pN); const show = () => { const run = sim.running(); ui.setStatus(st, run ? t('หมุนเฉพาะตอนกด', 'runs only while pressed') : t('หยุด', 'stopped'), t('หน้าสัมผัส "KM2" ไม่มีคอยล์สั่ง จึงค้างวงจรไม่ได้', 'contact "KM2" has no coil to drive it, so nothing holds the circuit'), run ? 'warn' : 'wait'); };
+  const st = ui.status(pN); const show = () => { const run = sim.running(); ui.setStatus(st, run ? t('หมุนเฉพาะตอนกด', 'runs only while pressed') : t('หยุด', 'stopped'), t('หน้าสัมผัส "K2" ไม่มีคอยล์สั่ง จึงค้างวงจรไม่ได้', 'contact "K2" has no coil to drive it, so nothing holds the circuit'), run ? 'warn' : 'wait'); };
   sim.on(show); show();
 });
 </script>

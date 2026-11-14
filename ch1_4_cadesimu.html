@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=22"><link rel="stylesheet" href="assets/ed2.css?v=22">
-<script src="assets/stops.js?v=22"></script><script src="assets/shell.js?v=22"></script>
-<script src="assets/lesson.js?v=22"></script><script src="assets/draw.js?v=22"></script><script src="assets/ed.js?v=22"></script><script src="assets/sym.js?v=22"></script><script src="assets/ed1.js?v=22"></script>
+<link rel="stylesheet" href="assets/ee.css?v=27"><link rel="stylesheet" href="assets/ed2.css?v=27">
+<script src="assets/stops.js?v=27"></script><script src="assets/shell.js?v=27"></script>
+<script src="assets/lesson.js?v=27"></script><script src="assets/draw.js?v=27"></script><script src="assets/ed.js?v=27"></script><script src="assets/sym.js?v=27"></script><script src="assets/ed1.js?v=27"></script>
 </head>
 <body>
 <div class="wrap">
@@ -23,12 +23,12 @@
 
 <section class="keypoints" data-l="th"><h2>ประเด็นสำคัญของหน้านี้</h2><ul>
   <li><b>ใช้รุ่นเดียวกันทั้งห้อง</b>: ใช้ไฟล์โปรแกรมที่ครูแจก (ผู้พัฒนาส่งลิงก์ดาวน์โหลดให้ทางอีเมลจากบล็อก canalPLC) เว็บดาวน์โหลดอื่นส่วนใหญ่ไม่ใช่ของผู้พัฒนา CADe SIMU ใช้ได้เฉพาะ Windows และไม่ต้องติดตั้ง: แตกไฟล์แล้วเปิดได้เลย</li>
-  <li><b>อุปกรณ์ผูกกันด้วยชื่อ</b>: คอยล์ชื่อ KM1 สั่งหน้าสัมผัสทุกตัวที่ชื่อ KM1 ชื่ออุปกรณ์จึงห้ามซ้ำกัน เช่น มีเบรกเกอร์ CB แล้ว ตัวที่สองต้องชื่อ CB1</li>
+  <li><b>อุปกรณ์ผูกกันด้วยชื่อ</b>: คอยล์ชื่อ K1 สั่งหน้าสัมผัสทุกตัวที่ชื่อ K1 ชื่ออุปกรณ์จึงห้ามซ้ำกัน เช่น มีเบรกเกอร์ CB แล้ว ตัวที่สองต้องชื่อ CB1</li>
   <li><b>จำลองได้แค่เปิด–ปิด</b>: สายที่มีไฟเปลี่ยนสี มอเตอร์แสดงทิศหมุน และโปรแกรมหยุดพร้อมเตือนเมื่อลัดวงจร แต่ไม่คำนวณแรงดันหรือกระแส ตัวเลขเหล่านั้นดูได้จากหน้าเว็บของวิชา</li>
   <li><b>บันทึกเป็น .cad</b> โดยพิมพ์นามสกุลเองเมื่อบันทึกครั้งแรก และกรอกกรอบชื่อแบบ (title block) ทุกแผ่น ซึ่งโปรแกรมใช้คำภาษาสเปน</li></ul></section>
 <section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
   <li><b>Everyone uses the same version</b>: the copy the instructor hands out (the author sends download links by e-mail from the canalPLC blog); most other download sites are not the author's. CADe SIMU runs on Windows only and needs no installer: unzip and run.</li>
-  <li><b>Devices are linked by name</b>: a coil named KM1 drives every contact named KM1, so names must not repeat. With one breaker named CB, a second one must be CB1.</li>
+  <li><b>Devices are linked by name</b>: a coil named K1 drives every contact named K1, so names must not repeat. With one breaker named CB, a second one must be CB1.</li>
   <li><b>It simulates on/off only</b>: live wires change colour, the motor shows its direction, and the program stops with a warning on a short circuit, but it calculates no voltages or currents. Those numbers are on the course web pages.</li>
   <li><b>Save as .cad</b>, typing the extension yourself the first time, and fill in the title block of every sheet; the program labels it in Spanish.</li></ul></section>
 
@@ -149,19 +149,19 @@
       <ol data-l="th"><li><b>คลังอุปกรณ์</b> แยกเป็นกลุ่ม: Sources (แหล่งจ่าย) Protections (ฟิวส์ เบรกเกอร์ รีเลย์โอเวอร์โหลด) Contactors Coils Auxiliaries Switches (สวิตช์และปุ่มกด) Loads Motors และ Others (เช่น ป้ายข้อความ) กดค้างที่ไอคอนเพื่อดูชื่ออุปกรณ์</li>
         <li><b>วางอุปกรณ์</b> ลงบนแผ่นงาน วาดตามแบบ IEC: ไฟเข้าด้านบน N ด้านล่าง วงจรกำลังทางซ้าย วงจรควบคุมทางขวา</li>
         <li><b>เลือกอุปกรณ์</b> ที่วางแล้ว จะเห็นช่อง Values: TAG, NUM1, NUM2 และ TYPES</li>
-        <li><b>TAG / NUM1 / NUM2</b>: TAG คือชื่ออุปกรณ์ แอปตั้งชื่อและเลขลำดับให้เองทุกครั้งที่วางอุปกรณ์ใหม่ จึงต้องตรวจและแก้เป็นชื่อของวิชาทุกตัว (Q1 F1 F2 KM1 KA1 S1 S2 H1 M1) NUM1 และ NUM2 คือเลขขั้วทั้งสองของหน้าสัมผัส เช่น 13 กับ 14 ส่วน TYPES เปลี่ยนชนิดตัวกด แอปตั้งชื่อแบบมีขีดนำหน้าตาม IEC 81346 (-KM1 -S1) และตั้งเลขขั้วตาม IEC ให้แล้ว (ปุ่มปกติปิด 11–12 ปกติเปิด 13–14 หน้าสัมผัสหลัก 1–2, 3–4, 5–6 มอเตอร์ U1 V1 W1) เขียน -KM1 หรือ KM1 ก็ได้ แต่คอยล์และหน้าสัมผัสของอุปกรณ์เดียวกันต้องเขียนเหมือนกันทุกตัวอักษร</li>
+        <li><b>TAG / NUM1 / NUM2</b>: TAG คือชื่ออุปกรณ์ แอปตั้งชื่อและเลขลำดับให้เองทุกครั้งที่วางอุปกรณ์ใหม่ จึงต้องตรวจและแก้เป็นชื่อของวิชาทุกตัว (F1 F2 F3 K1 K2 S0 S1 S2 H1 M1 และ Q1 สำหรับเบรกเกอร์) NUM1 และ NUM2 คือเลขขั้วทั้งสองของหน้าสัมผัส เช่น 13 กับ 14 ส่วน TYPES เปลี่ยนชนิดตัวกด แอปตั้งชื่อแบบมีขีดนำหน้าตาม IEC 81346 (เช่น -KM1 -S1) และตั้งเลขขั้วตาม IEC ให้แล้ว (ปุ่มปกติปิด 11–12 ปกติเปิด 13–14 หน้าสัมผัสหลัก 1–2, 3–4, 5–6 มอเตอร์ U1 V1 W1) ให้แก้ -KM1 เป็น K1 (เขียน -K1 ก็ได้) แต่คอยล์และหน้าสัมผัสของอุปกรณ์เดียวกันต้องเขียนเหมือนกันทุกตัวอักษร</li>
         <li><b>ต่อสาย</b> ระหว่างขั้วของอุปกรณ์ตามแบบ สายดินป้องกัน (protective earth, PE) ต่อเฉพาะขั้ว PE ห้ามแตะสายเส้นอื่น</li>
         <li><b>Play</b>: กด Play แล้วแตะปุ่มกดเพื่อสั่งงาน สายที่มีไฟเปลี่ยนสี แตะรีเลย์โอเวอร์โหลดเพื่อจำลองการตัด ระหว่างเล่นมีปุ่มกล้องสำหรับเก็บภาพหน้าจอ</li></ol>
       <ol data-l="en"><li><b>Library groups</b>: Sources, Protections (fuses, breakers, overload relays), Contactors, Coils, Auxiliaries, Switches (switches and push buttons), Loads, Motors and Others (e.g. a text label). Long-press an icon to see the device's name.</li>
         <li><b>Place the devices</b> on the canvas in IEC layout: supply at the top, N at the bottom, the power circuit on the left and the control circuit on the right.</li>
         <li><b>Select a device</b> you have placed to see its Values: TAG, NUM1, NUM2 and TYPES.</li>
-        <li><b>TAG / NUM1 / NUM2</b>: TAG is the device name; the app gives every new device an automatic name and number, so check each one and change it to the course name (Q1 F1 F2 KM1 KA1 S1 S2 H1 M1). NUM1 and NUM2 are the contact's two terminal numbers, e.g. 13 and 14; TYPES changes the actuator. The app names devices in the IEC 81346 dash form (-KM1, -S1) and numbers terminals to IEC already (normally closed button 11–12, normally open 13–14, main contacts 1–2, 3–4, 5–6, motor U1 V1 W1). Either -KM1 or KM1 is fine, but the coil and the contacts of one device must carry exactly the same text.</li>
+        <li><b>TAG / NUM1 / NUM2</b>: TAG is the device name; the app gives every new device an automatic name and number, so check each one and change it to the course name (F1 F2 F3 K1 K2 S0 S1 S2 H1 M1, and Q1 for a breaker). NUM1 and NUM2 are the contact's two terminal numbers, e.g. 13 and 14; TYPES changes the actuator. The app names devices in the IEC 81346 dash form (e.g. -KM1, -S1) and numbers terminals to IEC already (normally closed button 11–12, normally open 13–14, main contacts 1–2, 3–4, 5–6, motor U1 V1 W1). Rename -KM1 to K1 (-K1 is fine too), but the coil and the contacts of one device must carry exactly the same text.</li>
         <li><b>Wire</b> the device terminals as in the drawing. The protective earth (PE) goes to PE terminals only and must not touch any other wire.</li>
         <li><b>Play</b>: press Play and tap the push buttons to operate them; live wires change colour; tap the overload relay to trip it. In Play mode a camera button saves a screenshot.</li></ol>
     </div>
   </div>
-  <div class="callout" data-l="th"><b>กฎของชื่อใน Simurelay</b>: หน้าสัมผัสทำงานตามคอยล์ที่มี TAG <b>เหมือนกันทุกตัวอักษร</b> และคอยล์แต่ละตัวต้องชื่อไม่ซ้ำ เหมือนใน CADe SIMU แต่สวิตช์ต่างออกไป: <b>สวิตช์สองตัวที่ตั้ง TAG เดียวกันไม่ขยับพร้อมกัน</b> ปุ่มกดสองหน้าสัมผัส ลิมิตสวิตช์ที่มีทั้งหน้าสัมผัสปกติเปิดและปกติปิด หรือปุ่มเดียวกันที่วาดไว้สองที่ จึงเป็นสวิตช์แยกกันที่ต้องแตะทีละตัว (ใน CADe SIMU ชื่อเดียวกันคือปุ่มเดียวกัน หน้า 3.4) และอุปกรณ์ที่วางใหม่ทุกตัวได้ชื่อและเลขลำดับอัตโนมัติ (เช่น รีเลย์โอเวอร์โหลดตัวใหม่ได้เลข F ถัดไป) วางเสร็จแล้ว<b>ตรวจ TAG ทุกตัว</b> และแก้เป็นชื่อของวิชาด้วย TAG (เช่น โอเวอร์โหลด → F2)</div>
-  <div class="callout" data-l="en"><b>The naming rule in Simurelay</b>: contacts follow the coil whose TAG is <b>exactly the same</b>, and every coil needs a name of its own, as in CADe SIMU. Switches differ: <b>two switches with the same TAG do not move together</b>. A two-contact push button, a limit switch with both a normally open and a normally closed contact, or one button drawn in two places are separate switches, to be tapped one at a time (in CADe SIMU one name means one button, page 3.4). Every new device gets an automatic name and number (a newly added overload relay, say, gets the next F number), so once the devices are placed, <b>check every TAG</b> and rename it to the course name with TAG (e.g. the overload → F2).</div>
+  <div class="callout" data-l="th"><b>กฎของชื่อใน Simurelay</b>: หน้าสัมผัสทำงานตามคอยล์ที่มี TAG <b>เหมือนกันทุกตัวอักษร</b> และคอยล์แต่ละตัวต้องชื่อไม่ซ้ำ เหมือนใน CADe SIMU แต่สวิตช์ต่างออกไป: <b>สวิตช์สองตัวที่ตั้ง TAG เดียวกันไม่ขยับพร้อมกัน</b> ปุ่มกดสองหน้าสัมผัส ลิมิตสวิตช์ที่มีทั้งหน้าสัมผัสปกติเปิดและปกติปิด หรือปุ่มเดียวกันที่วาดไว้สองที่ จึงเป็นสวิตช์แยกกันที่ต้องแตะทีละตัว (ใน CADe SIMU ชื่อเดียวกันคือปุ่มเดียวกัน หน้า 3.4) และอุปกรณ์ที่วางใหม่ทุกตัวได้ชื่อและเลขลำดับอัตโนมัติ (เช่น รีเลย์โอเวอร์โหลดตัวใหม่ได้เลข F ถัดไป) วางเสร็จแล้ว<b>ตรวจ TAG ทุกตัว</b> และแก้เป็นชื่อของวิชาด้วย TAG (เช่น โอเวอร์โหลด → F3)</div>
+  <div class="callout" data-l="en"><b>The naming rule in Simurelay</b>: contacts follow the coil whose TAG is <b>exactly the same</b>, and every coil needs a name of its own, as in CADe SIMU. Switches differ: <b>two switches with the same TAG do not move together</b>. A two-contact push button, a limit switch with both a normally open and a normally closed contact, or one button drawn in two places are separate switches, to be tapped one at a time (in CADe SIMU one name means one button, page 3.4). Every new device gets an automatic name and number (a newly added overload relay, say, gets the next F number), so once the devices are placed, <b>check every TAG</b> and rename it to the course name with TAG (e.g. the overload → F3).</div>
   <div class="duo" style="margin-top:12px">
     <div class="card solve">
       <h3 data-l="th" style="margin-top:0">ส่งงานจำลองวงจรท้ายบท</h3><h3 data-l="en" style="margin-top:0">Handing in the end-of-chapter simulation task</h3>
@@ -203,15 +203,15 @@
     <p data-l="th">เป็นวงจรส่วน B ที่ไม่มีฟิวส์</p>
     <p data-l="en">This is the circuit of section B without the fuses.</p>
     <ol data-l="th"><li>จากกลุ่ม Sources วางแหล่งจ่าย 3 เฟส (L1 L2 L3) และสายดินป้องกัน PE</li>
-      <li>จากกลุ่ม Protections วางเบรกเกอร์ 3 ขั้ว ตั้ง TAG เป็น <b>Q1</b> (ชื่อของวิชาสำหรับเบรกเกอร์หลัก ไฟล์ใบงานที่ 1 ใช้ชื่อ CB) ขั้ว 1–2, 3–4, 5–6</li>
+      <li>จากกลุ่ม Protections วางเบรกเกอร์ 3 ขั้ว ตั้ง TAG เป็น <b>Q1</b> (ชื่อของวิชาสำหรับเบรกเกอร์ ไฟล์ใบงานที่ 1 ใช้ชื่อ CB) ขั้ว 1–2, 3–4, 5–6</li>
       <li>จากกลุ่ม Motors วางมอเตอร์ 3 เฟส (3~) ตั้ง TAG เป็น <b>M1</b> ขั้ว U1 V1 W1</li>
-      <li>ต่อสาย L1 → Q1 1–2 → U1, L2 → Q1 3–4 → V1, L3 → Q1 5–6 → W1 และ PE เข้าขั้ว PE ของมอเตอร์ ถ้าทำวงจรส่วน B ครบ ให้วางฟิวส์ 3 ขั้วไว้ก่อน Q1 และตรวจ TAG ของฟิวส์ด้วย</li>
+      <li>ต่อสาย L1 → Q1 1–2 → U1, L2 → Q1 3–4 → V1, L3 → Q1 5–6 → W1 และ PE เข้าขั้ว PE ของมอเตอร์ ถ้าทำวงจรส่วน B ครบ ให้วางฟิวส์ 3 ขั้วไว้ก่อน Q1 และตั้ง TAG ของฟิวส์เป็น F1 (ฟิวส์วงจรกำลัง)</li>
       <li>กด Play สับ Q1 (วิธีสับเบรกเกอร์ในโหมด Play ลองในแอปของตัวเอง) ดูสายที่มีไฟเปลี่ยนสีและมอเตอร์หมุน แล้วเก็บภาพด้วยปุ่มกล้อง</li>
       <li>กลับไปโหมดแก้ไข สลับสาย L1 กับ L2 ที่ขั้วมอเตอร์ (L1 → V1, L2 → U1) เล่นใหม่ แล้วดูทิศหมุน มีรีวิวว่าการแสดงทิศหมุนเปลี่ยนไปในบางรุ่น ถ้าแอปของตัวเองไม่แสดงทิศ ให้ตรวจทิศใน CADe SIMU เสร็จแล้วสลับสายกลับเป็นการต่อปกติก่อนเก็บภาพแบบทั้งแผ่นที่ส่ง</li></ol>
     <ol data-l="en"><li>From Sources, place a three-phase supply (L1 L2 L3) and the protective earth PE.</li>
-      <li>From Protections, place a three-pole breaker and set its TAG to <b>Q1</b> (the course name for the main breaker; lab file 1 calls it CB); terminals 1–2, 3–4, 5–6.</li>
+      <li>From Protections, place a three-pole breaker and set its TAG to <b>Q1</b> (the course name for a breaker; lab file 1 calls it CB); terminals 1–2, 3–4, 5–6.</li>
       <li>From Motors, place a three-phase motor (3~) and set its TAG to <b>M1</b>; terminals U1 V1 W1.</li>
-      <li>Wire L1 → Q1 1–2 → U1, L2 → Q1 3–4 → V1, L3 → Q1 5–6 → W1, and PE to the motor's PE terminal. For the whole circuit of section B, place a three-pole fuse ahead of Q1 and check its TAG too.</li>
+      <li>Wire L1 → Q1 1–2 → U1, L2 → Q1 3–4 → V1, L3 → Q1 5–6 → W1, and PE to the motor's PE terminal. For the whole circuit of section B, place a three-pole fuse ahead of Q1 and set its TAG to F1 (the power fuses).</li>
       <li>Press Play and switch Q1 on (how a breaker is switched in Play mode: check in your app); watch the live wires change colour and the motor turn, and save a screenshot with the camera button.</li>
       <li>Back in edit mode, swap L1 and L2 at the motor terminals (L1 → V1, L2 → U1), play again and look at the direction. Reviews say the direction display changed between versions; if your app shows no direction, check it in CADe SIMU. Then swap the wires back to the normal connection before taking the whole-drawing screenshot you hand in.</li></ol>
   </div>

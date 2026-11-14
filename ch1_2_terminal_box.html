@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=22"><link rel="stylesheet" href="assets/ed2.css?v=22">
-<script src="assets/stops.js?v=22"></script><script src="assets/shell.js?v=22"></script>
-<script src="assets/lesson.js?v=22"></script><script src="assets/draw.js?v=22"></script><script src="assets/ed.js?v=22"></script><script src="assets/sym.js?v=22"></script><script src="assets/ed1.js?v=22"></script>
+<link rel="stylesheet" href="assets/ee.css?v=27"><link rel="stylesheet" href="assets/ed2.css?v=27">
+<script src="assets/stops.js?v=27"></script><script src="assets/shell.js?v=27"></script>
+<script src="assets/lesson.js?v=27"></script><script src="assets/draw.js?v=27"></script><script src="assets/ed.js?v=27"></script><script src="assets/sym.js?v=27"></script><script src="assets/ed1.js?v=27"></script>
 </head>
 <body>
 <div class="wrap">
@@ -26,12 +26,12 @@
   <li><b>ตัวเลขแรงดันที่ต่ำกว่าบนป้ายพิกัด</b> เช่น 230 ใน 230/400 V คือแรงดันที่ขดลวดหนึ่งชุดทนได้ ต่อเดลตาที่แรงดันนี้ หรือต่อสตาร์ที่แรงดันสูงกว่า √3 เท่า ระบบ 3 เฟสในไทยมีแรงดันสาย 400 V</li>
   <li><b>กล่องขั้วตาม IEC 60034-8</b> วางแถวบนเป็น W2 U2 V2 แถวล่างเป็น U1 V1 W1 การเหลื่อมนี้ทำให้ใช้สะพานตรงชุดเดียวกันได้ทั้งสองแบบ: สะพานแนวนอนแถวบนสองอัน = <b>สตาร์</b>, สะพานแนวตั้งสามอัน = <b>เดลตา</b></li>
   <li><b>ต่อผิดแล้วเสียหาย</b>: มอเตอร์ 230/400 V ต่อเดลตาบนระบบ 400 V ขดลวดได้แรงดันเกิน 1.73 เท่า ร้อนจนไหม้ ส่วนมอเตอร์ 400/690 V ต่อสตาร์บน 400 V ขดลวดได้แรงดันเหลือ 58 % แรงบิดเหลือราวหนึ่งในสาม</li>
-  <li><b>สตาร์-เดลตา (บทที่ 8)</b> ใช้ได้กับมอเตอร์ที่ทำงานแบบเดลตาที่แรงดันระบบเท่านั้น บนระบบ 400 V คือมอเตอร์ป้าย 400/690 V Δ/Y</li></ul></section>
+  <li><b>สตาร์-เดลตา (บทที่ 7)</b> ใช้ได้กับมอเตอร์ที่ทำงานแบบเดลตาที่แรงดันระบบเท่านั้น บนระบบ 400 V คือมอเตอร์ป้าย 400/690 V Δ/Y</li></ul></section>
 <section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
   <li><b>The lower voltage on the nameplate</b>, such as 230 in 230/400 V, is what one winding is built for: delta at that voltage, or star at √3 times it. A Thai three-phase supply has a line voltage of 400 V.</li>
   <li><b>An IEC 60034-8 terminal box</b> has W2 U2 V2 on the top row and U1 V1 W1 on the bottom row. The offset lets the same straight links make both connections: two horizontal links on the top row = <b>star</b>, three vertical links = <b>delta</b>.</li>
   <li><b>A wrong connection does damage</b>: a 230/400 V motor in delta on 400 V gives its windings 1.73 times their voltage and burns out; a 400/690 V motor in star on 400 V gives them only 58 %, so the torque falls to about a third.</li>
-  <li><b>Star-delta starting (chapter 8)</b> only suits motors that run in delta at the supply voltage; on 400 V that means a 400/690 V Δ/Y nameplate.</li></ul></section>
+  <li><b>Star-delta starting (chapter 7)</b> only suits motors that run in delta at the supply voltage; on 400 V that means a 400/690 V Δ/Y nameplate.</li></ul></section>
 
 <nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#tA"><b>A</b>อ่านป้ายพิกัด</a><a href="#tB"><b>B</b>กล่องขั้ว</a><a href="#tL"><b>L</b>มอเตอร์ในห้องปฏิบัติการ</a><a href="#ex1"><b>1</b>มอเตอร์ 1.5 kW</a><a href="#ex2"><b>2</b>มอเตอร์ 7.5 kW</a><a href="#tC"><b>C</b>ฝึกเพิ่ม</a></nav>
 <nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#tA"><b>A</b>Reading a nameplate</a><a href="#tB"><b>B</b>The terminal box</a><a href="#tL"><b>L</b>The lab motor</a><a href="#ex1"><b>1</b>The 1.5 kW motor</a><a href="#ex2"><b>2</b>The 7.5 kW motor</a><a href="#tC"><b>C</b>More practice</a></nav>
@@ -188,7 +188,7 @@ document.addEventListener('mc:ready', () => {
     { why: t('ต่อเดลตา กระแสสายคือค่าแรกบนป้าย และกระแสในขดลวดน้อยกว่า √3 เท่า', 'In delta the line current is the first value on the plate and the winding current is √3 times smaller'),
       tex: R`I_L = 14.7\ \text{A},\qquad I_{\text{winding}} = \frac{14.7}{\sqrt3} = 8.49\ \text{A}` },
     { why: t('ตอนเริ่มเดินต่อสตาร์ ขดลวดได้แรงดันลดลง √3 เท่า ไม่เกินพิกัด แล้วจึงเปลี่ยนเป็นเดลตาเมื่อความเร็วขึ้น', 'Started in star, each winding gets √3 times less, below its rating; the motor then changes to delta once up to speed'),
-      tex: R`V_{\text{winding,star}} = \frac{400}{\sqrt3} = 231\ \text{V} < 400\ \text{V}`, body: `<p>${t('จึงเริ่มเดินแบบสตาร์-เดลตาได้ (บทที่ 8)', 'So star-delta starting is possible (chapter 8).')}</p>` }],
+      tex: R`V_{\text{winding,star}} = \frac{400}{\sqrt3} = 231\ \text{V} < 400\ \text{V}`, body: `<p>${t('จึงเริ่มเดินแบบสตาร์-เดลตาได้ (บทที่ 7)', 'So star-delta starting is possible (chapter 7).')}</p>` }],
     answer: t('(ก) เดลตา (ข) 14.7 A และ 8.49 A (ค) 231 V และเริ่มเดินแบบสตาร์-เดลตาได้', '(a) delta; (b) 14.7 A and 8.49 A; (c) 231 V, and star-delta starting is possible') });
 
   /* ---------------- C */

@@ -1,41 +1,42 @@
-/* ch7.js — chapter 7: reversing a motor (forward and reverse, interlocks, plugging, limit switches, single-phase reversing).
-   Course names and IEC numbers (chapter 7 design): Q1 main breaker, F1 control fuse, F2 overload relay (95–96 in the common path,
-   97–98 to H3), KM1 forward contactor (L1 → U1 straight), KM2 reverse contactor (L1 ↔ L3 swapped on its supply side: KM2 1/L1 from L3,
+/* ch7.js — chapter 6: reversing a motor (forward and reverse, interlocks, plugging, limit switches, single-phase reversing).
+   Course names and IEC numbers (the names of the Lecture 6 slides since 14 Nov 2026; the power fuses F1 replace the old main breaker):
+   F1 power fuses (blow on a short, replaced by a click), F2 control fuse, F3 overload relay (95–96 in the common path,
+   97–98 to H3), K1 forward contactor (L1 → U1 straight), K2 reverse contactor (L1 ↔ L3 swapped on its supply side: K2 1/L1 from L3,
    3/L2 from L2, 5/L3 from L1), S1 STOP 11–12 (black), S2 FORWARD and S3 REVERSE (white, double contact NO 13–14 + NC 21–22), H1 green
-   FORWARD (KM1 53–54), H2 green REVERSE (KM2 53–54), H3 yellow OVERLOAD (F2 97–98 fed from F1 2, ahead of 95–96), H4 white STOPPED
-   (KM1 61–62 + KM2 61–62 in series), S5 forward-end and S6 reverse-end limit switches (one device each: NC 21–22 with the direct-
-   opening mark + NO 13–14), S7 / S8 over-travel switches (NC, direct opening) beyond S5 / S6, S4 AUTO START (white), KA1 auto-cycle
-   relay (13–14 hold, 23–24 KM1 auto branch, 33–34 KM2 auto branch), KA2 stop-lock relay (13–14 hold, 21–22 in the common path),
-   KT1 / KT2 on-delay timers (55–56 timed NC, 67–68 timed NO). KM1 / KM2: 13–14 hold, 21–22 electrical interlock in the OTHER coil's
+   FORWARD (K1 53–54), H2 green REVERSE (K2 53–54), H3 yellow OVERLOAD (F3 97–98 fed from F2 2, ahead of 95–96), H4 white STOPPED
+   (K1 61–62 + K2 61–62 in series), S5 forward-end and S6 reverse-end limit switches (one device each: NC 21–22 with the direct-
+   opening mark + NO 13–14), S7 / S8 over-travel switches (NC, direct opening) beyond S5 / S6, S4 AUTO START (white), K3 auto-cycle
+   relay (13–14 hold, 23–24 K1 auto branch, 33–34 K2 auto branch) or, in STOPLOCK, K3 stop-lock relay (13–14 hold, 21–22 in the common
+   path; the two relays are never in the same circuit: spec.autoRelay / spec.lock tell C7.state which one it is), K4 / K5 on-delay timers (55–56 timed NC, 67–68 timed NO). K1 / K2: 13–14 hold, 21–22 electrical interlock in the OTHER coil's
    path just above that coil (a mirror contact), 53–54 run lamp, 61–62 stopped lamp, 71–72 spare NC (AUTO_T: 61–62 drive the timers).
-   Control 230 V between L1 and N after Q1. Every push button and lamp has name [th, en] (the English part makes the engraved plate on
+   Control 230 V between L1 and N after F1. Every push button and lamp has name [th, en] (the English part makes the engraved plate on
    the C5.panel / PN.Door front: FORWARD, REVERSE, STOP, AUTO START, OVERLOAD, STOPPED). Every spec sets chatter: true (relay.js).
-   Every factory takes o: { lamps: false (default; TRIPLE 'all') | 'all' | ['H1', …], mech: bool (mechanical interlock KM1 ▽ KM2 under
-   the coils), tap: 'after' | 'before', map: [3, 2, 1] (supply phase on KM2 poles 1–3; a cyclic [2, 3, 1] does not reverse) } and
+   Every factory takes o: { lamps: false (default; TRIPLE 'all') | 'all' | ['H1', …], mech: bool (mechanical interlock K1 ▽ K2 under
+   the coils), tap: 'after' | 'before', map: [3, 2, 1] (supply phase on K2 poles 1–3; a cyclic [2, 3, 1] does not reverse) } and
    returns a fresh spec with the reversing power drawing (relay.js power.rev); sim.dir() 'cw' (forward) | 'ccw' (reverse) | 0.
    1) circuits
-      C7.NONE(o)      no interlock: (S2 ∥ KM1 13–14) → KM1, (S3 ∥ KM2 13–14) → KM2; S2 then S3 → both close → L1–L3 short → Q1 trips
-      C7.ELEC(o)      + KM2 21–22 in the KM1 path, KM1 21–22 in the KM2 path (forward – stop – reverse: S3 while forward does nothing)
-      C7.PB(o)        ELEC + push-button interlock: S3 21–22 in the KM1 path, S2 21–22 in the KM2 path, between the hold node and the
-                      coil, so the hold spans only the start NO and S3 drops KM1 at once (direct reversing); o.holdAbove: the hold
+      C7.NONE(o)      no interlock: (S2 ∥ K1 13–14) → K1, (S3 ∥ K2 13–14) → K2; S2 then S3 → both close → L1–L3 short → the power fuses F1 blow
+      C7.ELEC(o)      + K2 21–22 in the K1 path, K1 21–22 in the K2 path (forward – stop – reverse: S3 while forward does nothing)
+      C7.PB(o)        ELEC + push-button interlock: S3 21–22 in the K1 path, S2 21–22 in the K2 path, between the hold node and the
+                      coil, so the hold spans only the start NO and S3 drops K1 at once (direct reversing); o.holdAbove: the hold
                       bridges the other button's NC as well (direct reversing lost); o.elec false: push-button interlock only
-      C7.TRIPLE(o)    PB + mechanical interlock + lamps H1–H4 (rows 7; paths 1 KM1, 2 hold, 3 KM2, 4 hold, 5–8 H1 H2 H3 H4)
-      C7.MECH(o)      NONE + mechanical interlock only (S3 while forward: KM2's coil is energised but blocked; it overheats)
-      C7.STOPLOCK(o)  ELEC + anti-plugging lock: S1 23–24 (the stop button's second element, NO) latches KA2 (13–14), KT1 on-delay (o.T, default 5 s) in parallel; KT1 55–56
-                      releases KA2; KA2 21–22 in the common path blocks both starts until KT1 has timed out (a teaching device: real
-                      plug braking needs a zero-speed switch, IEC 60204-1 9.3.5). Rows 7; paths 1 KM1, 2 hold, 3 KM2, 4 hold, 5 KA2,
-                      6 KA2 hold / KT1 coil
-      C7.LIMITS(o)    ELEC + travel limits: S5 21–22 in the KM1 path, S6 21–22 in the KM2 path, inside the held branch
-      C7.AUTO(o)      automatic back-and-forth (our own design): KM1 path (S2 ∥ KM1 13–14 ∥ (KA1 23–24 + S6 13–14)) → S5 21–22 → S7
-                      21–22 → KM2 21–22 → KM1; KM2 path (S3 ∥ KM2 13–14 ∥ (KA1 33–34 + S5 13–14)) → S6 21–22 → S8 21–22 → KM1
-                      21–22 → KM2; KA1 by S4 (∥ KA1 13–14), dropped by S1, F2 or a power cut. o.over false: no S7 / S8; o.dwell T:
-                      a dwell at each end (S5 13–14 starts KT1, KT1 67–68 starts the return; S6 13–14 / KT2 the other way)
-      C7.AUTO_T(o)    time-controlled back-and-forth after Book_1 Fig 6.21, redrawn: S4 (∥ KA1 13–14) → KA1; from there KM2 61–62 →
-                      KT1 and KM1 61–62 → KT2; KA1 23–24 → KT1 55–56 → KM2 21–22 → KM1 and → (KT1 67–68 ∥ KM2 13–14) → KT2 55–56 →
-                      KM1 21–22 → KM2: forward o.T1 (4 s), instant reversal, reverse o.T2 (4 s), … until S1, F2 or a power cut
-                      (KM1 in column 5, KM2 in column 7, lamps from column 9; spec.pathNo numbers the used columns 1 … n)
+      C7.TRIPLE(o)    PB + mechanical interlock + lamps H1–H4 (rows 7; paths 1 K1, 2 hold, 3 K2, 4 hold, 5–8 H1 H2 H3 H4)
+      C7.MECH(o)      NONE + mechanical interlock only (S3 while forward: K2's coil is energised but blocked; it overheats)
+      C7.STOPLOCK(o)  ELEC + anti-plugging lock: S1 23–24 (the stop button's second element, NO) latches K3 (13–14), K4 on-delay (o.T, default 5 s) in parallel; K4 55–56
+                      releases K3; K3 21–22 in the common path blocks both starts until K4 has timed out (a teaching device: real
+                      plug braking needs a zero-speed switch, IEC 60204-1 9.3.5). Rows 7; paths 1 K1, 2 hold, 3 K2, 4 hold, 5 K3,
+                      6 K3 hold / K4 coil
+      C7.LIMITS(o)    ELEC + travel limits: S5 21–22 in the K1 path, S6 21–22 in the K2 path, inside the held branch
+      C7.AUTO(o)      automatic back-and-forth (our own design): K1 path (S2 ∥ K1 13–14 ∥ (K3 23–24 + S6 13–14)) → S5 21–22 → S7
+                      21–22 → K2 21–22 → K1; K2 path (S3 ∥ K2 13–14 ∥ (K3 33–34 + S5 13–14)) → S6 21–22 → S8 21–22 → K1
+                      21–22 → K2; K3 by S4 (∥ K3 13–14), dropped by S1, F3 or a power cut. o.over false: no S7 / S8; o.dwell T:
+                      a dwell at each end (S5 13–14 starts K4, K4 67–68 starts the return; S6 13–14 / K5 the other way)
+      C7.AUTO_T(o)    time-controlled back-and-forth after Book_1 Fig 6.21, redrawn: S4 (∥ K3 13–14) → K3; from there K2 61–62 →
+                      K4 and K1 61–62 → K5; K3 23–24 → K4 55–56 → K2 21–22 → K1 and → (K4 67–68 ∥ K2 13–14) → K5 55–56 →
+                      K1 21–22 → K2: forward o.T1 (4 s), instant reversal, reverse o.T2 (4 s), … until S1, F3 or a power cut
+                      (K1 in column 5, K2 in column 7, lamps from column 9; spec.pathNo numbers the used columns 1 … n)
       C7.ONEPH(o)     single-phase reversing, forward – stop – reverse (ELEC control) on the power drawing of relay.js (phases 1 + rev):
-                      Q1 two-pole, F2 ahead of the split, KM1 L → U1, L → Z1, N → Z2; KM2 L → U1, L → Z2, N → Z1; U2 to N.
+                      F1 power fuses (L and N, as relay.js draws them), F3 ahead of the split, K1 L → U1, L → Z1, N → Z2; K2 L → U1, L → Z2, N → Z1; U2 to N.
                       step() must run: at speed the centrifugal switch is open and swapping Z1–Z2 does nothing until the motor slows
                       below 60 %. o.poles / o.fixed override the pole lists (fault 9)
       C7.CONTACTS     the contact-number table [[device, contact, use [th, en]]]
@@ -45,7 +46,8 @@
       C7.runSeq(sim, seq) runs a test sequence: the C6 ops ['tap', ids…] ['hold', id] ['release', id] ['toggle', id] ['start', id]
                       ['cut'] ['fault', id] ['wait', s] plus ['carriage', pos, o] (a hidden carriage from here on; 'wait' moves it),
                       ['travel', s] (= wait), ['set', id, bool] (limit switch by hand); checks ['run', bool] ['on', id, bool]
-                      ['lit', id, bool] ['dir', 'cw'|'ccw'|0] ['q1', bool] ['short', bool] ['blocked', id, bool] ['chatter', id, bool]
+                      ['lit', id, bool] ['dir', 'cw'|'ccw'|0] ['blown', id, bool] ['q1', bool] (MCP pages: the
+                      trainer's breaker Q1 on) ['short', bool] ['blocked', id, bool] ['chatter', id, bool]
                       ['crash', bool] ['at', id, bool] (switch actuated) ['pos', '<'|'>', x] ['revs', '>='|'<=', n]; true when all hold
       C7.faultTrial(c) → { bad, good } (good true and bad false when the case works); C7.trial(spec, seq) → bool
    3) C7.state(sim)   status [pill, text, kind] of a reversing simulator (short circuit, blocked or chattering coil, stop lock, direction,
@@ -69,9 +71,9 @@ C7.T = 5;   // default stop-lock time (s)
 
 /* ---------------- 1) circuits ---------------- */
 const DV = {
-  Q1: () => ({ type: 'cb', on: true, name: ['Q1 เบรกเกอร์หลัก', 'Q1 main breaker'] }),
-  F1: () => ({ type: 'fuse', name: ['F1 ฟิวส์วงจรควบคุม', 'F1 control fuse'] }),
-  F2: () => ({ type: 'ol', name: ['F2 โอเวอร์โหลด ตัด / รีเซ็ต', 'F2 overload trip / reset'] }),
+  F1: () => ({ type: 'fuse', name: ['F1 ฟิวส์วงจรกำลัง', 'F1 power fuses'] }),
+  F2: () => ({ type: 'fuse', name: ['F2 ฟิวส์วงจรควบคุม', 'F2 control fuse'] }),
+  F3: () => ({ type: 'ol', name: ['F3 โอเวอร์โหลด ตัด / รีเซ็ต', 'F3 overload trip / reset'] }),
   S1: () => ({ type: 'pb', cap: 'black', legend: 'O', name: ['S1 หยุด', 'S1 stop'] }),
   S2: () => ({ type: 'pb', cap: 'white', legend: 'I', name: ['S2 เดินหน้า', 'S2 forward'] }),
   S3: () => ({ type: 'pb', cap: 'white', legend: 'I', name: ['S3 ถอยหลัง', 'S3 reverse'] }),
@@ -80,10 +82,10 @@ const DV = {
   S6: () => ({ type: 'sen', name: ['S6 ลิมิตสวิตช์ปลายทางถอยหลัง', 'S6 reverse end limit switch'] }),
   S7: () => ({ type: 'sen', name: ['S7 สวิตช์กันเลยระยะด้านเดินหน้า', 'S7 forward over-travel switch'] }),
   S8: () => ({ type: 'sen', name: ['S8 สวิตช์กันเลยระยะด้านถอยหลัง', 'S8 reverse over-travel switch'] }),
-  KM1: () => ({ type: 'coil', name: ['KM1 คอนแทกเตอร์เดินหน้า', 'KM1 forward contactor'] }),
-  KM2: () => ({ type: 'coil', name: ['KM2 คอนแทกเตอร์ถอยหลัง', 'KM2 reverse contactor'] }),
-  KA1: () => ({ type: 'coil', name: ['KA1 รีเลย์รอบอัตโนมัติ', 'KA1 auto-cycle relay'] }),
-  KA2: () => ({ type: 'coil', name: ['KA2 รีเลย์ล็อกหลังกดหยุด', 'KA2 stop-lock relay'] }),
+  K1: () => ({ type: 'coil', name: ['K1 คอนแทกเตอร์เดินหน้า', 'K1 forward contactor'] }),
+  K2: () => ({ type: 'coil', name: ['K2 คอนแทกเตอร์ถอยหลัง', 'K2 reverse contactor'] }),
+  K3auto: () => ({ type: 'coil', name: ['K3 รีเลย์รอบอัตโนมัติ', 'K3 auto-cycle relay'] }),   // AUTO, AUTO_T
+  K3lock: () => ({ type: 'coil', name: ['K3 รีเลย์ล็อกหลังกดหยุด', 'K3 stop-lock relay'] }),   // STOPLOCK (never in the same circuit as K3auto)
   KT: (T0, nm) => ({ type: 'timer', mode: 'on', T: T0, name: nm }),
   H1: () => ({ type: 'lamp', color: C7.COL.run, code: 'GN', name: ['H1 เดินหน้า', 'H1 forward'] }),
   H2: () => ({ type: 'lamp', color: C7.COL.run, code: 'GN', name: ['H2 ถอยหลัง', 'H2 reverse'] }),
@@ -91,20 +93,20 @@ const DV = {
   H4: () => ({ type: 'lamp', color: C7.COL.stop, code: 'WH', name: ['H4 หยุดอยู่', 'H4 stopped'] }) };
 C7.DEV = DV;
 const w = (pts, dots) => (dots && dots.length ? { k: 'w', pts, dots } : { k: 'w', pts }), vw = (x, y, h = 1) => ({ k: 'w', x, y, h });
-const fuse = () => ({ k: 'fuse', d: 'F1', x: 0, y: 0, t: ['1', '2'] }), olNC = () => ({ k: 'NC', d: 'F2', x: 0, y: 1, t: ['95', '96'], op: 'thr' });
+const fuse = () => ({ k: 'fuse', d: 'F2', x: 0, y: 0, t: ['1', '2'] }), olNC = () => ({ k: 'NC', d: 'F3', x: 0, y: 1, t: ['95', '96'], op: 'thr' });
 const pbNO = (d, x, y, h = 1) => ({ k: 'NO', d, x, y, h, t: ['13', '14'], op: 'pb' }), pbNC = (d, x, y, t = ['21', '22']) => ({ k: 'NC', d, x, y, t, op: 'pb' });
 const no = (d, a, b, x, y, h = 1) => ({ k: 'NO', d, x, y, h, t: [a, b] }), nc = (d, a, b, x, y) => ({ k: 'NC', d, x, y, t: [a, b] });
 const coil = (d, x, y) => ({ k: 'coil', d, x, y, t: ['A1', 'A2'] });
 const limNC = d => ({ k: 'NC', d, t: ['21', '22'], op: 'lim', dop: true }), limNO = d => ({ k: 'NO', d, t: ['13', '14'], op: 'lim' });
 const tNC = d => ({ k: 'NC', d, t: ['55', '56'], td: 'on' }), tNO = d => ({ k: 'NO', d, t: ['67', '68'], td: 'on' });
-/* power circuit: Q1 → KM1 ∥ KM2 (rev.map) → F2 → M1; single-phase: Q1 → F2 → KM1 ∥ KM2 → M1 1~ */
-const PW = (o = {}) => ({ full: true, tap: o.tap === 'before' ? 'before' : 'after', rev: { fwd: 'KM1', rev: 'KM2', swap: ['L1', 'L3'], ...(o.map ? { map: o.map.slice() } : {}) },
-  stages: [{ k: 'cb', d: 'Q1' }, { k: 'rev' }, { k: 'therm', d: 'F2' }], motor: 'M1' });
-const PW1 = (o = {}) => ({ phases: 1, start: true, tap: o.tap === 'before' ? 'before' : 'after', rev: { fwd: 'KM1', rev: 'KM2', ...(o.poles ? { poles: o.poles } : {}), ...(o.fixed ? { fixed: o.fixed } : {}) },
-  stages: [{ k: 'cb', d: 'Q1' }, { k: 'therm', d: 'F2' }, { k: 'rev' }], motor: 'M1' });
-/* lamp columns from x0 (rows = N row): each fed from F1 2 along row 1, its contact(s) just above the lamp */
-const LAMP = { H1: [{ k: 'NO', d: 'KM1', t: ['53', '54'] }], H2: [{ k: 'NO', d: 'KM2', t: ['53', '54'] }], H3: [{ k: 'NO', d: 'F2', t: ['97', '98'], op: 'thr' }],
-  H4: [{ k: 'NC', d: 'KM1', t: ['61', '62'] }, { k: 'NC', d: 'KM2', t: ['61', '62'] }] };
+/* power circuit: F1 → K1 ∥ K2 (rev.map) → F3 → M1; single-phase: F1 → F3 → K1 ∥ K2 → M1 1~ */
+const PW = (o = {}) => ({ full: true, tap: o.tap === 'before' ? 'before' : 'after', rev: { fwd: 'K1', rev: 'K2', swap: ['L1', 'L3'], ...(o.map ? { map: o.map.slice() } : {}) },
+  stages: [{ k: 'fuse', d: 'F1' }, { k: 'rev' }, { k: 'therm', d: 'F3' }], motor: 'M1' });
+const PW1 = (o = {}) => ({ phases: 1, start: true, tap: o.tap === 'before' ? 'before' : 'after', rev: { fwd: 'K1', rev: 'K2', ...(o.poles ? { poles: o.poles } : {}), ...(o.fixed ? { fixed: o.fixed } : {}) },
+  stages: [{ k: 'fuse', d: 'F1' }, { k: 'therm', d: 'F3' }, { k: 'rev' }], motor: 'M1' });
+/* lamp columns from x0 (rows = N row): each fed from F2 2 along row 1, its contact(s) just above the lamp */
+const LAMP = { H1: [{ k: 'NO', d: 'K1', t: ['53', '54'] }], H2: [{ k: 'NO', d: 'K2', t: ['53', '54'] }], H3: [{ k: 'NO', d: 'F3', t: ['97', '98'], op: 'thr' }],
+  H4: [{ k: 'NC', d: 'K1', t: ['61', '62'] }, { k: 'NC', d: 'K2', t: ['61', '62'] }] };
 const lampSel = (o, dflt) => { const v = o.lamps === undefined ? dflt : o.lamps; return v === 'all' || v === true ? ['H1', 'H2', 'H3', 'H4'] : Array.isArray(v) ? v.filter(h => LAMP[h]) : []; };
 const lamps = (ids, x0, rows, D) => { const els = []; if (!ids.length) return els;
   ids.forEach((h, i) => { const x = x0 + i, cs = LAMP[h], yc = rows - 1 - cs.length; D[h] = DV[h]();
@@ -120,19 +122,19 @@ const dirPath = (els, cx, yA, P) => { const sh = P.sh || 1, hh = P.holdH || sh, 
   let y = yA + sh; P.slots.forEach(e => { els.push(e ? { ...e, x: cx, y } : vw(cx, y)); y++; });
   els.push(coil(P.coil, cx, y)); return y + 1; };
 const top = (els, yA, x1) => { const pts = []; for (let x = 0; x <= x1; x++) pts.push([x, yA]); els.push(w(pts, pts.map((p, i) => i).slice(0, -1))); };
-const spec = (D, els, rows, o, extra = {}) => ({ supply: o.tap === 'before' ? undefined : 'Q1', rows, chatter: true, devices: D, power: o._one ? PW1(o) : PW(o), els, ...(o.mech ? { mech: [['KM1', 'KM2']] } : {}), ...extra });
-const base = () => ({ Q1: DV.Q1(), F1: DV.F1(), F2: DV.F2(), S1: DV.S1(), S2: DV.S2(), S3: DV.S3(), KM1: DV.KM1(), KM2: DV.KM2() });
+const spec = (D, els, rows, o, extra = {}) => ({ supply: o.tap === 'before' ? undefined : 'F1', rows, chatter: true, devices: D, power: o._one ? PW1(o) : PW(o), els, ...(o.mech ? { mech: [['K1', 'K2']] } : {}), ...extra });
+const base = () => ({ F2: DV.F2(), F1: DV.F1(), F3: DV.F3(), S1: DV.S1(), S2: DV.S2(), S3: DV.S3(), K1: DV.K1(), K2: DV.K2() });
 
 /* the two-button circuits NONE / ELEC / PB / TRIPLE / MECH / LIMITS (rows 7, node A = (0, 3)); internal options for the faults:
-   _own (KM1 71–72 in its own path instead of KM2 21–22), _swapBtn (S2 / S3 linkages swapped), _bothNC (an NC S3 11–12, as CADe SIMU numbers a new NC
-   contact, where S3 13–14 should be in the KM2 path), _limWrong (S5 21–22 in the KM2 path, S6 21–22 in the KM1 path) */
+   _own (K1 71–72 in its own path instead of K2 21–22), _swapBtn (S2 / S3 linkages swapped), _bothNC (an NC S3 11–12, as CADe SIMU numbers a new NC
+   contact, where S3 13–14 should be in the K2 path), _limWrong (S5 21–22 in the K2 path, S6 21–22 in the K1 path) */
 const two = (o = {}) => { const D = base(), els = [fuse(), olNC(), { k: 'NC', d: 'S1', x: 0, y: 2, t: ['11', '12'], op: 'pb' }], yA = 3, pb = !!o.pb, el = o.elec !== false && (o.elec || pb), lim = !!o.limits;
-  const [a, b] = o._swapBtn ? ['S3', 'S2'] : ['S2', 'S3'];   // the buttons in the KM1 path: a NO, b NC; in the KM2 path b NO, a NC
+  const [a, b] = o._swapBtn ? ['S3', 'S2'] : ['S2', 'S3'];   // the buttons in the K1 path: a NO, b NC; in the K2 path b NO, a NC
   if (lim) { D.S5 = DV.S5(); D.S6 = DV.S6(); }
   const s1 = lim ? (o._limWrong ? limNC('S6') : limNC('S5')) : pb ? pbNC(b) : null, s2 = lim ? (o._limWrong ? limNC('S5') : limNC('S6')) : pb ? pbNC(a) : null;
-  const i1 = el ? (o._own ? nc('KM1', '71', '72') : nc('KM2', '21', '22')) : null, i2 = el ? nc('KM1', '21', '22') : null, hh = o.holdAbove && pb ? 2 : 1;
-  dirPath(els, 0, yA, { start: a, coil: 'KM1', holdH: hh, slots: [s1, i1] });
-  const rows = dirPath(els, 2, yA, { start: b, coil: 'KM2', holdH: hh, slots: [s2, i2], startEl: o._bothNC ? pbNC(b, 0, 0, ['11', '12']) : null });
+  const i1 = el ? (o._own ? nc('K1', '71', '72') : nc('K2', '21', '22')) : null, i2 = el ? nc('K1', '21', '22') : null, hh = o.holdAbove && pb ? 2 : 1;
+  dirPath(els, 0, yA, { start: a, coil: 'K1', holdH: hh, slots: [s1, i1] });
+  const rows = dirPath(els, 2, yA, { start: b, coil: 'K2', holdH: hh, slots: [s2, i2], startEl: o._bothNC ? pbNC(b, 0, 0, ['11', '12']) : null });
   top(els, yA, 3); els.push(...lamps(lampSel(o, false), 4, rows, D));
   return spec(D, els, rows, o); };
 C7.NONE = (o = {}) => two({ ...o, elec: false, pb: false });
@@ -142,64 +144,64 @@ C7.TRIPLE = (o = {}) => two({ lamps: 'all', mech: true, ...o, pb: true });
 C7.MECH = (o = {}) => two({ mech: true, ...o, elec: false, pb: false });
 C7.LIMITS = (o = {}) => two({ ...o, elec: true, pb: false, limits: true });
 
-/* forward – stop – reverse with a stop lock: S1 23–24 latches KA2 for KT1's time; KA2 21–22 under S1 blocks both starts */
-C7.STOPLOCK = (o = {}) => { const D = base(), T0 = o.T ?? C7.T; D.KA2 = DV.KA2(); D.KT1 = DV.KT(T0, ['KT1 ตัวตั้งเวลาล็อกหลังหยุด', 'KT1 stop-lock timer']);
-  const els = [fuse(), olNC(), { k: 'NC', d: 'S1', x: 0, y: 2, t: ['11', '12'], op: 'pb' }, nc('KA2', '21', '22', 0, 3)], yA = 4;
-  dirPath(els, 0, yA, { start: 'S2', coil: 'KM1', slots: [nc('KM2', '21', '22')] });
-  const rows = dirPath(els, 2, yA, { start: 'S3', coil: 'KM2', slots: [nc('KM1', '21', '22')] });
+/* forward – stop – reverse with a stop lock: S1 23–24 latches K3 for K4's time; K3 21–22 under S1 blocks both starts */
+C7.STOPLOCK = (o = {}) => { const D = base(), T0 = o.T ?? C7.T; D.K3 = DV.K3lock(); D.K4 = DV.KT(T0, ['K4 ตัวตั้งเวลาล็อกหลังหยุด', 'K4 stop-lock timer']);
+  const els = [fuse(), olNC(), { k: 'NC', d: 'S1', x: 0, y: 2, t: ['11', '12'], op: 'pb' }, nc('K3', '21', '22', 0, 3)], yA = 4;
+  dirPath(els, 0, yA, { start: 'S2', coil: 'K1', slots: [nc('K2', '21', '22')] });
+  const rows = dirPath(els, 2, yA, { start: 'S3', coil: 'K2', slots: [nc('K1', '21', '22')] });
   top(els, yA, 3);
-  // the lock: from the point after F2 95–96 (ahead of S1 11–12): S1 23–24 ∥ KA2 13–14 → KT1 55–56 → KA2 ∥ KT1
-  els.push(w([[0, 2], [4, 2], [5, 2]], [0, 1]), { ...pbNO('S1', 4, 2), t: ['23', '24'] }, no('KA2', '13', '14', 5, 2), w([[4, 3], [5, 3]], [0]), { ...tNC('KT1'), x: 4, y: 3 }, vw(4, 4, rows - 5),
-    coil('KA2', 4, rows - 1), w([[4, rows - 1], [5, rows - 1]], [0]), coil('KT1', 5, rows - 1));
+  // the lock: from the point after F3 95–96 (ahead of S1 11–12): S1 23–24 ∥ K3 13–14 → K4 55–56 → K3 ∥ K4
+  els.push(w([[0, 2], [4, 2], [5, 2]], [0, 1]), { ...pbNO('S1', 4, 2), t: ['23', '24'] }, no('K3', '13', '14', 5, 2), w([[4, 3], [5, 3]], [0]), { ...tNC('K4'), x: 4, y: 3 }, vw(4, 4, rows - 5),
+    coil('K3', 4, rows - 1), w([[4, rows - 1], [5, rows - 1]], [0]), coil('K4', 5, rows - 1));
   els.push(...lamps(lampSel(o, false), 6, rows, D));
-  return spec(D, els, rows, o); };
+  return spec(D, els, rows, o, { lock: { relay: 'K3', timer: 'K4' } }); };
 
 /* automatic back-and-forth with limit switches (rows 9, node A = (0, 3)) */
 C7.AUTO = (o = {}) => { const D = base(), over = o.over !== false, dw = o.dwell > 0 ? o.dwell : 0, yA = 3;
-  D.S4 = DV.S4(); D.S5 = DV.S5(); D.S6 = DV.S6(); if (over) { D.S7 = DV.S7(); D.S8 = DV.S8(); } D.KA1 = DV.KA1();
-  if (dw) { D.KT1 = DV.KT(dw, ['KT1 หน่วงที่ปลายทางเดินหน้า', 'KT1 dwell at the forward end']); D.KT2 = DV.KT(dw, ['KT2 หน่วงที่ปลายทางถอยหลัง', 'KT2 dwell at the reverse end']); }
+  D.S4 = DV.S4(); D.S5 = DV.S5(); D.S6 = DV.S6(); if (over) { D.S7 = DV.S7(); D.S8 = DV.S8(); } D.K3 = DV.K3auto();
+  if (dw) { D.K4 = DV.KT(dw, ['K4 หน่วงที่ปลายทางเดินหน้า', 'K4 dwell at the forward end']); D.K5 = DV.KT(dw, ['K5 หน่วงที่ปลายทางถอยหลัง', 'K5 dwell at the reverse end']); }
   const els = [fuse(), olNC(), { k: 'NC', d: 'S1', x: 0, y: 2, t: ['11', '12'], op: 'pb' }];
-  const ret1 = dw ? tNO('KT2') : limNO('S6'), ret2 = dw ? tNO('KT1') : limNO('S5');   // what starts the return at each end
-  dirPath(els, 0, yA, { start: 'S2', coil: 'KM1', sh: 2, auto: [no('KA1', '23', '24'), ret1], slots: [limNC('S5'), ...(over ? [{ ...limNC('S7') }] : []), nc('KM2', '21', '22')] });
-  const rows = dirPath(els, 3, yA, { start: 'S3', coil: 'KM2', sh: 2, auto: [no('KA1', '33', '34'), ret2], slots: [limNC('S6'), ...(over ? [{ ...limNC('S8') }] : []), nc('KM1', '21', '22')] });
-  // KA1: S4 ∥ KA1 13–14 → KA1 (column 6, 7)
-  els.push(pbNO('S4', 6, yA), no('KA1', '13', '14', 7, yA), w([[6, yA + 1], [7, yA + 1]], [0]), vw(6, yA + 1, rows - yA - 2), coil('KA1', 6, rows - 1));
+  const ret1 = dw ? tNO('K5') : limNO('S6'), ret2 = dw ? tNO('K4') : limNO('S5');   // what starts the return at each end
+  dirPath(els, 0, yA, { start: 'S2', coil: 'K1', sh: 2, auto: [no('K3', '23', '24'), ret1], slots: [limNC('S5'), ...(over ? [{ ...limNC('S7') }] : []), nc('K2', '21', '22')] });
+  const rows = dirPath(els, 3, yA, { start: 'S3', coil: 'K2', sh: 2, auto: [no('K3', '33', '34'), ret2], slots: [limNC('S6'), ...(over ? [{ ...limNC('S8') }] : []), nc('K1', '21', '22')] });
+  // K3: S4 ∥ K3 13–14 → K3 (column 6, 7)
+  els.push(pbNO('S4', 6, yA), no('K3', '13', '14', 7, yA), w([[6, yA + 1], [7, yA + 1]], [0]), vw(6, yA + 1, rows - yA - 2), coil('K3', 6, rows - 1));
   let xe = 7;
-  if (dw) { els.push({ ...limNO('S5'), x: 8, y: yA }, vw(8, yA + 1, rows - yA - 2), coil('KT1', 8, rows - 1), { ...limNO('S6'), x: 9, y: yA }, vw(9, yA + 1, rows - yA - 2), coil('KT2', 9, rows - 1)); xe = 9; }
+  if (dw) { els.push({ ...limNO('S5'), x: 8, y: yA }, vw(8, yA + 1, rows - yA - 2), coil('K4', 8, rows - 1), { ...limNO('S6'), x: 9, y: yA }, vw(9, yA + 1, rows - yA - 2), coil('K5', 9, rows - 1)); xe = 9; }
   top(els, yA, xe); els.push(...lamps(lampSel(o, false), xe + 1, rows, D));
-  return spec(D, els, rows, o); };
+  return spec(D, els, rows, o, { autoRelay: 'K3' }); };
 
 /* time-controlled back-and-forth after Book_1 Fig 6.21, redrawn to IEC (rows 9) */
 C7.AUTO_T = (o = {}) => { const D = base(), T1 = o.T1 ?? o.T ?? 4, T2 = o.T2 ?? o.T ?? 4; delete D.S2; delete D.S3;
-  D.S4 = DV.S4(); D.KA1 = DV.KA1(); D.KT1 = DV.KT(T1, ['KT1 เวลาเดินหน้า', 'KT1 forward time']); D.KT2 = DV.KT(T2, ['KT2 เวลาถอยหลัง', 'KT2 reverse time']);
+  D.S4 = DV.S4(); D.K3 = DV.K3auto(); D.K4 = DV.KT(T1, ['K4 เวลาเดินหน้า', 'K4 forward time']); D.K5 = DV.KT(T2, ['K5 เวลาถอยหลัง', 'K5 reverse time']);
   const rows = 9, els = [fuse(), olNC(), { k: 'NC', d: 'S1', x: 0, y: 2, t: ['11', '12'], op: 'pb' },
-    // KA1 (column 0, hold column 1); node D = (0, 4) feeds the two timers through KM2 61–62 / KM1 61–62
-    pbNO('S4', 0, 3), no('KA1', '13', '14', 1, 3), w([[0, 3], [1, 3], [5, 3]], [0, 1]), w([[0, 4], [1, 4], [2, 4], [3, 4]], [0, 1, 2]), vw(0, 4, 4), coil('KA1', 0, 8),
-    nc('KM2', '61', '62', 2, 4), vw(2, 5, 3), coil('KT1', 2, 8), nc('KM1', '61', '62', 3, 4), vw(3, 5, 3), coil('KT2', 3, 8),
-    // node E after KA1 23–24 (column 5): KT1 55–56 → KM2 21–22 → KM1;  E → (KT1 67–68 ∥ KM2 13–14) → KT2 55–56 → KM1 21–22 → KM2 (column 7);
-    // columns 4 and 6 stay empty so that the cross-references under KM1 and KM2 do not run into each other
-    no('KA1', '23', '24', 5, 3, 2), w([[5, 5], [7, 5], [8, 5]], [0, 1]), { ...tNC('KT1'), x: 5, y: 5 }, nc('KM2', '21', '22', 5, 6), vw(5, 7), coil('KM1', 5, 8),
-    { ...tNO('KT1'), x: 7, y: 5 }, no('KM2', '13', '14', 8, 5), w([[7, 6], [8, 6]], [0]), { ...tNC('KT2'), x: 7, y: 6 }, nc('KM1', '21', '22', 7, 7), coil('KM2', 7, 8)];
+    // K3 (column 0, hold column 1); node D = (0, 4) feeds the two timers through K2 61–62 / K1 61–62
+    pbNO('S4', 0, 3), no('K3', '13', '14', 1, 3), w([[0, 3], [1, 3], [5, 3]], [0, 1]), w([[0, 4], [1, 4], [2, 4], [3, 4]], [0, 1, 2]), vw(0, 4, 4), coil('K3', 0, 8),
+    nc('K2', '61', '62', 2, 4), vw(2, 5, 3), coil('K4', 2, 8), nc('K1', '61', '62', 3, 4), vw(3, 5, 3), coil('K5', 3, 8),
+    // node E after K3 23–24 (column 5): K4 55–56 → K2 21–22 → K1;  E → (K4 67–68 ∥ K2 13–14) → K5 55–56 → K1 21–22 → K2 (column 7);
+    // columns 4 and 6 stay empty so that the cross-references under K1 and K2 do not run into each other
+    no('K3', '23', '24', 5, 3, 2), w([[5, 5], [7, 5], [8, 5]], [0, 1]), { ...tNC('K4'), x: 5, y: 5 }, nc('K2', '21', '22', 5, 6), vw(5, 7), coil('K1', 5, 8),
+    { ...tNO('K4'), x: 7, y: 5 }, no('K2', '13', '14', 8, 5), w([[7, 6], [8, 6]], [0]), { ...tNC('K5'), x: 7, y: 6 }, nc('K1', '21', '22', 7, 7), coil('K2', 7, 8)];
   els.push(...lamps(lampSel(o, false), 9, rows, D).map(e => (e.d && e.t && e.t[0] === '61' && e.k === 'NC' && e.x >= 9 ? { ...e, t: ['71', '72'] } : e)));   // 61–62 drive the timers here: H4 uses 71–72
   const used = [...new Set(els.filter(e => e.k !== 'w').map(e => e.x))].sort((a, b) => a - b);   // current paths numbered 1, 2, 3 … over the used columns
-  return spec(D, els, rows, o, { pathNo: x => used.indexOf(x) + 1 }); };
+  return spec(D, els, rows, o, { autoRelay: 'K3', pathNo: x => used.indexOf(x) + 1 }); };
 
 /* single-phase reversing, forward – stop – reverse */
 C7.ONEPH = (o = {}) => C7.ELEC({ ...o, _one: true });
 
 C7.CONTACTS = [
-  ['KM1', '13–14', ['ค้างตัวเอง (คร่อม S2)', 'hold (across S2)']], ['KM1', '21–22', ['อินเตอร์ล็อกในทางเดินกระแสของ KM2 (หน้าสัมผัสมิเรอร์)', 'interlock in the KM2 path (mirror contact)']],
-  ['KM1', '53–54', ['หลอด H1 เดินหน้า', 'lamp H1 forward']], ['KM1', '61–62', ['หลอด H4 หยุดอยู่ (อนุกรมกับ KM2 61–62)', 'lamp H4 stopped (in series with KM2 61–62)']],
-  ['KM2', '13–14', ['ค้างตัวเอง (คร่อม S3)', 'hold (across S3)']], ['KM2', '21–22', ['อินเตอร์ล็อกในทางเดินกระแสของ KM1', 'interlock in the KM1 path']],
-  ['KM2', '53–54', ['หลอด H2 ถอยหลัง', 'lamp H2 reverse']], ['KM2', '61–62', ['หลอด H4 หยุดอยู่', 'lamp H4 stopped']],
-  ['S2', '13–14 / 21–22', ['เริ่มเดินหน้า / อินเตอร์ล็อกปุ่มกดในทางเดินกระแสของ KM2', 'forward start / push-button interlock in the KM2 path']],
-  ['S3', '13–14 / 21–22', ['เริ่มถอยหลัง / อินเตอร์ล็อกปุ่มกดในทางเดินกระแสของ KM1', 'reverse start / push-button interlock in the KM1 path']],
+  ['K1', '13–14', ['ค้างตัวเอง (คร่อม S2)', 'hold (across S2)']], ['K1', '21–22', ['อินเตอร์ล็อกในทางเดินกระแสของ K2 (หน้าสัมผัสมิเรอร์)', 'interlock in the K2 path (mirror contact)']],
+  ['K1', '53–54', ['หลอด H1 เดินหน้า', 'lamp H1 forward']], ['K1', '61–62', ['หลอด H4 หยุดอยู่ (อนุกรมกับ K2 61–62)', 'lamp H4 stopped (in series with K2 61–62)']],
+  ['K2', '13–14', ['ค้างตัวเอง (คร่อม S3)', 'hold (across S3)']], ['K2', '21–22', ['อินเตอร์ล็อกในทางเดินกระแสของ K1', 'interlock in the K1 path']],
+  ['K2', '53–54', ['หลอด H2 ถอยหลัง', 'lamp H2 reverse']], ['K2', '61–62', ['หลอด H4 หยุดอยู่', 'lamp H4 stopped']],
+  ['S2', '13–14 / 21–22', ['เริ่มเดินหน้า / อินเตอร์ล็อกปุ่มกดในทางเดินกระแสของ K2', 'forward start / push-button interlock in the K2 path']],
+  ['S3', '13–14 / 21–22', ['เริ่มถอยหลัง / อินเตอร์ล็อกปุ่มกดในทางเดินกระแสของ K1', 'reverse start / push-button interlock in the K1 path']],
   ['S5', '21–22 / 13–14', ['หยุดเดินหน้าที่ปลายทาง / เริ่มถอยหลังในรอบอัตโนมัติ', 'stops forward at the end / starts reverse in the auto cycle']],
   ['S6', '21–22 / 13–14', ['หยุดถอยหลังที่ปลายทาง / เริ่มเดินหน้าในรอบอัตโนมัติ', 'stops reverse at the end / starts forward in the auto cycle']],
   ['S7, S8', '21–22', ['กันเลยระยะ (เปิดแบบบังคับ)', 'over-travel (direct opening)']],
-  ['KA1', '13–14 / 23–24 / 33–34', ['ค้างตัวเอง / กิ่งอัตโนมัติของ KM1 / กิ่งอัตโนมัติของ KM2', 'hold / KM1 auto branch / KM2 auto branch']],
-  ['KA2', '13–14 / 21–22', ['ค้างตัวเอง / ล็อกปุ่มเริ่มทั้งสอง', 'hold / locks both starts']],
-  ['KT1, KT2', '55–56 / 67–68', ['หน้าสัมผัสหน่วงเวลาปกติปิด / ปกติเปิด', 'timed NC / timed NO']]];
+  ['K3', '13–14 / 23–24 / 33–34', ['รีเลย์รอบอัตโนมัติ (หน้า 6.4): ค้างตัวเอง / กิ่งอัตโนมัติของ K1 / กิ่งอัตโนมัติของ K2', 'auto-cycle relay (page 6.4): hold / K1 auto branch / K2 auto branch']],
+  ['K3', '13–14 / 21–22', ['รีเลย์ล็อกหลังกดหยุด (หน้า 6.3 อีกวงจรหนึ่ง): ค้างตัวเอง / ล็อกปุ่มเริ่มทั้งสอง', 'stop-lock relay (page 6.3, a different circuit): hold / locks both starts']],
+  ['K4, K5', '55–56 / 67–68', ['หน้าสัมผัสหน่วงเวลาปกติปิด / ปกติเปิด', 'timed NC / timed NO']]];
 /* ---------------- 2) fault-finding cases and test sequences ---------------- */
 const hid = spec => new RL.Sim(document.createElement('div'), spec);
 /* see the header for the ops; 'wait' / 'travel' step the simulator (and the carriage) in 0.02 s steps */
@@ -210,7 +212,8 @@ C7.runSeq = (sim, seq) => { let ok = true, car = null;
     else if (op === 'wait' || op === 'travel') adv(a[0]);
     else if (op === 'set') sim.setOn(a[0], a[1]);
     else if (op === 'dir') { if (sim.dir() !== a[0]) ok = false; }
-    else if (op === 'q1') { if (!!sim.dev.Q1.on !== a[0]) ok = false; }
+    else if (op === 'blown') { if (!!(sim.dev[a[0]] || {}).blown !== a[1]) ok = false; }
+    else if (op === 'q1') { if (!!(sim.dev.Q1 || {}).on !== a[0]) ok = false; }   // MCP pages: the trainer's breaker Q1 (RL.q1)
     else if (op === 'short') { if ((sim.msg === 'pshort') !== a[0]) ok = false; }
     else if (op === 'blocked') { if (!!sim.dev[a[0]].blocked !== a[1]) ok = false; }
     else if (op === 'chatter') { if (!!sim.dev[a[0]].chatter !== a[1]) ok = false; }
@@ -222,99 +225,100 @@ C7.runSeq = (sim, seq) => { let ok = true, car = null;
   return ok; };
 C7.trial = (spec, seq) => C7.runSeq(hid(spec), seq);
 C7.faultTrial = c => ({ bad: C7.trial(c.spec(), c.seq), good: C7.trial(c.good(), c.seq) });
-const q1off = s => { s.devices.Q1.on = false; return s; };
-const P4 = { KM1: [['L', 'U1'], ['N', 'U2'], ['L', 'Z1'], ['N', 'Z2']], KM2: [['L', 'U1'], ['N', 'U2'], ['L', 'Z2'], ['N', 'Z1']] };
+const P4 = { K1: [['L', 'U1'], ['N', 'U2'], ['L', 'Z1'], ['N', 'Z2']], K2: [['L', 'U1'], ['N', 'U2'], ['L', 'Z2'], ['N', 'Z1']] };
 C7.FAULTS = [
   { id: 'noInterlock', power: true, carriage: null, title: ['ไม่มีอินเตอร์ล็อก', 'No interlock'],
     spec: () => C7.NONE(), good: () => C7.ELEC(),
-    symptom: ['S2 สั่งเดินหน้าได้ แต่ถ้ากด S3 ขณะเดินหน้าอยู่ Q1 ตัดทันทีพร้อมข้อความลัดวงจรในวงจรกำลัง', 'S2 runs the motor forward, but pressing S3 while it runs trips Q1 at once with a short-circuit message for the power circuit'],
-    options: [['ไม่มีหน้าสัมผัสปกติปิด KM2 21–22 ในทางเดินกระแสของ KM1 และ KM1 21–22 ในทางเดินกระแสของ KM2 คอนแทกเตอร์ทั้งสองจึงต่อพร้อมกันได้', 'there is no normally closed KM2 21–22 in the KM1 path and no KM1 21–22 in the KM2 path, so both contactors can close together'],
-      ['Q1 มีพิกัดกระแสต่ำเกินไป', 'Q1 is rated too low'], ['S3 ต่อขนานกับ S1', 'S3 is wired in parallel with S1'], ['F2 ตั้งกระแสไว้ต่ำเกินไป', 'F2 is set too low']], answer: 0,
-    fix: ['ต่อ KM2 21–22 อนุกรมเหนือคอยล์ KM1 และ KM1 21–22 อนุกรมเหนือคอยล์ KM2 (อินเตอร์ล็อกด้วยหน้าสัมผัสช่วย)', 'Put KM2 21–22 in series just above coil KM1 and KM1 21–22 just above coil KM2 (auxiliary-contact interlock)'],
-    test: ['กด S2 ให้เดินหน้า แล้วกด S3: Q1 ต้องไม่ตัด และมอเตอร์ยังเดินหน้าต่อ', 'Press S2 (forward), then S3: Q1 must not trip and the motor keeps running forward'],
+    symptom: ['S2 สั่งเดินหน้าได้ แต่ถ้ากด S3 ขณะเดินหน้าอยู่ ฟิวส์ F1 ขาดทันทีพร้อมข้อความลัดวงจรในวงจรกำลัง', 'S2 runs the motor forward, but pressing S3 while it runs blows the power fuses F1 at once, with a short-circuit message for the power circuit'],
+    options: [['ไม่มีหน้าสัมผัสปกติปิด K2 21–22 ในทางเดินกระแสของ K1 และ K1 21–22 ในทางเดินกระแสของ K2 คอนแทกเตอร์ทั้งสองจึงต่อพร้อมกันได้', 'there is no normally closed K2 21–22 in the K1 path and no K1 21–22 in the K2 path, so both contactors can close together'],
+      ['ฟิวส์ F1 มีพิกัดกระแสต่ำเกินไป', 'the fuses F1 are rated too low'], ['S3 ต่อขนานกับ S1', 'S3 is wired in parallel with S1'], ['F3 ตั้งกระแสไว้ต่ำเกินไป', 'F3 is set too low']], answer: 0,
+    fix: ['ต่อ K2 21–22 อนุกรมเหนือคอยล์ K1 และ K1 21–22 อนุกรมเหนือคอยล์ K2 (อินเตอร์ล็อกด้วยหน้าสัมผัสช่วย)', 'Put K2 21–22 in series just above coil K1 and K1 21–22 just above coil K2 (auxiliary-contact interlock)'],
+    test: ['กด S2 ให้เดินหน้า แล้วกด S3: ฟิวส์ F1 ต้องไม่ขาด และมอเตอร์ยังเดินหน้าต่อ', 'Press S2 (forward), then S3: the fuses F1 must not blow and the motor keeps running forward'],
     seq: [['tap', 'S2'], ['dir', 'cw'], ['tap', 'S3'], ['short', false], ['dir', 'cw']] },
-  { id: 'ownNC', power: false, carriage: null, title: ['หน้าสัมผัสปกติปิดของ KM1 เองอยู่ในทางเดินกระแสของ KM1', "KM1's own NC contact in the KM1 path"],
+  { id: 'ownNC', power: false, carriage: null, title: ['หน้าสัมผัสปกติปิดของ K1 เองอยู่ในทางเดินกระแสของ K1', "K1's own NC contact in the K1 path"],
     spec: () => C7.ELEC({ _own: true }), good: () => C7.ELEC(),
-    symptom: ['กด S2 ค้างไว้: KM1 สั่นรัว (ดูดแล้วหลุดเร็ว ๆ มีเสียงดัง) มอเตอร์กระตุกแต่ไม่เดิน ปล่อยปุ่มแล้วหยุดนิ่ง', 'Hold S2: KM1 chatters (pulls in and drops out rapidly, buzzing); the motor jerks but never runs, and it stops when S2 is released'],
-    options: [['ทางเดินกระแสของ KM1 มีหน้าสัมผัสปกติปิดของ KM1 เอง (71–72) แทน KM2 21–22 เมื่อ KM1 ดูด หน้าสัมผัสนี้ก็เปิดตัดคอยล์ของตัวเอง', "the KM1 path has KM1's own NC (71–72) instead of KM2 21–22: as soon as KM1 pulls in, that contact opens its own coil circuit"],
-      ['หน้าสัมผัสค้าง KM1 13–14 เปิดค้าง', 'holding contact KM1 13–14 is stuck open'], ['คอยล์ KM1 ใช้แรงดันผิด', 'coil KM1 has the wrong voltage'], ['F2 ตัดค้างอยู่', 'F2 is tripped']], answer: 0,
-    fix: ['เปลี่ยนเป็น KM2 21–22 ซึ่งเป็นหน้าสัมผัสของคอนแทกเตอร์อีกตัว', "Replace it with KM2 21–22, the other contactor's contact"],
+    symptom: ['กด S2 ค้างไว้: K1 สั่นรัว (ดูดแล้วหลุดเร็ว ๆ มีเสียงดัง) มอเตอร์กระตุกแต่ไม่เดิน ปล่อยปุ่มแล้วหยุดนิ่ง', 'Hold S2: K1 chatters (pulls in and drops out rapidly, buzzing); the motor jerks but never runs, and it stops when S2 is released'],
+    options: [['ทางเดินกระแสของ K1 มีหน้าสัมผัสปกติปิดของ K1 เอง (71–72) แทน K2 21–22 เมื่อ K1 ดูด หน้าสัมผัสนี้ก็เปิดตัดคอยล์ของตัวเอง', "the K1 path has K1's own NC (71–72) instead of K2 21–22: as soon as K1 pulls in, that contact opens its own coil circuit"],
+      ['หน้าสัมผัสค้าง K1 13–14 เปิดค้าง', 'holding contact K1 13–14 is stuck open'], ['คอยล์ K1 ใช้แรงดันผิด', 'coil K1 has the wrong voltage'], ['F3 ตัดค้างอยู่', 'F3 is tripped']], answer: 0,
+    fix: ['เปลี่ยนเป็น K2 21–22 ซึ่งเป็นหน้าสัมผัสของคอนแทกเตอร์อีกตัว', "Replace it with K2 21–22, the other contactor's contact"],
     test: ['กด S2 แล้วปล่อย: มอเตอร์ต้องเดินหน้าค้างอยู่', 'Press and release S2: the motor must keep running forward'],
-    seq: [['hold', 'S2'], ['chatter', 'KM1', false], ['release', 'S2'], ['dir', 'cw']] },
+    seq: [['hold', 'S2'], ['chatter', 'K1', false], ['release', 'S2'], ['dir', 'cw']] },
   { id: 'holdAbove', power: false, carriage: null, title: ['หน้าสัมผัสค้างคร่อมหน้าสัมผัสปกติปิดของปุ่มอีกตัวด้วย', "Holding contact also bridges the other button's NC"],
     spec: () => C7.PB({ holdAbove: true }), good: () => C7.PB(),
     symptom: ['ใช้ปุ่มกดสองหน้าสัมผัสแล้ว แต่ขณะเดินหน้า กด S3 ไม่เกิดอะไรขึ้น ต้องกด S1 ก่อนทุกครั้ง (กลับทางทันทีไม่ได้)', 'Double-contact buttons are fitted, yet while running forward S3 does nothing; S1 must be pressed first every time (no direct reversing)'],
-    options: [['KM1 13–14 คร่อมทั้ง S2 13–14 และ S3 21–22 เมื่อค้างแล้ว S3 21–22 จึงตัด KM1 ไม่ได้', 'KM1 13–14 bridges both S2 13–14 and S3 21–22, so once KM1 holds, S3 21–22 cannot drop it'],
-      ['ไม่มี KM2 21–22 ในทางเดินกระแสของ KM1', 'there is no KM2 21–22 in the KM1 path'], ['S3 มีหน้าสัมผัสชุดเดียว', 'S3 has only one contact'], ['Q1 ปลดอยู่', 'Q1 is off']], answer: 0,
-    fix: ['ย้ายปลายล่างของ KM1 13–14 ขึ้นมาที่จุดระหว่าง S2 13–14 กับ S3 21–22 ให้คร่อมเฉพาะ S2 แล้วทำแบบเดียวกันกับ KM2 13–14', 'Move the lower end of KM1 13–14 up to the point between S2 13–14 and S3 21–22 so that it spans S2 only, and do the same with KM2 13–14'],
+    options: [['K1 13–14 คร่อมทั้ง S2 13–14 และ S3 21–22 เมื่อค้างแล้ว S3 21–22 จึงตัด K1 ไม่ได้', 'K1 13–14 bridges both S2 13–14 and S3 21–22, so once K1 holds, S3 21–22 cannot drop it'],
+      ['ไม่มี K2 21–22 ในทางเดินกระแสของ K1', 'there is no K2 21–22 in the K1 path'], ['S3 มีหน้าสัมผัสชุดเดียว', 'S3 has only one contact'], ['ฟิวส์ F1 ขาด', 'the fuses F1 have blown']], answer: 0,
+    fix: ['ย้ายปลายล่างของ K1 13–14 ขึ้นมาที่จุดระหว่าง S2 13–14 กับ S3 21–22 ให้คร่อมเฉพาะ S2 แล้วทำแบบเดียวกันกับ K2 13–14', 'Move the lower end of K1 13–14 up to the point between S2 13–14 and S3 21–22 so that it spans S2 only, and do the same with K2 13–14'],
     test: ['กด S2 แล้วกด S3: มอเตอร์ต้องกลับเป็นถอยหลังทันที', 'Press S2, then S3: the motor must change to reverse at once'],
     seq: [['tap', 'S2'], ['dir', 'cw'], ['tap', 'S3'], ['dir', 'ccw']] },
   { id: 'swapButtons', power: false, carriage: null, title: ['กลไกของ S2 กับ S3 สลับกัน', 'S2 and S3 linkages swapped'],
     spec: () => C7.PB({ _swapBtn: true, lamps: ['H1', 'H2'] }), good: () => C7.PB({ lamps: ['H1', 'H2'] }),
     symptom: ['กด S2 (FORWARD) แล้วมอเตอร์หมุนถอยหลัง และหลอด H2 (REVERSE) ติด ส่วน S3 กลับสั่งเดินหน้า', 'S2 (FORWARD) makes the motor run in reverse and H2 (REVERSE) lights, while S3 gives forward'],
-    options: [['ทางเดินกระแสของ KM1 ใช้ S3 13–14 กับ S2 21–22 และของ KM2 ใช้ S2 13–14 กับ S3 21–22 ปุ่มที่เขียนว่า FORWARD จึงสั่ง KM2', 'the KM1 path uses S3 13–14 with S2 21–22 and the KM2 path S2 13–14 with S3 21–22, so the button marked FORWARD commands KM2'],
-      ['KM2 ไม่ได้สลับเฟส', 'KM2 does not swap any phases'], ['L1 กับ L3 สลับกันที่ขั้วเข้า Q1', 'L1 and L3 are swapped at the input of Q1'], ['หลอด H1 กับ H2 สลับกัน', 'lamps H1 and H2 are swapped']], answer: 0,
-    fix: ['ต่อสายใหม่ให้ S2 13–14 อยู่ในทางเดินกระแสของ KM1 และ S2 21–22 อยู่ในทางเดินกระแสของ KM2 ส่วน S3 กลับกัน', 'Rewire so that S2 13–14 is in the KM1 path and S2 21–22 in the KM2 path, and S3 the other way round'],
+    options: [['ทางเดินกระแสของ K1 ใช้ S3 13–14 กับ S2 21–22 และของ K2 ใช้ S2 13–14 กับ S3 21–22 ปุ่มที่เขียนว่า FORWARD จึงสั่ง K2', 'the K1 path uses S3 13–14 with S2 21–22 and the K2 path S2 13–14 with S3 21–22, so the button marked FORWARD commands K2'],
+      ['K2 ไม่ได้สลับเฟส', 'K2 does not swap any phases'], ['L1 กับ L3 สลับกันที่ขั้วเข้าของฟิวส์ F1', 'L1 and L3 are swapped at the input of the fuses F1'], ['หลอด H1 กับ H2 สลับกัน', 'lamps H1 and H2 are swapped']], answer: 0,
+    fix: ['ต่อสายใหม่ให้ S2 13–14 อยู่ในทางเดินกระแสของ K1 และ S2 21–22 อยู่ในทางเดินกระแสของ K2 ส่วน S3 กลับกัน', 'Rewire so that S2 13–14 is in the K1 path and S2 21–22 in the K2 path, and S3 the other way round'],
     test: ['กด S2: มอเตอร์ต้องเดินหน้า (ตามเข็มนาฬิกา) และ H1 ติด', 'Press S2: the motor must run forward (clockwise) and H1 must light'],
     seq: [['tap', 'S2'], ['dir', 'cw'], ['lit', 'H1', true]] },
-  { id: 'bothNC', power: false, carriage: null, title: ['ในทางเดินกระแสของ KM2 ปุ่มทั้งสองเป็นหน้าสัมผัสปกติปิด', 'Both button contacts in the KM2 path are NC'],
-    spec: () => q1off(C7.PB({ _bothNC: true })), good: () => q1off(C7.PB()),
-    symptom: ['สับ Q1 แล้วมอเตอร์ถอยหลังทันทีทั้งที่ไม่มีใครกดปุ่ม กด S1 หยุดได้เฉพาะตอนกดค้าง ปล่อยแล้วถอยหลังต่อเอง (อันตราย: เครื่องเริ่มเดินเอง)', 'Switching Q1 on makes the motor run in reverse with nobody pressing anything; S1 stops it only while held, and on release it runs in reverse again by itself (hazard: an unexpected start)'],
-    options: [['ทางเดินกระแสของ KM2 ใช้หน้าสัมผัสปกติปิดของ S3 (11–12) แทน S3 13–14 ทางเดินกระแสนี้จึงต่ออยู่ตลอดเมื่อไม่มีใครกดปุ่ม', 'the KM2 path uses an NC contact of S3 (11–12) instead of S3 13–14, so the path is closed whenever nobody presses a button'],
-      ['หน้าสัมผัสค้าง KM2 13–14 เชื่อมติด', 'holding contact KM2 13–14 is welded'], ['S1 ต่อขนานกับ S3', 'S1 is in parallel with S3'], ['KM1 21–22 อยู่ในทางเดินกระแสของ KM1', 'KM1 21–22 is in the KM1 path']], answer: 0,
-    fix: ['ใช้ S3 13–14 (ปกติเปิด) ในทางเดินกระแสของ KM2 คู่กับ S2 21–22 ตามแบบ', 'Use S3 13–14 (normally open) in the KM2 path together with S2 21–22, as in the correct circuit'],
-    test: ['สับ Q1 และลองไฟดับแล้วกลับมา: มอเตอร์ต้องหยุดอยู่จนกว่าจะกดปุ่มเริ่ม', 'Switch Q1 on, and try a power cut: the motor must stay at rest until a start button is pressed'],
-    seq: [['toggle', 'Q1'], ['run', false], ['cut'], ['run', false]] },
-  { id: 'cyclic', power: true, carriage: null, title: ['ด้านเข้าของ KM2 เลื่อนวนทั้งสามเฟส', 'KM2 supply side shifted round all three phases'],
+  { id: 'bothNC', power: false, carriage: null, title: ['ในทางเดินกระแสของ K2 ปุ่มทั้งสองเป็นหน้าสัมผัสปกติปิด', 'Both button contacts in the K2 path are NC'],
+    spec: () => C7.PB({ _bothNC: true }), good: () => C7.PB(),
+    symptom: ['พอมีไฟ มอเตอร์ก็ถอยหลังทันทีทั้งที่ไม่มีใครกดปุ่ม กด S1 หยุดได้เฉพาะตอนกดค้าง ปล่อยแล้วถอยหลังต่อเอง และเมื่อไฟดับแล้วกลับมาก็เดินเองอีก (อันตราย: เครื่องเริ่มเดินเอง)', 'As soon as the supply is on, the motor runs in reverse with nobody pressing anything; S1 stops it only while held, on release it runs in reverse again by itself, and it starts again by itself when the power returns after a cut (hazard: an unexpected start)'],
+    options: [['ทางเดินกระแสของ K2 ใช้หน้าสัมผัสปกติปิดของ S3 (11–12) แทน S3 13–14 ทางเดินกระแสนี้จึงต่ออยู่ตลอดเมื่อไม่มีใครกดปุ่ม', 'the K2 path uses an NC contact of S3 (11–12) instead of S3 13–14, so the path is closed whenever nobody presses a button'],
+      ['หน้าสัมผัสค้าง K2 13–14 เชื่อมติด', 'holding contact K2 13–14 is welded'], ['S1 ต่อขนานกับ S3', 'S1 is in parallel with S3'], ['K1 21–22 อยู่ในทางเดินกระแสของ K1', 'K1 21–22 is in the K1 path']], answer: 0,
+    fix: ['ใช้ S3 13–14 (ปกติเปิด) ในทางเดินกระแสของ K2 คู่กับ S2 21–22 ตามแบบ', 'Use S3 13–14 (normally open) in the K2 path together with S2 21–22, as in the correct circuit'],
+    test: ['ดูวงจรเมื่อมีไฟ แล้วลองไฟดับแล้วกลับมา: ทั้งก่อนและหลังไฟดับ มอเตอร์ต้องหยุดอยู่จนกว่าจะกดปุ่มเริ่ม', 'Look at the circuit with the supply on, then try a power cut: before and after it the motor must stay at rest until a start button is pressed'],
+    seq: [['run', false], ['cut'], ['run', false]] },
+  { id: 'cyclic', power: true, carriage: null, title: ['ด้านเข้าของ K2 เลื่อนวนทั้งสามเฟส', 'K2 supply side shifted round all three phases'],
     spec: () => C7.ELEC({ map: [2, 3, 1] }), good: () => C7.ELEC(),
     symptom: ['S2 และ S3 ต่างสั่งมอเตอร์ได้ แต่หมุนทิศเดียวกัน (ตามเข็มนาฬิกา) ทั้งสองแบบ และไม่มีการลัดวงจร', 'S2 and S3 both start the motor, but it turns the same way (clockwise) for both, and nothing shorts'],
-    options: [['KM2 รับ L2 L3 L1 เข้าขั้ว 1 3 5 (เลื่อนวน) ลำดับเฟสที่มอเตอร์จึงเหมือนเดิม ต้องสลับเพียงสองเฟส', 'KM2 takes L2 L3 L1 on poles 1 3 5 (a cyclic shift), so the phase sequence at the motor is unchanged; only two phases may be swapped'],
-      ['S2 กับ S3 สลับกัน', 'S2 and S3 are swapped'], ['ไม่มีอินเตอร์ล็อก', 'there is no interlock'], ['F2 ต่อหลังมอเตอร์', 'F2 is connected after the motor']], answer: 0,
-    fix: ['ต่อ KM2 ให้สลับเพียงสองเฟส: ขั้ว 1/L1 รับ L3, 3/L2 รับ L2, 5/L3 รับ L1', 'Wire KM2 so that only two phases are swapped: 1/L1 from L3, 3/L2 from L2, 5/L3 from L1'],
+    options: [['K2 รับ L2 L3 L1 เข้าขั้ว 1 3 5 (เลื่อนวน) ลำดับเฟสที่มอเตอร์จึงเหมือนเดิม ต้องสลับเพียงสองเฟส', 'K2 takes L2 L3 L1 on poles 1 3 5 (a cyclic shift), so the phase sequence at the motor is unchanged; only two phases may be swapped'],
+      ['S2 กับ S3 สลับกัน', 'S2 and S3 are swapped'], ['ไม่มีอินเตอร์ล็อก', 'there is no interlock'], ['F3 ต่อหลังมอเตอร์', 'F3 is connected after the motor']], answer: 0,
+    fix: ['ต่อ K2 ให้สลับเพียงสองเฟส: ขั้ว 1/L1 รับ L3, 3/L2 รับ L2, 5/L3 รับ L1', 'Wire K2 so that only two phases are swapped: 1/L1 from L3, 3/L2 from L2, 5/L3 from L1'],
     test: ['จากหยุดนิ่ง กด S3: มอเตอร์ต้องหมุนทวนเข็มนาฬิกา', 'From rest, press S3: the motor must turn counter-clockwise'],
     seq: [['tap', 'S3'], ['dir', 'ccw']] },
   { id: 'limitWrong', power: false, carriage: { pos: 0.5 }, title: ['ลิมิตสวิตช์อยู่ผิดทางเดินกระแส', 'Limit switches in the wrong paths'],
     spec: () => C7.LIMITS({ _limWrong: true }), good: () => C7.LIMITS(),
-    symptom: ['กด S2: แคร่วิ่งผ่าน S5 ไปชนตัวหยุดปลายราง (S5 ถูกกดแล้วแต่ KM1 ไม่หลุด) ถอยหลังก็ชนปลายอีกด้านเช่นกัน', 'Press S2: the carriage runs past S5 into the end stop (S5 is pressed, yet KM1 stays in); in reverse it crashes at the other end too'],
-    options: [['S5 21–22 อยู่ในทางเดินกระแสของ KM2 และ S6 21–22 อยู่ในทางเดินกระแสของ KM1 ลิมิตสวิตช์แต่ละตัวจึงตัดทิศที่ไม่ได้วิ่งเข้าหามัน', 'S5 21–22 is in the KM2 path and S6 21–22 in the KM1 path, so each limit switch breaks the direction that does not run towards it'],
-      ['S5 ต่อที่หน้าสัมผัสปกติเปิด', 'S5 is wired on its NO contact'], ['ไม่มีอินเตอร์ล็อก', 'there is no interlock'], ['หน้าสัมผัสค้าง KM1 13–14 คร่อม S5', 'holding contact KM1 13–14 bridges S5']], answer: 0,
-    fix: ['ย้าย S5 21–22 ไปอยู่ในทางเดินกระแสของ KM1 (เดินหน้าวิ่งเข้าหา S5) และ S6 21–22 ไปอยู่ในทางเดินกระแสของ KM2', 'Move S5 21–22 into the KM1 path (forward runs towards S5) and S6 21–22 into the KM2 path'],
+    symptom: ['กด S2: แคร่วิ่งผ่าน S5 ไปชนตัวหยุดปลายราง (S5 ถูกกดแล้วแต่ K1 ไม่หลุด) ถอยหลังก็ชนปลายอีกด้านเช่นกัน', 'Press S2: the carriage runs past S5 into the end stop (S5 is pressed, yet K1 stays in); in reverse it crashes at the other end too'],
+    options: [['S5 21–22 อยู่ในทางเดินกระแสของ K2 และ S6 21–22 อยู่ในทางเดินกระแสของ K1 ลิมิตสวิตช์แต่ละตัวจึงตัดทิศที่ไม่ได้วิ่งเข้าหามัน', 'S5 21–22 is in the K2 path and S6 21–22 in the K1 path, so each limit switch breaks the direction that does not run towards it'],
+      ['S5 ต่อที่หน้าสัมผัสปกติเปิด', 'S5 is wired on its NO contact'], ['ไม่มีอินเตอร์ล็อก', 'there is no interlock'], ['หน้าสัมผัสค้าง K1 13–14 คร่อม S5', 'holding contact K1 13–14 bridges S5']], answer: 0,
+    fix: ['ย้าย S5 21–22 ไปอยู่ในทางเดินกระแสของ K1 (เดินหน้าวิ่งเข้าหา S5) และ S6 21–22 ไปอยู่ในทางเดินกระแสของ K2', 'Move S5 21–22 into the K1 path (forward runs towards S5) and S6 21–22 into the K2 path'],
     test: ['แคร่อยู่กลางราง กด S2: แคร่ต้องหยุดที่ S5 โดยไม่ชนปลายราง', 'With the carriage in the middle, press S2: it must stop at S5 without hitting the end stop'],
     seq: [['carriage', 0.5], ['tap', 'S2'], ['wait', 4], ['crash', false], ['at', 'S5', true], ['dir', 0]] },
   { id: 'mechOnly', power: false, carriage: null, title: ['มีแต่อินเตอร์ล็อกทางกล', 'Mechanical interlock only'],
     spec: () => C7.MECH(), good: () => C7.ELEC({ mech: true }),
-    symptom: ['ขณะเดินหน้า กด S3 ค้างไว้: มอเตอร์ยังเดินหน้าและไม่ลัดวงจร แต่คอยล์ KM2 มีไฟ ฮัมเสียงดังและร้อนขึ้นเรื่อย ๆ เพราะกลไกล็อกไว้', 'While running forward, hold S3: the motor keeps running forward and nothing shorts, but coil KM2 is energised, hums loudly and heats up because the lever holds it open'],
-    options: [['ไม่มีอินเตอร์ล็อกด้วยหน้าสัมผัสช่วย (KM1 21–22 ในทางเดินกระแสของ KM2) คอยล์ KM2 จึงได้ไฟทั้งที่กลไกล็อกไว้', 'there is no auxiliary-contact interlock (KM1 21–22 in the KM2 path), so coil KM2 gets voltage although the lever holds it open'],
-      ['คอยล์ KM2 ลัดวงจร', 'coil KM2 is short-circuited'], ['S3 ติดค้าง', 'S3 is stuck'], ['หน้าสัมผัสหลักของ KM2 เชื่อมติด', 'the KM2 main contacts are welded']], answer: 0,
-    fix: ['เพิ่ม KM2 21–22 เหนือคอยล์ KM1 และ KM1 21–22 เหนือคอยล์ KM2 ใช้คู่กับอินเตอร์ล็อกทางกลเสมอ', 'Add KM2 21–22 above coil KM1 and KM1 21–22 above coil KM2, always together with the mechanical interlock'],
-    test: ['เดินหน้าแล้วกด S3 ค้าง: คอยล์ KM2 ต้องไม่มีไฟ', 'Run forward, then hold S3: coil KM2 must stay de-energised'],
-    seq: [['tap', 'S2'], ['hold', 'S3'], ['on', 'KM2', false], ['blocked', 'KM2', false], ['release', 'S3'], ['dir', 'cw']] },
-  { id: 'onephBoth', power: true, carriage: null, oneph: true, title: ['มอเตอร์ 1 เฟส: KM2 สลับทั้งขดรันและขดสตาร์ต', 'Single-phase motor: KM2 swaps both the run and the start winding'],
-    spec: () => C7.ONEPH({ poles: { KM1: P4.KM1, KM2: [['L', 'U2'], ['N', 'U1'], ['L', 'Z2'], ['N', 'Z1']] }, fixed: [] }), good: () => C7.ONEPH({ poles: P4, fixed: [] }),
+    symptom: ['ขณะเดินหน้า กด S3 ค้างไว้: มอเตอร์ยังเดินหน้าและไม่ลัดวงจร แต่คอยล์ K2 มีไฟ ฮัมเสียงดังและร้อนขึ้นเรื่อย ๆ เพราะกลไกล็อกไว้', 'While running forward, hold S3: the motor keeps running forward and nothing shorts, but coil K2 is energised, hums loudly and heats up because the lever holds it open'],
+    options: [['ไม่มีอินเตอร์ล็อกด้วยหน้าสัมผัสช่วย (K1 21–22 ในทางเดินกระแสของ K2) คอยล์ K2 จึงได้ไฟทั้งที่กลไกล็อกไว้', 'there is no auxiliary-contact interlock (K1 21–22 in the K2 path), so coil K2 gets voltage although the lever holds it open'],
+      ['คอยล์ K2 ลัดวงจร', 'coil K2 is short-circuited'], ['S3 ติดค้าง', 'S3 is stuck'], ['หน้าสัมผัสหลักของ K2 เชื่อมติด', 'the K2 main contacts are welded']], answer: 0,
+    fix: ['เพิ่ม K2 21–22 เหนือคอยล์ K1 และ K1 21–22 เหนือคอยล์ K2 ใช้คู่กับอินเตอร์ล็อกทางกลเสมอ', 'Add K2 21–22 above coil K1 and K1 21–22 above coil K2, always together with the mechanical interlock'],
+    test: ['เดินหน้าแล้วกด S3 ค้าง: คอยล์ K2 ต้องไม่มีไฟ', 'Run forward, then hold S3: coil K2 must stay de-energised'],
+    seq: [['tap', 'S2'], ['hold', 'S3'], ['on', 'K2', false], ['blocked', 'K2', false], ['release', 'S3'], ['dir', 'cw']] },
+  { id: 'onephBoth', power: true, carriage: null, oneph: true, title: ['มอเตอร์ 1 เฟส: K2 สลับทั้งขดรันและขดสตาร์ต', 'Single-phase motor: K2 swaps both the run and the start winding'],
+    spec: () => C7.ONEPH({ poles: { K1: P4.K1, K2: [['L', 'U2'], ['N', 'U1'], ['L', 'Z2'], ['N', 'Z1']] }, fixed: [] }), good: () => C7.ONEPH({ poles: P4, fixed: [] }),
     symptom: ['กด S2 มอเตอร์หมุนตามเข็มนาฬิกา หยุดรอจนนิ่งแล้วกด S3 มอเตอร์ก็ยังหมุนตามเข็มนาฬิกาเหมือนเดิม', 'S2 runs the motor clockwise; stop it, wait until it stands still, press S3: it again turns clockwise'],
-    options: [['KM2 กลับขั้วทั้งขดรัน U1–U2 และขดสตาร์ต Z1–Z2 ทิศของสนามจึงเหมือนเดิม ต้องกลับขั้วเพียงขดเดียว', 'KM2 reverses both the run winding U1–U2 and the start winding Z1–Z2, so the field turns the same way; only one winding may be reversed'],
+    options: [['K2 กลับขั้วทั้งขดรัน U1–U2 และขดสตาร์ต Z1–Z2 ทิศของสนามจึงเหมือนเดิม ต้องกลับขั้วเพียงขดเดียว', 'K2 reverses both the run winding U1–U2 and the start winding Z1–Z2, so the field turns the same way; only one winding may be reversed'],
       ['สวิตช์แรงเหวี่ยงค้างเปิด', 'the centrifugal switch is stuck open'], ['ตัวเก็บประจุสตาร์ตขาด', 'the start capacitor is open'], ['ไม่มีอินเตอร์ล็อก', 'there is no interlock']], answer: 0,
-    fix: ['ให้ KM2 กลับขั้วเฉพาะขดสตาร์ต (L → Z2, N → Z1) ส่วนขดรันต่อ L → U1, N → U2 เหมือน KM1', 'Let KM2 reverse only the start winding (L → Z2, N → Z1) and connect the run winding L → U1, N → U2 as KM1 does'],
+    fix: ['ให้ K2 กลับขั้วเฉพาะขดสตาร์ต (L → Z2, N → Z1) ส่วนขดรันต่อ L → U1, N → U2 เหมือน K1', 'Let K2 reverse only the start winding (L → Z2, N → Z1) and connect the run winding L → U1, N → U2 as K1 does'],
     test: ['จากหยุดนิ่ง กด S3 แล้วรอ 3 วินาที: มอเตอร์ต้องหมุนทวนเข็มนาฬิกา', 'From rest, press S3 and wait 3 s: the motor must turn counter-clockwise'],
     seq: [['tap', 'S3'], ['wait', 3], ['dir', 'ccw']] }];
 
 /* ---------------- 3) status and control buttons ---------------- */
-C7.state = sim => { const d = sim.dev, dir = sim.dir(), ka = d.KA1 && d.KA1.energized, w = sim.w || 0, R = sim.revInfo ? sim.revInfo() : null;
-  const auto = ka ? T(' · รอบอัตโนมัติทำงาน (KA1)', ' · auto cycle on (KA1)') : '';
+C7.state = sim => { const d = sim.dev, dir = sim.dir(), S = sim.spec || {}, ar = S.autoRelay, lk = S.lock, ka = !!(ar && d[ar] && d[ar].energized), w = sim.w || 0, R = sim.revInfo ? sim.revInfo() : null;
+  const auto = ka ? T(` · รอบอัตโนมัติทำงาน (${ar})`, ` · auto cycle on (${ar})`) : '';
   if (sim.mains === false) return [T('ไฟดับ', 'power off'), T('รอไฟกลับมา…', 'waiting for the power…'), 'bad'];
-  if (sim.msg === 'pshort') return [T('ลัดวงจร', 'short circuit'), T(`${R.fwd} และ ${R.rev} ต่อพร้อมกัน ${(sim.pshort || []).map(p => p.join(' กับ ')).join(', ')} ลัดถึงกัน Q1 ตัด คลิกที่ Q1 เพื่อสับกลับ`, `${R.fwd} and ${R.rev} closed together and joined ${(sim.pshort || []).map(p => p.join('–')).join(', ')}; Q1 tripped: click Q1 to switch it on again`), 'bad'];
-  if (d.Q1 && !d.Q1.on) return [T('Q1 ปลด', 'Q1 off'), sim.spec.supply ? T('ไม่มีไฟทั้งวงจรกำลังและวงจรควบคุม', 'no supply to the power or the control circuit') : T('มอเตอร์ไม่มีไฟ แต่วงจรควบคุมป้อนก่อน Q1 จึงยังมีไฟ', 'the motor has no supply, but the control circuit is fed ahead of Q1 and is still live'), 'warn'];
-  if (d.F1 && d.F1.blown) return [T('F1 ขาด', 'F1 blown'), T('วงจรควบคุมไม่มีไฟ คลิกที่ F1 เพื่อเปลี่ยนฟิวส์', 'the control circuit is dead; click F1 to replace it'), 'bad'];
-  if (d.F2 && d.F2.tripped) return [T('F2 ตัด', 'F2 tripped'), dir ? T('มอเตอร์ยังหมุน: ไม่มี 95–96 ในวงจรควบคุม', 'the motor still runs: no 95–96 in the control circuit') : T('มอเตอร์หยุด คลิก F2 เพื่อรีเซ็ต แล้วจึงสั่งเดินใหม่', 'the motor has stopped; click F2 to reset it, then start again'), dir ? 'warn' : 'bad'];
+  if (sim.msg === 'pshort') { const q = R && R.pre ? R.pre.find(t => t.k === 'cb' || t.k === 'fuse') : null, ow = l => (q && sim.openWord ? ` ${sim.openWord(q, l)}` : '');   // ED2: fuses F1 blown; MCP: breaker Q1 tripped
+    return [T('ลัดวงจร', 'short circuit'), T(`${R.fwd} และ ${R.rev} ต่อพร้อมกัน ${(sim.pshort || []).map(p => p.join(' กับ ')).join(', ')} ลัดถึงกัน${ow('th')}`, `${R.fwd} and ${R.rev} closed together and joined ${(sim.pshort || []).map(p => p.join('–')).join(', ')}.${ow('en')}`), 'bad']; }
+  if (d.F1 && d.F1.type === 'fuse' && d.F1.blown) return [T('F1 ขาด', 'F1 blown'), S.supply ? T('ฟิวส์วงจรกำลัง F1 ขาด: ไม่มีไฟทั้งวงจรกำลังและวงจรควบคุม คลิกที่ F1 เพื่อเปลี่ยนฟิวส์', 'the power fuses F1 have blown: no supply to the power or the control circuit; click F1 to replace them') : T('ฟิวส์วงจรกำลัง F1 ขาด: มอเตอร์ไม่มีไฟ แต่วงจรควบคุมป้อนก่อน F1 จึงยังมีไฟ คลิกที่ F1 เพื่อเปลี่ยนฟิวส์', 'the power fuses F1 have blown: the motor has no supply, but the control circuit is fed ahead of F1 and is still live; click F1 to replace them'), 'bad'];
+  if (d.Q1 && d.Q1.type === 'cb' && !d.Q1.on) return [T('Q1 ปลด', 'Q1 off'), S.supply ? T('ไม่มีไฟทั้งวงจรกำลังและวงจรควบคุม', 'no supply to the power or the control circuit') : T('มอเตอร์ไม่มีไฟ แต่วงจรควบคุมป้อนก่อน Q1 จึงยังมีไฟ', 'the motor has no supply, but the control circuit is fed ahead of Q1 and is still live'), 'warn'];   // MCP pages: the trainer's breaker Q1 (RL.q1)
+  if (d.F2 && d.F2.blown) return [T('F2 ขาด', 'F2 blown'), T('วงจรควบคุมไม่มีไฟ คลิกที่ F2 เพื่อเปลี่ยนฟิวส์', 'the control circuit is dead; click F2 to replace it'), 'bad'];
+  if (d.F3 && d.F3.tripped) return [T('F3 ตัด', 'F3 tripped'), dir ? T('มอเตอร์ยังหมุน: ไม่มี 95–96 ในวงจรควบคุม', 'the motor still runs: no 95–96 in the control circuit') : T('มอเตอร์หยุด คลิก F3 เพื่อรีเซ็ต แล้วจึงสั่งเดินใหม่', 'the motor has stopped; click F3 to reset it, then start again'), dir ? 'warn' : 'bad'];
   const bl = Object.keys(d).filter(id => d[id].blocked);
   if (bl.length) return [T('คอยล์ถูกล็อก', 'coil blocked'), T(`${bl.join(', ')} มีไฟที่คอยล์แต่อินเตอร์ล็อกทางกลไม่ให้ดูด หน้าสัมผัสไม่เปลี่ยน คอยล์กินกระแสสูงและร้อนขึ้นเรื่อย ๆ (${ED.fd(d[bl[0]].blockT || 0, 1)} s)`, `${bl.join(', ')} has voltage on its coil but the mechanical interlock holds it open: its contacts stay put, the coil draws a high current and heats up (${ED.fd(d[bl[0]].blockT || 0, 1)} s)`), 'bad'];
   const ch = Object.keys(d).filter(id => d[id].chatter);
   if (ch.length > 1) return [T('แข่งกัน', 'race'), T(`${ch.join(' และ ')} ได้ไฟพร้อมกัน: หน้าสัมผัส 21–22 ของแต่ละตัวตัดทางของอีกตัว ในภาพจำลองจึงไม่มีตัวใดค้างอยู่ได้ตราบที่ยังกดปุ่มอยู่ (ในตู้จริงตัวที่ดูดเร็วกว่ามักชนะ)`, `${ch.join(' and ')} got voltage at the same instant: each one's 21–22 opens the other's path, so in the simulator neither can stay in while the buttons are held (in a real panel the faster one usually wins)`), 'warn'];   // two coils at once: the race of the electrical interlock alone
   if (ch.length) return [T('คอยล์สั่นรัว', 'coil chattering'), T(`${ch.join(', ')} ดูดแล้วตัดไฟตัวเองทันที จึงดูด-หลุดสลับกันเร็ว ๆ (ไม่มีสถานะที่นิ่ง)`, `${ch.join(', ')} switches its own supply off as soon as it pulls in, so it pulls in and drops out rapidly (no stable state)`), 'bad'];
-  if (d.KA2 && d.KA2.energized) { const k = d.KT1, left = k ? Math.max(0, k.T - k.tOn) : 0;
-    return [T('ล็อกหลังหยุด', 'stop lock'), T(`KA2 ล็อกปุ่มเริ่มทั้งสองไว้อีก ${ED.fd(left, 1)} s ให้มอเตอร์หมุนช้าลงก่อน`, `KA2 locks both start buttons for ${ED.fd(left, 1)} s more while the motor runs down`), 'warn']; }
+  if (lk && d[lk.relay] && d[lk.relay].energized) { const k = d[lk.timer], left = k ? Math.max(0, k.T - k.tOn) : 0;   // STOPLOCK: K3 latched, K4 counting
+    return [T('ล็อกหลังหยุด', 'stop lock'), T(`${lk.relay} ล็อกปุ่มเริ่มทั้งสองไว้อีก ${ED.fd(left, 1)} s ให้มอเตอร์หมุนช้าลงก่อน`, `${lk.relay} locks both start buttons for ${ED.fd(left, 1)} s more while the motor runs down`), 'warn']; }
   if (dir) { const cw = dir === 'cw', kin = R ? [R.fwd, R.rev].filter(id => sim.act(id)).join(' + ') : '', one = !!(R && R.one), sp = one ? ` · n ${Math.round(Math.abs(w) * 20) * 5} %` : '';
-    const odd = !!(R && kin && kin !== (cw ? R.fwd : R.rev)), dv = one && sim.drive1 ? sim.drive1() : 0, slow = odd && one && dv !== 0 && (dv > 0 ? 'cw' : 'ccw') !== dir;   // KM2 in but clockwise (or KM1 in but counter-clockwise)
+    const odd = !!(R && kin && kin !== (cw ? R.fwd : R.rev)), dv = one && sim.drive1 ? sim.drive1() : 0, slow = odd && one && dv !== 0 && (dv > 0 ? 'cw' : 'ccw') !== dir;   // K2 in but clockwise (or K1 in but counter-clockwise)
     const pill = cw ? T('เดินหน้า', 'forward') : T('ถอยหลัง', 'reverse'), way = cw ? T('ตามเข็มนาฬิกา', 'clockwise') : T('ทวนเข็มนาฬิกา', 'counter-clockwise');
     if (slow) return [pill, T(`${kin} ดูด แต่มอเตอร์ยังหมุน${way}: ที่ความเร็วสูงสวิตช์แรงเหวี่ยงเปิดอยู่ ขดสตาร์ตที่กลับขั้วจึงไม่มีผล`, `${kin} is in, but the motor keeps turning ${way}: at speed the centrifugal switch is open, so the reversed start winding has no effect`) + sp + auto, 'warn'];
     return [pill, T(`มอเตอร์หมุน${way}${kin ? ` (${kin} ดูด)` : ''}`, `the motor turns ${way}${kin ? ` (${kin} in)` : ''}`) + sp + auto, odd ? 'warn' : 'good']; }
@@ -324,7 +328,7 @@ C7.state = sim => { const d = sim.dev, dir = sim.dir(), ka = d.KA1 && d.KA1.ener
     T('S8 เปิดแล้ว: แคร่วิ่งเลย S6 ไป ใช้ S2 เดินหน้ากลับ แล้วตรวจ S6', 'S8 has opened: the carriage ran past S6; drive it back with S2 and check S6'), 'bad'];
   const lim = at('S5') && at('S6') ? T('S5 และ S6 ถูกกดพร้อมกัน: ทั้งสองทิศถูกตัด', 'S5 and S6 both operated: both directions are blocked') : at('S5') ? T('แคร่อยู่ที่ S5 (ปลายทางเดินหน้า): เดินหน้าต่อไม่ได้', 'carriage at S5 (forward end): forward is blocked') :
     at('S6') ? T('แคร่อยู่ที่ S6 (ปลายทางถอยหลัง): ถอยหลังต่อไม่ได้', 'carriage at S6 (reverse end): reverse is blocked') : '';
-  return [T('หยุด', 'stopped'), [ka ? T('รอบอัตโนมัติทำงาน (KA1) รอคำสั่งทิศทางหรือลิมิตสวิตช์', 'auto cycle on (KA1): waiting for a direction command or a limit switch') : '', lim].filter(Boolean).join(' · '), 'wait']; };
+  return [T('หยุด', 'stopped'), [ka ? T(`รอบอัตโนมัติทำงาน (${ar}) รอคำสั่งทิศทางหรือลิมิตสวิตช์`, `auto cycle on (${ar}): waiting for a direction command or a limit switch`) : '', lim].filter(Boolean).join(' · '), 'wait']; };
 C7.panel = (el, sim, o = {}) => C5.panel(el, sim, { status: C7.state, ...o });
 
 /* ---------------- 4) rotating field and the permutation table ---------------- */
@@ -486,7 +490,7 @@ C7.Carriage = class {
     let s = `<rect x="${E0 - 12}" y="${yR - 34}" width="12" height="40" fill="var(--panel2)" stroke="var(--ink)"/><rect x="${E1}" y="${yR - 34}" width="12" height="40" fill="var(--panel2)" stroke="var(--ink)"/>` +
       [E0 - 12, E1].map(e => [0, 1, 2, 3].map(k => IE.L(e, yR - 30 + 10 * k, e + 12, yR - 22 + 10 * k, { col: 'var(--muted)' })).join('')).join('') +
       IE.L(E0, yR, E1, yR, { w: 2.2 }) + IE.L(E0, yR + 5, E1, yR + 5, { col: 'var(--muted)' });
-    s += IE.T(T('← ถอยหลัง (KM2)', '← reverse (KM2)'), E0, 18, { size: 10, weight: 700, col: 'var(--muted)' }) + IE.T(T('เดินหน้า (KM1) →', 'forward (KM1) →'), E1, 18, { size: 10, anchor: 'end', weight: 700, col: 'var(--muted)' });
+    s += IE.T(T('← ถอยหลัง (K2)', '← reverse (K2)'), E0, 18, { size: 10, weight: 700, col: 'var(--muted)' }) + IE.T(T('เดินหน้า (K1) →', 'forward (K1) →'), E1, 18, { size: 10, anchor: 'end', weight: 700, col: 'var(--muted)' });
     // the switches under the track: body, lever with roller (tilted while pressed); over-travel switches drawn with the direct-opening mark
     this.ids().forEach(id => { const xs = X(this.lim[id]), on = !!this.sim.dev[id].on, ot = id === 'S7' || id === 'S8', sd = this.side[id], tilt = on ? -sd * 9 : 0, br = this.broken.has(id);
       s += `<g><rect x="${xs - 10}" y="${yR + 16}" width="20" height="24" rx="3" fill="${on ? (ot ? 'rgba(255,107,107,.35)' : 'var(--accent)') : 'var(--panel)'}" stroke="${ot ? 'var(--bad)' : 'var(--ink)'}"/>` +
