@@ -9,13 +9,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=27"><link rel="stylesheet" href="assets/ed2.css?v=27">
-<link rel="stylesheet" href="assets/wiring.css?v=27"><link rel="stylesheet" href="assets/mcp.css?v=27">
-<script src="assets/stops.js?v=27"></script><script src="assets/shell.js?v=27"></script>
-<script src="assets/lesson.js?v=27"></script><script src="assets/draw.js?v=27"></script><script src="assets/ed.js?v=27"></script><script src="assets/sym.js?v=27"></script><script src="assets/iec.js?v=27"></script><script src="assets/relay.js?v=27"></script><script src="assets/ch2.js?v=27"></script><script src="assets/ch3.js?v=27"></script><script src="assets/ch4.js?v=27"></script>
-<script src="assets/panel.js?v=27"></script><script src="assets/ch5.js?v=27"></script><script src="assets/ch6.js?v=27"></script><script src="assets/ch7.js?v=27"></script><script src="assets/ch8.js?v=27"></script>
-<script src="assets/wiring.js?v=27"></script><script src="assets/devdata.js?v=27"></script><script src="assets/dev.js?v=27"></script>
-<script src="assets/mcp.js?v=27"></script>
+<link rel="stylesheet" href="assets/ee.css?v=28"><link rel="stylesheet" href="assets/ed2.css?v=28">
+<link rel="stylesheet" href="assets/wiring.css?v=28"><link rel="stylesheet" href="assets/mcp.css?v=28">
+<script src="assets/stops.js?v=28"></script><script src="assets/shell.js?v=28"></script>
+<script src="assets/lesson.js?v=28"></script><script src="assets/draw.js?v=28"></script><script src="assets/ed.js?v=28"></script><script src="assets/sym.js?v=28"></script><script src="assets/iec.js?v=28"></script><script src="assets/relay.js?v=28"></script><script src="assets/ch2.js?v=28"></script><script src="assets/ch3.js?v=28"></script><script src="assets/ch4.js?v=28"></script>
+<script src="assets/panel.js?v=28"></script><script src="assets/ch5.js?v=28"></script><script src="assets/ch6.js?v=28"></script><script src="assets/ch7.js?v=28"></script><script src="assets/ch8.js?v=28"></script>
+<script src="assets/wiring.js?v=28"></script><script src="assets/devdata.js?v=28"></script><script src="assets/dev.js?v=28"></script>
+<script src="assets/mcp.js?v=28"></script>
 </head>
 <body>
 <div class="wrap">
@@ -30,12 +30,12 @@
   <li><b>แรงดันเดลตาของมอเตอร์ต้องเท่าแรงดันระหว่างสายของแหล่งจ่าย</b>: มอเตอร์ของห้องปฏิบัติการเป็น 220 V Δ / 380–415 V Y บนระบบ 400 V จึงต้องต่อสตาร์ตลอด สตาร์ทแบบสตาร์–เดลตาไม่ได้ สัปดาห์นี้ครูต่อแหล่งจ่ายแรงดันต่ำประมาณ 220 V ระหว่างสายให้วงจรกำลัง ขดลวดได้ประมาณ 127 V ในสตาร์ และ 220 V ในเดลตา ส่วนโรงงานที่ใช้ระบบ 400 V ใช้มอเตอร์ 400 V Δ / 690 V Y วงจรควบคุมยังเป็น 230 V ระหว่าง L กับ N ตามเดิม</li>
   <li><b>ถอดสะพานในกล่องขั้วออกทั้งหมด</b>: คอนแทกเตอร์ทำหน้าที่สะพานแทน ต่อสาย 6 เส้น U1 V1 W1 W2 U2 V2 และสายดินป้องกัน (protective earth, PE) ไปยังแผงฝึก ถ้าสะพานค้างอยู่ จะลัดวงจร L1–L2–L3 ตอนกดเริ่มหรือตอนเปลี่ยนเป็นเดลตา</li>
   <li><b>โอห์มมิเตอร์จับการต่อเดลตาผิดได้ก่อนจ่ายไฟ</b>: กด K1 กับ K2 ด้วยมือ ระหว่างสายทุกคู่ที่ด้านเข้า K1 ต้องได้ 2R (R = ค่าขดลวดหนึ่งขด) กด K1 กับ K3 ต้องได้ 2R/3 ทุกคู่ ถ้าทุกคู่ขาด (OL) แปลว่าต่อตรงไม่ไขว้ ถ้าได้ R/2 หนึ่งคู่และขาดสองคู่ แปลว่าสายสลับกันหนึ่งคู่</li>
-  <li><b>หลังจ่ายไฟ</b>: มอเตอร์ต้องหมุนทางเดียวกันทั้งสตาร์และเดลตา (การต่อเดลตาผิดไม่ทำให้มอเตอร์กลับทาง แต่ทำให้ไม่มีแรงบิดหรือคราง) คล้องแคลมป์มิเตอร์ที่สายเมนกับสาย U1: ในสตาร์เท่ากัน ในเดลตาสายเมนมากกว่า 1.73 เท่า ตั้ง K4 2–3 s สำหรับมอเตอร์ตัวเปล่า</li></ul></section>
+  <li><b>หลังจ่ายไฟ</b>: มอเตอร์ต้องหมุนทางเดียวกันทั้งสตาร์และเดลตา (การต่อเดลตาผิดไม่ทำให้มอเตอร์กลับทาง แต่ทำให้ไม่มีแรงบิดหรือคราง) คล้องแคลมป์มิเตอร์ที่สายเมนกับสาย U1: ในสตาร์เท่ากัน ในเดลตาสายเมนมากกว่า 1.73 เท่า ตั้ง K4 30 s ตามสไลด์ (มอเตอร์ตัวเปล่าเดินในสตาร์ต่อจนครบเวลาโดยไม่เสียหาย)</li></ul></section>
 <section class="keypoints" data-l="en"><h2>Key points of this page</h2><ul>
   <li><b>The motor's delta voltage must equal the supply's line-to-line voltage</b>: the lab motor is rated 220 V Δ / 380–415 V Y, so on the 400 V supply it must stay in star and cannot be started star-delta. This week the teacher feeds the power circuit from a low-voltage supply of about 220 V line to line: each winding gets about 127 V in star and 220 V in delta. Factories on 400 V use 400 V Δ / 690 V Y motors. The control circuit stays at 230 V between L and N as before.</li>
   <li><b>Remove every link from the terminal box</b>: the contactors do the linking. Run six leads U1 V1 W1 W2 U2 V2 and the protective earth (PE) to the trainer. A link left in shorts L1–L2–L3 at the start or at the change to delta.</li>
   <li><b>The ohmmeter finds a wrong delta before power</b>: with K1 and K2 pressed by hand every pair of lines at the K1 input reads 2R (R = one winding); with K1 and K3, 2R/3 on every pair. All pairs open (OL) means a straight-through delta; R/2 on one pair and open on two means two leads swapped.</li>
-  <li><b>After power-on</b>: the motor must turn the same way in star and in delta (a wrong delta never reverses the motor: it gives no torque or a hum). Clamp the line and the U1 lead: equal in star; in delta the line carries 1.73 times as much. Set K4 to 2–3 s for the unloaded motor.</li></ul></section>
+  <li><b>After power-on</b>: the motor must turn the same way in star and in delta (a wrong delta never reverses the motor: it gives no torque or a hum). Clamp the line and the U1 lead: equal in star; in delta the line carries 1.73 times as much. Set K4 to 30 s, as on the lecture slide (the unloaded motor simply runs on in star until the time is up).</li></ul></section>
 
 <nav class="toc" data-l="th"><span class="tl">ในหน้านี้:</span><a href="#t0"><b>0</b>ภาคเช้าวันเดียวกัน</a><a href="#tA"><b>A</b>แหล่งจ่ายแรงดันต่ำ</a><a href="#tB"><b>B</b>ถอดสะพาน</a><a href="#tC"><b>C</b>ไล่ทางเดินกระแส</a><a href="#tD"><b>D</b>ต่อสายบนแผงฝึก</a><a href="#tE"><b>E</b>ทดสอบก่อนจ่ายไฟ</a><a href="#tF"><b>F</b>หลังจ่ายไฟ</a><a href="#tG"><b>G</b>หาจุดผิด</a><a href="#tH"><b>H</b>ใบงาน</a><a href="#tQ"><b>Q</b>ทดสอบตัวเอง</a></nav>
 <nav class="toc" data-l="en"><span class="tl">On this page:</span><a href="#t0"><b>0</b>This morning in Electrical Drawing II</a><a href="#tA"><b>A</b>The low-voltage supply</a><a href="#tB"><b>B</b>Remove the links</a><a href="#tC"><b>C</b>Trace the paths</a><a href="#tD"><b>D</b>Wire the trainer</a><a href="#tE"><b>E</b>Tests before power</a><a href="#tF"><b>F</b>After power-on</a><a href="#tG"><b>G</b>Find faults</a><a href="#tH"><b>H</b>Practice sheet</a><a href="#tQ"><b>Q</b>Check yourself</a></nav>
@@ -132,7 +132,7 @@
           <li><b>ด้านออกของ K3 ไขว้ตามลำดับ A</b>: 2/T1 → W2, 4/T2 → U2, 6/T3 → V2 (คือ U1–W2, V1–U2, W1–V2) สายแต่ละเส้นไปที่ด้านเข้าของ K2 ขั้วเดียวกัน (K2:1 W2, K2:3 U2, K2:5 V2) แล้วไป -X1:10–12 และมอเตอร์ ลำดับ B (V2 W2 U2) ก็ถูกและหมุนทางเดิม แต่บนแผงฝึกใช้ลำดับ A ตามแบบ</li>
           <li><b>สะพานสตาร์</b>: ด้านออกของ K2 ต่อถึงกัน 2–4–6 สองเส้น</li>
           <li><b>F3 อยู่ในกิ่งขดลวด</b> หลังจุดแยกไป K3 ผ่านกระแสขดลวด (ในเดลตา 1/√3 ≈ 0.58 ของกระแสสาย) จึงตั้งหน้าปัดที่ 0.58 × กระแสพิกัด (I<sub>N</sub>) บนป้ายมอเตอร์</li>
-          <li><b>ตัวตั้งเวลา K4</b> ของแผงฝึกเป็นตัวตั้งเวลาหลายฟังก์ชันมีหน้าสัมผัสสลับสองชุด 15–16/18 และ 25–26/28 ตั้งเป็นแบบหน่วงเมื่อป้อนไฟ ใช้ 15–16 (ปกติปิด เปิดเมื่อครบเวลา) ในทางของ K2 และ 25–28 (ปกติเปิด ต่อเมื่อครบเวลา) ในทางของ K3 ขั้ว 18 และ 26 ไม่ใช้ ตั้งเวลา 2–3 s</li>
+          <li><b>ตัวตั้งเวลา K4</b> ของแผงฝึกเป็นตัวตั้งเวลาหลายฟังก์ชันมีหน้าสัมผัสสลับสองชุด 15–16/18 และ 25–26/28 ตั้งเป็นแบบหน่วงเมื่อป้อนไฟ ใช้ 15–16 (ปกติปิด เปิดเมื่อครบเวลา) ในทางของ K2 และ 25–28 (ปกติเปิด ต่อเมื่อครบเวลา) ในทางของ K3 ขั้ว 18 และ 26 ไม่ใช้ ตั้งเวลา 30 s ตามสไลด์</li>
           <li><b>อินเตอร์ล็อก</b>: 21–22 ของ K3 อยู่ในทางของ K2 และ 21–22 ของ K2 อยู่ในทางของ K3 ถ้าคู่ K2–K3 บนแผงฝึกจริงมีชุดล็อกทางกล ให้ตรวจในหัวข้อ E2 ด้วย</li>
           <li><b>สายจ่ายไฟวงจรควบคุม (สาย 1)</b>: แผงฝึกเสมือนต่อตามแบบ คือจากหลัง Q1 บนแผงฝึกจริงสัปดาห์นี้ วงจรควบคุมรับ 230 V จากจุดที่ครูบอก ไม่ใช่จากแหล่งจ่ายแรงดันต่ำ</li></ul></div>
       <div class="story-p" data-l="en"><p>Start with the automatic circuit (page 7.4) and get it through the check first; if time is left, try the push-button circuit (page 7.3). Wire the PE leads and the control circuit first (the end of the wiring checklist), then the power circuit (the start of the checklist). The virtual trainer can be powered only when the whole circuit is wired. What to watch this week:</p>
@@ -140,7 +140,7 @@
           <li><b>K3's outputs are crossed in order A</b>: 2/T1 → W2, 4/T2 → U2, 6/T3 → V2 (that is U1–W2, V1–U2, W1–V2). Each lead goes on to the same-named input of K2 (K2:1 W2, K2:3 U2, K2:5 V2), then to -X1:10–12 and the motor. Order B (V2 W2 U2) is also correct and keeps the direction, but on the trainer use order A as drawn.</li>
           <li><b>The star bridge</b>: two short leads join K2's outputs 2–4–6.</li>
           <li><b>F3 sits in the winding branch</b> after the split to K3 and carries the winding current (in delta 1/√3 ≈ 0.58 of the line current), so its dial is set to 0.58 × the rated current (I<sub>N</sub>) on the motor's nameplate.</li>
-          <li><b>The timer K4</b> on the trainer is a multifunction timer with two changeover contacts, 15–16/18 and 25–26/28. Set it to on-delay; use 15–16 (normally closed, opens when the time is up) in K2's path and 25–28 (normally open, closes when the time is up) in K3's path; terminals 18 and 26 stay free. Set 2–3 s.</li>
+          <li><b>The timer K4</b> on the trainer is a multifunction timer with two changeover contacts, 15–16/18 and 25–26/28. Set it to on-delay; use 15–16 (normally closed, opens when the time is up) in K2's path and 25–28 (normally open, closes when the time is up) in K3's path; terminals 18 and 26 stay free. Set 30 s, as on the lecture slide.</li>
           <li><b>Interlocks</b>: 21–22 of K3 goes in K2's path and 21–22 of K2 in K3's path. If the K2–K3 pair on the real trainer has a mechanical interlock, check it in section E2 too.</li>
           <li><b>The control supply lead (wire 1)</b>: the virtual trainer follows the drawing and takes it after Q1. On the real trainer this week the control circuit takes its 230 V from the point the teacher shows, not from the low-voltage supply.</li></ul></div></div>
   </div>
@@ -187,12 +187,12 @@
       <div class="story-p" data-l="th"><p>ครูตรวจแล้ว ต่อแหล่งจ่ายแรงดันต่ำให้วงจรกำลัง จากนั้นทำตามลำดับ:</p>
         <ol><li><b>ทิศหมุน</b>: กด START ดูทิศที่ปลายเพลาในสตาร์ แล้วดูอีกครั้งหลังเปลี่ยนเป็นเดลตา ต้องเป็นทางเดียวกัน ถ้าครางหรือหมุนฟรีลงหลังเปลี่ยน ให้กด STOP ทันที การต่อด้านออกของ K3 แบบไหนก็ไม่ทำให้มอเตอร์กลับทาง ถ้าต้องการกลับทาง ให้สลับสายเมนสองเส้นก่อนเข้า K1</li>
           <li><b>แคลมป์มิเตอร์</b>: คล้องสายเมน L1 (ระหว่าง Q1 กับ K1) แล้วคล้องสาย U1 (จาก F3 ไป U1) ในสตาร์สองค่าเท่ากัน ในเดลตาสายเมนมากกว่าสาย U1 ประมาณ 1.73 เท่า (√3) นี่คือหลักฐานว่าเป็นเดลตาจริง และเป็นเหตุที่ F3 ในกิ่งขดลวดตั้ง 0.58 × I<sub>N</sub> กดปุ่ม "บันทึกค่านี้" ทั้งตอนสตาร์และตอนเดลตา</li>
-          <li><b>เวลาที่ตั้ง</b>: มอเตอร์ตัวเปล่าเร่งจนเกือบถึงความเร็วพิกัดในเวลาไม่ถึงหนึ่งวินาที จึงตั้ง K4 2–3 s เพื่อให้เห็นและวัดแต่ละช่วงได้ งานจริงให้วัดเวลาที่มอเตอร์ที่มีโหลดเร่งจนเกือบถึงความเร็วพิกัด (กระแสลดลงแล้ว) แล้วตั้งตามนั้น</li></ol>
+          <li><b>เวลาที่ตั้ง</b>: ตั้ง K4 30 s ตามสไลด์บทที่ 7 มอเตอร์ตัวเปล่าเร่งจนเกือบถึงความเร็วพิกัดในเวลาไม่ถึงหนึ่งวินาที แล้วเดินในสตาร์ต่อจนครบ 30 s ซึ่งไม่เสียหายเพราะไม่มีโหลด และมีเวลาพอคล้องวัดกระแสในสตาร์ งานจริงให้วัดเวลาที่มอเตอร์ที่มีโหลดเร่งจนเกือบถึงความเร็วพิกัด (กระแสลดลงแล้ว) แล้วตั้งนานกว่านั้นเล็กน้อย</li></ol>
         <p>ภาพจำลองนี้ใช้แหล่งจ่ายแรงดันต่ำ 220 V ระหว่างสาย ค่ากระแสเป็นค่าตัวอย่างจากแบบจำลองมอเตอร์ตัวเปล่า (กระแสพิกัด I<sub>N</sub> = 2.0 A ในเดลตา ตามแผ่นป้ายของมอเตอร์ในห้อง) สิ่งที่ต้องดูคืออัตราส่วนระหว่างสายเมนกับสาย U1</p></div>
       <div class="story-p" data-l="en"><p>After the teacher's check the low-voltage supply is connected to the power circuit. Then, in order:</p>
         <ol><li><b>Direction</b>: press START and watch the shaft end in star, then again after the change to delta: it must be the same way. If the motor hums or coasts down after the change, press STOP at once. No wiring of K3's outputs reverses the motor; to reverse it, swap two supply lines ahead of K1.</li>
           <li><b>Clamp meter</b>: clamp line L1 (between Q1 and K1), then the U1 lead (from F3 to U1). In star the two read the same; in delta the line carries about 1.73 times (√3) the U1 lead: the proof that the motor really is in delta, and the reason F3 in the winding branch is set to 0.58 × I<sub>N</sub>. Press "record this reading" in star and again in delta.</li>
-          <li><b>Timer setting</b>: the unloaded motor runs up to nearly rated speed in well under a second, so K4 is set to 2–3 s to let you see and measure each stage. On a real machine, measure the time the loaded motor takes to come nearly to rated speed (when the current has fallen) and set that.</li></ol>
+          <li><b>Timer setting</b>: K4 is set to 30 s, as on the Lecture 7 slide. The unloaded motor runs up to nearly rated speed in well under a second and then runs on in star until the 30 s are up; without a load that does no harm, and it leaves time to clamp the currents in star. On a real machine, measure the time the loaded motor takes to come nearly to rated speed (when the current has fallen) and set a little more than that.</li></ol>
         <p>This simulator runs on the 220 V line-to-line low-voltage supply. The currents are example values from the model of the unloaded motor (rated current I<sub>N</sub> = 2.0 A in delta, from the lab motor’s nameplate); what matters is the ratio of the line to the U1 lead.</p></div></div>
   </div>
   <div class="card sim rlwrap rlscroll mcp-wide" style="padding:8px;margin-top:12px"><div id="simF"></div></div>
@@ -251,7 +251,7 @@
   <div class="card"><h3>ลองทำดู</h3>
     <ol><li>หัวข้อ A: มอเตอร์ 400 V Δ / 690 V Y ต่อบนแหล่งจ่ายแรงดันต่ำ 220 V ของชุดฝึก ขดลวดได้กี่เปอร์เซ็นต์ของพิกัดในเดลตา ทำไมจึงไม่เหมาะ</li>
       <li>หัวข้อ E1: ถ้าสายจาก K3 4/T2 หลวม (ไม่ได้ขันยึด) ตาราง E1 แถวเดลตาจะอ่านได้อย่างไร คิดก่อนแล้วลองกับการ์ดข้อ 8 ในหัวข้อ G</li>
-      <li>หัวข้อ F: ตั้ง K4 1 s 3 s และ 8 s แล้วดูความเร็วตอนเปลี่ยนเป็นเดลตา มอเตอร์ตัวเปล่าต่างกันมากไหม ถ้ามีโหลดจะเป็นอย่างไร</li>
+      <li>หัวข้อ F: ตั้ง K4 1 s 3 s และ 30 s แล้วดูความเร็วตอนเปลี่ยนเป็นเดลตา มอเตอร์ตัวเปล่าต่างกันมากไหม ถ้ามีโหลดจะเป็นอย่างไร</li>
       <li>วงจรควบคุมด้วยปุ่มกด (หน้า 7.3): ต่อบนแผงฝึกเสมือนให้ผ่าน แล้วบอกว่าใช้สายต่างจากวงจรอัตโนมัติกี่เส้น และกด DELTA ก่อน START STAR แล้วเกิดอะไรขึ้น</li></ol>
     <div class="book">วิชาเขียนแบบไฟฟ้า 2 บทที่ 8 (หน้า 7.1–7.6) และหน้า 1.2, 5.5–5.6 · IEC 60947-4-1:2018 ข้อ 3.4.4.1 (ตัวสตาร์ทสตาร์–เดลตา) และภาคผนวก F (หน้าสัมผัสมิเรอร์) · IEC 60034-8:2026 ข้อ 6.7.1 (ทิศหมุน) · IEC 60204-1 ข้อ 7.5 ข้อ 9.3.4 (อินเตอร์ล็อก) และส่วนที่ 18 (การตรวจสอบ) · แผงฝึกในหน้านี้เป็นแบบทั่วไปที่ออกแบบไว้สำหรับวิชานี้ ตำแหน่งและรุ่นของอุปกรณ์อาจต่างจากแผงฝึกจริง</div></div>
 </section>
@@ -259,7 +259,7 @@
   <div class="card"><h3>Try this</h3>
     <ol><li>Section A: a 400 V Δ / 690 V Y motor on the trainer's 220 V low-voltage supply: what percentage of its rating does a winding get in delta, and why is that not suitable?</li>
       <li>Section E1: if the lead from K3 4/T2 is loose (not clamped), what does the delta row of table E1 read? Think first, then try card 8 in section G.</li>
-      <li>Section F: set K4 to 1 s, 3 s and 8 s and watch the speed at the change to delta. Is there much difference for the unloaded motor? What would a load change?</li>
+      <li>Section F: set K4 to 1 s, 3 s and 30 s and watch the speed at the change to delta. Is there much difference for the unloaded motor? What would a load change?</li>
       <li>Push-button circuit (page 7.3): get it through the check on the virtual trainer, then say how many leads differ from the automatic circuit, and what happens if DELTA is pressed before START STAR.</li></ol>
     <div class="book">Electrical Drawing II, chapter 8 (pages 7.1–7.6) and pages 1.2, 5.5–5.6 · IEC 60947-4-1:2018, 3.4.4.1 (star-delta starter) and Annex F (mirror contacts) · IEC 60034-8:2026, 6.7.1 (direction of rotation) · IEC 60204-1, 7.5, 9.3.4 (interlocks) and section 18 (verification) · The trainer on this page is a generic design made for this course; device positions and models may differ from the real trainer</div></div>
 </section>
@@ -377,7 +377,7 @@ document.addEventListener('mc:ready', () => {
   buildB('none');
 
   /* C: trace mode on the automatic circuit (lamps included) */
-  const sC = new RL.Sim($('simC'), AUTO_L(), { max: 1060, sheet: { no: 'MCP10-C', title: T_AUTO } });
+  const sC = new RL.Sim($('simC'), AUTO_L(), { max: 1060, sheet: { no: 'MCP8-C', title: T_AUTO } });
   new MCP.Trace($('trC'), sC, [
     { ask: ['กด S2 (START) แล้วปล่อย: ไล่ทางเดินกระแสของ K1', 'S2 (START) tapped: trace the path of K1'], setup: [['tap', 'S2']], load: 'K1' },
     { ask: ['ช่วงสตาร์: ไล่ทางเดินกระแสของ K2 (คอนแทกเตอร์สตาร์)', 'Star stage: trace the path of K2 (the star contactor)'], setup: [['tap', 'S2']], load: 'K2', hint: ['ทางนี้ผ่าน K1 83–84 K4 15–16 และ K3 21–22', 'this path runs through K1 83–84, K4 15–16 and K3 21–22'] },
@@ -388,8 +388,8 @@ document.addEventListener('mc:ready', () => {
 
   /* D: the virtual trainer with the automatic and the push-button circuit; the simulator steps while the page shows it (K4 runs) */
   const CIRC = {
-    auto: { mk: () => AUTO_L(), no: 'MCP10-D1', title: T_AUTO, note: ['วงจรของหน้า 7.4: S1 STOP · S2 START · K4 ตั้ง 3 s (15–16 ในทางของ K2, 25–28 ในทางของ K3) · H1 STAR · H2 DELTA · H3 OVERLOAD · H4 STOPPED', 'Circuit of page 7.4: S1 STOP · S2 START · K4 set to 3 s (15–16 in K2\'s path, 25–28 in K3\'s path) · H1 STAR · H2 DELTA · H3 OVERLOAD · H4 STOPPED'] },
-    man: { mk: MAN_L, no: 'MCP10-D2', title: T_MAN, note: ['วงจรของหน้า 7.3: S2 START STAR (K1 + K2) · S3 DELTA ปุ่มสองหน้าสัมผัส (21–22 ปลด K2, 13–14 เริ่ม K3) · K3 13–14 ค้างตัวเอง · ไม่มีตัวตั้งเวลา', 'Circuit of page 7.3: S2 START STAR (K1 + K2) · S3 DELTA, a double-contact button (21–22 drops K2, 13–14 starts K3) · K3 13–14 holds · no timer'] } };
+    auto: { mk: () => AUTO_L(), no: 'MCP8-D1', title: T_AUTO, note: ['วงจรของหน้า 7.4: S1 STOP · S2 START · K4 ตั้ง 30 s (15–16 ในทางของ K2, 25–28 ในทางของ K3) · H1 STAR · H2 DELTA · H3 OVERLOAD · H4 STOPPED', 'Circuit of page 7.4: S1 STOP · S2 START · K4 set to 30 s (15–16 in K2\'s path, 25–28 in K3\'s path) · H1 STAR · H2 DELTA · H3 OVERLOAD · H4 STOPPED'] },
+    man: { mk: MAN_L, no: 'MCP8-D2', title: T_MAN, note: ['วงจรของหน้า 7.3: S2 START STAR (K1 + K2) · S3 DELTA ปุ่มสองหน้าสัมผัส (21–22 ปลด K2, 13–14 เริ่ม K3) · K3 13–14 ค้างตัวเอง · ไม่มีตัวตั้งเวลา', 'Circuit of page 7.3: S2 START STAR (K1 + K2) · S3 DELTA, a double-contact button (21–22 drops K2, 13–14 starts K3) · K3 13–14 holds · no timer'] } };
   let dD = null, stDk = '';
   const buildD = id => { const c = CIRC[id], sim = new RL.Sim(fresh($('simD')), c.mk(), { max: 1060, wireNos: true, sheet: { no: c.no, title: c.title } });
     dD = { sim, tr: new MCP.Trainer(fresh($('trnD')), sim, {}) }; stDk = ''; $('noteD').innerHTML = tt(c.note); };
@@ -411,7 +411,7 @@ document.addEventListener('mc:ready', () => {
   const expE = (order, rows) => rows.map(r => { const h = hid(PWR_L({ order }), PRE_E); r.hand.forEach(id => h.toggle(id)); return MCP.measure(h, r.a, r.b, 'R'); });
   const E0 = expE('A', E_ROWS);   // the reading of a correct wiring
   let E = null;
-  const buildE = k => { const order = C8.ORDERS[k], sim = MCP.run(new RL.Sim(fresh($('simE')), PWR_L({ order }), { max: 560, sheet: { no: 'MCP10-E1', title: ['วงจรกำลังสตาร์–เดลตา กดคอนแทกเตอร์ด้วยมือ', 'Star-delta power circuit, contactors pressed by hand'] } }), PRE_E);
+  const buildE = k => { const order = C8.ORDERS[k], sim = MCP.run(new RL.Sim(fresh($('simE')), PWR_L({ order }), { max: 560, sheet: { no: 'MCP8-E1', title: ['วงจรกำลังสตาร์–เดลตา กดคอนแทกเตอร์ด้วยมือ', 'Star-delta power circuit, contactors pressed by hand'] } }), PRE_E);
     const m = new MCP.Meter(fresh($('mE')), sim, { mode: 'R' }), exp = expE(order, E_ROWS), got = E_ROWS.map(() => null), row = $('handE'); row.innerHTML = '';
     const hb = {}; HAND.forEach(id => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.addEventListener('click', () => sim.toggle(id)); row.appendChild(b); hb[id] = b; });
     const showH = () => HAND.forEach(id => { const on = !!sim.dev[id].on; hb[id].classList.toggle('on', on); hb[id].textContent = on ? t(`ปล่อย ${id}`, `release ${id}`) : t(`กด ${id} ด้วยมือ`, `press ${id} by hand`); });
@@ -434,7 +434,7 @@ document.addEventListener('mc:ready', () => {
 
   /* E2: control run with the power section isolated (control fed ahead of Q1, Q1 off), then the interlock test with K2 held in */
   const ISO = () => AUTO_L({ tap: 'before' }), PRE_I = [['set', 'Q1', false]];
-  const sE2 = MCP.run(new RL.Sim($('simE2'), ISO(), { max: 1060, sheet: { no: 'MCP10-E2', title: ['ทดสอบวงจรควบคุม แยกวงจรกำลังไว้ (Q1 ปลด)', 'Control run, power section isolated (Q1 off)'] } }), PRE_I);
+  const sE2 = MCP.run(new RL.Sim($('simE2'), ISO(), { max: 1060, sheet: { no: 'MCP8-E2', title: ['ทดสอบวงจรควบคุม แยกวงจรกำลังไว้ (Q1 ปลด)', 'Control run, power section isolated (Q1 off)'] } }), PRE_I);
   const isoState = s => { if (s.mains !== false && s.dev.Q1 && !s.dev.Q1.on && !(s.dev.F2 && s.dev.F2.blown) && !(s.dev.F3 && s.dev.F3.tripped)) { const kt = s.dev.K4, on = ['K1', 'K2', 'K3'].filter(id => s.act(id)), x = on.length ? on.join(' + ') : t('ไม่มี', 'none');
       return [t('แยกวงจรกำลัง', 'power isolated'), t(`Q1 ปลด มอเตอร์ไม่ได้ไฟ วงจรควบคุมมีไฟ · ดูดอยู่: ${x}`, `Q1 off: no supply to the motor, the control circuit is live · in: ${x}`) + (kt && kt.energized && kt.tOn < kt.T ? ` · K4 ${ED.fd(Math.min(kt.tOn, kt.T), 1)} / ${kt.T} s` : ''), 'wait']; }
     return C8.state(s); };   // the control circuit is fed ahead of Q1 here
@@ -458,9 +458,9 @@ document.addEventListener('mc:ready', () => {
 
   /* F: after power-on: the automatic circuit with its panel front, the K4 setting, a clamp meter (example amperes from the model:
      sim.sdIL × I_N spread over the lines and windings of sim.sdInfo()) and the live timeline */
-  const sF = new RL.Sim($('simF'), AUTO_L(), { max: 1060, sheet: { no: 'MCP10-F', title: T_AUTO } }), panF = C8.panel($('panF'), sF);
+  const sF = new RL.Sim($('simF'), AUTO_L(), { max: 1060, sheet: { no: 'MCP8-F', title: T_AUTO } }), panF = C8.panel($('panF'), sF);
   const amps = s => { const I = s.sdInfo(), mx = Math.max(...I.iLine), k = mx > 1e-9 ? (s.sdIL || 0) / mx * IN : 0; return { line: I.iLine.map(x => x * k), u1: I.iw.U * k, state: I.state, dir: s.dir(), w: s.sdw || 0 }; };
-  ui.slider($('panF'), { id: 'ktF', label: t('ตั้งเวลา K4', 'K4 setting'), min: 1, max: 10, step: 0.5, value: TT, unit: 's', dec: 1, oninput: v => { sF.dev.K4.T = v; } });
+  ui.slider($('panF'), { id: 'ktF', label: t('ตั้งเวลา K4', 'K4 setting'), min: 1, max: 40, step: 0.5, value: TT, unit: 's', dec: 1, oninput: v => { sF.dev.K4.T = v; } });
   const CL = [{ id: 'L1', lab: ['สายเมน L1 (Q1 → K1)', 'line L1 (Q1 → K1)'], v: a => a.line[0] }, { id: 'L2', lab: ['สายเมน L2', 'line L2'], v: a => a.line[1] }, { id: 'L3', lab: ['สายเมน L3', 'line L3'], v: a => a.line[2] },
     { id: 'U1', lab: ['สาย U1 (F3 → U1)', 'U1 lead (F3 → U1)'], v: a => a.u1 }];
   let clK = 'L1'; const clBox = $('clF'); ui.h2(clBox, t('แคลมป์มิเตอร์ (ค่าตัวอย่าง)', 'Clamp meter (example values)'));
@@ -476,16 +476,16 @@ document.addEventListener('mc:ready', () => {
   const logF = new ED.Log($('logF'), [['ช่วง', 'stage'], ['ทิศหมุน', 'direction'], ['สาย L1', 'line L1'], ['สาย U1', 'U1 lead'], ['L1 ÷ U1', 'L1 ÷ U1']], { title: ['ค่าที่คุณบันทึก', 'Your recorded readings'], empty: ['ยังไม่ได้บันทึก กด START แล้วกด "บันทึกค่านี้" ทั้งตอนสตาร์และตอนเดลตา', 'Nothing recorded yet: press START, then "record this reading" in star and again in delta'] });
   ui.buttons(clBox, [{ id: 'rec', label: t('บันทึกค่านี้', 'record this reading'), onclick: () => { const a = amps(sF); if (a.state !== 'star' && a.state !== 'delta') { ui.html(clBox, t('บันทึกได้เมื่อมอเตอร์เดินในสตาร์หรือเดลตา', 'record while the motor runs in star or in delta'), 'hint'); return; }
     const r = a.u1 > 1e-6 ? a.line[0] / a.u1 : 0; logF.add(a.state, [stName(a.state), a.dir === 'cw' ? t('ตามเข็มนาฬิกา', 'clockwise') : t('ทวนเข็มนาฬิกา', 'counter-clockwise'), `${ED.fd(a.line[0], 2)} A`, `${ED.fd(a.u1, 2)} A`, ED.fd(r, 2)], Math.abs(r - (a.state === 'delta' ? Math.sqrt(3) : 1)) < 0.05 ? 'ok' : 'warn'); } }]);
-  const tlF = new C8.Timeline($('tlF'), { sim: sF, span: 8 });
+  const tlF = new C8.Timeline($('tlF'), { sim: sF, span: TT + 6 });
   LS.anim($('tF'), dt => { sF.step(dt); tlF.step(dt); panF.refresh(); showCl(false); });
   showCl(true);
   ED.summary($('sumF'), { head: [['ช่วง', 'stage'], ['ทิศหมุน', 'direction'], ['สาย L1', 'line L1'], ['สาย U1', 'U1 lead'], ['L1 ÷ U1', 'L1 ÷ U1']],
     rows: () => { const h = hid(AUTO_L(), [['tap', 'S2'], ['wait', 1.5]]), a = amps(h); MCP.run(h, [['wait', TT]]); const b = amps(h), d = x => (x.dir === 'cw' ? t('ตามเข็มนาฬิกา', 'clockwise') : t('ทวนเข็มนาฬิกา', 'counter-clockwise'));
       return [[stName(a.state), d(a), `${ED.fd(a.line[0], 2)} A`, `${ED.fd(a.u1, 2)} A`, ED.fd(a.line[0] / a.u1, 2)], [stName(b.state), d(b), `${ED.fd(b.line[0], 2)} A`, `${ED.fd(b.u1, 2)} A`, ED.fd(b.line[0] / b.u1, 2)]]; },
-    points: [['ทิศหมุนเหมือนกันทั้งสตาร์และเดลตา', 'the same direction in star and in delta'], ['ในสตาร์สายเมนกับสาย U1 มีกระแสเท่ากัน ในเดลตาสายเมนมากกว่า √3 ≈ 1.73 เท่า', 'in star the line and the U1 lead carry the same current; in delta the line carries √3 ≈ 1.73 times as much'], ['F3 ในกิ่งขดลวดวัดกระแสของสาย U1 จึงตั้ง 0.58 × I<sub>N</sub>', 'F3 in the winding branch measures the U1-lead current, so it is set to 0.58 × I<sub>N</sub>'], ['มอเตอร์ตัวเปล่าเร่งเสร็จในเวลาไม่ถึงหนึ่งวินาที K4 2–3 s พอให้เห็นแต่ละช่วง', 'the unloaded motor runs up in well under a second: K4 at 2–3 s lets you see each stage']] });
+    points: [['ทิศหมุนเหมือนกันทั้งสตาร์และเดลตา', 'the same direction in star and in delta'], ['ในสตาร์สายเมนกับสาย U1 มีกระแสเท่ากัน ในเดลตาสายเมนมากกว่า √3 ≈ 1.73 เท่า', 'in star the line and the U1 lead carry the same current; in delta the line carries √3 ≈ 1.73 times as much'], ['F3 ในกิ่งขดลวดวัดกระแสของสาย U1 จึงตั้ง 0.58 × I<sub>N</sub>', 'F3 in the winding branch measures the U1-lead current, so it is set to 0.58 × I<sub>N</sub>'], ['K4 ตั้ง 30 s ตามสไลด์ มอเตอร์ตัวเปล่าเร่งเสร็จในเวลาไม่ถึงหนึ่งวินาทีแล้วเดินในสตาร์ต่อจนครบเวลา', 'K4 is set to 30 s as on the slide: the unloaded motor runs up in well under a second and then runs on in star until the time is up']] });
 
   /* G: fault cards on the automatic circuit (power-circuit faults hidden in the drawing through MCP's 'sd' fault, control faults as before) */
-  const sG = new RL.Sim($('simG'), AUTO_L(), { max: 1060, sheet: { no: 'MCP10-G', title: T_AUTO } }), mG = new MCP.Meter($('mG'), sG, { mode: 'V' });
+  const sG = new RL.Sim($('simG'), AUTO_L(), { max: 1060, sheet: { no: 'MCP8-G', title: T_AUTO } }), mG = new MCP.Meter($('mG'), sG, { mode: 'V' });
   const MOT = ['M1:U1', 'M1:V1', 'M1:W1', 'M1:W2', 'M1:U2', 'M1:V2'];
   new MCP.FaultCards($('fcG'), mG, [
     { title: ['Q1 ตัดทันทีที่กด START', 'Q1 trips the moment START is pressed'], fault: { k: 'sd', set: { links: 'delta' }, at: MOT, text: ['สะพานเดลตาในกล่องขั้วมอเตอร์ยังไม่ได้ถอด (U1–W2, V1–U2, W1–V2)', 'the delta links are still fitted in the motor terminal box (U1–W2, V1–U2, W1–V2)'] }, setup: [['tap', 'S2']], max: 3,
@@ -547,7 +547,7 @@ document.addEventListener('mc:ready', () => {
       options: [t('Q1 ตัดทันที ลัดวงจร L1–L2–L3 ผ่านสะพานกับ K2', 'Q1 trips at once: L1–L2–L3 shorted through the links and K2'), t('มอเตอร์ออกตัวในเดลตาด้วยกระแสเต็ม', 'the motor starts in delta at full current'), t('ไม่มีอะไรต่าง', 'nothing different'), t('ค้างในสตาร์', 'it stays in star')], answer: qK,
       why: t('สะพานเดลตาต่อ W2 U2 V2 เข้ากับ U1 V1 W1 อยู่แล้ว พอ K1 กับ K2 ต่อ K2 ก็ต่อ W2 U2 V2 ถึงกัน สาย L1–L2–L3 จึงลัดถึงกันทันที', 'The delta links already join W2 U2 V2 to U1 V1 W1; when K1 and K2 close, K2 joins W2 U2 V2 together, so L1–L2–L3 are shorted at once.') },
     { q: t('6) สัปดาห์นี้ตั้ง K4 อย่างไร', '6) How is K4 set this week?'),
-      options: [t('ให้เปลี่ยนที่ 75 % ของความเร็วพิกัดเสมอ', 'always change at 75 % of rated speed'), t('2–3 s ให้เห็นแต่ละช่วงของมอเตอร์ตัวเปล่า งานจริงตั้งตามเวลาเร่งที่วัดได้', '2–3 s to see each stage of the unloaded motor; on a real machine set the measured run-up time'), t('0.1 s ยิ่งสั้นยิ่งดี', '0.1 s: the shorter the better'), t('30 s เพื่อความปลอดภัย', '30 s to be safe')], answer: 1 }], { id: 'mcp10' });
+      options: [t('ให้เปลี่ยนที่ 75 % ของความเร็วพิกัดเสมอ', 'always change at 75 % of rated speed'), t('30 s ตามสไลด์ มอเตอร์ตัวเปล่าเดินในสตาร์ต่อได้โดยไม่เสียหาย งานจริงตั้งตามเวลาเร่งที่วัดได้', '30 s as on the slide: the unloaded motor can run on in star without harm; on a real machine set the measured run-up time'), t('0.1 s ยิ่งสั้นยิ่งดี', '0.1 s: the shorter the better'), t('0.5 s ให้ตรงกับเวลาเร่งของมอเตอร์ตัวเปล่าพอดี', '0.5 s, to match the unloaded motor’s run-up exactly')], answer: 1 }], { id: 'mcp10' });
 });
 </script>
 </body>

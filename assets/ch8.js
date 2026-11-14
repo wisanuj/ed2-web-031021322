@@ -14,7 +14,7 @@
    START STAR, DELTA, STAR, OVERLOAD, STOPPED). Every spec sets chatter: true. Power drawing = relay.js power.sd (see its header):
    sim.sd() 'star' | 'delta' | 0 | 'open' | 'short' | 'fault:none' | 'fault:single' | 'fault:unbal' | 'fault:over'.
    Common options o (every factory): lamps 'all' (default) | false | ['H1', …]; mech true (default) | false; tap 'after' | 'before';
-   T (K4 seconds, default C8.T = 3); lab true (the afternoon: 220 V line to line, 220 V Δ lab motor) or V / motorV; power-circuit
+   T (K4 seconds, default C8.T = 30); lab true (the afternoon: 220 V line to line, 220 V Δ lab motor) or V / motorV; power-circuit
    wiring: order 'A' (default) | 'B' | 'straight' | ['W2', 'V2', 'U2'] (a transposition), ol 'winding' | 'line', set (F3 dial × I_N),
    feed 'after' | 'line', in3, open, bridge, links (see relay.js); internal fault switches start with _ (FAULTS only).
    1) circuits (fresh spec on every call)
@@ -49,7 +49,7 @@ const halo = svg => svg.replace('stroke="none">', 'stroke="var(--panel)" stroke-
 const pkLab = (x, y, x1) => { const right = x + 200 <= x1 + 4;   // the changeover-peak label of C8.Curves: right of the arrow if it fits, otherwise left of it
   return halo(IE.T(T('+ ยอดกระแสชั่วขณะ (ขึ้นกับมุมเฟส)', '+ short extra peak (phase position)'), right ? x + 6 : x - 6, y, { size: 9, col: 'var(--bad)', anchor: right ? 'start' : 'end' })); };
 C8.COL = { run: '#7ee787', ol: '#ffd166', stop: '#f2f2f2' };
-C8.T = 3;   // default K4 setting (s): the unloaded lab motor runs up in well under a second; 2–3 s lets students see each stage
+C8.T = 30;   // default K4 setting (s): 30 s as on the Lecture 7 slide (user, 14 Nov 2026); the unloaded lab motor runs up in well under a second and runs on in star
 
 /* ---------------- 1) circuits ---------------- */
 const DV = {
@@ -228,21 +228,21 @@ C8.FAULTS = [
     test: ['ให้ K2 ค้างไว้ (ดันด้วยมือขณะตัดไฟวงจรกำลัง): K3 ต้องไม่ดูดแม้ K4 จะครบเวลาแล้ว', 'Hold K2 in (by hand with the power section isolated): K3 must not pull in even after K4 has timed out'],
     seq: [['weld', 'K2'], ['tap', 'S2'], ['wait', TT + 0.6], ['short', false]] },
   { id: 'tooShort', power: false, load: LOADED, sdx: 1, title: ['ตั้งเวลาสั้นเกินไปมาก', 'Timer set far too short'],
-    spec: () => C8.AUTO({ T: 0.3 }), good: () => C8.AUTO({ T: 4 }),
+    spec: () => C8.AUTO({ T: 0.3 }), good: () => C8.AUTO(),
     symptom: ['มอเตอร์ที่มีโหลดเปลี่ยนเป็นเดลตาแทบทันทีขณะยังหมุนช้า กระตุกแรงและกระแสพุ่งเกือบเท่าสตาร์ทตรง บางครั้งฟิวส์ F1 ขาด', 'The loaded motor changes to delta almost at once while it is still slow: a hard jerk and a current peak almost like a direct start; sometimes the fuses F1 blow'],
     options: [['ตั้ง K4 สั้นกว่าเวลาที่มอเตอร์เร่งจนใกล้ความเร็วพิกัด', 'K4 is set shorter than the time the motor needs to come near rated speed'],
       ['ต่อเดลตาผิดลำดับ', 'the delta order is wrong'], ['ไม่มีอินเตอร์ล็อก', 'there is no interlock'], ['F3 อยู่ในสายเมน', 'F3 is in the supply line']], answer: 0,
-    fix: ['วัดเวลาที่มอเตอร์เร่งจนใกล้ความเร็วพิกัด (กระแสลดลงแล้ว) แล้วตั้ง K4 ตามนั้น มอเตอร์ในห้องปฏิบัติการตัวเปล่าตั้ง 2–3 s เพื่อให้เห็นแต่ละช่วง', 'Measure the time the motor needs to come near rated speed (the current has fallen) and set K4 to that; for the unloaded lab motor set 2–3 s so that each stage can be seen'],
+    fix: ['วัดเวลาที่มอเตอร์เร่งจนใกล้ความเร็วพิกัด (กระแสลดลงแล้ว) แล้วตั้ง K4 ไม่สั้นกว่านั้น วงจรของวิชาตั้ง 30 s ตามสไลด์', 'Measure the time the motor needs to come near rated speed (the current has fallen) and set K4 no shorter than that; the course circuit uses 30 s, as on the lecture slide'],
     test: ['คล้องแคลมป์มิเตอร์ที่สายเส้นหนึ่ง: ตอนเปลี่ยนเป็นเดลตากระแสต้องลดลงมาแล้วและกระโดดขึ้นเพียงเล็กน้อย', 'Clamp one line: at the changeover the current must already have fallen and jump only a little'],
-    seq: [['load', LOADED], ['tap', 'S2'], ['wait', 5], ['sd', 'delta'], ['swW', '>=', 0.85]] },
+    seq: [['load', LOADED], ['tap', 'S2'], ['wait', TT + 2], ['sd', 'delta'], ['swW', '>=', 0.85]] },
   { id: 'olSetting', power: true, load: HEAVY, sdx: 20, title: ['ตั้งโอเวอร์โหลดในกิ่งขดลวดไว้เท่ากระแสพิกัด', 'Overload in the winding branch set to I<sub>N</sub>'],
-    spec: () => C8.AUTO({ set: 1 }), good: () => C8.AUTO(),
-    symptom: ['มอเตอร์รับโหลดหนักเกินนาน ร้อนจัด แต่ F3 ไม่ตัดเลย', 'The motor ran overloaded for a long time and got very hot, but F3 never tripped'],
+    spec: () => C8.AUTO({ set: 1, T: 3 }), good: () => C8.AUTO({ T: 3 }),   // this machine: K4 at its measured run-up time, 3 s (30 s in star with this load trips any F3)
+    symptom: ['เครื่องนี้ตั้ง K4 ไว้ 3 s ตามเวลาเร่งที่วัดได้ มอเตอร์รับโหลดหนักเกินนาน ร้อนจัด แต่ F3 ไม่ตัดเลย', 'On this machine K4 is set to 3 s, its measured run-up time. The motor ran overloaded for a long time and got very hot, but F3 never tripped'],
     options: [['F3 อยู่ในกิ่งขดลวด (ในเดลตาผ่านกระแสเพียง 1/√3 ≈ 58 % ของกระแสสาย) แต่ตั้งไว้เท่ากระแสพิกัด I<sub>N</sub> จึงตัดเมื่อขดลวดรับกระแสเกิน 1.73 เท่าแล้ว', 'F3 sits in the winding branch (in delta it carries only 1/√3 ≈ 58 % of the line current) but is set to the rated current I<sub>N</sub>, so it trips only when the windings carry 1.73 × their rated current'],
       ['F3 อยู่ในสายเมนก่อนจุดแยก', 'F3 sits in the supply line ahead of the split'], ['ตั้งเวลา K4 สั้นไป', 'K4 is set too short'], ['ฟิวส์ F1 พิกัดสูงไป', 'fuses F1 are rated too high']], answer: 0,
     fix: ['ตั้ง F3 ที่ 0.58 × I<sub>N</sub> (I<sub>N</sub>/√3) เมื่ออยู่ในกิ่งขดลวด หรือย้าย F3 ไปไว้ในสายเมนก่อนจุดแยกแล้วตั้ง 1.0 × I<sub>N</sub>', 'Set F3 to 0.58 × I<sub>N</sub> (I<sub>N</sub>/√3) in the winding branch, or move it into the supply line ahead of the split and set it to 1.0 × I<sub>N</sub>'],
     test: ['เทียบหน้าปัด F3 กับป้ายมอเตอร์: กิ่งขดลวด = 0.58 × I<sub>N</sub>', 'Compare the F3 dial with the nameplate: winding branch = 0.58 × I<sub>N</sub>'],
-    seq: [['load', HEAVY], ['sdx', 20], ['tap', 'S2'], ['wait', TT + 1], ['sd', 'delta'], ['wait', 40], ['tripped', 'F3', true]] },
+    seq: [['load', HEAVY], ['sdx', 20], ['tap', 'S2'], ['wait', 4], ['sd', 'delta'], ['wait', 40], ['tripped', 'F3', true]] },
   { id: 'motor230', power: true, load: null, sdx: 1, title: ['มอเตอร์ 230 V Δ / 400 V Y บนระบบ 400 V', 'A 230 V Δ / 400 V Y motor on 400 V'],
     spec: () => C8.AUTO({ motorV: 230 }), good: () => C8.AUTO(),
     symptom: ['ช่วงสตาร์ปกติ แต่พอเป็นเดลตา มอเตอร์ครางดังกว่าปกติและร้อนเร็วมาก', 'The star stage is normal, but in delta the motor hums louder than usual and heats up very fast'],
@@ -513,7 +513,7 @@ C8.Manual = class {
    K2 21–22, then K3's pick-up; 'relay' = star-delta timer relay with a built-in pause o.dwell 0.05 s between its star and delta outputs),
    main first (o.order 'main', the course standard) or star first ('star'); the line current from the ED.motor model (× I_N, example values;
    the extra changeover peak only marked) and a zoom of the changeover with the pause in ms. Contactor times o.tPick 0.03 s, o.tDrop
-   0.015 s are EXAMPLES (a few tens of ms: the contactor data sheet gives them). o: { T 3, timer, dwell, order, load { J, TL, type }, span,
+   0.015 s are EXAMPLES (a few tens of ms: the contactor data sheet gives them). o: { T (C8.T), timer, dwell, order, load { J, TL, type }, span,
    controls true, max }. Live: o.sim (an AUTO simulator): records K1 K2 K3, K4 and the current sim.sdIL as the page runs it.
    play(), reset(), set(p), step(dt), draw(); res = { T, tStar, tOpen, tDelta, pause, maker } (scripted). */
 C8.tlRun = (p = {}) => { const T0 = p.T ?? C8.T, relay = p.timer === 'relay', tP = p.tPick ?? 0.03, tD = p.tDrop ?? 0.015, dw = p.dwell ?? 0.05, sf = p.order === 'star', L = { J: 2, TL: 0.1, type: 'fan', ...(p.load || {}) };
@@ -537,7 +537,7 @@ C8.Timeline = class {
     else if (o.controls !== false) { const c = document.createElement('div'); this.root.appendChild(c); const ui = MC.ui;
       ui.radio(c, [{ id: 'plain', label: T('ตัวตั้งเวลาหน่วงเมื่อป้อนไฟธรรมดา', 'plain on-delay timer'), on: this.p.timer === 'plain' }, { id: 'relay', label: T('รีเลย์ตั้งเวลาสตาร์–เดลตา (มีช่วงพัก)', 'star-delta timer relay (built-in pause)'), on: this.p.timer === 'relay' }], id => this.set({ timer: id }));
       ui.radio(c, [{ id: 'main', label: T('หลักก่อน แล้วสตาร์', 'main first, then star'), on: this.p.order === 'main' }, { id: 'star', label: T('สตาร์ก่อน แล้วหลัก', 'star first, then main'), on: this.p.order === 'star' }], id => this.set({ order: id }));
-      ui.slider(c, { id: 'c8tlT', label: T('เวลาที่ตั้ง K4', 'K4 setting'), min: 0.5, max: 8, step: 0.5, value: this.p.T, unit: 's', dec: 1, oninput: v => this.set({ T: v }) });
+      ui.slider(c, { id: 'c8tlT', label: T('เวลาที่ตั้ง K4', 'K4 setting'), min: 0.5, max: 40, step: 0.5, value: this.p.T, unit: 's', dec: 1, oninput: v => this.set({ T: v }) });
       ui.buttons(c, [{ id: 'play', label: T('▶ เล่น', '▶ play'), onclick: () => this.play() }, { id: 'all', label: T('แสดงทั้งหมด', 'show all'), onclick: () => { this.playing = false; this.t = this.r.span; this.draw(); } }]); }
     this.fig = document.createElement('div'); this.fig.className = 'c8tl-fig'; this.root.appendChild(this.fig); if (!this.live) this.r = C8.tlRun(this.p); this.t = this.live ? 0 : this.r.span; this.draw(); }
   set(p) { Object.assign(this.p, p); this.r = C8.tlRun(this.p); this.t = this.playing ? 0 : this.r.span; this.draw(); }
@@ -555,7 +555,7 @@ C8.Timeline = class {
     const now = live ? this.lt : this.t, span = live ? this.span : this.r.span, t0 = live ? Math.max(0, now - span * 0.92) : 0, X = t => x0 + (x1 - x0) * (t - t0) / span;
     const yR = top + rowH * rows.length, cTop = yR + 16, cH = 92, cBot = cTop + cH, cur = (live ? this.lcur : this.r.cur).filter(q => q[0] <= now + 1e-9 && q[0] >= t0), iMax = Math.max(2, ...((live ? this.lcur : this.r.cur).map(q => q[1]))) * 1.08;
     const Yc = v => cBot - cH * Math.min(v, iMax) / iMax, zoom = !live, zTop = cBot + 52, zH = 150, H = zoom ? zTop + zH + 26 : cBot + 34; let s = '';
-    const nt = span > 12 ? 2 : 1; for (let k = Math.ceil(t0); k <= t0 + span + 1e-9; k += nt) s += IE.L(X(k), top - 4, X(k), cBot, { col: 'var(--line)', dash: '1 4' }) + IE.T(`${k}`, X(k), cBot + 13, { size: 9, anchor: 'middle', col: 'var(--muted)' });
+    const nt = span > 24 ? 5 : span > 12 ? 2 : 1; for (let k = Math.ceil(t0 / nt) * nt; k <= t0 + span + 1e-9; k += nt) s += IE.L(X(k), top - 4, X(k), cBot, { col: 'var(--line)', dash: '1 4' }) + IE.T(`${k}`, X(k), cBot + 13, { size: 9, anchor: 'middle', col: 'var(--muted)' });
     s += IE.T(T('เวลา (s)', 'time (s)'), x1, cBot + 26, { size: 9, anchor: 'end', col: 'var(--muted)' });
     rows.forEach((r, i) => { const yb = top + rowH * (i + 1) - 5, yt = yb - 14;
       s += IE.T(r.lab, x0 - 8, yb - 6, { size: 10.5, anchor: 'end', weight: 700 }) + IE.T(r.sub, x0 - 8, yb + 3, { size: 8, anchor: 'end', col: 'var(--muted)' }) + IE.L(x0, yb, x1, yb, { col: 'var(--line)' });

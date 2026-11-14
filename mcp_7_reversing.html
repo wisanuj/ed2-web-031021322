@@ -8,13 +8,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=27"><link rel="stylesheet" href="assets/ed2.css?v=27">
-<link rel="stylesheet" href="assets/wiring.css?v=27"><link rel="stylesheet" href="assets/mcp.css?v=27">
-<script src="assets/stops.js?v=27"></script><script src="assets/shell.js?v=27"></script>
-<script src="assets/lesson.js?v=27"></script><script src="assets/draw.js?v=27"></script><script src="assets/ed.js?v=27"></script><script src="assets/sym.js?v=27"></script><script src="assets/iec.js?v=27"></script><script src="assets/relay.js?v=27"></script><script src="assets/ch2.js?v=27"></script><script src="assets/ch3.js?v=27"></script><script src="assets/ch4.js?v=27"></script>
-<script src="assets/panel.js?v=27"></script><script src="assets/ch5.js?v=27"></script><script src="assets/ch6.js?v=27"></script><script src="assets/ch7.js?v=27"></script>
-<script src="assets/wiring.js?v=27"></script><script src="assets/devdata.js?v=27"></script><script src="assets/dev.js?v=27"></script>
-<script src="assets/mcp.js?v=27"></script>
+<link rel="stylesheet" href="assets/ee.css?v=28"><link rel="stylesheet" href="assets/ed2.css?v=28">
+<link rel="stylesheet" href="assets/wiring.css?v=28"><link rel="stylesheet" href="assets/mcp.css?v=28">
+<script src="assets/stops.js?v=28"></script><script src="assets/shell.js?v=28"></script>
+<script src="assets/lesson.js?v=28"></script><script src="assets/draw.js?v=28"></script><script src="assets/ed.js?v=28"></script><script src="assets/sym.js?v=28"></script><script src="assets/iec.js?v=28"></script><script src="assets/relay.js?v=28"></script><script src="assets/ch2.js?v=28"></script><script src="assets/ch3.js?v=28"></script><script src="assets/ch4.js?v=28"></script>
+<script src="assets/panel.js?v=28"></script><script src="assets/ch5.js?v=28"></script><script src="assets/ch6.js?v=28"></script><script src="assets/ch7.js?v=28"></script>
+<script src="assets/wiring.js?v=28"></script><script src="assets/devdata.js?v=28"></script><script src="assets/dev.js?v=28"></script>
+<script src="assets/mcp.js?v=28"></script>
 </head>
 <body>
 <div class="wrap">
@@ -333,14 +333,14 @@ document.addEventListener('mc:ready', () => {
     const mot = p => keysOf(p).map(k => /^M1:(U1|V1|W1)$/.exec(k)).find(Boolean), sup = p => keysOf(p).map(k => /^SUP:(L[123])$/.exec(k)).find(Boolean);
     let mm = mot(P.red), ss = sup(P.black); if (!mm || !ss) { mm = mot(P.black); ss = sup(P.red); } if (!mm || !ss) return;
     const row = A.sim.act('K1') ? 'fwd' : A.sim.act('K2') ? 'rev' : null; if (!row || PH[row][mm[1]] === ss[1]) return; PH[row][mm[1]] = ss[1]; drawPH(); };
-  const buildA = id => { const bad = id === 'bad', sim = new RL.Sim(fresh($('simA')), ELEC(bad ? { map: [2, 3, 1] } : {}), { max: 980, sheet: { no: bad ? 'MCP8-A2' : 'MCP8-A1', title: bad ? ['K2 ต่อผิด: เลื่อนครบสามเฟส', 'K2 miswired: all three phases shifted'] : T_ELEC } });
+  const buildA = id => { const bad = id === 'bad', sim = new RL.Sim(fresh($('simA')), ELEC(bad ? { map: [2, 3, 1] } : {}), { max: 980, sheet: { no: bad ? 'MCP7-A2' : 'MCP7-A1', title: bad ? ['K2 ต่อผิด: เลื่อนครบสามเฟส', 'K2 miswired: all three phases shifted'] : T_ELEC } });
     C7.panel(fresh($('panA')), sim); const m = new MCP.Meter(fresh($('mA')), sim, { mode: 'V', power: false });
     PH.fwd = {}; PH.rev = {}; A = { sim, m }; sim.on(phase); const prev = m.o.onMeasure; m.o.onMeasure = rec => { if (prev) prev(rec); phase(); }; drawPH(); };
   ui.radio($('modeA'), [{ id: 'ok', label: t('K2 ต่อถูก (สลับ L1 กับ L3)', 'K2 wired correctly (L1 and L3 swapped)'), on: true }, { id: 'bad', label: t('K2 ต่อผิด (เลื่อนครบสามเฟส)', 'K2 miswired (all three phases shifted)') }], buildA);
   buildA('ok');
 
   /* B: trace mode on the circuit with limit switches and lamps */
-  const sB = new RL.Sim($('simB'), LIM(), { max: 980, sheet: { no: 'MCP8-B', title: T_LIM } });
+  const sB = new RL.Sim($('simB'), LIM(), { max: 980, sheet: { no: 'MCP7-B', title: T_LIM } });
   new MCP.Trace($('trB'), sB, [
     { ask: ['กด S2 แล้วปล่อย: ไล่ทางเดินกระแสของ K1 (เดินหน้า)', 'S2 tapped: trace the path of K1 (forward)'], setup: [['tap', 'S2']], load: 'K1' },
     { ask: ['หยุดนิ่งแล้ว กด S3 แล้วปล่อย: ไล่ทางเดินกระแสของ K2 (ถอยหลัง)', 'At rest, S3 tapped: trace the path of K2 (reverse)'], setup: [['tap', 'S3']], load: 'K2' },
@@ -361,10 +361,10 @@ document.addEventListener('mc:ready', () => {
 
   /* C: the virtual trainer with four circuits of chapter 6; timers none, field switches LS1 / LS2 on the trainer */
   const CIRC = {
-    elec: { mk: () => ELEC(), no: 'MCP8-C1', title: T_ELEC, note: ['วงจรของหน้า 6.2: S1 หยุด · S2 เดินหน้า · S3 ถอยหลัง · H1 เดินหน้า · H2 ถอยหลัง · H3 โอเวอร์โหลด · H4 หยุดอยู่', 'Circuit of page 6.2: S1 stop · S2 forward · S3 reverse · H1 forward · H2 reverse · H3 overload · H4 stopped'] },
-    pb: { mk: () => C7.PB({ lamps: 'all' }), no: 'MCP8-C2', title: ['กลับทางทันที อินเตอร์ล็อกสองชั้น', 'Direct reversing, double interlock'], note: ['วงจรของหน้า 6.3: เพิ่มอินเตอร์ล็อกด้วย 21–22 ของปุ่ม S2 และ S3 กลับทางได้ทันทีโดยไม่ต้องกด S1', 'Circuit of page 6.3: push-button interlock added with 21–22 of S2 and S3; it reverses directly without pressing S1'] },
-    lim: { mk: LIM, no: 'MCP8-C3', title: T_LIM, note: ['วงจรของหน้า 6.4 หัวข้อ A: LS1 ของแผงฝึก = S5 ปลายทางเดินหน้า · LS2 = S6 ปลายทางถอยหลัง (กดด้วยมือแทนแคร่)', 'Circuit of page 6.4, section A: the trainer\'s LS1 = S5 forward end · LS2 = S6 reverse end (press them by hand in place of the carriage)'] },
-    auto: { mk: () => C7.AUTO({ over: false }), no: 'MCP8-C4', title: ['เดินกลับไปกลับมาเองด้วยลิมิตสวิตช์', 'Back and forth by itself with limit switches'], note: ['วงจรของหน้า 6.4 หัวข้อ B ไม่มี S7 S8: S4 (ปุ่มสีเทา) เริ่มเดินกลับไปกลับมา K3 ค้างตัวเอง กด LS1 กับ LS2 สลับกันแทนแคร่ ขั้ว 13–14, 23–24, 33–34 ของ K3 ในแบบคือ 11–14, 21–24, 31–34 บนรีเลย์ของแผงฝึก', 'Circuit of page 6.4, section B without S7 and S8: S4 (grey button) starts the back-and-forth cycle and K3 holds; press LS1 and LS2 in turn in place of the carriage. K3 contacts 13–14, 23–24 and 33–34 of the drawing are 11–14, 21–24 and 31–34 on the trainer\'s relay'] } };
+    elec: { mk: () => ELEC(), no: 'MCP7-C1', title: T_ELEC, note: ['วงจรของหน้า 6.2: S1 หยุด · S2 เดินหน้า · S3 ถอยหลัง · H1 เดินหน้า · H2 ถอยหลัง · H3 โอเวอร์โหลด · H4 หยุดอยู่', 'Circuit of page 6.2: S1 stop · S2 forward · S3 reverse · H1 forward · H2 reverse · H3 overload · H4 stopped'] },
+    pb: { mk: () => C7.PB({ lamps: 'all' }), no: 'MCP7-C2', title: ['กลับทางทันที อินเตอร์ล็อกสองชั้น', 'Direct reversing, double interlock'], note: ['วงจรของหน้า 6.3: เพิ่มอินเตอร์ล็อกด้วย 21–22 ของปุ่ม S2 และ S3 กลับทางได้ทันทีโดยไม่ต้องกด S1', 'Circuit of page 6.3: push-button interlock added with 21–22 of S2 and S3; it reverses directly without pressing S1'] },
+    lim: { mk: LIM, no: 'MCP7-C3', title: T_LIM, note: ['วงจรของหน้า 6.4 หัวข้อ A: LS1 ของแผงฝึก = S5 ปลายทางเดินหน้า · LS2 = S6 ปลายทางถอยหลัง (กดด้วยมือแทนแคร่)', 'Circuit of page 6.4, section A: the trainer\'s LS1 = S5 forward end · LS2 = S6 reverse end (press them by hand in place of the carriage)'] },
+    auto: { mk: () => C7.AUTO({ over: false }), no: 'MCP7-C4', title: ['เดินกลับไปกลับมาเองด้วยลิมิตสวิตช์', 'Back and forth by itself with limit switches'], note: ['วงจรของหน้า 6.4 หัวข้อ B ไม่มี S7 S8: S4 (ปุ่มสีเทา) เริ่มเดินกลับไปกลับมา K3 ค้างตัวเอง กด LS1 กับ LS2 สลับกันแทนแคร่ ขั้ว 13–14, 23–24, 33–34 ของ K3 ในแบบคือ 11–14, 21–24, 31–34 บนรีเลย์ของแผงฝึก', 'Circuit of page 6.4, section B without S7 and S8: S4 (grey button) starts the back-and-forth cycle and K3 holds; press LS1 and LS2 in turn in place of the carriage. K3 contacts 13–14, 23–24 and 33–34 of the drawing are 11–14, 21–24 and 31–34 on the trainer\'s relay'] } };
   let cC = null;
   const buildC = id => { const c = CIRC[id], sim = new RL.Sim(fresh($('simC')), c.mk(), { max: 980, wireNos: true, sheet: { no: c.no, title: c.title } });
     cC = { sim, tr: new MCP.Trainer(fresh($('trnC')), sim, { box: 'star' }) }; $('noteC').innerHTML = tt(c.note); };
@@ -374,7 +374,7 @@ document.addEventListener('mc:ready', () => {
 
   /* D1: ohmmeter table on the full circuit with lamps (isolator and Q1 off) */
   const PRE_D = [['set', 'Q1', false], ['mains', false]];
-  const sD = MCP.run(new RL.Sim($('simD'), ELEC(), { max: 980, sheet: { no: 'MCP8-D1', title: T_ELEC } }), PRE_D);
+  const sD = MCP.run(new RL.Sim($('simD'), ELEC(), { max: 980, sheet: { no: 'MCP7-D1', title: T_ELEC } }), PRE_D);
   const mD = new MCP.Meter($('mD'), sD, { mode: 'R' });
   holds($('holdD'), sD, ['S1', 'S2', 'S3']);
   contTable($('tabD'), mD, () => ELEC(), PRE_D, [
@@ -389,7 +389,7 @@ document.addEventListener('mc:ready', () => {
     { a: 'p:K1:2', b: 'p:K1:4', why: ['หลังเสียบสายมอเตอร์: ผ่าน F3 และขดลวดสองขด (ค่าตัวอย่าง)', 'with the motor plugged in: through F3 and two windings (example value)'] }]);
 
   /* D3: tests after power-on on the circuit with limit switches and its panel front */
-  const sE2 = new RL.Sim($('simE2'), LIM(), { max: 980, sheet: { no: 'MCP8-D3', title: T_LIM } });
+  const sE2 = new RL.Sim($('simE2'), LIM(), { max: 980, sheet: { no: 'MCP7-D3', title: T_LIM } });
   C7.panel($('panE2'), sE2);
   const S2 = ['tap', 'S2'], S3 = ['tap', 'S3'];
   testTable($('testD'), sE2, { mk: LIM, outs: OUTS, read: dirOf, extra: s => lit(s, LAMPS), log: $('logD'), sum: $('sumD'), scroll: $('simE2'),
@@ -406,7 +406,7 @@ document.addEventListener('mc:ready', () => {
     points: [['K1 และ K2 ไม่ดูดพร้อมกันในทุกการทดสอบ', 'K1 and K2 are never in together in any test'], ['เดินหน้า–หยุด–ถอยหลัง: กลับทางได้หลังกด S1 เท่านั้น', 'forward – stop – reverse: reversing only after S1'], ['ลิมิตสวิตช์หยุดเฉพาะทิศที่วิ่งเข้าหามัน และไม่มีอะไรเดินเองหลังโอเวอร์โหลดหรือไฟดับ', 'a limit switch stops only the direction running towards it, and nothing restarts by itself after an overload or a power cut']] });
 
   /* E: fault cards on the circuit with limit switches */
-  const sF = new RL.Sim($('simF'), LIM(), { max: 980, sheet: { no: 'MCP8-E', title: T_LIM } });
+  const sF = new RL.Sim($('simF'), LIM(), { max: 980, sheet: { no: 'MCP7-E', title: T_LIM } });
   const mF = new MCP.Meter($('mF'), sF, { mode: 'V' });
   new MCP.FaultCards($('fcF'), mF, [
     { title: ['ถอยหลังไม่ได้', 'No reverse'], fault: { k: 'open', t: 'K1:21' }, setup: [], max: 4,

@@ -8,13 +8,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=27"><link rel="stylesheet" href="assets/ed2.css?v=27">
-<link rel="stylesheet" href="assets/wiring.css?v=27"><link rel="stylesheet" href="assets/mcp.css?v=27">
-<script src="assets/stops.js?v=27"></script><script src="assets/shell.js?v=27"></script>
-<script src="assets/lesson.js?v=27"></script><script src="assets/draw.js?v=27"></script><script src="assets/ed.js?v=27"></script><script src="assets/sym.js?v=27"></script><script src="assets/iec.js?v=27"></script><script src="assets/relay.js?v=27"></script><script src="assets/ch2.js?v=27"></script><script src="assets/ch3.js?v=27"></script><script src="assets/ch4.js?v=27"></script>
-<script src="assets/panel.js?v=27"></script><script src="assets/ch5.js?v=27"></script><script src="assets/ch6.js?v=27"></script><script src="assets/ch7.js?v=27"></script>
-<script src="assets/wiring.js?v=27"></script><script src="assets/devdata.js?v=27"></script><script src="assets/dev.js?v=27"></script>
-<script src="assets/mcp.js?v=27"></script>
+<link rel="stylesheet" href="assets/ee.css?v=28"><link rel="stylesheet" href="assets/ed2.css?v=28">
+<link rel="stylesheet" href="assets/wiring.css?v=28"><link rel="stylesheet" href="assets/mcp.css?v=28">
+<script src="assets/stops.js?v=28"></script><script src="assets/shell.js?v=28"></script>
+<script src="assets/lesson.js?v=28"></script><script src="assets/draw.js?v=28"></script><script src="assets/ed.js?v=28"></script><script src="assets/sym.js?v=28"></script><script src="assets/iec.js?v=28"></script><script src="assets/relay.js?v=28"></script><script src="assets/ch2.js?v=28"></script><script src="assets/ch3.js?v=28"></script><script src="assets/ch4.js?v=28"></script>
+<script src="assets/panel.js?v=28"></script><script src="assets/ch5.js?v=28"></script><script src="assets/ch6.js?v=28"></script><script src="assets/ch7.js?v=28"></script>
+<script src="assets/wiring.js?v=28"></script><script src="assets/devdata.js?v=28"></script><script src="assets/dev.js?v=28"></script>
+<script src="assets/mcp.js?v=28"></script>
 </head>
 <body>
 <div class="wrap">
@@ -331,11 +331,11 @@ document.addEventListener('mc:ready', () => {
     'ch8_5_cadesimu.html': ['ใบงานที่ 8: วงจรกำลังของมอเตอร์หลายตัว หน้าสัมผัสอนุญาต และสายพานสามตัวที่ใช้ตัวตั้งเวลา บ่ายนี้ต่อวงจรมอเตอร์สองตัวเดียวกันบนแผงฝึก', 'lab sheet 8: the power circuit of several motors, the permissive contact and three conveyors with timers; this afternoon you wire the same two-motor circuit on the trainer'] });
 
   /* A: the drawing with wire numbers and the device table */
-  const sA = new RL.Sim($('simA'), MAN(), { max: 980, wireNos: true, sheet: { no: 'MCP7-A', title: TITLE } });
+  const sA = new RL.Sim($('simA'), MAN(), { max: 980, wireNos: true, sheet: { no: 'MCP10-A', title: TITLE } });
   devTable($('devA'), sA, MOTOR);
 
   /* B: trace mode on the manual circuit */
-  const sB = new RL.Sim($('simB'), MAN(), { max: 980, sheet: { no: 'MCP7-B', title: TITLE } });
+  const sB = new RL.Sim($('simB'), MAN(), { max: 980, sheet: { no: 'MCP10-B', title: TITLE } });
   new MCP.Trace($('trB'), sB, [
     { ask: ['กด S2 ค้างไว้: ไล่ทางเดินกระแสที่ทำให้คอยล์ K1 มีไฟ', 'S2 held: trace the path that energises coil K1'], setup: [['hold', 'S2']], load: 'K1' },
     { ask: ['ปล่อย S2 แล้ว M1 เดินค้าง: ไล่ทางเดินกระแสของ K1 ผ่านหน้าสัมผัสค้างตัวเอง 13–14', 'S2 released, M1 keeps running: trace the path of K1 through its holding contact 13–14'], setup: [['tap', 'S2']], load: 'K1' },
@@ -357,8 +357,8 @@ document.addEventListener('mc:ready', () => {
     answer: t('(ก) ที่ K1 83–84 ซึ่งยังเปิดเพราะ K1 ไม่มีไฟ (ข) 230 V ถึง K1:83 และ 0 V ตั้งแต่ K1:84 ลงไป', '(a) at K1 83–84, still open because K1 is not energised; (b) 230 V down to K1:83, 0 V from K1:84 downwards') });
 
   /* C: the virtual trainer, manual or timed circuit; the timer runs while the trainer is on screen */
-  const CIRC = { man: { mk: MAN, no: 'MCP7-C1', title: TITLE, note: ['วงจรของหน้า 8.1: S1 หยุด M1 · S2 เริ่ม M1 · S3 หยุด M2 · S4 เริ่ม M2', 'Circuit of page 8.1: S1 stop M1 · S2 start M1 · S3 stop M2 · S4 start M2'] },
-    tim: { mk: () => SEQ_T(5), no: 'MCP7-C2', title: TITLE_T, timed: true, note: ['วงจรของหน้า 8.3 ตัดเหลือสองมอเตอร์: S0 หยุดฉุกเฉิน (กดแล้วค้าง บนแผงฝึกเสมือนกดอีกครั้งเพื่อปลด ของจริงหมุนหรือดึงเพื่อปลด) · S1 หยุดทั้งสาย · S2 เริ่มทั้งสาย · K3 ตั้งฟังก์ชันหน่วงเมื่อป้อนไฟ 5 วินาที ขั้ว 67–68 ในแบบคือ 15–18 บนตัวตั้งเวลาของแผงฝึก', 'Circuit of page 8.3 cut down to two motors: S0 emergency stop (latches when pressed; on the virtual trainer press it again to release, a real one is twisted or pulled) · S1 line stop · S2 line start · set K3 to the on-delay function, 5 s; contact 67–68 of the drawing is 15–18 on the trainer\'s timer'] } };
+  const CIRC = { man: { mk: MAN, no: 'MCP10-C1', title: TITLE, note: ['วงจรของหน้า 8.1: S1 หยุด M1 · S2 เริ่ม M1 · S3 หยุด M2 · S4 เริ่ม M2', 'Circuit of page 8.1: S1 stop M1 · S2 start M1 · S3 stop M2 · S4 start M2'] },
+    tim: { mk: () => SEQ_T(5), no: 'MCP10-C2', title: TITLE_T, timed: true, note: ['วงจรของหน้า 8.3 ตัดเหลือสองมอเตอร์: S0 หยุดฉุกเฉิน (กดแล้วค้าง บนแผงฝึกเสมือนกดอีกครั้งเพื่อปลด ของจริงหมุนหรือดึงเพื่อปลด) · S1 หยุดทั้งสาย · S2 เริ่มทั้งสาย · K3 ตั้งฟังก์ชันหน่วงเมื่อป้อนไฟ 5 วินาที ขั้ว 67–68 ในแบบคือ 15–18 บนตัวตั้งเวลาของแผงฝึก', 'Circuit of page 8.3 cut down to two motors: S0 emergency stop (latches when pressed; on the virtual trainer press it again to release, a real one is twisted or pulled) · S1 line stop · S2 line start · set K3 to the on-delay function, 5 s; contact 67–68 of the drawing is 15–18 on the trainer\'s timer'] } };
   let cC = null;
   const fresh = host => { host.innerHTML = ''; const el = document.createElement('div'); host.appendChild(el); return el; };   // a new element per rebuild: RL.Sim and the tools keep listeners on theirs
   const buildC = id => { const c = CIRC[id], sim = new RL.Sim(fresh($('simC')), c.mk(), { max: 980, wireNos: true, sheet: { no: c.no, title: c.title } });
@@ -369,7 +369,7 @@ document.addEventListener('mc:ready', () => {
 
   /* D1: continuity before power (isolator off) */
   const PRE_D = [['mains', false]];
-  const sD = MCP.run(new RL.Sim($('simD'), MAN(), { max: 980, sheet: { no: 'MCP7-D1', title: TITLE } }), PRE_D);
+  const sD = MCP.run(new RL.Sim($('simD'), MAN(), { max: 980, sheet: { no: 'MCP10-D1', title: TITLE } }), PRE_D);
   const mD = new MCP.Meter($('mD'), sD, { mode: 'R' });
   holds($('holdD'), sD, ['S1', 'S2', 'S3', 'S4']);
   contTable($('tabD'), mD, MAN, PRE_D, [
@@ -383,7 +383,7 @@ document.addEventListener('mc:ready', () => {
     { a: 'p:M2:U1', b: 'p:M2:PE', why: ['ไม่มีทางจากขดลวดถึงโครงมอเตอร์ (ดูกรอบข้างล่าง)', 'no path from the winding to the motor frame (see the box below)'] }]);
 
   /* D2: tests after power-on on the visible circuit with its panel front */
-  const sE2 = new RL.Sim($('simE2'), MAN(), { max: 980, sheet: { no: 'MCP7-D2', title: TITLE } });
+  const sE2 = new RL.Sim($('simE2'), MAN(), { max: 980, sheet: { no: 'MCP10-D2', title: TITLE } });
   C6.panel($('panE2'), sE2);
   testTable($('testD'), sE2, { mk: MAN, outs: OUTS, read: motors, extra: s => lit(s, LAMPS), log: $('logD'), sum: $('sumD'), scroll: $('simE2'),
     rows: [
@@ -398,7 +398,7 @@ document.addEventListener('mc:ready', () => {
     points: [['M2 เดินได้เมื่อ M1 เดินอยู่เท่านั้น และหยุดทุกครั้งที่ M1 หยุด', 'M2 runs only while M1 runs, and stops whenever M1 stops'], ['F4 หยุดเฉพาะ M2 ส่วน F3 หยุดทั้งสองตัว', 'F4 stops M2 only; F3 stops both'], ['ไฟดับแล้วกลับมา ไม่มีมอเตอร์ตัวไหนเดินเอง', 'after a power cut no motor restarts by itself']] });
 
   /* E: fault cards on the manual circuit (meter in V~, faults hidden in the drawing) */
-  const sF = new RL.Sim($('simF'), MAN(), { max: 980, sheet: { no: 'MCP7-E', title: TITLE } });
+  const sF = new RL.Sim($('simF'), MAN(), { max: 980, sheet: { no: 'MCP10-E', title: TITLE } });
   const mF = new MCP.Meter($('mF'), sF, { mode: 'V' });
   new MCP.FaultCards($('fcF'), mF, [
     { title: ['M2 เริ่มไม่ได้', 'M2 does not start'], fault: { k: 'loose', t: 'K1:84' }, setup: [['tap', 'S2']], max: 4,
