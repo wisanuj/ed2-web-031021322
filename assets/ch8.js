@@ -1,35 +1,38 @@
 /* ch8.js — chapter 7: star-delta starting (ED2 week 10; Motor Control Practice week 10 wires the same circuits on the trainer).
-   Device names (Lecture 7 slides, 14 Nov 2026) and IEC numbers: F1 power fuses, F2 control fuse, F3 overload relay (95–96 in the common path, 97–98
-   to H3; in the WINDING branch after the split, set 0.58 × I_N; o.ol 'line' puts it ahead of the split, set 1.0 × I_N), K1 main
-   contactor (13–14 hold across S2, 83–84 = permission for K2 so the main contactor closes first, 61–62 → H4), K2 star contactor
-   (bridges W2 U2 V2; 21–22 interlock in the K3 path, 53–54 → H1, 13–14 = the star-first variant's contact in the K1 path),
-   K3 delta contactor (fed from K1's output side; order A: 2/T1 → W2, 4/T2 → U2, 6/T3 → V2; 21–22 interlock in the K2 path,
-   53–54 → H2, 13–14 hold and 61–62 timer switch-off in AUTO_OFF), K4 on-delay multifunction timer with two changeover contacts:
-   15–16 (delayed NC, c/o 1) in the K2 path and 25–28 (delayed NO, c/o 2) in the K3 path; S1 STOP 11–12 (black), S2 START 13–14
-   (white; MANUAL: START STAR), S3 DELTA (MANUAL: white, double contact NC 21–22 + NO 13–14); lamps H1 green STAR (K2 53–54), H2 green
-   DELTA (K3 53–54), H3 yellow OVERLOAD (F3 97–98, fed from F2 2 ahead of 95–96), H4 white STOPPED (K1 61–62). Mechanical interlock
-   K2 ▽ K3 (IEC 60617 S00154) on by default. Control 230 V between L1 and N after F1; F2 → F3 95–96 → S1 11–12 (the order of ch. 5–7). On mcp_*.html pages
+   Device names, circuit and numbers follow the Lecture 7 slides (14–15 Nov 2026; the first control circuit of slides 12–13 is the
+   course circuit): F1 power fuses, F2 control fuse, S0 emergency stop (mushroom, latches; 11–12 after F2), F3 overload relay (95–96
+   in the common path after S0, 97–98 to H3 fed after S0; in the WINDING branch U1 V1 W1 only, set 0.58 × I_N; o.ol 'line' puts it
+   ahead of the split, set 1.0 × I_N), S1 STOP 11–12 (black), S2 START 13–14 (white; MANUAL: START STAR), S3 DELTA (MANUAL: white,
+   double contact NC 21–22 + NO 13–14), K1 main contactor (13–14 hold across S2, 33–34 hold across K2 13–14; main-first variants:
+   33–34 = permission for K2), K2 star contactor (bridges W2 U2 V2; 13–14 in the K1 path, 21–22 interlock in the K3 path, 33–34 → H2),
+   K3 delta contactor (fed after F1 BESIDE K1 as on the slide, feed 'line'; o.feed 'after' = from K1's output side; order A:
+   2/T1 → W2, 4/T2 → U2, 6/T3 → V2 = L1 → W2, L2 → U2, L3 → V2; 21–22 interlock in the K2 path, 33–34 → H1, 13–14 hold and 41–42
+   timer switch-off in AUTO_OFF), K4 on-delay timer (30s on the slide) with two changeover contacts: 15–16 (delayed NC) in the K2 path
+   and 25–28 (delayed NO) in the K3 path; lamps H1 green DELTA (K3 33–34) and H2 green STAR (K2 33–34), both fed after S1, H3 yellow
+   OVERLOAD (F3 97–98, fed after S0). Contacts follow the Hitachi HS20 of Lecture 5 (13 NO, 21 NC, 33 NO, 41 NC). Mechanical interlock
+   K2 ▽ K3 (IEC 60617 S00154) on by default. Control 230 V between L1 and N after F1. On mcp_*.html pages
    relay.js (RL.q1) turns the power fuses F1 into the trainer's breaker Q1, so C8.state reads both.
    Every push button and lamp has name [th, en]; the English part is the engraved plate on the C5.panel / PN.Door front (START, STOP,
-   START STAR, DELTA, STAR, OVERLOAD, STOPPED). Every spec sets chatter: true. Power drawing = relay.js power.sd (see its header):
+   START STAR, DELTA, STAR, OVERLOAD, EMERGENCY STOP). Every spec sets chatter: true. Power drawing = relay.js power.sd (see its header):
    sim.sd() 'star' | 'delta' | 0 | 'open' | 'short' | 'fault:none' | 'fault:single' | 'fault:unbal' | 'fault:over'.
-   Common options o (every factory): lamps 'all' (default) | false | ['H1', …]; mech true (default) | false; tap 'after' | 'before';
+   Common options o (every factory): lamps 'all' (default H1 H2 H3) | false | ['H1', …]; mech true (default) | false; tap 'after' | 'before';
    T (K4 seconds, default C8.T = 30); lab true (the afternoon: 220 V line to line, 220 V Δ lab motor) or V / motorV; power-circuit
    wiring: order 'A' (default) | 'B' | 'straight' | ['W2', 'V2', 'U2'] (a transposition), ol 'winding' | 'line', set (F3 dial × I_N),
-   feed 'after' | 'line', in3, open, bridge, links (see relay.js); internal fault switches start with _ (FAULTS only).
-   1) circuits (fresh spec on every call)
+   feed 'line' (default, the slide) | 'after', in3, open, bridge, links (see relay.js); internal fault switches start with _ (FAULTS only).
+   1) circuits (fresh spec on every call; rows 9: F2, S0, F3 95–96, S1, S2 ∥ hold, then the paths from the hold node B)
       C8.POWER(o)        the power circuit alone: K1 K2 K3 as hand-operated switches ('sel', named "… (by hand)") so a page can close
                          them one by one (K2 + K3 → short, F1 blows); no control circuit (els: [])
-      C8.MANUAL(o)       push-button star-delta (Book_1 Fig 7.3 idea, main first): S2 START STAR (∥ K1 13–14) → K1; from the hold node
-                         K1 83–84 → S3 21–22 → K3 21–22 → K2; (S3 13–14 ∥ K3 13–14) → K2 21–22 → K3. o.starFirst: K2 13–14 ∥
-                         K1 83–84 in the K1 path instead (the main contactor makes the current), K2 path without K1 83–84
-      C8.AUTO(o)         the course standard: S2 ∥ K1 13–14 → K1; from the hold node K4 (A1–A2, stays energised while running),
-                         K1 83–84 → K4 15–16 → K3 21–22 → K2 (main first, then star: Book_1 Fig 7.5 idea), K4 25–28 → K2 21–22
-                         → K3. o.km1 false: K2 straight from the hold node (K1 and K2 together)
-      C8.AUTO_STARFIRST(o) star first: S2 ∥ K1 13–14 → hold node; (K2 13–14 ∥ K1 83–84) → K1; K4 15–16 → K3 21–22 → K2;
-                         K4 25–28 → K2 21–22 → K3 (Book_1 Figs 7.3 / 7.6, EMC9 Fig 29-4 idea: K2 closes without current)
-      C8.AUTO_OFF(o)     the timer switched off in delta (Book_1 Fig 7.5): K3 61–62 → K4; (K4 25–28 ∥ K3 13–14) → K2 21–22 → K3;
-                         o.hold false = without K3 13–14: star → delta → star pumping (sim.sdBlips counts the delta pulses)
+      C8.AUTO(o)         the course circuit = the first circuit of the Lecture 7 slides (star first): S2 ∥ K1 13–14 → hold node B;
+                         from B: K4 (A1–A2, stays energised while running); K4 15–16 → K3 21–22 → K2; K4 25–28 → K2 21–22 → K3;
+                         (K2 13–14 ∥ K1 33–34) → K1 (K1 closes through the star contactor, then holds itself)
+      C8.AUTO_STARFIRST  the same as C8.AUTO (kept for old calls)
+      C8.AUTO_MAINFIRST(o) main first (the earlier course circuit, Book_1 Fig 7.5 idea): from B: K1; K4; K1 33–34 → K4 15–16 → K3 21–22 →
+                         K2; K4 25–28 → K2 21–22 → K3. o.km1 false: K2 straight from the hold node (K1 and K2 together)
+      C8.AUTO_OFF(o)     the course circuit with the timer switched off in delta (Book_1 Fig 7.5 idea): K3 41–42 → K4; (K4 25–28 ∥
+                         K3 13–14) → K2 21–22 → K3; o.hold false = without K3 13–14: star → delta → star pumping (sim.sdBlips counts)
+      C8.MANUAL(o)       push-button star-delta (Book_1 Fig 7.3 idea, main first): S2 START STAR (∥ K1 13–14) → K1; from B K1 33–34
+                         → S3 21–22 → K3 21–22 → K2; (S3 13–14 ∥ K3 13–14) → K2 21–22 → K3. o.starFirst: K2 13–14 ∥ K1 33–34 in
+                         the K1 path instead, K2 path without K1 33–34
       C8.CONTACTS        contact table [[device, contact, use [th, en]]]
    2) C8.FAULTS          eleven fault-finding cases in the format of C5/C6/C7 FAULTS { id, title, spec, good, symptom, options (answer 0),
                          answer, fix, test, seq, power (true when the power drawing shows the clue), load (sim.sdLoad for the page, or null),
@@ -57,6 +60,7 @@ const DV = {
   F2: () => ({ type: 'fuse', name: ['F2 ฟิวส์วงจรควบคุม', 'F2 control fuse'] }),
   F3: () => ({ type: 'ol', name: ['F3 โอเวอร์โหลด ตัด / รีเซ็ต', 'F3 overload trip / reset'] }),
   S1: () => ({ type: 'pb', cap: 'black', legend: 'O', name: ['S1 หยุด', 'S1 stop'] }),
+  S0: () => ({ type: 'pb', cap: 'red', name: ['S0 หยุดฉุกเฉิน', 'S0 emergency stop'] }),
   S2: () => ({ type: 'pb', cap: 'white', legend: 'I', name: ['S2 เริ่มเดิน', 'S2 start'] }),
   S2m: () => ({ type: 'pb', cap: 'white', legend: 'I', name: ['S2 เริ่มเดินแบบสตาร์', 'S2 start star'] }),
   S3: () => ({ type: 'pb', cap: 'white', legend: 'Δ', name: ['S3 เปลี่ยนเป็นเดลตา', 'S3 delta'] }),
@@ -64,89 +68,99 @@ const DV = {
   K2: () => ({ type: 'coil', name: ['K2 คอนแทกเตอร์สตาร์', 'K2 star contactor'] }),
   K3: () => ({ type: 'coil', name: ['K3 คอนแทกเตอร์เดลตา', 'K3 delta contactor'] }),
   K4: T0 => ({ type: 'timer', mode: 'on', T: T0, name: ['K4 ตัวตั้งเวลาสตาร์–เดลตา', 'K4 star-delta timer'] }),
-  H1: () => ({ type: 'lamp', color: C8.COL.run, code: 'GN', name: ['H1 สตาร์', 'H1 star'] }),
-  H2: () => ({ type: 'lamp', color: C8.COL.run, code: 'GN', name: ['H2 เดลตา', 'H2 delta'] }),
+  H1: () => ({ type: 'lamp', color: C8.COL.run, code: 'GN', name: ['H1 เดลตา', 'H1 delta'] }),
+  H2: () => ({ type: 'lamp', color: C8.COL.run, code: 'GN', name: ['H2 สตาร์', 'H2 star'] }),
   H3: () => ({ type: 'lamp', color: C8.COL.ol, code: 'YE', name: ['H3 โอเวอร์โหลด', 'H3 overload'] }),
-  H4: () => ({ type: 'lamp', color: C8.COL.stop, code: 'WH', name: ['H4 หยุดอยู่', 'H4 stopped'] }),
   hand: (id, th, en) => ({ type: 'sel', on: false, name: [`${id} ${th} (กดด้วยมือ)`, `${id} ${en} (by hand)`] }) };
 C8.DEV = DV;
 const w = (pts, dots) => (dots && dots.length ? { k: 'w', pts, dots } : { k: 'w', pts }), vw = (x, y, h = 1) => ({ k: 'w', x, y, h });
-const fuse = () => ({ k: 'fuse', d: 'F2', x: 0, y: 0, t: ['1', '2'] }), olNC = () => ({ k: 'NC', d: 'F3', x: 0, y: 1, t: ['95', '96'], op: 'thr' });
-const stop = () => ({ k: 'NC', d: 'S1', x: 0, y: 2, t: ['11', '12'], op: 'pb' });
+const fuse = () => ({ k: 'fuse', d: 'F2', x: 0, y: 0, t: ['1', '2'] }), estop = () => ({ k: 'NC', d: 'S0', x: 0, y: 1, t: ['11', '12'], op: 'mush' }), olNC = () => ({ k: 'NC', d: 'F3', x: 0, y: 2, t: ['95', '96'], op: 'thr' });
+const stop = () => ({ k: 'NC', d: 'S1', x: 0, y: 3, t: ['11', '12'], op: 'pb' });
 const pbNO = (d, x, y) => ({ k: 'NO', d, x, y, t: ['13', '14'], op: 'pb' }), pbNC = (d, x, y) => ({ k: 'NC', d, x, y, t: ['21', '22'], op: 'pb' });
 const no = (d, a, b, x, y) => ({ k: 'NO', d, x, y, t: [a, b] }), nc = (d, a, b, x, y) => ({ k: 'NC', d, x, y, t: [a, b] });
 const coil = (d, x, y) => ({ k: 'coil', d, x, y, t: ['A1', 'A2'] });
 const tNC = (x, y) => ({ k: 'NC', d: 'K4', x, y, t: ['15', '16'], td: 'on' }), tNO = (x, y) => ({ k: 'NO', d: 'K4', x, y, t: ['25', '28'], td: 'on' });
 /* power circuit (relay.js power.sd) from the common options */
-const PW = (o = {}) => { const sd = { main: 'K1', star: 'K2', delta: 'K3', order: Array.isArray(o.order) ? o.order.slice() : o.order || 'A', ol: o.ol === 'line' ? 'line' : 'winding' };
+const PW = (o = {}) => { const sd = { main: 'K1', star: 'K2', delta: 'K3', order: Array.isArray(o.order) ? o.order.slice() : o.order || 'A', ol: o.ol === 'line' ? 'line' : 'winding', feed: 'line' };   // K3 fed after F1 beside K1, as on the Lecture 7 slide
   ['feed', 'links', 'set', 'cls'].forEach(k => { if (o[k] !== undefined) sd[k] = o[k]; }); ['in3', 'open', 'bridge'].forEach(k => { if (o[k]) sd[k] = o[k].slice(); });
   if (o.lab) { sd.V = 220; sd.motorV = 220; } if (o.V) sd.V = o.V; if (o.motorV) sd.motorV = o.motorV;
   return { full: true, tap: o.tap === 'before' ? 'before' : 'after', sd, stages: [{ k: 'fuse', d: 'F1' }, { k: 'therm', d: 'F3' }], motor: 'M1' }; };
-/* lamps: each in its own column from x0, fed from F2 2 along row 1, its contact just above the lamp */
-const LAMP = { H1: { k: 'NO', d: 'K2', t: ['53', '54'] }, H2: { k: 'NO', d: 'K3', t: ['53', '54'] }, H3: { k: 'NO', d: 'F3', t: ['97', '98'], op: 'thr' }, H4: { k: 'NC', d: 'K1', t: ['61', '62'] } };
-const lampSel = o => { const v = o.lamps === undefined ? 'all' : o.lamps; return v === 'all' || v === true ? ['H1', 'H2', 'H3', 'H4'] : Array.isArray(v) ? v.filter(h => LAMP[h]) : []; };
-const lamps = (ids, x0, rows, D) => { const els = []; if (!ids.length) return els;
-  ids.forEach((h, i) => { const x = x0 + i; D[h] = DV[h](); els.push(vw(x, 1, rows - 3), { ...LAMP[h], x, y: rows - 2 }, { k: 'lamp', d: h, x, y: rows - 1, t: ['X1', 'X2'] }); });
-  const pts = [[0, 1], ...ids.map((h, i) => [x0 + i, 1])]; els.push(w(pts, pts.map((p, i) => i).slice(0, -1))); return els; };
-/* the hold node B = (0, 4) after S2 13–14 ∥ hold (column 1); the row of B to column x1 with dots */
-const head = (els, hold = 'K1') => { els.push(fuse(), olNC(), stop(), pbNO('S2', 0, 3), no(hold, '13', '14', 1, 3), w([[0, 3], [1, 3]], [0])); };
-const rowB = (els, x1) => { const pts = []; for (let x = 0; x <= x1; x++) pts.push([x, 4]); els.push(w(pts, pts.map((p, i) => i).slice(0, -1))); };
+/* lamps (the Lecture 7 slide): H1 delta through K3 33–34 and H2 star through K2 33–34, their contacts in row 4 fed along the top of
+   row 4 (after S1, from the top of the hold contact in column 1); H3 overload through F3 97–98 in row 2, fed after S0 along the top of
+   row 2; each lamp in its own column from x0, the lamp in the last row */
+const LAMP = { H1: { k: 'NO', d: 'K3', t: ['33', '34'], y: 4 }, H2: { k: 'NO', d: 'K2', t: ['33', '34'], y: 4 }, H3: { k: 'NO', d: 'F3', t: ['97', '98'], op: 'thr', y: 2 } };
+const lampSel = o => { const v = o.lamps === undefined ? 'all' : o.lamps; return v === 'all' || v === true ? ['H1', 'H2', 'H3'] : Array.isArray(v) ? v.filter(h => LAMP[h]) : []; };
+const lamps = (ids, x0, rows, D) => { const els = []; if (!ids.length) return els; const r4 = [], r2 = [];
+  ids.forEach((h, i) => { const x = x0 + i, L = LAMP[h], { y, ...c } = L; D[h] = DV[h](); els.push({ ...c, x, y }, vw(x, y + 1, rows - 2 - y), { k: 'lamp', d: h, x, y: rows - 1, t: ['X1', 'X2'] }); (y === 4 ? r4 : r2).push([x, y]); });
+  if (r4.length) { const pts = [[1, 4], ...r4]; els.push(w(pts, pts.map((p, i) => i).slice(0, -1))); }
+  if (r2.length) { const pts = [[0, 2], ...r2]; els.push(w(pts, pts.map((p, i) => i).slice(0, -1))); }
+  return els; };
+/* the common head: F2, S0, F3 95–96, S1, then S2 13–14 (column 0) ∥ the hold (column 1) in row 4; the hold node B = the top of row 5 */
+const ROWS = 9;
+const head = (els, hold = ['K1', '13', '14']) => { els.push(fuse(), estop(), olNC(), stop(), pbNO('S2', 0, 4), no(hold[0], hold[1], hold[2], 1, 4), w([[0, 4], [1, 4]], [0])); };
+const rowB = (els, x1) => { const pts = []; for (let x = 0; x <= x1; x++) pts.push([x, 5]); els.push(w(pts, pts.map((p, i) => i).slice(0, -1))); };
 const spec = (D, els, rows, o) => ({ supply: o.tap === 'before' ? undefined : 'F1', rows, chatter: true, devices: D, power: PW(o), els, ...(o.mech !== false ? { mech: [['K2', 'K3']] } : {}) });
-const base = o => ({ F1: DV.F1(), F2: DV.F2(), F3: DV.F3(), S1: DV.S1(), S2: DV.S2(), K1: DV.K1(), K2: DV.K2(), K3: DV.K3(), K4: DV.K4(o.T ?? C8.T) });
+const base = o => ({ F1: DV.F1(), F2: DV.F2(), S0: DV.S0(), F3: DV.F3(), S1: DV.S1(), S2: DV.S2(), K1: DV.K1(), K2: DV.K2(), K3: DV.K3(), K4: DV.K4(o.T ?? C8.T) });
 
 C8.POWER = (o = {}) => ({ rows: 4, devices: { F1: DV.F1(), F3: DV.F3(), K1: DV.hand('K1', 'คอนแทกเตอร์หลัก', 'main contactor'), K2: DV.hand('K2', 'คอนแทกเตอร์สตาร์', 'star contactor'),
   K3: DV.hand('K3', 'คอนแทกเตอร์เดลตา', 'delta contactor') }, els: [], power: PW(o) });
 
-/* course standard (rows 8): paths 1 K1, 2 hold, 3 K4, 4 K2, 5 K3, 6–9 lamps. Fault switches: _tswap (K4 25–28 in the K2 path and
-   15–16 in the K3 path), _holdKM2 (the hold across S2 is K2 13–14), _noInt (no K3 21–22 / K2 21–22) */
-C8.AUTO = (o = {}) => { const D = base(o), els = [], rows = 8;
-  head(els, o._holdKM2 ? 'K2' : 'K1'); rowB(els, 4);
-  els.push(vw(0, 4, 3), coil('K1', 0, 7), vw(2, 4, 3), coil('K4', 2, 7));
-  els.push(o.km1 === false ? vw(3, 4) : no('K1', '83', '84', 3, 4), o._tswap ? tNO(3, 5) : tNC(3, 5), o._noInt ? vw(3, 6) : nc('K3', '21', '22', 3, 6), coil('K2', 3, 7));
-  els.push(o._tswap ? tNC(4, 4) : tNO(4, 4), vw(4, 5), o._noInt ? vw(4, 6) : nc('K2', '21', '22', 4, 6), coil('K3', 4, 7));
+/* the course circuit, the first circuit of the Lecture 7 slides (rows 9): columns 0 K4, 1 K2, 2 K3, 3 K1 (K2 13–14), 4 K1 33–34, 5–7 lamps.
+   Fault switches: _tswap (K4 25–28 in the K2 path and 15–16 in the K3 path), _holdKM2 (the hold across S2 is a K2 NO, 53–54 of an
+   add-on block), _noInt (no K3 21–22 / K2 21–22) */
+C8.AUTO = (o = {}) => { const D = base(o), els = [], rows = ROWS;
+  head(els, o._holdKM2 ? ['K2', '53', '54'] : ['K1', '13', '14']); rowB(els, 4);
+  els.push(vw(0, 5, 3), coil('K4', 0, 8));
+  els.push(o._tswap ? tNO(1, 5) : tNC(1, 5), o._noInt ? vw(1, 6) : nc('K3', '21', '22', 1, 6), vw(1, 7), coil('K2', 1, 8));
+  els.push(o._tswap ? tNC(2, 5) : tNO(2, 5), o._noInt ? vw(2, 6) : nc('K2', '21', '22', 2, 6), vw(2, 7), coil('K3', 2, 8));
+  els.push(no('K2', '13', '14', 3, 5), vw(3, 6, 2), coil('K1', 3, 8), no('K1', '33', '34', 4, 5), w([[3, 6], [4, 6]], [0]));
   els.push(...lamps(lampSel(o), 5, rows, D));
   return spec(D, els, rows, o); };
+C8.AUTO_STARFIRST = o => C8.AUTO(o);
 
-/* star first (rows 8): paths 1 K1 (K2 13–14), 2 K1 hold, 3 K4, 4 K2, 5 K3, lamps */
-C8.AUTO_STARFIRST = (o = {}) => { const D = base(o), els = [], rows = 8;
+/* main first (rows 9): columns 0 K1, 2 K4, 3 K2 (K1 33–34), 4 K3, lamps from 5 */
+C8.AUTO_MAINFIRST = (o = {}) => { const D = base(o), els = [], rows = ROWS;
   head(els); rowB(els, 4);
-  els.push(no('K2', '13', '14', 0, 4), vw(0, 5, 2), coil('K1', 0, 7), no('K1', '83', '84', 1, 4), w([[0, 5], [1, 5]], [0]));
-  els.push(vw(2, 4, 3), coil('K4', 2, 7), tNC(3, 4), vw(3, 5), nc('K3', '21', '22', 3, 6), coil('K2', 3, 7), tNO(4, 4), vw(4, 5), nc('K2', '21', '22', 4, 6), coil('K3', 4, 7));
+  els.push(vw(0, 5, 3), coil('K1', 0, 8), vw(2, 5, 3), coil('K4', 2, 8));
+  els.push(o.km1 === false ? vw(3, 5) : no('K1', '33', '34', 3, 5), tNC(3, 6), nc('K3', '21', '22', 3, 7), coil('K2', 3, 8));
+  els.push(tNO(4, 5), vw(4, 6), nc('K2', '21', '22', 4, 7), coil('K3', 4, 8));
   els.push(...lamps(lampSel(o), 5, rows, D));
   return spec(D, els, rows, o); };
 
-/* the timer switched off by K3 61–62 (rows 8): paths 1 K1, 2 hold, 3 K4, 4 K2, 5 K3, 6 K3 hold (o.hold !== false), lamps */
-C8.AUTO_OFF = (o = {}) => { const D = base(o), els = [], rows = 8, hold = o.hold !== false;
-  head(els); rowB(els, hold ? 5 : 4);
-  els.push(vw(0, 4, 3), coil('K1', 0, 7), nc('K3', '61', '62', 2, 4), vw(2, 5, 2), coil('K4', 2, 7));
-  els.push(no('K1', '83', '84', 3, 4), tNC(3, 5), nc('K3', '21', '22', 3, 6), coil('K2', 3, 7));
-  els.push(tNO(4, 4), vw(4, 5), nc('K2', '21', '22', 4, 6), coil('K3', 4, 7));
-  if (hold) els.push(no('K3', '13', '14', 5, 4), w([[4, 5], [5, 5]], [0]));
-  els.push(...lamps(lampSel(o), hold ? 6 : 5, rows, D));
+/* the course circuit with the timer switched off by K3 41–42 in delta (rows 9): columns 0 K4 (through K3 41–42), 1 K2, 2 K3,
+   3 K3 13–14 hold (o.hold !== false), then K1 (K2 13–14) and K1 33–34, lamps */
+C8.AUTO_OFF = (o = {}) => { const D = base(o), els = [], rows = ROWS, hold = o.hold !== false, c = hold ? 4 : 3;
+  head(els); rowB(els, c + 1);
+  els.push(nc('K3', '41', '42', 0, 5), vw(0, 6, 2), coil('K4', 0, 8));
+  els.push(tNC(1, 5), nc('K3', '21', '22', 1, 6), vw(1, 7), coil('K2', 1, 8));
+  els.push(tNO(2, 5), nc('K2', '21', '22', 2, 6), vw(2, 7), coil('K3', 2, 8));
+  if (hold) els.push(no('K3', '13', '14', 3, 5), w([[2, 6], [3, 6]], [0]));
+  els.push(no('K2', '13', '14', c, 5), vw(c, 6, 2), coil('K1', c, 8), no('K1', '33', '34', c + 1, 5), w([[c, 6], [c + 1, 6]], [0]));
+  els.push(...lamps(lampSel(o), c + 2, rows, D));
   return spec(D, els, rows, o); };
 
-/* manual push buttons (rows 8): paths 1 K1, 2 hold, 3 K2, 4 K3, 5 K3 hold, lamps; o.starFirst: K2 13–14 ∥ K1 83–84 in the K1 path */
-C8.MANUAL = (o = {}) => { const D = { F1: DV.F1(), F2: DV.F2(), F3: DV.F3(), S1: DV.S1(), S2: DV.S2m(), S3: DV.S3(), K1: DV.K1(), K2: DV.K2(), K3: DV.K3() }, els = [], rows = 8, sf = !!o.starFirst;
-  els.push(fuse(), olNC(), stop(), pbNO('S2', 0, 3), no('K1', '13', '14', 1, 3), w([[0, 3], [1, 3]], [0]));
+/* manual push buttons (rows 9): columns 0 K1, 1 hold, 2 K2, 3 K3, 4 K3 hold, lamps; o.starFirst: K2 13–14 ∥ K1 33–34 in the K1 path */
+C8.MANUAL = (o = {}) => { const D = { F1: DV.F1(), F2: DV.F2(), S0: DV.S0(), F3: DV.F3(), S1: DV.S1(), S2: DV.S2m(), S3: DV.S3(), K1: DV.K1(), K2: DV.K2(), K3: DV.K3() }, els = [], rows = ROWS, sf = !!o.starFirst;
+  head(els);
   const xs = 2;   // first column of the K2 path
   rowB(els, xs + 2);
-  if (sf) els.push(no('K2', '13', '14', 0, 4), vw(0, 5, 2), coil('K1', 0, 7), no('K1', '83', '84', 1, 4), w([[0, 5], [1, 5]], [0]));
-  else els.push(vw(0, 4, 3), coil('K1', 0, 7));
-  els.push(sf ? vw(xs, 4) : no('K1', '83', '84', xs, 4), pbNC('S3', xs, 5), nc('K3', '21', '22', xs, 6), coil('K2', xs, 7));
-  els.push(pbNO('S3', xs + 1, 4), no('K3', '13', '14', xs + 2, 4), w([[xs + 1, 5], [xs + 2, 5]], [0]), vw(xs + 1, 5), nc('K2', '21', '22', xs + 1, 6), coil('K3', xs + 1, 7));
+  if (sf) els.push(no('K2', '13', '14', 0, 5), vw(0, 6, 2), coil('K1', 0, 8), no('K1', '33', '34', 1, 5), w([[0, 6], [1, 6]], [0]));
+  else els.push(vw(0, 5, 3), coil('K1', 0, 8));
+  els.push(sf ? vw(xs, 5) : no('K1', '33', '34', xs, 5), pbNC('S3', xs, 6), nc('K3', '21', '22', xs, 7), coil('K2', xs, 8));
+  els.push(pbNO('S3', xs + 1, 5), no('K3', '13', '14', xs + 2, 5), w([[xs + 1, 6], [xs + 2, 6]], [0]), vw(xs + 1, 6), nc('K2', '21', '22', xs + 1, 7), coil('K3', xs + 1, 8));
   els.push(...lamps(lampSel(o), xs + 3, rows, D));
   return spec(D, els, rows, o); };
 
 C8.CONTACTS = [
-  ['K1', '13–14', ['ค้างตัวเอง (คร่อม S2)', 'hold (across S2)']], ['K1', '83–84', ['ให้ K2 ต่อหลัง K1 (หลักก่อน แล้วสตาร์)', 'lets K2 in after K1 (main first, then star)']],
-  ['K1', '61–62', ['หลอด H4 หยุดอยู่', 'lamp H4 stopped']],
-  ['K2', '21–22', ['อินเตอร์ล็อกในทางเดินกระแสของ K3 (หน้าสัมผัสมิเรอร์)', 'interlock in the K3 path (mirror contact)']], ['K2', '53–54', ['หลอด H1 สตาร์', 'lamp H1 star']],
-  ['K2', '13–14', ['แบบสตาร์ก่อน: ในทางเดินกระแสของ K1', 'star-first variant: in the K1 path']],
-  ['K3', '21–22', ['อินเตอร์ล็อกในทางเดินกระแสของ K2', 'interlock in the K2 path']], ['K3', '53–54', ['หลอด H2 เดลตา', 'lamp H2 delta']],
-  ['K3', '13–14 / 61–62', ['ค้างตัวเอง / ตัดตัวตั้งเวลาเมื่อเป็นเดลตา (AUTO_OFF, แบบควบคุมด้วยมือใช้ 13–14)', 'hold / switches the timer off in delta (AUTO_OFF; the manual circuit uses 13–14)']],
+  ['K1', '13–14', ['ค้างตัวเอง (คร่อม S2)', 'hold (across S2)']], ['K1', '33–34', ['ค้างตัวเองคร่อม K2 13–14 (แบบหลักก่อน: ให้ K2 ต่อหลัง K1)', 'holds itself across K2 13–14 (main-first variants: lets K2 in after K1)']],
+  ['K2', '13–14', ['ในทางเดินกระแสของ K1: K1 ต่อหลังสตาร์', 'in the K1 path: K1 closes after the star']],
+  ['K2', '21–22', ['อินเตอร์ล็อกในทางเดินกระแสของ K3', 'interlock in the K3 path']], ['K2', '33–34', ['หลอด H2 สตาร์', 'lamp H2 star']],
+  ['K3', '21–22', ['อินเตอร์ล็อกในทางเดินกระแสของ K2', 'interlock in the K2 path']], ['K3', '33–34', ['หลอด H1 เดลตา', 'lamp H1 delta']],
+  ['K3', '13–14 / 41–42', ['ค้างตัวเอง / ตัดตัวตั้งเวลาเมื่อเป็นเดลตา (AUTO_OFF, แบบควบคุมด้วยมือใช้ 13–14)', 'hold / switches the timer off in delta (AUTO_OFF; the manual circuit uses 13–14)']],
   ['K4', '15–16', ['หน้าสัมผัสหน่วงเวลาปกติปิด (ชุดเปลี่ยน 1) ในทางเดินกระแสของ K2', 'delayed NC (changeover 1) in the K2 path']],
   ['K4', '25–28', ['หน้าสัมผัสหน่วงเวลาปกติเปิด (ชุดเปลี่ยน 2) ในทางเดินกระแสของ K3', 'delayed NO (changeover 2) in the K3 path']],
   ['F3', '95–96 / 97–98', ['ตัดวงจรควบคุม / หลอด H3 โอเวอร์โหลด', 'opens the control circuit / lamp H3 overload']],
+  ['S0', '11–12', ['หยุดฉุกเฉิน (ล็อกค้าง)', 'emergency stop (latches)']],
   ['S3', '21–22 / 13–14', ['ปลด K2 / เริ่ม K3 (แบบควบคุมด้วยมือ)', 'drops K2 / starts K3 (manual circuit)']]];
 
 /* ---------------- 2) fault-finding cases and test sequences ---------------- */
@@ -189,7 +203,7 @@ C8.FAULTS = [
     seq: [['tap', 'S2'], ['wait', 0.6], ['sd', 'star'], ['wait', TT], ['sd', 'delta']] },
   { id: 'bridge', power: true, load: null, sdx: 1, title: ['สะพานสตาร์ขาดไปหนึ่งเส้น', 'One star-bridge link missing'],
     spec: () => C8.AUTO({ bridge: [1, 2] }), good: () => C8.AUTO(),
-    symptom: ['กด S2: K1 กับ K2 ดูด หลอด H1 ติด แต่มอเตอร์ครางไม่ออกตัว พอครบเวลากลับออกตัวแรงในเดลตา', 'Press S2: K1 and K2 pull in and H1 lights, but the motor hums without turning; when the time is up it starts hard in delta'],
+    symptom: ['กด S2: K2 กับ K1 ดูด หลอด H2 ติด แต่มอเตอร์ครางไม่ออกตัว พอครบเวลากลับออกตัวแรงในเดลตา', 'Press S2: K2 and K1 pull in and H2 lights, but the motor hums without turning; when the time is up it starts hard in delta'],
     options: [['สะพานที่ด้านออกของ K2 ไม่ได้ต่อถึงขั้ว 6 ขดลวด V จึงไม่ครบวงจร อีกสองขดลวดต่ออนุกรมกันบนคู่สายเดียว ไม่มีแรงบิดตอนเริ่ม', "the bridge on K2's output side does not reach terminal 6: winding V is not in circuit and the other two windings sit in series on one pair of lines, so there is no starting torque"],
       ['K3 ดูดพร้อม K2', 'K3 pulls in with K2'], ['ไม่มีหน้าสัมผัสค้าง', 'there is no holding contact'], ['F3 ตั้งไว้ต่ำ', 'F3 is set too low']], answer: 0,
     fix: ['ต่อสะพานที่ด้านออกของ K2 ให้ครบ 2–4–6 (จุดสตาร์)', "Complete the bridge on K2's output side: 2–4–6 (the star point)"],
@@ -197,27 +211,27 @@ C8.FAULTS = [
     seq: [['tap', 'S2'], ['wait', 0.6], ['sd', 'star']] },
   { id: 'tswap', power: false, load: null, sdx: 1, title: ['หน้าสัมผัสตัวตั้งเวลาสลับกัน', 'Timer contacts swapped'],
     spec: () => C8.AUTO({ _tswap: true }), good: () => C8.AUTO(),
-    symptom: ['กด S2: มอเตอร์ออกตัวเป็นเดลตาทันที (H2 ติด กระแสตอนเริ่มสูงเท่าสตาร์ทตรง) พอครบเวลากลับเปลี่ยนเป็นสตาร์และเดินแบบไม่มีแรง', 'Press S2: the motor starts in delta at once (H2 lights, the starting current is as high as a direct start); when the time is up it changes to star and runs on weakly'],
+    symptom: ['กด S2 ค้างไว้: K3 (เดลตา) กับ K4 ดูด H1 ติด แต่ K2 และ K1 ไม่ดูด มอเตอร์ไม่หมุน ปล่อยปุ่มแล้วทุกตัวหลุด ไม่มีอะไรค้าง', 'Hold S2: K3 (delta) and K4 pull in and H1 lights, but K2 and K1 stay out and the motor does not turn; when S2 is released everything drops out and nothing holds'],
     options: [['K4 25–28 (ปกติเปิด) อยู่ในทางเดินกระแสของ K2 และ 15–16 (ปกติปิด) อยู่ในทางเดินกระแสของ K3', 'K4 25–28 (NO) is in the K2 path and 15–16 (NC) in the K3 path'],
       ['K3 21–22 อยู่ในทางเดินกระแสของ K3 เอง', "K3 21–22 is in K3's own path"], ['สะพานสตาร์ขาด', 'the star bridge is missing'], ['ตั้งเวลาสั้นเกินไป', 'the timer is set too short']], answer: 0,
     fix: ['สลับกลับ: 15–16 (หน่วงเวลาปกติปิด) ในทางเดินกระแสของ K2 และ 25–28 (หน่วงเวลาปกติเปิด) ในทางเดินกระแสของ K3', 'Swap them back: 15–16 (delayed NC) in the K2 path and 25–28 (delayed NO) in the K3 path'],
-    test: ['กด S2: H1 (สตาร์) ต้องติดก่อน และ H2 (เดลตา) ติดหลังเวลาที่ตั้ง', 'Press S2: H1 (star) must light first and H2 (delta) after the set time'],
+    test: ['กด S2: H2 (สตาร์) ต้องติดก่อน และ H1 (เดลตา) ติดหลังเวลาที่ตั้ง', 'Press S2: H2 (star) must light first and H1 (delta) after the set time'],
     seq: [['tap', 'S2'], ['wait', 0.3], ['on', 'K2', true], ['on', 'K3', false]] },
   { id: 'holdKM2', power: false, load: null, sdx: 1, title: ['หน้าสัมผัสค้างมาจาก K2', 'Hold taken from K2'],
     spec: () => C8.AUTO({ _holdKM2: true }), good: () => C8.AUTO(),
-    symptom: ['สตาร์ทแบบสตาร์ได้ แต่พอครบเวลา ทุกตัวหลุดหมด มอเตอร์หยุด H4 ติด', 'The star start works, but when the time is up everything drops out, the motor stops and H4 lights'],
-    options: [['หน้าสัมผัสค้างคร่อม S2 เป็น K2 13–14 แทน K1 13–14 พอ K2 หลุดตอนเปลี่ยนเป็นเดลตา ทั้งวงจรก็หลุดตาม', 'the hold across S2 is K2 13–14 instead of K1 13–14, so when K2 drops out for delta the whole circuit drops out with it'],
+    symptom: ['สตาร์ทแบบสตาร์ได้ แต่พอครบเวลา ทุกตัวหลุดหมด มอเตอร์หยุด หลอดดับทุกดวง', 'The star start works, but when the time is up everything drops out, the motor stops and every lamp goes out'],
+    options: [['หน้าสัมผัสค้างคร่อม S2 เป็นหน้าสัมผัสปกติเปิดของ K2 (53–54 ของบล็อกเสริม) แทน K1 13–14 พอ K2 หลุดตอนเปลี่ยนเป็นเดลตา ทั้งวงจรก็หลุดตาม', 'the hold across S2 is an NO contact of K2 (53–54 of an add-on block) instead of K1 13–14, so when K2 drops out for delta the whole circuit drops out with it'],
       ['K4 15–16 เสีย', 'K4 15–16 is faulty'], ['คอยล์ K3 ขาด', 'coil K3 is open'], ['F3 ตัดตอนเปลี่ยน', 'F3 trips at the changeover']], answer: 0,
     fix: ['ใช้ K1 13–14 คร่อม S2 (K1 ดูดตลอดทั้งช่วงสตาร์และเดลตา)', 'Use K1 13–14 across S2 (K1 stays in through star and delta)'],
-    test: ['กด S2 แล้วรอให้เปลี่ยน: K1 ต้องยังดูดอยู่ และ H2 ติด', 'Press S2 and wait for the changeover: K1 must stay in and H2 must light'],
+    test: ['กด S2 แล้วรอให้เปลี่ยน: K1 ต้องยังดูดอยู่ และ H1 ติด', 'Press S2 and wait for the changeover: K1 must stay in and H1 must light'],
     seq: [['tap', 'S2'], ['wait', TT + 0.6], ['sd', 'delta'], ['on', 'K1', true]] },
   { id: 'offNoHold', power: false, load: null, sdx: 1, title: ['ตัดตัวตั้งเวลาด้วย K3 แต่ไม่มีหน้าสัมผัสค้างของ K3', 'Timer switched off by K3 without the K3 hold'],
     spec: () => C8.AUTO_OFF({ hold: false }), good: () => C8.AUTO_OFF(),
     symptom: ['มอเตอร์ไม่ยอมอยู่ในเดลตา ทุกครั้งที่ครบเวลา คอนแทกเตอร์ดังแกรก K3 ดูดแล้วหลุดทันที K2 กลับมาดูด และตัวตั้งเวลาเริ่มนับใหม่', 'The motor never stays in delta: every time the timer runs out the contactors clack, K3 pulls in and drops out at once, K2 comes back and the timer starts again'],
-    options: [['K3 61–62 ตัดคอยล์ K4 เมื่อ K3 ดูด แต่ไม่มี K3 13–14 ค้าง K4 25–28 จึงเปิดกลับทันทีและปลด K3', 'K3 61–62 switches K4 off when K3 pulls in, but there is no K3 13–14 hold, so K4 25–28 opens again at once and drops K3'],
+    options: [['K3 41–42 ตัดคอยล์ K4 เมื่อ K3 ดูด แต่ไม่มี K3 13–14 ค้าง K4 25–28 จึงเปิดกลับทันทีและปลด K3', 'K3 41–42 switches K4 off when K3 pulls in, but there is no K3 13–14 hold, so K4 25–28 opens again at once and drops K3'],
       ['ตั้งเวลา K4 สั้นเกินไป', 'K4 is set too short'], ['K2 21–22 อยู่ผิดที่', 'K2 21–22 is in the wrong place'], ['F3 ตั้งไว้ต่ำ', 'F3 is set too low']], answer: 0,
     fix: ['ต่อ K3 13–14 ขนานกับ K4 25–28 ให้ K3 ค้างตัวเองได้', 'Wire K3 13–14 in parallel with K4 25–28 so that K3 holds itself'],
-    test: ['กด S2 แล้วรอ: H2 ต้องติดค้าง ตัวตั้งเวลาหยุดนับ และ K2 ไม่กลับมาดูด', 'Press S2 and wait: H2 must stay lit, the timer stops and K2 does not come back'],
+    test: ['กด S2 แล้วรอ: H1 ต้องติดค้าง ตัวตั้งเวลาหยุดนับ และ K2 ไม่กลับมาดูด', 'Press S2 and wait: H1 must stay lit, the timer stops and K2 does not come back'],
     seq: [['tap', 'S2'], ['wait', TT + 0.6], ['on', 'K3', true], ['sd', 'delta']] },
   { id: 'noInterlock', power: true, load: null, sdx: 1, title: ['ไม่มีอินเตอร์ล็อก K2 กับ K3', 'No K2 / K3 interlock'],
     spec: () => C8.AUTO({ _noInt: true, mech: false }), good: () => C8.AUTO(),
@@ -524,7 +538,7 @@ C8.Manual = class {
 /* C8.Timeline(el, o): contactor states and line current against time for one automatic start. Scripted (default): S2, K1 K2 K3 (main
    contacts), K4 coil and its two contacts (o.timer 'plain' = on-delay timer 15–16 / 25–28: the pause is K2's drop-out plus the wait for
    K2 21–22, then K3's pick-up; 'relay' = star-delta timer relay with a built-in pause o.dwell 0.05 s between its star and delta outputs),
-   main first (o.order 'main', the course standard) or star first ('star'); the line current from the ED.motor model (× I_N, example values;
+   star first (o.order 'star', the course circuit of the Lecture 7 slides, default) or main first ('main'); the line current from the ED.motor model (× I_N, example values;
    the extra changeover peak only marked) and a zoom of the changeover with the pause in ms. Contactor times o.tPick 0.03 s, o.tDrop
    0.015 s are EXAMPLES (a few tens of ms: the contactor data sheet gives them). o: { T (C8.T), timer, dwell, order, load { J, TL, type }, span,
    controls true, max }. Live: o.sim (an AUTO simulator): records K1 K2 K3, K4 and the current sim.sdIL as the page runs it.
@@ -542,14 +556,14 @@ C8.tlRun = (p = {}) => { const T0 = p.T ?? C8.T, relay = p.timer === 'relay', tP
     const acc = (Tm - (w > 0 || Tm > tl(1e-9) ? tl(w) : Tm)) / tau; w = Math.min(0.999, Math.max(0, w + acc * dt)); t += dt; }
   return { rows, cur, span, T: T0, tStar, tOpen: k2off, tDelta: k3, pause: k3 - k2off, maker: sf ? 'K1' : 'K2', relay, iPeakStar: Math.max(...cur.filter(q => q[0] < k2off).map(q => q[1])) }; };
 C8.Timeline = class {
-  constructor(el, o = {}) { this.el = el; this.o = o; this.p = { T: o.T ?? C8.T, timer: o.timer || 'plain', dwell: o.dwell ?? 0.05, order: o.order || 'main', load: o.load, tPick: o.tPick, tDrop: o.tDrop, span: o.span };
+  constructor(el, o = {}) { this.el = el; this.o = o; this.p = { T: o.T ?? C8.T, timer: o.timer || 'plain', dwell: o.dwell ?? 0.05, order: o.order || 'star', load: o.load, tPick: o.tPick, tDrop: o.tDrop, span: o.span };
     this.root = document.createElement('div'); this.root.className = 'c8tl'; el.appendChild(this.root); this.t = 0; this.playing = false;
     if (o.sim) { this.live = true; this.span = o.span || 10; this.lt = 0; this.started = false; this.lsegs = {}; this.lcur = [];
       this.lrows = [['K1', T('คอนแทกเตอร์หลัก', 'main')], ['K2', T('สตาร์', 'star')], ['K3', T('เดลตา', 'delta')], ['K4', T('คอยล์ A1–A2', 'coil A1–A2')], ['K4:c', T('หน้าสัมผัสหน่วงเวลา', 'timed contacts')]];
       o.sim.on(() => { this.sample(); this.draw(); }); }
     else if (o.controls !== false) { const c = document.createElement('div'); this.root.appendChild(c); const ui = MC.ui;
       ui.radio(c, [{ id: 'plain', label: T('ตัวตั้งเวลาหน่วงเมื่อป้อนไฟธรรมดา', 'plain on-delay timer'), on: this.p.timer === 'plain' }, { id: 'relay', label: T('รีเลย์ตั้งเวลาสตาร์–เดลตา (มีช่วงพัก)', 'star-delta timer relay (built-in pause)'), on: this.p.timer === 'relay' }], id => this.set({ timer: id }));
-      ui.radio(c, [{ id: 'main', label: T('หลักก่อน แล้วสตาร์', 'main first, then star'), on: this.p.order === 'main' }, { id: 'star', label: T('สตาร์ก่อน แล้วหลัก', 'star first, then main'), on: this.p.order === 'star' }], id => this.set({ order: id }));
+      ui.radio(c, [{ id: 'star', label: T('สตาร์ก่อน แล้วหลัก (วงจรของวิชา)', 'star first, then main (course circuit)'), on: this.p.order === 'star' }, { id: 'main', label: T('หลักก่อน แล้วสตาร์', 'main first, then star'), on: this.p.order === 'main' }], id => this.set({ order: id }));
       ui.slider(c, { id: 'c8tlT', label: T('เวลาที่ตั้ง K4', 'K4 setting'), min: 0.5, max: 40, step: 0.5, value: this.p.T, unit: 's', dec: 1, oninput: v => this.set({ T: v }) });
       ui.buttons(c, [{ id: 'play', label: T('▶ เล่น', '▶ play'), onclick: () => this.play() }, { id: 'all', label: T('แสดงทั้งหมด', 'show all'), onclick: () => { this.playing = false; this.t = this.r.span; this.draw(); } }]); C8.speed(c); }
     this.fig = document.createElement('div'); this.fig.className = 'c8tl-fig'; this.root.appendChild(this.fig); if (!this.live) this.r = C8.tlRun(this.p); this.t = this.live ? 0 : this.r.span; this.draw(); }
