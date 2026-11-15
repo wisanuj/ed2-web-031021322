@@ -3,6 +3,10 @@
       "Back" covers it again, "Show all" uncovers the rest, "Restart" covers everything. The button bar sits under the last
       open step and sticks to the bottom of the screen while the solution is long, so the button is always at hand.
    2) Slide pictures: <figure class="slide"><img …></figure> opens full size in a lightbox when clicked or tapped.
+      Lecture slides inside a card: <div class="slideset" data-deck-th="สไลด์บทที่ 3" data-deck-en="Lecture 3 slides"> with one
+      <figure class="slide" data-p="7"> per slide page (img + figcaption data-l="th"/"en"). One slide shows at a time; a row of
+      page-number buttons and ◀ ▶ moves between them, and the lightbox steps through the same set (buttons or ← →).
+      Without script every slide shows, one under another.
    3) LS.anim(canvas, fn): one shared animation loop for many canvases; a canvas that is off screen is not redrawn. An ancestor (or the
       element itself) with data-speed="n" runs that loop n times per frame with the real dt (C8.speed: ×10 for the star-delta timer);
       LS.anims() lists the registered loops.
@@ -66,19 +70,51 @@ LS.stepper = (el, o = {}) => {
 };
 
 /* ---------------- 2) slide pictures: click to enlarge ---------------- */
-let box = null;
+let box = null, boxSet = null;
+const lbStep = d => { if (!boxSet) return; const s = boxSet; s.go(s.i + d); LS.zoom(s.figs[s.i].querySelector('img')); };
 LS.zoom = img => {
   if (!box) { box = document.createElement('div'); box.className = 'lightbox'; box.setAttribute('role', 'dialog');
-    box.innerHTML = `<img alt=""><button type="button" class="lbx" aria-label="close">✕</button><div class="lbcap"></div>`; document.body.appendChild(box);
-    box.addEventListener('click', () => { box.classList.remove('on'); }); document.addEventListener('keydown', e => { if (e.key === 'Escape') box.classList.remove('on'); }); }
+    box.innerHTML = `<img alt=""><button type="button" class="lbx" aria-label="close">✕</button><button type="button" class="lbnav lbp" aria-label="previous slide">◀</button><button type="button" class="lbnav lbn" aria-label="next slide">▶</button><div class="lbcap"></div>`; document.body.appendChild(box);
+    box.querySelector('.lbp').addEventListener('click', e => { e.stopPropagation(); lbStep(-1); });
+    box.querySelector('.lbn').addEventListener('click', e => { e.stopPropagation(); lbStep(1); });
+    box.addEventListener('click', () => { box.classList.remove('on'); });
+    document.addEventListener('keydown', e => { if (!box.classList.contains('on')) return; if (e.key === 'Escape') box.classList.remove('on'); else if (e.key === 'ArrowLeft') lbStep(-1); else if (e.key === 'ArrowRight') lbStep(1); }); }
   box.querySelector('img').src = img.currentSrc || img.src; box.querySelector('img').alt = img.alt || '';
   // the caption in the page language (device cards have one caption without data-l); drop only the "tap to enlarge" tail, never the source
   const fig = img.closest('figure'), caps = fig ? [...fig.querySelectorAll('figcaption')] : [], lang = (window.MC && MC.lang) || document.documentElement.dataset.lang;
   const cap = caps.find(c => c.dataset.l === lang) || caps.find(c => !c.dataset.l) || caps[0];
   box.querySelector('.lbcap').textContent = cap ? cap.textContent.replace(/\s*·\s*(แตะรูปเพื่อขยาย|tap to enlarge)\s*$/, '').trim() : '';
+  // inside a slide set: ◀ ▶ step through the set
+  const set = fig && fig.closest('.slideset'); boxSet = set && set._ss && set._ss.figs.length > 1 ? set._ss : null;
+  box.querySelector('.lbp').style.display = boxSet ? '' : 'none'; box.querySelector('.lbn').style.display = boxSet ? '' : 'none';
+  if (boxSet) { box.querySelector('.lbp').disabled = boxSet.i === 0; box.querySelector('.lbn').disabled = boxSet.i === boxSet.figs.length - 1; }
   box.classList.add('on');
 };
 document.addEventListener('click', e => { const img = e.target.closest && e.target.closest('figure.slide img'); if (img) LS.zoom(img); });
+
+/* slide sets: one slide at a time, page-number buttons above it (labels in the page language; switching language reloads the page) */
+LS.slideset = el => {
+  if (el._ss) return el._ss;
+  const figs = [...el.querySelectorAll(':scope > figure.slide')], en = ((window.MC && MC.lang) || document.documentElement.dataset.lang) === 'en';
+  const nav = document.createElement('div'); nav.className = 'ssnav';
+  const lab = document.createElement('span'); lab.className = 'sslab'; lab.textContent = (en ? el.dataset.deckEn : el.dataset.deckTh) || (en ? 'Lecture slides' : 'สไลด์'); nav.appendChild(lab);
+  const ss = { el, figs, i: 0, btns: [] };
+  const mk = (txt, aria, fn) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = txt; b.setAttribute('aria-label', aria); b.addEventListener('click', fn); nav.appendChild(b); return b; };
+  if (figs.length > 1) {
+    ss.prev = mk('◀', en ? 'previous slide' : 'สไลด์ก่อนหน้า', () => ss.go(ss.i - 1));
+    figs.forEach((f, j) => { ss.btns.push(mk(f.dataset.p || String(j + 1), (en ? 'slide ' : 'สไลด์หน้า ') + (f.dataset.p || j + 1), () => ss.go(j))); });
+    ss.next = mk('▶', en ? 'next slide' : 'สไลด์ถัดไป', () => ss.go(ss.i + 1));
+  }
+  const hint = document.createElement('span'); hint.className = 'sshint'; hint.textContent = en ? 'tap the slide to enlarge' : 'แตะรูปเพื่อขยาย'; nav.appendChild(hint);
+  el.insertBefore(nav, el.firstChild);
+  ss.go = j => { ss.i = Math.max(0, Math.min(figs.length - 1, j));
+    figs.forEach((f, k) => { f.hidden = k !== ss.i; });
+    ss.btns.forEach((b, k) => { b.classList.toggle('on', k === ss.i); b.setAttribute('aria-pressed', k === ss.i ? 'true' : 'false'); });
+    if (ss.prev) { ss.prev.disabled = ss.i === 0; ss.next.disabled = ss.i === figs.length - 1; } };
+  el.classList.add('js'); el._ss = ss; ss.go(0); return ss;
+};
+const ssInit = () => document.querySelectorAll('.slideset').forEach(LS.slideset);
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ssInit); else ssInit();
 
 /* ---------------- 3) one animation loop for every canvas on the page ---------------- */
 const A = []; let io = null;

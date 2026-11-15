@@ -404,3 +404,24 @@ svg.sy{display:block;height:auto;margin:0 auto}
 .symid svg.sy{max-width:300px}
 .syhold{touch-action:none;user-select:none}
 .c8spd{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;margin-top:8px}.c8spd .toggles{margin:0}
+
+/* lecture slides inside a card (lesson.js LS.slideset): page buttons, one slide at a time; on wide screens the note sits beside the slide */
+.slideset{margin:10px 0 14px}
+.slideset .ssnav{display:flex;flex-wrap:wrap;align-items:center;gap:5px 6px;margin:0 0 8px}
+.slideset .sslab{font-weight:600;font-size:15px;margin-right:4px}
+.slideset .ssnav .btn{min-width:34px;text-align:center}
+.slideset .ssnav .btn:disabled{opacity:.4;cursor:default}
+.slideset .sshint{font-size:13.5px;color:var(--muted);margin-left:4px}
+.slideset figure.slide{margin:0}
+.slideset.js figure.slide[hidden]{display:none}
+.slideset:not(.js) figure.slide + figure.slide{margin-top:14px}
+.slideset figure.slide figcaption{font-size:15.5px;color:var(--ink);line-height:1.65;margin-top:6px}
+.slideset figure.slide figcaption b{color:var(--accent)}
+@media (min-width:900px){
+  .slideset figure.slide{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:0 20px;align-items:start}
+  .slideset figure.slide img{grid-column:1;grid-row:1 / span 2}
+  .slideset figure.slide figcaption{grid-column:2;margin-top:0;font-size:16px}
+}
+.lightbox .lbnav{position:absolute;top:50%;transform:translateY(-50%);font:inherit;font-size:22px;line-height:1;padding:12px 14px;border-radius:10px;border:1px solid #667;background:rgba(27,33,64,.85);color:#fff;cursor:pointer}
+.lightbox .lbnav:disabled{opacity:.3;cursor:default}
+.lightbox .lbp{left:10px} .lightbox .lbn{right:10px}
