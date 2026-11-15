@@ -9,13 +9,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.11/contrib/auto-render.min.js"></script>
-<link rel="stylesheet" href="assets/ee.css?v=28"><link rel="stylesheet" href="assets/ed2.css?v=28">
-<link rel="stylesheet" href="assets/wiring.css?v=28"><link rel="stylesheet" href="assets/mcp.css?v=28">
-<script src="assets/stops.js?v=28"></script><script src="assets/shell.js?v=28"></script>
-<script src="assets/lesson.js?v=28"></script><script src="assets/draw.js?v=28"></script><script src="assets/ed.js?v=28"></script><script src="assets/sym.js?v=28"></script><script src="assets/iec.js?v=28"></script><script src="assets/relay.js?v=28"></script><script src="assets/ch2.js?v=28"></script><script src="assets/ch3.js?v=28"></script><script src="assets/ch4.js?v=28"></script>
-<script src="assets/panel.js?v=28"></script><script src="assets/ch5.js?v=28"></script><script src="assets/ch6.js?v=28"></script><script src="assets/ch7.js?v=28"></script><script src="assets/ch8.js?v=28"></script>
-<script src="assets/wiring.js?v=28"></script><script src="assets/devdata.js?v=28"></script><script src="assets/dev.js?v=28"></script>
-<script src="assets/mcp.js?v=28"></script>
+<link rel="stylesheet" href="assets/ee.css?v=29"><link rel="stylesheet" href="assets/ed2.css?v=29">
+<link rel="stylesheet" href="assets/wiring.css?v=29"><link rel="stylesheet" href="assets/mcp.css?v=29">
+<script src="assets/stops.js?v=29"></script><script src="assets/shell.js?v=29"></script>
+<script src="assets/lesson.js?v=29"></script><script src="assets/draw.js?v=29"></script><script src="assets/ed.js?v=29"></script><script src="assets/sym.js?v=29"></script><script src="assets/iec.js?v=29"></script><script src="assets/relay.js?v=29"></script><script src="assets/ch2.js?v=29"></script><script src="assets/ch3.js?v=29"></script><script src="assets/ch4.js?v=29"></script>
+<script src="assets/panel.js?v=29"></script><script src="assets/ch5.js?v=29"></script><script src="assets/ch6.js?v=29"></script><script src="assets/ch7.js?v=29"></script><script src="assets/ch8.js?v=29"></script>
+<script src="assets/wiring.js?v=29"></script><script src="assets/devdata.js?v=29"></script><script src="assets/dev.js?v=29"></script>
+<script src="assets/mcp.js?v=29"></script>
 </head>
 <body>
 <div class="wrap">
@@ -394,7 +394,7 @@ document.addEventListener('mc:ready', () => {
   const buildD = id => { const c = CIRC[id], sim = new RL.Sim(fresh($('simD')), c.mk(), { max: 1060, wireNos: true, sheet: { no: c.no, title: c.title } });
     dD = { sim, tr: new MCP.Trainer(fresh($('trnD')), sim, {}) }; stDk = ''; $('noteD').innerHTML = tt(c.note); };
   ui.radio($('modeD'), [{ id: 'auto', label: t('อัตโนมัติด้วย K4 (8.4)', 'automatic with K4 (8.4)'), on: true }, { id: 'man', label: t('ด้วยปุ่มกด (8.3)', 'push buttons (8.3)') }], buildD);
-  buildD('auto');
+  buildD('auto'); C8.speed($('modeD'));
   LS.anim($('tD'), dt => { if (!dD) return; dD.sim.step(dt); const s = dD.tr.live ? C8.state(dD.sim) : null, k = s ? s.join('|') : '';
     if (k !== stDk) { stDk = k; const el = $('stD'); if (s) ui.setStatus(el, s[0], s[1], s[2]); else el.innerHTML = ''; } });
 
@@ -485,7 +485,7 @@ document.addEventListener('mc:ready', () => {
     points: [['ทิศหมุนเหมือนกันทั้งสตาร์และเดลตา', 'the same direction in star and in delta'], ['ในสตาร์สายเมนกับสาย U1 มีกระแสเท่ากัน ในเดลตาสายเมนมากกว่า √3 ≈ 1.73 เท่า', 'in star the line and the U1 lead carry the same current; in delta the line carries √3 ≈ 1.73 times as much'], ['F3 ในกิ่งขดลวดวัดกระแสของสาย U1 จึงตั้ง 0.58 × I<sub>N</sub>', 'F3 in the winding branch measures the U1-lead current, so it is set to 0.58 × I<sub>N</sub>'], ['K4 ตั้ง 30 s ตามสไลด์ มอเตอร์ตัวเปล่าเร่งเสร็จในเวลาไม่ถึงหนึ่งวินาทีแล้วเดินในสตาร์ต่อจนครบเวลา', 'K4 is set to 30 s as on the slide: the unloaded motor runs up in well under a second and then runs on in star until the time is up']] });
 
   /* G: fault cards on the automatic circuit (power-circuit faults hidden in the drawing through MCP's 'sd' fault, control faults as before) */
-  const sG = new RL.Sim($('simG'), AUTO_L(), { max: 1060, sheet: { no: 'MCP8-G', title: T_AUTO } }), mG = new MCP.Meter($('mG'), sG, { mode: 'V' });
+  const sG = new RL.Sim($('simG'), AUTO_L(), { max: 1060, sheet: { no: 'MCP8-G', title: T_AUTO } }), mG = new MCP.Meter($('mG'), sG, { mode: 'V' }); C8.speed($('mG'));
   const MOT = ['M1:U1', 'M1:V1', 'M1:W1', 'M1:W2', 'M1:U2', 'M1:V2'];
   new MCP.FaultCards($('fcG'), mG, [
     { title: ['Q1 ตัดทันทีที่กด START', 'Q1 trips the moment START is pressed'], fault: { k: 'sd', set: { links: 'delta' }, at: MOT, text: ['สะพานเดลตาในกล่องขั้วมอเตอร์ยังไม่ได้ถอด (U1–W2, V1–U2, W1–V2)', 'the delta links are still fitted in the motor terminal box (U1–W2, V1–U2, W1–V2)'] }, setup: [['tap', 'S2']], max: 3,

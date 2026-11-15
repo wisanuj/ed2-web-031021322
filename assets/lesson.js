@@ -3,7 +3,9 @@
       "Back" covers it again, "Show all" uncovers the rest, "Restart" covers everything. The button bar sits under the last
       open step and sticks to the bottom of the screen while the solution is long, so the button is always at hand.
    2) Slide pictures: <figure class="slide"><img …></figure> opens full size in a lightbox when clicked or tapped.
-   3) LS.anim(canvas, fn): one shared animation loop for many canvases; a canvas that is off screen is not redrawn.
+   3) LS.anim(canvas, fn): one shared animation loop for many canvases; a canvas that is off screen is not redrawn. An ancestor (or the
+      element itself) with data-speed="n" runs that loop n times per frame with the real dt (C8.speed: ×10 for the star-delta timer);
+      LS.anims() lists the registered loops.
    4) LS.ask(el, o): a "try it yourself first" answer box (inputs + Check) placed above a stepper.
    5) LS.fit / LS.fitIn / LS.step: display formulas laid out for the width of their column (chapters 5 and 6). */
 (function (global) {
@@ -86,8 +88,10 @@ LS.anim = (el, fn) => {
   try { fn(0); } catch (e) { console.error(e); }
   return a;
 };
+LS.anims = () => A;
+const speedOf = el => { const s = el.closest && el.closest('[data-speed]'); return s ? Math.max(1, Math.min(20, Math.round(+s.dataset.speed) || 1)) : 1; };
 let last = null;
-const step = ts => { if (last === null) last = ts; const dt = Math.min(0.05, Math.max(0, (ts - last) / 1000)); last = ts; A.forEach(a => { if (a.vis) a.fn(dt); }); };
+const step = ts => { if (last === null) last = ts; const dt = Math.min(0.05, Math.max(0, (ts - last) / 1000)); last = ts; A.forEach(a => { if (a.vis) for (let k = speedOf(a.el); k > 0; k--) a.fn(dt); }); };
 const raf = ts => { requestAnimationFrame(raf); step(ts); }; requestAnimationFrame(raf);
 const tick = () => { if (document.hidden) step(performance.now()); setTimeout(tick, 250); }; setTimeout(tick, 0); // a hidden page gets no frames
 

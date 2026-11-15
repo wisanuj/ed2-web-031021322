@@ -282,7 +282,20 @@ C8.state = sim => { const d = sim.dev, s = sim.sd(), kt = d.K4, txt = sim.sdText
   const pill = { star: T('สตาร์', 'star'), delta: T('เดลตา', 'delta'), open: !d.F2 || mid ? T('ช่วงเปลี่ยน', 'changeover') : T('ไม่มีแรงบิด', 'no torque'), 'fault:none': T('ไม่มีแรงบิด', 'no torque'), 'fault:single': T('คราง', 'hum'),
     'fault:unbal': T('ไม่สมดุล', 'unbalanced'), 'fault:over': T('แรงดันเกิน', 'overvoltage'), 'fault:rev': T('หมุนกลับ', 'reversed') }[s] || (sim.running() ? T('มอเตอร์หมุน', 'motor running') : (sim.sdw || 0) > 0.02 ? T('หมุนฟรี', 'coasting') : T('มอเตอร์หยุด', 'motor stopped'));
   return [pill, base[0] === pill ? base[1] : base[0] + (base[1] ? ` · ${base[1]}` : ''), txt[2]]; };   // no 'motor stopped · motor stopped'
-C8.panel = (el, sim, o = {}) => C5.panel(el, sim, { status: C8.state, ...o });
+C8.panel = (el, sim, o = {}) => { const p = C5.panel(el, sim, { status: C8.state, ...o }); if (o.speed !== false && sim.dev.K4 && sim.dev.K4.type === 'timer') C8.speed(el); return p; };   // circuits with timer K4 get the ×10 control
+
+/* C8.speed(parent): simulation speed ×1 (real time) or ×10, for the K4 wait (30 s as on the Lecture 7 slide). The choice is stored as
+   data-speed on the smallest ancestor of the control that holds an LS.anim loop (found at the click, so a fault card or a section), and
+   LS.anim runs that loop 10 times per frame with the real dt: simulators, live timing charts and the clocks of the logs keep true model
+   time (K4 still counts 30 s; the readings and the recorded times stay right). Every speed control inside that ancestor shows the choice. */
+C8.speed = parent => {
+  const row = document.createElement('div'); row.className = 'c8spd'; parent.appendChild(row);
+  const scope = () => { for (let n = row.parentElement; n && n !== document.body; n = n.parentElement) if (LS.anims().some(a => n.contains(a.el))) return n; return null; };
+  const now = () => { const s = row.closest('[data-speed]'); return s ? String(s.dataset.speed) : '1'; };
+  const lab = document.createElement('span'); lab.className = 'hint'; lab.textContent = T('ความเร็วจำลอง', 'Simulation speed'); row.appendChild(lab);
+  const r = MC.ui.radio(row, [{ id: '1', label: T('×1 เวลาจริง', '×1 real time'), on: now() === '1' }, { id: '10', label: T('×10 เร็วขึ้น 10 เท่า', '×10, ten times faster'), on: now() === '10' }],
+    id => { const s = scope(); if (!s) return; s.querySelectorAll('[data-speed]').forEach(x => { delete x.dataset.speed; }); if (id === '1') delete s.dataset.speed; else s.dataset.speed = id; s.querySelectorAll('.c8spd').forEach(x => { if (x._set) x._set(id); }); });
+  row._set = r.set; return row; };
 
 /* ---------------- 4) widgets ---------------- */
 /* delta wirings offered by the widgets (K3 poles 1–3 → bottom terminal): A, B, straight through, two leads swapped (V2 ↔ U2) */
@@ -538,7 +551,7 @@ C8.Timeline = class {
       ui.radio(c, [{ id: 'plain', label: T('ตัวตั้งเวลาหน่วงเมื่อป้อนไฟธรรมดา', 'plain on-delay timer'), on: this.p.timer === 'plain' }, { id: 'relay', label: T('รีเลย์ตั้งเวลาสตาร์–เดลตา (มีช่วงพัก)', 'star-delta timer relay (built-in pause)'), on: this.p.timer === 'relay' }], id => this.set({ timer: id }));
       ui.radio(c, [{ id: 'main', label: T('หลักก่อน แล้วสตาร์', 'main first, then star'), on: this.p.order === 'main' }, { id: 'star', label: T('สตาร์ก่อน แล้วหลัก', 'star first, then main'), on: this.p.order === 'star' }], id => this.set({ order: id }));
       ui.slider(c, { id: 'c8tlT', label: T('เวลาที่ตั้ง K4', 'K4 setting'), min: 0.5, max: 40, step: 0.5, value: this.p.T, unit: 's', dec: 1, oninput: v => this.set({ T: v }) });
-      ui.buttons(c, [{ id: 'play', label: T('▶ เล่น', '▶ play'), onclick: () => this.play() }, { id: 'all', label: T('แสดงทั้งหมด', 'show all'), onclick: () => { this.playing = false; this.t = this.r.span; this.draw(); } }]); }
+      ui.buttons(c, [{ id: 'play', label: T('▶ เล่น', '▶ play'), onclick: () => this.play() }, { id: 'all', label: T('แสดงทั้งหมด', 'show all'), onclick: () => { this.playing = false; this.t = this.r.span; this.draw(); } }]); C8.speed(c); }
     this.fig = document.createElement('div'); this.fig.className = 'c8tl-fig'; this.root.appendChild(this.fig); if (!this.live) this.r = C8.tlRun(this.p); this.t = this.live ? 0 : this.r.span; this.draw(); }
   set(p) { Object.assign(this.p, p); this.r = C8.tlRun(this.p); this.t = this.playing ? 0 : this.r.span; this.draw(); }
   get res() { return this.r ? { T: this.r.T, tStar: this.r.tStar, tOpen: this.r.tOpen, tDelta: this.r.tDelta, pause: this.r.pause, maker: this.r.maker } : null; }

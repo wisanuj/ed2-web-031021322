@@ -403,3 +403,4 @@ svg.sy{display:block;height:auto;margin:0 auto}
 .sywide svg.sy{max-width:460px}
 .symid svg.sy{max-width:300px}
 .syhold{touch-action:none;user-select:none}
+.c8spd{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;margin-top:8px}.c8spd .toggles{margin:0}
